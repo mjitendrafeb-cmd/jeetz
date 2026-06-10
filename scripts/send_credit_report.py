@@ -10,7 +10,7 @@ import datetime
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 
-RECIPIENT = "jitendra.meghrajani@gmail.com"
+RECIPIENT = "Jitendra.Meghrajani@careedge.in"
 
 def build_report(today: datetime.date) -> str:
     date_str = today.strftime("%B %d, %Y")
@@ -21,7 +21,7 @@ def build_report(today: datetime.date) -> str:
                      DAILY CREDIT INTELLIGENCE REPORT
 ================================================================================
   Jitendra Meghrajani
-  jitendra.meghrajani@gmail.com
+  Jitendra.Meghrajani@careedge.in
 
   Report Date : {date_str} ({day_str})
   Distribution: Personal / Proprietary
