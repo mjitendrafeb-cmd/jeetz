@@ -99,8 +99,13 @@ Organise into these five sections in priority order:
 🔵 BOND & FUNDING MARKETS
 ⚫ MACRO
 
-CRITICAL RULE FOR 🔴 RATED ENTITIES & WATCHLIST:
-Every news item tagged [WATCHLIST — CompanyName] in the input MUST appear under this section. Do not skip any watchlist company. If there are 10 watchlist items, show all 10 here. This section must ALWAYS be present.
+STRICT RULE FOR 🔴 RATED ENTITIES & WATCHLIST:
+ONLY include news items that are explicitly tagged [WATCHLIST — CompanyName] in the input text.
+Do NOT include any other company news here, even if you recognise the company name (e.g. LIC, HDFC, Fusion, SBI). Those go under 🟠 SECTOR DEVELOPMENTS.
+If there are no [WATCHLIST — Company] tagged items today, omit this section entirely.
+
+STRICT RULE FOR 🟠 SECTOR DEVELOPMENTS:
+All company news NOT tagged [WATCHLIST — CompanyName] goes here, including news about LIC, HDFC, Fusion, SBI, Bajaj Finance or any other company.
 
 For EACH item:
 
