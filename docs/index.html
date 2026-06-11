@@ -476,10 +476,19 @@
     <div class="card">
       <div class="loading-overlay" id="sec-loading"><div class="spinner" style="border-color:rgba(0,0,0,0.2);border-top-color:#1a1a2e;width:28px;height:28px;border-width:3px;"></div></div>
       <div class="card-title">Report Sections</div>
-      <div class="card-hint">Select which sections appear in the generated report.</div>
+      <div class="card-hint">Tick to include in the report. Add your own custom sections below — Claude will cover them using today's news.</div>
 
       <div id="sections-list">
-        <!-- Rendered dynamically from ALL_SECTIONS -->
+        <!-- Rendered dynamically -->
+      </div>
+
+      <!-- Add custom section -->
+      <div style="margin-top:16px;padding-top:16px;border-top:1px solid #f0f0f0;">
+        <div class="card-hint" style="margin-bottom:8px;">➕ Add a custom section</div>
+        <div style="display:flex;gap:10px;">
+          <input type="text" id="new-section-input" placeholder="e.g. Macroeconomic Developments" style="flex:1;">
+          <button class="btn btn-green btn-sm" onclick="addCustomSection()">Add</button>
+        </div>
       </div>
 
       <div class="save-row">
@@ -493,10 +502,16 @@
   <div id="tab-settings" class="tab-pane">
     <div class="card">
       <div class="loading-overlay" id="cfg-loading"><div class="spinner" style="border-color:rgba(0,0,0,0.2);border-top-color:#1a1a2e;width:28px;height:28px;border-width:3px;"></div></div>
-      <div class="card-title">Report Recipient</div>
-      <div class="card-hint">The email address the daily report is sent to.</div>
-      <label class="field-label" for="recipient-input">Email Address</label>
-      <input type="email" id="recipient-input" value="Jitendra.Meghrajani@careedge.in">
+      <div class="card-title">📧 Email Recipients</div>
+      <div class="card-hint">Add one or more email addresses. The daily report will be sent to all of them at 6:00 AM IST on weekdays.</div>
+
+      <div id="recipients-list" style="margin-bottom:12px;"></div>
+
+      <div style="display:flex;gap:10px;margin-bottom:6px;">
+        <input type="email" id="new-recipient-input" placeholder="Add email address..." style="flex:1;">
+        <button class="btn btn-green btn-sm" onclick="addRecipient()">Add</button>
+      </div>
+
       <div class="save-row">
         <span class="last-saved" id="cfg-saved"></span>
         <button class="btn btn-primary" onclick="saveSettings()">Save Settings</button>
@@ -540,7 +555,7 @@ const API_BASE   = 'https://api.github.com/repos/' + REPO + '/contents/';
 const WORKFLOW_ID = '293507053';
 const LS_PAT     = 'ghpat';
 
-const ALL_SECTIONS = [
+const DEFAULT_SECTIONS = [
   'RBI Developments',
   'SEBI Developments',
   'Banking System Developments',
@@ -553,6 +568,9 @@ const ALL_SECTIONS = [
   'Rating Actions Announced',
 ];
 
+// Live list of sections (loaded from config, editable)
+let _sections = [...DEFAULT_SECTIONS];
+
 /* ─────────────────────────────────────────────────────────
    STATE
 ───────────────────────────────────────────────────────── */
@@ -564,6 +582,7 @@ let _configCache = null;
 ───────────────────────────────────────────────────────── */
 document.addEventListener('DOMContentLoaded', () => {
   renderSectionsList();
+  renderRecipientsList();
   const pat = localStorage.getItem(LS_PAT);
   if (!pat) {
     showPATSetup();
@@ -571,16 +590,78 @@ document.addEventListener('DOMContentLoaded', () => {
     hidePATSetup();
     loadAll();
   }
+  // Allow pressing Enter in new section input
+  document.getElementById('new-section-input').addEventListener('keydown', e => {
+    if (e.key === 'Enter') addCustomSection();
+  });
+  document.getElementById('new-recipient-input').addEventListener('keydown', e => {
+    if (e.key === 'Enter') addRecipient();
+  });
 });
 
 function renderSectionsList() {
   const container = document.getElementById('sections-list');
-  container.innerHTML = ALL_SECTIONS.map(s => `
-    <label class="check-row">
-      <input type="checkbox" class="section-cb" data-section="${s}" checked>
-      <span>${s}</span>
-    </label>
+  container.innerHTML = _sections.map((s, i) => `
+    <div class="check-row" style="justify-content:space-between;">
+      <label style="display:flex;align-items:center;gap:0;flex:1;cursor:pointer;">
+        <input type="checkbox" class="section-cb" data-section="${s}" checked style="margin-right:12px;width:18px;height:18px;accent-color:#4299e1;flex-shrink:0;cursor:pointer;">
+        <span style="font-size:14px;color:#2d3748;">${s}</span>
+      </label>
+      <button onclick="removeSection(${i})" style="background:none;border:none;color:#fc8181;cursor:pointer;font-size:16px;padding:0 4px;flex-shrink:0;" title="Remove section">✕</button>
+    </div>
   `).join('');
+}
+
+function addCustomSection() {
+  const input = document.getElementById('new-section-input');
+  const val = input.value.trim();
+  if (!val) { showToast('Enter a section name', 'error'); return; }
+  if (_sections.includes(val)) { showToast('Section already exists', 'error'); return; }
+  _sections.push(val);
+  renderSectionsList();
+  input.value = '';
+  showToast('Section added — click Save Sections to apply', 'success');
+}
+
+function removeSection(idx) {
+  _sections.splice(idx, 1);
+  renderSectionsList();
+  showToast('Section removed — click Save Sections to apply', 'success');
+}
+
+// ── Recipients ──
+let _recipients = ['Jitendra.Meghrajani@careedge.in'];
+
+function renderRecipientsList() {
+  const container = document.getElementById('recipients-list');
+  if (!container) return;
+  if (_recipients.length === 0) {
+    container.innerHTML = '<p style="font-size:13px;color:#a0aec0;">No recipients added yet.</p>';
+    return;
+  }
+  container.innerHTML = _recipients.map((r, i) => `
+    <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 12px;background:#f7fafc;border-radius:8px;margin-bottom:8px;">
+      <span style="font-size:13px;color:#2d3748;">✉ ${r}</span>
+      <button onclick="removeRecipient(${i})" style="background:none;border:none;color:#fc8181;cursor:pointer;font-size:15px;padding:0 4px;" title="Remove">✕</button>
+    </div>
+  `).join('');
+}
+
+function addRecipient() {
+  const input = document.getElementById('new-recipient-input');
+  const val = input.value.trim().toLowerCase();
+  if (!val || !val.includes('@')) { showToast('Enter a valid email address', 'error'); return; }
+  if (_recipients.map(r => r.toLowerCase()).includes(val)) { showToast('Already in list', 'error'); return; }
+  _recipients.push(input.value.trim());
+  renderRecipientsList();
+  input.value = '';
+  showToast('Recipient added — click Save Settings to apply', 'success');
+}
+
+function removeRecipient(idx) {
+  if (_recipients.length <= 1) { showToast('At least one recipient is required', 'error'); return; }
+  _recipients.splice(idx, 1);
+  renderRecipientsList();
 }
 
 /* ─────────────────────────────────────────────────────────
@@ -753,13 +834,19 @@ function populateSources(sources) {
 }
 
 function populateSections(activeSections) {
-  document.querySelectorAll('.section-cb').forEach(cb => {
-    cb.checked = activeSections.includes(cb.dataset.section);
-  });
+  if (activeSections && activeSections.length > 0) {
+    _sections = [...activeSections];
+  }
+  renderSectionsList();
 }
 
 function populateSettings(cfg) {
-  if (cfg.recipient) document.getElementById('recipient-input').value = cfg.recipient;
+  if (cfg.recipients && Array.isArray(cfg.recipients)) {
+    _recipients = [...cfg.recipients];
+  } else if (cfg.recipient) {
+    _recipients = [cfg.recipient];
+  }
+  renderRecipientsList();
 }
 
 /* ─────────────────────────────────────────────────────────
@@ -767,9 +854,9 @@ function populateSettings(cfg) {
 ───────────────────────────────────────────────────────── */
 function getCurrentConfig() {
   return _configCache ? JSON.parse(JSON.stringify(_configCache)) : {
-    recipient: 'Jitendra.Meghrajani@careedge.in',
+    recipients: ['Jitendra.Meghrajani@careedge.in'],
     sources: { rbi_rss: true, sebi_rss: true, google_news: true, newsapi: true, company_watchlist: true },
-    sections: [...ALL_SECTIONS],
+    sections: [...DEFAULT_SECTIONS],
   };
 }
 
@@ -810,9 +897,10 @@ async function saveSections() {
   setLoading('sec', true);
   try {
     const cfg = getCurrentConfig();
-    cfg.sections = ALL_SECTIONS.filter(s => {
-      const cb = document.querySelector(`.section-cb[data-section="${s}"]`);
-      return cb && cb.checked;
+    // Save only checked sections in current order
+    cfg.sections = _sections.filter(s => {
+      const cb = document.querySelector(`.section-cb[data-section="${CSS.escape(s)}"]`);
+      return cb ? cb.checked : true;
     });
     await pushConfig(cfg, 'Update report sections');
     setSaved('sec');
@@ -830,7 +918,8 @@ async function saveSettings() {
   setLoading('cfg', true);
   try {
     const cfg = getCurrentConfig();
-    cfg.recipient = document.getElementById('recipient-input').value.trim();
+    cfg.recipients = [..._recipients];
+    cfg.recipient = _recipients[0] || 'Jitendra.Meghrajani@careedge.in';
     await pushConfig(cfg, 'Update recipient settings');
     setSaved('cfg');
     showToast('Settings saved ✓', 'success');

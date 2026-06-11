@@ -34,9 +34,14 @@ from fetch_news import fetch_all_news
 _FALLBACK_RECIPIENT = "Jitendra.Meghrajani@careedge.in"
 
 
-def _get_recipient() -> str:
+def _get_recipients() -> list[str]:
     cfg = _load_config()
-    return cfg.get("recipient") or _FALLBACK_RECIPIENT
+    # Support both single recipient and list
+    if cfg.get("recipients"):
+        return cfg["recipients"]
+    if cfg.get("recipient"):
+        return [cfg["recipient"]]
+    return [_FALLBACK_RECIPIENT]
 
 
 # ---------------------------------------------------------------------------
@@ -419,17 +424,17 @@ def build_html(inner_html: str, today: datetime.date) -> str:
 # ---------------------------------------------------------------------------
 
 def send_email(subject: str, html_body: str, gmail_user: str, gmail_password: str) -> None:
-    recipient = _get_recipient()
+    recipients = _get_recipients()
     msg = MIMEMultipart("alternative")
     msg["Subject"] = subject
     msg["From"] = gmail_user
-    msg["To"] = recipient
+    msg["To"] = ", ".join(recipients)
     msg.attach(MIMEText(html_body, "html", "utf-8"))
 
     with smtplib.SMTP_SSL("smtp.gmail.com", 465) as server:
         server.login(gmail_user, gmail_password)
-        server.sendmail(gmail_user, recipient, msg.as_string())
-        print(f"Report sent to {recipient}")
+        server.sendmail(gmail_user, recipients, msg.as_string())
+        print(f"Report sent to {', '.join(recipients)}")
 
 
 # ---------------------------------------------------------------------------
