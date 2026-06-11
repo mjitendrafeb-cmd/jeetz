@@ -1,15 +1,21 @@
 {
   "recipient": "Jitendra.Meghrajani@careedge.in",
-  "recipients": ["Jitendra.Meghrajani@careedge.in"],
+  "recipients": [
+    "Jitendra.Meghrajani@careedge.in"
+  ],
   "sources": {
     "rbi_rss": true,
     "sebi_rss": true,
     "google_news": true,
     "newsapi": true,
     "company_watchlist": true,
-    "telegram": false
+    "telegram": true
   },
-  "telegram_channels": [],
+  "telegram_channels": [
+    "@bank_nbfc_fintech",
+    "@researchreportss",
+    "@livemint"
+  ],
   "sections": [
     "RBI Developments",
     "SEBI Developments",
