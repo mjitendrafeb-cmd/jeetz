@@ -1,0 +1,933 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Credit Intelligence — Config</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background: #f0f2f5;
+    color: #1a1a2e;
+    min-height: 100vh;
+  }
+
+  /* ── Header ── */
+  .app-header {
+    background: #1a1a2e;
+    color: #fff;
+    padding: 18px 20px 0;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+  }
+  .app-header h1 {
+    font-size: 17px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+  }
+  .app-header .subtitle {
+    font-size: 11px;
+    color: #a0aec0;
+    margin-bottom: 14px;
+  }
+  .pat-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 11px;
+    padding: 3px 10px;
+    border-radius: 12px;
+    font-weight: 600;
+    margin-bottom: 14px;
+  }
+  .pat-badge.connected { background: #1a4731; color: #68d391; border: 1px solid #276749; }
+  .pat-badge.disconnected { background: #4a1c1c; color: #fc8181; border: 1px solid #742a2a; }
+  .pat-badge button {
+    background: none; border: none; color: inherit; cursor: pointer;
+    font-size: 10px; text-decoration: underline; padding: 0; font-family: inherit;
+  }
+
+  /* ── Tabs ── */
+  .tabs {
+    display: flex;
+    gap: 0;
+    border-bottom: none;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .tabs::-webkit-scrollbar { display: none; }
+  .tab-btn {
+    flex: 1;
+    min-width: 80px;
+    background: none;
+    border: none;
+    color: #718096;
+    font-family: inherit;
+    font-size: 12px;
+    font-weight: 600;
+    padding: 10px 8px;
+    cursor: pointer;
+    border-bottom: 3px solid transparent;
+    white-space: nowrap;
+    transition: color 0.15s, border-color 0.15s;
+  }
+  .tab-btn.active { color: #fff; border-bottom-color: #4299e1; }
+  .tab-btn:hover:not(.active) { color: #cbd5e0; }
+
+  /* ── Content ── */
+  .content-area {
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 20px 16px 80px;
+  }
+
+  /* ── Card ── */
+  .card {
+    background: #fff;
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 16px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+  }
+  .card-title {
+    font-size: 13px;
+    font-weight: 700;
+    color: #2d3748;
+    margin-bottom: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  .card-hint {
+    font-size: 12px;
+    color: #718096;
+    margin-bottom: 14px;
+    line-height: 1.5;
+  }
+
+  /* ── Textarea ── */
+  textarea {
+    width: 100%;
+    border: 1.5px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 12px;
+    font-family: 'Courier New', monospace;
+    font-size: 13px;
+    color: #2d3748;
+    resize: vertical;
+    outline: none;
+    transition: border-color 0.15s;
+    min-height: 280px;
+  }
+  textarea:focus { border-color: #4299e1; }
+
+  /* ── Input ── */
+  input[type="text"], input[type="email"], input[type="password"] {
+    width: 100%;
+    border: 1.5px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 10px 14px;
+    font-family: inherit;
+    font-size: 14px;
+    color: #2d3748;
+    outline: none;
+    transition: border-color 0.15s;
+  }
+  input:focus { border-color: #4299e1; }
+  label.field-label {
+    display: block;
+    font-size: 12px;
+    font-weight: 600;
+    color: #4a5568;
+    margin-bottom: 6px;
+  }
+
+  /* ── Toggle Switch ── */
+  .toggle-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 13px 0;
+    border-bottom: 1px solid #f0f0f0;
+  }
+  .toggle-row:last-child { border-bottom: none; }
+  .toggle-label { font-size: 14px; color: #2d3748; font-weight: 500; }
+  .toggle-desc { font-size: 11px; color: #a0aec0; margin-top: 2px; }
+  .switch {
+    position: relative;
+    width: 44px;
+    height: 24px;
+    flex-shrink: 0;
+  }
+  .switch input { opacity: 0; width: 0; height: 0; }
+  .slider {
+    position: absolute;
+    cursor: pointer;
+    inset: 0;
+    background: #cbd5e0;
+    border-radius: 24px;
+    transition: background 0.2s;
+  }
+  .slider::before {
+    content: '';
+    position: absolute;
+    height: 18px; width: 18px;
+    left: 3px; bottom: 3px;
+    background: #fff;
+    border-radius: 50%;
+    transition: transform 0.2s;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+  }
+  input:checked + .slider { background: #48bb78; }
+  input:checked + .slider::before { transform: translateX(20px); }
+
+  /* ── Checkboxes ── */
+  .check-row {
+    display: flex;
+    align-items: center;
+    padding: 11px 0;
+    border-bottom: 1px solid #f0f0f0;
+    cursor: pointer;
+  }
+  .check-row:last-child { border-bottom: none; }
+  .check-row input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    accent-color: #4299e1;
+    flex-shrink: 0;
+    margin-right: 12px;
+    cursor: pointer;
+  }
+  .check-row span { font-size: 14px; color: #2d3748; }
+
+  /* ── Buttons ── */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    border: none;
+    border-radius: 8px;
+    padding: 11px 22px;
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: opacity 0.15s, transform 0.1s;
+  }
+  .btn:active { transform: scale(0.97); }
+  .btn:disabled { opacity: 0.55; cursor: not-allowed; }
+  .btn-primary { background: #1a1a2e; color: #fff; }
+  .btn-primary:hover:not(:disabled) { background: #2d2d4e; }
+  .btn-green { background: #276749; color: #fff; }
+  .btn-green:hover:not(:disabled) { background: #2f855a; }
+  .btn-trigger { background: #553c9a; color: #fff; width: 100%; margin-top: 8px; }
+  .btn-trigger:hover:not(:disabled) { background: #6b46c1; }
+  .btn-block { width: 100%; margin-top: 14px; }
+  .btn-sm { padding: 7px 14px; font-size: 13px; }
+
+  .save-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 14px;
+    gap: 12px;
+  }
+  .last-saved {
+    font-size: 11px;
+    color: #a0aec0;
+  }
+
+  /* ── Spinner ── */
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .spinner {
+    width: 16px; height: 16px;
+    border: 2px solid rgba(255,255,255,0.4);
+    border-top-color: #fff;
+    border-radius: 50%;
+    animation: spin 0.7s linear infinite;
+    display: inline-block;
+  }
+
+  /* ── Toast ── */
+  #toast {
+    position: fixed;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%) translateY(80px);
+    background: #1a202c;
+    color: #fff;
+    padding: 11px 22px;
+    border-radius: 24px;
+    font-size: 13px;
+    font-weight: 600;
+    z-index: 999;
+    transition: transform 0.3s ease;
+    white-space: nowrap;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+    pointer-events: none;
+  }
+  #toast.show { transform: translateX(-50%) translateY(0); }
+  #toast.success { background: #276749; }
+  #toast.error { background: #c53030; }
+
+  /* ── PAT Setup Card ── */
+  #pat-setup-card {
+    background: #fff;
+    border-radius: 12px;
+    padding: 24px 20px;
+    margin-bottom: 16px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+    border-left: 4px solid #4299e1;
+  }
+  #pat-setup-card h2 { font-size: 15px; color: #2d3748; margin-bottom: 10px; }
+  #pat-setup-card ol { padding-left: 18px; }
+  #pat-setup-card li { font-size: 13px; color: #4a5568; margin-bottom: 6px; line-height: 1.5; }
+  #pat-setup-card code {
+    background: #f7fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 4px;
+    padding: 1px 6px;
+    font-family: 'Courier New', monospace;
+    font-size: 12px;
+    color: #2d3748;
+  }
+  .pat-input-row { display: flex; gap: 10px; margin-top: 16px; }
+  .pat-input-row input { flex: 1; }
+
+  /* ── Tabs hidden ── */
+  .tab-pane { display: none; }
+  .tab-pane.active { display: block; }
+
+  /* ── Count badge ── */
+  .count-badge {
+    display: inline-block;
+    background: #ebf8ff;
+    color: #2b6cb0;
+    border: 1px solid #bee3f8;
+    border-radius: 12px;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 2px 10px;
+    margin-left: 8px;
+  }
+
+  /* ── Loading overlay ── */
+  .loading-overlay {
+    display: none;
+    position: absolute;
+    inset: 0;
+    background: rgba(255,255,255,0.7);
+    border-radius: 12px;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+  }
+  .loading-overlay.visible { display: flex; }
+  .card { position: relative; }
+
+  .loading-dots::after {
+    content: '...';
+    animation: dots 1.2s steps(4, end) infinite;
+  }
+  @keyframes dots {
+    0%,20% { content: '.'; }
+    40%     { content: '..'; }
+    60%,100%{ content: '...'; }
+  }
+
+  @media (max-width: 480px) {
+    .app-header h1 { font-size: 15px; }
+    .tab-btn { font-size: 11px; padding: 10px 6px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ───────────── HEADER ───────────── -->
+<div class="app-header">
+  <h1>Credit Intelligence — Config</h1>
+  <p class="subtitle">Daily Credit Intelligence Report &nbsp;·&nbsp; mjitendrafeb-cmd/jeetz</p>
+  <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;">
+    <div id="pat-status" class="pat-badge disconnected">
+      ● Not connected &nbsp;<button onclick="changePAT()">Set Token</button>
+    </div>
+  </div>
+  <div class="tabs" role="tablist">
+    <button class="tab-btn active" onclick="switchTab('watchlist',this)">Watchlist</button>
+    <button class="tab-btn" onclick="switchTab('sources',this)">News Sources</button>
+    <button class="tab-btn" onclick="switchTab('sections',this)">Sections</button>
+    <button class="tab-btn" onclick="switchTab('settings',this)">Settings</button>
+  </div>
+</div>
+
+<!-- ───────────── MAIN ───────────── -->
+<div class="content-area">
+
+  <!-- PAT Setup Card (shown when no token) -->
+  <div id="pat-setup-card" style="display:none;">
+    <h2>🔑 Connect Your GitHub Token</h2>
+    <p style="font-size:13px;color:#718096;margin-bottom:12px;">A Personal Access Token with <strong>repo</strong> scope is needed to read and write config files directly to GitHub.</p>
+    <ol>
+      <li>Go to <strong>github.com</strong> → <em>Settings</em> → <em>Developer settings</em></li>
+      <li>Select <em>Personal access tokens</em> → <em>Tokens (classic)</em></li>
+      <li>Click <em>Generate new token (classic)</em></li>
+      <li>Select scope: <code>repo</code></li>
+      <li>Copy the token and paste it below</li>
+    </ol>
+    <div class="pat-input-row">
+      <input type="password" id="pat-input" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx" autocomplete="off">
+      <button class="btn btn-primary btn-sm" onclick="savePAT()">Connect</button>
+    </div>
+  </div>
+
+  <!-- ── TAB 1: WATCHLIST ── -->
+  <div id="tab-watchlist" class="tab-pane active">
+    <div class="card">
+      <div class="loading-overlay" id="wl-loading"><div class="spinner" style="border-color:rgba(0,0,0,0.2);border-top-color:#1a1a2e;width:28px;height:28px;border-width:3px;"></div></div>
+      <div class="card-title">Company Watchlist <span class="count-badge" id="wl-count">0 companies</span></div>
+      <div class="card-hint">One company per line. Lines starting with <code>#</code> are comments and are ignored.</div>
+      <textarea id="watchlist-textarea" placeholder="Loading watchlist&#10;..."></textarea>
+      <div class="save-row">
+        <span class="last-saved" id="wl-saved"></span>
+        <button class="btn btn-primary" id="wl-save-btn" onclick="saveWatchlist()">Save Watchlist</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── TAB 2: NEWS SOURCES ── -->
+  <div id="tab-sources" class="tab-pane">
+    <div class="card">
+      <div class="loading-overlay" id="src-loading"><div class="spinner" style="border-color:rgba(0,0,0,0.2);border-top-color:#1a1a2e;width:28px;height:28px;border-width:3px;"></div></div>
+      <div class="card-title">News Sources</div>
+      <div class="card-hint">Toggle which sources are fetched during each report run.</div>
+
+      <div class="toggle-row">
+        <div>
+          <div class="toggle-label">RBI RSS Feed</div>
+          <div class="toggle-desc">Reserve Bank of India official announcements</div>
+        </div>
+        <label class="switch">
+          <input type="checkbox" id="src-rbi_rss" checked>
+          <span class="slider"></span>
+        </label>
+      </div>
+
+      <div class="toggle-row">
+        <div>
+          <div class="toggle-label">SEBI RSS Feed</div>
+          <div class="toggle-desc">Securities and Exchange Board of India circulars</div>
+        </div>
+        <label class="switch">
+          <input type="checkbox" id="src-sebi_rss" checked>
+          <span class="slider"></span>
+        </label>
+      </div>
+
+      <div class="toggle-row">
+        <div>
+          <div class="toggle-label">Google News</div>
+          <div class="toggle-desc">5 financial queries — ET, Mint, BS, Reuters, etc.</div>
+        </div>
+        <label class="switch">
+          <input type="checkbox" id="src-google_news" checked>
+          <span class="slider"></span>
+        </label>
+      </div>
+
+      <div class="toggle-row">
+        <div>
+          <div class="toggle-label">NewsAPI</div>
+          <div class="toggle-desc">Economic Times, Mint, Business Standard via NewsAPI</div>
+        </div>
+        <label class="switch">
+          <input type="checkbox" id="src-newsapi" checked>
+          <span class="slider"></span>
+        </label>
+      </div>
+
+      <div class="toggle-row">
+        <div>
+          <div class="toggle-label">Company Watchlist News</div>
+          <div class="toggle-desc">Google News for each company in your watchlist</div>
+        </div>
+        <label class="switch">
+          <input type="checkbox" id="src-company_watchlist" checked>
+          <span class="slider"></span>
+        </label>
+      </div>
+
+      <div class="save-row">
+        <span class="last-saved" id="src-saved"></span>
+        <button class="btn btn-primary" onclick="saveSources()">Save Sources</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── TAB 3: SECTIONS ── -->
+  <div id="tab-sections" class="tab-pane">
+    <div class="card">
+      <div class="loading-overlay" id="sec-loading"><div class="spinner" style="border-color:rgba(0,0,0,0.2);border-top-color:#1a1a2e;width:28px;height:28px;border-width:3px;"></div></div>
+      <div class="card-title">Report Sections</div>
+      <div class="card-hint">Select which sections appear in the generated report.</div>
+
+      <div id="sections-list">
+        <!-- Rendered dynamically from ALL_SECTIONS -->
+      </div>
+
+      <div class="save-row">
+        <span class="last-saved" id="sec-saved"></span>
+        <button class="btn btn-primary" onclick="saveSections()">Save Sections</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── TAB 4: SETTINGS ── -->
+  <div id="tab-settings" class="tab-pane">
+    <div class="card">
+      <div class="loading-overlay" id="cfg-loading"><div class="spinner" style="border-color:rgba(0,0,0,0.2);border-top-color:#1a1a2e;width:28px;height:28px;border-width:3px;"></div></div>
+      <div class="card-title">Report Recipient</div>
+      <div class="card-hint">The email address the daily report is sent to.</div>
+      <label class="field-label" for="recipient-input">Email Address</label>
+      <input type="email" id="recipient-input" value="Jitendra.Meghrajani@careedge.in">
+      <div class="save-row">
+        <span class="last-saved" id="cfg-saved"></span>
+        <button class="btn btn-primary" onclick="saveSettings()">Save Settings</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">GitHub Actions</div>
+      <div class="card-hint">Trigger a report run immediately (outside the 6:00 AM IST schedule).</div>
+      <button class="btn btn-trigger" id="trigger-btn" onclick="triggerReport()">
+        🚀 Trigger Test Report Now
+      </button>
+      <p id="trigger-status" style="font-size:12px;color:#718096;margin-top:10px;display:none;"></p>
+    </div>
+
+    <div class="card">
+      <div class="card-title">GitHub Token</div>
+      <div class="card-hint">Stored only in your browser's localStorage. Never sent anywhere except directly to the GitHub API.</div>
+      <label class="field-label" for="pat-change-input">Personal Access Token</label>
+      <input type="password" id="pat-change-input" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx" autocomplete="off">
+      <div class="save-row">
+        <span></span>
+        <button class="btn btn-primary btn-sm" onclick="savePATFromSettings()">Update Token</button>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /content-area -->
+
+<!-- ── Toast ── -->
+<div id="toast"></div>
+
+<script>
+'use strict';
+
+/* ─────────────────────────────────────────────────────────
+   CONSTANTS
+───────────────────────────────────────────────────────── */
+const REPO       = 'mjitendrafeb-cmd/jeetz';
+const API_BASE   = 'https://api.github.com/repos/' + REPO + '/contents/';
+const WORKFLOW_ID = '293507053';
+const LS_PAT     = 'ghpat';
+
+const ALL_SECTIONS = [
+  'RBI Developments',
+  'SEBI Developments',
+  'Banking System Developments',
+  'NBFC Sector Developments',
+  'Housing Finance Developments',
+  'Broking & Fintech Developments',
+  'Bond Market Developments',
+  'Commercial Paper Market Developments',
+  'Securitisation Developments',
+  'Rating Actions Announced',
+];
+
+/* ─────────────────────────────────────────────────────────
+   STATE
+───────────────────────────────────────────────────────── */
+let _fileSHAs = {};   // { 'watchlist.txt': 'sha...', 'config.json': 'sha...' }
+let _configCache = null;
+
+/* ─────────────────────────────────────────────────────────
+   INIT
+───────────────────────────────────────────────────────── */
+document.addEventListener('DOMContentLoaded', () => {
+  renderSectionsList();
+  const pat = localStorage.getItem(LS_PAT);
+  if (!pat) {
+    showPATSetup();
+  } else {
+    hidePATSetup();
+    loadAll();
+  }
+});
+
+function renderSectionsList() {
+  const container = document.getElementById('sections-list');
+  container.innerHTML = ALL_SECTIONS.map(s => `
+    <label class="check-row">
+      <input type="checkbox" class="section-cb" data-section="${s}" checked>
+      <span>${s}</span>
+    </label>
+  `).join('');
+}
+
+/* ─────────────────────────────────────────────────────────
+   PAT MANAGEMENT
+───────────────────────────────────────────────────────── */
+function showPATSetup() {
+  document.getElementById('pat-setup-card').style.display = 'block';
+  updatePATBadge(false);
+}
+function hidePATSetup() {
+  document.getElementById('pat-setup-card').style.display = 'none';
+  updatePATBadge(true);
+}
+function updatePATBadge(connected) {
+  const el = document.getElementById('pat-status');
+  if (connected) {
+    el.className = 'pat-badge connected';
+    el.innerHTML = '● Connected ✓ &nbsp;<button onclick="changePAT()">Change Token</button>';
+  } else {
+    el.className = 'pat-badge disconnected';
+    el.innerHTML = '● Not connected &nbsp;<button onclick="changePAT()">Set Token</button>';
+  }
+}
+function changePAT() {
+  document.getElementById('pat-setup-card').style.display = 'block';
+  document.getElementById('pat-input').value = '';
+  document.getElementById('pat-input').focus();
+}
+function savePAT() {
+  const val = document.getElementById('pat-input').value.trim();
+  if (!val) { showToast('Please enter a token', 'error'); return; }
+  localStorage.setItem(LS_PAT, val);
+  hidePATSetup();
+  loadAll();
+  showToast('Token saved — loading config…', 'success');
+}
+function savePATFromSettings() {
+  const val = document.getElementById('pat-change-input').value.trim();
+  if (!val) { showToast('Please enter a token', 'error'); return; }
+  localStorage.setItem(LS_PAT, val);
+  updatePATBadge(true);
+  loadAll();
+  showToast('Token updated', 'success');
+}
+
+/* ─────────────────────────────────────────────────────────
+   GITHUB API HELPERS
+───────────────────────────────────────────────────────── */
+function ghHeaders() {
+  const pat = localStorage.getItem(LS_PAT) || '';
+  return {
+    'Authorization': 'token ' + pat,
+    'Accept': 'application/vnd.github.v3+json',
+    'Content-Type': 'application/json',
+  };
+}
+
+async function ghGet(path) {
+  const r = await fetch(API_BASE + path, { headers: ghHeaders() });
+  if (!r.ok) {
+    const msg = await r.text();
+    throw new Error(`GitHub GET ${path} → ${r.status}: ${msg}`);
+  }
+  return r.json();
+}
+
+async function ghPut(path, content, message, sha) {
+  const body = {
+    message,
+    content: btoa(unescape(encodeURIComponent(content))),
+  };
+  if (sha) body.sha = sha;
+  const r = await fetch(API_BASE + path, {
+    method: 'PUT',
+    headers: ghHeaders(),
+    body: JSON.stringify(body),
+  });
+  if (!r.ok) {
+    const msg = await r.text();
+    throw new Error(`GitHub PUT ${path} → ${r.status}: ${msg}`);
+  }
+  return r.json();
+}
+
+function decodeContent(b64) {
+  return decodeURIComponent(escape(atob(b64.replace(/\n/g, ''))));
+}
+
+/* ─────────────────────────────────────────────────────────
+   LOAD ALL
+───────────────────────────────────────────────────────── */
+async function loadAll() {
+  await Promise.all([loadWatchlist(), loadConfig()]);
+}
+
+/* ─────────────────────────────────────────────────────────
+   TAB 1 — WATCHLIST
+───────────────────────────────────────────────────────── */
+async function loadWatchlist() {
+  setLoading('wl', true);
+  try {
+    const data = await ghGet('watchlist.txt');
+    _fileSHAs['watchlist.txt'] = data.sha;
+    const text = decodeContent(data.content);
+    document.getElementById('watchlist-textarea').value = text;
+    updateWatchlistCount(text);
+  } catch(e) {
+    showToast('Could not load watchlist: ' + shortErr(e), 'error');
+  }
+  setLoading('wl', false);
+}
+
+function updateWatchlistCount(text) {
+  const count = text.split('\n').filter(l => l.trim() && !l.trim().startsWith('#')).length;
+  document.getElementById('wl-count').textContent = count + ' compan' + (count === 1 ? 'y' : 'ies');
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  const ta = document.getElementById('watchlist-textarea');
+  if (ta) ta.addEventListener('input', () => updateWatchlistCount(ta.value));
+});
+
+async function saveWatchlist() {
+  const btn = document.getElementById('wl-save-btn');
+  const text = document.getElementById('watchlist-textarea').value;
+  setLoading('wl', true);
+  btn.disabled = true;
+  btn.innerHTML = '<span class="spinner"></span> Saving…';
+  try {
+    const res = await ghPut('watchlist.txt', text, 'Update watchlist via Config UI', _fileSHAs['watchlist.txt']);
+    _fileSHAs['watchlist.txt'] = res.content.sha;
+    setSaved('wl');
+    showToast('Watchlist saved ✓', 'success');
+  } catch(e) {
+    showToast('Save failed: ' + shortErr(e), 'error');
+  }
+  btn.disabled = false;
+  btn.innerHTML = 'Save Watchlist';
+  setLoading('wl', false);
+}
+
+/* ─────────────────────────────────────────────────────────
+   LOAD CONFIG (used by sources, sections, settings)
+───────────────────────────────────────────────────────── */
+async function loadConfig() {
+  setLoading('src', true);
+  setLoading('sec', true);
+  setLoading('cfg', true);
+  try {
+    const data = await ghGet('config.json');
+    _fileSHAs['config.json'] = data.sha;
+    const cfg = JSON.parse(decodeContent(data.content));
+    _configCache = cfg;
+    populateSources(cfg.sources || {});
+    populateSections(cfg.sections || []);
+    populateSettings(cfg);
+  } catch(e) {
+    showToast('Could not load config: ' + shortErr(e), 'error');
+  }
+  setLoading('src', false);
+  setLoading('sec', false);
+  setLoading('cfg', false);
+}
+
+function populateSources(sources) {
+  ['rbi_rss','sebi_rss','google_news','newsapi','company_watchlist'].forEach(key => {
+    const el = document.getElementById('src-' + key);
+    if (el) el.checked = sources[key] !== false;
+  });
+}
+
+function populateSections(activeSections) {
+  document.querySelectorAll('.section-cb').forEach(cb => {
+    cb.checked = activeSections.includes(cb.dataset.section);
+  });
+}
+
+function populateSettings(cfg) {
+  if (cfg.recipient) document.getElementById('recipient-input').value = cfg.recipient;
+}
+
+/* ─────────────────────────────────────────────────────────
+   BUILD CONFIG + SAVE HELPERS
+───────────────────────────────────────────────────────── */
+function getCurrentConfig() {
+  return _configCache ? JSON.parse(JSON.stringify(_configCache)) : {
+    recipient: 'Jitendra.Meghrajani@careedge.in',
+    sources: { rbi_rss: true, sebi_rss: true, google_news: true, newsapi: true, company_watchlist: true },
+    sections: [...ALL_SECTIONS],
+  };
+}
+
+async function pushConfig(cfg, saveLabel) {
+  const json = JSON.stringify(cfg, null, 2);
+  const res = await ghPut('config.json', json, saveLabel + ' via Config UI', _fileSHAs['config.json']);
+  _fileSHAs['config.json'] = res.content.sha;
+  _configCache = cfg;
+}
+
+/* ─────────────────────────────────────────────────────────
+   TAB 2 — SOURCES
+───────────────────────────────────────────────────────── */
+async function saveSources() {
+  setLoading('src', true);
+  try {
+    const cfg = getCurrentConfig();
+    cfg.sources = {
+      rbi_rss: document.getElementById('src-rbi_rss').checked,
+      sebi_rss: document.getElementById('src-sebi_rss').checked,
+      google_news: document.getElementById('src-google_news').checked,
+      newsapi: document.getElementById('src-newsapi').checked,
+      company_watchlist: document.getElementById('src-company_watchlist').checked,
+    };
+    await pushConfig(cfg, 'Update news sources');
+    setSaved('src');
+    showToast('Sources saved ✓', 'success');
+  } catch(e) {
+    showToast('Save failed: ' + shortErr(e), 'error');
+  }
+  setLoading('src', false);
+}
+
+/* ─────────────────────────────────────────────────────────
+   TAB 3 — SECTIONS
+───────────────────────────────────────────────────────── */
+async function saveSections() {
+  setLoading('sec', true);
+  try {
+    const cfg = getCurrentConfig();
+    cfg.sections = ALL_SECTIONS.filter(s => {
+      const cb = document.querySelector(`.section-cb[data-section="${s}"]`);
+      return cb && cb.checked;
+    });
+    await pushConfig(cfg, 'Update report sections');
+    setSaved('sec');
+    showToast('Sections saved ✓', 'success');
+  } catch(e) {
+    showToast('Save failed: ' + shortErr(e), 'error');
+  }
+  setLoading('sec', false);
+}
+
+/* ─────────────────────────────────────────────────────────
+   TAB 4 — SETTINGS
+───────────────────────────────────────────────────────── */
+async function saveSettings() {
+  setLoading('cfg', true);
+  try {
+    const cfg = getCurrentConfig();
+    cfg.recipient = document.getElementById('recipient-input').value.trim();
+    await pushConfig(cfg, 'Update recipient settings');
+    setSaved('cfg');
+    showToast('Settings saved ✓', 'success');
+  } catch(e) {
+    showToast('Save failed: ' + shortErr(e), 'error');
+  }
+  setLoading('cfg', false);
+}
+
+async function triggerReport() {
+  const btn = document.getElementById('trigger-btn');
+  const status = document.getElementById('trigger-status');
+  btn.disabled = true;
+  btn.innerHTML = '<span class="spinner"></span> Triggering…';
+  status.style.display = 'none';
+  try {
+    const pat = localStorage.getItem(LS_PAT);
+    const r = await fetch(
+      `https://api.github.com/repos/${REPO}/actions/workflows/${WORKFLOW_ID}/dispatches`,
+      {
+        method: 'POST',
+        headers: {
+          'Authorization': 'token ' + pat,
+          'Accept': 'application/vnd.github.v3+json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ ref: 'main' }),
+      }
+    );
+    if (r.status === 204) {
+      showToast('Workflow triggered ✓ — check Actions tab in GitHub', 'success');
+      status.textContent = '✓ Workflow dispatched. Check GitHub → Actions for progress.';
+      status.style.color = '#276749';
+    } else {
+      const msg = await r.text();
+      throw new Error(r.status + ': ' + msg);
+    }
+  } catch(e) {
+    showToast('Trigger failed: ' + shortErr(e), 'error');
+    status.textContent = '✗ ' + shortErr(e);
+    status.style.color = '#c53030';
+  }
+  status.style.display = 'block';
+  btn.disabled = false;
+  btn.innerHTML = '🚀 Trigger Test Report Now';
+}
+
+/* ─────────────────────────────────────────────────────────
+   UI HELPERS
+───────────────────────────────────────────────────────── */
+function switchTab(name, btn) {
+  document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab-' + name).classList.add('active');
+  btn.classList.add('active');
+}
+
+function setLoading(prefix, on) {
+  const el = document.getElementById(prefix + '-loading');
+  if (el) el.classList.toggle('visible', on);
+}
+
+function setSaved(prefix) {
+  const el = document.getElementById(prefix + '-saved');
+  if (!el) return;
+  const now = new Date();
+  function update() {
+    const diff = Math.round((Date.now() - now) / 1000);
+    if (diff < 60) el.textContent = 'Last saved: just now';
+    else if (diff < 3600) el.textContent = `Last saved: ${Math.floor(diff/60)}m ago`;
+    else el.textContent = `Last saved: ${Math.floor(diff/3600)}h ago`;
+  }
+  update();
+  const timer = setInterval(update, 30000);
+  // Clear old timer if stored
+  if (el._timer) clearInterval(el._timer);
+  el._timer = timer;
+}
+
+let _toastTimer = null;
+function showToast(msg, type) {
+  const el = document.getElementById('toast');
+  el.textContent = msg;
+  el.className = 'show ' + (type || '');
+  if (_toastTimer) clearTimeout(_toastTimer);
+  _toastTimer = setTimeout(() => { el.className = ''; }, 3500);
+}
+
+function shortErr(e) {
+  const msg = e.message || String(e);
+  // extract useful bit
+  if (msg.includes('401')) return 'Authentication failed — check your token';
+  if (msg.includes('403')) return 'Permission denied — token needs repo scope';
+  if (msg.includes('404')) return 'File not found in repo';
+  if (msg.includes('422')) return 'Conflict — reload page and try again';
+  return msg.slice(0, 80);
+}
+</script>
+</body>
+</html>

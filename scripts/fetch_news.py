@@ -6,8 +6,20 @@ Pulls headlines from RBI, SEBI, Google News, NewsAPI, and company watchlist.
 
 import os
 import re
+import json
 import requests
 import feedparser
+
+
+def load_config() -> dict:
+    """Load config.json from repo root. Returns empty dict on failure."""
+    base = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    path = os.path.join(base, "config.json")
+    try:
+        with open(path, encoding="utf-8") as f:
+            return json.load(f)
+    except Exception:
+        return {}
 
 
 def load_watchlist() -> list[str]:
@@ -187,15 +199,27 @@ def fetch_newsapi_news(api_key: str) -> list[str]:
 
 def fetch_all_news(newsapi_key: str = "") -> str:
     """
-    Fetch news from all 4 sources, deduplicate by title, and return a
-    numbered formatted string (max 40 items).
+    Fetch news from all sources, respecting config.json source toggles.
+    Deduplicates by title and returns a numbered formatted string (max 40 items).
     """
+    cfg = load_config()
+    sources = cfg.get("sources", {})
+
+    def src_on(key: str) -> bool:
+        # Default to True if key is absent (backwards-compatible)
+        return sources.get(key, True)
+
     all_items: list[str] = []
-    all_items.extend(fetch_rbi_news())
-    all_items.extend(fetch_sebi_news())
-    all_items.extend(fetch_google_news())
-    all_items.extend(fetch_newsapi_news(newsapi_key))
-    all_items.extend(fetch_company_news())
+    if src_on("rbi_rss"):
+        all_items.extend(fetch_rbi_news())
+    if src_on("sebi_rss"):
+        all_items.extend(fetch_sebi_news())
+    if src_on("google_news"):
+        all_items.extend(fetch_google_news())
+    if src_on("newsapi"):
+        all_items.extend(fetch_newsapi_news(newsapi_key))
+    if src_on("company_watchlist"):
+        all_items.extend(fetch_company_news())
 
     # Deduplicate by normalised title (first segment before " — ")
     seen: set[str] = set()

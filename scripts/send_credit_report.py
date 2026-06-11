@@ -9,6 +9,7 @@ Reads env vars: GMAIL_USER, GMAIL_APP_PASSWORD, ANTHROPIC_API_KEY, NEWSAPI_KEY (
 """
 
 import os
+import json
 import smtplib
 import datetime
 from email.mime.text import MIMEText
@@ -16,17 +17,52 @@ from email.mime.multipart import MIMEMultipart
 
 import anthropic
 
+
+def _load_config() -> dict:
+    """Load config.json from repo root. Returns empty dict on failure."""
+    base = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    path = os.path.join(base, "config.json")
+    try:
+        with open(path, encoding="utf-8") as f:
+            return json.load(f)
+    except Exception:
+        return {}
+
 from fetch_news import fetch_all_news
 
 
-RECIPIENT = "Jitendra.Meghrajani@careedge.in"
+_FALLBACK_RECIPIENT = "Jitendra.Meghrajani@careedge.in"
+
+
+def _get_recipient() -> str:
+    cfg = _load_config()
+    return cfg.get("recipient") or _FALLBACK_RECIPIENT
 
 
 # ---------------------------------------------------------------------------
 # Prompt builder
 # ---------------------------------------------------------------------------
 
+_DEFAULT_SECTIONS = [
+    "RBI Developments",
+    "SEBI Developments",
+    "Banking System Developments",
+    "NBFC Sector Developments",
+    "Housing Finance Developments",
+    "Broking & Fintech Developments",
+    "Bond Market Developments",
+    "Commercial Paper Market Developments",
+    "Securitisation Developments",
+    "Rating Actions Announced",
+]
+
+
 def _build_prompt(news_text: str, day_str: str, date_str: str) -> str:
+    cfg = _load_config()
+    sections = cfg.get("sections") or _DEFAULT_SECTIONS
+    sections_text = "\n".join(f"{i+1}. {s}" for i, s in enumerate(sections))
+    n = len(sections)
+
     return f"""You are a Senior Credit Strategist at CareEdge Ratings, India's leading credit rating agency.
 Today is {day_str}, {date_str}.
 
@@ -34,19 +70,10 @@ Below are today's live news headlines from RBI, SEBI, and Indian financial news 
 
 {news_text}
 
-Generate a Daily Credit Intelligence Report covering these 10 sections. Use ONLY the news provided above — do not invent events not in the news. If a section has no relevant news, write a short "No significant developments today" note.
+Generate a Daily Credit Intelligence Report covering these {n} sections. Use ONLY the news provided above — do not invent events not in the news. If a section has no relevant news, write a short "No significant developments today" note.
 
 Sections to cover:
-1. RBI Developments
-2. SEBI Developments
-3. Banking System Developments
-4. NBFC Sector Developments
-5. Housing Finance Developments
-6. Broking & Fintech Developments
-7. Bond Market Developments
-8. Commercial Paper Market Developments
-9. Securitisation Developments
-10. Rating Actions Announced
+{sections_text}
 
 For EACH news item provide:
 - Rank it: CRITICAL / IMPORTANT / WATCHLIST
@@ -359,16 +386,17 @@ def build_html(inner_html: str, today: datetime.date) -> str:
 # ---------------------------------------------------------------------------
 
 def send_email(subject: str, html_body: str, gmail_user: str, gmail_password: str) -> None:
+    recipient = _get_recipient()
     msg = MIMEMultipart("alternative")
     msg["Subject"] = subject
     msg["From"] = gmail_user
-    msg["To"] = RECIPIENT
+    msg["To"] = recipient
     msg.attach(MIMEText(html_body, "html", "utf-8"))
 
     with smtplib.SMTP_SSL("smtp.gmail.com", 465) as server:
         server.login(gmail_user, gmail_password)
-        server.sendmail(gmail_user, RECIPIENT, msg.as_string())
-        print(f"Report sent to {RECIPIENT}")
+        server.sendmail(gmail_user, recipient, msg.as_string())
+        print(f"Report sent to {recipient}")
 
 
 # ---------------------------------------------------------------------------

@@ -45,3 +45,32 @@ In your GitHub repository:
 The workflow runs automatically at **6:00 AM IST (00:30 UTC)** on Monday–Friday.
 
 Cron expression: `30 0 * * 1-5`
+
+---
+
+## GitHub Pages — Config Web App
+
+A browser/mobile config interface is available at the repo's GitHub Pages URL.
+
+### Enable GitHub Pages
+
+1. Go to your repository on GitHub
+2. Navigate to **Settings → Pages**
+3. Under **Source**, select **Deploy from a branch**
+4. Set **Branch** to `main` and folder to `/docs`
+5. Click **Save**
+6. After a minute, your app will be live at:
+   `https://mjitendrafeb-cmd.github.io/jeetz/`
+
+### Using the Config App
+
+- On first visit, you'll be prompted for a GitHub Personal Access Token (PAT)
+- Generate one at: **github.com → Settings → Developer settings → Personal access tokens → Tokens (classic)**
+- Select only the `repo` scope, then paste the token in the app
+- The token is stored in your browser's `localStorage` only — never sent anywhere except the GitHub API
+- From the app you can:
+  - Edit and save `watchlist.txt` (Watchlist tab)
+  - Toggle news sources on/off (News Sources tab)
+  - Select which sections appear in the report (Sections tab)
+  - Change the recipient email (Settings tab)
+  - Trigger an immediate test report run (Settings tab → 🚀 button)
