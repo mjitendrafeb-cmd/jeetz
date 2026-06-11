@@ -478,8 +478,8 @@
 
       <div class="toggle-row">
         <div>
-          <div class="toggle-label">Rating Agency Web Scraper</div>
-          <div class="toggle-desc">CareEdge · CRISIL · ICRA · India Ratings · BSE · FIMMDA · CCIL</div>
+          <div class="toggle-label">Web Scraper</div>
+          <div class="toggle-desc">CareEdge · CRISIL · ICRA · India Ratings · BSE · FIMMDA · CCIL · Custom sites</div>
         </div>
         <label class="switch">
           <input type="checkbox" id="src-web_scraper" checked>
@@ -522,6 +522,25 @@
       <div class="save-row">
         <span class="last-saved" id="src-saved"></span>
         <button class="btn btn-primary" onclick="saveSources()">Save Sources</button>
+      </div>
+    </div>
+
+    <!-- Custom websites card -->
+    <div class="card">
+      <div class="loading-overlay" id="cw-loading"><div class="spinner" style="border-color:rgba(0,0,0,0.2);border-top-color:#1a1a2e;width:28px;height:28px;border-width:3px;"></div></div>
+      <div class="card-title">Custom Websites <span class="count-badge" id="cw-count">0 sites</span></div>
+      <div class="card-hint">Add any website URL to scrape for credit-relevant headlines. The scraper extracts headings and links from the page automatically.</div>
+
+      <div id="custom-websites-list" style="margin-bottom:12px;"></div>
+
+      <div style="display:flex;gap:10px;margin-bottom:6px;">
+        <input type="url" id="new-website-input" placeholder="https://www.example.com/news" style="flex:1;">
+        <button class="btn btn-green btn-sm" onclick="addWebsite()">Add</button>
+      </div>
+
+      <div class="save-row">
+        <span class="last-saved" id="cw-saved"></span>
+        <button class="btn btn-primary" onclick="saveWebsites()">Save Websites</button>
       </div>
     </div>
   </div>
@@ -704,7 +723,11 @@ document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('new-channel-input').addEventListener('keydown', e => {
     if (e.key === 'Enter') addChannel();
   });
+  document.getElementById('new-website-input').addEventListener('keydown', e => {
+    if (e.key === 'Enter') addWebsite();
+  });
   renderChannelsList();
+  renderWebsitesList();
 });
 
 function renderSectionsList() {
@@ -1006,6 +1029,10 @@ function populateSettings(cfg) {
   // Populate telegram channels
   _channels = Array.isArray(cfg.telegram_channels) ? [...cfg.telegram_channels] : [];
   renderChannelsList();
+
+  // Populate custom websites
+  _websites = Array.isArray(cfg.custom_scrape_urls) ? [...cfg.custom_scrape_urls] : [];
+  renderWebsitesList();
 }
 
 /* ─────────────────────────────────────────────────────────
@@ -1188,6 +1215,60 @@ async function saveChannels() {
     showToast('Save failed: ' + shortErr(e), 'error');
   }
   setLoading('tg', false);
+}
+
+/* ─────────────────────────────────────────────────────────
+   CUSTOM WEBSITES
+───────────────────────────────────────────────────────── */
+let _websites = [];
+
+function renderWebsitesList() {
+  const container = document.getElementById('custom-websites-list');
+  if (!container) return;
+  const countEl = document.getElementById('cw-count');
+  if (countEl) countEl.textContent = _websites.length + ' site' + (_websites.length === 1 ? '' : 's');
+  if (_websites.length === 0) {
+    container.innerHTML = '<p style="font-size:13px;color:#a0aec0;">No custom websites added yet.</p>';
+    return;
+  }
+  container.innerHTML = _websites.map((w, i) => `
+    <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 12px;background:#f7fafc;border-radius:8px;margin-bottom:8px;border-left:3px solid #48bb78;">
+      <span style="font-size:12px;color:#2d3748;font-family:'Courier New',monospace;word-break:break-all;flex:1;margin-right:8px;">🌐 ${w}</span>
+      <button onclick="removeWebsite(${i})" style="background:none;border:none;color:#fc8181;cursor:pointer;font-size:15px;padding:0 4px;flex-shrink:0;" title="Remove">✕</button>
+    </div>
+  `).join('');
+}
+
+function addWebsite() {
+  const input = document.getElementById('new-website-input');
+  let val = input.value.trim();
+  if (!val) { showToast('Enter a website URL', 'error'); return; }
+  if (!val.startsWith('http')) val = 'https://' + val;
+  if (_websites.includes(val)) { showToast('Website already in list', 'error'); return; }
+  _websites.push(val);
+  renderWebsitesList();
+  input.value = '';
+  showToast('Website added — click Save Websites to apply', 'success');
+}
+
+function removeWebsite(idx) {
+  _websites.splice(idx, 1);
+  renderWebsitesList();
+  showToast('Website removed — click Save Websites to apply', 'success');
+}
+
+async function saveWebsites() {
+  setLoading('cw', true);
+  try {
+    const cfg = getCurrentConfig();
+    cfg.custom_scrape_urls = [..._websites];
+    await pushConfig(cfg, 'Update custom scrape websites');
+    setSaved('cw');
+    showToast('Websites saved ✓', 'success');
+  } catch(e) {
+    showToast('Save failed: ' + shortErr(e), 'error');
+  }
+  setLoading('cw', false);
 }
 
 /* ─────────────────────────────────────────────────────────

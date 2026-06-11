@@ -12,6 +12,7 @@
     "telegram": true,
     "web_scraper": true
   },
+  "custom_scrape_urls": [],
   "web_sources": {
     "careedge": true,
     "crisil": true,
