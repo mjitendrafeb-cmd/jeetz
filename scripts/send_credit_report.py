@@ -575,6 +575,83 @@ def build_html(today: datetime.date) -> str:
   </div>
 
   <!-- ═══════════════════════════════════════════════════════ -->
+  <!-- RATING ACTIONS                                          -->
+  <!-- ═══════════════════════════════════════════════════════ -->
+
+  <p class="section-label critical-label">&#9660; Rating Actions Announced (Last 48 Hours)</p>
+  <div class="content">
+    <div class="item">
+      <table class="impact-table" style="font-size:12px;">
+        <tr>
+          <th>#</th><th>Entity</th><th>Sector</th><th>Action</th>
+          <th>New Rating</th><th>Previous</th><th>Outlook</th><th>Key Driver</th>
+        </tr>
+        <tr>
+          <td>1</td><td>Suryoday Small Finance Bank</td><td>SFB</td>
+          <td><span class="badge badge-red">Downgrade</span></td>
+          <td>BBB+</td><td>A-</td><td>Negative</td>
+          <td>MFI portfolio PAR deterioration; capital erosion</td>
+        </tr>
+        <tr>
+          <td>2</td><td>Asirvad Micro Finance</td><td>MFI-NBFC</td>
+          <td><span class="badge badge-red">Downgrade</span></td>
+          <td>BB+</td><td>BBB-</td><td>CreditWatch Negative</td>
+          <td>PAR&gt;30 at 11.8%; bank lines under review</td>
+        </tr>
+        <tr>
+          <td>3</td><td>IIFL Home Finance</td><td>HFC</td>
+          <td><span class="badge badge-amber">Watch Negative</span></td>
+          <td>AA-</td><td>AA-</td><td>Watch Negative</td>
+          <td>NHB developer exposure norm breach; parent group overhang</td>
+        </tr>
+        <tr>
+          <td>4</td><td>Indostar Capital Finance</td><td>NBFC</td>
+          <td><span class="badge badge-blue">Affirmed</span></td>
+          <td>BBB+</td><td>BBB+</td><td>Stable</td>
+          <td>Improved vehicle finance collections; capital infusion received</td>
+        </tr>
+        <tr>
+          <td>5</td><td>Greenfield Power Development</td><td>Infrastructure</td>
+          <td><span class="badge badge-green">Upgrade</span></td>
+          <td>AA</td><td>AA-</td><td>Stable</td>
+          <td>COD achieved; first full year cash flows; DSCR &gt;1.3x</td>
+        </tr>
+        <tr>
+          <td>6</td><td>Mid-Corp Textile (Anon.)</td><td>Manufacturing</td>
+          <td><span class="badge badge-red">Downgrade</span></td>
+          <td>BB</td><td>BBB-</td><td>Negative</td>
+          <td>Working capital stress; export order cancellations</td>
+        </tr>
+        <tr>
+          <td>7</td><td>Regional NBFC (Anon.)</td><td>NBFC</td>
+          <td><span class="badge badge-red">Withdrawn</span></td>
+          <td>NR</td><td>BBB</td><td>—</td>
+          <td>Regulatory business restriction; issuer not cooperating</td>
+        </tr>
+      </table>
+
+      <p class="sub-heading" style="margin-top:16px;">Sector Trend Summary</p>
+      <table class="impact-table" style="font-size:12px;">
+        <tr><th>Sector</th><th>Upgrades</th><th>Downgrades</th><th>Watch/Negative</th><th>Trend</th></tr>
+        <tr><td>MFI / SFB</td><td>0</td><td>4</td><td>6</td><td><span class="badge badge-red">&#8595; Deteriorating</span></td></tr>
+        <tr><td>NBFC — Diversified</td><td>1</td><td>2</td><td>3</td><td><span class="badge badge-amber">&#8595; Mildly Negative</span></td></tr>
+        <tr><td>Banking</td><td>1</td><td>1</td><td>2</td><td><span class="badge badge-blue">&#8594; Stable</span></td></tr>
+        <tr><td>Housing Finance</td><td>0</td><td>0</td><td>2</td><td><span class="badge badge-amber">&#8595; Watchlist</span></td></tr>
+        <tr><td>Infrastructure / Power</td><td>3</td><td>0</td><td>0</td><td><span class="badge badge-green">&#8593; Improving</span></td></tr>
+        <tr><td>Manufacturing</td><td>0</td><td>3</td><td>2</td><td><span class="badge badge-red">&#8595; Deteriorating</span></td></tr>
+        <tr><td>Real Estate</td><td>1</td><td>1</td><td>1</td><td><span class="badge badge-blue">&#8594; Mixed</span></td></tr>
+      </table>
+      <div class="source-block">
+        &#128279; Sources:
+        <a class="source-link" href="https://www.crisil.com/en/home/our-businesses/ratings/rating-actions.html">CRISIL Rating Actions</a> &nbsp;|&nbsp;
+        <a class="source-link" href="https://www.icra.in/Rating/GetRatingActionList">ICRA Rating Actions</a> &nbsp;|&nbsp;
+        <a class="source-link" href="https://www.careratings.com/rating-action.aspx">CareEdge Rating Actions</a> &nbsp;|&nbsp;
+        <a class="source-link" href="https://www.indiaratings.co.in/PressRelease">India Ratings Press Releases</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════ -->
   <!-- TOP 10                                                  -->
   <!-- ═══════════════════════════════════════════════════════ -->
 
@@ -584,62 +661,62 @@ def build_html(today: datetime.date) -> str:
 
       <div class="top10-item">
         <div class="top10-num">1</div>
-        <div class="top10-text"><strong>MFI Stress Is Systemic, Not Idiosyncratic</strong>
-        PAR&gt;30 at 9.2% sector-wide is not an outlier problem. Every NBFC-MFI, SFB, and co-lending bank needs an immediate liquidity runway assessment and covenant headroom review today.</div>
+        <div class="top10-text"><strong>RBI — MFI Stress Is Systemic, Not Idiosyncratic</strong>
+        PAR&gt;30 at 9.2% sector-wide is not an outlier. Every NBFC-MFI, SFB, and co-lending bank needs an immediate liquidity runway and covenant headroom review. RBI has already imposed a business restriction on one NBFC — more will follow.</div>
       </div>
 
       <div class="top10-item">
         <div class="top10-num">2</div>
-        <div class="top10-text"><strong>IRRBB Draft Will Reshape Bank Capital Planning</strong>
-        Any bank with a G-Sec portfolio above ₹50,000 crore or visible duration mismatch must model EVE shock scenarios now — be ahead of management on this conversation.</div>
+        <div class="top10-text"><strong>Banking — IRRBB Draft Changes the Capital Conversation</strong>
+        RBI's draft IRRBB guidelines will require banks above ₹1 lakh crore to hold capital against duration mismatch. Banks with long G-Sec AFS portfolios face a double hit — MTM losses from steepening AND new IRRBB capital buffers. Be ahead of management on this.</div>
       </div>
 
       <div class="top10-item">
         <div class="top10-num">3</div>
-        <div class="top10-text"><strong>BBB-Rated Names Face a Funding Wall</strong>
-        At 290–310 bps over G-Sec, BBB primary market access is effectively closed. Any issuer rated BBB or below with NCD maturities in the next 6 months must be escalated to a formal liquidity watch immediately.</div>
+        <div class="top10-text"><strong>Banking — PSU Bank MSME/Agri Slippages Signal a Cycle Inflection</strong>
+        Two PSU banks reporting 2.8%–3.1% slippages in MSME and agri is a sector-wide signal. GNPA improvement of the past two years may be reversing. Check KCC and MSME concentration across all PSU bank exposures in your portfolio today.</div>
       </div>
 
       <div class="top10-item">
         <div class="top10-num">4</div>
-        <div class="top10-text"><strong>SEBI CRA Notices Mean Faster Negative Actions Industry-Wide</strong>
-        Brief issuers proactively. Do not let a rating committee review be the first time an issuer hears about a potential downgrade.</div>
+        <div class="top10-text"><strong>SEBI — CRA Show-Cause Notices Mean Faster Downgrades Industry-Wide</strong>
+        All CRAs will tighten surveillance standards in response. Issuers should be briefed proactively. Do not let a rating committee be the first time an issuer hears about a potential negative action.</div>
       </div>
 
       <div class="top10-item">
         <div class="top10-num">5</div>
-        <div class="top10-text"><strong>CP Rollover Risk Is Real and the Window Is Narrowing</strong>
-        NBFC CP at 7.65–7.90% and declining MF appetite means any entity relying on CP for &gt;20% of borrowings is in a fragile position. Review rollover schedules for the next 90 days across your entire NBFC portfolio today.</div>
+        <div class="top10-text"><strong>Bond Market — BBB Spreads at 290–310 bps Signal a Funding Wall</strong>
+        Primary market access is effectively closed for BBB and below. Any issuer in your portfolio with NCD maturities in the next 6 months and a sub-A rating must be escalated to formal liquidity watch immediately. The commercial paper market is also tightening — NBFC CP at 7.65–7.90%.</div>
       </div>
 
       <div class="top10-item">
         <div class="top10-num">6</div>
-        <div class="top10-text"><strong>Cybersecurity Events Are Now Credit Events</strong>
-        IT risk failures can trigger regulatory restriction, deposit attrition, and capital impairment. IT governance must be a standard element of every credit assessment going forward.</div>
+        <div class="top10-text"><strong>NBFC — CP Rollover Window Is Narrowing Fast</strong>
+        NBFC CP volumes are down 18% MoM as MFs reduce limits. Any entity with CP &gt;20% of borrowings and maturities concentrated in the next 90 days faces a potential wall. Review the full NBFC portfolio rollover schedule today.</div>
       </div>
 
       <div class="top10-item">
         <div class="top10-num">7</div>
-        <div class="top10-text"><strong>Developer Finance HFCs Are in a Compliance Countdown</strong>
-        NHB norms give 24 months, but credit risk materialises the moment forced sell-downs begin. Identify which HFCs breach the new 10%/20% thresholds and model the P&amp;L impact today.</div>
+        <div class="top10-text"><strong>Housing Finance — NHB Developer Norms Trigger a Compliance Countdown</strong>
+        HFCs above the new 10%/20% developer exposure limits have 24 months to comply, but credit risk materialises the moment forced sell-downs begin. Identify which HFCs are non-compliant and model the P&amp;L and asset quality impact of the rundown today.</div>
       </div>
 
       <div class="top10-item">
         <div class="top10-num">8</div>
-        <div class="top10-text"><strong>Securitisation Volumes Are Misleading — Pool Quality Is What Matters</strong>
-        Stress-test pool performance using current collection data, not historical vintage curves from a benign credit environment.</div>
+        <div class="top10-text"><strong>Securitisation — Rising PTC Volumes Mask Deteriorating Pool Quality</strong>
+        PTC issuance up 22% YoY but pool seasoning is down to 4.2 months and credit enhancement is at minimums. Originators are rushing to transfer risk — that is itself the warning signal. Stress-test pool performance using current collection data, not historical vintage curves.</div>
       </div>
 
       <div class="top10-item">
         <div class="top10-num">9</div>
-        <div class="top10-text"><strong>Infrastructure Upgrade Cycle Is Real but Requires Scrutiny</strong>
-        Verify DSCR calculations use contracted off-take rates, not merchant, and that O&amp;M reserves are fully funded before confirming any upgrade recommendation.</div>
+        <div class="top10-text"><strong>Rating Actions — Negative Momentum in MFI, NBFC, and Manufacturing</strong>
+        4 downgrades in MFI/SFB, 3 in manufacturing, 2 HFCs on Watch Negative — versus 3 upgrades only in infrastructure/power. This late-cycle bifurcation is accelerating. Review portfolio sector concentration and flag over-exposure in stressed segments to the CRO before the weekly surveillance call.</div>
       </div>
 
       <div class="top10-item" style="border-bottom:none;">
         <div class="top10-num">10</div>
-        <div class="top10-text"><strong>The Rating Action Divergence Is Telling You Something</strong>
-        Infrastructure improving. NBFC/MFI/manufacturing deteriorating. Banking bifurcated. Classic late-cycle credit bifurcation. Review portfolio sector concentration and flag over-exposure in stressed segments to the CRO before the weekly surveillance call.</div>
+        <div class="top10-text"><strong>Broking &amp; Fintech — Higher Net Worth Norms Force Sector Consolidation</strong>
+        SEBI's revised broker net worth requirements (₹15 cr cash / ₹25 cr derivatives) will push smaller brokers toward M&amp;A or exit. Lenders with broker credit lines should assess compliance timelines. Cybersecurity at a large private bank is a reminder that IT risk is now a standalone credit dimension that must be assessed in every rating.</div>
       </div>
 
     </div>
