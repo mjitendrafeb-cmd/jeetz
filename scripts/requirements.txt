@@ -1,2 +1,4 @@
-# No third-party packages required.
-# smtplib and email.mime are part of the Python standard library.
+anthropic
+requests
+feedparser
+beautifulsoup4
