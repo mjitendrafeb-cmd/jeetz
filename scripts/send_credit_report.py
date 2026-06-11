@@ -91,17 +91,18 @@ Generic business news · Stock recommendations · Market gossip
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 OUTPUT FORMAT
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-Organise into these five sections. Only include a section if there is relevant news.
+Organise into these five sections in priority order:
 
-🔴 RATED ENTITIES   (P1 — watchlist companies)
-🟠 SECTOR DEVELOPMENTS   (P2 — NBFC / HFC / Broking / Fintech / FI)
-🟣 REGULATIONS   (P3 — RBI / SEBI / NHB)
-🔵 BOND & FUNDING MARKETS   (P4)
-⚫ MACRO   (P5)
+🔴 RATED ENTITIES & WATCHLIST
+🟠 SECTOR DEVELOPMENTS
+🟣 REGULATIONS
+🔵 BOND & FUNDING MARKETS
+⚫ MACRO
 
-For EACH item within a section:
+CRITICAL RULE FOR 🔴 RATED ENTITIES & WATCHLIST:
+Every news item tagged [WATCHLIST — CompanyName] in the input MUST appear under this section. Do not skip any watchlist company. If there are 10 watchlist items, show all 10 here. This section must ALWAYS be present.
 
-[RANK] — Critical / Important / Watchlist
+For EACH item:
 
 NEWS
 2–3 lines. What happened. Facts only. No background, no history.
@@ -109,15 +110,13 @@ NEWS
 → IMPLICATION
 2–3 lines. Why it matters for credit — rating, liquidity, asset quality, funding, governance, or capitalisation. No generic statements.
 
-[Source: Publication Name] <a href="URL" target="_blank" style="color:#4299e1;text-decoration:none;">↗</a>
-
-(Only include the link if a URL was provided after "| URL:" in the news item. Never invent a URL.)
+(Only include a source link if a URL was provided after "| URL:" in the news item. Never invent a URL.)
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 END WITH
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 📌 TOP 5 THINGS TO KNOW TODAY
-Exactly 5 points. One line each. Most critical first. Reference the section (e.g. 🔴 / 🟠 / 🟣).
+Exactly 5 points. One line each. Most important first. Reference the section emoji.
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 HTML RENDERING RULES
@@ -125,13 +124,13 @@ HTML RENDERING RULES
 Return ONLY inner HTML (no html/head/body tags). Use these CSS classes:
 
 Section header:
-<p class="section-label critical-label">🔴 RATED ENTITIES</p>
-(use critical-label for 🔴, important-label for 🟠, watchlist-label for 🟣, analyst-label for 🔵, top10-label for ⚫)
+<p class="section-label critical-label">🔴 RATED ENTITIES &amp; WATCHLIST</p>
+Use: critical-label for 🔴 · important-label for 🟠 · watchlist-label for 🟣 · analyst-label for 🔵 · top10-label for ⚫
 
-Each item:
+Each item (NO badge, NO rank label):
 <div class="content"><div class="item">
-  <p class="item-sector"><span class="badge badge-red">Critical</span> &nbsp; COMPANY / SECTOR</p>
-  <p class="item-title">HEADLINE</p>
+  <p class="item-title">COMPANY NAME — HEADLINE</p>
+  <p class="item-sector">SECTOR / SOURCE</p>
   <p class="sub-heading">News</p>
   <p>2–3 line factual summary.</p>
   <p class="sub-heading">Implication</p>
@@ -139,12 +138,11 @@ Each item:
   <div class="source-block">&#128279; Publication &nbsp;<a href="URL" target="_blank" style="color:#4299e1;text-decoration:none;">Read more ↗</a></div>
 </div></div>
 
-Badge classes: badge-red=Critical · badge-amber=Important · badge-blue=Watchlist
-
 Top 5 section:
 <p class="section-label top10-label">📌 Top 5 Things To Know Today</p>
 <div class="content"><div class="item">
   <div class="top10-item"><div class="top10-num">1</div><div class="top10-text">🔴 <strong>Company/Topic</strong> — one-line insight.</div></div>
+  <div class="top10-item"><div class="top10-num">2</div><div class="top10-text">🟠 <strong>Topic</strong> — one-line insight.</div></div>
   ... (all 5)
 </div></div>"""
 
