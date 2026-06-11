@@ -363,6 +363,7 @@
   <div class="tabs" role="tablist">
     <button class="tab-btn active" onclick="switchTab('watchlist',this)">Watchlist</button>
     <button class="tab-btn" onclick="switchTab('sources',this)">News Sources</button>
+    <button class="tab-btn" onclick="switchTab('telegram',this)">Telegram</button>
     <button class="tab-btn" onclick="switchTab('sections',this)">Sections</button>
     <button class="tab-btn" onclick="switchTab('settings',this)">Settings</button>
   </div>
@@ -464,9 +465,53 @@
         </label>
       </div>
 
+      <div class="toggle-row">
+        <div>
+          <div class="toggle-label">Telegram Channels</div>
+          <div class="toggle-desc">Messages from channels you add in the Telegram tab</div>
+        </div>
+        <label class="switch">
+          <input type="checkbox" id="src-telegram">
+          <span class="slider"></span>
+        </label>
+      </div>
+
       <div class="save-row">
         <span class="last-saved" id="src-saved"></span>
         <button class="btn btn-primary" onclick="saveSources()">Save Sources</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── TAB 3: TELEGRAM ── -->
+  <div id="tab-telegram" class="tab-pane">
+    <div class="card" style="border-left:4px solid #229ED9;">
+      <div class="card-title" style="color:#229ED9;">📱 How Telegram Integration Works</div>
+      <div class="card-hint" style="line-height:1.7;">
+        <strong>Step 1.</strong> Create a Telegram bot via <strong>@BotFather</strong> (type <code>/newbot</code>, copy the token).<br>
+        <strong>Step 2.</strong> Add the bot as an admin to each channel you want to monitor.<br>
+        <strong>Step 3.</strong> Paste the token in GitHub → Settings → Secrets as <code>TELEGRAM_BOT_TOKEN</code>.<br>
+        <strong>Step 4.</strong> Add channel usernames below (with or without @). Toggle "Telegram Channels" ON in News Sources.<br>
+        <br>
+        The report will include recent messages (last 24 h) from each channel tagged <code>[TELEGRAM — @channel]</code>.
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="loading-overlay" id="tg-loading"><div class="spinner" style="border-color:rgba(0,0,0,0.2);border-top-color:#1a1a2e;width:28px;height:28px;border-width:3px;"></div></div>
+      <div class="card-title">Telegram Channels <span class="count-badge" id="tg-count">0 channels</span></div>
+      <div class="card-hint">Add the username of each Telegram channel (e.g. <code>@economictimes</code> or <code>@rbiofficial</code>).</div>
+
+      <div id="telegram-channels-list" style="margin-bottom:12px;"></div>
+
+      <div style="display:flex;gap:10px;margin-bottom:6px;">
+        <input type="text" id="new-channel-input" placeholder="@channelname" style="flex:1;">
+        <button class="btn btn-green btn-sm" onclick="addChannel()">Add</button>
+      </div>
+
+      <div class="save-row">
+        <span class="last-saved" id="tg-saved"></span>
+        <button class="btn btn-primary" onclick="saveChannels()">Save Channels</button>
       </div>
     </div>
   </div>
@@ -571,6 +616,9 @@ const DEFAULT_SECTIONS = [
 // Live list of sections (loaded from config, editable)
 let _sections = [...DEFAULT_SECTIONS];
 
+// Live list of Telegram channels
+let _channels = [];
+
 /* ─────────────────────────────────────────────────────────
    STATE
 ───────────────────────────────────────────────────────── */
@@ -597,6 +645,10 @@ document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('new-recipient-input').addEventListener('keydown', e => {
     if (e.key === 'Enter') addRecipient();
   });
+  document.getElementById('new-channel-input').addEventListener('keydown', e => {
+    if (e.key === 'Enter') addChannel();
+  });
+  renderChannelsList();
 });
 
 function renderSectionsList() {
@@ -810,6 +862,7 @@ async function loadConfig() {
   setLoading('src', true);
   setLoading('sec', true);
   setLoading('cfg', true);
+  setLoading('tg', true);
   try {
     const data = await ghGet('config.json');
     _fileSHAs['config.json'] = data.sha;
@@ -824,12 +877,18 @@ async function loadConfig() {
   setLoading('src', false);
   setLoading('sec', false);
   setLoading('cfg', false);
+  setLoading('tg', false);
 }
 
 function populateSources(sources) {
+  ['rbi_rss','sebi_rss','google_news','newsapi','company_watchlist','telegram'].forEach(key => {
+    const el = document.getElementById('src-' + key);
+    if (el) el.checked = sources[key] === true;
+  });
+  // rbi/sebi/google/newsapi/watchlist default ON, telegram defaults OFF
   ['rbi_rss','sebi_rss','google_news','newsapi','company_watchlist'].forEach(key => {
     const el = document.getElementById('src-' + key);
-    if (el) el.checked = sources[key] !== false;
+    if (el && sources[key] === undefined) el.checked = true;
   });
 }
 
@@ -847,6 +906,10 @@ function populateSettings(cfg) {
     _recipients = [cfg.recipient];
   }
   renderRecipientsList();
+
+  // Populate telegram channels
+  _channels = Array.isArray(cfg.telegram_channels) ? [...cfg.telegram_channels] : [];
+  renderChannelsList();
 }
 
 /* ─────────────────────────────────────────────────────────
@@ -880,6 +943,7 @@ async function saveSources() {
       google_news: document.getElementById('src-google_news').checked,
       newsapi: document.getElementById('src-newsapi').checked,
       company_watchlist: document.getElementById('src-company_watchlist').checked,
+      telegram: document.getElementById('src-telegram').checked,
     };
     await pushConfig(cfg, 'Update news sources');
     setSaved('src');
@@ -965,6 +1029,59 @@ async function triggerReport() {
   status.style.display = 'block';
   btn.disabled = false;
   btn.innerHTML = '🚀 Trigger Test Report Now';
+}
+
+/* ─────────────────────────────────────────────────────────
+   TELEGRAM CHANNELS
+───────────────────────────────────────────────────────── */
+function renderChannelsList() {
+  const container = document.getElementById('telegram-channels-list');
+  if (!container) return;
+  const countEl = document.getElementById('tg-count');
+  if (countEl) countEl.textContent = _channels.length + ' channel' + (_channels.length === 1 ? '' : 's');
+  if (_channels.length === 0) {
+    container.innerHTML = '<p style="font-size:13px;color:#a0aec0;">No channels added yet.</p>';
+    return;
+  }
+  container.innerHTML = _channels.map((ch, i) => `
+    <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 12px;background:#f0f8ff;border-radius:8px;margin-bottom:8px;border-left:3px solid #229ED9;">
+      <span style="font-size:13px;color:#2d3748;font-family:'Courier New',monospace;">📱 ${ch}</span>
+      <button onclick="removeChannel(${i})" style="background:none;border:none;color:#fc8181;cursor:pointer;font-size:15px;padding:0 4px;" title="Remove">✕</button>
+    </div>
+  `).join('');
+}
+
+function addChannel() {
+  const input = document.getElementById('new-channel-input');
+  let val = input.value.trim();
+  if (!val) { showToast('Enter a channel username', 'error'); return; }
+  if (!val.startsWith('@')) val = '@' + val;
+  val = val.toLowerCase();
+  if (_channels.map(c => c.toLowerCase()).includes(val)) { showToast('Channel already in list', 'error'); return; }
+  _channels.push(val);
+  renderChannelsList();
+  input.value = '';
+  showToast('Channel added — click Save Channels to apply', 'success');
+}
+
+function removeChannel(idx) {
+  _channels.splice(idx, 1);
+  renderChannelsList();
+  showToast('Channel removed — click Save Channels to apply', 'success');
+}
+
+async function saveChannels() {
+  setLoading('tg', true);
+  try {
+    const cfg = getCurrentConfig();
+    cfg.telegram_channels = [..._channels];
+    await pushConfig(cfg, 'Update Telegram channels');
+    setSaved('tg');
+    showToast('Telegram channels saved ✓', 'success');
+  } catch(e) {
+    showToast('Save failed: ' + shortErr(e), 'error');
+  }
+  setLoading('tg', false);
 }
 
 /* ─────────────────────────────────────────────────────────

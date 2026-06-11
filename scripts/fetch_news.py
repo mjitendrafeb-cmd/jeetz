@@ -10,6 +10,8 @@ import json
 import requests
 import feedparser
 
+from fetch_telegram import fetch_telegram_channels
+
 
 def load_config() -> dict:
     """Load config.json from repo root. Returns empty dict on failure."""
@@ -220,6 +222,11 @@ def fetch_all_news(newsapi_key: str = "") -> str:
         all_items.extend(fetch_newsapi_news(newsapi_key))
     if src_on("company_watchlist"):
         all_items.extend(fetch_company_news())
+    if src_on("telegram"):
+        telegram_token = os.environ.get("TELEGRAM_BOT_TOKEN", "")
+        channels = cfg.get("telegram_channels", [])
+        if telegram_token and channels:
+            all_items.extend(fetch_telegram_channels(telegram_token, channels))
 
     # Deduplicate by normalised title (first segment before " — ")
     seen: set[str] = set()
