@@ -6,75 +6,45 @@
 # The report will fetch latest news for each company every day.
 # ============================================================
 
-# --- Banks ---
-HDFC Bank
-ICICI Bank
-State Bank of India
-Axis Bank
-Kotak Mahindra Bank
-Punjab National Bank
-Bank of Baroda
-Canara Bank
-IndusInd Bank
-Yes Bank
-RBL Bank
-IDFC First Bank
-
-# --- NBFCs ---
-Bajaj Finance
-Muthoot Finance
-Shriram Finance
-Cholamandalam Finance
-L&T Finance
-Piramal Finance
-Manappuram Finance
-IIFL Finance
-Aditya Birla Finance
-
-# --- Housing Finance ---
-LIC Housing Finance
-HDFC Ltd
-PNB Housing Finance
-Aavas Financiers
-Home First Finance
-Can Fin Homes
-
-# --- MFI / SFB ---
-Bandhan Bank
-AU Small Finance Bank
-Ujjivan Small Finance Bank
-Equitas Small Finance Bank
-CreditAccess Grameen
-Spandana Sphoorty
-Asirvad Micro Finance
-Arohan Financial Services
-
-# --- Infrastructure / Power ---
-Adani Ports
-Adani Green Energy
-Adani Enterprises
-Power Grid Corporation
-NTPC
-Torrent Power
-Tata Power
-
-# --- Real Estate ---
-DLF
-Godrej Properties
-Prestige Estates
-Sobha Ltd
-Macrotech Developers (Lodha)
-
-# --- Manufacturing / Mid-Corp ---
-Tata Steel
-JSW Steel
-Vedanta
-Hindalco
-Bharat Forge
-Amara Raja Energy
-
-# --- Rating Agencies ---
-CRISIL
-ICRA
-CareEdge Ratings
-India Ratings
+# --- Banks/NBFCs/FIs/Broking ---
+Alpha Alternatives Financial Services Private Limited
+Ambit Finvest Private Limited
+Anand Rathi Share and Stock Brokers Limited
+Aseem Infrastructure Finance Limited
+Auxilo Finserve Private Limited
+Avanse Financial Services Limited
+Avendus Finance Private Limited
+Credila Financial Services Limited
+D. S. Integrated FinSec Private Limited
+Earlysalary Services Private Limited
+Fedbank Financial Services Limited
+Hiranandani Financial Services Private Limited
+Indostar Capital Finance Limited
+Infinity Fincorp Solutions Private Limited
+Integro Finserv Private Limited
+Kaleidofin Capital Private Limited
+Khushbu Auto Finance Limited
+KISETSU Saison Finance (INDIA) Private Limited
+Manba Finance Limited
+Mantra Capital Limited
+Micro Units Development and Refinance Agency Limited
+MINTIFI Finserve Private Limited
+NABFINS Limited
+NABKISAN Finance Limited
+Netzero Finance Private Limited
+NIIF Infrastructure Finance Limited
+Nisus Finance Services Co Limited
+Profectus Capital Private Limited
+Red Fort Capital Finance Company Private Limited
+Shriram Credit Company Limited
+Shriram Insight Share Brokers Limited
+Small Industries Development Bank of India
+SMFG India Credit Company Limited
+SMFG India Home Finance Company Limited
+Spark Institutional Equities Private Limited
+STCI Finance Limited
+Svakarma Finance Private Limited
+Svamaan Financial Services Private Limited
+Svatantra Micro Housing Finance Corporation Limited
+Svatantra Microfin Limited
+Way2Wealth Brokers Private Limited
