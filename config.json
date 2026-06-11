@@ -17,15 +17,13 @@
     "@livemint"
   ],
   "sections": [
-    "RBI Developments",
-    "SEBI Developments",
+    "RBI/SEBI Developments",
     "Banking System Developments",
-    "NBFC Sector Developments",
-    "Housing Finance Developments",
+    "NBFC /Housing Finance Sector Developments",
     "Broking & Fintech Developments",
-    "Bond Market Developments",
-    "Commercial Paper Market Developments",
-    "Securitisation Developments",
-    "Rating Actions Announced"
+    "Bond Market/Commercial Paper Market Developments",
+    "Securitisation Market Developments",
+    "Rating Actions Announced",
+    "Macroeconomic Developments"
   ]
 }
