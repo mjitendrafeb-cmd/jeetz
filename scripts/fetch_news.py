@@ -12,6 +12,7 @@ import requests
 import feedparser
 
 from fetch_telegram import fetch_telegram_channels
+from fetch_web import fetch_all_web
 
 
 def load_config() -> dict:
@@ -248,6 +249,8 @@ def fetch_all_news(newsapi_key: str = "") -> str:
         channels = cfg.get("telegram_channels", [])
         if channels:
             all_items.extend(fetch_telegram_channels(channels))
+    if src_on("web_scraper"):
+        all_items.extend(fetch_all_web(cfg.get("web_sources", {})))
 
     # Deduplicate by normalised title
     seen: set[str] = set()

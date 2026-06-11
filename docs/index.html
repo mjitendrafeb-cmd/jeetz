@@ -476,6 +476,49 @@
         </label>
       </div>
 
+      <div class="toggle-row">
+        <div>
+          <div class="toggle-label">Rating Agency Web Scraper</div>
+          <div class="toggle-desc">CareEdge · CRISIL · ICRA · India Ratings · BSE · FIMMDA · CCIL</div>
+        </div>
+        <label class="switch">
+          <input type="checkbox" id="src-web_scraper" checked>
+          <span class="slider"></span>
+        </label>
+      </div>
+
+      <!-- Per-source web toggles (shown when web scraper is ON) -->
+      <div id="web-sources-detail" style="margin-left:16px;border-left:3px solid #e2e8f0;padding-left:16px;margin-top:4px;">
+        <div class="toggle-row" style="padding:8px 0;">
+          <div><div class="toggle-label" style="font-size:13px;">CareEdge Ratings</div></div>
+          <label class="switch"><input type="checkbox" id="ws-careedge" checked><span class="slider"></span></label>
+        </div>
+        <div class="toggle-row" style="padding:8px 0;">
+          <div><div class="toggle-label" style="font-size:13px;">CRISIL</div></div>
+          <label class="switch"><input type="checkbox" id="ws-crisil" checked><span class="slider"></span></label>
+        </div>
+        <div class="toggle-row" style="padding:8px 0;">
+          <div><div class="toggle-label" style="font-size:13px;">ICRA</div></div>
+          <label class="switch"><input type="checkbox" id="ws-icra" checked><span class="slider"></span></label>
+        </div>
+        <div class="toggle-row" style="padding:8px 0;">
+          <div><div class="toggle-label" style="font-size:13px;">India Ratings (Fitch)</div></div>
+          <label class="switch"><input type="checkbox" id="ws-india_ratings" checked><span class="slider"></span></label>
+        </div>
+        <div class="toggle-row" style="padding:8px 0;">
+          <div><div class="toggle-label" style="font-size:13px;">BSE Announcements</div></div>
+          <label class="switch"><input type="checkbox" id="ws-bse" checked><span class="slider"></span></label>
+        </div>
+        <div class="toggle-row" style="padding:8px 0;">
+          <div><div class="toggle-label" style="font-size:13px;">FIMMDA</div></div>
+          <label class="switch"><input type="checkbox" id="ws-fimmda" checked><span class="slider"></span></label>
+        </div>
+        <div class="toggle-row" style="padding:8px 0;">
+          <div><div class="toggle-label" style="font-size:13px;">CCIL</div></div>
+          <label class="switch"><input type="checkbox" id="ws-ccil" checked><span class="slider"></span></label>
+        </div>
+      </div>
+
       <div class="save-row">
         <span class="last-saved" id="src-saved"></span>
         <button class="btn btn-primary" onclick="saveSources()">Save Sources</button>
@@ -910,6 +953,7 @@ async function loadConfig() {
     const cfg = JSON.parse(decodeContent(data.content));
     _configCache = cfg;
     populateSources(cfg.sources || {});
+    populateWebSources(cfg.web_sources || {});
     populateSections(cfg.sections || []);
     populateSettings(cfg);
   } catch(e) {
@@ -922,14 +966,25 @@ async function loadConfig() {
 }
 
 function populateSources(sources) {
-  ['rbi_rss','sebi_rss','google_news','newsapi','company_watchlist','telegram'].forEach(key => {
+  ['rbi_rss','sebi_rss','google_news','newsapi','company_watchlist','web_scraper'].forEach(key => {
     const el = document.getElementById('src-' + key);
-    if (el) el.checked = sources[key] === true;
+    if (el) el.checked = sources[key] !== false;
   });
-  // rbi/sebi/google/newsapi/watchlist default ON, telegram defaults OFF
-  ['rbi_rss','sebi_rss','google_news','newsapi','company_watchlist'].forEach(key => {
-    const el = document.getElementById('src-' + key);
-    if (el && sources[key] === undefined) el.checked = true;
+  const telEl = document.getElementById('src-telegram');
+  if (telEl) telEl.checked = sources['telegram'] === true;
+}
+
+function populateWebSources(webSources) {
+  ['careedge','crisil','icra','india_ratings','bse','fimmda','ccil'].forEach(key => {
+    const el = document.getElementById('ws-' + key);
+    if (el) el.checked = webSources[key] !== false;
+  });
+  // Show/hide detail panel
+  const detail = document.getElementById('web-sources-detail');
+  const master = document.getElementById('src-web_scraper');
+  if (detail && master) detail.style.display = master.checked ? 'block' : 'none';
+  if (master) master.addEventListener('change', () => {
+    if (detail) detail.style.display = master.checked ? 'block' : 'none';
   });
 }
 
@@ -985,6 +1040,16 @@ async function saveSources() {
       newsapi: document.getElementById('src-newsapi').checked,
       company_watchlist: document.getElementById('src-company_watchlist').checked,
       telegram: document.getElementById('src-telegram').checked,
+      web_scraper: document.getElementById('src-web_scraper').checked,
+    };
+    cfg.web_sources = {
+      careedge: document.getElementById('ws-careedge').checked,
+      crisil: document.getElementById('ws-crisil').checked,
+      icra: document.getElementById('ws-icra').checked,
+      india_ratings: document.getElementById('ws-india_ratings').checked,
+      bse: document.getElementById('ws-bse').checked,
+      fimmda: document.getElementById('ws-fimmda').checked,
+      ccil: document.getElementById('ws-ccil').checked,
     };
     await pushConfig(cfg, 'Update news sources');
     setSaved('src');

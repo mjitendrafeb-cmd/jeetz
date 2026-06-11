@@ -9,7 +9,17 @@
     "google_news": true,
     "newsapi": true,
     "company_watchlist": true,
-    "telegram": true
+    "telegram": true,
+    "web_scraper": true
+  },
+  "web_sources": {
+    "careedge": true,
+    "crisil": true,
+    "icra": true,
+    "india_ratings": true,
+    "bse": true,
+    "fimmda": true,
+    "ccil": true
   },
   "telegram_channels": [
     "@bank_nbfc_fintech",
