@@ -667,14 +667,23 @@ document.addEventListener('DOMContentLoaded', () => {
 function renderSectionsList() {
   const container = document.getElementById('sections-list');
   container.innerHTML = _sections.map((s, i) => `
-    <div class="check-row" style="justify-content:space-between;">
-      <label style="display:flex;align-items:center;gap:0;flex:1;cursor:pointer;">
-        <input type="checkbox" class="section-cb" data-section="${s}" checked style="margin-right:12px;width:18px;height:18px;accent-color:#4299e1;flex-shrink:0;cursor:pointer;">
-        <span style="font-size:14px;color:#2d3748;">${s}</span>
-      </label>
+    <div class="check-row" style="justify-content:space-between;gap:8px;">
+      <input type="checkbox" class="section-cb" data-idx="${i}" checked style="width:18px;height:18px;accent-color:#4299e1;flex-shrink:0;cursor:pointer;margin-right:4px;">
+      <input type="text" class="section-name-input" data-idx="${i}" value="${s.replace(/"/g, '&quot;')}"
+        style="flex:1;border:1.5px solid #e2e8f0;border-radius:6px;padding:6px 10px;font-size:14px;color:#2d3748;font-family:inherit;outline:none;min-width:0;"
+        onchange="renameSection(${i}, this.value)"
+        onfocus="this.style.borderColor='#4299e1'"
+        onblur="this.style.borderColor='#e2e8f0'">
       <button onclick="removeSection(${i})" style="background:none;border:none;color:#fc8181;cursor:pointer;font-size:16px;padding:0 4px;flex-shrink:0;" title="Remove section">✕</button>
     </div>
   `).join('');
+}
+
+function renameSection(idx, newName) {
+  newName = newName.trim();
+  if (!newName) { showToast('Section name cannot be empty', 'error'); renderSectionsList(); return; }
+  _sections[idx] = newName;
+  showToast('Name updated — click Save Sections to apply', 'success');
 }
 
 function addCustomSection() {
@@ -974,9 +983,9 @@ async function saveSections() {
   setLoading('sec', true);
   try {
     const cfg = getCurrentConfig();
-    // Save only checked sections in current order
-    cfg.sections = _sections.filter(s => {
-      const cb = document.querySelector(`.section-cb[data-section="${CSS.escape(s)}"]`);
+    // Save only checked sections (by index) in current order
+    cfg.sections = _sections.filter((s, i) => {
+      const cb = document.querySelector(`.section-cb[data-idx="${i}"]`);
       return cb ? cb.checked : true;
     });
     await pushConfig(cfg, 'Update report sections');
