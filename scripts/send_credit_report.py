@@ -63,80 +63,90 @@ _DEFAULT_SECTIONS = [
 
 
 def _build_prompt(news_text: str, day_str: str, date_str: str) -> str:
-    cfg = _load_config()
-    sections = cfg.get("sections") or _DEFAULT_SECTIONS
-    sections_text = "\n".join(f"- {s}" for s in sections)
-
-    return f"""You are a Senior Credit Analyst at CareEdge Ratings, India's leading credit rating agency.
+    return f"""You are a Credit Rating Intelligence Agent at CareEdge Ratings.
 Today is {day_str}, {date_str}.
 
 NEWS ITEMS (each may include a source URL after "| URL:"):
 
 {news_text}
 
-Generate a Daily Credit Intelligence Report in TWO parts. Use ONLY the news above.
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+YOUR OBJECTIVE
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+You are NOT summarising news. You are identifying developments that could affect:
+1. Rating outlook  2. Liquidity  3. Funding access  4. Asset quality
+5. Capitalisation  6. Governance  7. Earnings stability
+
+PRIORITY ORDER (process in this sequence):
+P1 — Rated entities and watchlist ([WATCHLIST — Company] items)
+P2 — NBFC, HFC, Broking, Fintech, FI sector developments
+P3 — RBI, SEBI, NHB regulations
+P4 — Bond and money markets
+P5 — Macroeconomic developments
+
+IGNORE COMPLETELY (do not include):
+Product launches · CSR activities · Marketing announcements · Awards ·
+Generic business news · Stock recommendations · Market gossip
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-PART 1 — TOP 10 RISK ALERTS
+OUTPUT FORMAT
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-Pick the 10 most credit-risk-significant items from ANY section. Order by severity — most critical first. Do NOT group by section.
+Organise into these five sections. Only include a section if there is relevant news.
 
-Start Part 1 with this header, then wrap all 10 items in a content div:
-<p class="section-label critical-label">&#9888; TOP 10 RISK ALERTS — Ranked by Severity</p>
-<div class="content">
+🔴 RATED ENTITIES   (P1 — watchlist companies)
+🟠 SECTOR DEVELOPMENTS   (P2 — NBFC / HFC / Broking / Fintech / FI)
+🟣 REGULATIONS   (P3 — RBI / SEBI / NHB)
+🔵 BOND & FUNDING MARKETS   (P4)
+⚫ MACRO   (P5)
 
-Output for each item (numbered 01–10):
-<div class="top-risk-item">
-  <div class="risk-rank">01</div>
-  <div class="risk-body">
-    <p class="item-title">HEADLINE TITLE</p>
-    <p class="item-sector">SECTION &nbsp;|&nbsp; <span class="badge badge-red">Critical</span></p>
-    <p class="risk-summary">One sentence: what happened and the core credit risk.</p>
-    <ul class="impl-list">
-      <li>Risk point 1 — specific and actionable</li>
-      <li>Risk point 2 — specific and actionable</li>
-      <li>Risk point 3 — only if genuinely material</li>
-    </ul>
-    <div class="source-block">&#128279; Publication Name &nbsp;<a href="ACTUAL_URL" target="_blank" style="color:#4299e1;text-decoration:none;">Read more ↗</a></div>
-  </div>
-</div>
+For EACH item within a section:
 
-Close the content div after all 10 items: </div>
+[RANK] — Critical / Important / Watchlist
 
-If no URL was provided for an item, omit the anchor tag entirely.
-Use badge-red for Critical, badge-amber for Important, badge-blue for Watchlist.
+NEWS
+2–3 lines. What happened. Facts only. No background, no history.
+
+→ IMPLICATION
+2–3 lines. Why it matters for credit — rating, liquidity, asset quality, funding, governance, or capitalisation. No generic statements.
+
+[Source: Publication Name] <a href="URL" target="_blank" style="color:#4299e1;text-decoration:none;">↗</a>
+
+(Only include the link if a URL was provided after "| URL:" in the news item. Never invent a URL.)
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-PART 2 — FULL REPORT BY SECTION
+END WITH
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-Cover ALL sections below. For items already in Part 1, include a one-line cross-reference ("Covered in Risk Alert #N"). For new items, write the full entry. If no news for a section, write "No significant developments today."
+📌 TOP 5 THINGS TO KNOW TODAY
+Exactly 5 points. One line each. Most critical first. Reference the section (e.g. 🔴 / 🟠 / 🟣).
 
-Sections to cover:
-{sections_text}
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+HTML RENDERING RULES
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Return ONLY inner HTML (no html/head/body tags). Use these CSS classes:
 
-For each section:
-<p class="section-label important-label">&#9654; SECTION NAME</p>
-<div class="content">
-  <div class="item">
-    <p class="item-title">HEADLINE TITLE</p>
-    <p class="item-sector">SECTOR &nbsp;|&nbsp; <span class="badge badge-amber">Important</span></p>
-    <p>What happened in 1-2 sentences.</p>
-    <p class="sub-heading">Credit Implications</p>
-    <ul class="impl-list">
-      <li>Point 1 — sharp, risk-focused</li>
-      <li>Point 2 — sharp, risk-focused</li>
-    </ul>
-    <div class="source-block">&#128279; Publication Name &nbsp;<a href="ACTUAL_URL" target="_blank" style="color:#4299e1;text-decoration:none;">Read more ↗</a></div>
-  </div>
-</div>
+Section header:
+<p class="section-label critical-label">🔴 RATED ENTITIES</p>
+(use critical-label for 🔴, important-label for 🟠, watchlist-label for 🟣, analyst-label for 🔵, top10-label for ⚫)
 
-Rules:
-- 2-3 credit implication bullets max — no padding, no generic statements
-- For critical items use critical-label and badge-red; important → important-label + badge-amber; watchlist → watchlist-label + badge-blue
-- [WATCHLIST — Company] items: include company name in bold in the title, place under the most relevant section
-- Only use a URL that was explicitly provided in the news item after "| URL:" — do not invent URLs
+Each item:
+<div class="content"><div class="item">
+  <p class="item-sector"><span class="badge badge-red">Critical</span> &nbsp; COMPANY / SECTOR</p>
+  <p class="item-title">HEADLINE</p>
+  <p class="sub-heading">News</p>
+  <p>2–3 line factual summary.</p>
+  <p class="sub-heading">Implication</p>
+  <p>2–3 line credit implication.</p>
+  <div class="source-block">&#128279; Publication &nbsp;<a href="URL" target="_blank" style="color:#4299e1;text-decoration:none;">Read more ↗</a></div>
+</div></div>
 
-Return ONLY the inner HTML. No html/head/body tags."""
+Badge classes: badge-red=Critical · badge-amber=Important · badge-blue=Watchlist
+
+Top 5 section:
+<p class="section-label top10-label">📌 Top 5 Things To Know Today</p>
+<div class="content"><div class="item">
+  <div class="top10-item"><div class="top10-num">1</div><div class="top10-text">🔴 <strong>Company/Topic</strong> — one-line insight.</div></div>
+  ... (all 5)
+</div></div>"""
 
 
 # ---------------------------------------------------------------------------
@@ -346,32 +356,29 @@ def build_html(inner_html: str, today: datetime.date) -> str:
     border-radius: 6px;
     border-left: 3px solid #e2e8f0;
   }}
-  /* ── TOP RISK ITEMS ── */
-  .top-risk-item {{
+  /* ── TOP 5 / TOP 10 ── */
+  .top10-item {{
     display: flex;
-    gap: 16px;
-    padding: 18px 0;
+    gap: 14px;
+    padding: 12px 0;
     border-bottom: 1px solid #f1f5f9;
     align-items: flex-start;
   }}
-  .top-risk-item:last-child {{ border-bottom: none; }}
-  .risk-rank {{
-    font-size: 24px;
+  .top10-item:last-child {{ border-bottom: none; }}
+  .top10-num {{
+    font-size: 20px;
     font-weight: 800;
-    color: #ef4444;
-    min-width: 36px;
-    line-height: 1.1;
+    color: #8b5cf6;
+    min-width: 28px;
+    line-height: 1.2;
     flex-shrink: 0;
-    font-variant-numeric: tabular-nums;
   }}
-  .risk-body {{ flex: 1; min-width: 0; }}
-  .risk-summary {{
+  .top10-text {{
     font-size: 13.5px;
     line-height: 1.7;
-    color: #1e293b;
-    font-weight: 500;
-    margin: 0 0 10px 0;
+    color: #475569;
   }}
+  .top10-text strong {{ color: #0f172a; }}
   /* ── FOOTER ── */
   .footer {{
     background: #0f172a;
