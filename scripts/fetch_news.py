@@ -223,10 +223,9 @@ def fetch_all_news(newsapi_key: str = "") -> str:
     if src_on("company_watchlist"):
         all_items.extend(fetch_company_news())
     if src_on("telegram"):
-        telegram_token = os.environ.get("TELEGRAM_BOT_TOKEN", "")
         channels = cfg.get("telegram_channels", [])
-        if telegram_token and channels:
-            all_items.extend(fetch_telegram_channels(telegram_token, channels))
+        if channels:
+            all_items.extend(fetch_telegram_channels(channels))
 
     # Deduplicate by normalised title (first segment before " — ")
     seen: set[str] = set()
