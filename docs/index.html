@@ -667,8 +667,13 @@ document.addEventListener('DOMContentLoaded', () => {
 function renderSectionsList() {
   const container = document.getElementById('sections-list');
   container.innerHTML = _sections.map((s, i) => `
-    <div class="check-row" style="justify-content:space-between;gap:8px;">
-      <input type="checkbox" class="section-cb" data-idx="${i}" checked style="width:18px;height:18px;accent-color:#4299e1;flex-shrink:0;cursor:pointer;margin-right:4px;">
+    <div class="check-row" style="justify-content:space-between;gap:6px;align-items:center;">
+      <div style="display:flex;flex-direction:column;gap:1px;flex-shrink:0;">
+        <button onclick="moveSectionUp(${i})" ${i === 0 ? 'disabled' : ''} style="background:none;border:1px solid #e2e8f0;border-radius:4px;color:#718096;cursor:pointer;font-size:10px;padding:1px 5px;line-height:1.4;${i === 0 ? 'opacity:0.3;' : ''}">▲</button>
+        <button onclick="moveSectionDown(${i})" ${i === _sections.length - 1 ? 'disabled' : ''} style="background:none;border:1px solid #e2e8f0;border-radius:4px;color:#718096;cursor:pointer;font-size:10px;padding:1px 5px;line-height:1.4;${i === _sections.length - 1 ? 'opacity:0.3;' : ''}">▼</button>
+      </div>
+      <span style="font-size:11px;color:#a0aec0;font-weight:700;min-width:18px;text-align:center;flex-shrink:0;">${i + 1}</span>
+      <input type="checkbox" class="section-cb" data-idx="${i}" checked style="width:18px;height:18px;accent-color:#4299e1;flex-shrink:0;cursor:pointer;">
       <input type="text" class="section-name-input" data-idx="${i}" value="${s.replace(/"/g, '&quot;')}"
         style="flex:1;border:1.5px solid #e2e8f0;border-radius:6px;padding:6px 10px;font-size:14px;color:#2d3748;font-family:inherit;outline:none;min-width:0;"
         onchange="renameSection(${i}, this.value)"
@@ -677,6 +682,20 @@ function renderSectionsList() {
       <button onclick="removeSection(${i})" style="background:none;border:none;color:#fc8181;cursor:pointer;font-size:16px;padding:0 4px;flex-shrink:0;" title="Remove section">✕</button>
     </div>
   `).join('');
+}
+
+function moveSectionUp(idx) {
+  if (idx === 0) return;
+  [_sections[idx - 1], _sections[idx]] = [_sections[idx], _sections[idx - 1]];
+  renderSectionsList();
+  showToast('Moved up — click Save Sections to apply', 'success');
+}
+
+function moveSectionDown(idx) {
+  if (idx === _sections.length - 1) return;
+  [_sections[idx], _sections[idx + 1]] = [_sections[idx + 1], _sections[idx]];
+  renderSectionsList();
+  showToast('Moved down — click Save Sections to apply', 'success');
 }
 
 function renameSection(idx, newName) {
