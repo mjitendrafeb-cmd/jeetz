@@ -66,35 +66,71 @@ def _build_prompt(news_text: str, day_str: str, date_str: str) -> str:
     return f"""You are a Senior Credit Strategist at CareEdge Ratings, India's leading credit rating agency.
 Today is {day_str}, {date_str}.
 
-Below are today's live news headlines from RBI, SEBI, and Indian financial news sources:
+Below are today's live news headlines from RBI, SEBI, Indian financial news sources, and company-specific watchlist news (marked [WATCHLIST — Company]):
 
 {news_text}
 
-Generate a Daily Credit Intelligence Report covering these {n} sections. Use ONLY the news provided above — do not invent events not in the news. If a section has no relevant news, write a short "No significant developments today" note.
+Generate a complete Daily Credit Intelligence Report. Use ONLY the news provided above. If a section has no relevant news, write "No significant developments today."
 
-Sections to cover:
+PART 1 — MAIN REPORT (10 sections)
+Cover these {n} sections:
 {sections_text}
 
 For EACH news item provide:
 - Rank it: CRITICAL / IMPORTANT / WATCHLIST
 - What Happened (2-3 sentences, factual)
-- Why It Matters (credit significance, 2-3 sentences)
 - Credit Implications (3-5 bullet points)
-- Impact on 6 dimensions: Liquidity, Capitalisation, Asset Quality, Profitability, Governance, Funding Access — each rated Positive/Negative/Neutral with one-line commentary
+- Source (publication name)
 
-End with Top 10 Things a Rating Analyst Should Know Today — each point tagged to a section, one actionable paragraph each.
+For any [WATCHLIST — CompanyName] headlines, make sure to include them under the relevant section with the company name highlighted.
+
+PART 2 — ANALYST DEVELOPMENT
+Pick ONE credit concept relevant to today's news. Write a 200-word educational note covering:
+- What the concept is
+- Why it matters today (link to a specific news item)
+- 3 key things an analyst should check
+
+PART 3 — TOP 10 THINGS A RATING ANALYST SHOULD KNOW TODAY
+Write exactly 10 points. Each point must:
+- Reference a specific news item from today
+- Be tagged to a section (e.g. RBI / Banking / NBFC)
+- Give one clear, actionable insight
 
 Return ONLY inner HTML using these exact CSS classes (no html/head/body tags):
-- Section headers: <p class="section-label critical-label">...</p> or important-label or watchlist-label
-- Items: <div class="item"><p class="item-title">...</p><p class="item-sector">SECTOR | <span class="badge badge-red">Critical</span></p>...
-- Sub-headings: <p class="sub-heading">What Happened</p>
-- Paragraphs: <p>...</p>
-- Impact table: <table class="impact-table"><tr><th>Dimension</th><th>Impact</th><th>Commentary</th></tr><tr><td>Liquidity</td><td><span class="badge badge-red">Negative</span></td><td>explanation</td></tr>...</table>
-- Sources: <div class="source-block">&#128279; Source: publication name and context</div>
-- Top 10 section: <p class="section-label top10-label">&#127942; Top 10 Things to Know Today</p><div class="content"><div class="item"><div class="top10-item"><div class="top10-num">1</div><div class="top10-text"><strong>SECTION — Title</strong> paragraph</div></div>...</div></div>
-- Badge colours: badge-red=Critical/Negative, badge-amber=Important/Mildly Negative, badge-blue=Watchlist/Neutral, badge-green=Positive/Improving
 
-Wrap each section's items in: <div class="content">...</div>"""
+Section structure:
+<p class="section-label critical-label">&#9888; Critical</p>
+<div class="content">
+  <div class="item">
+    <p class="item-title">TITLE HERE</p>
+    <p class="item-sector">SECTOR &nbsp;|&nbsp; <span class="badge badge-red">Critical</span></p>
+    <p class="sub-heading">What Happened</p>
+    <p>...</p>
+    <p class="sub-heading">Credit Implications</p>
+    <ul class="impl-list"><li>...</li><li>...</li></ul>
+    <div class="source-block">&#128279; Source: publication name</div>
+  </div>
+</div>
+
+For Important items use: important-label and badge-amber
+For Watchlist items use: watchlist-label and badge-blue
+
+Analyst Development section:
+<p class="section-label analyst-label">&#128218; Analyst Development — [Topic]</p>
+<div class="content"><div class="item">
+  <p class="item-title">[Topic Title]</p>
+  <p>Content here...</p>
+</div></div>
+
+Top 10 section:
+<p class="section-label top10-label">&#127942; Top 10 Things to Know Today</p>
+<div class="content"><div class="item">
+  <div class="top10-item"><div class="top10-num">1</div><div class="top10-text"><strong>SECTION — Title</strong> Actionable insight paragraph.</div></div>
+  <div class="top10-item"><div class="top10-num">2</div><div class="top10-text"><strong>SECTION — Title</strong> Actionable insight paragraph.</div></div>
+  ... (all 10)
+</div></div>
+
+Badge colours: badge-red=Critical/Negative, badge-amber=Important, badge-blue=Watchlist/Neutral, badge-green=Positive"""
 
 
 # ---------------------------------------------------------------------------
@@ -109,9 +145,9 @@ def generate_report(news_text: str, today: datetime.date, api_key: str) -> str:
     day_str = today.strftime("%A")
     date_str = today.strftime("%d %B %Y")
 
-    # Trim news to max 6000 chars to stay well within input token limits
-    if len(news_text) > 6000:
-        news_text = news_text[:6000] + "\n[...truncated for length]"
+    # Trim news to max 10000 chars — enough for all sources including watchlist
+    if len(news_text) > 10000:
+        news_text = news_text[:10000] + "\n[...truncated for length]"
 
     prompt = _build_prompt(news_text, day_str, date_str)
 
@@ -119,7 +155,7 @@ def generate_report(news_text: str, today: datetime.date, api_key: str) -> str:
         client = anthropic.Anthropic(api_key=api_key)
         message = client.messages.create(
             model="claude-sonnet-4-6",
-            max_tokens=6000,
+            max_tokens=8000,
             messages=[{"role": "user", "content": prompt}],
         )
         return message.content[0].text
@@ -153,206 +189,198 @@ def build_html(inner_html: str, today: datetime.date) -> str:
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
   body {{
-    font-family: 'Segoe UI', Arial, sans-serif;
-    background: #f4f4f4;
-    margin: 0; padding: 0;
-    color: #1a1a2e;
+    font-family: 'Inter', 'Segoe UI', Arial, sans-serif;
+    background: #eef2f7;
+    margin: 0; padding: 20px 0;
+    color: #1e293b;
   }}
   .wrapper {{
-    max-width: 780px;
-    margin: 24px auto;
+    max-width: 700px;
+    margin: 0 auto;
     background: #ffffff;
-    border-radius: 8px;
+    border-radius: 12px;
     overflow: hidden;
-    box-shadow: 0 2px 12px rgba(0,0,0,0.10);
+    box-shadow: 0 4px 24px rgba(0,0,0,0.10);
   }}
+  /* ── HEADER ── */
   .header {{
-    background: #1a1a2e;
+    background: linear-gradient(135deg, #0f172a 0%, #1e3a5f 100%);
     color: #ffffff;
-    padding: 28px 36px 20px 36px;
+    padding: 32px 40px 24px;
+  }}
+  .header-top {{
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
   }}
   .header h1 {{
-    margin: 0 0 4px 0;
-    font-size: 22px;
-    letter-spacing: 1px;
+    margin: 0 0 6px 0;
+    font-size: 20px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
     text-transform: uppercase;
   }}
   .header .date {{
     font-size: 13px;
-    color: #a0aec0;
+    color: #94a3b8;
     margin: 0;
+    font-weight: 400;
+  }}
+  .header-badge {{
+    background: rgba(255,255,255,0.1);
+    color: #cbd5e1;
+    font-size: 10px;
+    font-weight: 600;
+    padding: 4px 10px;
+    border-radius: 20px;
+    white-space: nowrap;
+    letter-spacing: 0.5px;
   }}
   .header .tagline {{
-    font-size: 11px;
-    color: #718096;
-    margin-top: 8px;
-    border-top: 1px solid #2d3748;
-    padding-top: 10px;
+    font-size: 10px;
+    color: #475569;
+    margin-top: 16px;
+    padding-top: 12px;
+    border-top: 1px solid rgba(255,255,255,0.08);
+    letter-spacing: 0.3px;
   }}
+  /* ── SECTION LABELS ── */
   .section-label {{
-    font-size: 11px;
+    font-size: 10px;
     font-weight: 700;
     letter-spacing: 2px;
     text-transform: uppercase;
-    padding: 6px 36px;
+    padding: 10px 40px;
     margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
   }}
-  .critical-label  {{ background: #fff5f5; color: #c53030; border-left: 4px solid #c53030; }}
-  .important-label {{ background: #fffbeb; color: #b7791f; border-left: 4px solid #d97706; }}
-  .watchlist-label {{ background: #ebf8ff; color: #2b6cb0; border-left: 4px solid #3182ce; }}
-  .analyst-label   {{ background: #f0fff4; color: #276749; border-left: 4px solid #38a169; }}
-  .top10-label     {{ background: #faf5ff; color: #553c9a; border-left: 4px solid #6b46c1; }}
-  .content {{ padding: 0 36px; }}
+  .critical-label  {{ background: #fef2f2; color: #b91c1c; border-left: 3px solid #ef4444; }}
+  .important-label {{ background: #fffbeb; color: #92400e; border-left: 3px solid #f59e0b; }}
+  .watchlist-label {{ background: #eff6ff; color: #1d4ed8; border-left: 3px solid #3b82f6; }}
+  .analyst-label   {{ background: #f0fdf4; color: #15803d; border-left: 3px solid #22c55e; }}
+  .top10-label     {{ background: #faf5ff; color: #6d28d9; border-left: 3px solid #8b5cf6; }}
+  /* ── CONTENT AREA ── */
+  .content {{ padding: 0 40px; }}
   .item {{
-    border-bottom: 1px solid #edf2f7;
-    padding: 20px 0;
+    padding: 22px 0;
+    border-bottom: 1px solid #f1f5f9;
   }}
   .item:last-child {{ border-bottom: none; }}
   .item-title {{
-    font-size: 14px;
+    font-size: 15px;
     font-weight: 700;
-    color: #1a1a2e;
-    margin: 0 0 4px 0;
+    color: #0f172a;
+    margin: 0 0 6px 0;
+    line-height: 1.4;
   }}
   .item-sector {{
     font-size: 11px;
-    color: #718096;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    margin: 0 0 10px 0;
-  }}
-  .item p {{
-    font-size: 13px;
-    line-height: 1.7;
-    color: #4a5568;
-    margin: 0 0 10px 0;
-  }}
-  .sub-heading {{
-    font-size: 11px;
-    font-weight: 700;
+    color: #94a3b8;
     text-transform: uppercase;
     letter-spacing: 0.8px;
-    color: #2d3748;
-    margin: 12px 0 4px 0;
+    margin: 0 0 14px 0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
   }}
-  .impact-table {{
-    width: 100%;
-    border-collapse: collapse;
-    font-size: 12px;
-    margin: 10px 0;
+  .item p {{
+    font-size: 13.5px;
+    line-height: 1.75;
+    color: #475569;
+    margin: 0 0 12px 0;
   }}
-  .impact-table th {{
-    background: #f7fafc;
-    color: #4a5568;
-    font-weight: 600;
-    text-align: left;
-    padding: 6px 10px;
-    border: 1px solid #e2e8f0;
-  }}
-  .impact-table td {{
-    padding: 6px 10px;
-    border: 1px solid #e2e8f0;
-    vertical-align: top;
-    color: #4a5568;
-  }}
-  .impact-table td:first-child {{
-    font-weight: 600;
-    color: #2d3748;
-    white-space: nowrap;
-    width: 130px;
-  }}
-  .badge {{
-    display: inline-block;
+  .sub-heading {{
     font-size: 10px;
     font-weight: 700;
-    padding: 2px 7px;
-    border-radius: 4px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #64748b;
+    margin: 16px 0 6px 0;
+    padding-bottom: 4px;
+    border-bottom: 1px solid #f1f5f9;
+  }}
+  .impl-list {{
+    margin: 6px 0 12px 0;
+    padding-left: 18px;
+    color: #475569;
+    font-size: 13.5px;
+    line-height: 1.8;
+  }}
+  .impl-list li {{ margin-bottom: 4px; }}
+  /* ── BADGES ── */
+  .badge {{
+    display: inline-flex;
+    align-items: center;
+    font-size: 10px;
+    font-weight: 600;
+    padding: 3px 8px;
+    border-radius: 20px;
     text-transform: uppercase;
     letter-spacing: 0.5px;
-    margin-right: 4px;
   }}
-  .badge-red    {{ background: #fff5f5; color: #c53030; border: 1px solid #feb2b2; }}
-  .badge-amber  {{ background: #fffbeb; color: #b7791f; border: 1px solid #fbd38d; }}
-  .badge-green  {{ background: #f0fff4; color: #276749; border: 1px solid #9ae6b4; }}
-  .badge-blue   {{ background: #ebf8ff; color: #2b6cb0; border: 1px solid #bee3f8; }}
-  .source-link {{
-    font-size: 11px;
-    color: #4299e1;
-    text-decoration: none;
-  }}
+  .badge-red   {{ background: #fee2e2; color: #b91c1c; }}
+  .badge-amber {{ background: #fef3c7; color: #92400e; }}
+  .badge-green {{ background: #dcfce7; color: #15803d; }}
+  .badge-blue  {{ background: #dbeafe; color: #1d4ed8; }}
+  /* ── SOURCE BLOCK ── */
   .source-block {{
     font-size: 11px;
-    color: #718096;
-    margin-top: 8px;
-    padding: 6px 10px;
-    background: #f7fafc;
-    border-radius: 4px;
-    border-left: 3px solid #cbd5e0;
+    color: #94a3b8;
+    margin-top: 12px;
+    padding: 8px 12px;
+    background: #f8fafc;
+    border-radius: 6px;
+    border-left: 3px solid #e2e8f0;
   }}
+  /* ── TOP 10 ── */
   .top10-item {{
     display: flex;
-    padding: 10px 0;
-    border-bottom: 1px solid #edf2f7;
-    font-size: 13px;
-    line-height: 1.6;
-    color: #4a5568;
+    gap: 16px;
+    padding: 14px 0;
+    border-bottom: 1px solid #f1f5f9;
+    align-items: flex-start;
   }}
+  .top10-item:last-child {{ border-bottom: none; }}
   .top10-num {{
-    font-size: 18px;
+    font-size: 22px;
     font-weight: 700;
-    color: #6b46c1;
-    min-width: 36px;
-    padding-top: 1px;
+    color: #8b5cf6;
+    min-width: 32px;
+    line-height: 1.2;
+    flex-shrink: 0;
+  }}
+  .top10-text {{
+    font-size: 13.5px;
+    line-height: 1.7;
+    color: #475569;
   }}
   .top10-text strong {{
-    color: #1a1a2e;
+    color: #0f172a;
     display: block;
-    font-size: 12px;
+    font-size: 11px;
+    font-weight: 600;
     text-transform: uppercase;
-    letter-spacing: 0.5px;
+    letter-spacing: 0.8px;
+    margin-bottom: 4px;
   }}
-  .alm-box {{
-    background: #f7fafc;
-    border: 1px solid #e2e8f0;
-    border-radius: 6px;
-    padding: 14px 16px;
-    margin: 10px 0;
-    font-size: 12px;
-    color: #4a5568;
-    line-height: 1.8;
-  }}
-  .alm-box code {{
-    font-family: 'Courier New', monospace;
-    background: #edf2f7;
-    padding: 1px 5px;
-    border-radius: 3px;
-    font-size: 11px;
-    color: #2d3748;
-  }}
-  .red-flag {{
-    color: #c53030;
-    font-weight: 600;
-  }}
-  .green-flag {{
-    color: #276749;
-    font-weight: 600;
-  }}
+  /* ── FOOTER ── */
   .footer {{
-    background: #1a1a2e;
-    color: #718096;
+    background: #0f172a;
+    color: #475569;
     font-size: 11px;
-    padding: 18px 36px;
+    padding: 20px 40px;
     text-align: center;
-    line-height: 1.8;
+    line-height: 2;
   }}
-  .footer a {{ color: #a0aec0; }}
-  .divider {{
-    height: 1px;
-    background: #edf2f7;
-    margin: 0;
-  }}
+  .footer a {{ color: #64748b; text-decoration: none; }}
 </style>
 </head>
 <body>
@@ -360,9 +388,14 @@ def build_html(inner_html: str, today: datetime.date) -> str:
 
   <!-- HEADER -->
   <div class="header">
-    <h1>Daily Credit Intelligence</h1>
-    <p class="date">{day_str}, {date_str} &nbsp;|&nbsp; CareEdge Ratings &nbsp;|&nbsp; Credit Strategy Desk</p>
-    <p class="tagline">CONFIDENTIAL — INTERNAL USE ONLY &nbsp;|&nbsp; Not for external distribution &nbsp;|&nbsp; All rating decisions subject to formal committee process</p>
+    <div class="header-top">
+      <div>
+        <h1>Daily Credit Intelligence</h1>
+        <p class="date">{day_str}, {date_str} &nbsp;·&nbsp; CareEdge Ratings</p>
+      </div>
+      <span class="header-badge">Credit Strategy Desk</span>
+    </div>
+    <p class="tagline">CONFIDENTIAL — INTERNAL USE ONLY &nbsp;·&nbsp; Not for external distribution &nbsp;·&nbsp; All rating decisions subject to formal committee process</p>
   </div>
 
   {inner_html}
