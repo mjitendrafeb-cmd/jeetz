@@ -1,12 +1,73 @@
 #!/usr/bin/env python3
 """
 fetch_news.py — News fetching module for Daily Credit Intelligence Report.
-Pulls headlines from RBI, SEBI, Google News, and NewsAPI.
+Pulls headlines from RBI, SEBI, Google News, NewsAPI, and company watchlist.
 """
 
+import os
 import re
 import requests
 import feedparser
+
+
+def load_watchlist() -> list[str]:
+    """Read watchlist.txt from repo root and return list of company names."""
+    # Look for watchlist.txt relative to this script's location
+    base = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    path = os.path.join(base, "watchlist.txt")
+    if not os.path.exists(path):
+        return []
+    companies = []
+    with open(path, encoding="utf-8") as f:
+        for line in f:
+            line = line.strip()
+            if line and not line.startswith("#"):
+                companies.append(line)
+    return companies
+
+
+def fetch_company_news() -> list[str]:
+    """
+    Fetch Google News RSS for each company in watchlist.txt.
+    Returns up to 2 headlines per company, max 50 items total.
+    """
+    companies = load_watchlist()
+    if not companies:
+        return []
+
+    items = []
+    seen_titles: set[str] = set()
+
+    for company in companies:
+        if len(items) >= 50:
+            break
+        try:
+            query = f'"{company}" India credit loan rating NPA'
+            url = (
+                f"https://news.google.com/rss/search"
+                f"?q={requests.utils.quote(query)}&hl=en-IN&gl=IN&ceid=IN:en"
+            )
+            feed = feedparser.parse(url)
+            count = 0
+            for entry in feed.entries:
+                if count >= 2:
+                    break
+                title = _clean(entry.get("title", "")).strip()
+                if not title or title in seen_titles:
+                    continue
+                seen_titles.add(title)
+                source = "Google News"
+                if " - " in title:
+                    parts = title.rsplit(" - ", 1)
+                    title = parts[0].strip()
+                    source = parts[1].strip()
+                summary = _clean(entry.get("summary", entry.get("description", ""))).strip()
+                items.append(f"[WATCHLIST — {company}] {source}: {title} — {summary[:200]}")
+                count += 1
+        except Exception as exc:
+            print(f"[fetch_news] Company news error for '{company}': {exc}")
+
+    return items
 
 
 def _clean(text: str) -> str:
@@ -134,6 +195,7 @@ def fetch_all_news(newsapi_key: str = "") -> str:
     all_items.extend(fetch_sebi_news())
     all_items.extend(fetch_google_news())
     all_items.extend(fetch_newsapi_news(newsapi_key))
+    all_items.extend(fetch_company_news())
 
     # Deduplicate by normalised title (first segment before " — ")
     seen: set[str] = set()

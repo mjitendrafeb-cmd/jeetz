@@ -1,0 +1,80 @@
+# ============================================================
+# COMPANY WATCHLIST — Daily Credit Intelligence Report
+# ============================================================
+# Add or remove companies below. One company per line.
+# Lines starting with # are comments and are ignored.
+# The report will fetch latest news for each company every day.
+# ============================================================
+
+# --- Banks ---
+HDFC Bank
+ICICI Bank
+State Bank of India
+Axis Bank
+Kotak Mahindra Bank
+Punjab National Bank
+Bank of Baroda
+Canara Bank
+IndusInd Bank
+Yes Bank
+RBL Bank
+IDFC First Bank
+
+# --- NBFCs ---
+Bajaj Finance
+Muthoot Finance
+Shriram Finance
+Cholamandalam Finance
+L&T Finance
+Piramal Finance
+Manappuram Finance
+IIFL Finance
+Aditya Birla Finance
+
+# --- Housing Finance ---
+LIC Housing Finance
+HDFC Ltd
+PNB Housing Finance
+Aavas Financiers
+Home First Finance
+Can Fin Homes
+
+# --- MFI / SFB ---
+Bandhan Bank
+AU Small Finance Bank
+Ujjivan Small Finance Bank
+Equitas Small Finance Bank
+CreditAccess Grameen
+Spandana Sphoorty
+Asirvad Micro Finance
+Arohan Financial Services
+
+# --- Infrastructure / Power ---
+Adani Ports
+Adani Green Energy
+Adani Enterprises
+Power Grid Corporation
+NTPC
+Torrent Power
+Tata Power
+
+# --- Real Estate ---
+DLF
+Godrej Properties
+Prestige Estates
+Sobha Ltd
+Macrotech Developers (Lodha)
+
+# --- Manufacturing / Mid-Corp ---
+Tata Steel
+JSW Steel
+Vedanta
+Hindalco
+Bharat Forge
+Amara Raja Energy
+
+# --- Rating Agencies ---
+CRISIL
+ICRA
+CareEdge Ratings
+India Ratings
