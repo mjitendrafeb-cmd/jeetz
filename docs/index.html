@@ -486,14 +486,27 @@
   <!-- ── TAB 3: TELEGRAM ── -->
   <div id="tab-telegram" class="tab-pane">
     <div class="card" style="border-left:4px solid #229ED9;">
-      <div class="card-title" style="color:#229ED9;">📱 How Telegram Integration Works</div>
-      <div class="card-hint" style="line-height:1.7;">
-        <strong>Step 1.</strong> Create a Telegram bot via <strong>@BotFather</strong> (type <code>/newbot</code>, copy the token).<br>
-        <strong>Step 2.</strong> Add the bot as an admin to each channel you want to monitor.<br>
-        <strong>Step 3.</strong> Paste the token in GitHub → Settings → Secrets as <code>TELEGRAM_BOT_TOKEN</code>.<br>
-        <strong>Step 4.</strong> Add channel usernames below (with or without @). Toggle "Telegram Channels" ON in News Sources.<br>
-        <br>
-        The report will include recent messages (last 24 h) from each channel tagged <code>[TELEGRAM — @channel]</code>.
+      <div class="card-title" style="color:#229ED9;">📱 Setup Guide — One Time Only</div>
+      <div class="card-hint" style="line-height:1.9;">
+        Works for <strong>any public or private channel you follow</strong> — ET Markets, CNBC, Bloomberg Quint, etc. No need to own the channel.<br><br>
+
+        <strong>Step 1 — Get API credentials</strong><br>
+        Go to <strong>my.telegram.org/apps</strong> → log in → create an app → copy <code>API ID</code> and <code>API Hash</code>.<br><br>
+
+        <strong>Step 2 — Generate a session string</strong><br>
+        On your PC/laptop, run once:<br>
+        <code style="display:block;background:#f7fafc;border:1px solid #e2e8f0;border-radius:6px;padding:8px 12px;margin:6px 0;font-size:12px;">
+          pip install telethon<br>
+          python scripts/generate_telegram_session.py
+        </code>
+        It will ask for your phone number and OTP, then print a long session string. Copy it.<br><br>
+
+        <strong>Step 3 — Add GitHub Secrets</strong><br>
+        Go to your GitHub repo → <em>Settings → Secrets → Actions</em> → add these 3 secrets:<br>
+        <code>TELEGRAM_API_ID</code> &nbsp; <code>TELEGRAM_API_HASH</code> &nbsp; <code>TELEGRAM_SESSION</code><br><br>
+
+        <strong>Step 4 — Add channels below + toggle ON in News Sources</strong><br>
+        The report will include last 24h messages tagged <code>[TELEGRAM — @channel]</code>.
       </div>
     </div>
 

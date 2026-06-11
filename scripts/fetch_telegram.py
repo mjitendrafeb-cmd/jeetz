@@ -1,96 +1,93 @@
 #!/usr/bin/env python3
 """
-fetch_telegram.py — Telegram channel news fetcher for Daily Credit Intelligence Report.
+fetch_telegram.py — Reads recent messages from Telegram channels using Telethon.
 
-Uses Telegram Bot API to read recent messages from public channels.
-The bot must be added as a member (or admin) of each channel to read its messages.
+Works for ANY channel the user's account is a member of — public or private.
+No bot needed. Uses a pre-generated session string stored as a GitHub secret.
 
-Env var: TELEGRAM_BOT_TOKEN
-Config: config.json → "telegram_channels": ["@channelname", ...]
+Required env vars:
+  TELEGRAM_API_ID      — from https://my.telegram.org/apps
+  TELEGRAM_API_HASH    — from https://my.telegram.org/apps
+  TELEGRAM_SESSION     — base64 session string (generated once via generate_session.py)
+
+Config (config.json):
+  "telegram_channels": ["@economictimes", "@cnbctv18", "@bloombergquint"]
 """
 
 import os
 import re
 import datetime
-import requests
+import asyncio
 
 
 def _clean(text: str) -> str:
-    """Strip markdown/HTML formatting and normalise whitespace."""
     if not text:
         return ""
-    # Remove Telegram markdown links [text](url)
-    text = re.sub(r"\[([^\]]+)\]\([^)]+\)", r"\1", text)
-    # Remove HTML tags
     text = re.sub(r"<[^>]+>", " ", text)
-    # Collapse whitespace
     return " ".join(text.split())
 
 
-def fetch_telegram_channels(bot_token: str, channels: list[str]) -> list[str]:
-    """
-    Fetch recent messages (last 24 h) from the given Telegram channel usernames.
-    Returns formatted strings tagged [TELEGRAM — @channel].
+def fetch_telegram_channels(channels: list[str]) -> list[str]:
+    """Synchronous wrapper around the async fetcher."""
+    api_id = os.environ.get("TELEGRAM_API_ID", "")
+    api_hash = os.environ.get("TELEGRAM_API_HASH", "")
+    session_str = os.environ.get("TELEGRAM_SESSION", "")
 
-    Requirements:
-    - The bot must be added as a member/admin to each private channel.
-    - Public channels can be read by any bot that knows the channel username.
-    """
-    if not bot_token or not channels:
+    if not api_id or not api_hash or not session_str:
+        print("[fetch_telegram] Skipping: TELEGRAM_API_ID / TELEGRAM_API_HASH / TELEGRAM_SESSION not set")
         return []
 
-    cutoff = datetime.datetime.utcnow() - datetime.timedelta(hours=24)
-    cutoff_ts = int(cutoff.timestamp())
+    if not channels:
+        return []
 
+    try:
+        return asyncio.run(_fetch_async(api_id, api_hash, session_str, channels))
+    except Exception as exc:
+        print(f"[fetch_telegram] Fatal error: {exc}")
+        return []
+
+
+async def _fetch_async(api_id: str, api_hash: str, session_str: str, channels: list[str]) -> list[str]:
+    try:
+        from telethon import TelegramClient
+        from telethon.sessions import StringSession
+    except ImportError:
+        print("[fetch_telegram] telethon not installed — run: pip install telethon")
+        return []
+
+    cutoff = datetime.datetime.now(datetime.timezone.utc) - datetime.timedelta(hours=24)
     items: list[str] = []
-    base_url = f"https://api.telegram.org/bot{bot_token}"
 
-    for channel in channels:
-        channel = channel.strip()
-        if not channel:
-            continue
-        # Ensure @ prefix
-        if not channel.startswith("@"):
-            channel = "@" + channel
-        try:
-            # getUpdates doesn't work for channels; use getChat + getChatHistory workaround:
-            # We use forwardMessages from the channel via getUpdates with allowed_updates=["channel_post"]
-            # The most reliable approach for a bot added to a channel is to use
-            # the channel_post updates; but since we're doing a one-shot fetch,
-            # we call getUpdates with a large limit and filter by chat username.
-            resp = requests.get(
-                f"{base_url}/getUpdates",
-                params={"limit": 100, "allowed_updates": '["channel_post"]'},
-                timeout=15,
-            )
-            resp.raise_for_status()
-            data = resp.json()
+    client = TelegramClient(StringSession(session_str), int(api_id), api_hash)
+    await client.connect()
 
-            if not data.get("ok"):
-                print(f"[fetch_telegram] getUpdates error for {channel}: {data.get('description')}")
+    try:
+        for channel in channels:
+            channel = channel.strip()
+            if not channel:
                 continue
-
-            for update in data.get("result", []):
-                post = update.get("channel_post", {})
-                if not post:
-                    continue
-                chat = post.get("chat", {})
-                # Match by username or title
-                post_username = "@" + chat.get("username", "") if chat.get("username") else ""
-                if post_username.lower() != channel.lower():
-                    continue
-                date_ts = post.get("date", 0)
-                if date_ts < cutoff_ts:
-                    continue
-                text = post.get("text") or post.get("caption") or ""
-                text = _clean(text)
-                if not text or len(text) < 20:
-                    continue
-                # Take first 300 chars as headline
-                snippet = text[:300]
-                items.append(f"[TELEGRAM — {channel}] {snippet}")
-
-        except Exception as exc:
-            print(f"[fetch_telegram] Error fetching {channel}: {exc}")
+            if not channel.startswith("@"):
+                channel = "@" + channel
+            try:
+                entity = await client.get_entity(channel)
+                async for msg in client.iter_messages(entity, limit=20):
+                    if not msg.date:
+                        continue
+                    msg_date = msg.date
+                    if msg_date.tzinfo is None:
+                        msg_date = msg_date.replace(tzinfo=datetime.timezone.utc)
+                    if msg_date < cutoff:
+                        break
+                    text = _clean(msg.text or msg.message or "")
+                    if not text or len(text) < 30:
+                        continue
+                    snippet = text[:300]
+                    items.append(f"[TELEGRAM — {channel}] {snippet}")
+                    if len(items) >= 5:  # max 5 per channel
+                        break
+            except Exception as exc:
+                print(f"[fetch_telegram] Could not read {channel}: {exc}")
+    finally:
+        await client.disconnect()
 
     return items
