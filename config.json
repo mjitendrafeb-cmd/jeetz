@@ -12,9 +12,9 @@
     "telegram": true
   },
   "telegram_channels": [
-    "@https://t.me/bank_nbfc_fintech",
-    "@https://t.me/researchreportss",
-    "@https://t.me/livemint"
+    "@bank_nbfc_fintech",
+    "@researchreportss",
+    "@livemint"
   ],
   "sections": [
     "RBI Developments",

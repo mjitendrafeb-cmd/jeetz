@@ -66,7 +66,10 @@ async def _fetch_async(api_id: str, api_hash: str, session_str: str, channels: l
             channel = channel.strip()
             if not channel:
                 continue
-            if not channel.startswith("@"):
+            # Handle full URLs like https://t.me/username or @https://t.me/username
+            if "t.me/" in channel:
+                channel = "@" + channel.split("t.me/")[-1].split("/")[0].strip("@")
+            elif not channel.startswith("@"):
                 channel = "@" + channel
             try:
                 entity = await client.get_entity(channel)

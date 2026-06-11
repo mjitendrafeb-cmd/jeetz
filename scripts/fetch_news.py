@@ -2,6 +2,7 @@
 """
 fetch_news.py — News fetching module for Daily Credit Intelligence Report.
 Pulls headlines from RBI, SEBI, Google News, NewsAPI, and company watchlist.
+Each item includes a URL where available so Claude can render clickable links.
 """
 
 import os
@@ -14,7 +15,6 @@ from fetch_telegram import fetch_telegram_channels
 
 
 def load_config() -> dict:
-    """Load config.json from repo root. Returns empty dict on failure."""
     base = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
     path = os.path.join(base, "config.json")
     try:
@@ -25,8 +25,6 @@ def load_config() -> dict:
 
 
 def load_watchlist() -> list[str]:
-    """Read watchlist.txt from repo root and return list of company names."""
-    # Look for watchlist.txt relative to this script's location
     base = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
     path = os.path.join(base, "watchlist.txt")
     if not os.path.exists(path):
@@ -40,23 +38,85 @@ def load_watchlist() -> list[str]:
     return companies
 
 
-def fetch_company_news() -> list[str]:
-    """
-    Fetch Google News RSS for each company in watchlist.txt.
-    Returns up to 2 headlines per company, max 50 items total.
-    """
-    companies = load_watchlist()
-    if not companies:
+def _clean(text: str) -> str:
+    text = re.sub(r"<[^>]+>", " ", text or "")
+    return " ".join(text.split())
+
+
+def _fmt(source: str, title: str, summary: str, url: str = "") -> str:
+    link = f" | URL:{url}" if url else ""
+    return f"{source}: {title} — {summary[:250]}{link}"
+
+
+def fetch_rbi_news() -> list[str]:
+    try:
+        feed = feedparser.parse("https://www.rbi.org.in/scripts/rss.aspx")
+        items = []
+        for entry in feed.entries[:10]:
+            title = _clean(entry.get("title", "")).strip()
+            summary = _clean(entry.get("summary", entry.get("description", ""))).strip()
+            url = entry.get("link", "")
+            if title:
+                items.append(_fmt("RBI", title, summary, url))
+        return items
+    except Exception as exc:
+        print(f"[fetch_news] RBI RSS error: {exc}")
         return []
 
+
+def fetch_sebi_news() -> list[str]:
+    try:
+        feed = feedparser.parse("https://www.sebi.gov.in/sebirss.xml")
+        items = []
+        for entry in feed.entries[:10]:
+            title = _clean(entry.get("title", "")).strip()
+            summary = _clean(entry.get("summary", entry.get("description", ""))).strip()
+            url = entry.get("link", "")
+            if title:
+                items.append(_fmt("SEBI", title, summary, url))
+        return items
+    except Exception as exc:
+        print(f"[fetch_news] SEBI RSS error: {exc}")
+        return []
+
+
+# Targeted queries covering all 10 report sections
+_GOOGLE_QUERIES = [
+    # RBI / Regulatory
+    ("RBI", "RBI India monetary policy repo rate liquidity"),
+    ("RBI", "RBI circular regulation banking India"),
+    # SEBI
+    ("SEBI", "SEBI India capital market regulation bond"),
+    # Banking
+    ("Banking", "Indian bank NPA stressed assets credit"),
+    ("Banking", "SBI HDFC ICICI Axis bank results earnings"),
+    # NBFC
+    ("NBFC", "NBFC India loan disbursement stress liquidity"),
+    ("NBFC", "microfinance MFI India NPA collections"),
+    # Housing Finance
+    ("HFC", "housing finance India HFC mortgage home loan"),
+    ("HFC", "LIC Housing HDFC housing affordable housing"),
+    # Broking & Fintech
+    ("Broking", "India broking fintech SEBI regulation stock broker"),
+    # Bond Market
+    ("Bonds", "India bond market yield G-sec government securities"),
+    ("Bonds", "India corporate bond credit spread debenture"),
+    # Commercial Paper
+    ("CP", "commercial paper India money market CP issuance"),
+    # Securitisation
+    ("Securitisation", "India securitisation ABS RMBS PTC pool"),
+    # Rating Actions
+    ("Ratings", "credit rating upgrade downgrade India CRISIL ICRA CareEdge India Ratings"),
+    ("Ratings", "rating watch negative outlook India bond issuer"),
+]
+
+
+def fetch_google_news() -> list[str]:
     items = []
     seen_titles: set[str] = set()
 
-    for company in companies:
-        if len(items) >= 50:
-            break
+    for (tag, query) in _GOOGLE_QUERIES:
         try:
-            query = f'"{company}" India credit loan rating NPA'
             url = (
                 f"https://news.google.com/rss/search"
                 f"?q={requests.utils.quote(query)}&hl=en-IN&gl=IN&ceid=IN:en"
@@ -66,97 +126,19 @@ def fetch_company_news() -> list[str]:
             for entry in feed.entries:
                 if count >= 2:
                     break
-                title = _clean(entry.get("title", "")).strip()
-                if not title or title in seen_titles:
+                raw_title = _clean(entry.get("title", "")).strip()
+                if not raw_title or raw_title in seen_titles:
                     continue
-                seen_titles.add(title)
-                source = "Google News"
-                if " - " in title:
-                    parts = title.rsplit(" - ", 1)
+                seen_titles.add(raw_title)
+                source = tag
+                title = raw_title
+                if " - " in raw_title:
+                    parts = raw_title.rsplit(" - ", 1)
                     title = parts[0].strip()
                     source = parts[1].strip()
                 summary = _clean(entry.get("summary", entry.get("description", ""))).strip()
-                items.append(f"[WATCHLIST — {company}] {source}: {title} — {summary[:200]}")
-                count += 1
-        except Exception as exc:
-            print(f"[fetch_news] Company news error for '{company}': {exc}")
-
-    return items
-
-
-def _clean(text: str) -> str:
-    """Strip HTML tags and normalise whitespace."""
-    text = re.sub(r"<[^>]+>", " ", text or "")
-    return " ".join(text.split())
-
-
-def fetch_rbi_news() -> list[str]:
-    """Parse RBI RSS and return up to 10 formatted headline strings."""
-    try:
-        feed = feedparser.parse("https://www.rbi.org.in/scripts/rss.aspx")
-        items = []
-        for entry in feed.entries[:10]:
-            title = _clean(entry.get("title", "")).strip()
-            summary = _clean(entry.get("summary", entry.get("description", ""))).strip()
-            if title:
-                items.append(f"RBI: {title} — {summary[:300]}")
-        return items
-    except Exception as exc:
-        print(f"[fetch_news] RBI RSS error: {exc}")
-        return []
-
-
-def fetch_sebi_news() -> list[str]:
-    """Parse SEBI RSS and return up to 10 formatted headline strings."""
-    try:
-        feed = feedparser.parse("https://www.sebi.gov.in/sebirss.xml")
-        items = []
-        for entry in feed.entries[:10]:
-            title = _clean(entry.get("title", "")).strip()
-            summary = _clean(entry.get("summary", entry.get("description", ""))).strip()
-            if title:
-                items.append(f"SEBI: {title} — {summary[:300]}")
-        return items
-    except Exception as exc:
-        print(f"[fetch_news] SEBI RSS error: {exc}")
-        return []
-
-
-def fetch_google_news() -> list[str]:
-    """Fetch Google News RSS for 5 credit-related queries and return formatted strings."""
-    queries = [
-        "RBI India banking credit",
-        "SEBI bond market India",
-        "NBFC India stress NPA",
-        "Indian banking sector",
-        "credit rating India CRISIL ICRA CareEdge",
-    ]
-    items = []
-    seen_titles: set[str] = set()
-
-    for query in queries:
-        try:
-            url = (
-                f"https://news.google.com/rss/search"
-                f"?q={requests.utils.quote(query)}&hl=en-IN&gl=IN&ceid=IN:en"
-            )
-            feed = feedparser.parse(url)
-            count = 0
-            for entry in feed.entries:
-                if count >= 3:
-                    break
-                title = _clean(entry.get("title", "")).strip()
-                if not title or title in seen_titles:
-                    continue
-                seen_titles.add(title)
-                # Google News puts source in title as " - Source Name"
-                source = "Google News"
-                if " - " in title:
-                    parts = title.rsplit(" - ", 1)
-                    title = parts[0].strip()
-                    source = parts[1].strip()
-                summary = _clean(entry.get("summary", entry.get("description", ""))).strip()
-                items.append(f"{source}: {title} — {summary[:300]}")
+                link = entry.get("link", "")
+                items.append(_fmt(source, title, summary, link))
                 count += 1
         except Exception as exc:
             print(f"[fetch_news] Google News error for '{query}': {exc}")
@@ -165,20 +147,22 @@ def fetch_google_news() -> list[str]:
 
 
 def fetch_newsapi_news(api_key: str) -> list[str]:
-    """Fetch from NewsAPI and return formatted headline strings. Returns [] if no key."""
     if not api_key:
         return []
     try:
         resp = requests.get(
             "https://newsapi.org/v2/everything",
             params={
-                "q": "RBI OR SEBI OR NBFC OR 'credit rating' India",
+                "q": (
+                    "RBI OR SEBI OR NBFC OR HFC OR securitisation OR "
+                    "'commercial paper' OR 'credit rating' OR 'bond market' India"
+                ),
                 "language": "en",
                 "sortBy": "publishedAt",
-                "pageSize": 20,
+                "pageSize": 30,
                 "domains": (
                     "economictimes.indiatimes.com,livemint.com,"
-                    "business-standard.com,reuters.com"
+                    "business-standard.com,reuters.com,financialexpress.com"
                 ),
             },
             headers={"X-Api-Key": api_key},
@@ -191,24 +175,62 @@ def fetch_newsapi_news(api_key: str) -> list[str]:
             source = article.get("source", {}).get("name", "NewsAPI")
             title = _clean(article.get("title", "")).strip()
             description = _clean(article.get("description", "")).strip()
+            url = article.get("url", "")
             if title:
-                items.append(f"{source}: {title} — {description[:300]}")
+                items.append(_fmt(source, title, description, url))
         return items
     except Exception as exc:
         print(f"[fetch_news] NewsAPI error: {exc}")
         return []
 
 
+def fetch_company_news() -> list[str]:
+    companies = load_watchlist()
+    if not companies:
+        return []
+
+    items = []
+    seen_titles: set[str] = set()
+
+    for company in companies:
+        if len(items) >= 60:
+            break
+        try:
+            query = f'"{company}" India credit loan rating NPA'
+            url = (
+                f"https://news.google.com/rss/search"
+                f"?q={requests.utils.quote(query)}&hl=en-IN&gl=IN&ceid=IN:en"
+            )
+            feed = feedparser.parse(url)
+            count = 0
+            for entry in feed.entries:
+                if count >= 2:
+                    break
+                raw_title = _clean(entry.get("title", "")).strip()
+                if not raw_title or raw_title in seen_titles:
+                    continue
+                seen_titles.add(raw_title)
+                source = "Google News"
+                title = raw_title
+                if " - " in raw_title:
+                    parts = raw_title.rsplit(" - ", 1)
+                    title = parts[0].strip()
+                    source = parts[1].strip()
+                summary = _clean(entry.get("summary", entry.get("description", ""))).strip()
+                link = entry.get("link", "")
+                items.append(f"[WATCHLIST — {company}] {_fmt(source, title, summary, link)}")
+                count += 1
+        except Exception as exc:
+            print(f"[fetch_news] Company news error for '{company}': {exc}")
+
+    return items
+
+
 def fetch_all_news(newsapi_key: str = "") -> str:
-    """
-    Fetch news from all sources, respecting config.json source toggles.
-    Deduplicates by title and returns a numbered formatted string (max 40 items).
-    """
     cfg = load_config()
     sources = cfg.get("sources", {})
 
     def src_on(key: str) -> bool:
-        # Default to True if key is absent (backwards-compatible)
         return sources.get(key, True)
 
     all_items: list[str] = []
@@ -227,7 +249,7 @@ def fetch_all_news(newsapi_key: str = "") -> str:
         if channels:
             all_items.extend(fetch_telegram_channels(channels))
 
-    # Deduplicate by normalised title (first segment before " — ")
+    # Deduplicate by normalised title
     seen: set[str] = set()
     unique: list[str] = []
     for item in all_items:
@@ -235,7 +257,7 @@ def fetch_all_news(newsapi_key: str = "") -> str:
         if key not in seen:
             seen.add(key)
             unique.append(item)
-        if len(unique) >= 40:
+        if len(unique) >= 80:
             break
 
     if not unique:

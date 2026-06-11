@@ -65,77 +65,78 @@ _DEFAULT_SECTIONS = [
 def _build_prompt(news_text: str, day_str: str, date_str: str) -> str:
     cfg = _load_config()
     sections = cfg.get("sections") or _DEFAULT_SECTIONS
-    sections_text = "\n".join(f"{i+1}. {s}" for i, s in enumerate(sections))
-    n = len(sections)
+    sections_text = "\n".join(f"- {s}" for s in sections)
 
-    return f"""You are a Senior Credit Strategist at CareEdge Ratings, India's leading credit rating agency.
+    return f"""You are a Senior Credit Analyst at CareEdge Ratings, India's leading credit rating agency.
 Today is {day_str}, {date_str}.
 
-Below are today's live news headlines from RBI, SEBI, Indian financial news sources, and company-specific watchlist news (marked [WATCHLIST — Company]):
+NEWS ITEMS (each may include a source URL after "| URL:"):
 
 {news_text}
 
-Generate a complete Daily Credit Intelligence Report. Use ONLY the news provided above. If a section has no relevant news, write "No significant developments today."
+Generate a Daily Credit Intelligence Report in TWO parts. Use ONLY the news above.
 
-PART 1 — MAIN REPORT (10 sections)
-Cover these {n} sections:
-{sections_text}
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+PART 1 — TOP 10 RISK ALERTS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Pick the 10 most credit-risk-significant items from ANY section. Order by severity — most critical first. Do NOT group by section.
 
-For EACH news item provide:
-- Rank it: CRITICAL / IMPORTANT / WATCHLIST
-- What Happened (2-3 sentences, factual)
-- Credit Implications (3-5 bullet points)
-- Source (publication name)
-
-For any [WATCHLIST — CompanyName] headlines, make sure to include them under the relevant section with the company name highlighted.
-
-PART 2 — ANALYST DEVELOPMENT
-Pick ONE credit concept relevant to today's news. Write a 200-word educational note covering:
-- What the concept is
-- Why it matters today (link to a specific news item)
-- 3 key things an analyst should check
-
-PART 3 — TOP 10 THINGS A RATING ANALYST SHOULD KNOW TODAY
-Write exactly 10 points. Each point must:
-- Reference a specific news item from today
-- Be tagged to a section (e.g. RBI / Banking / NBFC)
-- Give one clear, actionable insight
-
-Return ONLY inner HTML using these exact CSS classes (no html/head/body tags):
-
-Section structure:
-<p class="section-label critical-label">&#9888; Critical</p>
+Start Part 1 with this header, then wrap all 10 items in a content div:
+<p class="section-label critical-label">&#9888; TOP 10 RISK ALERTS — Ranked by Severity</p>
 <div class="content">
-  <div class="item">
-    <p class="item-title">TITLE HERE</p>
-    <p class="item-sector">SECTOR &nbsp;|&nbsp; <span class="badge badge-red">Critical</span></p>
-    <p class="sub-heading">What Happened</p>
-    <p>...</p>
-    <p class="sub-heading">Credit Implications</p>
-    <ul class="impl-list"><li>...</li><li>...</li></ul>
-    <div class="source-block">&#128279; Source: publication name</div>
+
+Output for each item (numbered 01–10):
+<div class="top-risk-item">
+  <div class="risk-rank">01</div>
+  <div class="risk-body">
+    <p class="item-title">HEADLINE TITLE</p>
+    <p class="item-sector">SECTION &nbsp;|&nbsp; <span class="badge badge-red">Critical</span></p>
+    <p class="risk-summary">One sentence: what happened and the core credit risk.</p>
+    <ul class="impl-list">
+      <li>Risk point 1 — specific and actionable</li>
+      <li>Risk point 2 — specific and actionable</li>
+      <li>Risk point 3 — only if genuinely material</li>
+    </ul>
+    <div class="source-block">&#128279; Publication Name &nbsp;<a href="ACTUAL_URL" target="_blank" style="color:#4299e1;text-decoration:none;">Read more ↗</a></div>
   </div>
 </div>
 
-For Important items use: important-label and badge-amber
-For Watchlist items use: watchlist-label and badge-blue
+Close the content div after all 10 items: </div>
 
-Analyst Development section:
-<p class="section-label analyst-label">&#128218; Analyst Development — [Topic]</p>
-<div class="content"><div class="item">
-  <p class="item-title">[Topic Title]</p>
-  <p>Content here...</p>
-</div></div>
+If no URL was provided for an item, omit the anchor tag entirely.
+Use badge-red for Critical, badge-amber for Important, badge-blue for Watchlist.
 
-Top 10 section:
-<p class="section-label top10-label">&#127942; Top 10 Things to Know Today</p>
-<div class="content"><div class="item">
-  <div class="top10-item"><div class="top10-num">1</div><div class="top10-text"><strong>SECTION — Title</strong> Actionable insight paragraph.</div></div>
-  <div class="top10-item"><div class="top10-num">2</div><div class="top10-text"><strong>SECTION — Title</strong> Actionable insight paragraph.</div></div>
-  ... (all 10)
-</div></div>
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+PART 2 — FULL REPORT BY SECTION
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Cover ALL sections below. For items already in Part 1, include a one-line cross-reference ("Covered in Risk Alert #N"). For new items, write the full entry. If no news for a section, write "No significant developments today."
 
-Badge colours: badge-red=Critical/Negative, badge-amber=Important, badge-blue=Watchlist/Neutral, badge-green=Positive"""
+Sections to cover:
+{sections_text}
+
+For each section:
+<p class="section-label important-label">&#9654; SECTION NAME</p>
+<div class="content">
+  <div class="item">
+    <p class="item-title">HEADLINE TITLE</p>
+    <p class="item-sector">SECTOR &nbsp;|&nbsp; <span class="badge badge-amber">Important</span></p>
+    <p>What happened in 1-2 sentences.</p>
+    <p class="sub-heading">Credit Implications</p>
+    <ul class="impl-list">
+      <li>Point 1 — sharp, risk-focused</li>
+      <li>Point 2 — sharp, risk-focused</li>
+    </ul>
+    <div class="source-block">&#128279; Publication Name &nbsp;<a href="ACTUAL_URL" target="_blank" style="color:#4299e1;text-decoration:none;">Read more ↗</a></div>
+  </div>
+</div>
+
+Rules:
+- 2-3 credit implication bullets max — no padding, no generic statements
+- For critical items use critical-label and badge-red; important → important-label + badge-amber; watchlist → watchlist-label + badge-blue
+- [WATCHLIST — Company] items: include company name in bold in the title, place under the most relevant section
+- Only use a URL that was explicitly provided in the news item after "| URL:" — do not invent URLs
+
+Return ONLY the inner HTML. No html/head/body tags."""
 
 
 # ---------------------------------------------------------------------------
@@ -150,9 +151,9 @@ def generate_report(news_text: str, today: datetime.date, api_key: str) -> str:
     day_str = today.strftime("%A")
     date_str = today.strftime("%d %B %Y")
 
-    # Trim news to max 10000 chars — enough for all sources including watchlist
-    if len(news_text) > 10000:
-        news_text = news_text[:10000] + "\n[...truncated for length]"
+    # Trim news — larger limit now that we fetch more targeted items
+    if len(news_text) > 18000:
+        news_text = news_text[:18000] + "\n[...truncated for length]"
 
     prompt = _build_prompt(news_text, day_str, date_str)
 
@@ -345,36 +346,31 @@ def build_html(inner_html: str, today: datetime.date) -> str:
     border-radius: 6px;
     border-left: 3px solid #e2e8f0;
   }}
-  /* ── TOP 10 ── */
-  .top10-item {{
+  /* ── TOP RISK ITEMS ── */
+  .top-risk-item {{
     display: flex;
     gap: 16px;
-    padding: 14px 0;
+    padding: 18px 0;
     border-bottom: 1px solid #f1f5f9;
     align-items: flex-start;
   }}
-  .top10-item:last-child {{ border-bottom: none; }}
-  .top10-num {{
-    font-size: 22px;
-    font-weight: 700;
-    color: #8b5cf6;
-    min-width: 32px;
-    line-height: 1.2;
+  .top-risk-item:last-child {{ border-bottom: none; }}
+  .risk-rank {{
+    font-size: 24px;
+    font-weight: 800;
+    color: #ef4444;
+    min-width: 36px;
+    line-height: 1.1;
     flex-shrink: 0;
+    font-variant-numeric: tabular-nums;
   }}
-  .top10-text {{
+  .risk-body {{ flex: 1; min-width: 0; }}
+  .risk-summary {{
     font-size: 13.5px;
     line-height: 1.7;
-    color: #475569;
-  }}
-  .top10-text strong {{
-    color: #0f172a;
-    display: block;
-    font-size: 11px;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.8px;
-    margin-bottom: 4px;
+    color: #1e293b;
+    font-weight: 500;
+    margin: 0 0 10px 0;
   }}
   /* ── FOOTER ── */
   .footer {{
