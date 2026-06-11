@@ -9,7 +9,7 @@
     "google_news": true,
     "newsapi": true,
     "company_watchlist": true,
-    "telegram": false
+    "telegram": true
   },
   "telegram_channels": [
     "@https://t.me/bank_nbfc_fintech",
