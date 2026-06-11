@@ -350,12 +350,85 @@ def _google_news_fallback(query: str, tag: str, limit: int = 5) -> list[str]:
 
 
 # ─────────────────────────────────────────────────────────────────────────────
+# CUSTOM URL SCRAPER — generic, works on any website
+# ─────────────────────────────────────────────────────────────────────────────
+def fetch_custom_url(url: str) -> list[str]:
+    """
+    Generic scraper for any URL. Extracts headlines from h1-h4 tags and
+    prominent anchor links. Filters for credit-relevant content.
+    """
+    from urllib.parse import urlparse
+    domain = urlparse(url).netloc.replace("www.", "")
+    items = []
+
+    try:
+        r = _get(url)
+        if not r:
+            print(f"[fetch_web] Could not fetch {url}")
+            return []
+
+        soup = BeautifulSoup(r.text, "html.parser")
+
+        # Remove nav, footer, sidebar noise
+        for tag in soup(["nav", "footer", "aside", "script", "style", "header"]):
+            tag.decompose()
+
+        seen: set[str] = set()
+
+        # Extract from headings first (most reliable)
+        for heading in soup.find_all(["h1", "h2", "h3", "h4"]):
+            text = _clean(heading.get_text()).strip()
+            if len(text) < 20 or text.lower() in seen:
+                continue
+            # Look for an anchor inside or near the heading
+            a = heading.find("a", href=True) or heading.find_next_sibling("a", href=True)
+            href = a["href"] if a else ""
+            if href and not href.startswith("http"):
+                href = f"https://{domain}{href if href.startswith('/') else '/' + href}"
+            link_part = f" | URL:{href}" if href else ""
+            seen.add(text.lower())
+            items.append(f"[WEB — {domain}] {text[:200]}{link_part}")
+            if len(items) >= 10:
+                break
+
+        # If headings didn't yield enough, try article/card links
+        if len(items) < 5:
+            for a in soup.find_all("a", href=True):
+                text = _clean(a.get_text()).strip()
+                if len(text) < 25 or text.lower() in seen:
+                    continue
+                href = a["href"]
+                if not href.startswith("http"):
+                    href = f"https://{domain}{href if href.startswith('/') else '/' + href}"
+                seen.add(text.lower())
+                items.append(f"[WEB — {domain}] {text[:200]} | URL:{href}")
+                if len(items) >= 10:
+                    break
+
+    except Exception as exc:
+        print(f"[fetch_web] Custom URL scrape error for {url}: {exc}")
+
+    return items
+
+
+def fetch_custom_urls(urls: list[str]) -> list[str]:
+    """Fetch all custom URLs with a 1s gap between requests."""
+    all_items: list[str] = []
+    for url in urls:
+        print(f"[fetch_web] Scraping custom URL: {url}")
+        all_items.extend(fetch_custom_url(url))
+        time.sleep(1)
+    return all_items
+
+
+# ─────────────────────────────────────────────────────────────────────────────
 # MAIN ENTRY POINT
 # ─────────────────────────────────────────────────────────────────────────────
-def fetch_all_web(sources: dict | None = None) -> list[str]:
+def fetch_all_web(sources: dict | None = None, custom_urls: list[str] | None = None) -> list[str]:
     """
-    Fetch from all configured web sources.
+    Fetch from all configured web sources + any custom URLs.
     sources dict maps source key → True/False (from config.json web_sources).
+    custom_urls is the list from config.json custom_scrape_urls.
     """
     if sources is None:
         sources = {}
@@ -396,6 +469,10 @@ def fetch_all_web(sources: dict | None = None) -> list[str]:
     if on("ccil"):
         print("[fetch_web] Fetching CCIL...")
         all_items.extend(fetch_ccil())
+
+    if custom_urls:
+        print(f"[fetch_web] Fetching {len(custom_urls)} custom URL(s)...")
+        all_items.extend(fetch_custom_urls(custom_urls))
 
     print(f"[fetch_web] Total web items fetched: {len(all_items)}")
     return all_items

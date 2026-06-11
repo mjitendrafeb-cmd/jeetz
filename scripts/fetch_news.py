@@ -250,7 +250,10 @@ def fetch_all_news(newsapi_key: str = "") -> str:
         if channels:
             all_items.extend(fetch_telegram_channels(channels))
     if src_on("web_scraper"):
-        all_items.extend(fetch_all_web(cfg.get("web_sources", {})))
+        all_items.extend(fetch_all_web(
+            cfg.get("web_sources", {}),
+            cfg.get("custom_scrape_urls", []),
+        ))
 
     # Deduplicate by normalised title
     seen: set[str] = set()
