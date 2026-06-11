@@ -81,13 +81,18 @@ def generate_report(news_text: str, today: datetime.date, api_key: str) -> str:
     """
     day_str = today.strftime("%A")
     date_str = today.strftime("%d %B %Y")
+
+    # Trim news to max 6000 chars to stay well within input token limits
+    if len(news_text) > 6000:
+        news_text = news_text[:6000] + "\n[...truncated for length]"
+
     prompt = _build_prompt(news_text, day_str, date_str)
 
     try:
         client = anthropic.Anthropic(api_key=api_key)
         message = client.messages.create(
             model="claude-sonnet-4-6",
-            max_tokens=8000,
+            max_tokens=6000,
             messages=[{"role": "user", "content": prompt}],
         )
         return message.content[0].text
