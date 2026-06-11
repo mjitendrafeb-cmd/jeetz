@@ -1,0 +1,22 @@
+{
+  "recipient": "Jitendra.Meghrajani@careedge.in",
+  "sources": {
+    "rbi_rss": true,
+    "sebi_rss": true,
+    "google_news": true,
+    "newsapi": true,
+    "company_watchlist": true
+  },
+  "sections": [
+    "RBI Developments",
+    "SEBI Developments",
+    "Banking System Developments",
+    "NBFC Sector Developments",
+    "Housing Finance Developments",
+    "Broking & Fintech Developments",
+    "Bond Market Developments",
+    "Commercial Paper Market Developments",
+    "Securitisation Developments",
+    "Rating Actions Announced"
+  ]
+}
