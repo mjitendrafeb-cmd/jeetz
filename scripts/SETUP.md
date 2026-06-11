@@ -22,10 +22,12 @@ In your GitHub repository:
 1. Navigate to **Settings → Secrets and variables → Actions**
 2. Click **New repository secret** for each of the following:
 
-| Secret Name         | Value                                      |
-|---------------------|--------------------------------------------|
-| `GMAIL_USER`        | Your full Gmail address (e.g. `you@gmail.com`) |
-| `GMAIL_APP_PASSWORD`| The 16-character App Password generated above  |
+| Secret Name          | Value                                                                 |
+|----------------------|-----------------------------------------------------------------------|
+| `GMAIL_USER`         | Your full Gmail address (e.g. `you@gmail.com`)                        |
+| `GMAIL_APP_PASSWORD` | The 16-character App Password generated above                         |
+| `ANTHROPIC_API_KEY`  | API key from [console.anthropic.com](https://console.anthropic.com) → **API Keys** |
+| `NEWSAPI_KEY`        | API key from [newsapi.org](https://newsapi.org) — free tier, optional but recommended for broader coverage |
 
 ---
 
