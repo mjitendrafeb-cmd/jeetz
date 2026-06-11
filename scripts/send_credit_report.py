@@ -73,69 +73,70 @@ NEWS ITEMS (each may include a source URL after "| URL:"):
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 YOUR OBJECTIVE
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-You are NOT summarising news. You are identifying developments that could affect:
-1. Rating outlook  2. Liquidity  3. Funding access  4. Asset quality
-5. Capitalisation  6. Governance  7. Earnings stability
+You are NOT summarising news. Identify only developments that affect:
+Rating outlook · Liquidity · Funding access · Asset quality · Capitalisation · Governance · Earnings stability
 
-PRIORITY ORDER (process in this sequence):
-P1 — Rated entities and watchlist ([WATCHLIST — Company] items)
-P2 — NBFC, HFC, Broking, Fintech, FI sector developments
-P3 — RBI, SEBI, NHB regulations
-P4 — Bond and money markets
-P5 — Macroeconomic developments
-
-IGNORE COMPLETELY (do not include):
-Product launches · CSR activities · Marketing announcements · Awards ·
-Generic business news · Stock recommendations · Market gossip
+IGNORE: Product launches · CSR · Awards · Marketing · Stock tips · Market gossip · Generic business news
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-OUTPUT FORMAT
+OUTPUT — EXACTLY 5 SECTIONS IN THIS ORDER
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-Organise into these five sections in priority order:
 
-🔴 RATED ENTITIES & WATCHLIST
-🟠 SECTOR DEVELOPMENTS
-🟣 REGULATIONS
-🔵 BOND & FUNDING MARKETS
-⚫ MACRO
+You MUST output ALL 5 sections every time, in this exact order. No exceptions.
+If there is no relevant news for a section, still output the section header and write "No news available today."
 
-STRICT RULE FOR 🔴 RATED ENTITIES & WATCHLIST:
-ONLY include news items that are explicitly tagged [WATCHLIST — CompanyName] in the input text.
-Do NOT include any other company news here, even if you recognise the company name (e.g. LIC, HDFC, Fusion, SBI). Those go under 🟠 SECTOR DEVELOPMENTS.
-If there are no [WATCHLIST — Company] tagged items today, omit this section entirely.
+SECTION 1 — MY RATED ENTITIES AND WATCHLIST
+Include ONLY items explicitly tagged [WATCHLIST — CompanyName] in the input.
+Do NOT place other company news (LIC, HDFC, SBI etc.) here — those go in Section 2.
 
-STRICT RULE FOR 🟠 SECTOR DEVELOPMENTS:
-All company news NOT tagged [WATCHLIST — CompanyName] goes here, including news about LIC, HDFC, Fusion, SBI, Bajaj Finance or any other company.
+SECTION 2 — NBFC, HFC, BROKING, FINTECH, FI SECTORS
+All sector-level company news that is NOT tagged [WATCHLIST — CompanyName].
+Includes banks, NBFCs, HFCs, brokers, fintechs, FIs.
 
-For EACH item:
+SECTION 3 — RBI, SEBI, NHB REGULATIONS
+Only regulatory announcements, circulars, policy changes from RBI, SEBI, NHB, or other regulators.
 
+SECTION 4 — BOND AND MONEY MARKETS
+Bond yields, G-sec movements, commercial paper, corporate bonds, liquidity, FIMMDA/CCIL data.
+
+SECTION 5 — MACROECONOMIC DEVELOPMENTS
+GDP, inflation, IIP, forex, trade data, global macro impact on Indian credit markets.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+FORMAT FOR EACH NEWS ITEM
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 NEWS
-2–3 lines. What happened. Facts only. No background, no history.
+2–3 lines. What happened. Facts only. No background.
 
 → IMPLICATION
-2–3 lines. Why it matters for credit — rating, liquidity, asset quality, funding, governance, or capitalisation. No generic statements.
+2–3 lines. Credit impact only — rating, liquidity, asset quality, funding, governance. No generic statements.
 
-(Only include a source link if a URL was provided after "| URL:" in the news item. Never invent a URL.)
-
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-END WITH
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-📌 TOP 5 THINGS TO KNOW TODAY
-Exactly 5 points. One line each. Most important first. Reference the section emoji.
+Source link only if a URL was provided after "| URL:" in the input. Never invent URLs.
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-HTML RENDERING RULES
+END WITH — 📌 TOP 5 THINGS TO KNOW TODAY
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-Return ONLY inner HTML (no html/head/body tags). Use these CSS classes:
+Exactly 5 points. One line each. Most important first. Tag each with the section number.
 
-Section header:
-<p class="section-label critical-label">🔴 RATED ENTITIES &amp; WATCHLIST</p>
-Use: critical-label for 🔴 · important-label for 🟠 · watchlist-label for 🟣 · analyst-label for 🔵 · top10-label for ⚫
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+HTML OUTPUT RULES
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Return ONLY inner HTML. No html/head/body tags.
 
-Each item (NO badge, NO rank label):
+Section headers (use EXACTLY these — do not change the text):
+<p class="section-label critical-label">Section 1 &mdash; My Rated Entities and Watchlist</p>
+<p class="section-label important-label">Section 2 &mdash; NBFC, HFC, Broking, Fintech, FI Sectors</p>
+<p class="section-label watchlist-label">Section 3 &mdash; RBI, SEBI, NHB Regulations</p>
+<p class="section-label analyst-label">Section 4 &mdash; Bond and Money Markets</p>
+<p class="section-label top10-label">Section 5 &mdash; Macroeconomic Developments</p>
+
+When no news for a section:
+<div class="content"><div class="item"><p style="color:#94a3b8;font-style:italic;">No news available today.</p></div></div>
+
+Each news item (no badges, no rank labels):
 <div class="content"><div class="item">
-  <p class="item-title">COMPANY NAME — HEADLINE</p>
-  <p class="item-sector">SECTOR / SOURCE</p>
+  <p class="item-title">COMPANY / TOPIC — HEADLINE</p>
+  <p class="item-sector">Source publication</p>
   <p class="sub-heading">News</p>
   <p>2–3 line factual summary.</p>
   <p class="sub-heading">Implication</p>
@@ -144,11 +145,13 @@ Each item (NO badge, NO rank label):
 </div></div>
 
 Top 5 section:
-<p class="section-label top10-label">📌 Top 5 Things To Know Today</p>
+<p class="section-label top10-label">&#128204; Top 5 Things To Know Today</p>
 <div class="content"><div class="item">
-  <div class="top10-item"><div class="top10-num">1</div><div class="top10-text">🔴 <strong>Company/Topic</strong> — one-line insight.</div></div>
-  <div class="top10-item"><div class="top10-num">2</div><div class="top10-text">🟠 <strong>Topic</strong> — one-line insight.</div></div>
-  ... (all 5)
+  <div class="top10-item"><div class="top10-num">1</div><div class="top10-text"><strong>S1 / CompanyName</strong> — one-line insight.</div></div>
+  <div class="top10-item"><div class="top10-num">2</div><div class="top10-text"><strong>S2 / Topic</strong> — one-line insight.</div></div>
+  <div class="top10-item"><div class="top10-num">3</div><div class="top10-text"><strong>S3 / Topic</strong> — one-line insight.</div></div>
+  <div class="top10-item"><div class="top10-num">4</div><div class="top10-text"><strong>S4 / Topic</strong> — one-line insight.</div></div>
+  <div class="top10-item"><div class="top10-num">5</div><div class="top10-text"><strong>S5 / Topic</strong> — one-line insight.</div></div>
 </div></div>"""
 
 
