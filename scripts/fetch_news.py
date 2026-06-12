@@ -8,11 +8,31 @@ Each item includes a URL where available so Claude can render clickable links.
 import os
 import re
 import json
+import time
+import datetime
 import requests
 import feedparser
 
 from fetch_telegram import fetch_telegram_channels
 from fetch_web import fetch_all_web
+
+# Only accept articles published within this many hours
+_MAX_AGE_HOURS = 48
+
+
+def _is_recent(entry) -> bool:
+    """Return True if the feed entry was published within _MAX_AGE_HOURS."""
+    for field in ("published_parsed", "updated_parsed"):
+        t = entry.get(field)
+        if t:
+            try:
+                pub = datetime.datetime(*t[:6], tzinfo=datetime.timezone.utc)
+                age = datetime.datetime.now(datetime.timezone.utc) - pub
+                return age.total_seconds() <= _MAX_AGE_HOURS * 3600
+            except Exception:
+                pass
+    # If no date at all, include it (better than dropping real-time feeds)
+    return True
 
 
 def load_config() -> dict:
@@ -57,6 +77,8 @@ def fetch_rbi_news() -> list[str]:
     try:
         feed = feedparser.parse("https://www.rbi.org.in/scripts/rss.aspx")
         for entry in feed.entries[:10]:
+            if not _is_recent(entry):
+                continue
             title = _clean(entry.get("title", "")).strip()
             summary = _clean(entry.get("summary", entry.get("description", ""))).strip()
             url = entry.get("link", "")
@@ -92,7 +114,9 @@ def fetch_rbi_news() -> list[str]:
         try:
             gn_url = "https://news.google.com/rss/search?q=RBI+India+monetary+policy+regulation&hl=en-IN&gl=IN&ceid=IN:en"
             feed = feedparser.parse(gn_url)
-            for entry in feed.entries[:5]:
+            for entry in feed.entries[:10]:
+                if not _is_recent(entry):
+                    continue
                 title = _clean(entry.get("title", "")).strip()
                 summary = _clean(entry.get("summary", "")).strip()
                 url = entry.get("link", "")
@@ -108,7 +132,9 @@ def fetch_sebi_news() -> list[str]:
     try:
         feed = feedparser.parse("https://www.sebi.gov.in/sebirss.xml")
         items = []
-        for entry in feed.entries[:10]:
+        for entry in feed.entries[:20]:
+            if not _is_recent(entry):
+                continue
             title = _clean(entry.get("title", "")).strip()
             summary = _clean(entry.get("summary", entry.get("description", ""))).strip()
             url = entry.get("link", "")
@@ -173,6 +199,8 @@ def fetch_google_news() -> list[str]:
             for entry in feed.entries:
                 if count >= max_per_query:
                     break
+                if not _is_recent(entry):
+                    continue
                 raw_title = _clean(entry.get("title", "")).strip()
                 if not raw_title or raw_title in seen_titles:
                     continue
@@ -280,6 +308,8 @@ def fetch_company_news() -> list[str]:
                 for entry in feed.entries:
                     if count >= 2:
                         break
+                    if not _is_recent(entry):
+                        continue
                     raw_title = _clean(entry.get("title", "")).strip()
                     if not raw_title or raw_title in seen_titles:
                         continue
