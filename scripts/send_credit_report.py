@@ -145,22 +145,17 @@ S3: <table width="100%" cellpadding="0" cellspacing="0" style="margin-top:12px;"
 S4: <table width="100%" cellpadding="0" cellspacing="0" style="margin-top:12px;"><tr><td style="background:#15803d;padding:7px 16px;font-size:9px;font-weight:800;letter-spacing:3px;text-transform:uppercase;color:#fff;">SECTION 4 &mdash; BOND &amp; MONEY MARKETS</td></tr></table>
 S5: <table width="100%" cellpadding="0" cellspacing="0" style="margin-top:12px;"><tr><td style="background:#6d28d9;padding:7px 16px;font-size:9px;font-weight:800;letter-spacing:3px;text-transform:uppercase;color:#fff;">SECTION 5 &mdash; MACROECONOMIC DEVELOPMENTS</td></tr></table>
 
-After each header, pair articles into 2-column rows:
+After each header, list every article as a compact row (one per line, no column splitting):
 <table width="100%" cellpadding="0" cellspacing="0">
-<tr valign="top">
-  <td width="50%" style="padding:10px 10px 10px 16px;border-right:1px solid #e5e5e5;border-bottom:1px solid #e5e5e5;">
-    <p style="margin:0 0 3px 0;font-size:9px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:#999;">SOURCE NAME</p>
-    <p style="margin:0 0 5px 0;font-size:13px;font-weight:800;color:#1a1a1a;line-height:1.35;font-family:Georgia,serif;"><a href="URL" target="_blank" style="color:#1a1a1a;text-decoration:none;">HEADLINE</a></p>
-    <p style="margin:0 0 4px 0;font-size:11px;color:#555;line-height:1.6;">1-sentence credit-focused summary.</p>
-    <p style="margin:0;font-size:10px;font-weight:700;font-style:italic;color:#cc0000;">Credit angle phrase.</p>
-  </td>
-  <td width="50%" style="padding:10px 16px 10px 10px;border-bottom:1px solid #e5e5e5;">
-    <!-- second article, same structure; or leave empty if odd count -->
-  </td>
-</tr>
+<tr><td style="padding:8px 16px;border-bottom:1px solid #f0f0f0;">
+  <span style="font-size:9px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:#999;">SOURCE</span>
+  &nbsp;&nbsp;<a href="URL" target="_blank" style="font-size:13px;font-weight:700;color:#1a1a1a;text-decoration:none;font-family:Georgia,serif;">HEADLINE</a>
+  &nbsp;&mdash;&nbsp;<span style="font-size:11px;color:#cc0000;font-style:italic;">Credit angle in one phrase.</span>
+</td></tr>
+<!-- repeat one <tr> per article -->
 </table>
 
-Empty section: <p style="padding:10px 16px;font-size:11px;color:#aaa;font-style:italic;margin:0;">No news in this category today.</p>
+Empty section: <p style="padding:8px 16px;font-size:11px;color:#aaa;font-style:italic;margin:0;">No news in this category today.</p>
 
 ════════════════════════
 PART C — TOP 5 BRIEFING BAR
@@ -170,30 +165,38 @@ PART C — TOP 5 BRIEFING BAR
 </table>
 <table width="100%" cellpadding="0" cellspacing="0" style="border:1px solid #e5e5e5;border-top:none;">
 <tr valign="top">
-  <td width="20%" style="padding:12px 8px 12px 16px;border-right:1px solid #e5e5e5;">
-    <p style="margin:0 0 3px 0;font-size:28px;font-weight:900;color:#cc0000;line-height:1;font-family:Georgia,serif;">01</p>
-    <p style="margin:0 0 4px 0;font-size:9px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:#777;">S1 / TOPIC</p>
-    <p style="margin:0;font-size:11px;color:#1a1a1a;line-height:1.6;">One sharp credit insight.</p>
+  <td style="padding:10px 8px 10px 16px;font-size:28px;font-weight:900;color:#cc0000;line-height:1;font-family:Georgia,serif;width:44px;">01</td>
+  <td style="padding:10px 16px 10px 0;border-bottom:1px solid #f0f0f0;">
+    <p style="margin:0 0 2px 0;font-size:9px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:#777;">S1 / TOPIC</p>
+    <p style="margin:0;font-size:12px;color:#1a1a1a;line-height:1.6;">One sharp credit insight.</p>
   </td>
-  <td width="20%" style="padding:12px 8px;border-right:1px solid #e5e5e5;">
-    <p style="margin:0 0 3px 0;font-size:28px;font-weight:900;color:#cc0000;line-height:1;font-family:Georgia,serif;">02</p>
-    <p style="margin:0 0 4px 0;font-size:9px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:#777;">S2 / TOPIC</p>
-    <p style="margin:0;font-size:11px;color:#1a1a1a;line-height:1.6;">One sharp credit insight.</p>
+</tr>
+<tr valign="top">
+  <td style="padding:10px 8px 10px 16px;font-size:28px;font-weight:900;color:#cc0000;line-height:1;font-family:Georgia,serif;">02</td>
+  <td style="padding:10px 16px 10px 0;border-bottom:1px solid #f0f0f0;">
+    <p style="margin:0 0 2px 0;font-size:9px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:#777;">S2 / TOPIC</p>
+    <p style="margin:0;font-size:12px;color:#1a1a1a;line-height:1.6;">One sharp credit insight.</p>
   </td>
-  <td width="20%" style="padding:12px 8px;border-right:1px solid #e5e5e5;">
-    <p style="margin:0 0 3px 0;font-size:28px;font-weight:900;color:#cc0000;line-height:1;font-family:Georgia,serif;">03</p>
-    <p style="margin:0 0 4px 0;font-size:9px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:#777;">S3 / TOPIC</p>
-    <p style="margin:0;font-size:11px;color:#1a1a1a;line-height:1.6;">One sharp credit insight.</p>
+</tr>
+<tr valign="top">
+  <td style="padding:10px 8px 10px 16px;font-size:28px;font-weight:900;color:#cc0000;line-height:1;font-family:Georgia,serif;">03</td>
+  <td style="padding:10px 16px 10px 0;border-bottom:1px solid #f0f0f0;">
+    <p style="margin:0 0 2px 0;font-size:9px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:#777;">S3 / TOPIC</p>
+    <p style="margin:0;font-size:12px;color:#1a1a1a;line-height:1.6;">One sharp credit insight.</p>
   </td>
-  <td width="20%" style="padding:12px 8px;border-right:1px solid #e5e5e5;">
-    <p style="margin:0 0 3px 0;font-size:28px;font-weight:900;color:#cc0000;line-height:1;font-family:Georgia,serif;">04</p>
-    <p style="margin:0 0 4px 0;font-size:9px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:#777;">S4 / TOPIC</p>
-    <p style="margin:0;font-size:11px;color:#1a1a1a;line-height:1.6;">One sharp credit insight.</p>
+</tr>
+<tr valign="top">
+  <td style="padding:10px 8px 10px 16px;font-size:28px;font-weight:900;color:#cc0000;line-height:1;font-family:Georgia,serif;">04</td>
+  <td style="padding:10px 16px 10px 0;border-bottom:1px solid #f0f0f0;">
+    <p style="margin:0 0 2px 0;font-size:9px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:#777;">S4 / TOPIC</p>
+    <p style="margin:0;font-size:12px;color:#1a1a1a;line-height:1.6;">One sharp credit insight.</p>
   </td>
-  <td width="20%" style="padding:12px 16px 12px 8px;">
-    <p style="margin:0 0 3px 0;font-size:28px;font-weight:900;color:#cc0000;line-height:1;font-family:Georgia,serif;">05</p>
-    <p style="margin:0 0 4px 0;font-size:9px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:#777;">S5 / TOPIC</p>
-    <p style="margin:0;font-size:11px;color:#1a1a1a;line-height:1.6;">One sharp credit insight.</p>
+</tr>
+<tr valign="top">
+  <td style="padding:10px 8px 10px 16px;font-size:28px;font-weight:900;color:#cc0000;line-height:1;font-family:Georgia,serif;">05</td>
+  <td style="padding:10px 16px 10px 0;">
+    <p style="margin:0 0 2px 0;font-size:9px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:#777;">S5 / TOPIC</p>
+    <p style="margin:0;font-size:12px;color:#1a1a1a;line-height:1.6;">One sharp credit insight.</p>
   </td>
 </tr>
 </table>
@@ -222,7 +225,7 @@ def generate_report(news_text: str, today: datetime.date, api_key: str) -> str:
         client = anthropic.Anthropic(api_key=api_key)
         message = client.messages.create(
             model="claude-sonnet-4-6",
-            max_tokens=12000,
+            max_tokens=16000,
             messages=[{"role": "user", "content": prompt}],
         )
         return message.content[0].text
