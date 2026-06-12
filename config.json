@@ -4,13 +4,13 @@
     "Jitendra.Meghrajani@careedge.in"
   ],
   "sources": {
-    "rbi_rss": true,
-    "sebi_rss": true,
-    "google_news": true,
-    "newsapi": true,
-    "company_watchlist": true,
+    "rbi_rss": false,
+    "sebi_rss": false,
+    "google_news": false,
+    "newsapi": false,
+    "company_watchlist": false,
     "telegram": true,
-    "web_scraper": true
+    "web_scraper": false
   },
   "custom_scrape_urls": [],
   "web_sources": {
@@ -19,7 +19,6 @@
     "icra": true,
     "india_ratings": true,
     "bse": true,
-    "nse": true,
     "fimmda": true,
     "ccil": true
   },
