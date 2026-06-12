@@ -87,14 +87,14 @@ Pick the 10 to 15 most credit-important items across ALL sections.
 Spread them across sections — do NOT put all highlights from one section.
 Order: most important first.
 
-Each highlight card:
+Each highlight card (use this exact HTML — table keeps News and Credit Implication side by side):
 <div class="content"><div class="item">
   <p class="item-title">SECTION TAG — COMPANY / TOPIC — HEADLINE</p>
   <p class="item-sector">Source publication name</p>
-  <p class="sub-heading">News</p>
-  <p>2–3 lines. What happened. Facts only.</p>
-  <p class="sub-heading">Credit Implication</p>
-  <p>2–3 lines. Rating / liquidity / asset quality / funding impact.</p>
+  <table class="two-col"><tr>
+    <td class="col-news"><p class="sub-heading">News</p><p>2–3 lines. What happened. Facts only.</p></td>
+    <td class="col-impl"><p class="sub-heading">Credit Implication</p><p>2–3 lines. Rating / liquidity / asset quality / funding impact.</p></td>
+  </tr></table>
   <div class="source-block">&#128279; Publication &nbsp;<a href="URL" target="_blank" style="color:#4299e1;text-decoration:none;">Read more ↗</a></div>
 </div></div>
 (Omit source-block if no URL was given.)
@@ -373,6 +373,26 @@ def build_html(inner_html: str, today: datetime.date) -> str:
     color: #475569;
   }}
   .top10-text strong {{ color: #0f172a; }}
+  /* ── TWO-COLUMN NEWS / IMPLICATION ── */
+  .two-col {{
+    width: 100%;
+    border-collapse: collapse;
+    margin: 12px 0 8px 0;
+  }}
+  .two-col td {{
+    width: 50%;
+    vertical-align: top;
+    padding: 0;
+  }}
+  .col-news {{
+    padding-right: 16px;
+    border-right: 2px solid #f1f5f9;
+  }}
+  .col-impl {{
+    padding-left: 16px;
+    background: #f8fafc;
+    border-radius: 0 6px 6px 0;
+  }}
   /* ── COMPACT LINK LIST ── */
   .compact-list {{
     padding: 14px 0 6px 0;
