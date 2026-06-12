@@ -19,6 +19,7 @@
     "icra": true,
     "india_ratings": true,
     "bse": true,
+    "nse": true,
     "fimmda": true,
     "ccil": true
   },

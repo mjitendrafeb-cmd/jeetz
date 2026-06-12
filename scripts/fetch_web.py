@@ -205,66 +205,166 @@ def fetch_india_ratings() -> list[str]:
 
 
 # ─────────────────────────────────────────────────────────────────────────────
-# 5. BSE CORPORATE ANNOUNCEMENTS (public JSON API)
+# 5. BSE CORPORATE ANNOUNCEMENTS + CORPORATE ACTIONS
 # ─────────────────────────────────────────────────────────────────────────────
+_BSE_HEADERS = {
+    **_HEADERS,
+    "Referer": "https://www.bseindia.com/",
+    "Origin": "https://www.bseindia.com",
+}
+
+_CREDIT_KEYWORDS = {
+    "rating", "downgrad", "upgrad", "default", "npa", "borrowing",
+    "debenture", "ncds", "ncd", "bond", "credit", "debt", "repayment",
+    "restructur", "insolvency", "liquidation", "moratorium", "write-off",
+    "write off", "provisioning", "stressed", "resolution",
+}
+
+
 def fetch_bse_announcements() -> list[str]:
-    """
-    BSE public announcements API — filters for credit-relevant categories:
-    Results, Borrowings, Default, NPA, Rating, Board Meeting outcome.
-    """
+    """BSE announcements filtered for credit-relevant content."""
     items = []
     today = datetime.date.today()
     prev = today - datetime.timedelta(days=2)
 
-    try:
-        url = (
+    # Try two endpoints — AnnSubCategoryGetData is more reliable
+    endpoints = [
+        (
+            "https://api.bseindia.com/BseIndiaAPI/api/AnnSubCategoryGetData/w"
+            f"?strCat=-1&strPrevDate={prev.strftime('%Y%m%d')}"
+            f"&strScrip=&strSearch=P&strToDate={today.strftime('%Y%m%d')}"
+            "&strType=C&subcategory=-1"
+        ),
+        (
             "https://api.bseindia.com/BseIndiaAPI/api/AnnGetData/w"
             f"?strCat=-1&strPrevDate={prev.strftime('%Y%m%d')}"
             f"&strScrip=&strSearch=P&strToDate={today.strftime('%Y%m%d')}"
             "&strType=C&subcategory=-1"
-        )
-        r = _SESSION.get(url, timeout=15, headers={
-            **_HEADERS,
-            "Referer": "https://www.bseindia.com/",
-            "Origin": "https://www.bseindia.com",
-        })
-        if r.status_code == 200:
+        ),
+    ]
+
+    for url in endpoints:
+        try:
+            r = _SESSION.get(url, timeout=15, headers=_BSE_HEADERS)
+            if r.status_code != 200:
+                continue
             data = r.json()
-            announcements = data.get("Table", data.get("announcements", []))
-            credit_keywords = {
-                "rating", "downgrad", "upgrad", "default", "npa", "borrowing",
-                "debenture", "ncds", "bond", "credit", "debt", "repayment",
-                "restructur", "insolvency", "liquidation", "moratorium",
-            }
+            # The response may use Table, Table1, or a list at root
+            announcements = []
+            if isinstance(data, list):
+                announcements = data
+            elif isinstance(data, dict):
+                for key in ("Table", "Table1", "announcements", "data"):
+                    val = data.get(key)
+                    if isinstance(val, list) and val:
+                        announcements = val
+                        break
+
+            print(f"[fetch_web] BSE endpoint {url.split('api/')[1].split('/')[0]}: {len(announcements)} rows")
             count = 0
             for ann in announcements:
                 if not isinstance(ann, dict):
                     continue
-                headline = _clean(str(ann.get("HEADLINE", ann.get("headline", "")))).strip()
-                category = str(ann.get("CATEGORYNAME", ann.get("category", ""))).lower()
-                scrip = str(ann.get("SCRIP_CD", ann.get("scrip", ""))).strip()
-                company = _clean(str(ann.get("SLONGNAME", ann.get("company", "")))).strip()
-                pdf = str(ann.get("ATTACHMENTNAME", "")).strip()
+                headline = _clean(str(ann.get("HEADLINE", ann.get("NEWSSUB", ann.get("headline", ""))))).strip()
+                category = str(ann.get("CATEGORYNAME", ann.get("CATEGORY", ann.get("category", "")))).lower()
+                company = _clean(str(ann.get("SLONGNAME", ann.get("SCRIP_NAME", ann.get("company", ""))))).strip()
+                pdf = str(ann.get("ATTACHMENTNAME", ann.get("PDF_NAME", ""))).strip()
 
                 if not headline or len(headline) < 10:
                     continue
                 hl_lower = headline.lower()
-                if not any(k in hl_lower or k in category for k in credit_keywords):
+                if not any(k in hl_lower or k in category for k in _CREDIT_KEYWORDS):
                     continue
 
-                url_link = ""
-                if pdf:
-                    url_link = f"https://www.bseindia.com/xml-data/corpfiling/AttachLive/{pdf}"
-
+                url_link = f"https://www.bseindia.com/xml-data/corpfiling/AttachLive/{pdf}" if pdf else ""
                 tag = f"[BSE — {company}]" if company else "[BSE Announcement]"
                 items.append(f"{tag} {headline} | URL:{url_link}" if url_link else f"{tag} {headline}")
                 count += 1
                 if count >= 15:
                     break
-    except Exception as exc:
-        print(f"[fetch_web] BSE announcements error: {exc}")
+
+            if items:
+                break  # got results, no need for fallback endpoint
+        except Exception as exc:
+            print(f"[fetch_web] BSE announcements error ({url.split('api/')[1].split('/')[0]}): {exc}")
 
     return items
+
+
+def fetch_bse_corporate_actions() -> list[str]:
+    """BSE corporate actions — NCD allotments, debenture redemptions, rights issues."""
+    items = []
+    today = datetime.date.today()
+    prev = today - datetime.timedelta(days=7)
+
+    try:
+        url = (
+            "https://api.bseindia.com/BseIndiaAPI/api/DefaultData/w"
+            f"?strDate={prev.strftime('%Y%m%d')}&endDate={today.strftime('%Y%m%d')}"
+            "&segment=D"  # D = debt/debenture segment
+        )
+        r = _SESSION.get(url, timeout=15, headers=_BSE_HEADERS)
+        if r.status_code == 200:
+            data = r.json()
+            rows = data if isinstance(data, list) else data.get("Table", data.get("data", []))
+            for row in rows[:20]:
+                if not isinstance(row, dict):
+                    continue
+                purpose = _clean(str(row.get("Purpose", row.get("PURPOSE", "")))).strip()
+                company = _clean(str(row.get("SCRIP_NAME", row.get("CompanyName", "")))).strip()
+                ex_date = str(row.get("Ex_date", row.get("EXDATE", ""))).strip()
+                if purpose and company:
+                    items.append(f"[BSE CorpAction — {company}] {purpose} (Ex-date: {ex_date})")
+    except Exception as exc:
+        print(f"[fetch_web] BSE corporate actions error: {exc}")
+
+    return items[:10]
+
+
+def fetch_nse_corporate_actions() -> list[str]:
+    """NSE corporate actions — uses NSE India public API (no auth needed)."""
+    items = []
+    today = datetime.date.today()
+    from_date = today - datetime.timedelta(days=7)
+
+    try:
+        # NSE requires a cookie from homepage first
+        session = requests.Session()
+        session.headers.update({
+            **_HEADERS,
+            "Referer": "https://www.nseindia.com/",
+        })
+        session.get("https://www.nseindia.com/", timeout=10)  # get cookies
+
+        url = (
+            "https://www.nseindia.com/api/corporates-corporateActions"
+            f"?index=equities&from_date={from_date.strftime('%d-%m-%Y')}"
+            f"&to_date={today.strftime('%d-%m-%Y')}&csv=false"
+        )
+        r = session.get(url, timeout=15)
+        if r.status_code == 200:
+            data = r.json()
+            rows = data if isinstance(data, list) else data.get("data", [])
+            credit_purposes = {
+                "debenture", "ncd", "bond", "rights", "buyback",
+                "dividend", "redemption", "interest", "allotment",
+            }
+            for row in rows[:30]:
+                if not isinstance(row, dict):
+                    continue
+                purpose = _clean(str(row.get("purpose", row.get("subject", "")))).strip()
+                company = _clean(str(row.get("symbol", row.get("companyName", "")))).strip()
+                ex_date = str(row.get("exDate", row.get("exdate", ""))).strip()
+                if not purpose or not company:
+                    continue
+                if not any(k in purpose.lower() for k in credit_purposes):
+                    continue
+                items.append(f"[NSE CorpAction — {company}] {purpose} (Ex-date: {ex_date})")
+        print(f"[fetch_web] NSE corporate actions: {len(items)} credit-relevant items")
+    except Exception as exc:
+        print(f"[fetch_web] NSE corporate actions error: {exc}")
+
+    return items[:10]
 
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -452,6 +552,12 @@ def fetch_all_web(sources: dict | None = None, custom_urls: list[str] | None = N
     if on("bse"):
         print("[fetch_web] Fetching BSE announcements...")
         all_items.extend(fetch_bse_announcements())
+        print("[fetch_web] Fetching BSE corporate actions...")
+        all_items.extend(fetch_bse_corporate_actions())
+
+    if on("nse"):
+        print("[fetch_web] Fetching NSE corporate actions...")
+        all_items.extend(fetch_nse_corporate_actions())
 
     if on("fimmda"):
         print("[fetch_web] Fetching FIMMDA...")
