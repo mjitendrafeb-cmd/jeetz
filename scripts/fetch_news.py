@@ -148,6 +148,12 @@ _GOOGLE_QUERIES = [
     # Rating Actions
     ("Ratings", "credit rating upgrade downgrade India CRISIL ICRA CareEdge India Ratings"),
     ("Ratings", "rating watch negative outlook India bond issuer"),
+    # Macroeconomic
+    ("Macro", "India GDP growth inflation RBI monetary policy outlook"),
+    ("Macro", "India IIP CPI WPI data economic indicators"),
+    ("Macro", "India forex reserve rupee dollar current account"),
+    ("Macro", "India fiscal deficit government borrowing budget"),
+    ("Macro", "global economy US Fed interest rate India impact"),
 ]
 
 
@@ -163,8 +169,9 @@ def fetch_google_news() -> list[str]:
             )
             feed = feedparser.parse(url)
             count = 0
+            max_per_query = 3 if tag == "Macro" else 2
             for entry in feed.entries:
-                if count >= 2:
+                if count >= max_per_query:
                     break
                 raw_title = _clean(entry.get("title", "")).strip()
                 if not raw_title or raw_title in seen_titles:
@@ -302,7 +309,7 @@ def fetch_all_news(newsapi_key: str = "") -> str:
         if key not in seen:
             seen.add(key)
             unique.append(item)
-        if len(unique) >= 80:
+        if len(unique) >= 150:
             break
 
     if not unique:

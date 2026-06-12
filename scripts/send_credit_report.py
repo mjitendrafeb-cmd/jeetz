@@ -79,10 +79,11 @@ Rating outlook · Liquidity · Funding access · Asset quality · Capitalisation
 IGNORE: Product launches · CSR · Awards · Marketing · Stock tips · Market gossip · Generic business news
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-OUTPUT — EXACTLY 5 SECTIONS IN THIS ORDER
+OUTPUT — EXACTLY 5 SECTIONS IN THIS ORDER (MANDATORY)
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-You MUST output ALL 5 sections every time, in this exact order. No exceptions.
+CRITICAL RULE: You MUST output ALL 5 sections in full, every single time.
+Do NOT stop after Section 3. Do NOT skip Section 4 or Section 5.
 If there is no relevant news for a section, still output the section header and write "No news available today."
 
 SECTION 1 — MY RATED ENTITIES AND WATCHLIST
@@ -90,17 +91,22 @@ Include ONLY items explicitly tagged [WATCHLIST — CompanyName] in the input.
 Do NOT place other company news (LIC, HDFC, SBI etc.) here — those go in Section 2.
 
 SECTION 2 — NBFC, HFC, BROKING, FINTECH, FI SECTORS
-All sector-level company news that is NOT tagged [WATCHLIST — CompanyName].
-Includes banks, NBFCs, HFCs, brokers, fintechs, FIs.
+All sector-level company and industry news NOT tagged [WATCHLIST — CompanyName].
+Covers: NBFCs, HFCs, banks, brokers, fintechs, fintech platforms, FIs, microfinance.
+Look for items tagged: NBFC, HFC, Banking, Broking, Fintech, MFI in the news input.
 
 SECTION 3 — RBI, SEBI, NHB REGULATIONS
 Only regulatory announcements, circulars, policy changes from RBI, SEBI, NHB, or other regulators.
+Look for items tagged: RBI, SEBI in the news input.
 
 SECTION 4 — BOND AND MONEY MARKETS
-Bond yields, G-sec movements, commercial paper, corporate bonds, liquidity, FIMMDA/CCIL data.
+Bond yields, G-sec movements, commercial paper, corporate bonds, liquidity, FIMMDA/CCIL data, securitisation.
+Look for items tagged: Bonds, CP, Securitisation, FIMMDA, CCIL, Ratings in the news input.
 
 SECTION 5 — MACROECONOMIC DEVELOPMENTS
-GDP, inflation, IIP, forex, trade data, global macro impact on Indian credit markets.
+GDP, inflation (CPI/WPI), IIP, forex reserves, trade deficit, fiscal deficit, US Fed, global macro impact on India.
+Look for items tagged: Macro in the news input. If no macro tag exists, check the news for any economic data releases.
+IMPORTANT: Always write at least 2–3 items here even if you have to infer macro context from sector news.
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 FORMAT FOR EACH NEWS ITEM
@@ -167,9 +173,9 @@ def generate_report(news_text: str, today: datetime.date, api_key: str) -> str:
     day_str = today.strftime("%A")
     date_str = today.strftime("%d %B %Y")
 
-    # Trim news — larger limit now that we fetch more targeted items
-    if len(news_text) > 18000:
-        news_text = news_text[:18000] + "\n[...truncated for length]"
+    # Trim news — keep enough for all 5 sections to have input
+    if len(news_text) > 30000:
+        news_text = news_text[:30000] + "\n[...truncated for length]"
 
     prompt = _build_prompt(news_text, day_str, date_str)
 
@@ -177,7 +183,7 @@ def generate_report(news_text: str, today: datetime.date, api_key: str) -> str:
         client = anthropic.Anthropic(api_key=api_key)
         message = client.messages.create(
             model="claude-sonnet-4-6",
-            max_tokens=8000,
+            max_tokens=12000,
             messages=[{"role": "user", "content": prompt}],
         )
         return message.content[0].text
