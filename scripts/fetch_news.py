@@ -270,15 +270,19 @@ def fetch_all_news(newsapi_key: str = "") -> str:
             cfg.get("custom_scrape_urls", []),
         ))
 
-    # Deduplicate by normalised title
+    # Deduplicate by normalised headline — strip tag prefix like [TELEGRAM — @x] or [WATCHLIST — Co]
     seen: set[str] = set()
     unique: list[str] = []
     for item in all_items:
-        key = item.split(" — ")[0].lower().strip()
+        # Strip leading [TAG — value] prefix before keying
+        text = re.sub(r"^\[[^\]]+\]\s*", "", item)
+        key = text.split(" — ")[0].lower().strip()[:120]
+        if not key:
+            key = item[:120].lower()
         if key not in seen:
             seen.add(key)
             unique.append(item)
-        if len(unique) >= 80:
+        if len(unique) >= 150:
             break
 
     if not unique:
