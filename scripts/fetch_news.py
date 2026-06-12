@@ -31,8 +31,8 @@ def _is_recent(entry) -> bool:
                 return age.total_seconds() <= _MAX_AGE_HOURS * 3600
             except Exception:
                 pass
-    # If no date at all, include it (better than dropping real-time feeds)
-    return True
+    # No date field — exclude to avoid surfacing old undated articles
+    return False
 
 
 def load_config() -> dict:
@@ -112,7 +112,7 @@ def fetch_rbi_news() -> list[str]:
     # Final fallback: Google News
     if not items:
         try:
-            gn_url = "https://news.google.com/rss/search?q=RBI+India+monetary+policy+regulation&hl=en-IN&gl=IN&ceid=IN:en"
+            gn_url = "https://news.google.com/rss/search?q=RBI+India+monetary+policy+regulation&hl=en-IN&gl=IN&ceid=IN:en&when=2d"
             feed = feedparser.parse(gn_url)
             for entry in feed.entries[:10]:
                 if not _is_recent(entry):
@@ -191,7 +191,7 @@ def fetch_google_news() -> list[str]:
         try:
             url = (
                 f"https://news.google.com/rss/search"
-                f"?q={requests.utils.quote(query)}&hl=en-IN&gl=IN&ceid=IN:en"
+                f"?q={requests.utils.quote(query)}&hl=en-IN&gl=IN&ceid=IN:en&when=2d"
             )
             feed = feedparser.parse(url)
             count = 0
@@ -301,7 +301,7 @@ def fetch_company_news() -> list[str]:
             ]:
                 url = (
                     f"https://news.google.com/rss/search"
-                    f"?q={requests.utils.quote(query)}&hl=en-IN&gl=IN&ceid=IN:en"
+                    f"?q={requests.utils.quote(query)}&hl=en-IN&gl=IN&ceid=IN:en&when=2d"
                 )
                 feed = feedparser.parse(url)
                 count = 0

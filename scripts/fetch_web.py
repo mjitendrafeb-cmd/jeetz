@@ -417,7 +417,7 @@ def _google_news_fallback(query: str, tag: str, limit: int = 5) -> list[str]:
     try:
         url = (
             f"https://news.google.com/rss/search"
-            f"?q={requests.utils.quote(query)}&hl=en-IN&gl=IN&ceid=IN:en"
+            f"?q={requests.utils.quote(query)}&hl=en-IN&gl=IN&ceid=IN:en&when=2d"
         )
         feed = feedparser.parse(url)
         items = []
