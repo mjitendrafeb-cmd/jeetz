@@ -146,35 +146,24 @@ def fetch_sebi_news() -> list[str]:
         return []
 
 
-# Targeted queries covering all 10 report sections
+# Targeted queries covering all report sections
 _GOOGLE_QUERIES = [
-    # RBI / Regulatory
     ("RBI", "RBI India monetary policy repo rate liquidity"),
     ("RBI", "RBI circular regulation banking India"),
-    # SEBI
     ("SEBI", "SEBI India capital market regulation bond"),
-    # Banking
     ("Banking", "Indian bank NPA stressed assets credit"),
     ("Banking", "SBI HDFC ICICI Axis bank results earnings"),
-    # NBFC
     ("NBFC", "NBFC India loan disbursement stress liquidity"),
     ("NBFC", "microfinance MFI India NPA collections"),
-    # Housing Finance
     ("HFC", "housing finance India HFC mortgage home loan"),
     ("HFC", "LIC Housing HDFC housing affordable housing"),
-    # Broking & Fintech
     ("Broking", "India broking fintech SEBI regulation stock broker"),
-    # Bond Market
     ("Bonds", "India bond market yield G-sec government securities"),
     ("Bonds", "India corporate bond credit spread debenture"),
-    # Commercial Paper
     ("CP", "commercial paper India money market CP issuance"),
-    # Securitisation
     ("Securitisation", "India securitisation ABS RMBS PTC pool"),
-    # Rating Actions
     ("Ratings", "credit rating upgrade downgrade India CRISIL ICRA CareEdge India Ratings"),
     ("Ratings", "rating watch negative outlook India bond issuer"),
-    # Macroeconomic
     ("Macro", "India GDP growth inflation RBI monetary policy outlook"),
     ("Macro", "India IIP CPI WPI data economic indicators"),
     ("Macro", "India forex reserve rupee dollar current account"),
@@ -224,6 +213,8 @@ def fetch_google_news() -> list[str]:
 def fetch_newsapi_news(api_key: str) -> list[str]:
     if not api_key:
         return []
+    cutoff = datetime.datetime.now(datetime.timezone.utc) - datetime.timedelta(hours=48)
+    from_date = (datetime.date.today() - datetime.timedelta(days=2)).strftime('%Y-%m-%d')
     try:
         resp = requests.get(
             "https://newsapi.org/v2/everything",
@@ -234,6 +225,7 @@ def fetch_newsapi_news(api_key: str) -> list[str]:
                 ),
                 "language": "en",
                 "sortBy": "publishedAt",
+                "from": from_date,
                 "pageSize": 30,
                 "domains": (
                     "economictimes.indiatimes.com,livemint.com,"
@@ -247,12 +239,21 @@ def fetch_newsapi_news(api_key: str) -> list[str]:
         data = resp.json()
         items = []
         for article in data.get("articles", []):
+            pub_str = article.get("publishedAt", "")
+            if pub_str:
+                try:
+                    pub = datetime.datetime.fromisoformat(pub_str.replace("Z", "+00:00"))
+                    if pub < cutoff:
+                        continue
+                except Exception:
+                    pass
             source = article.get("source", {}).get("name", "NewsAPI")
             title = _clean(article.get("title", "")).strip()
             description = _clean(article.get("description", "")).strip()
             url = article.get("url", "")
             if title:
                 items.append(_fmt(source, title, description, url))
+        print(f"[fetch_news] NewsAPI: {len(items)} articles within 48h")
         return items
     except Exception as exc:
         print(f"[fetch_news] NewsAPI error: {exc}")
@@ -260,8 +261,6 @@ def fetch_newsapi_news(api_key: str) -> list[str]:
 
 
 def _short_name(company: str) -> str:
-    """Extract a shorter search-friendly name from a long legal company name."""
-    # Remove common suffixes that hurt search
     suffixes = [
         "private limited", "pvt limited", "pvt. limited", "pvt ltd",
         "pvt. ltd.", "limited", "ltd.", "ltd", "llp", "co limited",
@@ -271,9 +270,7 @@ def _short_name(company: str) -> str:
     name = company.lower()
     for s in suffixes:
         name = name.replace(s, "")
-    # Title case and strip
     name = name.strip(" .,")
-    # Use original casing from first 3-4 meaningful words
     words = [w for w in company.split() if w.lower() not in {
         "private", "limited", "pvt", "ltd", "the", "and", "&", "co",
         "company", "services", "solutions", "finance", "financial",
@@ -294,7 +291,6 @@ def fetch_company_news() -> list[str]:
             break
         short = _short_name(company)
         try:
-            # Try short name first (broader), fall back to exact full name if no results
             for query in [
                 f'"{short}" India finance credit rating',
                 f'"{short}" India',
@@ -325,7 +321,7 @@ def fetch_company_news() -> list[str]:
                     items.append(f"[WATCHLIST — {company}] {_fmt(source, title, summary, link)}")
                     count += 1
                 if count > 0:
-                    break  # got results from this query, no need for broader fallback
+                    break
         except Exception as exc:
             print(f"[fetch_news] Company news error for '{company}': {exc}")
 
@@ -360,11 +356,15 @@ def fetch_all_news(newsapi_key: str = "") -> str:
             cfg.get("custom_scrape_urls", []),
         ))
 
-    # Deduplicate by normalised title
+    # Deduplicate by normalised headline — strip tag prefix like [TELEGRAM — @x] or [WATCHLIST — Co]
     seen: set[str] = set()
     unique: list[str] = []
     for item in all_items:
-        key = item.split(" — ")[0].lower().strip()
+        # Strip leading [TAG — value] prefix before keying
+        text = re.sub(r"^\[[^\]]+\]\s*", "", item)
+        key = text.split(" — ")[0].lower().strip()[:120]
+        if not key:
+            key = item[:120].lower()
         if key not in seen:
             seen.add(key)
             unique.append(item)
