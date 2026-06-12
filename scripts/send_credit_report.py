@@ -66,99 +66,81 @@ def _build_prompt(news_text: str, day_str: str, date_str: str) -> str:
     return f"""You are a Credit Rating Intelligence Agent at CareEdge Ratings.
 Today is {day_str}, {date_str}.
 
-NEWS ITEMS (each may include a source URL after "| URL:"):
+NEWS ITEMS (each has a tag like [WATCHLIST], [RBI], [NBFC], [Macro], [Bonds] etc. URLs follow "| URL:"):
 
 {news_text}
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 YOUR OBJECTIVE
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-You are NOT summarising news. Identify only developments that affect:
+Focus ONLY on developments that affect:
 Rating outlook · Liquidity · Funding access · Asset quality · Capitalisation · Governance · Earnings stability
 
-IGNORE: Product launches · CSR · Awards · Marketing · Stock tips · Market gossip · Generic business news
+IGNORE: Product launches · CSR · Awards · Marketing · Stock tips · Generic business news
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-OUTPUT — EXACTLY 5 SECTIONS IN THIS ORDER (MANDATORY)
+OUTPUT STRUCTURE (follow exactly, every time)
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-CRITICAL RULE: You MUST output ALL 5 sections in full, every single time.
-Do NOT stop after Section 3. Do NOT skip Section 4 or Section 5.
-If there is no relevant news for a section, still output the section header and write "No news available today."
+PART A — TOP 10–15 HIGHLIGHTS (full cards)
+Pick the 10 to 15 most credit-important items across ALL sections.
+Spread them across sections — do NOT put all highlights from one section.
+Order: most important first.
 
-SECTION 1 — MY RATED ENTITIES AND WATCHLIST
-Include ONLY items explicitly tagged [WATCHLIST — CompanyName] in the input.
-Do NOT place other company news (LIC, HDFC, SBI etc.) here — those go in Section 2.
-
-SECTION 2 — NBFC, HFC, BROKING, FINTECH, FI SECTORS
-All sector-level company and industry news NOT tagged [WATCHLIST — CompanyName].
-Covers: NBFCs, HFCs, banks, brokers, fintechs, fintech platforms, FIs, microfinance.
-Look for items tagged: NBFC, HFC, Banking, Broking, Fintech, MFI in the news input.
-
-SECTION 3 — RBI, SEBI, NHB REGULATIONS
-Only regulatory announcements, circulars, policy changes from RBI, SEBI, NHB, or other regulators.
-Look for items tagged: RBI, SEBI in the news input.
-
-SECTION 4 — BOND AND MONEY MARKETS
-Bond yields, G-sec movements, commercial paper, corporate bonds, liquidity, FIMMDA/CCIL data, securitisation.
-Look for items tagged: Bonds, CP, Securitisation, FIMMDA, CCIL, Ratings in the news input.
-
-SECTION 5 — MACROECONOMIC DEVELOPMENTS
-GDP, inflation (CPI/WPI), IIP, forex reserves, trade deficit, fiscal deficit, US Fed, global macro impact on India.
-Look for items tagged: Macro in the news input. If no macro tag exists, check the news for any economic data releases.
-IMPORTANT: Always write at least 2–3 items here even if you have to infer macro context from sector news.
-
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-FORMAT FOR EACH NEWS ITEM
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-NEWS
-2–3 lines. What happened. Facts only. No background.
-
-→ IMPLICATION
-2–3 lines. Credit impact only — rating, liquidity, asset quality, funding, governance. No generic statements.
-
-Source link only if a URL was provided after "| URL:" in the input. Never invent URLs.
-
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-END WITH — 📌 TOP 5 THINGS TO KNOW TODAY
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-Exactly 5 points. One line each. Most important first. Tag each with the section number.
-
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-HTML OUTPUT RULES
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-Return ONLY inner HTML. No html/head/body tags.
-
-Section headers (use EXACTLY these — do not change the text):
-<p class="section-label critical-label">Section 1 &mdash; My Rated Entities and Watchlist</p>
-<p class="section-label important-label">Section 2 &mdash; NBFC, HFC, Broking, Fintech, FI Sectors</p>
-<p class="section-label watchlist-label">Section 3 &mdash; RBI, SEBI, NHB Regulations</p>
-<p class="section-label analyst-label">Section 4 &mdash; Bond and Money Markets</p>
-<p class="section-label top10-label">Section 5 &mdash; Macroeconomic Developments</p>
-
-When no news for a section:
-<div class="content"><div class="item"><p style="color:#94a3b8;font-style:italic;">No news available today.</p></div></div>
-
-Each news item (no badges, no rank labels):
+Each highlight card:
 <div class="content"><div class="item">
-  <p class="item-title">COMPANY / TOPIC — HEADLINE</p>
-  <p class="item-sector">Source publication</p>
+  <p class="item-title">SECTION TAG — COMPANY / TOPIC — HEADLINE</p>
+  <p class="item-sector">Source publication name</p>
   <p class="sub-heading">News</p>
-  <p>2–3 line factual summary.</p>
-  <p class="sub-heading">Implication</p>
-  <p>2–3 line credit implication.</p>
+  <p>2–3 lines. What happened. Facts only.</p>
+  <p class="sub-heading">Credit Implication</p>
+  <p>2–3 lines. Rating / liquidity / asset quality / funding impact.</p>
   <div class="source-block">&#128279; Publication &nbsp;<a href="URL" target="_blank" style="color:#4299e1;text-decoration:none;">Read more ↗</a></div>
 </div></div>
+(Omit source-block if no URL was given.)
 
-Top 5 section:
+PART B — ALL NEWS BY SECTION (compact link list for items NOT already in Part A)
+Output ALL 5 sections below. Each section shows remaining items as compact links.
+CRITICAL: Output ALL 5 sections even if a section has zero remaining items.
+
+Section routing:
+  S1 — WATCHLIST: Only [WATCHLIST — CompanyName] tagged items
+  S2 — NBFC/SECTORS: Items tagged NBFC, HFC, Banking, Broking, Fintech, MFI, Ratings (company news)
+  S3 — REGULATIONS: Items tagged RBI, SEBI, NHB
+  S4 — BOND MARKETS: Items tagged Bonds, CP, Securitisation, FIMMDA, CCIL
+  S5 — MACRO: Items tagged Macro, or any GDP/CPI/IIP/forex/fiscal/Fed news
+
+For each section output:
+<p class="section-label [LABEL-CLASS]">[SECTION TITLE]</p>
+<div class="content"><div class="compact-list">
+  <a href="URL" class="compact-link" target="_blank">Headline text — Source</a>
+  <a href="URL" class="compact-link" target="_blank">Headline text — Source</a>
+  ... (all remaining items, or "No additional items today." if none)
+</div></div>
+
+Label classes: S1→critical-label, S2→important-label, S3→watchlist-label, S4→analyst-label, S5→top10-label
+Section titles: use exactly:
+  Section 1 &mdash; My Rated Entities and Watchlist
+  Section 2 &mdash; NBFC, HFC, Broking, Fintech, FI Sectors
+  Section 3 &mdash; RBI, SEBI, NHB Regulations
+  Section 4 &mdash; Bond and Money Markets
+  Section 5 &mdash; Macroeconomic Developments
+
+For compact items with no URL: <span class="compact-nolink">Headline text — Source</span>
+
+PART C — TOP 5 THINGS TO KNOW TODAY
 <p class="section-label top10-label">&#128204; Top 5 Things To Know Today</p>
 <div class="content"><div class="item">
-  <div class="top10-item"><div class="top10-num">1</div><div class="top10-text"><strong>S1 / CompanyName</strong> — one-line insight.</div></div>
-  <div class="top10-item"><div class="top10-num">2</div><div class="top10-text"><strong>S2 / Topic</strong> — one-line insight.</div></div>
-  <div class="top10-item"><div class="top10-num">3</div><div class="top10-text"><strong>S3 / Topic</strong> — one-line insight.</div></div>
-  <div class="top10-item"><div class="top10-num">4</div><div class="top10-text"><strong>S4 / Topic</strong> — one-line insight.</div></div>
-  <div class="top10-item"><div class="top10-num">5</div><div class="top10-text"><strong>S5 / Topic</strong> — one-line insight.</div></div>
-</div></div>"""
+  <div class="top10-item"><div class="top10-num">1</div><div class="top10-text"><strong>S1 / Company</strong> — one-line insight.</div></div>
+  ... (5 items total)
+</div></div>
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+BEFORE PART A, output this header line:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+<p class="section-label critical-label">&#11088; Top Highlights &mdash; {date_str}</p>
+
+Return ONLY inner HTML. No html/head/body tags. No markdown."""
 
 
 # ---------------------------------------------------------------------------
@@ -391,6 +373,24 @@ def build_html(inner_html: str, today: datetime.date) -> str:
     color: #475569;
   }}
   .top10-text strong {{ color: #0f172a; }}
+  /* ── COMPACT LINK LIST ── */
+  .compact-list {{
+    padding: 14px 0 6px 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }}
+  .compact-link, .compact-nolink {{
+    display: block;
+    font-size: 13px;
+    line-height: 1.6;
+    color: #3b82f6;
+    text-decoration: none;
+    padding: 7px 0;
+    border-bottom: 1px solid #f1f5f9;
+  }}
+  .compact-link:hover {{ text-decoration: underline; }}
+  .compact-nolink {{ color: #475569; }}
   /* ── FOOTER ── */
   .footer {{
     background: #0f172a;

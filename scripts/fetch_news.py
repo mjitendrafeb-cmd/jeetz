@@ -231,6 +231,28 @@ def fetch_newsapi_news(api_key: str) -> list[str]:
         return []
 
 
+def _short_name(company: str) -> str:
+    """Extract a shorter search-friendly name from a long legal company name."""
+    # Remove common suffixes that hurt search
+    suffixes = [
+        "private limited", "pvt limited", "pvt. limited", "pvt ltd",
+        "pvt. ltd.", "limited", "ltd.", "ltd", "llp", "co limited",
+        "company limited", "finance company", "financial services",
+        "services private", "solutions private", "capital private",
+    ]
+    name = company.lower()
+    for s in suffixes:
+        name = name.replace(s, "")
+    # Title case and strip
+    name = name.strip(" .,")
+    # Use original casing from first 3-4 meaningful words
+    words = [w for w in company.split() if w.lower() not in {
+        "private", "limited", "pvt", "ltd", "the", "and", "&", "co",
+        "company", "services", "solutions", "finance", "financial",
+    }]
+    return " ".join(words[:4]) if words else company.split()[0]
+
+
 def fetch_company_news() -> list[str]:
     companies = load_watchlist()
     if not companies:
@@ -242,31 +264,38 @@ def fetch_company_news() -> list[str]:
     for company in companies:
         if len(items) >= 60:
             break
+        short = _short_name(company)
         try:
-            query = f'"{company}" India credit loan rating NPA'
-            url = (
-                f"https://news.google.com/rss/search"
-                f"?q={requests.utils.quote(query)}&hl=en-IN&gl=IN&ceid=IN:en"
-            )
-            feed = feedparser.parse(url)
-            count = 0
-            for entry in feed.entries:
-                if count >= 2:
-                    break
-                raw_title = _clean(entry.get("title", "")).strip()
-                if not raw_title or raw_title in seen_titles:
-                    continue
-                seen_titles.add(raw_title)
-                source = "Google News"
-                title = raw_title
-                if " - " in raw_title:
-                    parts = raw_title.rsplit(" - ", 1)
-                    title = parts[0].strip()
-                    source = parts[1].strip()
-                summary = _clean(entry.get("summary", entry.get("description", ""))).strip()
-                link = entry.get("link", "")
-                items.append(f"[WATCHLIST — {company}] {_fmt(source, title, summary, link)}")
-                count += 1
+            # Try short name first (broader), fall back to exact full name if no results
+            for query in [
+                f'"{short}" India finance credit rating',
+                f'"{short}" India',
+            ]:
+                url = (
+                    f"https://news.google.com/rss/search"
+                    f"?q={requests.utils.quote(query)}&hl=en-IN&gl=IN&ceid=IN:en"
+                )
+                feed = feedparser.parse(url)
+                count = 0
+                for entry in feed.entries:
+                    if count >= 2:
+                        break
+                    raw_title = _clean(entry.get("title", "")).strip()
+                    if not raw_title or raw_title in seen_titles:
+                        continue
+                    seen_titles.add(raw_title)
+                    source = "Google News"
+                    title = raw_title
+                    if " - " in raw_title:
+                        parts = raw_title.rsplit(" - ", 1)
+                        title = parts[0].strip()
+                        source = parts[1].strip()
+                    summary = _clean(entry.get("summary", entry.get("description", ""))).strip()
+                    link = entry.get("link", "")
+                    items.append(f"[WATCHLIST — {company}] {_fmt(source, title, summary, link)}")
+                    count += 1
+                if count > 0:
+                    break  # got results from this query, no need for broader fallback
         except Exception as exc:
             print(f"[fetch_news] Company news error for '{company}': {exc}")
 
