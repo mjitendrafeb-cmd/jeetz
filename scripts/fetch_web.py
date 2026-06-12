@@ -128,35 +128,8 @@ def fetch_careedge() -> list[str]:
 # 2. CRISIL
 # ─────────────────────────────────────────────────────────────────────────────
 def fetch_crisil() -> list[str]:
-    items = []
-    for url in [
-        "https://www.crisil.com/en/home/newsroom/press-releases.html",
-        "https://www.crisil.com/en/home/our-businesses/ratings/credit-rating-news.html",
-        "https://www.crisil.com/en/home/newsroom.html",
-    ]:
-        try:
-            r = _get(url)
-            if r and r.status_code == 200:
-                soup = BeautifulSoup(r.text, "html.parser")
-                for sel in ["h3 a", "h4 a", ".news-title a", ".press-release a", "article a", ".card-title a", "li a"]:
-                    links = soup.select(sel)
-                    for a in links[:10]:
-                        text = _clean(a.get_text()).strip()
-                        href = a.get("href", "")
-                        if len(text) > 20:
-                            full_url = href if href.startswith("http") else "https://www.crisil.com" + href
-                            items.append(f"[RATING — CRISIL] {text[:200]} | URL:{full_url}")
-                    if items:
-                        break
-            if items:
-                break
-        except Exception as exc:
-            print(f"[fetch_web] CRISIL scrape error ({url}): {exc}")
-
-    if not items:
-        items = _google_news_fallback("CRISIL rating upgrade downgrade outlook India", "CRISIL")
-
-    return items[:10]
+    # crisil.com redirects infinitely when scraped — use Google News directly
+    return _google_news_fallback("CRISIL rating upgrade downgrade outlook India", "CRISIL")[:8]
 
 
 # ─────────────────────────────────────────────────────────────────────────────

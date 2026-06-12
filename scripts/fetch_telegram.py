@@ -41,7 +41,13 @@ def fetch_telegram_channels(channels: list[str]) -> list[str]:
         return []
 
     try:
-        return asyncio.run(_fetch_async(api_id, api_hash, session_str, channels))
+        return asyncio.run(asyncio.wait_for(
+            _fetch_async(api_id, api_hash, session_str, channels),
+            timeout=120,
+        ))
+    except asyncio.TimeoutError:
+        print("[fetch_telegram] Timed out after 120s — session may be expired or network blocked")
+        return []
     except Exception as exc:
         print(f"[fetch_telegram] Fatal error: {exc}")
         return []
@@ -51,6 +57,7 @@ async def _fetch_async(api_id: str, api_hash: str, session_str: str, channels: l
     try:
         from telethon import TelegramClient
         from telethon.sessions import StringSession
+        from telethon.errors import AuthKeyUnregisteredError, SessionExpiredError, UserDeactivatedError
     except ImportError:
         print("[fetch_telegram] telethon not installed — run: pip install telethon")
         return []
@@ -59,20 +66,34 @@ async def _fetch_async(api_id: str, api_hash: str, session_str: str, channels: l
     items: list[str] = []
 
     client = TelegramClient(StringSession(session_str), int(api_id), api_hash)
-    await client.connect()
 
     try:
+        await asyncio.wait_for(client.connect(), timeout=30)
+    except Exception as exc:
+        print(f"[fetch_telegram] Connect failed: {exc}")
+        return []
+
+    try:
+        # Check if session is still valid
+        if not await client.is_user_authorized():
+            print("[fetch_telegram] Session is NOT authorised — TELEGRAM_SESSION secret needs to be regenerated")
+            print("[fetch_telegram] Run: python scripts/generate_telegram_session.py  then update the GitHub secret")
+            return []
+
+        me = await client.get_me()
+        print(f"[fetch_telegram] Connected as: {me.first_name} (@{me.username}), fetching {len(channels)} channels")
+
         for channel in channels:
             channel = channel.strip()
             if not channel:
                 continue
-            # Handle full URLs like https://t.me/username or @https://t.me/username
             if "t.me/" in channel:
                 channel = "@" + channel.split("t.me/")[-1].split("/")[0].strip("@")
             elif not channel.startswith("@"):
                 channel = "@" + channel
             try:
                 entity = await client.get_entity(channel)
+                count = 0
                 async for msg in client.iter_messages(entity, limit=20):
                     if not msg.date:
                         continue
@@ -84,13 +105,17 @@ async def _fetch_async(api_id: str, api_hash: str, session_str: str, channels: l
                     text = _clean(msg.text or msg.message or "")
                     if not text or len(text) < 30:
                         continue
-                    snippet = text[:300]
-                    items.append(f"[TELEGRAM — {channel}] {snippet}")
-                    if len(items) >= 5:  # max 5 per channel
+                    items.append(f"[TELEGRAM — {channel}] {text[:300]}")
+                    count += 1
+                    if count >= 5:
                         break
+                print(f"[fetch_telegram] {channel}: {count} items")
             except Exception as exc:
                 print(f"[fetch_telegram] Could not read {channel}: {exc}")
+    except (AuthKeyUnregisteredError, SessionExpiredError, UserDeactivatedError) as exc:
+        print(f"[fetch_telegram] Session invalid ({type(exc).__name__}) — regenerate TELEGRAM_SESSION secret")
     finally:
         await client.disconnect()
 
+    print(f"[fetch_telegram] Total Telegram items: {len(items)}")
     return items
