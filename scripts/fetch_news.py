@@ -150,6 +150,8 @@ def fetch_google_news() -> list[str]:
 def fetch_newsapi_news(api_key: str) -> list[str]:
     if not api_key:
         return []
+    cutoff = datetime.datetime.now(datetime.timezone.utc) - datetime.timedelta(hours=48)
+    from_date = (datetime.date.today() - datetime.timedelta(days=2)).strftime('%Y-%m-%d')
     try:
         resp = requests.get(
             "https://newsapi.org/v2/everything",
@@ -160,6 +162,7 @@ def fetch_newsapi_news(api_key: str) -> list[str]:
                 ),
                 "language": "en",
                 "sortBy": "publishedAt",
+                "from": from_date,
                 "pageSize": 30,
                 "domains": (
                     "economictimes.indiatimes.com,livemint.com,"
@@ -173,12 +176,22 @@ def fetch_newsapi_news(api_key: str) -> list[str]:
         data = resp.json()
         items = []
         for article in data.get("articles", []):
+            # Double-check publishedAt is within 48h
+            pub_str = article.get("publishedAt", "")
+            if pub_str:
+                try:
+                    pub = datetime.datetime.fromisoformat(pub_str.replace("Z", "+00:00"))
+                    if pub < cutoff:
+                        continue
+                except Exception:
+                    pass
             source = article.get("source", {}).get("name", "NewsAPI")
             title = _clean(article.get("title", "")).strip()
             description = _clean(article.get("description", "")).strip()
             url = article.get("url", "")
             if title:
                 items.append(_fmt(source, title, description, url))
+        print(f"[fetch_news] NewsAPI: {len(items)} articles within 48h")
         return items
     except Exception as exc:
         print(f"[fetch_news] NewsAPI error: {exc}")
