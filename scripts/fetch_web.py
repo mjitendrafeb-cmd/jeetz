@@ -93,22 +93,29 @@ def fetch_careedge() -> list[str]:
         except Exception:
             pass
 
-    # Fall back to HTML scrape
-    try:
-        r = _get("https://www.careedge.in/pressrelease")
-        if r:
-            soup = BeautifulSoup(r.text, "html.parser")
-            for a in soup.find_all("a", href=True)[:30]:
-                text = _clean(a.get_text()).strip()
-                href = a["href"]
-                if len(text) > 30 and any(k in text.lower() for k in
-                        ["rating", "upgraded", "downgraded", "assigned", "reaffirmed", "outlook", "watch"]):
-                    full_url = href if href.startswith("http") else "https://www.careedge.in" + href
-                    items.append(f"[RATING — CareEdge] {text[:200]} | URL:{full_url}")
-                    if len(items) >= 10:
-                        break
-    except Exception as exc:
-        print(f"[fetch_web] CareEdge scrape error: {exc}")
+    # Fall back to HTML scrape — try multiple possible URLs
+    for html_url in [
+        "https://www.careedge.in/press-releases",
+        "https://www.careedge.in/news",
+        "https://www.careedge.in/media",
+    ]:
+        try:
+            r = _get(html_url)
+            if r and r.status_code == 200:
+                soup = BeautifulSoup(r.text, "html.parser")
+                for a in soup.find_all("a", href=True)[:30]:
+                    text = _clean(a.get_text()).strip()
+                    href = a["href"]
+                    if len(text) > 30 and any(k in text.lower() for k in
+                            ["rating", "upgraded", "downgraded", "assigned", "reaffirmed", "outlook", "watch"]):
+                        full_url = href if href.startswith("http") else "https://www.careedge.in" + href
+                        items.append(f"[RATING — CareEdge] {text[:200]} | URL:{full_url}")
+                        if len(items) >= 10:
+                            break
+                if items:
+                    break
+        except Exception as exc:
+            print(f"[fetch_web] CareEdge scrape error ({html_url}): {exc}")
 
     # Final fallback: Google News
     if not items:
@@ -122,23 +129,29 @@ def fetch_careedge() -> list[str]:
 # ─────────────────────────────────────────────────────────────────────────────
 def fetch_crisil() -> list[str]:
     items = []
-    try:
-        r = _get("https://www.crisil.com/en/home/our-businesses/ratings/credit-rating-news.html")
-        if r:
-            soup = BeautifulSoup(r.text, "html.parser")
-            # CRISIL uses various selectors — try common ones
-            for sel in ["h3 a", "h4 a", ".news-title a", ".press-release a", "article a", ".card-title a"]:
-                links = soup.select(sel)
-                for a in links[:10]:
-                    text = _clean(a.get_text()).strip()
-                    href = a.get("href", "")
-                    if len(text) > 20:
-                        full_url = href if href.startswith("http") else "https://www.crisil.com" + href
-                        items.append(f"[RATING — CRISIL] {text[:200]} | URL:{full_url}")
-                if items:
-                    break
-    except Exception as exc:
-        print(f"[fetch_web] CRISIL scrape error: {exc}")
+    for url in [
+        "https://www.crisil.com/en/home/newsroom/press-releases.html",
+        "https://www.crisil.com/en/home/our-businesses/ratings/credit-rating-news.html",
+        "https://www.crisil.com/en/home/newsroom.html",
+    ]:
+        try:
+            r = _get(url)
+            if r and r.status_code == 200:
+                soup = BeautifulSoup(r.text, "html.parser")
+                for sel in ["h3 a", "h4 a", ".news-title a", ".press-release a", "article a", ".card-title a", "li a"]:
+                    links = soup.select(sel)
+                    for a in links[:10]:
+                        text = _clean(a.get_text()).strip()
+                        href = a.get("href", "")
+                        if len(text) > 20:
+                            full_url = href if href.startswith("http") else "https://www.crisil.com" + href
+                            items.append(f"[RATING — CRISIL] {text[:200]} | URL:{full_url}")
+                    if items:
+                        break
+            if items:
+                break
+        except Exception as exc:
+            print(f"[fetch_web] CRISIL scrape error ({url}): {exc}")
 
     if not items:
         items = _google_news_fallback("CRISIL rating upgrade downgrade outlook India", "CRISIL")
@@ -157,12 +170,20 @@ def fetch_icra() -> list[str]:
             soup = BeautifulSoup(r.text, "html.parser")
             for sel in ["h3 a", "h4 a", ".press-release a", "td a", "li a", ".rating-news a"]:
                 links = soup.select(sel)
-                for a in links[:10]:
+                for a in links[:15]:
                     text = _clean(a.get_text()).strip()
                     href = a.get("href", "")
-                    if len(text) > 20:
-                        full_url = href if href.startswith("http") else "https://www.icra.in" + href
-                        items.append(f"[RATING — ICRA] {text[:200]} | URL:{full_url}")
+                    # Skip email addresses and very short/long nav items
+                    if "@" in text or len(text) < 20 or len(text) > 300:
+                        continue
+                    # Must look like a press release title (contains keywords or proper sentence)
+                    if not any(k in text.lower() for k in [
+                        "rating", "rated", "upgraded", "downgraded", "assigned", "reaffirmed",
+                        "outlook", "watch", "ltd", "limited", "india", "bank", "finance", "fund"
+                    ]):
+                        continue
+                    full_url = href if href.startswith("http") else "https://www.icra.in" + href
+                    items.append(f"[RATING — ICRA] {text[:200]} | URL:{full_url}")
                 if items:
                     break
     except Exception as exc:
@@ -179,22 +200,30 @@ def fetch_icra() -> list[str]:
 # ─────────────────────────────────────────────────────────────────────────────
 def fetch_india_ratings() -> list[str]:
     items = []
-    try:
-        r = _get("https://www.indiaratings.co.in/pressrelease")
-        if r:
-            soup = BeautifulSoup(r.text, "html.parser")
-            for sel in ["h3 a", "h4 a", ".press-title a", "td a", "article a", ".news-list a"]:
-                links = soup.select(sel)
-                for a in links[:10]:
-                    text = _clean(a.get_text()).strip()
-                    href = a.get("href", "")
-                    if len(text) > 20:
+    for url in [
+        "https://www.indiaratings.co.in/PressRelease",
+        "https://www.indiaratings.co.in/pressrelease",
+        "https://www.indiaratings.co.in/ratings/press-releases",
+    ]:
+        try:
+            r = _get(url)
+            if r and r.status_code == 200:
+                soup = BeautifulSoup(r.text, "html.parser")
+                for sel in ["h3 a", "h4 a", ".press-title a", "td a", "article a", ".news-list a", "li a", "h2 a"]:
+                    links = soup.select(sel)
+                    for a in links[:15]:
+                        text = _clean(a.get_text()).strip()
+                        href = a.get("href", "")
+                        if "@" in text or len(text) < 20:
+                            continue
                         full_url = href if href.startswith("http") else "https://www.indiaratings.co.in" + href
                         items.append(f"[RATING — India Ratings] {text[:200]} | URL:{full_url}")
-                if items:
-                    break
-    except Exception as exc:
-        print(f"[fetch_web] India Ratings scrape error: {exc}")
+                    if items:
+                        break
+            if items:
+                break
+        except Exception as exc:
+            print(f"[fetch_web] India Ratings scrape error ({url}): {exc}")
 
     if not items:
         items = _google_news_fallback("India Ratings Fitch rating upgrade downgrade India", "India Ratings")
@@ -236,6 +265,8 @@ def fetch_bse_announcements() -> list[str]:
             }
             count = 0
             for ann in announcements:
+                if not isinstance(ann, dict):
+                    continue
                 headline = _clean(str(ann.get("HEADLINE", ann.get("headline", "")))).strip()
                 category = str(ann.get("CATEGORYNAME", ann.get("category", ""))).lower()
                 scrip = str(ann.get("SCRIP_CD", ann.get("scrip", ""))).strip()
@@ -268,24 +299,30 @@ def fetch_bse_announcements() -> list[str]:
 # ─────────────────────────────────────────────────────────────────────────────
 def fetch_fimmda() -> list[str]:
     items = []
-    try:
-        r = _get("https://www.fimmda.org/modules/circulars")
-        if r:
-            soup = BeautifulSoup(r.text, "html.parser")
-            for sel in ["h3 a", "h4 a", "td a", "li a", ".circular a", ".notice a"]:
-                links = soup.select(sel)
-                for a in links[:8]:
-                    text = _clean(a.get_text()).strip()
-                    href = a.get("href", "")
-                    if len(text) > 15:
-                        full_url = href if href.startswith("http") else "https://www.fimmda.org" + href
-                        items.append(f"[FIMMDA] {text[:200]} | URL:{full_url}")
-                if items:
-                    break
-    except Exception as exc:
-        print(f"[fetch_web] FIMMDA scrape error: {exc}")
+    for fimmda_url in [
+        "https://www.fimmda.org/circulars",
+        "https://www.fimmda.org/notices",
+        "https://www.fimmda.org/",
+    ]:
+        try:
+            r = _get(fimmda_url)
+            if r and r.status_code == 200:
+                soup = BeautifulSoup(r.text, "html.parser")
+                for sel in ["h3 a", "h4 a", "td a", "li a", ".circular a", ".notice a"]:
+                    links = soup.select(sel)
+                    for a in links[:8]:
+                        text = _clean(a.get_text()).strip()
+                        href = a.get("href", "")
+                        if len(text) > 15:
+                            full_url = href if href.startswith("http") else "https://www.fimmda.org" + href
+                            items.append(f"[FIMMDA] {text[:200]} | URL:{full_url}")
+                    if items:
+                        break
+            if items:
+                break
+        except Exception as exc:
+            print(f"[fetch_web] FIMMDA scrape error ({fimmda_url}): {exc}")
 
-    # Also try their yield/valuation page
     if not items:
         items = _google_news_fallback("FIMMDA bond yield valuation India fixed income", "FIMMDA")
 
@@ -296,26 +333,8 @@ def fetch_fimmda() -> list[str]:
 # 7. CCIL (Clearing Corporation of India)
 # ─────────────────────────────────────────────────────────────────────────────
 def fetch_ccil() -> list[str]:
-    items = []
-    try:
-        r = _get("https://www.ccilindia.com/MarketData/Pages/GSecMarket.aspx")
-        if r:
-            soup = BeautifulSoup(r.text, "html.parser")
-            # Look for market summary data in tables
-            tables = soup.find_all("table")
-            for table in tables[:2]:
-                rows = table.find_all("tr")
-                for row in rows[:5]:
-                    text = _clean(row.get_text()).strip()
-                    if len(text) > 20 and any(k in text.lower() for k in ["yield", "volume", "turnover", "gsec"]):
-                        items.append(f"[CCIL Market Data] {text[:200]}")
-    except Exception as exc:
-        print(f"[fetch_web] CCIL scrape error: {exc}")
-
-    if not items:
-        items = _google_news_fallback("CCIL India bond market government securities trading", "CCIL")
-
-    return items[:5]
+    # CCIL blocks scrapers (403); use Google News fallback directly
+    return _google_news_fallback("CCIL India bond market government securities G-sec trading", "CCIL")[:5]
 
 
 # ─────────────────────────────────────────────────────────────────────────────

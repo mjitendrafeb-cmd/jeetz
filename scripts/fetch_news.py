@@ -50,19 +50,58 @@ def _fmt(source: str, title: str, summary: str, url: str = "") -> str:
 
 
 def fetch_rbi_news() -> list[str]:
+    from bs4 import BeautifulSoup
+    items = []
+
+    # Try RSS first
     try:
         feed = feedparser.parse("https://www.rbi.org.in/scripts/rss.aspx")
-        items = []
         for entry in feed.entries[:10]:
             title = _clean(entry.get("title", "")).strip()
             summary = _clean(entry.get("summary", entry.get("description", ""))).strip()
             url = entry.get("link", "")
             if title:
                 items.append(_fmt("RBI", title, summary, url))
-        return items
     except Exception as exc:
         print(f"[fetch_news] RBI RSS error: {exc}")
-        return []
+
+    # Fallback: scrape RBI press release page
+    if not items:
+        try:
+            headers = {
+                "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36",
+                "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+            }
+            r = requests.get("https://www.rbi.org.in/Scripts/BS_PressReleaseDisplay.aspx",
+                             headers=headers, timeout=15)
+            if r.status_code == 200:
+                soup = BeautifulSoup(r.text, "html.parser")
+                for a in soup.find_all("a", href=True)[:20]:
+                    text = _clean(a.get_text()).strip()
+                    href = a["href"]
+                    if len(text) > 20:
+                        full_url = href if href.startswith("http") else "https://www.rbi.org.in" + href
+                        items.append(_fmt("RBI", text, "", full_url))
+                        if len(items) >= 10:
+                            break
+        except Exception as exc:
+            print(f"[fetch_news] RBI press release scrape error: {exc}")
+
+    # Final fallback: Google News
+    if not items:
+        try:
+            gn_url = "https://news.google.com/rss/search?q=RBI+India+monetary+policy+regulation&hl=en-IN&gl=IN&ceid=IN:en"
+            feed = feedparser.parse(gn_url)
+            for entry in feed.entries[:5]:
+                title = _clean(entry.get("title", "")).strip()
+                summary = _clean(entry.get("summary", "")).strip()
+                url = entry.get("link", "")
+                if title:
+                    items.append(_fmt("RBI", title, summary, url))
+        except Exception as exc:
+            print(f"[fetch_news] RBI Google News fallback error: {exc}")
+
+    return items
 
 
 def fetch_sebi_news() -> list[str]:
