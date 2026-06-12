@@ -36,7 +36,6 @@ _FALLBACK_RECIPIENT = "Jitendra.Meghrajani@careedge.in"
 
 def _get_recipients() -> list[str]:
     cfg = _load_config()
-    # Support both single recipient and list
     if cfg.get("recipients"):
         return cfg["recipients"]
     if cfg.get("recipient"):
@@ -82,65 +81,98 @@ IGNORE: Product launches · CSR · Awards · Marketing · Stock tips · Generic 
 OUTPUT STRUCTURE (follow exactly, every time)
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-PART A — TOP 10–15 HIGHLIGHTS (full cards)
-Pick the 10 to 15 most credit-important items across ALL sections.
-Spread them across sections — do NOT put all highlights from one section.
-Order: most important first.
+CRITICAL PRIORITY RULE: Items tagged [WATCHLIST — CompanyName] must ALWAYS appear in Part W AND get priority placement in Part A highlights. Never skip or bury watchlist items.
 
-Each highlight card (use this exact HTML — table keeps News and Credit Implication side by side):
-<div class="content"><div class="item">
-  <p class="item-title">SECTION TAG — COMPANY / TOPIC — HEADLINE</p>
-  <p class="item-sector">Source publication name</p>
-  <table class="two-col"><tr>
-    <td class="col-news"><p class="sub-heading">News</p><p>2–3 lines. What happened. Facts only.</p></td>
-    <td class="col-impl"><p class="sub-heading">Credit Implication</p><p>2–3 lines. Rating / liquidity / asset quality / funding impact.</p></td>
-  </tr></table>
-  <div class="source-block">&#128279; Publication &nbsp;<a href="URL" target="_blank" style="color:#4299e1;text-decoration:none;">Read more ↗</a></div>
-</div></div>
-(Omit source-block if no URL was given.)
+PART W — WATCHLIST FOCUS (output this section FIRST, before Part A)
+Pick ALL credit-relevant items tagged [WATCHLIST — CompanyName].
+Show each as a full card. If zero watchlist items today, output: <p class="no-watchlist">No watchlist company news today.</p>
 
-PART B — ALL NEWS BY SECTION (compact link list for items NOT already in Part A)
-Output ALL 5 sections below. Each section shows remaining items as compact links.
-CRITICAL: Output ALL 5 sections even if a section has zero remaining items.
+<table class="section-banner watchlist-banner" width="100%" cellpadding="0" cellspacing="0"><tr><td>
+<span class="banner-icon">&#128204;</span> WATCHLIST &amp; RATED ENTITIES &mdash; {date_str}
+</td></tr></table>
+
+For each watchlist item:
+<table class="news-card" width="100%" cellpadding="0" cellspacing="0">
+  <tr><td class="card-company-tag">WATCHLIST &mdash; [CompanyName]</td></tr>
+  <tr><td class="card-headline">[HEADLINE]</td></tr>
+  <tr><td class="card-source">[Source Publication]</td></tr>
+  <tr>
+    <td>
+      <table class="card-cols" width="100%" cellpadding="0" cellspacing="0"><tr>
+        <td class="col-left" width="50%"><p class="col-label">&#128240; NEWS</p><p class="col-body">2-3 lines. What happened. Facts only.</p></td>
+        <td class="col-divider" width="2px"></td>
+        <td class="col-right" width="50%"><p class="col-label">&#9888; CREDIT IMPLICATION</p><p class="col-body">2-3 lines. Rating / liquidity / asset quality / funding impact.</p></td>
+      </tr></table>
+    </td>
+  </tr>
+  <tr><td class="card-readmore"><a href="URL" style="color:#1a56db;">Read more &#8599;</a> &nbsp;&#183;&nbsp; [Source]</td></tr>
+</table>
+
+PART A — TOP HIGHLIGHTS (10–15 most credit-important items from ALL sections; watchlist items that appear in Part W should also appear here for completeness if among top 10-15)
+Order: watchlist items first, then most important others.
+
+<table class="section-banner highlight-banner" width="100%" cellpadding="0" cellspacing="0"><tr><td>
+&#11088; TOP HIGHLIGHTS &mdash; {date_str}
+</td></tr></table>
+
+For each highlight:
+<table class="news-card" width="100%" cellpadding="0" cellspacing="0">
+  <tr><td class="card-company-tag">[SECTION TAG] &mdash; [COMPANY / TOPIC]</td></tr>
+  <tr><td class="card-headline">[HEADLINE]</td></tr>
+  <tr><td class="card-source">[Source Publication]</td></tr>
+  <tr>
+    <td>
+      <table class="card-cols" width="100%" cellpadding="0" cellspacing="0"><tr>
+        <td class="col-left" width="50%"><p class="col-label">&#128240; NEWS</p><p class="col-body">2-3 lines. What happened. Facts only.</p></td>
+        <td class="col-divider" width="2px"></td>
+        <td class="col-right" width="50%"><p class="col-label">&#9888; CREDIT IMPLICATION</p><p class="col-body">2-3 lines. Rating / liquidity / asset quality / funding impact.</p></td>
+      </tr></table>
+    </td>
+  </tr>
+  <tr><td class="card-readmore"><a href="URL" style="color:#1a56db;">Read more &#8599;</a> &nbsp;&#183;&nbsp; [Source]</td></tr>
+</table>
+(Omit card-readmore row if no URL.)
+
+PART B — ALL NEWS BY SECTION (compact link list for items NOT already shown above)
+Output ALL 5 sections. Each section = compact clickable links.
 
 Section routing:
-  S1 — WATCHLIST: Only [WATCHLIST — CompanyName] tagged items
-  S2 — NBFC/SECTORS: Items tagged NBFC, HFC, Banking, Broking, Fintech, MFI, Ratings (company news)
+  S1 — WATCHLIST: Only [WATCHLIST — CompanyName] tagged items NOT already in Part W
+  S2 — NBFC/SECTORS: Items tagged NBFC, HFC, Banking, Broking, Fintech, MFI, Ratings
   S3 — REGULATIONS: Items tagged RBI, SEBI, NHB
   S4 — BOND MARKETS: Items tagged Bonds, CP, Securitisation, FIMMDA, CCIL
   S5 — MACRO: Items tagged Macro, or any GDP/CPI/IIP/forex/fiscal/Fed news
 
-For each section output:
-<p class="section-label [LABEL-CLASS]">[SECTION TITLE]</p>
-<div class="content"><div class="compact-list">
-  <a href="URL" class="compact-link" target="_blank">Headline text — Source</a>
-  <a href="URL" class="compact-link" target="_blank">Headline text — Source</a>
-  ... (all remaining items, or "No additional items today." if none)
-</div></div>
+For each section:
+<table class="section-banner [BANNER-CLASS]" width="100%" cellpadding="0" cellspacing="0"><tr><td>[SECTION TITLE]</td></tr></table>
+<table class="link-list" width="100%" cellpadding="0" cellspacing="0">
+  <tr><td class="link-row"><a href="URL" class="link-anchor">&#9656; Headline — Source</a></td></tr>
+  ...
+</table>
 
-Label classes: S1→critical-label, S2→important-label, S3→watchlist-label, S4→analyst-label, S5→top10-label
-Section titles: use exactly:
-  Section 1 &mdash; My Rated Entities and Watchlist
-  Section 2 &mdash; NBFC, HFC, Broking, Fintech, FI Sectors
-  Section 3 &mdash; RBI, SEBI, NHB Regulations
-  Section 4 &mdash; Bond and Money Markets
-  Section 5 &mdash; Macroeconomic Developments
+Banner classes: S1→watchlist-banner, S2→sector-banner, S3→reg-banner, S4→bond-banner, S5→macro-banner
+Section titles (use exactly):
+  &#128204; MY RATED ENTITIES &amp; WATCHLIST
+  &#127970; NBFC, HFC, BROKING &amp; FINTECH SECTORS
+  &#9878; RBI, SEBI &amp; NHB REGULATIONS
+  &#128200; BOND &amp; MONEY MARKETS
+  &#127758; MACROECONOMIC DEVELOPMENTS
 
-For compact items with no URL: <span class="compact-nolink">Headline text — Source</span>
+For items with no URL: <tr><td class="link-row nolink">&#9656; Headline — Source</td></tr>
+If section has zero remaining items: <tr><td class="link-row nolink" style="color:#9ca3af;font-style:italic;">No additional items today.</td></tr>
 
 PART C — TOP 5 THINGS TO KNOW TODAY
-<p class="section-label top10-label">&#128204; Top 5 Things To Know Today</p>
-<div class="content"><div class="item">
-  <div class="top10-item"><div class="top10-num">1</div><div class="top10-text"><strong>S1 / Company</strong> — one-line insight.</div></div>
-  ... (5 items total)
-</div></div>
+<table class="section-banner top5-banner" width="100%" cellpadding="0" cellspacing="0"><tr><td>&#9733; TOP 5 THINGS TO KNOW TODAY</td></tr></table>
+<table class="top5-list" width="100%" cellpadding="0" cellspacing="0">
+  <tr>
+    <td class="top5-num">1</td>
+    <td class="top5-text"><strong>[Section / Company]</strong> — one-line credit insight.</td>
+  </tr>
+  ... (5 items total, watchlist items get priority)
+</table>
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-BEFORE PART A, output this header line:
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-<p class="section-label critical-label">&#11088; Top Highlights &mdash; {date_str}</p>
-
-Return ONLY inner HTML. No html/head/body tags. No markdown."""
+Return ONLY inner HTML. No html/head/body tags. No markdown. No backticks."""
 
 
 # ---------------------------------------------------------------------------
@@ -148,14 +180,9 @@ Return ONLY inner HTML. No html/head/body tags. No markdown."""
 # ---------------------------------------------------------------------------
 
 def generate_report(news_text: str, today: datetime.date, api_key: str) -> str:
-    """
-    Call Claude API with the news text and return inner HTML for the report body.
-    Returns a fallback HTML fragment on failure.
-    """
     day_str = today.strftime("%A")
     date_str = today.strftime("%d %B %Y")
 
-    # Trim news — keep enough for all 5 sections to have input
     if len(news_text) > 30000:
         news_text = news_text[:30000] + "\n[...truncated for length]"
 
@@ -172,284 +199,327 @@ def generate_report(news_text: str, today: datetime.date, api_key: str) -> str:
     except Exception as exc:
         print(f"[generate_report] Claude API error: {exc}")
         return f"""
-<p class="section-label critical-label">&#9888; Report Generation Failed</p>
-<div class="content">
-  <div class="item">
-    <p class="item-title">Automated Report Could Not Be Generated Today</p>
-    <p class="item-sector">SYSTEM &nbsp;|&nbsp; <span class="badge badge-red">Error</span></p>
-    <p>The Claude API call failed during report generation. Please check GitHub Actions logs for details.</p>
-    <p>Error details: {str(exc)[:500]}</p>
-    <p>News was fetched successfully. You may review the raw news below or re-trigger the workflow manually.</p>
-    <div class="source-block">&#128279; Check: GitHub Actions → Daily Credit Intelligence Report → Latest run → Logs</div>
-  </div>
-</div>
+<table class="section-banner highlight-banner" width="100%" cellpadding="0" cellspacing="0"><tr><td>
+&#9888; REPORT GENERATION FAILED
+</td></tr></table>
+<table class="news-card" width="100%" cellpadding="0" cellspacing="0">
+  <tr><td class="card-headline">Automated Report Could Not Be Generated Today</td></tr>
+  <tr><td class="card-body">The Claude API call failed. Check GitHub Actions logs for details.<br><br>Error: {str(exc)[:300]}</td></tr>
+</table>
 """
 
 
 # ---------------------------------------------------------------------------
-# HTML wrapper
+# HTML wrapper — Newspaper broadsheet style, email-client safe
 # ---------------------------------------------------------------------------
 
 def build_html(inner_html: str, today: datetime.date) -> str:
     date_str = today.strftime("%d %B %Y")
     day_str = today.strftime("%A")
+    day_upper = today.strftime("%A, %d %B %Y").upper()
 
     return f"""<!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<title>Daily Credit Intelligence — {date_str}</title>
 <style>
-  body {{
-    font-family: 'Inter', 'Segoe UI', Arial, sans-serif;
-    background: #eef2f7;
-    margin: 0; padding: 20px 0;
-    color: #1e293b;
-  }}
-  .wrapper {{
-    max-width: 700px;
-    margin: 0 auto;
-    background: #ffffff;
-    border-radius: 12px;
-    overflow: hidden;
-    box-shadow: 0 4px 24px rgba(0,0,0,0.10);
-  }}
-  /* ── HEADER ── */
-  .header {{
-    background: linear-gradient(135deg, #0f172a 0%, #1e3a5f 100%);
-    color: #ffffff;
-    padding: 32px 40px 24px;
-  }}
-  .header-top {{
-    display: flex;
-    align-items: flex-start;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    gap: 12px;
-  }}
-  .header h1 {{
-    margin: 0 0 6px 0;
-    font-size: 20px;
-    font-weight: 700;
-    letter-spacing: 0.5px;
-    text-transform: uppercase;
-  }}
-  .header .date {{
-    font-size: 13px;
-    color: #94a3b8;
-    margin: 0;
-    font-weight: 400;
-  }}
-  .header-badge {{
-    background: rgba(255,255,255,0.1);
-    color: #cbd5e1;
-    font-size: 10px;
-    font-weight: 600;
-    padding: 4px 10px;
-    border-radius: 20px;
-    white-space: nowrap;
-    letter-spacing: 0.5px;
-  }}
-  .header .tagline {{
-    font-size: 10px;
-    color: #475569;
-    margin-top: 16px;
-    padding-top: 12px;
-    border-top: 1px solid rgba(255,255,255,0.08);
-    letter-spacing: 0.3px;
-  }}
-  /* ── SECTION LABELS ── */
-  .section-label {{
-    font-size: 10px;
-    font-weight: 700;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    padding: 10px 40px;
-    margin: 0;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }}
-  .critical-label  {{ background: #fef2f2; color: #b91c1c; border-left: 3px solid #ef4444; }}
-  .important-label {{ background: #fffbeb; color: #92400e; border-left: 3px solid #f59e0b; }}
-  .watchlist-label {{ background: #eff6ff; color: #1d4ed8; border-left: 3px solid #3b82f6; }}
-  .analyst-label   {{ background: #f0fdf4; color: #15803d; border-left: 3px solid #22c55e; }}
-  .top10-label     {{ background: #faf5ff; color: #6d28d9; border-left: 3px solid #8b5cf6; }}
-  /* ── CONTENT AREA ── */
-  .content {{ padding: 0 40px; }}
-  .item {{
-    padding: 22px 0;
-    border-bottom: 1px solid #f1f5f9;
-  }}
-  .item:last-child {{ border-bottom: none; }}
-  .item-title {{
-    font-size: 15px;
-    font-weight: 700;
-    color: #0f172a;
-    margin: 0 0 6px 0;
-    line-height: 1.4;
-  }}
-  .item-sector {{
-    font-size: 11px;
-    color: #94a3b8;
-    text-transform: uppercase;
-    letter-spacing: 0.8px;
-    margin: 0 0 14px 0;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    flex-wrap: wrap;
-  }}
-  .item p {{
-    font-size: 13.5px;
-    line-height: 1.75;
-    color: #475569;
-    margin: 0 0 12px 0;
-  }}
-  .sub-heading {{
-    font-size: 10px;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    color: #64748b;
-    margin: 16px 0 6px 0;
-    padding-bottom: 4px;
-    border-bottom: 1px solid #f1f5f9;
-  }}
-  .impl-list {{
-    margin: 6px 0 12px 0;
-    padding-left: 18px;
-    color: #475569;
-    font-size: 13.5px;
-    line-height: 1.8;
-  }}
-  .impl-list li {{ margin-bottom: 4px; }}
-  /* ── BADGES ── */
-  .badge {{
-    display: inline-flex;
-    align-items: center;
-    font-size: 10px;
-    font-weight: 600;
-    padding: 3px 8px;
-    border-radius: 20px;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-  }}
-  .badge-red   {{ background: #fee2e2; color: #b91c1c; }}
-  .badge-amber {{ background: #fef3c7; color: #92400e; }}
-  .badge-green {{ background: #dcfce7; color: #15803d; }}
-  .badge-blue  {{ background: #dbeafe; color: #1d4ed8; }}
-  /* ── SOURCE BLOCK ── */
-  .source-block {{
-    font-size: 11px;
-    color: #94a3b8;
-    margin-top: 12px;
-    padding: 8px 12px;
-    background: #f8fafc;
-    border-radius: 6px;
-    border-left: 3px solid #e2e8f0;
-  }}
-  /* ── TOP 5 / TOP 10 ── */
-  .top10-item {{
-    display: flex;
-    gap: 14px;
-    padding: 12px 0;
-    border-bottom: 1px solid #f1f5f9;
-    align-items: flex-start;
-  }}
-  .top10-item:last-child {{ border-bottom: none; }}
-  .top10-num {{
-    font-size: 20px;
-    font-weight: 800;
-    color: #8b5cf6;
-    min-width: 28px;
-    line-height: 1.2;
-    flex-shrink: 0;
-  }}
-  .top10-text {{
-    font-size: 13.5px;
-    line-height: 1.7;
-    color: #475569;
-  }}
-  .top10-text strong {{ color: #0f172a; }}
-  /* ── TWO-COLUMN NEWS / IMPLICATION ── */
-  .two-col {{
-    width: 100%;
-    border-collapse: collapse;
-    margin: 12px 0 8px 0;
-  }}
-  .two-col td {{
-    width: 50%;
-    vertical-align: top;
-    padding: 0;
-  }}
-  .col-news {{
-    padding-right: 16px;
-    border-right: 2px solid #f1f5f9;
-  }}
-  .col-impl {{
-    padding-left: 16px;
-    background: #f8fafc;
-    border-radius: 0 6px 6px 0;
-  }}
-  /* ── COMPACT LINK LIST ── */
-  .compact-list {{
-    padding: 14px 0 6px 0;
-    display: flex;
-    flex-direction: column;
-    gap: 0;
-  }}
-  .compact-link, .compact-nolink {{
-    display: block;
-    font-size: 13px;
-    line-height: 1.6;
-    color: #3b82f6;
-    text-decoration: none;
-    padding: 7px 0;
-    border-bottom: 1px solid #f1f5f9;
-  }}
-  .compact-link:hover {{ text-decoration: underline; }}
-  .compact-nolink {{ color: #475569; }}
-  /* ── FOOTER ── */
-  .footer {{
-    background: #0f172a;
-    color: #475569;
-    font-size: 11px;
-    padding: 20px 40px;
-    text-align: center;
-    line-height: 2;
-  }}
-  .footer a {{ color: #64748b; text-decoration: none; }}
+/* Reset */
+body, table, td, p, a, h1, h2, h3 {{ margin:0; padding:0; border:0; }}
+body {{
+  font-family: Georgia, 'Times New Roman', Times, serif;
+  background: #f4f1eb;
+  color: #1a1a1a;
+  -webkit-text-size-adjust: 100%;
+}}
+img {{ border:0; display:block; }}
+
+/* ── OUTER WRAPPER ── */
+.outer {{
+  background: #f4f1eb;
+  padding: 20px 0 40px 0;
+}}
+.wrapper {{
+  max-width: 680px;
+  margin: 0 auto;
+  background: #ffffff;
+  border: 1px solid #c8b89a;
+}}
+
+/* ── MASTHEAD ── */
+.masthead {{
+  background: #ffffff;
+  border-bottom: 4px double #1a1a1a;
+  padding: 24px 32px 16px 32px;
+  text-align: center;
+}}
+.masthead-kicker {{
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: #666666;
+  border-top: 1px solid #1a1a1a;
+  border-bottom: 1px solid #1a1a1a;
+  padding: 4px 0;
+  margin-bottom: 12px;
+}}
+.masthead-title {{
+  font-family: Georgia, 'Times New Roman', Times, serif;
+  font-size: 38px;
+  font-weight: 700;
+  color: #0a0a0a;
+  letter-spacing: -1px;
+  line-height: 1.1;
+  margin-bottom: 6px;
+}}
+.masthead-sub {{
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 11px;
+  color: #555555;
+  letter-spacing: 0.5px;
+  margin-bottom: 10px;
+}}
+.masthead-date-strip {{
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 10px;
+  color: #333333;
+  border-top: 2px solid #1a1a1a;
+  border-bottom: 1px solid #1a1a1a;
+  padding: 4px 0;
+  margin-top: 10px;
+  display: flex;
+  justify-content: space-between;
+}}
+.masthead-date-strip td {{
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 10px;
+  color: #333333;
+  padding: 4px 8px;
+}}
+.masthead-confidential {{
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 9px;
+  color: #888888;
+  letter-spacing: 0.5px;
+  margin-top: 6px;
+}}
+
+/* ── SECTION BANNERS ── */
+.section-banner {{
+  border-top: 3px solid #1a1a1a;
+  border-bottom: 1px solid #1a1a1a;
+  margin-bottom: 0;
+}}
+.section-banner td {{
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  padding: 7px 32px;
+}}
+.watchlist-banner  {{ background: #1a3a6b; }} .watchlist-banner td  {{ color: #ffffff; }}
+.highlight-banner  {{ background: #1a1a1a; }} .highlight-banner td  {{ color: #ffffff; }}
+.sector-banner     {{ background: #7c4700; }} .sector-banner td     {{ color: #ffffff; }}
+.reg-banner        {{ background: #006633; }} .reg-banner td        {{ color: #ffffff; }}
+.bond-banner       {{ background: #4a0072; }} .bond-banner td       {{ color: #ffffff; }}
+.macro-banner      {{ background: #8b0000; }} .macro-banner td      {{ color: #ffffff; }}
+.top5-banner       {{ background: #1a1a1a; border-top: 3px solid #c8a200; }} .top5-banner td {{ color: #c8a200; }}
+
+/* ── NEWS CARD ── */
+.news-card {{
+  border-bottom: 1px solid #d4c5a9;
+  margin: 0;
+}}
+.news-card td {{ padding: 0; }}
+.card-company-tag {{
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #1a3a6b;
+  padding: 12px 32px 4px 32px !important;
+}}
+.card-headline {{
+  font-family: Georgia, 'Times New Roman', Times, serif;
+  font-size: 17px;
+  font-weight: 700;
+  color: #0a0a0a;
+  line-height: 1.3;
+  padding: 4px 32px 6px 32px !important;
+}}
+.card-source {{
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 9px;
+  color: #888888;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  padding: 0 32px 10px 32px !important;
+  border-bottom: 1px solid #eee8d8;
+}}
+.card-cols {{ border-top: 0; }}
+.card-cols td {{ vertical-align: top; }}
+.col-left {{
+  padding: 12px 16px 12px 32px !important;
+  border-right: 1px solid #d4c5a9;
+  background: #fdfcf8;
+}}
+.col-divider {{ background: #d4c5a9; width: 1px; }}
+.col-right {{
+  padding: 12px 32px 12px 16px !important;
+  background: #f0f4ff;
+}}
+.col-label {{
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #666666;
+  margin-bottom: 6px !important;
+  padding-bottom: 4px !important;
+  border-bottom: 1px solid #d4c5a9;
+}}
+.col-body {{
+  font-family: Georgia, 'Times New Roman', Times, serif;
+  font-size: 13px;
+  line-height: 1.7;
+  color: #2d2d2d;
+  margin-top: 6px !important;
+}}
+.card-readmore {{
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 10px;
+  color: #666666;
+  padding: 8px 32px 12px 32px !important;
+  border-top: 1px solid #eee8d8;
+  background: #fdfcf8;
+}}
+.card-readmore a {{
+  color: #1a3a6b;
+  text-decoration: none;
+  font-weight: 700;
+}}
+.card-body {{
+  font-family: Georgia, 'Times New Roman', Times, serif;
+  font-size: 13px;
+  line-height: 1.7;
+  color: #2d2d2d;
+  padding: 16px 32px !important;
+}}
+
+/* ── COMPACT LINK LIST ── */
+.link-list {{ border-bottom: 2px solid #d4c5a9; margin-bottom: 0; }}
+.link-row {{
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 12px;
+  line-height: 1.5;
+  border-bottom: 1px solid #eee8d8;
+  padding: 9px 32px !important;
+  color: #1a1a1a;
+}}
+.link-anchor {{
+  color: #1a3a6b;
+  text-decoration: none;
+  font-size: 12px;
+  display: block;
+}}
+.link-anchor:hover {{ text-decoration: underline; }}
+.nolink {{ color: #555555; }}
+
+/* ── TOP 5 LIST ── */
+.top5-list {{ border-bottom: 2px solid #1a1a1a; }}
+.top5-num {{
+  font-family: Georgia, 'Times New Roman', Times, serif;
+  font-size: 28px;
+  font-weight: 700;
+  color: #c8a200;
+  width: 48px;
+  padding: 14px 8px 14px 32px !important;
+  vertical-align: top;
+  border-bottom: 1px solid #eee8d8;
+  line-height: 1;
+}}
+.top5-text {{
+  font-family: Georgia, 'Times New Roman', Times, serif;
+  font-size: 13px;
+  line-height: 1.7;
+  color: #1a1a1a;
+  padding: 14px 32px 14px 8px !important;
+  border-bottom: 1px solid #eee8d8;
+  vertical-align: top;
+}}
+.top5-text strong {{ color: #0a0a0a; font-weight: 700; }}
+
+/* ── NO WATCHLIST ── */
+.no-watchlist {{
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 11px;
+  color: #888888;
+  font-style: italic;
+  padding: 14px 32px;
+  border-bottom: 1px solid #eee8d8;
+}}
+
+/* ── FOOTER ── */
+.footer-rule {{ background: #1a1a1a; height: 4px; }}
+.footer {{
+  background: #1a1a1a;
+  padding: 20px 32px;
+  text-align: center;
+}}
+.footer p {{
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 10px;
+  color: #888888;
+  line-height: 1.9;
+  margin: 0;
+}}
+.footer a {{ color: #aaaaaa; text-decoration: none; }}
+
+/* ── SPACER ── */
+.spacer {{ height: 16px; background: #f4f1eb; }}
 </style>
 </head>
 <body>
+<div class="outer">
 <div class="wrapper">
 
-  <!-- HEADER -->
-  <div class="header">
-    <div class="header-top">
-      <div>
-        <h1>Daily Credit Intelligence</h1>
-        <p class="date">{day_str}, {date_str} &nbsp;·&nbsp; CareEdge Ratings</p>
-      </div>
-      <span class="header-badge">Credit Strategy Desk</span>
-    </div>
-    <p class="tagline">CONFIDENTIAL — INTERNAL USE ONLY &nbsp;·&nbsp; Not for external distribution &nbsp;·&nbsp; All rating decisions subject to formal committee process</p>
+  <!-- MASTHEAD -->
+  <div class="masthead">
+    <div class="masthead-kicker">CareEdge Ratings &nbsp;&bull;&nbsp; Credit Strategy Desk</div>
+    <div class="masthead-title">Daily Credit Intelligence</div>
+    <div class="masthead-sub">India Credit &amp; Fixed Income Markets Monitor</div>
+    <table class="masthead-date-strip" width="100%" cellpadding="0" cellspacing="0">
+      <tr>
+        <td align="left">{day_upper}</td>
+        <td align="center">VOL. 1 &nbsp;|&nbsp; INTERNAL EDITION</td>
+        <td align="right">CAREEDGE RATINGS</td>
+      </tr>
+    </table>
+    <div class="masthead-confidential">CONFIDENTIAL — INTERNAL USE ONLY &nbsp;&bull;&nbsp; Not for external distribution &nbsp;&bull;&nbsp; All rating decisions subject to formal committee process</div>
   </div>
 
   {inner_html}
 
   <!-- FOOTER -->
+  <div class="footer-rule"></div>
   <div class="footer">
-    Daily Credit Intelligence &nbsp;|&nbsp; {date_str} &nbsp;|&nbsp; CareEdge Ratings<br>
-    Credit Strategy &amp; Surveillance Desk &nbsp;|&nbsp; Jitendra.Meghrajani@careedge.in<br>
-    <br>
-    <em>Confidential — Internal Use Only. Not for external distribution.<br>
-    This report is auto-generated and delivered via GitHub Actions every weekday at 6:00 AM IST.</em>
+    <p>
+      Daily Credit Intelligence &nbsp;|&nbsp; {date_str} &nbsp;|&nbsp; CareEdge Ratings<br>
+      Credit Strategy &amp; Surveillance Desk &nbsp;|&nbsp; Jitendra.Meghrajani@careedge.in<br>
+      <br>
+      <em>Confidential — Internal Use Only. Not for external distribution.<br>
+      Auto-generated and delivered via GitHub Actions every weekday at 6:00 AM IST.</em>
+    </p>
   </div>
 
 </div><!-- /wrapper -->
+</div><!-- /outer -->
 </body>
 </html>"""
 
