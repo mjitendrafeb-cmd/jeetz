@@ -411,28 +411,33 @@ def publish_webpage(html: str, today: datetime.date) -> bool:
 
     try:
         date_str = today.strftime("%d %b %Y")
-        subprocess.run(["git", "-C", base, "config", "user.email", "actions@github.com"], check=True)
-        subprocess.run(["git", "-C", base, "config", "user.name", "GitHub Actions"], check=True)
-        subprocess.run(["git", "-C", base, "add", "docs/index.html"], check=True)
-        result = subprocess.run(
+        g = lambda *args: subprocess.run(["git", "-C", base] + list(args), check=True)
+
+        g("config", "user.email", "actions@github.com")
+        g("config", "user.name", "GitHub Actions")
+
+        # Fetch main and check it out, keeping our generated file
+        g("fetch", "origin", "main")
+        g("checkout", "origin/main", "--", ".")   # reset everything to main state
+        # Re-write the generated file (checkout may have overwritten it)
+        with open(index_path, "w", encoding="utf-8") as f:
+            f.write(html)
+
+        g("add", "docs/index.html")
+        diff = subprocess.run(
             ["git", "-C", base, "diff", "--cached", "--quiet"],
             capture_output=True
         )
-        if result.returncode == 0:
-            print("[publish] No changes to docs/index.html — skipping commit")
+        if diff.returncode == 0:
+            print("[publish] docs/index.html unchanged — skipping commit")
             return True
-        subprocess.run(
-            ["git", "-C", base, "commit", "-m", f"Daily Credit Intelligence Report — {date_str}"],
-            check=True
-        )
-        subprocess.run(
-            ["git", "-C", base, "push", "origin", "HEAD:main"],
-            check=True
-        )
+
+        g("commit", "-m", f"Daily Credit Intelligence Report — {date_str}")
+        g("push", "origin", "HEAD:main")
         print(f"[publish] Pushed to main — live at {_PAGES_URL}")
         return True
     except subprocess.CalledProcessError as exc:
-        print(f"[publish] Git push failed: {exc}")
+        print(f"[publish] Git publish failed: {exc}")
         return False
 
 
