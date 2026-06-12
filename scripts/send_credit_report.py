@@ -61,76 +61,154 @@ RULES
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 USE items that affect: Rating outlook · Liquidity · Funding · Asset quality · Capitalisation · Governance
 SKIP items about: Product launches · CSR · Awards · Stock tips · Generic business news
-WATCHLIST items (tagged [WATCHLIST — Company]) are HIGHEST PRIORITY — always appear first.
+WATCHLIST items (tagged [WATCHLIST — Company]) are HIGHEST PRIORITY — always appear first in every section.
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-OUTPUT — 3 PARTS
+OUTPUT FORMAT — NEWSPAPER STYLE
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Output ONLY raw HTML. No markdown. No html/head/body tags. All styles must be inline.
 
-PART A — TOP 12 HIGHLIGHTS (full analysis cards)
-Order: Watchlist items first, then most important across sections.
-Each card must use this EXACT HTML (all inline styles, no class names):
+═══════════════════════════════════════
+PART A — TOP STORIES STRIP (breaking news ticker row)
+═══════════════════════════════════════
+Output exactly this structure — one row of 3 TOP story boxes side by side.
+Pick the 3 single most important items (watchlist first).
 
-<table width="100%" cellpadding="0" cellspacing="0" style="border-bottom:2px solid #e8edf2;">
-<tr><td style="padding:18px 24px 14px 24px;">
-  <table width="100%" cellpadding="0" cellspacing="0"><tr>
-    <td style="font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#64748b;">SECTION · SOURCE</td>
-    <td align="right" style="font-size:10px;color:#94a3b8;">Publication</td>
-  </tr></table>
-  <p style="margin:6px 0 12px 0;font-size:16px;font-weight:700;color:#0f172a;line-height:1.4;">COMPANY/TOPIC — HEADLINE</p>
-  <table width="100%" cellpadding="0" cellspacing="0">
-  <tr valign="top">
-    <td width="49%" style="padding:10px 14px 10px 0;border-right:3px solid #e2e8f0;">
-      <p style="margin:0 0 5px 0;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:#2563eb;">&#128240; What Happened</p>
-      <p style="margin:0;font-size:13px;color:#374151;line-height:1.7;">2-3 sentences. Facts only.</p>
-    </td>
-    <td width="2%"></td>
-    <td width="49%" style="padding:10px 0 10px 14px;background:#f8fafc;">
-      <p style="margin:0 0 5px 0;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:#dc2626;">&#9888; Credit Implication</p>
-      <p style="margin:0;font-size:13px;color:#374151;line-height:1.7;">2-3 sentences. Rating/liquidity/asset quality impact.</p>
-    </td>
-  </tr>
-  </table>
-  <p style="margin:10px 0 0 0;font-size:12px;"><a href="ACTUAL_URL_FROM_INPUT" target="_blank" style="color:#2563eb;text-decoration:none;font-weight:600;">&#128279; Read full article ↗</a></p>
-</td></tr>
+<table width="100%" cellpadding="0" cellspacing="0" style="border-top:3px solid #c00;border-bottom:2px solid #e5e5e5;background:#fff8f8;margin-bottom:0;">
+<tr><td style="padding:6px 16px;font-size:10px;font-weight:800;letter-spacing:3px;text-transform:uppercase;color:#c00;border-right:1px solid #e5e5e5;" width="100">&#9642; BREAKING</td>
+<td style="padding:6px 14px;font-size:12px;font-weight:600;color:#1a1a1a;line-height:1.5;">SHORT 1-LINE SUMMARY OF TOP STORY 1</td></tr>
 </table>
-IMPORTANT: Use the actual URL from "| URL:" in the input. Omit the link if no URL was given.
 
-PART B — ALL 5 SECTIONS (remaining items as compact links)
-Include every item NOT already shown in Part A. Show ALL 5 sections, even if empty.
+Then output the 3-column lead stories grid:
+<table width="100%" cellpadding="0" cellspacing="0" style="border-bottom:2px solid #1a1a1a;margin-bottom:12px;">
+<tr valign="top">
+
+  <!-- LEAD STORY (wide, left) -->
+  <td width="50%" style="padding:14px 12px 14px 16px;border-right:1px solid #ddd;">
+    <p style="margin:0 0 4px 0;font-size:9px;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:#c00;">WATCHLIST / SECTION TAG</p>
+    <p style="margin:0 0 8px 0;font-size:17px;font-weight:900;color:#1a1a1a;line-height:1.3;font-family:Georgia,serif;">HEADLINE OF TOP STORY</p>
+    <p style="margin:0 0 8px 0;font-size:12px;color:#444;line-height:1.7;">2-3 sentence factual summary of what happened.</p>
+    <table width="100%" cellpadding="0" cellspacing="0" style="background:#fef2f2;border-left:3px solid #c00;margin-bottom:8px;">
+    <tr><td style="padding:8px 10px;">
+      <p style="margin:0 0 3px 0;font-size:9px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:#c00;">CREDIT IMPLICATION</p>
+      <p style="margin:0;font-size:12px;color:#374151;line-height:1.6;">2-3 sentences on rating/liquidity/asset quality impact.</p>
+    </td></tr>
+    </table>
+    <p style="margin:0;font-size:11px;"><a href="ACTUAL_URL" target="_blank" style="color:#c00;font-weight:700;text-decoration:none;">Read more &#8594;</a> &nbsp;<span style="color:#888;font-size:10px;">Source Name</span></p>
+  </td>
+
+  <!-- STORY 2 (top right) -->
+  <td width="50%" style="padding:0;vertical-align:top;">
+    <table width="100%" cellpadding="0" cellspacing="0">
+    <tr><td style="padding:14px 16px 10px 12px;border-bottom:1px solid #ddd;">
+      <p style="margin:0 0 3px 0;font-size:9px;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:#c00;">SECTION TAG</p>
+      <p style="margin:0 0 6px 0;font-size:14px;font-weight:800;color:#1a1a1a;line-height:1.3;font-family:Georgia,serif;">HEADLINE STORY 2</p>
+      <p style="margin:0 0 5px 0;font-size:12px;color:#444;line-height:1.6;">1-2 sentence summary.</p>
+      <table width="100%" cellpadding="0" cellspacing="0" style="background:#fff7ed;border-left:3px solid #f59e0b;margin-bottom:6px;">
+      <tr><td style="padding:6px 10px;font-size:11px;color:#374151;line-height:1.6;">Credit implication in 1-2 sentences.</td></tr>
+      </table>
+      <p style="margin:0;font-size:11px;"><a href="ACTUAL_URL" target="_blank" style="color:#c00;font-weight:700;text-decoration:none;">Read more &#8594;</a> &nbsp;<span style="color:#888;font-size:10px;">Source Name</span></p>
+    </td></tr>
+
+    <!-- STORY 3 (bottom right) -->
+    <tr><td style="padding:12px 16px 14px 12px;">
+      <p style="margin:0 0 3px 0;font-size:9px;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:#c00;">SECTION TAG</p>
+      <p style="margin:0 0 6px 0;font-size:14px;font-weight:800;color:#1a1a1a;line-height:1.3;font-family:Georgia,serif;">HEADLINE STORY 3</p>
+      <p style="margin:0 0 5px 0;font-size:12px;color:#444;line-height:1.6;">1-2 sentence summary.</p>
+      <table width="100%" cellpadding="0" cellspacing="0" style="background:#f0fdf4;border-left:3px solid #16a34a;margin-bottom:6px;">
+      <tr><td style="padding:6px 10px;font-size:11px;color:#374151;line-height:1.6;">Credit implication in 1-2 sentences.</td></tr>
+      </table>
+      <p style="margin:0;font-size:11px;"><a href="ACTUAL_URL" target="_blank" style="color:#c00;font-weight:700;text-decoration:none;">Read more &#8594;</a> &nbsp;<span style="color:#888;font-size:10px;">Source Name</span></p>
+    </td></tr>
+    </table>
+  </td>
+
+</tr>
+</table>
+
+═══════════════════════════════════════
+PART B — SECTION PAGES (newspaper section layout)
+═══════════════════════════════════════
+For each of the 5 sections output a section block.
+Include every item not already shown in Part A leads. Show all 5 sections even if empty.
 
 Section routing:
-  S1 — Only [WATCHLIST — CompanyName] tagged items
-  S2 — NBFC, HFC, Banking, Broking, Fintech, MFI, rating actions on companies
+  S1 — [WATCHLIST — CompanyName] tagged items ONLY
+  S2 — NBFC, HFC, Banking, Broking, Fintech, MFI, rating actions
   S3 — RBI, SEBI, NHB regulatory items
   S4 — Bonds, CP, Securitisation, FIMMDA, CCIL market items
-  S5 — Macro: GDP, CPI, IIP, forex, fiscal deficit, US Fed, global impact on India
+  S5 — Macro: GDP, CPI, IIP, forex, fiscal deficit, US Fed, global
 
-Section header HTML (copy exactly):
-S1: <div style="background:#fef2f2;border-left:4px solid #ef4444;padding:10px 24px;margin-top:8px;"><span style="font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#b91c1c;">&#9733; Section 1 &mdash; My Rated Entities and Watchlist</span></div>
-S2: <div style="background:#fffbeb;border-left:4px solid #f59e0b;padding:10px 24px;margin-top:8px;"><span style="font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#92400e;">Section 2 &mdash; NBFC, HFC, Broking, Fintech, FI Sectors</span></div>
-S3: <div style="background:#eff6ff;border-left:4px solid #3b82f6;padding:10px 24px;margin-top:8px;"><span style="font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#1d4ed8;">Section 3 &mdash; RBI, SEBI, NHB Regulations</span></div>
-S4: <div style="background:#f0fdf4;border-left:4px solid #22c55e;padding:10px 24px;margin-top:8px;"><span style="font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#15803d;">Section 4 &mdash; Bond and Money Markets</span></div>
-S5: <div style="background:#faf5ff;border-left:4px solid #8b5cf6;padding:10px 24px;margin-top:8px;"><span style="font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#6d28d9;">Section 5 &mdash; Macroeconomic Developments</span></div>
+Each section uses this structure:
 
-Links after each header:
-<div style="padding:4px 24px 8px 24px;"><a href="URL" target="_blank" style="display:block;font-size:13px;color:#1d4ed8;text-decoration:none;padding:7px 0;border-bottom:1px solid #f1f5f9;line-height:1.5;">Headline — Source</a></div>
-No URL: <div style="padding:4px 24px 8px 24px;"><span style="display:block;font-size:13px;color:#475569;padding:7px 0;border-bottom:1px solid #f1f5f9;">Headline — Source</span></div>
-Empty: <div style="padding:8px 24px;font-size:12px;color:#94a3b8;font-style:italic;">No news today.</div>
+SECTION HEADER (copy the exact color per section):
+S1 header — red:    <table width="100%" cellpadding="0" cellspacing="0" style="margin-top:14px;"><tr><td style="background:#c00;padding:7px 16px;"><span style="font-size:9px;font-weight:800;letter-spacing:3px;text-transform:uppercase;color:#fff;">&#9733; SECTION 1 &mdash; MY RATED ENTITIES &amp; WATCHLIST</span></td></tr></table>
+S2 header — amber:  <table width="100%" cellpadding="0" cellspacing="0" style="margin-top:14px;"><tr><td style="background:#b45309;padding:7px 16px;"><span style="font-size:9px;font-weight:800;letter-spacing:3px;text-transform:uppercase;color:#fff;">SECTION 2 &mdash; NBFC, HFC, BROKING, FINTECH, FI</span></td></tr></table>
+S3 header — navy:   <table width="100%" cellpadding="0" cellspacing="0" style="margin-top:14px;"><tr><td style="background:#1e3a8a;padding:7px 16px;"><span style="font-size:9px;font-weight:800;letter-spacing:3px;text-transform:uppercase;color:#fff;">SECTION 3 &mdash; RBI, SEBI, NHB REGULATIONS</span></td></tr></table>
+S4 header — green:  <table width="100%" cellpadding="0" cellspacing="0" style="margin-top:14px;"><tr><td style="background:#15803d;padding:7px 16px;"><span style="font-size:9px;font-weight:800;letter-spacing:3px;text-transform:uppercase;color:#fff;">SECTION 4 &mdash; BOND &amp; MONEY MARKETS</span></td></tr></table>
+S5 header — purple: <table width="100%" cellpadding="0" cellspacing="0" style="margin-top:14px;"><tr><td style="background:#6d28d9;padding:7px 16px;"><span style="font-size:9px;font-weight:800;letter-spacing:3px;text-transform:uppercase;color:#fff;">SECTION 5 &mdash; MACROECONOMIC DEVELOPMENTS</span></td></tr></table>
 
-PART C — TOP 5 TAKEAWAYS
-<div style="background:#0f172a;padding:10px 24px;margin-top:8px;"><span style="font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#f1f5f9;">&#128204; Top 5 Things To Know Today</span></div>
-<div style="padding:4px 24px 16px 24px;">
+After each section header, output article rows in 2-column newspaper column style:
 <table width="100%" cellpadding="0" cellspacing="0">
-<tr valign="top"><td width="36" style="font-size:26px;font-weight:800;color:#8b5cf6;padding:10px 8px 10px 0;">1</td><td style="font-size:13px;color:#374151;line-height:1.65;padding:10px 0;border-bottom:1px solid #f1f5f9;"><strong style="color:#0f172a;">S? / Topic</strong> — one sharp credit insight.</td></tr>
-<tr valign="top"><td style="font-size:26px;font-weight:800;color:#8b5cf6;padding:10px 8px 10px 0;">2</td><td style="font-size:13px;color:#374151;line-height:1.65;padding:10px 0;border-bottom:1px solid #f1f5f9;"><strong style="color:#0f172a;">S? / Topic</strong> — one sharp credit insight.</td></tr>
-<tr valign="top"><td style="font-size:26px;font-weight:800;color:#8b5cf6;padding:10px 8px 10px 0;">3</td><td style="font-size:13px;color:#374151;line-height:1.65;padding:10px 0;border-bottom:1px solid #f1f5f9;"><strong style="color:#0f172a;">S? / Topic</strong> — one sharp credit insight.</td></tr>
-<tr valign="top"><td style="font-size:26px;font-weight:800;color:#8b5cf6;padding:10px 8px 10px 0;">4</td><td style="font-size:13px;color:#374151;line-height:1.65;padding:10px 0;border-bottom:1px solid #f1f5f9;"><strong style="color:#0f172a;">S? / Topic</strong> — one sharp credit insight.</td></tr>
-<tr valign="top"><td style="font-size:26px;font-weight:800;color:#8b5cf6;padding:10px 8px 10px 0;">5</td><td style="font-size:13px;color:#374151;line-height:1.65;padding:10px 0;"><strong style="color:#0f172a;">S? / Topic</strong> — one sharp credit insight.</td></tr>
+<tr valign="top">
+  <td width="50%" style="padding:10px 10px 10px 16px;border-right:1px solid #e5e5e5;border-bottom:1px solid #e5e5e5;">
+    <p style="margin:0 0 3px 0;font-size:9px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:#888;">SOURCE NAME</p>
+    <p style="margin:0 0 5px 0;font-size:13px;font-weight:800;color:#1a1a1a;line-height:1.35;font-family:Georgia,serif;"><a href="URL" target="_blank" style="color:#1a1a1a;text-decoration:none;">HEADLINE</a></p>
+    <p style="margin:0 0 5px 0;font-size:11px;color:#555;line-height:1.6;">1 sentence credit-focused summary.</p>
+    <p style="margin:0;font-size:10px;color:#c00;font-weight:700;font-style:italic;">Credit angle in one phrase.</p>
+  </td>
+  <td width="50%" style="padding:10px 16px 10px 10px;border-bottom:1px solid #e5e5e5;">
+    <!-- next article same structure, or empty td if odd number -->
+  </td>
+</tr>
 </table>
-</div>
 
-Return ONLY the HTML for Parts A, B, C. No masthead. No html/head/body tags. No markdown."""
+Rules for section articles:
+- Pair articles into 2-column rows. If odd number, leave right cell empty.
+- Each article: source label, bold headline as link (if URL available), 1-line summary, credit angle tag.
+- Empty section: <p style="padding:8px 16px;font-size:11px;color:#aaa;font-style:italic;margin:0;">No news in this category today.</p>
+
+═══════════════════════════════════════
+PART C — TOP 5 BRIEFING BAR
+═══════════════════════════════════════
+<table width="100%" cellpadding="0" cellspacing="0" style="margin-top:14px;background:#1a1a1a;">
+<tr><td style="padding:8px 16px;"><span style="font-size:9px;font-weight:800;letter-spacing:3px;text-transform:uppercase;color:#fff;">&#9679; TODAY'S TOP 5 CREDIT BRIEFING</span></td></tr>
+</table>
+<table width="100%" cellpadding="0" cellspacing="0" style="border:1px solid #e5e5e5;border-top:none;">
+<tr valign="top">
+  <td width="20%" style="padding:12px 10px 12px 16px;border-right:1px solid #e5e5e5;border-bottom:1px solid #e5e5e5;">
+    <p style="margin:0 0 2px 0;font-size:28px;font-weight:900;color:#c00;line-height:1;">01</p>
+    <p style="margin:0 0 4px 0;font-size:9px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:#666;">S? / TOPIC</p>
+    <p style="margin:0;font-size:11px;color:#1a1a1a;line-height:1.6;">One sharp credit insight sentence.</p>
+  </td>
+  <td width="20%" style="padding:12px 10px;border-right:1px solid #e5e5e5;border-bottom:1px solid #e5e5e5;">
+    <p style="margin:0 0 2px 0;font-size:28px;font-weight:900;color:#c00;line-height:1;">02</p>
+    <p style="margin:0 0 4px 0;font-size:9px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:#666;">S? / TOPIC</p>
+    <p style="margin:0;font-size:11px;color:#1a1a1a;line-height:1.6;">One sharp credit insight sentence.</p>
+  </td>
+  <td width="20%" style="padding:12px 10px;border-right:1px solid #e5e5e5;border-bottom:1px solid #e5e5e5;">
+    <p style="margin:0 0 2px 0;font-size:28px;font-weight:900;color:#c00;line-height:1;">03</p>
+    <p style="margin:0 0 4px 0;font-size:9px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:#666;">S? / TOPIC</p>
+    <p style="margin:0;font-size:11px;color:#1a1a1a;line-height:1.6;">One sharp credit insight sentence.</p>
+  </td>
+  <td width="20%" style="padding:12px 10px;border-right:1px solid #e5e5e5;border-bottom:1px solid #e5e5e5;">
+    <p style="margin:0 0 2px 0;font-size:28px;font-weight:900;color:#c00;line-height:1;">04</p>
+    <p style="margin:0 0 4px 0;font-size:9px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:#666;">S? / TOPIC</p>
+    <p style="margin:0;font-size:11px;color:#1a1a1a;line-height:1.6;">One sharp credit insight sentence.</p>
+  </td>
+  <td width="20%" style="padding:12px 16px 12px 10px;border-bottom:1px solid #e5e5e5;">
+    <p style="margin:0 0 2px 0;font-size:28px;font-weight:900;color:#c00;line-height:1;">05</p>
+    <p style="margin:0 0 4px 0;font-size:9px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:#666;">S? / TOPIC</p>
+    <p style="margin:0;font-size:11px;color:#1a1a1a;line-height:1.6;">One sharp credit insight sentence.</p>
+  </td>
+</tr>
+</table>
+
+CRITICAL RULES:
+- Use ACTUAL URLs from "| URL:" in input — never placeholder text. Omit link tag entirely if no URL.
+- All styles must be inline. Zero class names. Zero external CSS.
+- Do NOT output html/head/body tags, masthead, or any wrapper.
+- Output Parts A, B, C in order, nothing else."""
 
 
 # ---------------------------------------------------------------------------
@@ -171,6 +249,8 @@ def generate_report(news_text: str, today: datetime.date, api_key: str) -> str:
 
 def build_html(inner_html: str, today: datetime.date) -> str:
     date_str = today.strftime("%d %B %Y")
+    day_str = today.strftime("%A")
+    dow = today.strftime("%A, %d %B %Y").upper()
 
     return f"""<!DOCTYPE html>
 <html lang="en">
@@ -179,16 +259,62 @@ def build_html(inner_html: str, today: datetime.date) -> str:
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="color-scheme" content="light">
 </head>
-<body style="margin:0;padding:16px 0;background:#dde3ea;font-family:Arial,Helvetica,sans-serif;-webkit-text-size-adjust:100%;">
-<div style="max-width:660px;margin:0 auto;background:#ffffff;border:1px solid #cbd5e1;border-radius:4px;overflow:hidden;">
+<body style="margin:0;padding:12px 0;background:#c8c8c8;font-family:Arial,Helvetica,sans-serif;-webkit-text-size-adjust:100%;">
+<div style="max-width:680px;margin:0 auto;background:#ffffff;box-shadow:0 2px 8px rgba(0,0,0,0.18);">
 
+<!-- TOP ACCENT BAR -->
+<table width="100%" cellpadding="0" cellspacing="0">
+<tr>
+  <td style="background:#c00;height:4px;"></td>
+</tr>
+</table>
+
+<!-- MASTHEAD -->
+<table width="100%" cellpadding="0" cellspacing="0" style="border-bottom:3px solid #1a1a1a;">
+<tr>
+  <td style="padding:10px 16px 4px 16px;">
+    <!-- date line -->
+    <p style="margin:0 0 2px 0;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:#888;">{dow} &nbsp;&bull;&nbsp; VOL. 1 &nbsp;&bull;&nbsp; INTERNAL USE ONLY</p>
+    <!-- publication name -->
+    <p style="margin:0;font-size:30px;font-weight:900;color:#1a1a1a;letter-spacing:-1px;line-height:1;font-family:Georgia,'Times New Roman',serif;">CareEdge Credit Intelligence</p>
+    <!-- tagline rule -->
+    <table width="100%" cellpadding="0" cellspacing="0" style="margin-top:6px;">
+    <tr>
+      <td style="border-top:1px solid #1a1a1a;padding-top:4px;">
+        <p style="margin:0;font-size:10px;color:#555;font-style:italic;font-family:Georgia,serif;">Daily Credit &amp; Markets Briefing &mdash; Credit Strategy &amp; Surveillance Desk</p>
+      </td>
+    </tr>
+    </table>
+  </td>
+</tr>
+</table>
+
+<!-- SECTION NAV BAR -->
+<table width="100%" cellpadding="0" cellspacing="0" style="background:#1a1a1a;border-bottom:2px solid #c00;">
+<tr>
+  <td style="padding:0;">
+    <table cellpadding="0" cellspacing="0">
+    <tr>
+      <td style="padding:6px 12px 6px 16px;font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#fff;border-right:1px solid #444;">WATCHLIST</td>
+      <td style="padding:6px 12px;font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#ccc;border-right:1px solid #444;">NBFC &amp; FI</td>
+      <td style="padding:6px 12px;font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#ccc;border-right:1px solid #444;">REGULATIONS</td>
+      <td style="padding:6px 12px;font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#ccc;border-right:1px solid #444;">MARKETS</td>
+      <td style="padding:6px 12px;font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#ccc;">MACRO</td>
+    </tr>
+    </table>
+  </td>
+</tr>
+</table>
+
+<!-- REPORT BODY (Claude-generated) -->
 {inner_html}
 
-<table width="100%" cellpadding="0" cellspacing="0" style="background:#0f172a;margin-top:8px;">
-<tr><td style="padding:16px 24px;text-align:center;font-size:11px;color:#64748b;line-height:1.9;">
-  Daily Credit Intelligence &nbsp;&middot;&nbsp; {date_str} &nbsp;&middot;&nbsp; CareEdge Ratings<br>
-  Credit Strategy &amp; Surveillance Desk &nbsp;&middot;&nbsp; Jitendra.Meghrajani@careedge.in<br>
-  <span style="color:#475569;font-style:italic;">Confidential &mdash; Internal Use Only. Not for external distribution.</span>
+<!-- FOOTER -->
+<table width="100%" cellpadding="0" cellspacing="0" style="margin-top:16px;border-top:3px solid #1a1a1a;background:#1a1a1a;">
+<tr><td style="padding:14px 16px;text-align:center;font-size:10px;color:#999;line-height:1.9;">
+  <span style="color:#c00;font-weight:700;">CareEdge Ratings</span> &nbsp;&mdash;&nbsp; Daily Credit Intelligence &nbsp;&mdash;&nbsp; {date_str}<br>
+  Credit Strategy &amp; Surveillance Desk &nbsp;&bull;&nbsp; Jitendra.Meghrajani@careedge.in<br>
+  <span style="font-style:italic;color:#666;">&#128274; Confidential &mdash; Internal Use Only. Not for external distribution.</span>
 </td></tr>
 </table>
 
