@@ -16,6 +16,8 @@ import smtplib
 import datetime
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
+from email.mime.base import MIMEBase
+from email import encoders
 
 import anthropic
 
@@ -370,11 +372,11 @@ def build_email(part_a_html: str, today: datetime.date) -> str:
 <!-- VIEW FULL REPORT CTA -->
 <table width="100%" cellpadding="0" cellspacing="0" style="margin-top:4px;border-top:2px solid #e5e5e5;">
 <tr><td style="padding:20px;text-align:center;background:#f9f9f9;">
-  <p style="margin:0 0 12px;font-size:12px;color:#555;">All 5 sections with complete news coverage are available in the full report:</p>
-  <table cellpadding="0" cellspacing="0" style="margin:0 auto;"><tr><td style="background:#cc0000;border-radius:3px;">
-    <a href="{_PAGES_URL}" target="_blank" style="display:block;padding:12px 32px;font-size:13px;font-weight:700;color:#fff;text-decoration:none;letter-spacing:0.5px;">View Full Report &nbsp;&#8594;</a>
+  <p style="margin:0 0 6px;font-size:12px;color:#555;">The <strong>full report</strong> with all 5 sections is attached to this email as an HTML file.</p>
+  <p style="margin:0 0 14px;font-size:11px;color:#aaa;">Open the attachment in any browser for the complete newspaper-style report.</p>
+  <table cellpadding="0" cellspacing="0" style="margin:0 auto;"><tr><td style="background:#1a1a1a;border-radius:3px;">
+    <a href="{_PAGES_URL}" target="_blank" style="display:block;padding:10px 24px;font-size:11px;font-weight:700;color:#ccc;text-decoration:none;letter-spacing:0.5px;">Also view online &nbsp;&#8594;</a>
   </td></tr></table>
-  <p style="margin:10px 0 0;font-size:10px;color:#aaa;">{_PAGES_URL}</p>
 </td></tr>
 </table>
 
@@ -415,13 +417,27 @@ def split_parts(full_html: str) -> tuple[str, str]:
 # Email sender
 # ---------------------------------------------------------------------------
 
-def send_email(subject: str, html_body: str, gmail_user: str, gmail_password: str) -> None:
+def send_email(subject: str, html_body: str, gmail_user: str, gmail_password: str,
+               attachment_html: str = "", attachment_name: str = "") -> None:
     recipients = _get_recipients()
-    msg = MIMEMultipart("alternative")
+    msg = MIMEMultipart("mixed")
     msg["Subject"] = subject
     msg["From"] = gmail_user
     msg["To"] = ", ".join(recipients)
-    msg.attach(MIMEText(html_body, "html", "utf-8"))
+
+    # HTML body (compact top stories)
+    body_part = MIMEMultipart("alternative")
+    body_part.attach(MIMEText(html_body, "html", "utf-8"))
+    msg.attach(body_part)
+
+    # Full report as HTML attachment
+    if attachment_html and attachment_name:
+        att = MIMEBase("text", "html", charset="utf-8")
+        att.set_payload(attachment_html.encode("utf-8"))
+        encoders.encode_base64(att)
+        att.add_header("Content-Disposition", "attachment", filename=attachment_name)
+        msg.attach(att)
+
     with smtplib.SMTP_SSL("smtp.gmail.com", 465) as server:
         server.login(gmail_user, gmail_password)
         server.sendmail(gmail_user, recipients, msg.as_string())
@@ -462,7 +478,9 @@ def main() -> None:
     email_html = build_email(part_a, today)
 
     print("Sending email...")
-    send_email(subject, email_html, gmail_user, gmail_password)
+    attachment_name = f"CareEdge_Credit_Intelligence_{today.strftime('%d%b%Y')}.html"
+    send_email(subject, email_html, gmail_user, gmail_password,
+               attachment_html=webpage, attachment_name=attachment_name)
 
 
 if __name__ == "__main__":
