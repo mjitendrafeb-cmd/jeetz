@@ -7,7 +7,7 @@
     "rbi_rss": true,
     "sebi_rss": true,
     "google_news": true,
-    "newsapi": true,
+    "newsapi": false,
     "company_watchlist": true,
     "telegram": true,
     "web_scraper": false
