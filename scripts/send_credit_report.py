@@ -130,9 +130,9 @@ Identify the 5 most credit-significant stories mentally. Watchlist entities firs
 DO NOT output Part A as HTML. Use it only to ensure those 5 stories appear at the TOP of their respective sections in Part B.
 
 ════════════
-PART B — ALL 5 SECTIONS  (goes in attachment)
+PART B — ALL 5 SECTIONS  (goes in attachment, newspaper column layout)
 ════════════
-Show ALL 5 sections. Each item in EXACTLY ONE section. Top stories for each section come first.
+Show ALL 5 sections. Each item in EXACTLY ONE section. Most credit-significant story per section comes FIRST.
 
 Section routing:
   S1 — [WATCHLIST — Company] items ONLY
@@ -141,33 +141,34 @@ Section routing:
   S4 — Bonds, G-Sec, CP, Securitisation, FIMMDA, CCIL market items
   S5 — Macro: GDP, CPI, IIP, forex, fiscal deficit, US Fed, global
 
-Section headers (copy EXACTLY including id attributes):
-S1: <table id="s1" width="100%" cellpadding="0" cellspacing="0" style="margin-top:16px;"><tr><td style="background:#cc0000;padding:7px 16px;font-size:9px;font-weight:800;letter-spacing:3px;text-transform:uppercase;color:#fff;">&#9733; S1 — MY RATED ENTITIES &amp; WATCHLIST</td></tr></table>
-S2: <table id="s2" width="100%" cellpadding="0" cellspacing="0" style="margin-top:16px;"><tr><td style="background:#b45309;padding:7px 16px;font-size:9px;font-weight:800;letter-spacing:3px;text-transform:uppercase;color:#fff;">S2 — NBFC, HFC, BROKING, FINTECH, FI SECTORS</td></tr></table>
-S3: <table id="s3" width="100%" cellpadding="0" cellspacing="0" style="margin-top:16px;"><tr><td style="background:#1e3a8a;padding:7px 16px;font-size:9px;font-weight:800;letter-spacing:3px;text-transform:uppercase;color:#fff;">S3 — RBI, SEBI, NHB REGULATIONS</td></tr></table>
-S4: <table id="s4" width="100%" cellpadding="0" cellspacing="0" style="margin-top:16px;"><tr><td style="background:#15803d;padding:7px 16px;font-size:9px;font-weight:800;letter-spacing:3px;text-transform:uppercase;color:#fff;">S4 — BOND &amp; MONEY MARKETS</td></tr></table>
-S5: <table id="s5" width="100%" cellpadding="0" cellspacing="0" style="margin-top:16px;"><tr><td style="background:#6d28d9;padding:7px 16px;font-size:9px;font-weight:800;letter-spacing:3px;text-transform:uppercase;color:#fff;">S5 — MACROECONOMIC DEVELOPMENTS</td></tr></table>
+Each section = one section-banner div + article divs. Use EXACTLY this structure:
 
-After each header, one card per article:
-<table width="100%" cellpadding="0" cellspacing="0" style="border-bottom:1px solid #f0f0f0;">
-<tr valign="top"><td style="padding:10px 16px;">
-  <p style="margin:0 0 3px;font-size:9px;font-weight:700;text-transform:uppercase;color:#999;letter-spacing:1px;">SOURCE</p>
-  <p style="margin:0 0 7px;font-size:14px;font-weight:800;color:#1a1a1a;font-family:Georgia,serif;line-height:1.3;">HEADLINE</p>
-  <table width="100%" cellpadding="0" cellspacing="0"><tr valign="top">
-    <td width="50%" style="padding-right:10px;border-right:2px solid #f0f0f0;">
-      <p style="margin:0 0 3px;font-size:9px;font-weight:800;text-transform:uppercase;color:#1e3a8a;">WHAT HAPPENED</p>
-      <p style="margin:0;font-size:11px;color:#374151;line-height:1.6;">1-2 sentences. Key facts.</p>
-    </td>
-    <td width="50%" style="padding-left:10px;background:#fef9f9;">
-      <p style="margin:0 0 3px;font-size:9px;font-weight:800;text-transform:uppercase;color:#cc0000;">CREDIT IMPLICATION</p>
-      <p style="margin:0;font-size:11px;color:#374151;line-height:1.6;">1-2 sentences. Rating/liquidity/asset quality angle.</p>
-    </td>
-  </tr></table>
-  <p style="margin:5px 0 0;font-size:10px;"><a href="URL" target="_blank" style="color:#cc0000;font-weight:700;text-decoration:none;">Source &#8594;</a></p>
-</td></tr>
-</table>
+SECTION BANNER (copy exactly, note id and data-section):
+S1: <div id="s1" data-section="banner" style="margin:20px 0 0;padding:6px 0;border-top:3px solid #cc0000;border-bottom:1px solid #cc0000;font-size:9px;font-weight:800;letter-spacing:3px;text-transform:uppercase;color:#cc0000;">&#9733; S1 &mdash; MY RATED ENTITIES &amp; WATCHLIST</div>
+S2: <div id="s2" data-section="banner" style="margin:20px 0 0;padding:6px 0;border-top:3px solid #b45309;border-bottom:1px solid #b45309;font-size:9px;font-weight:800;letter-spacing:3px;text-transform:uppercase;color:#b45309;">S2 &mdash; NBFC, HFC, BROKING, FINTECH, FI SECTORS</div>
+S3: <div id="s3" data-section="banner" style="margin:20px 0 0;padding:6px 0;border-top:3px solid #1e3a8a;border-bottom:1px solid #1e3a8a;font-size:9px;font-weight:800;letter-spacing:3px;text-transform:uppercase;color:#1e3a8a;">S3 &mdash; RBI, SEBI, NHB REGULATIONS</div>
+S4: <div id="s4" data-section="banner" style="margin:20px 0 0;padding:6px 0;border-top:3px solid #15803d;border-bottom:1px solid #15803d;font-size:9px;font-weight:800;letter-spacing:3px;text-transform:uppercase;color:#15803d;">S4 &mdash; BOND &amp; MONEY MARKETS</div>
+S5: <div id="s5" data-section="banner" style="margin:20px 0 0;padding:6px 0;border-top:3px solid #6d28d9;border-bottom:1px solid #6d28d9;font-size:9px;font-weight:800;letter-spacing:3px;text-transform:uppercase;color:#6d28d9;">S5 &mdash; MACROECONOMIC DEVELOPMENTS</div>
 
-Omit the link line if no URL. For empty section: <p style="padding:8px 16px;font-size:11px;color:#aaa;font-style:italic;margin:0;">No news in this category today.</p>
+ARTICLE (use for EVERY article — newspaper column style):
+<div style="break-inside:avoid;padding:12px 0;border-bottom:1px solid #ddd;">
+  <p style="margin:0 0 3px;font-size:8px;font-weight:800;text-transform:uppercase;letter-spacing:1.5px;color:#999;">SOURCE &bull; DATE</p>
+  <p style="margin:0 0 6px;font-size:14px;font-weight:700;font-family:Georgia,serif;line-height:1.25;color:#111;">HEADLINE</p>
+  <p style="margin:0 0 5px;font-size:10.5px;color:#333;line-height:1.65;">What happened in 2-3 tight sentences. Facts only.</p>
+  <p style="margin:0 0 6px;font-size:10px;color:#444;line-height:1.6;border-left:3px solid #cc0000;padding-left:7px;font-style:italic;">Credit implication: 1-2 sentences on rating/liquidity/asset quality/governance impact.</p>
+  <a href="ACTUAL_URL" target="_blank" style="font-size:9px;color:#888;text-decoration:none;font-weight:600;">Read more &#8594;</a>
+</div>
+
+For FIRST article in S1 only (lead story), use this wider hero format:
+<div style="break-inside:avoid;padding:12px 0 14px;border-bottom:2px solid #cc0000;margin-bottom:4px;">
+  <p style="margin:0 0 3px;font-size:8px;font-weight:800;text-transform:uppercase;letter-spacing:1.5px;color:#cc0000;">&#9733; WATCHLIST &bull; SOURCE</p>
+  <p style="margin:0 0 8px;font-size:18px;font-weight:800;font-family:Georgia,serif;line-height:1.2;color:#111;">HEADLINE — BIGGER AND BOLDER</p>
+  <p style="margin:0 0 6px;font-size:11px;color:#222;line-height:1.7;">What happened in 2-3 sentences. Facts only.</p>
+  <p style="margin:0 0 6px;font-size:10.5px;color:#333;line-height:1.65;border-left:3px solid #cc0000;padding-left:8px;font-style:italic;">Credit implication: impact on rating outlook / liquidity / asset quality.</p>
+  <a href="ACTUAL_URL" target="_blank" style="font-size:9px;color:#cc0000;text-decoration:none;font-weight:700;">Read full story &#8594;</a>
+</div>
+
+Omit the link if no URL. For empty section: <p style="padding:10px 0;font-size:10px;color:#aaa;font-style:italic;">No news in this category today.</p>
 
 ════════════
 PART C — TOP 5 CREDIT TAKEAWAYS  (goes in email body)
@@ -256,15 +257,22 @@ def generate_report(news_text: str, today: datetime.date, api_key: str) -> str:
 
 def split_parts(full_html: str) -> tuple[str, str]:
     """Return (part_b, part_c). part_b = S1-S5 sections, part_c = takeaways."""
-    # Part C starts at the black takeaways header
+    # Part C starts at the black takeaways header (background:#1a1a1a table)
     c_match = re.search(
-        r'<table[^>]*style="[^"]*background:#1a1a1a[^"]*"',
+        r'<table[^>]*style="[^"]*background\s*:\s*#1a1a1a[^"]*"',
         full_html
     )
-    if c_match:
-        part_b = full_html[:c_match.start()].strip()
+    # Part B starts at first section banner (data-section="banner" div or id="s1")
+    b_match = re.search(r'<div[^>]+data-section=["\']banner["\']|<div[^>]+id=["\']s1["\']', full_html)
+
+    if b_match and c_match and c_match.start() > b_match.start():
+        part_b = full_html[b_match.start():c_match.start()].strip()
         part_c = full_html[c_match.start():].strip()
         return part_b, part_c
+    if c_match:
+        return full_html[:c_match.start()].strip(), full_html[c_match.start():].strip()
+    if b_match:
+        return full_html[b_match.start():].strip(), ""
     return full_html, ""
 
 
@@ -274,7 +282,8 @@ def split_parts(full_html: str) -> tuple[str, str]:
 
 def build_attachment(part_b_html: str, today: datetime.date) -> str:
     date_str = today.strftime("%d %B %Y")
-    dow = today.strftime("%A, %d %B %Y").upper()
+    dow_full = today.strftime("%A, %d %B %Y").upper()
+    edition = f"Vol. {today.year} · CareEdge Ratings · Internal Use Only"
 
     return f"""<!DOCTYPE html>
 <html lang="en">
@@ -282,51 +291,82 @@ def build_attachment(part_b_html: str, today: datetime.date) -> str:
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>Credit Intelligence News — {date_str}</title>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=UnifrakturMaguntia&family=PT+Serif:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
 <style>
-*{{box-sizing:border-box;margin:0;padding:0}}
-body{{background:#ddd;font-family:'Inter',Arial,sans-serif;color:#1a1a1a}}
-.wrap{{max-width:780px;margin:0 auto;background:#fff;box-shadow:0 4px 20px rgba(0,0,0,.2)}}
-.bar{{background:#cc0000;height:5px}}
-.mast{{padding:14px 24px 10px;border-bottom:3px solid #1a1a1a}}
-.mast-meta{{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:#999;margin-bottom:4px}}
-.mast-title{{font-family:'Playfair Display',Georgia,serif;font-size:36px;font-weight:900;line-height:1;letter-spacing:-1px}}
-.mast-sub{{display:flex;justify-content:space-between;align-items:center;border-top:1px solid #1a1a1a;margin-top:7px;padding-top:5px}}
-nav{{background:#1a1a1a;border-bottom:3px solid #cc0000;display:flex;flex-wrap:wrap}}
-nav a{{padding:8px 16px;font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#ccc;border-right:1px solid #333;text-decoration:none}}
-nav a:first-child{{color:#fff}}
-nav a:hover{{color:#fff;background:#333}}
-.body{{padding:0 24px 32px}}
-footer{{background:#1a1a1a;padding:12px 24px;text-align:center;font-size:10px;color:#666;line-height:2}}
-footer strong{{color:#cc0000}}
-@media(max-width:600px){{.mast-title{{font-size:26px}}.body{{padding:0 14px 24px}}}}
+  *{{box-sizing:border-box;margin:0;padding:0}}
+  body{{background:#f0ece4;font-family:'PT Serif',Georgia,serif;color:#111}}
+  .page{{max-width:960px;margin:24px auto;background:#fdfaf5;box-shadow:0 2px 24px rgba(0,0,0,.18);padding:0 0 32px}}
+
+  /* ── MASTHEAD ── */
+  .mast-top{{display:flex;justify-content:space-between;align-items:flex-end;padding:14px 28px 6px;border-bottom:1px solid #aaa}}
+  .mast-left{{font-size:8.5px;letter-spacing:1.5px;text-transform:uppercase;color:#555;line-height:1.8}}
+  .mast-right{{font-size:8.5px;text-align:right;color:#555;line-height:1.8}}
+  .mast-center{{text-align:center;padding:4px 28px 0}}
+  .mast-name{{font-family:'Playfair Display',Georgia,serif;font-size:62px;font-weight:900;line-height:1;letter-spacing:-2px;color:#111}}
+  .mast-rule{{border:none;border-top:3px double #111;margin:6px 0 0}}
+  .mast-sub{{display:flex;justify-content:space-between;align-items:center;padding:5px 28px;border-bottom:3px solid #111;font-size:8.5px;letter-spacing:1px;text-transform:uppercase;color:#555}}
+  .mast-sub .red{{color:#cc0000;font-weight:700;border:1px solid #cc0000;padding:1px 6px}}
+
+  /* ── NAV BAR ── */
+  .navbar{{display:flex;border-bottom:2px solid #cc0000;background:#111}}
+  .navbar a{{flex:1;text-align:center;padding:7px 4px;font-size:8px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#ccc;text-decoration:none;border-right:1px solid #333}}
+  .navbar a:first-child{{color:#fff}}
+  .navbar a:last-child{{border-right:none}}
+  .navbar a:hover{{background:#222;color:#fff}}
+
+  /* ── COLUMNS ── */
+  .columns{{padding:0 28px;column-count:3;column-gap:0;column-rule:1px solid #ccc}}
+
+  /* Section banners break out of columns */
+  [data-section="banner"]{{column-span:all;margin:22px -28px 0;padding:5px 28px;border-top:3px solid;border-bottom:1px solid}}
+
+  /* ── FOOTER ── */
+  .foot{{border-top:2px solid #111;margin:24px 28px 0;padding-top:10px;display:flex;justify-content:space-between;font-size:8px;color:#777;letter-spacing:1px;text-transform:uppercase}}
 </style>
 </head>
 <body>
-<div class="wrap">
-<div class="bar"></div>
-<header class="mast">
-  <p class="mast-meta">{dow} &bull; CareEdge Ratings</p>
-  <h1 class="mast-title">Credit Intelligence News</h1>
-  <div class="mast-sub">
-    <span style="font-size:10px;font-style:italic;color:#555">Full Report — All 5 Sections</span>
-    <span style="font-size:9px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:#cc0000;border:1px solid #cc0000;padding:2px 7px">&#128274; Confidential</span>
+<div class="page">
+
+  <!-- MASTHEAD -->
+  <div class="mast-top">
+    <div class="mast-left">{dow_full}<br>{edition}</div>
+    <div class="mast-right">Credit &amp; Markets Intelligence<br>CareEdge Ratings, Mumbai</div>
   </div>
-</header>
-<nav>
-  <a href="#s1">&#9733; Watchlist</a>
-  <a href="#s2">NBFC &amp; FI</a>
-  <a href="#s3">Regulations</a>
-  <a href="#s4">Markets</a>
-  <a href="#s5">Macro</a>
-</nav>
-<main class="body">
+  <div class="mast-center">
+    <div class="mast-name">Credit Intelligence News</div>
+    <hr class="mast-rule">
+  </div>
+  <div class="mast-sub">
+    <span>S1 Watchlist &middot; S2 NBFC/FI &middot; S3 Regulations &middot; S4 Markets &middot; S5 Macro</span>
+    <span><a href="#s1" style="text-decoration:none;color:#555;margin-right:10px;">Watchlist</a>
+          <a href="#s2" style="text-decoration:none;color:#555;margin-right:10px;">NBFC</a>
+          <a href="#s3" style="text-decoration:none;color:#555;margin-right:10px;">Regs</a>
+          <a href="#s4" style="text-decoration:none;color:#555;margin-right:10px;">Markets</a>
+          <a href="#s5" style="text-decoration:none;color:#555;">Macro</a></span>
+    <span class="red">&#128274; CONFIDENTIAL</span>
+  </div>
+
+  <!-- NAV -->
+  <nav class="navbar">
+    <a href="#s1">&#9733; Watchlist</a>
+    <a href="#s2">NBFC &amp; FI</a>
+    <a href="#s3">Regulations</a>
+    <a href="#s4">Markets</a>
+    <a href="#s5">Macro</a>
+  </nav>
+
+  <!-- 3-COLUMN NEWSPAPER BODY -->
+  <div class="columns">
 {part_b_html}
-</main>
-<footer>
-  <strong>Credit Intelligence News</strong> &mdash; CareEdge Ratings &mdash; {date_str}<br>
-  <em>&#128274; Confidential — Internal Use Only. Not for external distribution.</em>
-</footer>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="foot">
+    <span><strong style="color:#cc0000;">Credit Intelligence News</strong> &mdash; {date_str}</span>
+    <span>&#128274; Confidential &mdash; Internal Use Only &mdash; Not for external distribution</span>
+    <span>CareEdge Ratings, Mumbai</span>
+  </div>
+
 </div>
 </body>
 </html>"""
