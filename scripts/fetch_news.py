@@ -356,6 +356,33 @@ def fetch_all_news(newsapi_key: str = "") -> str:
             cfg.get("custom_scrape_urls", []),
         ))
 
+    # Custom RSS feeds added via management console
+    custom_rss = cfg.get("custom_rss_feeds", [])
+    for feed_url in custom_rss:
+        try:
+            feed = feedparser.parse(feed_url)
+            count = 0
+            for entry in feed.entries:
+                if not _is_recent(entry):
+                    continue
+                title = entry.get("title", "").strip()
+                summary = entry.get("summary", entry.get("description", "")).strip()
+                summary = re.sub(r"<[^>]+>", " ", summary)
+                summary = " ".join(summary.split())[:200]
+                url = entry.get("link", "")
+                text = f"[CUSTOM RSS] {title}"
+                if summary:
+                    text += f" — {summary}"
+                if url:
+                    text += f" | URL: {url}"
+                all_items.append(text)
+                count += 1
+                if count >= 10:
+                    break
+            print(f"[custom_rss] {feed_url}: {count} items")
+        except Exception as exc:
+            print(f"[custom_rss] Failed {feed_url}: {exc}")
+
     # --- Pre-filter 1: minimum text length ---
     all_items = [item for item in all_items if len(item.strip()) >= 80]
 

@@ -283,7 +283,7 @@ def split_parts(full_html: str) -> tuple[str, str]:
 def build_attachment(part_b_html: str, today: datetime.date) -> str:
     date_str = today.strftime("%d %B %Y")
     dow_full = today.strftime("%A, %d %B %Y").upper()
-    edition = f"Vol. {today.year} · CareEdge Ratings · Internal Use Only"
+    edition = f"Vol. {today.year} · Internal Use Only"
 
     return f"""<!DOCTYPE html>
 <html lang="en">
@@ -330,7 +330,7 @@ def build_attachment(part_b_html: str, today: datetime.date) -> str:
   <!-- MASTHEAD -->
   <div class="mast-top">
     <div class="mast-left">{dow_full}<br>{edition}</div>
-    <div class="mast-right">Credit &amp; Markets Intelligence<br>CareEdge Ratings, Mumbai</div>
+    <div class="mast-right">Credit &amp; Markets Intelligence</div>
   </div>
   <div class="mast-center">
     <div class="mast-name">Credit Intelligence News</div>
@@ -364,7 +364,7 @@ def build_attachment(part_b_html: str, today: datetime.date) -> str:
   <div class="foot">
     <span><strong style="color:#cc0000;">Credit Intelligence News</strong> &mdash; {date_str}</span>
     <span>&#128274; Confidential &mdash; Internal Use Only &mdash; Not for external distribution</span>
-    <span>CareEdge Ratings, Mumbai</span>
+    
   </div>
 
 </div>
@@ -390,7 +390,7 @@ def build_email(part_c_html: str, today: datetime.date) -> str:
 
 <table width="100%" cellpadding="0" cellspacing="0" style="border-bottom:2px solid #1a1a1a;">
 <tr><td style="padding:12px 20px 10px;">
-  <p style="margin:0 0 3px;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:#999;">{dow} &bull; CAREEDGE RATINGS</p>
+  <p style="margin:0 0 3px;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:#999;">{dow} &bull; INTERNAL USE ONLY</p>
   <p style="margin:0;font-size:28px;font-weight:900;color:#1a1a1a;letter-spacing:-1px;line-height:1;font-family:Georgia,serif;">Credit Intelligence News</p>
 </td></tr>
 </table>
@@ -406,7 +406,7 @@ def build_email(part_c_html: str, today: datetime.date) -> str:
 
 <table width="100%" cellpadding="0" cellspacing="0" style="background:#1a1a1a;">
 <tr><td style="padding:8px 20px;text-align:center;font-size:10px;color:#555;">
-  <span style="color:#cc0000;font-weight:700;">CareEdge Ratings</span> &mdash; {date_str} &mdash;
+  <span style="color:#cc0000;font-weight:700;">Credit Intelligence News</span> &mdash; {date_str}<br>
   <em>&#128274; Confidential — Internal Use Only</em>
 </td></tr>
 </table>
