@@ -461,19 +461,27 @@ def fetch_all_news(newsapi_key: str = "") -> str:
 
     all_items = [item for item in all_items if _is_credit_relevant(item)]
 
-    # --- Pre-filter 3: skip headlines already covered in the previous report ---
+    # --- Pre-filter 3: skip headlines covered in a PREVIOUS DAY's report ---
+    # Only applies if seen_headlines.json was saved on a date before today.
+    # Same-day re-runs (e.g. manual triggers) are NOT filtered so items aren't lost.
     try:
         import json as _json, os as _os
         _seen_path = _os.path.join(_os.path.dirname(_os.path.dirname(_os.path.abspath(__file__))), "data", "seen_headlines.json")
         with open(_seen_path, encoding="utf-8") as _f:
-            _prev = set(_json.load(_f).get("keys", []))
-        def _already_seen(item: str) -> bool:
-            text = re.sub(r"^\[[^\]]+\]\s*", "", item)
-            key = text.lower().strip()[:120]
-            return key in _prev
-        before = len(all_items)
-        all_items = [item for item in all_items if not _already_seen(item)]
-        print(f"[fetch_news] Seen-headlines filter: dropped {before - len(all_items)} already-covered items")
+            _seen_data = _json.load(_f)
+        _seen_date = _seen_data.get("date", "")
+        _today_str = str(datetime.date.today())
+        if _seen_date and _seen_date < _today_str:
+            _prev = set(_seen_data.get("keys", []))
+            def _already_seen(item: str) -> bool:
+                text = re.sub(r"^\[[^\]]+\]\s*", "", item)
+                key = text.lower().strip()[:120]
+                return key in _prev
+            before = len(all_items)
+            all_items = [item for item in all_items if not _already_seen(item)]
+            print(f"[fetch_news] Seen-headlines filter (from {_seen_date}): dropped {before - len(all_items)} already-covered items")
+        else:
+            print(f"[fetch_news] Seen-headlines filter skipped — same-day run (saved: {_seen_date})")
     except FileNotFoundError:
         pass  # first run — no history yet
     except Exception as exc:

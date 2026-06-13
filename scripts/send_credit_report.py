@@ -116,7 +116,7 @@ RULES
 INCLUDE only items affecting: Rating outlook · Liquidity · Funding · Asset quality · Capitalisation · Governance
 SKIP: Product launches · CSR · Awards · Stock tips · Generic M&A · Generic business news
 DEDUPLICATE: If two items cover the same story (even if from different sections), keep only ONE card in the most relevant section. Below that card's source link, add a single line: <span style="font-size:10px;color:#999;">Also reported by: Source2, Source3</span>
-MONETARY PENALTIES: For RBI/SEBI/NHB penalty orders, write a brief 1-sentence "What Happened" only (no elaboration). Always include the link. Credit Implication = 1 sentence on compliance/governance signal.
+MONETARY PENALTIES: Any "RBI Imposes Monetary Penalty", "SEBI Order", "NHB Penalty" or enforcement action ALWAYS goes to S3 — never S2 — regardless of which entity was penalised. Format: 1-sentence "What Happened" (amount + entity + reason), NO credit implication section, just the link.
 WATCHLIST items ([WATCHLIST — Company]) are HIGHEST PRIORITY — always appear first in S1.
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
