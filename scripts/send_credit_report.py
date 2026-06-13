@@ -229,8 +229,8 @@ def generate_report(news_text: str, today: datetime.date, api_key: str) -> str:
     day_str = today.strftime("%A")
     date_str = today.strftime("%d %B %Y")
 
-    if len(news_text) > 28000:
-        news_text = news_text[:28000] + "\n[...truncated]"
+    if len(news_text) > 32000:
+        news_text = news_text[:32000] + "\n[...truncated]"
 
     prompt = _build_prompt(news_text, day_str, date_str)
 

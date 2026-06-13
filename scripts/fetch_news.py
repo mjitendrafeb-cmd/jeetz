@@ -367,21 +367,59 @@ def fetch_all_news(newsapi_key: str = "") -> str:
         "celebrity", "bollywood", "cricket", "sports",
     ]
     _CREDIT_TERMS = [
-        "rating", "npa", "liquidity", "capital", "default", "rbi", "sebi",
-        "bond", "yield", "debt", "restructur", "credit", "nbfc", "hfc",
-        "debenture", "securitis", "spread", "repo", "monetary", "inflation",
-        "fiscal", "gdp", "interest rate", "asset quality", "provisioning",
-        "write-off", "insolvency", "ibc", "nclt", "resolution", "watchlist",
-        "outlook", "downgrad", "upgrad", "reaffirm", "nhb", "sidbi", "nabard",
+        # Rating actions
+        "rating", "downgrad", "upgrad", "reaffirm", "outlook", "watchlist",
+        "credit watch", "rating action", "placed on",
+        # Asset quality / stress
+        "npa", "gnpa", "nnpa", "asset quality", "provisioning", "write-off",
+        "write-down", "haircut", "moratorium", "standstill", "deferral",
+        "stressed asset", "sma", "special mention", "fraud", "divergence",
+        # Capital / funding / liquidity
+        "capital", "liquidity", "funding", "solvency", "net worth",
+        "capital adequacy", "car ", "tier 1", "tier 2", "leverage",
+        # Debt instruments (S4)
+        "bond", "debenture", "ncd", "g-sec", "gsec", "t-bill", "tbill",
+        "commercial paper", "cp ", "yield", "spread", "coupon", "maturity",
+        "debt", "securitis", "securitiz", "pass-through", "ptc ",
+        "repo ", "reverse repo", "ois ", "mclr", "base rate",
+        "auction", "fimmda", "ccil", "fpi ", "fii ",
+        # Regulatory (S3)
+        "rbi", "sebi", "nhb", "irdai", "pfrda", "sidbi", "nabard", "exim",
+        "circular", "notification", "regulation", "directive", "master direction",
+        "penalty", "enforcement", "licence", "registration cancel",
+        "pca ", "prompt corrective", "fema", "pmla", "kyc", "aml",
+        "neft", "rtgs", "upi", "payment system",
+        # Sectors (S2)
+        "nbfc", "hfc", "mfi", "microfinance", "co-lending", "colending",
+        "bank", "lender", "fintech", "broking", "broker", "aif ", "pms ",
+        "mutual fund", "insurance", "insurer", "priority sector",
+        "credit growth", "loan growth", "deposit", "nim ", "net interest",
+        "slippage", "collection efficiency", "disbursement",
+        # Insolvency / legal (S2/S3)
+        "insolvency", "ibc", "nclt", "nclat", "resolution", "liquidat",
+        "bankruptcy", "one-time settlement", "ots ",
+        # Macro (S5)
+        "gdp", "gva", "cpi", "wpi", "iip", "inflation", "deflation",
+        "monetary policy", "mpc ", "rate cut", "rate hike", "interest rate",
+        "fiscal", "fiscal deficit", "current account", "trade deficit",
+        "forex reserve", "rupee", "dollar", "exchange rate",
+        "fed ", "federal reserve", "ecb ", "global growth", "recession",
+        "pmi ", "purchasing manager",
+        # Guarantees / credit enhancement
+        "guarantee", "credit enhancement", "partial credit", "escrow",
+        "letter of credit", "lc ", "bank guarantee",
+        # General credit signals
+        "default", "restructur", "debt ", "interest coverage",
     ]
 
     def _is_credit_relevant(item: str) -> bool:
         lower = item.lower()
         if any(t in lower for t in _BLOCK_TERMS):
             return False
-        # Watchlist and regulatory items always pass through
-        if item.startswith("[WATCHLIST") or item.startswith("[TELEGRAM"):
+        # Watchlist items always pass (pre-selected companies)
+        if item.startswith("[WATCHLIST"):
             return True
+        # Telegram items: apply the same filter (channels can post noise too)
         return any(t in lower for t in _CREDIT_TERMS)
 
     all_items = [item for item in all_items if _is_credit_relevant(item)]
@@ -416,9 +454,10 @@ def fetch_all_news(newsapi_key: str = "") -> str:
         if key not in seen:
             seen.add(key)
             unique.append(item)
-        if len(unique) >= 60:
+        if len(unique) >= 80:  # hard cap: 80 items max to Claude
             break
 
+    print(f"[fetch_news] Final feed: {len(unique)} items after all filters")
     if not unique:
         return "No news items were fetched today. Please check network connectivity and RSS feed availability."
 
