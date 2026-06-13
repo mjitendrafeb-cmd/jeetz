@@ -284,8 +284,20 @@ async function ghPut(path, content, sha){
 // ── Status ───────────────────────────────────────────────────────────────────
 function showStatus(id, msg, type){
   const el = document.getElementById(id);
+  if(type === 'notoken'){
+    el.innerHTML = '&#128274; A GitHub token is required to save. <a href="#" onclick="showTab(\'token\',document.querySelectorAll(\'nav a\')[5]);return false;" style="color:#cc0000;font-weight:700;text-decoration:underline">Set token &rarr;</a>';
+    el.className = 'st err';
+    setTimeout(()=>{ el.className='st'; }, 8000);
+    return;
+  }
   el.textContent = msg; el.className = 'st '+type;
   if(type!=='info') setTimeout(()=>{ el.className='st'; }, 6000);
+}
+
+function requireToken(statusId){
+  if(getToken()) return true;
+  showStatus(statusId,'','notoken');
+  return false;
 }
 
 // ── Tabs ─────────────────────────────────────────────────────────────────────
@@ -339,6 +351,7 @@ async function loadWatchlist(){
   }
 }
 async function saveWatchlist(){
+  if(!requireToken('watchlistStatus')) return;
   showStatus('watchlistStatus','Saving...','info');
   try{
     const res = await ghPut('watchlist.txt', document.getElementById('watchlistText').value, watchlistSha);
@@ -414,6 +427,7 @@ function addRss(){
 }
 function removeRss(i){ rssFeeds.splice(i,1); renderRss(); }
 async function saveSources(){
+  if(!requireToken('sourcesStatus')) return;
   if(!configData.sources) configData.sources={};
   Object.keys(SRC_META).forEach(k=>{ const el=document.getElementById('src_'+k); if(el) configData.sources[k]=el.checked; });
   configData.custom_rss_feeds = rssFeeds;
@@ -446,6 +460,7 @@ async function loadSections(){
   }
 }
 async function saveSections(){
+  if(!requireToken('sectionsStatus')) return;
   const secs = Array.from({length:5},(_,i)=>document.getElementById('sec_'+i)?.value.trim()||DEFAULT_SECTIONS[i]);
   configData.sections = secs;
   await pushConfig('sectionsStatus');
@@ -480,6 +495,7 @@ function addChannel(){
 }
 function rmCh(i){ channels.splice(i,1); renderChannels(); }
 async function saveChannels(){
+  if(!requireToken('telegramStatus')) return;
   configData.telegram_channels = channels;
   await pushConfig('telegramStatus');
 }
@@ -512,6 +528,7 @@ function addEmail(){
 }
 function rmEm(i){ if(emails.length<=1){alert('Keep at least one recipient.');return;} emails.splice(i,1); renderEmails(); }
 async function saveEmails(){
+  if(!requireToken('emailStatus')) return;
   configData.recipients = emails; configData.recipient = emails[0];
   await pushConfig('emailStatus');
 }
