@@ -16,6 +16,7 @@ Config (config.json):
 
 import os
 import re
+import io
 import datetime
 import asyncio
 
@@ -25,6 +26,24 @@ def _clean(text: str) -> str:
         return ""
     text = re.sub(r"<[^>]+>", " ", text)
     return " ".join(text.split())
+
+
+def _extract_pdf_text(data: bytes, max_chars: int = 800) -> str:
+    """Extract text from PDF bytes using pdfplumber. Returns first max_chars chars."""
+    try:
+        import pdfplumber
+        with pdfplumber.open(io.BytesIO(data)) as pdf:
+            parts = []
+            for page in pdf.pages[:4]:  # read first 4 pages max
+                t = page.extract_text() or ""
+                parts.append(t)
+                if sum(len(p) for p in parts) >= max_chars:
+                    break
+            text = " ".join(" ".join(p.split()) for p in parts if p)
+            return text[:max_chars]
+    except Exception as exc:
+        print(f"[fetch_telegram] PDF extract error: {exc}")
+        return ""
 
 
 def fetch_telegram_channels(channels: list[str]) -> list[str]:
@@ -43,10 +62,10 @@ def fetch_telegram_channels(channels: list[str]) -> list[str]:
     try:
         return asyncio.run(asyncio.wait_for(
             _fetch_async(api_id, api_hash, session_str, channels),
-            timeout=120,
+            timeout=180,
         ))
     except asyncio.TimeoutError:
-        print("[fetch_telegram] Timed out after 120s — session may be expired or network blocked")
+        print("[fetch_telegram] Timed out after 180s — session may be expired or network blocked")
         return []
     except Exception as exc:
         print(f"[fetch_telegram] Fatal error: {exc}")
@@ -58,6 +77,7 @@ async def _fetch_async(api_id: str, api_hash: str, session_str: str, channels: l
         from telethon import TelegramClient
         from telethon.sessions import StringSession
         from telethon.errors import AuthKeyUnregisteredError, SessionExpiredError, UserDeactivatedError
+        from telethon.tl.types import DocumentAttributeFilename, MessageMediaDocument
     except ImportError:
         print("[fetch_telegram] telethon not installed — run: pip install telethon")
         return []
@@ -74,7 +94,6 @@ async def _fetch_async(api_id: str, api_hash: str, session_str: str, channels: l
         return []
 
     try:
-        # Check if session is still valid
         if not await client.is_user_authorized():
             print("[fetch_telegram] Session is NOT authorised — TELEGRAM_SESSION secret needs to be regenerated")
             print("[fetch_telegram] Run: python scripts/generate_telegram_session.py  then update the GitHub secret")
@@ -94,7 +113,7 @@ async def _fetch_async(api_id: str, api_hash: str, session_str: str, channels: l
             try:
                 entity = await client.get_entity(channel)
                 count = 0
-                async for msg in client.iter_messages(entity, limit=20):
+                async for msg in client.iter_messages(entity, limit=30):
                     if not msg.date:
                         continue
                     msg_date = msg.date
@@ -102,12 +121,44 @@ async def _fetch_async(api_id: str, api_hash: str, session_str: str, channels: l
                         msg_date = msg_date.replace(tzinfo=datetime.timezone.utc)
                     if msg_date < cutoff:
                         break
+
                     text = _clean(msg.text or msg.message or "")
-                    if not text or len(text) < 30:
+
+                    # Try to extract text from PDF attachments
+                    pdf_text = ""
+                    if isinstance(msg.media, MessageMediaDocument) and msg.media.document:
+                        doc = msg.media.document
+                        mime = getattr(doc, "mime_type", "") or ""
+                        # Get filename from attributes
+                        filename = ""
+                        for attr in getattr(doc, "attributes", []):
+                            if isinstance(attr, DocumentAttributeFilename):
+                                filename = attr.file_name or ""
+                                break
+                        is_pdf = mime == "application/pdf" or filename.lower().endswith(".pdf")
+                        # Only download if size < 5 MB
+                        size = getattr(doc, "size", 0) or 0
+                        if is_pdf and size < 5 * 1024 * 1024:
+                            try:
+                                print(f"[fetch_telegram] Downloading PDF from {channel}: {filename or 'unknown'} ({size//1024}KB)")
+                                data = await client.download_media(msg, file=bytes)
+                                if data:
+                                    pdf_text = _extract_pdf_text(data)
+                                    print(f"[fetch_telegram] Extracted {len(pdf_text)} chars from PDF")
+                            except Exception as exc:
+                                print(f"[fetch_telegram] PDF download failed: {exc}")
+
+                    # Combine message text + PDF text
+                    combined = " | ".join(filter(None, [text, pdf_text]))
+                    if not combined or len(combined) < 30:
                         continue
-                    items.append(f"[TELEGRAM — {channel}] {text[:300]}")
+
+                    label = f"[TELEGRAM — {channel}]"
+                    if pdf_text:
+                        label = f"[TELEGRAM-PDF — {channel}]"
+                    items.append(f"{label} {combined[:600]}")
                     count += 1
-                    if count >= 5:
+                    if count >= 8:
                         break
                 print(f"[fetch_telegram] {channel}: {count} items")
             except Exception as exc:
