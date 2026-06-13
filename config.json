@@ -4,9 +4,9 @@
     "Jitendra.Meghrajani@careedge.in"
   ],
   "sources": {
-    "rbi_rss": false,
-    "sebi_rss": false,
-    "google_news": false,
+    "rbi_rss": true,
+    "sebi_rss": true,
+    "google_news": true,
     "newsapi": false,
     "company_watchlist": false,
     "telegram": true,
