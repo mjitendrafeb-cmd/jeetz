@@ -216,7 +216,7 @@ def generate_report(news_text: str, today: datetime.date, api_key: str) -> str:
 
 
 # ---------------------------------------------------------------------------
-# Full webpage (GitHub Pages) — real CSS, no email constraints
+# Full webpage (GitHub Pages) — real CSS, newspaper style
 # ---------------------------------------------------------------------------
 
 def build_webpage(inner_html: str, today: datetime.date) -> str:
@@ -247,6 +247,7 @@ nav span:first-child{{color:#fff}}
 .body{{padding:0 24px 32px}}
 footer{{background:#1a1a1a;padding:14px 24px;text-align:center;font-size:10px;color:#666;line-height:2}}
 footer strong{{color:#cc0000}}
+footer a{{color:#cc0000;text-decoration:none;font-weight:700}}
 @media(max-width:600px){{.mast-title{{font-size:28px}}.body{{padding:0 14px 24px}}}}
 </style>
 </head>
@@ -258,7 +259,10 @@ footer strong{{color:#cc0000}}
   <h1 class="mast-title">CareEdge Credit Intelligence</h1>
   <div class="mast-sub">
     <span class="mast-tag">Daily Credit &amp; Markets Briefing</span>
-    <span class="mast-conf">&#128274; Confidential</span>
+    <div style="display:flex;align-items:center;gap:12px">
+      <a href="config.html" style="font-size:9px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:#555;text-decoration:none">&#9881; Settings</a>
+      <span class="mast-conf">&#128274; Confidential</span>
+    </div>
   </div>
 </header>
 <nav>
@@ -274,6 +278,7 @@ footer strong{{color:#cc0000}}
 <footer>
   <strong>CareEdge Ratings</strong> &mdash; Daily Credit Intelligence &mdash; {date_str}<br>
   Credit Strategy &amp; Surveillance Desk &bull; Jitendra.Meghrajani@careedge.in<br>
+  <a href="config.html">&#9881; Settings</a> &nbsp;&bull;&nbsp;
   <em>&#128274; Confidential &mdash; Internal Use Only. Not for external distribution.</em>
 </footer>
 </div>
