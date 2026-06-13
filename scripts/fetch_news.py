@@ -212,7 +212,8 @@ def fetch_company_news() -> list[str]:
         if len(items) >= 60:
             break
         try:
-            query = f'{company} India NBFC finance rating'
+            short_name = " ".join(company.split()[:2])
+            query = f'{short_name} India finance'
             url = (
                 f"https://news.google.com/rss/search"
                 f"?q={requests.utils.quote(query)}&hl=en-IN&gl=IN&ceid=IN:en"
