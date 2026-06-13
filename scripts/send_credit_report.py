@@ -258,7 +258,10 @@ footer strong{{color:#cc0000}}
   <h1 class="mast-title">CareEdge Credit Intelligence</h1>
   <div class="mast-sub">
     <span class="mast-tag">Daily Credit &amp; Markets Briefing</span>
-    <span class="mast-conf">&#128274; Confidential</span>
+    <div style="display:flex;align-items:center;gap:12px">
+      <a href="config.html" style="font-size:9px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:#555;text-decoration:none">&#9881; Settings</a>
+      <span class="mast-conf">&#128274; Confidential</span>
+    </div>
   </div>
 </header>
 <nav>
