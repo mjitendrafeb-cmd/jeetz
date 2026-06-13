@@ -184,7 +184,7 @@ def fetch_google_news() -> list[str]:
             )
             feed = feedparser.parse(url)
             count = 0
-            max_per_query = 3 if tag == "Macro" else 2
+            max_per_query = 4 if tag == "Macro" else 3
             for entry in feed.entries:
                 if count >= max_per_query:
                     break
@@ -384,7 +384,11 @@ def fetch_all_news(newsapi_key: str = "") -> str:
             print(f"[custom_rss] Failed {feed_url}: {exc}")
 
     # --- Pre-filter 1: minimum text length ---
-    all_items = [item for item in all_items if len(item.strip()) >= 80]
+    # Telegram-PDF items get a lower threshold (caption may be short, content is in PDF text)
+    def _long_enough(item: str) -> bool:
+        threshold = 40 if "[TELEGRAM" in item else 80
+        return len(item.strip()) >= threshold
+    all_items = [item for item in all_items if _long_enough(item)]
 
     # --- Pre-filter 2: block non-credit noise ---
     _BLOCK_TERMS = [
@@ -443,10 +447,16 @@ def fetch_all_news(newsapi_key: str = "") -> str:
         lower = item.lower()
         if any(t in lower for t in _BLOCK_TERMS):
             return False
-        # Watchlist items always pass (pre-selected companies)
+        # Watchlist items always pass
         if item.startswith("[WATCHLIST"):
             return True
-        # Telegram items: apply the same filter (channels can post noise too)
+        # Telegram-PDF items pass if the PDF text was extracted (likely a research report)
+        if item.startswith("[TELEGRAM-PDF"):
+            return True
+        # Plain Telegram text: apply credit filter
+        if item.startswith("[TELEGRAM"):
+            return any(t in lower for t in _CREDIT_TERMS)
+        # All other sources: must match credit terms
         return any(t in lower for t in _CREDIT_TERMS)
 
     all_items = [item for item in all_items if _is_credit_relevant(item)]
@@ -481,7 +491,7 @@ def fetch_all_news(newsapi_key: str = "") -> str:
         if key not in seen:
             seen.add(key)
             unique.append(item)
-        if len(unique) >= 80:  # hard cap: 80 items max to Claude
+        if len(unique) >= 100:  # hard cap: 100 items max to Claude
             break
 
     print(f"[fetch_news] Final feed: {len(unique)} items after all filters")
