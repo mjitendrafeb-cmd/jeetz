@@ -8,7 +8,7 @@
     "sebi_rss": true,
     "google_news": true,
     "newsapi": false,
-    "company_watchlist": true,
+    "company_watchlist": false,
     "telegram": true,
     "web_scraper": false
   },
@@ -29,11 +29,7 @@
     "@rockfortfincapllp",
     "@fintrekk",
     "@brokerage_report",
-    "@indianeconomyandmarket",
-    "@businessinsiderindia",
-    "@bloomberg",
-    "@moneycontrolcom",
-    "@bsindiaofficial"
+    "@indianeconomyandmarket"
   ],
   "sections": [
     "My Rated Entities and Watchlist",
@@ -41,6 +37,5 @@
     "RBI, SEBI, NHB Regulations",
     "Bond and Money Markets",
     "Macroeconomic Developments"
-  ],
-  "custom_rss_feeds": []
+  ]
 }

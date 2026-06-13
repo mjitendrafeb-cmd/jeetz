@@ -285,49 +285,20 @@ def build_attachment(part_b_html: str, today: datetime.date) -> str:
     dow_full = today.strftime("%A, %d %B %Y").upper()
     edition = f"Vol. {today.year} · Internal Use Only"
 
-    return f"""<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>Credit Intelligence News — {date_str}</title>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=UnifrakturMaguntia&family=PT+Serif:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
-<style>
-  *{{box-sizing:border-box;margin:0;padding:0}}
-  body{{background:#f0ece4;font-family:'PT Serif',Georgia,serif;color:#111}}
-  .page{{max-width:960px;margin:24px auto;background:#fdfaf5;box-shadow:0 2px 24px rgba(0,0,0,.18);padding:0 0 32px}}
+    sections = [
+        ("s1", "★ My Rated Entities &amp; Watchlist", "1"),
+        ("s2", "NBFC, HFC, Broking, Fintech &amp; FI", "2"),
+        ("s3", "RBI, SEBI, NHB Regulations", "3"),
+        ("s4", "Bond &amp; Money Markets", "4"),
+        ("s5", "Macroeconomic Developments", "5"),
+    ]
 
-  /* ── MASTHEAD ── */
-  .mast-top{{display:flex;justify-content:space-between;align-items:flex-end;padding:14px 28px 6px;border-bottom:1px solid #aaa}}
-  .mast-left{{font-size:8.5px;letter-spacing:1.5px;text-transform:uppercase;color:#555;line-height:1.8}}
-  .mast-right{{font-size:8.5px;text-align:right;color:#555;line-height:1.8}}
-  .mast-center{{text-align:center;padding:4px 28px 0}}
-  .mast-name{{font-family:'Playfair Display',Georgia,serif;font-size:62px;font-weight:900;line-height:1;letter-spacing:-2px;color:#111}}
-  .mast-rule{{border:none;border-top:3px double #111;margin:6px 0 0}}
-  .mast-sub{{display:flex;justify-content:space-between;align-items:center;padding:5px 28px;border-bottom:3px solid #111;font-size:8.5px;letter-spacing:1px;text-transform:uppercase;color:#555}}
-  .mast-sub .red{{color:#cc0000;font-weight:700;border:1px solid #cc0000;padding:1px 6px}}
-
-  /* ── NAV BAR ── */
-  .navbar{{display:flex;border-bottom:2px solid #cc0000;background:#111}}
-  .navbar a{{flex:1;text-align:center;padding:7px 4px;font-size:8px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#ccc;text-decoration:none;border-right:1px solid #333}}
-  .navbar a:first-child{{color:#fff}}
-  .navbar a:last-child{{border-right:none}}
-  .navbar a:hover{{background:#222;color:#fff}}
-
-  /* ── COLUMNS ── */
-  .columns{{padding:0 28px;column-count:3;column-gap:0;column-rule:1px solid #ccc}}
-
-  /* Section banners break out of columns */
-  [data-section="banner"]{{column-span:all;margin:22px -28px 0;padding:5px 28px;border-top:3px solid;border-bottom:1px solid}}
-
-  /* ── FOOTER ── */
-  .foot{{border-top:2px solid #111;margin:24px 28px 0;padding-top:10px;display:flex;justify-content:space-between;font-size:8px;color:#777;letter-spacing:1px;text-transform:uppercase}}
-</style>
-</head>
-<body>
-<div class="page">
-
-  <!-- MASTHEAD -->
+    pages_html = ""
+    for sid, title, pnum in sections:
+        if sid == "s1":
+            # Front page — full masthead
+            pages_html += f"""
+<div class="news-page front-page" id="pg1">
   <div class="mast-top">
     <div class="mast-left">{dow_full}<br>{edition}</div>
     <div class="mast-right">Credit &amp; Markets Intelligence</div>
@@ -337,37 +308,126 @@ def build_attachment(part_b_html: str, today: datetime.date) -> str:
     <hr class="mast-rule">
   </div>
   <div class="mast-sub">
-    <span>S1 Watchlist &middot; S2 NBFC/FI &middot; S3 Regulations &middot; S4 Markets &middot; S5 Macro</span>
-    <span><a href="#s1" style="text-decoration:none;color:#555;margin-right:10px;">Watchlist</a>
-          <a href="#s2" style="text-decoration:none;color:#555;margin-right:10px;">NBFC</a>
-          <a href="#s3" style="text-decoration:none;color:#555;margin-right:10px;">Regs</a>
-          <a href="#s4" style="text-decoration:none;color:#555;margin-right:10px;">Markets</a>
-          <a href="#s5" style="text-decoration:none;color:#555;">Macro</a></span>
+    <span>S1 Watchlist &middot; S2 NBFC/FI &middot; S3 Regs &middot; S4 Markets &middot; S5 Macro</span>
     <span class="red">&#128274; CONFIDENTIAL</span>
   </div>
-
-  <!-- NAV -->
   <nav class="navbar">
-    <a href="#s1">&#9733; Watchlist</a>
-    <a href="#s2">NBFC &amp; FI</a>
-    <a href="#s3">Regulations</a>
-    <a href="#s4">Markets</a>
-    <a href="#s5">Macro</a>
+    <a href="#pg1">&#9733; Watchlist</a>
+    <a href="#pg2">NBFC &amp; FI</a>
+    <a href="#pg3">Regulations</a>
+    <a href="#pg4">Markets</a>
+    <a href="#pg5">Macro</a>
   </nav>
-
-  <!-- 3-COLUMN NEWSPAPER BODY -->
-  <div class="columns">
-{part_b_html}
+  <div class="columns" id="{sid}-col"></div>
+  <div class="page-foot">
+    <span>Credit Intelligence News &mdash; {date_str}</span>
+    <span>Page 1 of 5</span>
+    <span>&#128274; Confidential</span>
   </div>
-
-  <!-- FOOTER -->
-  <div class="foot">
-    <span><strong style="color:#cc0000;">Credit Intelligence News</strong> &mdash; {date_str}</span>
-    <span>&#128274; Confidential &mdash; Internal Use Only &mdash; Not for external distribution</span>
-    
+</div>"""
+        else:
+            pages_html += f"""
+<div class="news-page" id="pg{pnum}">
+  <div class="page-header">
+    <div class="ph-meta">{date_str} &bull; Internal Use Only</div>
+    <div class="ph-title">{title}</div>
+    <div class="ph-num">{pnum}</div>
   </div>
+  <div class="columns" id="{sid}-col"></div>
+  <div class="page-foot">
+    <span>Credit Intelligence News &mdash; {date_str}</span>
+    <span>Page {pnum} of 5</span>
+    <span>&#128274; Confidential</span>
+  </div>
+</div>"""
 
+    return f"""<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Credit Intelligence News — {date_str}</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=PT+Serif:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+  @page {{ size: A4; margin: 1.2cm 1.4cm; }}
+  @page :first {{ margin-top: 0.5cm; }}
+  *{{box-sizing:border-box;margin:0;padding:0}}
+  body{{background:#f0ece4;font-family:'PT Serif',Georgia,serif;color:#111;font-size:11px}}
+  .newspaper{{max-width:960px;margin:20px auto}}
+
+  /* ── PAGE UNITS ── */
+  .news-page{{background:#fdfaf5;box-shadow:0 2px 24px rgba(0,0,0,.18);margin-bottom:28px;padding-bottom:20px;break-before:page;page-break-before:always}}
+  .front-page{{break-before:auto;page-break-before:auto}}
+
+  /* ── MASTHEAD (front page only) ── */
+  .mast-top{{display:flex;justify-content:space-between;align-items:flex-end;padding:14px 28px 6px;border-bottom:1px solid #aaa}}
+  .mast-left{{font-size:8.5px;letter-spacing:1.5px;text-transform:uppercase;color:#555;line-height:1.8}}
+  .mast-right{{font-size:8.5px;text-align:right;color:#555;line-height:1.8}}
+  .mast-center{{text-align:center;padding:4px 28px 0}}
+  .mast-name{{font-family:'Playfair Display',Georgia,serif;font-size:58px;font-weight:900;line-height:1;letter-spacing:-2px;color:#111}}
+  .mast-rule{{border:none;border-top:3px double #111;margin:6px 0 0}}
+  .mast-sub{{display:flex;justify-content:space-between;align-items:center;padding:5px 28px;border-bottom:3px solid #111;font-size:8.5px;letter-spacing:1px;text-transform:uppercase;color:#555}}
+  .mast-sub .red{{color:#cc0000;font-weight:700;border:1px solid #cc0000;padding:1px 6px}}
+
+  /* ── NAV BAR ── */
+  .navbar{{display:flex;border-bottom:2px solid #cc0000;background:#111}}
+  .navbar a{{flex:1;text-align:center;padding:7px 4px;font-size:8px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#ccc;text-decoration:none;border-right:1px solid #333}}
+  .navbar a:first-child{{color:#fff}}
+  .navbar a:last-child{{border-right:none}}
+
+  /* ── INNER PAGE HEADER ── */
+  .page-header{{display:flex;justify-content:space-between;align-items:center;padding:8px 28px;border-bottom:3px solid #111;border-top:4px solid #cc0000}}
+  .page-header .ph-meta{{font-size:8px;letter-spacing:1px;text-transform:uppercase;color:#777}}
+  .page-header .ph-title{{font-family:'Playfair Display',Georgia,serif;font-size:14px;font-weight:700;color:#111}}
+  .page-header .ph-num{{font-size:26px;font-weight:900;font-family:'Playfair Display',Georgia,serif;color:#cc0000;line-height:1}}
+
+  /* ── COLUMNS ── */
+  .columns{{padding:0 28px 8px;column-count:3;column-gap:0;column-rule:1px solid #ccc;min-height:80px}}
+
+  /* Section banners span all columns */
+  [data-section="banner"]{{column-span:all;margin:20px -28px 0;padding:5px 28px;border-top:3px solid;border-bottom:1px solid}}
+
+  /* ── PAGE FOOTER ── */
+  .page-foot{{display:flex;justify-content:space-between;border-top:1px solid #bbb;margin:8px 28px 0;padding-top:6px;font-size:8px;color:#888;letter-spacing:1px;text-transform:uppercase}}
+
+  @media print {{
+    body{{background:#fff}}
+    .news-page{{box-shadow:none;margin-bottom:0}}
+  }}
+</style>
+</head>
+<body>
+<div class="newspaper">
+{pages_html}
 </div>
+
+<!-- Hidden staging area for Claude's HTML, distributed by JS below -->
+<div id="raw-content" style="display:none">{part_b_html}</div>
+
+<script>
+(function(){{
+  var raw = document.getElementById('raw-content');
+  var sids = ['s1','s2','s3','s4','s5'];
+  var buckets = {{}};
+  sids.forEach(function(s){{ buckets[s] = []; }});
+  var current = null;
+  Array.from(raw.childNodes).forEach(function(node){{
+    if(node.nodeType === 1){{
+      var id = node.id || '';
+      if(sids.indexOf(id) !== -1){{ current = id; return; }}
+    }}
+    if(current) buckets[current].push(node.cloneNode(true));
+  }});
+  sids.forEach(function(sid){{
+    var col = document.getElementById(sid + '-col');
+    if(!col) return;
+    if(buckets[sid].length === 0){{
+      col.innerHTML = '<p style="padding:20px 0;font-size:11px;color:#aaa;font-style:italic;">No news in this category today.</p>';
+    }} else {{
+      buckets[sid].forEach(function(n){{ col.appendChild(n); }});
+    }}
+  }});
+}})();
+</script>
 </body>
 </html>"""
 

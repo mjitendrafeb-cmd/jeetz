@@ -16,24 +16,6 @@ import feedparser
 from fetch_telegram import fetch_telegram_channels
 from fetch_web import fetch_all_web
 
-# Only accept articles published within this many hours
-_MAX_AGE_HOURS = 48
-
-
-def _is_recent(entry) -> bool:
-    """Return True if the feed entry was published within _MAX_AGE_HOURS."""
-    for field in ("published_parsed", "updated_parsed"):
-        t = entry.get(field)
-        if t:
-            try:
-                pub = datetime.datetime(*t[:6], tzinfo=datetime.timezone.utc)
-                age = datetime.datetime.now(datetime.timezone.utc) - pub
-                return age.total_seconds() <= _MAX_AGE_HOURS * 3600
-            except Exception:
-                pass
-    # No date field — exclude to avoid surfacing old undated articles
-    return False
-
 
 def load_config() -> dict:
     base = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -70,71 +52,26 @@ def _fmt(source: str, title: str, summary: str, url: str = "") -> str:
 
 
 def fetch_rbi_news() -> list[str]:
-    from bs4 import BeautifulSoup
-    items = []
-
-    # Try RSS first
     try:
         feed = feedparser.parse("https://www.rbi.org.in/scripts/rss.aspx")
+        items = []
         for entry in feed.entries[:10]:
-            if not _is_recent(entry):
-                continue
             title = _clean(entry.get("title", "")).strip()
             summary = _clean(entry.get("summary", entry.get("description", ""))).strip()
             url = entry.get("link", "")
             if title:
                 items.append(_fmt("RBI", title, summary, url))
+        return items
     except Exception as exc:
         print(f"[fetch_news] RBI RSS error: {exc}")
-
-    # Fallback: scrape RBI press release page
-    if not items:
-        try:
-            headers = {
-                "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36",
-                "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
-            }
-            r = requests.get("https://www.rbi.org.in/Scripts/BS_PressReleaseDisplay.aspx",
-                             headers=headers, timeout=15)
-            if r.status_code == 200:
-                soup = BeautifulSoup(r.text, "html.parser")
-                for a in soup.find_all("a", href=True)[:20]:
-                    text = _clean(a.get_text()).strip()
-                    href = a["href"]
-                    if len(text) > 20:
-                        full_url = href if href.startswith("http") else "https://www.rbi.org.in" + href
-                        items.append(_fmt("RBI", text, "", full_url))
-                        if len(items) >= 10:
-                            break
-        except Exception as exc:
-            print(f"[fetch_news] RBI press release scrape error: {exc}")
-
-    # Final fallback: Google News
-    if not items:
-        try:
-            gn_url = "https://news.google.com/rss/search?q=RBI+India+monetary+policy+regulation&hl=en-IN&gl=IN&ceid=IN:en&when=2d"
-            feed = feedparser.parse(gn_url)
-            for entry in feed.entries[:10]:
-                if not _is_recent(entry):
-                    continue
-                title = _clean(entry.get("title", "")).strip()
-                summary = _clean(entry.get("summary", "")).strip()
-                url = entry.get("link", "")
-                if title:
-                    items.append(_fmt("RBI", title, summary, url))
-        except Exception as exc:
-            print(f"[fetch_news] RBI Google News fallback error: {exc}")
-
-    return items
+        return []
 
 
 def fetch_sebi_news() -> list[str]:
     try:
         feed = feedparser.parse("https://www.sebi.gov.in/sebirss.xml")
         items = []
-        for entry in feed.entries[:20]:
-            if not _is_recent(entry):
-                continue
+        for entry in feed.entries[:10]:
             title = _clean(entry.get("title", "")).strip()
             summary = _clean(entry.get("summary", entry.get("description", ""))).strip()
             url = entry.get("link", "")
@@ -146,29 +83,34 @@ def fetch_sebi_news() -> list[str]:
         return []
 
 
-# Targeted queries covering all report sections
+# Targeted queries covering all 10 report sections
 _GOOGLE_QUERIES = [
+    # RBI / Regulatory
     ("RBI", "RBI India monetary policy repo rate liquidity"),
     ("RBI", "RBI circular regulation banking India"),
+    # SEBI
     ("SEBI", "SEBI India capital market regulation bond"),
+    # Banking
     ("Banking", "Indian bank NPA stressed assets credit"),
     ("Banking", "SBI HDFC ICICI Axis bank results earnings"),
+    # NBFC
     ("NBFC", "NBFC India loan disbursement stress liquidity"),
     ("NBFC", "microfinance MFI India NPA collections"),
+    # Housing Finance
     ("HFC", "housing finance India HFC mortgage home loan"),
     ("HFC", "LIC Housing HDFC housing affordable housing"),
+    # Broking & Fintech
     ("Broking", "India broking fintech SEBI regulation stock broker"),
+    # Bond Market
     ("Bonds", "India bond market yield G-sec government securities"),
     ("Bonds", "India corporate bond credit spread debenture"),
+    # Commercial Paper
     ("CP", "commercial paper India money market CP issuance"),
+    # Securitisation
     ("Securitisation", "India securitisation ABS RMBS PTC pool"),
+    # Rating Actions
     ("Ratings", "credit rating upgrade downgrade India CRISIL ICRA CareEdge India Ratings"),
     ("Ratings", "rating watch negative outlook India bond issuer"),
-    ("Macro", "India GDP growth inflation RBI monetary policy outlook"),
-    ("Macro", "India IIP CPI WPI data economic indicators"),
-    ("Macro", "India forex reserve rupee dollar current account"),
-    ("Macro", "India fiscal deficit government borrowing budget"),
-    ("Macro", "global economy US Fed interest rate India impact"),
 ]
 
 
@@ -180,16 +122,13 @@ def fetch_google_news() -> list[str]:
         try:
             url = (
                 f"https://news.google.com/rss/search"
-                f"?q={requests.utils.quote(query)}&hl=en-IN&gl=IN&ceid=IN:en&when=2d"
+                f"?q={requests.utils.quote(query)}&hl=en-IN&gl=IN&ceid=IN:en"
             )
             feed = feedparser.parse(url)
             count = 0
-            max_per_query = 4 if tag == "Macro" else 3
             for entry in feed.entries:
-                if count >= max_per_query:
+                if count >= 2:
                     break
-                if not _is_recent(entry):
-                    continue
                 raw_title = _clean(entry.get("title", "")).strip()
                 if not raw_title or raw_title in seen_titles:
                     continue
@@ -239,6 +178,7 @@ def fetch_newsapi_news(api_key: str) -> list[str]:
         data = resp.json()
         items = []
         for article in data.get("articles", []):
+            # Double-check publishedAt is within 48h
             pub_str = article.get("publishedAt", "")
             if pub_str:
                 try:
@@ -260,24 +200,6 @@ def fetch_newsapi_news(api_key: str) -> list[str]:
         return []
 
 
-def _short_name(company: str) -> str:
-    suffixes = [
-        "private limited", "pvt limited", "pvt. limited", "pvt ltd",
-        "pvt. ltd.", "limited", "ltd.", "ltd", "llp", "co limited",
-        "company limited", "finance company", "financial services",
-        "services private", "solutions private", "capital private",
-    ]
-    name = company.lower()
-    for s in suffixes:
-        name = name.replace(s, "")
-    name = name.strip(" .,")
-    words = [w for w in company.split() if w.lower() not in {
-        "private", "limited", "pvt", "ltd", "the", "and", "&", "co",
-        "company", "services", "solutions", "finance", "financial",
-    }]
-    return " ".join(words[:4]) if words else company.split()[0]
-
-
 def fetch_company_news() -> list[str]:
     companies = load_watchlist()
     if not companies:
@@ -289,39 +211,31 @@ def fetch_company_news() -> list[str]:
     for company in companies:
         if len(items) >= 60:
             break
-        short = _short_name(company)
         try:
-            for query in [
-                f'"{short}" India finance credit rating',
-                f'"{short}" India',
-            ]:
-                url = (
-                    f"https://news.google.com/rss/search"
-                    f"?q={requests.utils.quote(query)}&hl=en-IN&gl=IN&ceid=IN:en&when=2d"
-                )
-                feed = feedparser.parse(url)
-                count = 0
-                for entry in feed.entries:
-                    if count >= 2:
-                        break
-                    if not _is_recent(entry):
-                        continue
-                    raw_title = _clean(entry.get("title", "")).strip()
-                    if not raw_title or raw_title in seen_titles:
-                        continue
-                    seen_titles.add(raw_title)
-                    source = "Google News"
-                    title = raw_title
-                    if " - " in raw_title:
-                        parts = raw_title.rsplit(" - ", 1)
-                        title = parts[0].strip()
-                        source = parts[1].strip()
-                    summary = _clean(entry.get("summary", entry.get("description", ""))).strip()
-                    link = entry.get("link", "")
-                    items.append(f"[WATCHLIST — {company}] {_fmt(source, title, summary, link)}")
-                    count += 1
-                if count > 0:
+            query = f'"{company}" India credit loan rating NPA'
+            url = (
+                f"https://news.google.com/rss/search"
+                f"?q={requests.utils.quote(query)}&hl=en-IN&gl=IN&ceid=IN:en"
+            )
+            feed = feedparser.parse(url)
+            count = 0
+            for entry in feed.entries:
+                if count >= 2:
                     break
+                raw_title = _clean(entry.get("title", "")).strip()
+                if not raw_title or raw_title in seen_titles:
+                    continue
+                seen_titles.add(raw_title)
+                source = "Google News"
+                title = raw_title
+                if " - " in raw_title:
+                    parts = raw_title.rsplit(" - ", 1)
+                    title = parts[0].strip()
+                    source = parts[1].strip()
+                summary = _clean(entry.get("summary", entry.get("description", ""))).strip()
+                link = entry.get("link", "")
+                items.append(f"[WATCHLIST — {company}] {_fmt(source, title, summary, link)}")
+                count += 1
         except Exception as exc:
             print(f"[fetch_news] Company news error for '{company}': {exc}")
 
@@ -356,137 +270,6 @@ def fetch_all_news(newsapi_key: str = "") -> str:
             cfg.get("custom_scrape_urls", []),
         ))
 
-    # Custom RSS feeds added via management console
-    custom_rss = cfg.get("custom_rss_feeds", [])
-    for feed_url in custom_rss:
-        try:
-            feed = feedparser.parse(feed_url)
-            count = 0
-            for entry in feed.entries:
-                if not _is_recent(entry):
-                    continue
-                title = entry.get("title", "").strip()
-                summary = entry.get("summary", entry.get("description", "")).strip()
-                summary = re.sub(r"<[^>]+>", " ", summary)
-                summary = " ".join(summary.split())[:200]
-                url = entry.get("link", "")
-                text = f"[CUSTOM RSS] {title}"
-                if summary:
-                    text += f" — {summary}"
-                if url:
-                    text += f" | URL: {url}"
-                all_items.append(text)
-                count += 1
-                if count >= 10:
-                    break
-            print(f"[custom_rss] {feed_url}: {count} items")
-        except Exception as exc:
-            print(f"[custom_rss] Failed {feed_url}: {exc}")
-
-    # --- Pre-filter 1: minimum text length ---
-    # Telegram-PDF items get a lower threshold (caption may be short, content is in PDF text)
-    def _long_enough(item: str) -> bool:
-        threshold = 40 if "[TELEGRAM" in item else 80
-        return len(item.strip()) >= threshold
-    all_items = [item for item in all_items if _long_enough(item)]
-
-    # --- Pre-filter 2: block non-credit noise ---
-    _BLOCK_TERMS = [
-        "ipo ", " ipo", "stock tip", "dividend declared", "agm ", " agm",
-        "product launch", "csr ", " csr", "corporate social", "award ",
-        " award", "felicitat", "merger rumour", "takeover rumour",
-        "celebrity", "bollywood", "cricket", "sports",
-    ]
-    _CREDIT_TERMS = [
-        # Rating actions
-        "rating", "downgrad", "upgrad", "reaffirm", "outlook", "watchlist",
-        "credit watch", "rating action", "placed on",
-        # Asset quality / stress
-        "npa", "gnpa", "nnpa", "asset quality", "provisioning", "write-off",
-        "write-down", "haircut", "moratorium", "standstill", "deferral",
-        "stressed asset", "sma", "special mention", "fraud", "divergence",
-        # Capital / funding / liquidity
-        "capital", "liquidity", "funding", "solvency", "net worth",
-        "capital adequacy", "car ", "tier 1", "tier 2", "leverage",
-        # Debt instruments (S4)
-        "bond", "debenture", "ncd", "g-sec", "gsec", "t-bill", "tbill",
-        "commercial paper", "cp ", "yield", "spread", "coupon", "maturity",
-        "debt", "securitis", "securitiz", "pass-through", "ptc ",
-        "repo ", "reverse repo", "ois ", "mclr", "base rate",
-        "auction", "fimmda", "ccil", "fpi ", "fii ",
-        # Regulatory (S3)
-        "rbi", "sebi", "nhb", "irdai", "pfrda", "sidbi", "nabard", "exim",
-        "circular", "notification", "regulation", "directive", "master direction",
-        "penalty", "enforcement", "licence", "registration cancel",
-        "pca ", "prompt corrective", "fema", "pmla", "kyc", "aml",
-        "neft", "rtgs", "upi", "payment system",
-        # Sectors (S2)
-        "nbfc", "hfc", "mfi", "microfinance", "co-lending", "colending",
-        "bank", "lender", "fintech", "broking", "broker", "aif ", "pms ",
-        "mutual fund", "insurance", "insurer", "priority sector",
-        "credit growth", "loan growth", "deposit", "nim ", "net interest",
-        "slippage", "collection efficiency", "disbursement",
-        # Insolvency / legal (S2/S3)
-        "insolvency", "ibc", "nclt", "nclat", "resolution", "liquidat",
-        "bankruptcy", "one-time settlement", "ots ",
-        # Macro (S5)
-        "gdp", "gva", "cpi", "wpi", "iip", "inflation", "deflation",
-        "monetary policy", "mpc ", "rate cut", "rate hike", "interest rate",
-        "fiscal", "fiscal deficit", "current account", "trade deficit",
-        "forex reserve", "rupee", "dollar", "exchange rate",
-        "fed ", "federal reserve", "ecb ", "global growth", "recession",
-        "pmi ", "purchasing manager",
-        # Guarantees / credit enhancement
-        "guarantee", "credit enhancement", "partial credit", "escrow",
-        "letter of credit", "lc ", "bank guarantee",
-        # General credit signals
-        "default", "restructur", "debt ", "interest coverage",
-    ]
-
-    def _is_credit_relevant(item: str) -> bool:
-        lower = item.lower()
-        if any(t in lower for t in _BLOCK_TERMS):
-            return False
-        # Watchlist items always pass
-        if item.startswith("[WATCHLIST"):
-            return True
-        # Telegram-PDF items pass if the PDF text was extracted (likely a research report)
-        if item.startswith("[TELEGRAM-PDF"):
-            return True
-        # Plain Telegram text: apply credit filter
-        if item.startswith("[TELEGRAM"):
-            return any(t in lower for t in _CREDIT_TERMS)
-        # All other sources: must match credit terms
-        return any(t in lower for t in _CREDIT_TERMS)
-
-    all_items = [item for item in all_items if _is_credit_relevant(item)]
-
-    # --- Pre-filter 3: skip headlines covered in a PREVIOUS DAY's report ---
-    # Only applies if seen_headlines.json was saved on a date before today.
-    # Same-day re-runs (e.g. manual triggers) are NOT filtered so items aren't lost.
-    try:
-        import json as _json, os as _os
-        _seen_path = _os.path.join(_os.path.dirname(_os.path.dirname(_os.path.abspath(__file__))), "data", "seen_headlines.json")
-        with open(_seen_path, encoding="utf-8") as _f:
-            _seen_data = _json.load(_f)
-        _seen_date = _seen_data.get("date", "")
-        _today_str = str(datetime.date.today())
-        if _seen_date and _seen_date < _today_str:
-            _prev = set(_seen_data.get("keys", []))
-            def _already_seen(item: str) -> bool:
-                text = re.sub(r"^\[[^\]]+\]\s*", "", item)
-                key = text.lower().strip()[:120]
-                return key in _prev
-            before = len(all_items)
-            all_items = [item for item in all_items if not _already_seen(item)]
-            print(f"[fetch_news] Seen-headlines filter (from {_seen_date}): dropped {before - len(all_items)} already-covered items")
-        else:
-            print(f"[fetch_news] Seen-headlines filter skipped — same-day run (saved: {_seen_date})")
-    except FileNotFoundError:
-        pass  # first run — no history yet
-    except Exception as exc:
-        print(f"[fetch_news] Seen-headlines filter skipped: {exc}")
-
     # Deduplicate by normalised headline — strip tag prefix like [TELEGRAM — @x] or [WATCHLIST — Co]
     seen: set[str] = set()
     unique: list[str] = []
@@ -499,10 +282,9 @@ def fetch_all_news(newsapi_key: str = "") -> str:
         if key not in seen:
             seen.add(key)
             unique.append(item)
-        if len(unique) >= 100:  # hard cap: 100 items max to Claude
+        if len(unique) >= 150:
             break
 
-    print(f"[fetch_news] Final feed: {len(unique)} items after all filters")
     if not unique:
         return "No news items were fetched today. Please check network connectivity and RSS feed availability."
 
