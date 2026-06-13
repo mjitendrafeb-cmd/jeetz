@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>CareEdge Credit Intelligence — Settings</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#d4d4d4;font-family:'Inter',Arial,sans-serif;color:#1a1a1a;padding:16px 0 40px}
+.wrap{max-width:780px;margin:0 auto;background:#fff;box-shadow:0 4px 20px rgba(0,0,0,.2)}
+.bar{background:#cc0000;height:5px}
+.mast{padding:14px 24px 10px;border-bottom:3px solid #1a1a1a}
+.mast-meta{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:#999;margin-bottom:4px}
+.mast-title{font-family:'Playfair Display',Georgia,serif;font-size:32px;font-weight:900;line-height:1;letter-spacing:-1px}
+.mast-sub{display:flex;justify-content:space-between;align-items:center;border-top:1px solid #1a1a1a;margin-top:6px;padding-top:6px}
+nav{background:#1a1a1a;border-bottom:3px solid #cc0000;display:flex;flex-wrap:wrap}
+nav a{padding:9px 18px;font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#ccc;border-right:1px solid #333;text-decoration:none;cursor:pointer}
+nav a.active,nav a:hover{color:#fff;background:#333}
+.tab{display:none;padding:24px}
+.tab.active{display:block}
+.token-bar{background:#fff8e1;border:1px solid #f59e0b;border-radius:4px;padding:12px 16px;margin-bottom:20px;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.token-bar.ok{background:#f0fdf4;border-color:#16a34a}
+.token-dot{width:10px;height:10px;border-radius:50%;background:#f59e0b;flex-shrink:0}
+.token-dot.ok{background:#16a34a}
+.token-bar input{flex:1;min-width:180px;padding:6px 10px;font-size:12px;border:1px solid #ddd;border-radius:3px;font-family:monospace}
+.btn{padding:8px 18px;font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;border:none;border-radius:3px;cursor:pointer}
+.btn-red{background:#cc0000;color:#fff}
+.btn-red:hover{background:#aa0000}
+.btn-grey{background:#e5e5e5;color:#555}
+.btn-grey:hover{background:#ccc}
+.btn-green{background:#15803d;color:#fff}
+.btn-green:hover{background:#166534}
+section{margin-bottom:24px}
+section h3{font-size:11px;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:#cc0000;border-bottom:2px solid #f0f0f0;padding-bottom:8px;margin-bottom:14px}
+label{display:block;font-size:11px;font-weight:700;color:#555;margin-bottom:4px}
+textarea{width:100%;padding:10px 12px;font-size:12px;font-family:monospace;border:1px solid #ddd;border-radius:3px;resize:vertical;line-height:1.6}
+textarea:focus{outline:none;border-color:#cc0000}
+.toggle-row{display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:1px solid #f0f0f0}
+.toggle-row:last-child{border-bottom:none}
+.toggle-label{font-size:13px;color:#1a1a1a}
+.toggle-desc{font-size:11px;color:#999;margin-top:2px}
+.switch{position:relative;width:44px;height:24px;flex-shrink:0}
+.switch input{opacity:0;width:0;height:0}
+.slider{position:absolute;inset:0;background:#ddd;border-radius:24px;cursor:pointer;transition:.3s}
+.slider:before{content:"";position:absolute;width:18px;height:18px;left:3px;top:3px;background:#fff;border-radius:50%;transition:.3s}
+input:checked+.slider{background:#cc0000}
+input:checked+.slider:before{transform:translateX(20px)}
+.status{margin-top:12px;padding:10px 14px;border-radius:3px;font-size:12px;display:none}
+.status.ok{background:#f0fdf4;color:#15803d;border:1px solid #bbf7d0;display:block}
+.status.err{background:#fff5f5;color:#cc0000;border:1px solid #fecaca;display:block}
+.channels-list{list-style:none}
+.channels-list li{display:flex;align-items:center;gap:8px;padding:8px 0;border-bottom:1px solid #f0f0f0}
+.channels-list li:last-child{border-bottom:none}
+.channels-list li span{flex:1;font-size:13px;font-family:monospace}
+.ch-del{background:none;border:none;color:#cc0000;cursor:pointer;font-size:16px;line-height:1;padding:2px 6px}
+.ch-add{display:flex;gap:8px;margin-top:12px}
+.ch-add input{flex:1;padding:8px 10px;font-size:12px;font-family:monospace;border:1px solid #ddd;border-radius:3px}
+footer{background:#1a1a1a;padding:12px 24px;text-align:center;font-size:10px;color:#666;line-height:2}
+footer strong{color:#cc0000}
+@media(max-width:600px){.mast-title{font-size:22px}.tab{padding:16px}nav a{padding:8px 12px;font-size:9px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<div class="bar"></div>
+<div class="mast">
+  <p class="mast-meta">CareEdge Ratings &bull; Credit Strategy &amp; Surveillance Desk</p>
+  <h1 class="mast-title">Credit Intelligence &mdash; Settings</h1>
+  <div class="mast-sub">
+    <span style="font-size:10px;font-style:italic;color:#555">Configure news sources, watchlist &amp; Telegram channels</span>
+    <a href="index.html" style="font-size:10px;font-weight:700;color:#cc0000;text-decoration:none">&larr; View Report</a>
+  </div>
+</div>
+<nav>
+  <a class="active" onclick="showTab('watchlist',this)">&#9733; Watchlist</a>
+  <a onclick="showTab('sources',this)">News Sources</a>
+  <a onclick="showTab('telegram',this)">Telegram</a>
+  <a onclick="showTab('token',this)">&#128274; Token</a>
+</nav>
+
+<!-- TOKEN BAR (shown on all tabs) -->
+<div style="padding:16px 24px 0">
+  <div class="token-bar" id="tokenBar">
+    <span class="token-dot" id="tokenDot"></span>
+    <span id="tokenStatus" style="font-size:12px;font-weight:600">No GitHub token set &mdash; changes cannot be saved</span>
+    <a onclick="showTab('token',document.querySelector('nav a:last-child'))" style="font-size:11px;color:#cc0000;cursor:pointer;font-weight:700;text-decoration:underline">Set Token</a>
+  </div>
+</div>
+
+<!-- WATCHLIST TAB -->
+<div class="tab active" id="tab-watchlist">
+  <section>
+    <h3>Company Watchlist</h3>
+    <label>One company per line. Lines starting with # are comments.</label>
+    <textarea id="watchlistText" rows="14" placeholder="Loading..."></textarea>
+    <div style="margin-top:10px;display:flex;gap:8px">
+      <button class="btn btn-red" onclick="saveWatchlist()">Save Watchlist</button>
+      <button class="btn btn-grey" onclick="loadWatchlist()">Reload</button>
+    </div>
+    <div class="status" id="watchlistStatus"></div>
+  </section>
+</div>
+
+<!-- SOURCES TAB -->
+<div class="tab" id="tab-sources">
+  <section>
+    <h3>News Sources</h3>
+    <div id="sourceToggles"></div>
+    <div style="margin-top:16px">
+      <button class="btn btn-red" onclick="saveSources()">Save Sources</button>
+    </div>
+    <div class="status" id="sourcesStatus"></div>
+  </section>
+</div>
+
+<!-- TELEGRAM TAB -->
+<div class="tab" id="tab-telegram">
+  <section>
+    <h3>Telegram Channels</h3>
+    <ul class="channels-list" id="channelList"></ul>
+    <div class="ch-add">
+      <input id="newChannel" type="text" placeholder="@channel_name" />
+      <button class="btn btn-green" onclick="addChannel()">+ Add</button>
+    </div>
+    <div style="margin-top:14px">
+      <button class="btn btn-red" onclick="saveChannels()">Save Channels</button>
+    </div>
+    <div class="status" id="telegramStatus"></div>
+  </section>
+</div>
+
+<!-- TOKEN TAB -->
+<div class="tab" id="tab-token">
+  <section>
+    <h3>GitHub Personal Access Token</h3>
+    <p style="font-size:13px;color:#555;margin-bottom:16px;line-height:1.7">
+      A token with <strong>repo</strong> scope is needed to read and write config files.
+      The token is stored only in your browser (localStorage) and never sent anywhere except GitHub.
+    </p>
+    <label>Personal Access Token</label>
+    <div style="display:flex;gap:8px;margin-bottom:12px">
+      <input id="tokenInput" type="password" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx"
+        style="flex:1;padding:8px 12px;font-size:12px;font-family:monospace;border:1px solid #ddd;border-radius:3px">
+      <button class="btn btn-red" onclick="saveToken()">Connect</button>
+      <button class="btn btn-grey" onclick="clearToken()">Clear</button>
+    </div>
+    <p style="font-size:11px;color:#aaa;line-height:1.7">
+      To generate a token: GitHub.com &rarr; Settings &rarr; Developer settings &rarr;
+      Personal access tokens &rarr; Tokens (classic) &rarr; Generate new token &rarr; select <code>repo</code> scope.
+    </p>
+    <div class="status" id="tokenTabStatus"></div>
+  </section>
+</div>
+
+<footer>
+  <strong>CareEdge Ratings</strong> &mdash; Credit Intelligence Settings<br>
+  <em>&#128274; Confidential &mdash; Internal Use Only. Not for external distribution.</em>
+</footer>
+</div>
+
+<script>
+const OWNER = 'mjitendrafeb-cmd';
+const REPO  = 'jeetz';
+const BRANCH = 'main';
+
+// ── Token helpers ──────────────────────────────────────────
+function getToken(){ return localStorage.getItem('gh_token') || ''; }
+function saveToken(){
+  const t = document.getElementById('tokenInput').value.trim();
+  if(!t){ showStatus('tokenTabStatus','Please enter a token','err'); return; }
+  localStorage.setItem('gh_token', t);
+  updateTokenBar();
+  showStatus('tokenTabStatus','Token saved to browser storage','ok');
+}
+function clearToken(){
+  localStorage.removeItem('gh_token');
+  document.getElementById('tokenInput').value='';
+  updateTokenBar();
+}
+function updateTokenBar(){
+  const t=getToken();
+  const bar=document.getElementById('tokenBar');
+  const dot=document.getElementById('tokenDot');
+  const st=document.getElementById('tokenStatus');
+  if(t){
+    bar.className='token-bar ok';
+    dot.className='token-dot ok';
+    st.textContent='GitHub token connected — changes will be saved to repo';
+  } else {
+    bar.className='token-bar';
+    dot.className='token-dot';
+    st.textContent='No GitHub token set — changes cannot be saved';
+  }
+  if(t) document.getElementById('tokenInput').value=t;
+}
+
+// ── GitHub API helpers ─────────────────────────────────────
+async function ghGet(path){
+  const r = await fetch(`https://api.github.com/repos/${OWNER}/${REPO}/contents/${path}?ref=${BRANCH}`,
+    {headers:{Authorization:`token ${getToken()}`, Accept:'application/vnd.github.v3+json'}});
+  if(!r.ok) throw new Error(`GET ${path}: ${r.status}`);
+  return r.json();
+}
+async function ghPut(path, content, sha){
+  const body = {message:`Update ${path} via Settings UI`, content: btoa(unescape(encodeURIComponent(content))), branch:BRANCH};
+  if(sha) body.sha = sha;
+  const r = await fetch(`https://api.github.com/repos/${OWNER}/${REPO}/contents/${path}`,
+    {method:'PUT', headers:{Authorization:`token ${getToken()}`, Accept:'application/vnd.github.v3+json','Content-Type':'application/json'},
+     body:JSON.stringify(body)});
+  if(!r.ok){ const e=await r.json(); throw new Error(e.message||r.status); }
+  return r.json();
+}
+
+// ── Status helper ──────────────────────────────────────────
+function showStatus(id, msg, type){
+  const el=document.getElementById(id);
+  el.textContent=msg; el.className='status '+type;
+  setTimeout(()=>{ el.className='status'; }, 5000);
+}
+
+// ── Tab switching ──────────────────────────────────────────
+function showTab(name, el){
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('nav a').forEach(a=>a.classList.remove('active'));
+  document.getElementById('tab-'+name).classList.add('active');
+  if(el) el.classList.add('active');
+  if(name==='watchlist') loadWatchlist();
+  if(name==='sources')   loadSources();
+  if(name==='telegram')  loadChannels();
+}
+
+// ── Watchlist ──────────────────────────────────────────────
+let watchlistSha = '';
+async function loadWatchlist(){
+  const ta = document.getElementById('watchlistText');
+  ta.value = 'Loading...';
+  try{
+    const d = await ghGet('watchlist.txt');
+    watchlistSha = d.sha;
+    ta.value = decodeURIComponent(escape(atob(d.content.replace(/\n/g,''))));
+  } catch(e){
+    ta.value = '';
+    if(!getToken()) ta.placeholder='Set a GitHub token (Token tab) to load watchlist';
+    else ta.placeholder = 'watchlist.txt not found — start typing to create it';
+  }
+}
+async function saveWatchlist(){
+  if(!getToken()){ showStatus('watchlistStatus','Set a GitHub token first (Token tab)','err'); return; }
+  try{
+    await ghPut('watchlist.txt', document.getElementById('watchlistText').value, watchlistSha);
+    showStatus('watchlistStatus','Watchlist saved ✔','ok');
+    await loadWatchlist();
+  } catch(e){ showStatus('watchlistStatus','Error: '+e.message,'err'); }
+}
+
+// ── Sources ────────────────────────────────────────────────
+let configSha = '';
+let configData = {};
+const SOURCE_LABELS = {
+  rbi_rss: {label:'RBI RSS Feed', desc:'Reserve Bank of India press releases & circulars'},
+  sebi_rss: {label:'SEBI RSS Feed', desc:'Securities & Exchange Board of India announcements'},
+  google_news: {label:'Google News', desc:'Curated credit/NBFC/rating queries via Google News RSS'},
+  newsapi: {label:'NewsAPI', desc:'ET, Mint, Business Standard, Reuters (requires NEWSAPI_KEY secret)'},
+  company_watchlist: {label:'Watchlist Companies', desc:'Google News search for each company in your watchlist'},
+  telegram: {label:'Telegram Channels', desc:'Messages from configured Telegram channels'},
+  web_scraper: {label:'Web Scraper', desc:'CareEdge, CRISIL, ICRA, India Ratings, BSE, NSE, FIMMDA, CCIL'},
+};
+async function loadSources(){
+  const el = document.getElementById('sourceToggles');
+  el.innerHTML = '<p style="color:#aaa;font-size:12px">Loading...</p>';
+  try{
+    const d = await ghGet('config.json');
+    configSha = d.sha;
+    configData = JSON.parse(decodeURIComponent(escape(atob(d.content.replace(/\n/g,'')))));
+    const sources = configData.sources || {};
+    el.innerHTML = '';
+    Object.entries(SOURCE_LABELS).forEach(([key, {label, desc}])=>{
+      const on = sources[key] !== false;
+      el.innerHTML += `
+        <div class="toggle-row">
+          <div><div class="toggle-label">${label}</div><div class="toggle-desc">${desc}</div></div>
+          <label class="switch"><input type="checkbox" id="src_${key}" ${on?'checked':''}><span class="slider"></span></label>
+        </div>`;
+    });
+  } catch(e){
+    el.innerHTML = `<p style="color:#cc0000;font-size:12px">${getToken()?'Error loading config.json: '+e.message:'Set a GitHub token (Token tab) to load settings'}</p>`;
+  }
+}
+async function saveSources(){
+  if(!getToken()){ showStatus('sourcesStatus','Set a GitHub token first (Token tab)','err'); return; }
+  try{
+    if(!configData.sources) configData.sources={};
+    Object.keys(SOURCE_LABELS).forEach(key=>{
+      const el=document.getElementById('src_'+key);
+      if(el) configData.sources[key]=el.checked;
+    });
+    await ghPut('config.json', JSON.stringify(configData, null, 2), configSha);
+    showStatus('sourcesStatus','Sources saved ✔','ok');
+    const d = await ghGet('config.json'); configSha=d.sha;
+  } catch(e){ showStatus('sourcesStatus','Error: '+e.message,'err'); }
+}
+
+// ── Telegram Channels ──────────────────────────────────────
+let channels = [];
+async function loadChannels(){
+  const ul = document.getElementById('channelList');
+  ul.innerHTML = '<li style="color:#aaa;font-size:12px">Loading...</li>';
+  try{
+    const d = await ghGet('config.json');
+    configSha = d.sha;
+    configData = JSON.parse(decodeURIComponent(escape(atob(d.content.replace(/\n/g,'')))));
+    channels = configData.telegram_channels || [];
+    renderChannels();
+  } catch(e){
+    ul.innerHTML = `<li style="color:#cc0000;font-size:12px">${getToken()?'Error: '+e.message:'Set a GitHub token (Token tab) to load channels'}</li>`;
+  }
+}
+function renderChannels(){
+  const ul = document.getElementById('channelList');
+  if(!channels.length){ ul.innerHTML='<li style="color:#aaa;font-size:12px;padding:8px 0">No channels configured</li>'; return; }
+  ul.innerHTML = channels.map((ch,i)=>`
+    <li>
+      <span>${ch}</span>
+      <button class="ch-del" onclick="removeChannel(${i})" title="Remove">&times;</button>
+    </li>`).join('');
+}
+function addChannel(){
+  let ch = document.getElementById('newChannel').value.trim();
+  if(!ch) return;
+  if(!ch.startsWith('@')) ch='@'+ch;
+  if(!channels.includes(ch)){ channels.push(ch); renderChannels(); }
+  document.getElementById('newChannel').value='';
+}
+function removeChannel(i){ channels.splice(i,1); renderChannels(); }
+async function saveChannels(){
+  if(!getToken()){ showStatus('telegramStatus','Set a GitHub token first (Token tab)','err'); return; }
+  try{
+    configData.telegram_channels = channels;
+    await ghPut('config.json', JSON.stringify(configData, null, 2), configSha);
+    showStatus('telegramStatus','Telegram channels saved ✔','ok');
+    const d = await ghGet('config.json'); configSha=d.sha;
+  } catch(e){ showStatus('telegramStatus','Error: '+e.message,'err'); }
+}
+
+// ── Init ───────────────────────────────────────────────────
+updateTokenBar();
+loadWatchlist();
+</script>
+</body>
+</html>
