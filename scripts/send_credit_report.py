@@ -31,6 +31,60 @@ def _load_config() -> dict:
 
 
 _FALLBACK_RECIPIENT = "Jitendra.Meghrajani@careedge.in"
+_REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+_SEEN_PATH = os.path.join(_REPO_ROOT, "data", "seen_headlines.json")
+
+
+def _load_seen_headlines() -> set[str]:
+    try:
+        with open(_SEEN_PATH, encoding="utf-8") as f:
+            data = json.load(f)
+        return set(data.get("keys", []))
+    except Exception:
+        return set()
+
+
+def _save_seen_headlines(news_text: str) -> None:
+    """Persist normalised keys from today's feed so tomorrow can skip them."""
+    import re as _re
+    keys = []
+    for line in news_text.splitlines():
+        # Strip numbering and tag prefix, take first 120 chars as key
+        line = _re.sub(r"^\d+\.\s*", "", line)
+        line = _re.sub(r"^\[[^\]]+\]\s*", "", line)
+        key = line.lower().strip()[:120]
+        if key:
+            keys.append(key)
+    os.makedirs(os.path.dirname(_SEEN_PATH), exist_ok=True)
+    with open(_SEEN_PATH, "w", encoding="utf-8") as f:
+        json.dump({"date": str(datetime.date.today()), "keys": keys}, f, indent=2)
+    # Commit and push so the file persists across workflow runs
+    try:
+        import subprocess
+        token = os.environ.get("GITHUB_TOKEN", "")
+        if token:
+            subprocess.run(
+                ["git", "remote", "set-url", "origin",
+                 f"https://x-access-token:{token}@github.com/mjitendrafeb-cmd/jeetz.git"],
+                cwd=_REPO_ROOT, check=True, capture_output=True
+            )
+        subprocess.run(["git", "config", "user.email", "github-actions[bot]@users.noreply.github.com"],
+                       cwd=_REPO_ROOT, check=True, capture_output=True)
+        subprocess.run(["git", "config", "user.name", "github-actions[bot]"],
+                       cwd=_REPO_ROOT, check=True, capture_output=True)
+        subprocess.run(["git", "add", _SEEN_PATH], cwd=_REPO_ROOT, check=True, capture_output=True)
+        result = subprocess.run(
+            ["git", "commit", "-m", f"chore: update seen headlines {datetime.date.today()}"],
+            cwd=_REPO_ROOT, capture_output=True
+        )
+        if result.returncode == 0:
+            subprocess.run(["git", "push", "origin", "HEAD:main"],
+                           cwd=_REPO_ROOT, check=True, capture_output=True)
+            print(f"[seen_headlines] Saved {len(keys)} keys and pushed to repo")
+        else:
+            print("[seen_headlines] Nothing to commit (no change)")
+    except Exception as exc:
+        print(f"[seen_headlines] Push failed (non-fatal): {exc}")
 
 
 def _get_recipients() -> list[str]:
@@ -368,6 +422,9 @@ def main() -> None:
     news_text = fetch_all_news(newsapi_key)
     item_count = news_text.count("\n") + 1
     print(f"Fetched {item_count} news items.")
+
+    print("Saving seen headlines for tomorrow's dedup...")
+    _save_seen_headlines(news_text)
 
     print("Calling Claude API...")
     full_html = generate_report(news_text, today, anthropic_api_key)

@@ -386,6 +386,24 @@ def fetch_all_news(newsapi_key: str = "") -> str:
 
     all_items = [item for item in all_items if _is_credit_relevant(item)]
 
+    # --- Pre-filter 3: skip headlines already covered in the previous report ---
+    try:
+        import json as _json, os as _os
+        _seen_path = _os.path.join(_os.path.dirname(_os.path.dirname(_os.path.abspath(__file__))), "data", "seen_headlines.json")
+        with open(_seen_path, encoding="utf-8") as _f:
+            _prev = set(_json.load(_f).get("keys", []))
+        def _already_seen(item: str) -> bool:
+            text = re.sub(r"^\[[^\]]+\]\s*", "", item)
+            key = text.lower().strip()[:120]
+            return key in _prev
+        before = len(all_items)
+        all_items = [item for item in all_items if not _already_seen(item)]
+        print(f"[fetch_news] Seen-headlines filter: dropped {before - len(all_items)} already-covered items")
+    except FileNotFoundError:
+        pass  # first run — no history yet
+    except Exception as exc:
+        print(f"[fetch_news] Seen-headlines filter skipped: {exc}")
+
     # Deduplicate by normalised headline — strip tag prefix like [TELEGRAM — @x] or [WATCHLIST — Co]
     seen: set[str] = set()
     unique: list[str] = []
