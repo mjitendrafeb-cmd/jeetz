@@ -212,7 +212,7 @@ def fetch_company_news() -> list[str]:
         if len(items) >= 60:
             break
         try:
-            query = f'"{company}" India finance'
+            query = f'{company} India NBFC finance rating'
             url = (
                 f"https://news.google.com/rss/search"
                 f"?q={requests.utils.quote(query)}&hl=en-IN&gl=IN&ceid=IN:en"
@@ -225,6 +225,11 @@ def fetch_company_news() -> list[str]:
                 raw_title = _clean(entry.get("title", "")).strip()
                 if not raw_title or raw_title in seen_titles:
                     continue
+                summary = _clean(entry.get("summary", entry.get("description", ""))).strip()
+                # Only include if company name (first word) appears in title or summary
+                first_word = company.lower().split()[0]
+                if first_word not in (raw_title + " " + summary).lower():
+                    continue
                 seen_titles.add(raw_title)
                 source = "Google News"
                 title = raw_title
@@ -232,10 +237,10 @@ def fetch_company_news() -> list[str]:
                     parts = raw_title.rsplit(" - ", 1)
                     title = parts[0].strip()
                     source = parts[1].strip()
-                summary = _clean(entry.get("summary", entry.get("description", ""))).strip()
                 link = entry.get("link", "")
                 items.append(f"[WATCHLIST — {company}] {_fmt(source, title, summary, link)}")
                 count += 1
+            time.sleep(0.3)
         except Exception as exc:
             print(f"[fetch_news] Company news error for '{company}': {exc}")
 
