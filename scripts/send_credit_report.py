@@ -280,10 +280,35 @@ def split_parts(full_html: str) -> tuple[str, str]:
 # Attachment — S1-S5 with clickable nav
 # ---------------------------------------------------------------------------
 
+def _split_sections(part_b_html: str) -> dict[str, str]:
+    """Split Claude's HTML into per-section buckets using id='s1'..'s5' markers."""
+    sids = ["s1", "s2", "s3", "s4", "s5"]
+    # Find positions of each section marker
+    positions = {}
+    for sid in sids:
+        m = re.search(rf'<[^>]+\bid=["\']({sid})["\'][^>]*>', part_b_html)
+        if m:
+            positions[sid] = m.start()
+    # Sort by position
+    ordered = sorted(positions.items(), key=lambda x: x[1])
+    buckets: dict[str, str] = {s: "" for s in sids}
+    for i, (sid, start) in enumerate(ordered):
+        end = ordered[i + 1][1] if i + 1 < len(ordered) else len(part_b_html)
+        buckets[sid] = part_b_html[start:end].strip()
+    return buckets
+
+
 def build_attachment(part_b_html: str, today: datetime.date) -> str:
     date_str = today.strftime("%d %B %Y")
     dow_full = today.strftime("%A, %d %B %Y").upper()
     edition = f"Vol. {today.year} · Internal Use Only"
+
+    # Split Claude's HTML into per-section content (Python, no JS needed)
+    buckets = _split_sections(part_b_html)
+    empty_msg = '<p style="padding:20px 0;font-size:11px;color:#aaa;font-style:italic;">No news in this category today.</p>'
+
+    def col(sid: str) -> str:
+        return buckets.get(sid) or empty_msg
 
     sections = [
         ("s1", "★ My Rated Entities &amp; Watchlist", "1"),
@@ -296,7 +321,6 @@ def build_attachment(part_b_html: str, today: datetime.date) -> str:
     pages_html = ""
     for sid, title, pnum in sections:
         if sid == "s1":
-            # Front page — full masthead
             pages_html += f"""
 <div class="news-page front-page" id="pg1">
   <div class="mast-top">
@@ -318,7 +342,7 @@ def build_attachment(part_b_html: str, today: datetime.date) -> str:
     <a href="#pg4">Markets</a>
     <a href="#pg5">Macro</a>
   </nav>
-  <div class="columns" id="{sid}-col"></div>
+  <div class="columns">{col(sid)}</div>
   <div class="page-foot">
     <span>Credit Intelligence News &mdash; {date_str}</span>
     <span>Page 1 of 5</span>
@@ -333,7 +357,7 @@ def build_attachment(part_b_html: str, today: datetime.date) -> str:
     <div class="ph-title">{title}</div>
     <div class="ph-num">{pnum}</div>
   </div>
-  <div class="columns" id="{sid}-col"></div>
+  <div class="columns">{col(sid)}</div>
   <div class="page-foot">
     <span>Credit Intelligence News &mdash; {date_str}</span>
     <span>Page {pnum} of 5</span>
@@ -399,35 +423,6 @@ def build_attachment(part_b_html: str, today: datetime.date) -> str:
 <div class="newspaper">
 {pages_html}
 </div>
-
-<!-- Hidden staging area for Claude's HTML, distributed by JS below -->
-<div id="raw-content" style="display:none">{part_b_html}</div>
-
-<script>
-(function(){{
-  var raw = document.getElementById('raw-content');
-  var sids = ['s1','s2','s3','s4','s5'];
-  var buckets = {{}};
-  sids.forEach(function(s){{ buckets[s] = []; }});
-  var current = null;
-  Array.from(raw.childNodes).forEach(function(node){{
-    if(node.nodeType === 1){{
-      var id = node.id || '';
-      if(sids.indexOf(id) !== -1){{ current = id; return; }}
-    }}
-    if(current) buckets[current].push(node.cloneNode(true));
-  }});
-  sids.forEach(function(sid){{
-    var col = document.getElementById(sid + '-col');
-    if(!col) return;
-    if(buckets[sid].length === 0){{
-      col.innerHTML = '<p style="padding:20px 0;font-size:11px;color:#aaa;font-style:italic;">No news in this category today.</p>';
-    }} else {{
-      buckets[sid].forEach(function(n){{ col.appendChild(n); }});
-    }}
-  }});
-}})();
-</script>
 </body>
 </html>"""
 
