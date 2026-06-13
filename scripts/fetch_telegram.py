@@ -28,7 +28,7 @@ def _clean(text: str) -> str:
     return " ".join(text.split())
 
 
-def _extract_pdf_text(data: bytes, max_chars: int = 800) -> str:
+def _extract_pdf_text(data: bytes, max_chars: int = 400) -> str:
     """Extract text from PDF bytes using pdfplumber. Returns first max_chars chars."""
     try:
         import pdfplumber
@@ -156,7 +156,7 @@ async def _fetch_async(api_id: str, api_hash: str, session_str: str, channels: l
                     label = f"[TELEGRAM — {channel}]"
                     if pdf_text:
                         label = f"[TELEGRAM-PDF — {channel}]"
-                    items.append(f"{label} {combined[:600]}")
+                    items.append(f"{label} {combined[:500]}")
                     count += 1
                     if count >= 8:
                         break

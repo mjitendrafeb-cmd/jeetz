@@ -356,6 +356,36 @@ def fetch_all_news(newsapi_key: str = "") -> str:
             cfg.get("custom_scrape_urls", []),
         ))
 
+    # --- Pre-filter 1: minimum text length ---
+    all_items = [item for item in all_items if len(item.strip()) >= 80]
+
+    # --- Pre-filter 2: block non-credit noise ---
+    _BLOCK_TERMS = [
+        "ipo ", " ipo", "stock tip", "dividend declared", "agm ", " agm",
+        "product launch", "csr ", " csr", "corporate social", "award ",
+        " award", "felicitat", "merger rumour", "takeover rumour",
+        "celebrity", "bollywood", "cricket", "sports",
+    ]
+    _CREDIT_TERMS = [
+        "rating", "npa", "liquidity", "capital", "default", "rbi", "sebi",
+        "bond", "yield", "debt", "restructur", "credit", "nbfc", "hfc",
+        "debenture", "securitis", "spread", "repo", "monetary", "inflation",
+        "fiscal", "gdp", "interest rate", "asset quality", "provisioning",
+        "write-off", "insolvency", "ibc", "nclt", "resolution", "watchlist",
+        "outlook", "downgrad", "upgrad", "reaffirm", "nhb", "sidbi", "nabard",
+    ]
+
+    def _is_credit_relevant(item: str) -> bool:
+        lower = item.lower()
+        if any(t in lower for t in _BLOCK_TERMS):
+            return False
+        # Watchlist and regulatory items always pass through
+        if item.startswith("[WATCHLIST") or item.startswith("[TELEGRAM"):
+            return True
+        return any(t in lower for t in _CREDIT_TERMS)
+
+    all_items = [item for item in all_items if _is_credit_relevant(item)]
+
     # Deduplicate by normalised headline — strip tag prefix like [TELEGRAM — @x] or [WATCHLIST — Co]
     seen: set[str] = set()
     unique: list[str] = []
@@ -368,7 +398,7 @@ def fetch_all_news(newsapi_key: str = "") -> str:
         if key not in seen:
             seen.add(key)
             unique.append(item)
-        if len(unique) >= 150:
+        if len(unique) >= 60:
             break
 
     if not unique:
