@@ -212,7 +212,7 @@ def fetch_company_news() -> list[str]:
         if len(items) >= 60:
             break
         try:
-            query = f'"{company}" India credit loan rating NPA'
+            query = f'"{company}" India finance'
             url = (
                 f"https://news.google.com/rss/search"
                 f"?q={requests.utils.quote(query)}&hl=en-IN&gl=IN&ceid=IN:en"
@@ -220,7 +220,7 @@ def fetch_company_news() -> list[str]:
             feed = feedparser.parse(url)
             count = 0
             for entry in feed.entries:
-                if count >= 2:
+                if count >= 3:
                     break
                 raw_title = _clean(entry.get("title", "")).strip()
                 if not raw_title or raw_title in seen_titles:
