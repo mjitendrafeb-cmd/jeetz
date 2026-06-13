@@ -296,6 +296,11 @@ def publish_webpage(html: str, today: datetime.date) -> bool:
         g = lambda *args: subprocess.run(["git", "-C", base] + list(args), check=True, capture_output=True)
         g("config", "user.email", "actions@github.com")
         g("config", "user.name", "GitHub Actions")
+        # Inject GITHUB_TOKEN into remote URL so github-actions[bot] can push
+        token = os.environ.get("GITHUB_TOKEN", "")
+        if token:
+            g("remote", "set-url", "origin",
+              f"https://x-access-token:{token}@github.com/mjitendrafeb-cmd/jeetz.git")
         g("add", "docs/index.html")
         diff = subprocess.run(["git", "-C", base, "diff", "--cached", "--quiet"], capture_output=True)
         if diff.returncode == 0:
