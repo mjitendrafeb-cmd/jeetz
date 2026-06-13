@@ -243,15 +243,19 @@ function updateTokenBar(){
   } else {
     bar.className = 'token-bar';
     dot.className = 'token-dot';
-    st.textContent = 'No GitHub token — changes cannot be saved';
+    st.textContent = 'Viewing live data — set a token to save changes';
   }
 }
 
 // ── GitHub API ─────────────────────────────────────────────────────────────
 async function ghGet(path){
+  // Public repo — reads work without a token (60 req/hr unauthenticated)
+  const headers = {Accept:'application/vnd.github.v3+json'};
+  const tok = getToken();
+  if(tok) headers['Authorization'] = `token ${tok}`;
   const r = await fetch(
     `https://api.github.com/repos/${OWNER}/${REPO}/contents/${path}?ref=${BRANCH}&t=${Date.now()}`,
-    {headers:{Authorization:`token ${getToken()}`, Accept:'application/vnd.github.v3+json'}}
+    {headers}
   );
   if(!r.ok) throw new Error(`GitHub API error ${r.status} on ${path}`);
   return r.json();
@@ -301,7 +305,6 @@ async function loadWatchlist(){
   const ta = document.getElementById('watchlistText');
   ta.value = '';
   ta.placeholder = 'Loading...';
-  if(!getToken()){ ta.placeholder = 'Set a GitHub token (Token tab) to load watchlist'; return; }
   try{
     const d = await ghGet('watchlist.txt');
     watchlistSha = d.sha;
@@ -340,7 +343,6 @@ const SOURCE_META = {
 async function loadSources(){
   const el = document.getElementById('sourceToggles');
   el.innerHTML = '<p style="color:#aaa;font-size:12px;padding:10px 0">Loading...</p>';
-  if(!getToken()){ el.innerHTML='<p style="color:#cc0000;font-size:12px">Set a GitHub token (Token tab) to load settings</p>'; return; }
   try{
     const d = await ghGet('config.json');
     configSha = d.sha;
@@ -382,7 +384,6 @@ let channels = [];
 async function loadChannels(){
   const ul = document.getElementById('channelList');
   ul.innerHTML = '<li style="padding:12px 14px;color:#aaa;font-size:12px">Loading...</li>';
-  if(!getToken()){ ul.innerHTML='<li style="padding:12px 14px;color:#cc0000;font-size:12px">Set a GitHub token (Token tab) to load channels</li>'; return; }
   try{
     const d = await ghGet('config.json');
     configSha = d.sha;
@@ -438,7 +439,6 @@ let emails = [];
 async function loadEmails(){
   const ul = document.getElementById('emailList');
   ul.innerHTML = '<li style="padding:12px 14px;color:#aaa;font-size:12px">Loading...</li>';
-  if(!getToken()){ ul.innerHTML='<li style="padding:12px 14px;color:#cc0000;font-size:12px">Set a GitHub token (Token tab) to load recipients</li>'; return; }
   try{
     const d = await ghGet('config.json');
     configSha = d.sha;
