@@ -7,10 +7,10 @@
     "rbi_rss": true,
     "sebi_rss": true,
     "google_news": true,
-    "newsapi": true,
-    "company_watchlist": true,
+    "newsapi": false,
+    "company_watchlist": false,
     "telegram": true,
-    "web_scraper": true
+    "web_scraper": false
   },
   "custom_scrape_urls": [],
   "web_sources": {

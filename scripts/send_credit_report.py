@@ -292,7 +292,7 @@ footer strong{{color:#cc0000}}
 <div class="wrap">
 <div class="bar"></div>
 <header class="mast">
-  <p class="mast-meta">{dow} &bull; Credit Strategy &amp; Surveillance Desk &bull; CareEdge Ratings</p>
+  <p class="mast-meta">{dow} &bull; CareEdge Ratings</p>
   <h1 class="mast-title">Credit Intelligence News</h1>
   <div class="mast-sub">
     <span style="font-size:10px;font-style:italic;color:#555">Full Report — All 5 Sections</span>
@@ -323,7 +323,7 @@ footer strong{{color:#cc0000}}
 # Email body — compact: top 5 lead stories + top 5 takeaways
 # ---------------------------------------------------------------------------
 
-def build_email(part_a_html: str, part_c_html: str, today: datetime.date) -> str:
+def build_email(part_c_html: str, today: datetime.date) -> str:
     date_str = today.strftime("%d %B %Y")
     dow = today.strftime("%A, %d %B %Y").upper()
 
@@ -343,7 +343,7 @@ def build_email(part_a_html: str, part_c_html: str, today: datetime.date) -> str
   <p style="margin:0;font-size:30px;font-weight:900;color:#1a1a1a;letter-spacing:-1px;line-height:1;font-family:Georgia,serif;">Credit Intelligence News</p>
   <table width="100%" cellpadding="0" cellspacing="0" style="margin-top:7px;border-top:1px solid #1a1a1a;">
   <tr>
-    <td style="padding-top:5px;font-size:10px;font-style:italic;color:#555;font-family:Georgia,serif;">Daily Credit &amp; Markets Briefing &mdash; Credit Strategy &amp; Surveillance Desk</td>
+    <td style="padding-top:5px;font-size:10px;font-style:italic;color:#555;font-family:Georgia,serif;">Daily Credit &amp; Markets Briefing</td>
     <td align="right" style="padding-top:5px;font-size:9px;font-weight:700;text-transform:uppercase;color:#cc0000;white-space:nowrap;">&#128274; CONFIDENTIAL</td>
   </tr>
   </table>
@@ -360,13 +360,6 @@ def build_email(part_a_html: str, part_c_html: str, today: datetime.date) -> str
   <td style="padding:6px 10px;font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#bbb;">MACRO</td>
 </tr>
 </table>
-
-<!-- TOP 5 STORIES HEADER -->
-<table width="100%" cellpadding="0" cellspacing="0" style="background:#fff8f8;border-bottom:1px solid #e5e5e5;">
-<tr><td style="padding:8px 20px;font-size:9px;font-weight:800;letter-spacing:3px;text-transform:uppercase;color:#cc0000;">&#9642; TOP 5 LEAD STORIES TODAY</td></tr>
-</table>
-
-{part_a_html}
 
 <!-- TAKEAWAYS -->
 {part_c_html}
@@ -448,7 +441,7 @@ def main() -> None:
     print(f"Part A: {len(part_a)} chars | Part B: {len(part_b)} chars | Part C: {len(part_c)} chars")
 
     print("Building email body...")
-    email_html = build_email(part_a, part_c, today)
+    email_html = build_email(part_c, today)
 
     print("Building attachment...")
     attachment_html = build_attachment(part_b, today)
