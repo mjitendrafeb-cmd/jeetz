@@ -2,18 +2,17 @@
 """
 Daily Credit Intelligence Report — AI-generated, dual delivery.
 1. Fetches live news from all configured sources.
-2. Claude generates structured credit analysis HTML.
-3. Full report published to GitHub Pages (docs/index.html).
-4. Compact email sent with top stories + "View Full Report" link.
-
-Reads env vars: GMAIL_USER, GMAIL_APP_PASSWORD, ANTHROPIC_API_KEY, NEWSAPI_KEY (optional).
+2. Claude generates HTML for email body (top 5 stories + takeaways) and
+   attachment (all 5 sections S1-S5, each item with news + credit implication).
+3. Email: compact body + full-report HTML attachment.
+4. GitHub Pages: static config/management console (not overwritten by report).
 """
 
 import os
 import json
-import subprocess
 import smtplib
 import datetime
+import re
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 from email.mime.base import MIMEBase
@@ -24,6 +23,7 @@ import anthropic
 from fetch_news import fetch_all_news
 
 _PAGES_URL = "https://mjitendrafeb-cmd.github.io/jeetz/"
+_CONFIG_URL = "https://mjitendrafeb-cmd.github.io/jeetz/config.html"
 
 
 def _load_config() -> dict:
@@ -49,7 +49,7 @@ def _get_recipients() -> list[str]:
 
 
 # ---------------------------------------------------------------------------
-# Prompt — Claude generates structured JSON-like sections
+# Prompt — Claude generates 3 parts
 # ---------------------------------------------------------------------------
 
 def _build_prompt(news_text: str, day_str: str, date_str: str) -> str:
@@ -67,20 +67,18 @@ RULES
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 INCLUDE only items affecting: Rating outlook · Liquidity · Funding · Asset quality · Capitalisation · Governance
 SKIP: Product launches · CSR · Awards · Stock tips · Generic M&A · Generic business news
-DEDUPLICATE: If two items cover the same story, use only the one with more detail. Skip the rest.
+DEDUPLICATE: If two items cover the same story, use only the one with more detail.
 WATCHLIST items ([WATCHLIST — Company]) are HIGHEST PRIORITY — always appear first in S1 and Part A.
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-OUTPUT FORMAT
+OUTPUT FORMAT — raw HTML, ALL inline styles, NO class names, NO <style> blocks
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-Output ONLY raw HTML with ALL inline styles. No markdown. No <html>/<head>/<body> tags.
-No class names. No <style> blocks. Email clients strip those.
 
 ════════════
-PART A — TOP 5 LEAD STORIES (for email preview)
+PART A — TOP 5 LEAD STORIES  (goes in email body only, NOT in attachment)
 ════════════
-Pick the 5 most important credit stories. Watchlist first, then spread across sections.
-Use this card for EACH story (copy exact HTML, fill in real content):
+Pick the 5 most credit-significant stories. Watchlist entities first.
+Use this card for EACH of the 5 stories:
 
 <table width="100%" cellpadding="0" cellspacing="0" style="border-bottom:1px solid #e5e5e5;margin-bottom:0;">
 <tr valign="top">
@@ -102,42 +100,51 @@ Use this card for EACH story (copy exact HTML, fill in real content):
 </tr>
 </table>
 
-IMPORTANT: Use the actual URL from "| URL:" in input. Omit the link entirely if no URL.
+Omit the link row entirely if no URL available.
 
 ════════════
-PART B — ALL 5 SECTIONS (every credit-relevant item not already in Part A)
+PART B — ALL 5 SECTIONS  (goes in attachment only, NOT in email body)
 ════════════
-Show ALL 5 sections even if a section has no news (show "No news today" instead).
-Each item appears in EXACTLY ONE section — no duplicates across sections.
+Show ALL 5 sections. Each news item must NOT appear in Part A again.
+Each item appears in EXACTLY ONE section.
 
 Section routing:
-  S1 — [WATCHLIST — Company] items ONLY
+  S1 — [WATCHLIST — Company] items ONLY (entities on analyst's watchlist)
   S2 — NBFC, HFC, Banking, Broking, Fintech, MFI, rating agency actions
   S3 — RBI, SEBI, NHB regulatory circulars/orders
   S4 — Bonds, G-Sec, CP, Securitisation, FIMMDA, CCIL market items
   S5 — Macro: GDP, CPI, IIP, forex, fiscal deficit, US Fed, global
 
-Section headers (copy exact HTML per section):
-S1: <table width="100%" cellpadding="0" cellspacing="0" style="margin-top:16px;"><tr><td style="background:#cc0000;padding:7px 16px;font-size:9px;font-weight:800;letter-spacing:3px;text-transform:uppercase;color:#fff;">&#9733; S1 — MY RATED ENTITIES &amp; WATCHLIST</td></tr></table>
-S2: <table width="100%" cellpadding="0" cellspacing="0" style="margin-top:16px;"><tr><td style="background:#b45309;padding:7px 16px;font-size:9px;font-weight:800;letter-spacing:3px;text-transform:uppercase;color:#fff;">S2 — NBFC, HFC, BROKING, FINTECH, FI SECTORS</td></tr></table>
-S3: <table width="100%" cellpadding="0" cellspacing="0" style="margin-top:16px;"><tr><td style="background:#1e3a8a;padding:7px 16px;font-size:9px;font-weight:800;letter-spacing:3px;text-transform:uppercase;color:#fff;">S3 — RBI, SEBI, NHB REGULATIONS</td></tr></table>
-S4: <table width="100%" cellpadding="0" cellspacing="0" style="margin-top:16px;"><tr><td style="background:#15803d;padding:7px 16px;font-size:9px;font-weight:800;letter-spacing:3px;text-transform:uppercase;color:#fff;">S4 — BOND &amp; MONEY MARKETS</td></tr></table>
-S5: <table width="100%" cellpadding="0" cellspacing="0" style="margin-top:16px;"><tr><td style="background:#6d28d9;padding:7px 16px;font-size:9px;font-weight:800;letter-spacing:3px;text-transform:uppercase;color:#fff;">S5 — MACROECONOMIC DEVELOPMENTS</td></tr></table>
+Section headers — copy EXACTLY (note the id attribute for nav anchors):
+S1: <table id="s1" width="100%" cellpadding="0" cellspacing="0" style="margin-top:16px;"><tr><td style="background:#cc0000;padding:7px 16px;font-size:9px;font-weight:800;letter-spacing:3px;text-transform:uppercase;color:#fff;">&#9733; S1 — MY RATED ENTITIES &amp; WATCHLIST</td></tr></table>
+S2: <table id="s2" width="100%" cellpadding="0" cellspacing="0" style="margin-top:16px;"><tr><td style="background:#b45309;padding:7px 16px;font-size:9px;font-weight:800;letter-spacing:3px;text-transform:uppercase;color:#fff;">S2 — NBFC, HFC, BROKING, FINTECH, FI SECTORS</td></tr></table>
+S3: <table id="s3" width="100%" cellpadding="0" cellspacing="0" style="margin-top:16px;"><tr><td style="background:#1e3a8a;padding:7px 16px;font-size:9px;font-weight:800;letter-spacing:3px;text-transform:uppercase;color:#fff;">S3 — RBI, SEBI, NHB REGULATIONS</td></tr></table>
+S4: <table id="s4" width="100%" cellpadding="0" cellspacing="0" style="margin-top:16px;"><tr><td style="background:#15803d;padding:7px 16px;font-size:9px;font-weight:800;letter-spacing:3px;text-transform:uppercase;color:#fff;">S4 — BOND &amp; MONEY MARKETS</td></tr></table>
+S5: <table id="s5" width="100%" cellpadding="0" cellspacing="0" style="margin-top:16px;"><tr><td style="background:#6d28d9;padding:7px 16px;font-size:9px;font-weight:800;letter-spacing:3px;text-transform:uppercase;color:#fff;">S5 — MACROECONOMIC DEVELOPMENTS</td></tr></table>
 
-After each header, one row per article:
-<table width="100%" cellpadding="0" cellspacing="0">
-<tr><td style="padding:7px 16px;border-bottom:1px solid #f0f0f0;font-size:12px;line-height:1.5;">
-  <span style="font-size:9px;font-weight:700;text-transform:uppercase;color:#999;letter-spacing:1px;">SOURCE</span>&nbsp;&nbsp;
-  <a href="URL" target="_blank" style="font-weight:700;color:#1a1a1a;text-decoration:none;font-family:Georgia,serif;">Headline text</a>
-  &nbsp;<span style="color:#cc0000;font-size:11px;font-style:italic;">— Credit angle.</span>
+After each section header, one card per article:
+<table width="100%" cellpadding="0" cellspacing="0" style="border-bottom:1px solid #f0f0f0;">
+<tr valign="top"><td style="padding:10px 16px;">
+  <p style="margin:0 0 3px;font-size:9px;font-weight:700;text-transform:uppercase;color:#999;letter-spacing:1px;">SOURCE</p>
+  <p style="margin:0 0 7px;font-size:14px;font-weight:800;color:#1a1a1a;font-family:Georgia,serif;line-height:1.3;">HEADLINE</p>
+  <table width="100%" cellpadding="0" cellspacing="0"><tr valign="top">
+    <td width="50%" style="padding-right:10px;border-right:2px solid #f0f0f0;">
+      <p style="margin:0 0 3px;font-size:9px;font-weight:800;text-transform:uppercase;color:#1e3a8a;">WHAT HAPPENED</p>
+      <p style="margin:0;font-size:11px;color:#374151;line-height:1.6;">1-2 sentences. Key facts.</p>
+    </td>
+    <td width="50%" style="padding-left:10px;background:#fef9f9;">
+      <p style="margin:0 0 3px;font-size:9px;font-weight:800;text-transform:uppercase;color:#cc0000;">CREDIT IMPLICATION</p>
+      <p style="margin:0;font-size:11px;color:#374151;line-height:1.6;">1-2 sentences. Rating/liquidity/asset quality angle.</p>
+    </td>
+  </tr></table>
+  <p style="margin:5px 0 0;font-size:10px;"><a href="URL" target="_blank" style="color:#cc0000;font-weight:700;text-decoration:none;">Source &#8594;</a></p>
 </td></tr>
 </table>
 
-No URL version: same but use <span style="font-weight:700;color:#1a1a1a;font-family:Georgia,serif;">Headline</span> instead of <a>.
-Empty section: <p style="padding:8px 16px;font-size:11px;color:#aaa;font-style:italic;margin:0;">No news in this category today.</p>
+Omit the link line if no URL. For empty section: <p style="padding:8px 16px;font-size:11px;color:#aaa;font-style:italic;margin:0;">No news in this category today.</p>
 
 ════════════
-PART C — TOP 5 CREDIT TAKEAWAYS
+PART C — TOP 5 CREDIT TAKEAWAYS  (goes in email body only, NOT in attachment)
 ════════════
 <table width="100%" cellpadding="0" cellspacing="0" style="margin-top:16px;background:#1a1a1a;">
 <tr><td style="padding:8px 16px;font-size:9px;font-weight:800;letter-spacing:3px;text-transform:uppercase;color:#fff;">&#9679; TOP 5 CREDIT TAKEAWAYS FOR TODAY</td></tr>
@@ -183,7 +190,7 @@ PART C — TOP 5 CREDIT TAKEAWAYS
 OUTPUT RULES:
 - Real URLs only from "| URL:" — never placeholder text. No <a> if no URL.
 - ALL styles inline. No class names. No <style> blocks.
-- No html/head/body/masthead wrappers.
+- No html/head/body wrappers.
 - Output Parts A, B, C in order. Nothing else."""
 
 
@@ -218,10 +225,40 @@ def generate_report(news_text: str, today: datetime.date, api_key: str) -> str:
 
 
 # ---------------------------------------------------------------------------
-# Full webpage (GitHub Pages) — real CSS, no email constraints
+# Split Claude output into Part A, Part B, Part C
 # ---------------------------------------------------------------------------
 
-def build_webpage(inner_html: str, today: datetime.date) -> str:
+def split_parts(full_html: str) -> tuple[str, str, str]:
+    """Return (part_a, part_b, part_c)."""
+    # Part B starts at first section header (has id="s1" OR margin-top:16px + section colour)
+    b_match = re.search(
+        r'<table[^>]*id=["\']s1["\'][^>]*>|'
+        r'<table[^>]*style="[^"]*margin-top:16px[^"]*"[^>]*>\s*<tr>\s*<td[^>]*style="[^"]*background:#cc0000[^"]*"',
+        full_html
+    )
+    # Part C starts at the black takeaways header
+    c_match = re.search(
+        r'<table[^>]*style="[^"]*background:#1a1a1a[^"]*"',
+        full_html
+    )
+
+    if b_match and c_match and c_match.start() > b_match.start():
+        part_a = full_html[:b_match.start()].strip()
+        part_b = full_html[b_match.start():c_match.start()].strip()
+        part_c = full_html[c_match.start():].strip()
+        return part_a, part_b, part_c
+    elif b_match:
+        part_a = full_html[:b_match.start()].strip()
+        part_b = full_html[b_match.start():].strip()
+        return part_a, part_b, ""
+    return full_html, "", ""
+
+
+# ---------------------------------------------------------------------------
+# Attachment — full S1-S5 sections with clickable nav
+# ---------------------------------------------------------------------------
+
+def build_attachment(part_b_html: str, today: datetime.date) -> str:
     date_str = today.strftime("%d %B %Y")
     dow = today.strftime("%A, %d %B %Y").upper()
 
@@ -230,7 +267,7 @@ def build_webpage(inner_html: str, today: datetime.date) -> str:
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>CareEdge Credit Intelligence — {date_str}</title>
+<title>Credit Intelligence News — {date_str}</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
 <style>
 *{{box-sizing:border-box;margin:0;padding:0}}
@@ -239,17 +276,16 @@ body{{background:#ddd;font-family:'Inter',Arial,sans-serif;color:#1a1a1a}}
 .bar{{background:#cc0000;height:5px}}
 .mast{{padding:16px 24px 10px;border-bottom:3px solid #1a1a1a}}
 .mast-meta{{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:#999;margin-bottom:4px}}
-.mast-title{{font-family:'Playfair Display',Georgia,serif;font-size:42px;font-weight:900;line-height:1;letter-spacing:-1px}}
+.mast-title{{font-family:'Playfair Display',Georgia,serif;font-size:38px;font-weight:900;line-height:1;letter-spacing:-1px}}
 .mast-sub{{display:flex;justify-content:space-between;align-items:center;border-top:1px solid #1a1a1a;margin-top:8px;padding-top:6px}}
-.mast-tag{{font-size:10px;font-style:italic;color:#555}}
-.mast-conf{{font-size:9px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:#cc0000;border:1px solid #cc0000;padding:2px 7px}}
 nav{{background:#1a1a1a;border-bottom:3px solid #cc0000;display:flex;flex-wrap:wrap}}
-nav span{{padding:7px 14px;font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#ccc;border-right:1px solid #333}}
-nav span:first-child{{color:#fff}}
+nav a{{padding:8px 16px;font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#ccc;border-right:1px solid #333;text-decoration:none}}
+nav a:first-child{{color:#fff}}
+nav a:hover{{color:#fff;background:#333}}
 .body{{padding:0 24px 32px}}
 footer{{background:#1a1a1a;padding:14px 24px;text-align:center;font-size:10px;color:#666;line-height:2}}
 footer strong{{color:#cc0000}}
-@media(max-width:600px){{.mast-title{{font-size:28px}}.body{{padding:0 14px 24px}}}}
+@media(max-width:600px){{.mast-title{{font-size:26px}}.body{{padding:0 14px 24px}}}}
 </style>
 </head>
 <body>
@@ -257,27 +293,24 @@ footer strong{{color:#cc0000}}
 <div class="bar"></div>
 <header class="mast">
   <p class="mast-meta">{dow} &bull; Credit Strategy &amp; Surveillance Desk &bull; CareEdge Ratings</p>
-  <h1 class="mast-title">CareEdge Credit Intelligence</h1>
+  <h1 class="mast-title">Credit Intelligence News</h1>
   <div class="mast-sub">
-    <span class="mast-tag">Daily Credit &amp; Markets Briefing</span>
-    <div style="display:flex;align-items:center;gap:12px">
-      <a href="config.html" style="font-size:9px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:#555;text-decoration:none">&#9881; Settings</a>
-      <span class="mast-conf">&#128274; Confidential</span>
-    </div>
+    <span style="font-size:10px;font-style:italic;color:#555">Full Report — All 5 Sections</span>
+    <span style="font-size:9px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:#cc0000;border:1px solid #cc0000;padding:2px 7px">&#128274; Confidential</span>
   </div>
 </header>
 <nav>
-  <span>&#9733; Watchlist</span>
-  <span>NBFC &amp; FI</span>
-  <span>Regulations</span>
-  <span>Markets</span>
-  <span>Macro</span>
+  <a href="#s1">&#9733; Watchlist</a>
+  <a href="#s2">NBFC &amp; FI</a>
+  <a href="#s3">Regulations</a>
+  <a href="#s4">Markets</a>
+  <a href="#s5">Macro</a>
 </nav>
 <main class="body">
-{inner_html}
+{part_b_html}
 </main>
 <footer>
-  <strong>CareEdge Ratings</strong> &mdash; Daily Credit Intelligence &mdash; {date_str}<br>
+  <strong>Credit Intelligence News</strong> &mdash; CareEdge Ratings &mdash; {date_str}<br>
   Credit Strategy &amp; Surveillance Desk &bull; Jitendra.Meghrajani@careedge.in<br>
   <em>&#128274; Confidential &mdash; Internal Use Only. Not for external distribution.</em>
 </footer>
@@ -286,45 +319,11 @@ footer strong{{color:#cc0000}}
 </html>"""
 
 
-def publish_webpage(html: str, today: datetime.date) -> bool:
-    base = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-    docs_dir = os.path.join(base, "docs")
-    os.makedirs(docs_dir, exist_ok=True)
-    index_path = os.path.join(docs_dir, "index.html")
-
-    with open(index_path, "w", encoding="utf-8") as f:
-        f.write(html)
-    print(f"[publish] Written {len(html):,} chars to docs/index.html")
-
-    try:
-        date_str = today.strftime("%d %b %Y")
-        g = lambda *args: subprocess.run(["git", "-C", base] + list(args), check=True, capture_output=True)
-        g("config", "user.email", "actions@github.com")
-        g("config", "user.name", "GitHub Actions")
-        # Inject GITHUB_TOKEN into remote URL so github-actions[bot] can push
-        token = os.environ.get("GITHUB_TOKEN", "")
-        if token:
-            g("remote", "set-url", "origin",
-              f"https://x-access-token:{token}@github.com/mjitendrafeb-cmd/jeetz.git")
-        g("add", "docs/index.html")
-        diff = subprocess.run(["git", "-C", base, "diff", "--cached", "--quiet"], capture_output=True)
-        if diff.returncode == 0:
-            print("[publish] No change — skipping commit")
-            return True
-        g("commit", "-m", f"Credit Intelligence Report — {date_str}")
-        subprocess.run(["git", "-C", base, "push", "origin", "HEAD:main"], check=True)
-        print(f"[publish] Live at {_PAGES_URL}")
-        return True
-    except subprocess.CalledProcessError as exc:
-        print(f"[publish] Git push failed: {exc.stderr.decode() if exc.stderr else exc}")
-        return False
-
-
 # ---------------------------------------------------------------------------
-# Email — compact: masthead + Part A (top 5 leads) + "View Full Report" CTA
+# Email body — compact: top 5 lead stories + top 5 takeaways
 # ---------------------------------------------------------------------------
 
-def build_email(part_a_html: str, today: datetime.date) -> str:
+def build_email(part_a_html: str, part_c_html: str, today: datetime.date) -> str:
     date_str = today.strftime("%d %B %Y")
     dow = today.strftime("%A, %d %B %Y").upper()
 
@@ -341,7 +340,7 @@ def build_email(part_a_html: str, today: datetime.date) -> str:
 <table width="100%" cellpadding="0" cellspacing="0" style="border-bottom:3px solid #1a1a1a;">
 <tr><td style="padding:12px 20px 8px;">
   <p style="margin:0 0 3px;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:#999;">{dow} &bull; CAREEDGE RATINGS &bull; INTERNAL USE ONLY</p>
-  <p style="margin:0;font-size:32px;font-weight:900;color:#1a1a1a;letter-spacing:-1px;line-height:1;font-family:Georgia,serif;">CareEdge Credit Intelligence</p>
+  <p style="margin:0;font-size:30px;font-weight:900;color:#1a1a1a;letter-spacing:-1px;line-height:1;font-family:Georgia,serif;">Credit Intelligence News</p>
   <table width="100%" cellpadding="0" cellspacing="0" style="margin-top:7px;border-top:1px solid #1a1a1a;">
   <tr>
     <td style="padding-top:5px;font-size:10px;font-style:italic;color:#555;font-family:Georgia,serif;">Daily Credit &amp; Markets Briefing &mdash; Credit Strategy &amp; Surveillance Desk</td>
@@ -362,28 +361,29 @@ def build_email(part_a_html: str, today: datetime.date) -> str:
 </tr>
 </table>
 
-<!-- TOP 5 STORIES -->
+<!-- TOP 5 STORIES HEADER -->
 <table width="100%" cellpadding="0" cellspacing="0" style="background:#fff8f8;border-bottom:1px solid #e5e5e5;">
-<tr><td style="padding:8px 20px;font-size:9px;font-weight:800;letter-spacing:3px;text-transform:uppercase;color:#cc0000;">&#9642; TOP STORIES TODAY</td></tr>
+<tr><td style="padding:8px 20px;font-size:9px;font-weight:800;letter-spacing:3px;text-transform:uppercase;color:#cc0000;">&#9642; TOP 5 LEAD STORIES TODAY</td></tr>
 </table>
 
 {part_a_html}
 
-<!-- VIEW FULL REPORT CTA -->
-<table width="100%" cellpadding="0" cellspacing="0" style="margin-top:4px;border-top:2px solid #e5e5e5;">
-<tr><td style="padding:20px;text-align:center;background:#f9f9f9;">
-  <p style="margin:0 0 6px;font-size:12px;color:#555;">The <strong>full report</strong> with all 5 sections is attached to this email as an HTML file.</p>
-  <p style="margin:0 0 14px;font-size:11px;color:#aaa;">Open the attachment in any browser for the complete newspaper-style report.</p>
-  <table cellpadding="0" cellspacing="0" style="margin:0 auto;"><tr><td style="background:#1a1a1a;border-radius:3px;">
-    <a href="{_PAGES_URL}" target="_blank" style="display:block;padding:10px 24px;font-size:11px;font-weight:700;color:#ccc;text-decoration:none;letter-spacing:0.5px;">Also view online &nbsp;&#8594;</a>
-  </td></tr></table>
+<!-- TAKEAWAYS -->
+{part_c_html}
+
+<!-- ATTACHMENT NOTICE -->
+<table width="100%" cellpadding="0" cellspacing="0" style="border-top:2px solid #e5e5e5;">
+<tr><td style="padding:16px 20px;text-align:center;background:#f9f9f9;">
+  <p style="margin:0 0 4px;font-size:13px;font-weight:700;color:#1a1a1a;">&#128206; Full Report Attached</p>
+  <p style="margin:0 0 10px;font-size:11px;color:#666;line-height:1.6;">All 5 sections (S1 Watchlist · S2 NBFC/FI · S3 Regulations · S4 Markets · S5 Macro)<br>with detailed news &amp; credit implications are in the attached HTML file.</p>
+  <p style="margin:0;font-size:10px;color:#aaa;">Open attachment in Chrome or Safari for the full newspaper-style report.</p>
 </td></tr>
 </table>
 
 <!-- FOOTER -->
 <table width="100%" cellpadding="0" cellspacing="0" style="background:#1a1a1a;">
-<tr><td style="padding:12px 20px;text-align:center;font-size:10px;color:#666;line-height:2;">
-  <span style="color:#cc0000;font-weight:700;">CareEdge Ratings</span> &mdash; Daily Credit Intelligence &mdash; {date_str}<br>
+<tr><td style="padding:10px 20px;text-align:center;font-size:10px;color:#666;line-height:2;">
+  <span style="color:#cc0000;font-weight:700;">CareEdge Ratings</span> &mdash; Credit Intelligence News &mdash; {date_str}<br>
   <span style="font-style:italic;color:#555;">&#128274; Confidential &mdash; Internal Use Only. Not for external distribution.</span>
 </td></tr>
 </table>
@@ -391,26 +391,6 @@ def build_email(part_a_html: str, today: datetime.date) -> str:
 </div>
 </body>
 </html>"""
-
-
-# ---------------------------------------------------------------------------
-# Split Part A from full output
-# ---------------------------------------------------------------------------
-
-def split_parts(full_html: str) -> tuple[str, str]:
-    """Return (part_a_html, full_html). part_a ends before Part B section headers."""
-    # Find where Part B begins (first section header table)
-    import re
-    # Part B starts with the S1 section header table
-    match = re.search(
-        r'<table[^>]*style="[^"]*margin-top:16px[^"]*"[^>]*>\s*<tr>\s*<td[^>]*style="[^"]*background:#cc0000[^"]*"',
-        full_html
-    )
-    if match:
-        part_a = full_html[:match.start()].strip()
-        return part_a, full_html
-    # Fallback: everything is Part A
-    return full_html, full_html
 
 
 # ---------------------------------------------------------------------------
@@ -425,12 +405,10 @@ def send_email(subject: str, html_body: str, gmail_user: str, gmail_password: st
     msg["From"] = gmail_user
     msg["To"] = ", ".join(recipients)
 
-    # HTML body (compact top stories)
     body_part = MIMEMultipart("alternative")
     body_part.attach(MIMEText(html_body, "html", "utf-8"))
     msg.attach(body_part)
 
-    # Full report as HTML attachment
     if attachment_html and attachment_name:
         att = MIMEBase("text", "html", charset="utf-8")
         att.set_payload(attachment_html.encode("utf-8"))
@@ -455,7 +433,7 @@ def main() -> None:
     newsapi_key = os.environ.get("NEWSAPI_KEY", "")
 
     today = datetime.date.today()
-    subject = f"CareEdge Credit Intelligence — {today.strftime('%d %B %Y')}"
+    subject = f"Credit Intelligence News — {today.strftime('%d %B %Y')}"
 
     print("Fetching news...")
     news_text = fetch_all_news(newsapi_key)
@@ -465,22 +443,20 @@ def main() -> None:
     print("Calling Claude API...")
     full_html = generate_report(news_text, today, anthropic_api_key)
 
-    print("Building webpage...")
-    webpage = build_webpage(full_html, today)
+    print("Splitting parts...")
+    part_a, part_b, part_c = split_parts(full_html)
+    print(f"Part A: {len(part_a)} chars | Part B: {len(part_b)} chars | Part C: {len(part_c)} chars")
 
-    print("Publishing to GitHub Pages...")
-    published = publish_webpage(webpage, today)
-    if published:
-        print(f"Full report live at {_PAGES_URL}")
+    print("Building email body...")
+    email_html = build_email(part_a, part_c, today)
 
-    print("Building email...")
-    part_a, _ = split_parts(full_html)
-    email_html = build_email(part_a, today)
+    print("Building attachment...")
+    attachment_html = build_attachment(part_b, today)
+    attachment_name = f"Credit_Intelligence_{today.strftime('%d%b%Y')}.html"
 
-    print("Sending email...")
-    attachment_name = f"CareEdge_Credit_Intelligence_{today.strftime('%d%b%Y')}.html"
+    print("Sending email with attachment...")
     send_email(subject, email_html, gmail_user, gmail_password,
-               attachment_html=webpage, attachment_name=attachment_name)
+               attachment_html=attachment_html, attachment_name=attachment_name)
 
 
 if __name__ == "__main__":
