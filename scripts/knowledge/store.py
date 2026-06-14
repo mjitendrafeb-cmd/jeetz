@@ -28,6 +28,17 @@ def _embed(text: str) -> list[float]:
     return [x / norm for x in vec]
 
 
+class _HashEF:
+    """Chromadb-compatible embedding function — no onnxruntime needed."""
+
+    @staticmethod
+    def name() -> str:
+        return "hash_ef"
+
+    def __call__(self, input: list[str]) -> list[list[float]]:
+        return [_embed(text) for text in input]
+
+
 def _get_collection(chroma_dir: str | None = None):
     try:
         import chromadb
@@ -37,9 +48,9 @@ def _get_collection(chroma_dir: str | None = None):
     path = chroma_dir or os.environ.get("KNOWLEDGE_CHROMA_DIR", DEFAULT_CHROMA_DIR)
     os.makedirs(path, exist_ok=True)
     client = chromadb.PersistentClient(path=path)
-    # No embedding_function — we pass embeddings directly, avoiding onnxruntime
     return client.get_or_create_collection(
         "daily_reads",
+        embedding_function=_HashEF(),
         metadata={"hnsw:space": "cosine"},
     )
 
@@ -71,12 +82,7 @@ def add_note(note: dict, chroma_dir: str | None = None) -> str:
         "entities": ",".join(note.get("entities", [])),
     }
 
-    col.upsert(
-        ids=[doc_id],
-        embeddings=[_embed(doc_text)],
-        documents=[doc_text],
-        metadatas=[metadata],
-    )
+    col.upsert(ids=[doc_id], documents=[doc_text], metadatas=[metadata])
     return doc_id
 
 
@@ -105,7 +111,7 @@ def query_notes(
 
     if query:
         raw = col.query(
-            query_embeddings=[_embed(query)],
+            query_texts=[query],
             n_results=fetch,
             where=where,
             include=["metadatas", "documents", "distances"],

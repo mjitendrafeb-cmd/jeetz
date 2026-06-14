@@ -72,8 +72,13 @@ def process_file(source_path: str, notes_dir: str, api_key: str, chroma_dir: str
         json.dump(note, f, indent=2, ensure_ascii=False)
     print(f"[ingest]   Saved note: {note_path}")
 
-    doc_id = add_note(note, chroma_dir=chroma_dir)
-    print(f"[ingest]   Stored in ChromaDB: {doc_id}")
+    try:
+        doc_id = add_note(note, chroma_dir=chroma_dir)
+        print(f"[ingest]   Stored in ChromaDB: {doc_id}")
+    except Exception as exc:
+        print(f"[ingest]   ChromaDB store failed: {exc}")
+        print(f"[ingest]   (note JSON is saved — run search.py which also reads JSON files)")
+
     print(f"[ingest]   Summary: {note['summary']}")
     return True
 
