@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://mjitendrafeb-cmd.github.io/jeetz/sitemap.xml

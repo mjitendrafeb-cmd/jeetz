@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
 """
-view_notes.py — Generate docs/index.html from all distilled notes in docs/notes/.
+view_notes.py — Generate docs/index.html + docs/sitemap.xml from all distilled notes.
 
 Usage:
   python view_notes.py
-  python view_notes.py --notes-dir path/to/notes --out docs/index.html
+  python view_notes.py --notes-dir path/to/notes --out docs/index.html --no-open
 """
 import argparse
 import datetime
@@ -12,16 +12,31 @@ import json
 import os
 import sys
 import webbrowser
+from collections import Counter
 
 REPO_ROOT = os.path.dirname(os.path.abspath(__file__))
 DEFAULT_NOTES_DIR = os.path.join(REPO_ROOT, "docs", "notes")
 DEFAULT_OUT = os.path.join(REPO_ROOT, "docs", "index.html")
 
-SENTIMENT_COLOR = {
-    "positive": "#16a34a", "negative": "#dc2626",
-    "neutral": "#6b7280", "mixed": "#d97706",
+SITE_URL = "https://mjitendrafeb-cmd.github.io/jeetz"
+SITE_TITLE = "Daily Reads — Knowledge Notes"
+SITE_DESC = ("Personal knowledge library — distilled notes from daily reading "
+             "in finance, credit research, macro, and regulatory analysis.")
+
+SENTIMENT_COLORS = {
+    "positive": {"fg": "#15803d", "bg": "#f0fdf4", "bd": "#bbf7d0"},
+    "negative": {"fg": "#dc2626", "bg": "#fef2f2", "bd": "#fecaca"},
+    "neutral":  {"fg": "#6b7280", "bg": "#f9fafb", "bd": "#e5e7eb"},
+    "mixed":    {"fg": "#b45309", "bg": "#fffbeb", "bd": "#fde68a"},
 }
 TAG_COLORS = ["#3b82f6","#8b5cf6","#ec4899","#f97316","#14b8a6","#64748b","#a16207","#0891b2"]
+
+
+def esc(s):
+    return (str(s)
+            .replace("&", "&amp;").replace("<", "&lt;")
+            .replace(">", "&gt;").replace('"', "&quot;")
+            .replace("'", "&#39;"))
 
 
 def load_notes(notes_dir):
@@ -33,66 +48,44 @@ def load_notes(notes_dir):
             continue
         try:
             with open(os.path.join(notes_dir, name), encoding="utf-8") as f:
-                n = json.load(f)
-                notes.append(n)
+                notes.append(json.load(f))
         except Exception:
             pass
     notes.sort(key=lambda n: n.get("ingested_at", ""), reverse=True)
     return notes
 
 
-def esc(s):
-    """Escape HTML special characters."""
-    return (str(s)
-            .replace("&", "&amp;")
-            .replace("<", "&lt;")
-            .replace(">", "&gt;")
-            .replace('"', "&quot;"))
-
-
-def badge(text, color):
-    return (f'<span style="background:{color}22;color:{color};border:1px solid {color}44;'
-            f'font-size:11px;font-weight:500;padding:2px 9px;border-radius:20px;'
-            f'display:inline-block;margin:2px 2px 2px 0">{esc(text)}</span>')
-
-
 def normalize_note(note):
-    """
-    Normalize a note to the new schema. Handles backward compatibility with
-    old-schema notes that have takeaways/risk_analysis/key_implications fields.
-    Returns a dict guaranteed to have new-schema keys.
-    """
     out = dict(note)
 
-    # executive_summary: old schema had "summary" (string)
-    if "executive_summary" not in out:
-        old_summary = out.get("summary", "")
-        if old_summary:
-            out["executive_summary"] = [old_summary]
-        else:
-            out["executive_summary"] = []
+    # title: fall back to readable version of source filename
+    if not out.get("title"):
+        src = out.get("source_file", "")
+        stem = os.path.splitext(src)[0] if src else "Untitled"
+        out["title"] = stem.replace("_", " ").replace("-", " ").strip()
 
-    # key_takeaways: old schema had separate "takeaways", "risk_analysis", "key_implications"
+    # executive_summary
+    if "executive_summary" not in out:
+        old = out.get("summary", "")
+        out["executive_summary"] = [old] if old else []
+
+    # key_takeaways
     if "key_takeaways" not in out:
-        old_takeaways = out.get("takeaways", [])
-        old_risks = out.get("risk_analysis", [])
-        old_implications = out.get("key_implications", [])
         kt = []
-        for t in old_takeaways:
+        for t in out.get("takeaways", []):
             kt.append({"takeaway": t, "analyst_lens": ""})
-        # Append risks and implications as extra rows
-        for r in old_risks:
+        for r in out.get("risk_analysis", []):
             kt.append({"takeaway": r, "analyst_lens": "(risk)"})
-        for i in old_implications:
+        for i in out.get("key_implications", []):
             kt.append({"takeaway": i, "analyst_lens": "(implication)"})
         out["key_takeaways"] = kt
 
-    # entities_impacted: old schema had "entities" (list of strings)
+    # entities_impacted
     if "entities_impacted" not in out:
-        old_entities = out.get("entities", [])
-        out["entities_impacted"] = [{"entity": e, "impact": ""} for e in old_entities]
+        out["entities_impacted"] = [
+            {"entity": e, "impact": ""} for e in out.get("entities", [])
+        ]
 
-    # monitoring_points, learning, related_topics — default to empty lists
     for field in ("monitoring_points", "learning", "related_topics"):
         if field not in out:
             out[field] = []
@@ -100,17 +93,35 @@ def normalize_note(note):
     return out
 
 
-def render_card(raw_note, card_index):
+def tag_chip(text, color):
+    return f'<span class="chip" style="--cc:{color}">{esc(text)}</span>'
+
+
+def sentiment_badge(sentiment):
+    s = sentiment.lower()
+    c = SENTIMENT_COLORS.get(s, SENTIMENT_COLORS["neutral"])
+    return (f'<span class="sent-badge" '
+            f'style="color:{c["fg"]};background:{c["bg"]};border-color:{c["bd"]}">'
+            f'{esc(s)}</span>')
+
+
+def fmt_date(date_str):
+    try:
+        return datetime.date.fromisoformat(date_str).strftime("%d %b %Y")
+    except Exception:
+        return date_str
+
+
+def render_card(raw_note, idx):
     note = normalize_note(raw_note)
 
+    title = note.get("title", "Untitled")
     sentiment = note.get("sentiment", "neutral").lower()
-    sc = SENTIMENT_COLOR.get(sentiment, "#6b7280")
     source = note.get("source_file", "")
     date = note.get("date", "")
     category = note.get("category", "Other")
     tags = note.get("tags", [])
     relevance = note.get("relevance", [])
-
     exec_summary = note.get("executive_summary", [])
     key_takeaways = note.get("key_takeaways", [])
     entities_impacted = note.get("entities_impacted", [])
@@ -118,285 +129,502 @@ def render_card(raw_note, card_index):
     learning = note.get("learning", [])
     related_topics = note.get("related_topics", [])
 
-    # Headline: first bullet of executive_summary
-    headline = esc(exec_summary[0]) if exec_summary else esc(source)
+    # Preview text: first key takeaway or first exec summary bullet
+    preview = (key_takeaways[0].get("takeaway", "") if key_takeaways
+               else exec_summary[0] if exec_summary else "")
 
-    tag_html = "".join(badge(t, TAG_COLORS[hash(t) % len(TAG_COLORS)]) for t in tags)
-    rel_html = "".join(badge(r, "#1d4ed8") for r in relevance)
+    # Searchable blob (all lowercase, stored as data attr)
+    search_blob = " ".join([
+        title, source, category, sentiment,
+        " ".join(tags), " ".join(relevance),
+        " ".join(exec_summary),
+        " ".join(kt.get("takeaway","") + " " + kt.get("analyst_lens","") for kt in key_takeaways),
+        " ".join(ei.get("entity","") + " " + ei.get("impact","") for ei in entities_impacted),
+        " ".join(monitoring_points), " ".join(learning), " ".join(related_topics),
+    ]).lower().replace('"', "'")
 
-    # Build search text for JS filtering
-    all_text_parts = (
-        [source, category, sentiment]
-        + list(tags)
-        + list(relevance)
-        + exec_summary
-        + [kt.get("takeaway", "") + " " + kt.get("analyst_lens", "") for kt in key_takeaways]
-        + [ei.get("entity", "") + " " + ei.get("impact", "") for ei in entities_impacted]
-        + monitoring_points
-        + learning
-        + related_topics
-    )
-    search_text = " ".join(str(x) for x in all_text_parts).lower().replace('"', "'")
+    # Tags
+    tag_row = "".join(tag_chip(t, TAG_COLORS[hash(t) % len(TAG_COLORS)]) for t in tags)
 
-    # ---- Section 1: Executive Summary ----
+    # ── Expanded sections ──────────────────────────────────────────────
+
+    # 1. Executive Summary
     exec_html = ""
     if exec_summary:
-        items = "".join(
-            f'<li style="margin-bottom:6px;line-height:1.6;color:#334155">{esc(b)}</li>'
-            for b in exec_summary
-        )
-        exec_html = f"""
-        <div class="section">
-          <div class="section-title">Executive Summary</div>
-          <ul style="padding-left:20px">{items}</ul>
-        </div>"""
+        items = "".join(f"<li>{esc(b)}</li>" for b in exec_summary)
+        exec_html = (f'<div class="sect"><div class="sh">Executive Summary</div>'
+                     f'<ul class="blist">{items}</ul></div>')
 
-    # ---- Section 2: Key Takeaways & Analyst Lens ----
+    # 2. Key Takeaways & Analyst Lens
     kt_html = ""
     if key_takeaways:
-        rows = ""
-        for kt in key_takeaways:
-            tw = esc(kt.get("takeaway", ""))
-            al = esc(kt.get("analyst_lens", ""))
-            rows += f"""<tr>
-              <td style="padding:9px 12px;vertical-align:top;border-bottom:1px solid #f1f5f9;width:40%;font-weight:500;color:#0f172a;line-height:1.55">{tw}</td>
-              <td style="padding:9px 12px;vertical-align:top;border-bottom:1px solid #f1f5f9;color:#334155;line-height:1.6">{al}</td>
-            </tr>"""
-        kt_html = f"""
-        <div class="section">
-          <div class="section-title">Key Takeaways &amp; Analyst Lens</div>
-          <div style="overflow-x:auto">
-            <table style="width:100%;border-collapse:collapse;font-size:13px">
-              <thead>
-                <tr style="background:#f8fafc">
-                  <th style="padding:8px 12px;text-align:left;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:#64748b;border-bottom:2px solid #e2e8f0;width:40%">Key Takeaway</th>
-                  <th style="padding:8px 12px;text-align:left;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:#64748b;border-bottom:2px solid #e2e8f0">Analyst Lens</th>
-                </tr>
-              </thead>
-              <tbody>{rows}</tbody>
-            </table>
-          </div>
-        </div>"""
+        rows = "".join(
+            f'<tr><td class="kc tw">{esc(kt.get("takeaway",""))}</td>'
+            f'<td class="kc al">{esc(kt.get("analyst_lens",""))}</td></tr>'
+            for kt in key_takeaways
+        )
+        kt_html = (f'<div class="sect"><div class="sh">Key Takeaways &amp; Analyst Lens</div>'
+                   f'<div class="tbl-wrap"><table class="dt">'
+                   f'<thead><tr><th style="width:42%">Key Takeaway</th><th>Analyst Lens</th></tr></thead>'
+                   f'<tbody>{rows}</tbody></table></div></div>')
 
-    # ---- Section 3: Companies & Sectors Impacted ----
+    # 3. Companies & Sectors Impacted
     ei_html = ""
     if entities_impacted:
-        rows = ""
-        for ei in entities_impacted:
-            entity = esc(ei.get("entity", ""))
-            impact = esc(ei.get("impact", ""))
-            rows += f"""<tr>
-              <td style="padding:8px 12px;vertical-align:top;border-bottom:1px solid #f1f5f9;width:35%;font-weight:500;color:#0f172a">{entity}</td>
-              <td style="padding:8px 12px;vertical-align:top;border-bottom:1px solid #f1f5f9;color:#334155;line-height:1.55">{impact}</td>
-            </tr>"""
-        ei_html = f"""
-        <div class="section">
-          <div class="section-title">Companies &amp; Sectors Impacted</div>
-          <div style="overflow-x:auto">
-            <table style="width:100%;border-collapse:collapse;font-size:13px">
-              <thead>
-                <tr style="background:#f8fafc">
-                  <th style="padding:8px 12px;text-align:left;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:#64748b;border-bottom:2px solid #e2e8f0;width:35%">Entity</th>
-                  <th style="padding:8px 12px;text-align:left;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:#64748b;border-bottom:2px solid #e2e8f0">Impact</th>
-                </tr>
-              </thead>
-              <tbody>{rows}</tbody>
-            </table>
-          </div>
-        </div>"""
+        rows = "".join(
+            f'<tr><td class="kc tw">{esc(ei.get("entity",""))}</td>'
+            f'<td class="kc">{esc(ei.get("impact",""))}</td></tr>'
+            for ei in entities_impacted
+        )
+        ei_html = (f'<div class="sect"><div class="sh">Companies &amp; Sectors Impacted</div>'
+                   f'<div class="tbl-wrap"><table class="dt">'
+                   f'<thead><tr><th style="width:30%">Entity</th><th>Impact</th></tr></thead>'
+                   f'<tbody>{rows}</tbody></table></div></div>')
 
-    # ---- Section 4: What Analysts Should Monitor ----
+    # 4. What to Monitor
     mon_html = ""
     if monitoring_points:
-        items = "".join(
-            f'<li style="margin-bottom:6px;line-height:1.6;color:#92400e">{esc(m)}</li>'
-            for m in monitoring_points
-        )
-        mon_html = f"""
-        <div class="section">
-          <div class="section-title">What Analysts Should Monitor</div>
-          <ol style="padding-left:20px">{items}</ol>
-        </div>"""
+        items = "".join(f"<li>{esc(m)}</li>" for m in monitoring_points)
+        mon_html = (f'<div class="sect"><div class="sh">What to Monitor</div>'
+                    f'<ol class="blist mon">{items}</ol></div>')
 
-    # ---- Section 5: What Can I Learn? ----
+    # 5. What Can I Learn?
     learn_html = ""
     if learning:
-        items = "".join(
-            f'<li style="margin-bottom:6px;line-height:1.6;color:#075985">{esc(l)}</li>'
-            for l in learning
-        )
-        learn_html = f"""
-        <div class="section">
-          <div class="section-title">What Can I Learn?</div>
-          <ul style="padding-left:20px">{items}</ul>
-        </div>"""
+        items = "".join(f"<li>{esc(l)}</li>" for l in learning)
+        learn_html = (f'<div class="sect"><div class="sh">What Can I Learn?</div>'
+                      f'<ul class="blist learn">{items}</ul></div>')
 
-    # ---- Section 6: Related Topics ----
+    # 6. Related Topics
     rt_html = ""
     if related_topics:
-        chips = "".join(badge(t, "#7c3aed") for t in related_topics)
-        rt_html = f"""
-        <div class="section">
-          <div class="section-title">Related Topics</div>
-          <div>{chips}</div>
-        </div>"""
+        chips = "".join(tag_chip(t, "#7c3aed") for t in related_topics)
+        rt_html = (f'<div class="sect"><div class="sh">Related Topics</div>'
+                   f'<div class="chip-row">{chips}</div></div>')
 
-    # Relevance tags footer
-    rel_footer = ""
+    # 7. Relevance footer
+    rel_html = ""
     if relevance:
-        rel_footer = f'<div style="margin-top:8px"><span style="font-size:11px;font-weight:600;color:#94a3b8;text-transform:uppercase;letter-spacing:.4px">Relevance: </span>{rel_html}</div>'
+        chips = "".join(f'<span class="rel-chip">{esc(r)}</span>' for r in relevance)
+        rel_html = f'<div class="rel-row">Relevance: {chips}</div>'
 
-    body_html = exec_html + kt_html + ei_html + mon_html + learn_html + rt_html + rel_footer
+    body = exec_html + kt_html + ei_html + mon_html + learn_html + rt_html + rel_html
+    cid = f"c{idx}"
 
-    card_id = f"card-{card_index}"
+    return (
+        f'<article class="card" '
+        f'data-category="{esc(category)}" '
+        f'data-sentiment="{esc(sentiment)}" '
+        f'data-date="{esc(date)}" '
+        f'data-search="{esc(search_blob)}" '
+        f'id="{cid}">\n'
+        f'  <div class="card-hd" onclick="toggle(\'{cid}\')">\n'
+        f'    <div class="card-meta">\n'
+        f'      <span class="cat-badge">{esc(category)}</span>\n'
+        f'      {sentiment_badge(sentiment)}\n'
+        f'      <time class="date-badge" datetime="{esc(date)}">{esc(fmt_date(date))}</time>\n'
+        f'      <span class="tog-ico" id="{cid}-ico">&#8964;</span>\n'
+        f'    </div>\n'
+        f'    <h2 class="card-title" data-raw="{esc(title)}">{esc(title)}</h2>\n'
+        f'    <p class="card-preview" data-raw="{esc(preview)}">{esc(preview)}</p>\n'
+        f'    <div class="chip-row">{tag_row}</div>\n'
+        f'    <div class="source-line">{esc(source)}</div>\n'
+        f'  </div>\n'
+        f'  <div class="card-bd" id="{cid}-bd" hidden>\n'
+        f'    {body}\n'
+        f'  </div>\n'
+        f'</article>'
+    )
 
-    return f"""<div class="card" data-category="{esc(category)}" data-search="{search_text}" id="{card_id}">
-  <div class="card-header" onclick="toggleCard('{card_id}')">
-    <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;flex-wrap:wrap">
-      <span class="badge-date">{esc(date)}</span>
-      <span style="background:{sc}22;color:{sc};border:1px solid {sc}44;font-size:11px;font-weight:600;padding:3px 10px;border-radius:20px">{esc(sentiment)}</span>
-      <span class="badge-cat">{esc(category)}</span>
-      <span class="expand-icon" id="{card_id}-icon">&#9660;</span>
-    </div>
-    <div class="source-name">{esc(source)}</div>
-    <div class="headline">{headline}</div>
-    <div style="margin-top:8px">{tag_html}</div>
-  </div>
-  <div class="card-body" id="{card_id}-body" style="display:none">
-    {body_html}
-  </div>
-</div>"""
+
+def build_jsonld(notes):
+    articles = []
+    for note in notes[:30]:
+        n = normalize_note(note)
+        articles.append({
+            "@type": "Article",
+            "headline": n.get("title", ""),
+            "datePublished": n.get("date", ""),
+            "description": (n.get("executive_summary") or [""])[0],
+            "keywords": ", ".join(n.get("tags", [])),
+        })
+    ld = {
+        "@context": "https://schema.org",
+        "@type": "CollectionPage",
+        "name": SITE_TITLE,
+        "description": SITE_DESC,
+        "url": SITE_URL + "/",
+        "hasPart": articles,
+    }
+    return json.dumps(ld, ensure_ascii=False, indent=None)
 
 
 def generate_html(notes):
-    now = datetime.datetime.now().strftime("%d %b %Y, %H:%M")
-    from collections import Counter
+    now_str = datetime.datetime.now().strftime("%d %b %Y, %H:%M")
+    total = len(notes)
+
     cat_counts = Counter(n.get("category", "Other") for n in notes)
     cats = sorted(cat_counts.items(), key=lambda x: -x[1])
 
-    cat_items = (
-        '<li class="cat-item active" data-cat="all" onclick="filterCat(this)">'
-        f'All Notes <span class="cat-count">{len(notes)}</span></li>\n'
-    )
+    cat_items = (f'<li class="cat-item active" data-cat="all" onclick="setCat(this,\'all\')">'
+                 f'All <span class="cnt">{total}</span></li>\n')
     for cat, cnt in cats:
-        cat_items += (
-            f'<li class="cat-item" data-cat="{esc(cat)}" onclick="filterCat(this)">'
-            f'{esc(cat)} <span class="cat-count">{cnt}</span></li>\n'
-        )
+        safe_cat = cat.replace("'", "\\'")
+        cat_items += (f'<li class="cat-item" data-cat="{esc(cat)}" '
+                      f"onclick=\"setCat(this,'{safe_cat}')\">"
+                      f'{esc(cat)} <span class="cnt">{cnt}</span></li>\n')
 
     cards_html = "\n".join(render_card(n, i) for i, n in enumerate(notes))
+    jsonld = build_jsonld(notes)
+    total_js = total  # used inside JS
 
     return f"""<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Daily Reads — Knowledge Notes</title>
+<title>{esc(SITE_TITLE)}</title>
+<meta name="description" content="{esc(SITE_DESC)}">
+<link rel="canonical" href="{SITE_URL}/">
+<meta property="og:type" content="website">
+<meta property="og:url" content="{SITE_URL}/">
+<meta property="og:title" content="{esc(SITE_TITLE)}">
+<meta property="og:description" content="{esc(SITE_DESC)}">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="{esc(SITE_TITLE)}">
+<meta name="twitter:description" content="{esc(SITE_DESC)}">
+<script type="application/ld+json">{jsonld}</script>
 <style>
 *{{box-sizing:border-box;margin:0;padding:0}}
-body{{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#f1f5f9;color:#1e293b;font-size:14px;line-height:1.5}}
-.topbar{{background:#0f172a;color:#f8fafc;padding:14px 28px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;box-shadow:0 2px 12px #0005}}
-.topbar-brand{{display:flex;flex-direction:column}}
-.topbar-brand h1{{font-size:18px;font-weight:700;letter-spacing:-.3px}}
-.topbar-brand small{{color:#64748b;font-size:11px;margin-top:1px}}
-#search{{background:#1e293b;border:1px solid #334155;color:#f1f5f9;padding:9px 16px;border-radius:8px;font-size:13px;width:300px;outline:none;transition:border-color .15s}}
-#search::placeholder{{color:#64748b}}
-#search:focus{{border-color:#3b82f6;box-shadow:0 0 0 3px #3b82f611}}
-.layout{{display:flex;max-width:1180px;margin:0 auto;padding:28px 20px;gap:24px}}
-.sidebar{{width:210px;flex-shrink:0}}
-.sidebar-title{{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:#94a3b8;margin-bottom:12px;padding-left:4px}}
-.cat-item{{list-style:none;padding:7px 12px;border-radius:8px;cursor:pointer;font-size:13px;display:flex;justify-content:space-between;align-items:center;color:#475569;margin-bottom:2px;transition:background .1s,color .1s}}
+body{{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+  background:#f8fafc;color:#1e293b;font-size:14px;line-height:1.6}}
+
+/* ── Top bar ── */
+header{{background:#fff;border-bottom:1px solid #e2e8f0;
+  padding:0 28px;position:sticky;top:0;z-index:100;
+  box-shadow:0 1px 4px #0000000a}}
+.topbar{{display:flex;align-items:center;justify-content:space-between;
+  gap:16px;height:60px;max-width:1240px;margin:0 auto}}
+.brand h1{{font-size:17px;font-weight:700;color:#0f172a;letter-spacing:-.3px}}
+.brand small{{font-size:11px;color:#94a3b8;display:block;margin-top:1px}}
+.top-right{{display:flex;align-items:center;gap:10px;flex-shrink:0}}
+
+/* search */
+#search{{background:#f1f5f9;border:1.5px solid #e2e8f0;color:#0f172a;
+  padding:8px 14px;border-radius:8px;font-size:13px;width:260px;
+  outline:none;transition:border-color .15s,box-shadow .15s}}
+#search::placeholder{{color:#94a3b8}}
+#search:focus{{border-color:#6366f1;box-shadow:0 0 0 3px #6366f122;background:#fff}}
+
+/* sort */
+#sort-sel{{border:1.5px solid #e2e8f0;background:#f1f5f9;color:#475569;
+  padding:8px 10px;border-radius:8px;font-size:12px;outline:none;cursor:pointer}}
+#sort-sel:focus{{border-color:#6366f1}}
+
+/* sentiment filter chips */
+.sent-filters{{display:flex;gap:6px;flex-wrap:wrap}}
+.sf{{border:1.5px solid #e2e8f0;background:#fff;color:#64748b;
+  padding:5px 12px;border-radius:20px;font-size:11px;font-weight:600;
+  cursor:pointer;transition:all .15s;white-space:nowrap}}
+.sf:hover{{border-color:#6366f1;color:#6366f1}}
+.sf.active{{background:#6366f1;border-color:#6366f1;color:#fff}}
+
+/* ── Layout ── */
+.layout{{display:flex;max-width:1240px;margin:0 auto;padding:24px 20px;gap:24px}}
+aside{{width:200px;flex-shrink:0;position:sticky;top:76px;
+  align-self:flex-start;max-height:calc(100vh - 96px);overflow-y:auto}}
+.aside-title{{font-size:10px;font-weight:700;text-transform:uppercase;
+  letter-spacing:.8px;color:#94a3b8;margin-bottom:10px;padding-left:4px}}
+.cat-item{{list-style:none;padding:7px 12px;border-radius:8px;cursor:pointer;
+  font-size:13px;display:flex;justify-content:space-between;align-items:center;
+  color:#475569;margin-bottom:2px;transition:background .1s,color .1s}}
 .cat-item:hover{{background:#e2e8f0;color:#0f172a}}
-.cat-item.active{{background:#1e293b;color:#f8fafc;font-weight:600}}
-.cat-count{{font-size:11px;background:#334155;color:#94a3b8;padding:1px 8px;border-radius:20px;font-weight:500}}
-.cat-item.active .cat-count{{background:#3b82f6;color:#fff}}
-.cards{{flex:1;min-width:0}}
-.card{{background:#fff;border-radius:14px;margin-bottom:16px;box-shadow:0 1px 4px #0001,0 0 0 1px #e2e8f020;border:1px solid #e2e8f0;overflow:hidden;transition:box-shadow .2s,border-color .2s}}
-.card:hover{{box-shadow:0 4px 20px #0002;border-color:#cbd5e1}}
-.card-header{{padding:18px 22px 14px;cursor:pointer;user-select:none;position:relative}}
-.card-header:hover{{background:#fafbfc}}
-.card-body{{padding:0 22px 18px;border-top:1px solid #f1f5f9}}
-.section{{margin-top:18px}}
-.section-title{{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.7px;color:#94a3b8;margin-bottom:10px;padding-bottom:4px;border-bottom:1px solid #f1f5f9}}
-.badge-date{{background:#f1f5f9;color:#475569;font-size:11px;font-weight:600;padding:3px 10px;border-radius:20px}}
-.badge-cat{{background:#fff7ed;color:#c2410c;border:1px solid #fed7aa;font-size:11px;font-weight:600;padding:3px 10px;border-radius:20px}}
-.source-name{{font-size:11px;color:#94a3b8;font-family:'SF Mono',Consolas,monospace;margin-bottom:8px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:calc(100% - 32px)}}
-.headline{{font-size:15px;font-weight:600;color:#0f172a;line-height:1.5}}
-.expand-icon{{position:absolute;right:18px;top:18px;font-size:12px;color:#94a3b8;transition:transform .2s}}
-.expand-icon.open{{transform:rotate(180deg)}}
-#no-results{{text-align:center;color:#94a3b8;padding:80px 0;font-size:15px;display:none}}
-#stats-bar{{font-size:12px;color:#64748b;margin-bottom:16px;padding:0 2px}}
-@media(max-width:640px){{
-  .layout{{flex-direction:column;padding:16px 12px}}
-  .sidebar{{width:100%}}
-  #search{{width:180px}}
+.cat-item.active{{background:#0f172a;color:#f8fafc;font-weight:600}}
+.cnt{{font-size:11px;padding:1px 8px;border-radius:20px;font-weight:500;
+  background:#e2e8f0;color:#64748b}}
+.cat-item.active .cnt{{background:#334155;color:#94a3b8}}
+
+/* ── Cards area ── */
+main{{flex:1;min-width:0}}
+#stats-bar{{font-size:12px;color:#64748b;margin-bottom:14px;min-height:18px}}
+.card{{background:#fff;border-radius:14px;margin-bottom:14px;
+  border:1.5px solid #e2e8f0;overflow:hidden;
+  transition:box-shadow .2s,border-color .2s}}
+.card:hover{{box-shadow:0 4px 20px #0000000f;border-color:#c7d2fe}}
+.card-hd{{padding:18px 20px 14px;cursor:pointer;user-select:none}}
+.card-hd:hover{{background:#fafbff}}
+.card-meta{{display:flex;align-items:center;gap:7px;margin-bottom:10px;flex-wrap:wrap}}
+.cat-badge{{background:#eff6ff;color:#2563eb;border:1px solid #bfdbfe;
+  font-size:11px;font-weight:600;padding:3px 10px;border-radius:20px}}
+.sent-badge{{font-size:11px;font-weight:600;padding:3px 10px;border-radius:20px;
+  border:1px solid transparent}}
+.date-badge{{font-size:11px;color:#94a3b8;font-weight:500}}
+.tog-ico{{margin-left:auto;color:#cbd5e1;font-size:18px;
+  transition:transform .2s;line-height:1}}
+.tog-ico.open{{transform:rotate(180deg)}}
+.card-title{{font-size:16px;font-weight:700;color:#0f172a;
+  line-height:1.4;margin-bottom:6px}}
+.card-preview{{font-size:13px;color:#475569;line-height:1.6;
+  margin-bottom:10px;max-width:90ch}}
+.chip-row{{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:4px}}
+.chip{{font-size:11px;font-weight:500;padding:3px 10px;border-radius:20px;
+  background:color-mix(in srgb,var(--cc) 12%,transparent);
+  color:var(--cc);border:1px solid color-mix(in srgb,var(--cc) 25%,transparent);
+  display:inline-block}}
+.source-line{{font-size:11px;color:#cbd5e1;font-family:'SF Mono',Consolas,monospace;
+  margin-top:6px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}}
+
+/* ── Card body (expanded) ── */
+.card-bd{{padding:0 20px 18px;border-top:1.5px solid #f1f5f9}}
+.sect{{margin-top:18px}}
+.sh{{font-size:10px;font-weight:700;text-transform:uppercase;
+  letter-spacing:.7px;color:#94a3b8;margin-bottom:8px;
+  padding-bottom:5px;border-bottom:1px solid #f1f5f9}}
+.blist{{padding-left:20px}}
+.blist li{{margin-bottom:6px;line-height:1.65;color:#334155;font-size:13px}}
+.mon li{{color:#92400e}}
+.learn li{{color:#075985}}
+.tbl-wrap{{overflow-x:auto}}
+.dt{{width:100%;border-collapse:collapse;font-size:13px}}
+.dt thead th{{padding:8px 12px;text-align:left;font-size:10px;font-weight:700;
+  text-transform:uppercase;letter-spacing:.5px;color:#64748b;
+  background:#f8fafc;border-bottom:2px solid #e2e8f0}}
+.kc{{padding:9px 12px;vertical-align:top;border-bottom:1px solid #f8fafc;
+  line-height:1.6;font-size:13px;color:#334155}}
+.tw{{font-weight:600;color:#0f172a;width:40%}}
+.al{{color:#475569}}
+.rel-row{{margin-top:14px;font-size:11px;color:#94a3b8;display:flex;
+  align-items:center;gap:6px;flex-wrap:wrap}}
+.rel-chip{{background:#f1f5f9;color:#64748b;border:1px solid #e2e8f0;
+  padding:2px 8px;border-radius:12px;font-size:10px;font-weight:600}}
+
+/* ── Highlights ── */
+mark{{background:#fef9c3;color:#713f12;border-radius:2px;padding:0 2px}}
+
+/* ── Empty state ── */
+#empty{{text-align:center;padding:80px 20px;display:none}}
+#empty svg{{color:#e2e8f0;margin-bottom:16px}}
+#empty h3{{font-size:16px;color:#94a3b8;margin-bottom:6px}}
+#empty p{{font-size:13px;color:#cbd5e1}}
+
+/* ── Responsive ── */
+@media(max-width:800px){{
+  aside{{display:none}}
+  .layout{{padding:16px 12px}}
+  .topbar{{flex-wrap:wrap;height:auto;padding:10px 0;gap:8px}}
+  #search{{width:100%}}
+  .top-right{{flex-wrap:wrap;width:100%}}
+  .sent-filters{{display:none}}
+}}
+@media(max-width:480px){{
+  .card-title{{font-size:14px}}
+  header{{padding:0 14px}}
 }}
 </style>
 </head>
 <body>
-<div class="topbar">
-  <div class="topbar-brand">
-    <h1>Daily Reads</h1>
-    <small>Updated {now} &nbsp;&middot;&nbsp; {len(notes)} note{'s' if len(notes) != 1 else ''}</small>
+<header>
+  <div class="topbar">
+    <div class="brand">
+      <h1>Daily Reads</h1>
+      <small>Updated {now_str} &middot; {total} note{'s' if total != 1 else ''}</small>
+    </div>
+    <div class="top-right">
+      <div class="sent-filters" role="group" aria-label="Filter by sentiment">
+        <button class="sf active" data-sent="all" onclick="setSent(this,'all')">All</button>
+        <button class="sf" data-sent="positive" onclick="setSent(this,'positive')">Positive</button>
+        <button class="sf" data-sent="negative" onclick="setSent(this,'negative')">Negative</button>
+        <button class="sf" data-sent="mixed" onclick="setSent(this,'mixed')">Mixed</button>
+        <button class="sf" data-sent="neutral" onclick="setSent(this,'neutral')">Neutral</button>
+      </div>
+      <select id="sort-sel" onchange="setSort(this.value)" aria-label="Sort order">
+        <option value="newest">Newest first</option>
+        <option value="oldest">Oldest first</option>
+      </select>
+      <input id="search" type="search" placeholder="Search notes&#8230;"
+             oninput="setQ(this.value)" autocomplete="off" aria-label="Search notes">
+    </div>
   </div>
-  <input id="search" type="text" placeholder="Search notes..." oninput="filterSearch(this.value)" autocomplete="off">
-</div>
+</header>
 <div class="layout">
-  <div class="sidebar">
-    <div class="sidebar-title">Categories</div>
-    <ul id="cat-list">{cat_items}</ul>
-  </div>
-  <div class="cards">
-    <div id="stats-bar"></div>
+  <aside>
+    <div class="aside-title">Categories</div>
+    <ul id="cat-list" role="list">{cat_items}</ul>
+  </aside>
+  <main>
+    <div id="stats-bar" role="status" aria-live="polite"></div>
     <div id="cards-container">{cards_html}</div>
-    <div id="no-results">No notes match your filter.</div>
-  </div>
+    <div id="empty" role="status">
+      <svg width="48" height="48" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+          d="M21 21l-4.35-4.35M17 11A6 6 0 1 1 5 11a6 6 0 0 1 12 0z"/>
+      </svg>
+      <h3>No notes found</h3>
+      <p>Try a different search term or clear the filters.</p>
+    </div>
+  </main>
 </div>
 <script>
-var activecat='all', searchq='';
-function toggleCard(id){{
-  var body=document.getElementById(id+'-body');
-  var icon=document.getElementById(id+'-icon');
-  if(body.style.display==='none'){{
-    body.style.display='block';
-    icon.classList.add('open');
-  }}else{{
-    body.style.display='none';
-    icon.classList.remove('open');
+(function(){{
+  var TOTAL={total_js};
+  var state={{q:'',cat:'all',sent:'all',sort:'newest'}};
+
+  // ── Read URL params on load ──
+  var params=new URLSearchParams(window.location.search);
+  if(params.get('q'))state.q=params.get('q');
+  if(params.get('category'))state.cat=params.get('category');
+  if(params.get('sentiment'))state.sent=params.get('sentiment');
+  if(params.get('sort'))state.sort=params.get('sort');
+
+  function applyInit(){{
+    if(state.q){{
+      var el=document.getElementById('search');
+      if(el)el.value=state.q;
+    }}
+    if(state.sort!=='newest'){{
+      var sel=document.getElementById('sort-sel');
+      if(sel)sel.value=state.sort;
+    }}
+    if(state.cat!=='all'){{
+      document.querySelectorAll('.cat-item').forEach(function(li){{
+        li.classList.toggle('active',li.dataset.cat===state.cat);
+      }});
+    }}
+    if(state.sent!=='all'){{
+      document.querySelectorAll('.sf').forEach(function(b){{
+        b.classList.toggle('active',b.dataset.sent===state.sent);
+      }});
+    }}
+    apply();
   }}
-}}
-function filterCat(el){{
-  document.querySelectorAll('.cat-item').forEach(function(i){{i.classList.remove('active')}});
-  el.classList.add('active');
-  activecat=el.dataset.cat;
-  apply();
-}}
-function filterSearch(q){{searchq=q.toLowerCase().trim();apply();}}
-function apply(){{
-  var cards=document.querySelectorAll('.card'), vis=0;
-  cards.forEach(function(c){{
-    var catOk=activecat==='all'||c.dataset.category===activecat;
-    var searchOk=!searchq||c.dataset.search.includes(searchq);
-    var show=catOk&&searchOk;
-    c.style.display=show?'':'none';
-    if(show)vis++;
-  }});
-  document.getElementById('no-results').style.display=vis?'none':'block';
-  var bar=document.getElementById('stats-bar');
-  if(searchq||activecat!=='all'){{
-    bar.textContent='Showing '+vis+' of {len(notes)} note'+('{len(notes)}'!=='1'?'s':'');
-  }}else{{
-    bar.textContent='';
+
+  // ── Highlight helper ──
+  function hlText(txt,q){{
+    if(!q)return escH(txt);
+    var re=new RegExp('('+q.replace(/[.*+?^${{}}()|[\\]\\\\]/g,'\\\\$&')+')','gi');
+    return escH(txt).replace(re,'<mark>$1</mark>');
   }}
-}}
-document.getElementById('search').focus();
+  function escH(t){{
+    return String(t).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  }}
+
+  // ── Apply all filters ──
+  function apply(){{
+    var cards=Array.from(document.querySelectorAll('.card'));
+    var q=state.q.toLowerCase().trim();
+    var cat=state.cat, sent=state.sent;
+
+    // Sort cards in DOM
+    var container=document.getElementById('cards-container');
+    if(state.sort==='oldest'){{
+      cards.sort(function(a,b){{return a.dataset.date.localeCompare(b.dataset.date)}});
+    }}else{{
+      cards.sort(function(a,b){{return b.dataset.date.localeCompare(a.dataset.date)}});
+    }}
+    cards.forEach(function(c){{container.appendChild(c)}});
+
+    var vis=0;
+    cards.forEach(function(c){{
+      var catOk=cat==='all'||c.dataset.category===cat;
+      var sentOk=sent==='all'||c.dataset.sentiment===sent;
+      var searchOk=!q||c.dataset.search.includes(q);
+      var show=catOk&&sentOk&&searchOk;
+      c.style.display=show?'':'none';
+      if(show){{
+        vis++;
+        // Highlight title and preview
+        var titleEl=c.querySelector('.card-title');
+        var prevEl=c.querySelector('.card-preview');
+        if(titleEl)titleEl.innerHTML=hlText(titleEl.dataset.raw||'',q);
+        if(prevEl)prevEl.innerHTML=hlText(prevEl.dataset.raw||'',q);
+      }}
+    }});
+
+    // Stats bar
+    var bar=document.getElementById('stats-bar');
+    if(q||cat!=='all'||sent!=='all'){{
+      bar.textContent='Showing '+vis+' of '+TOTAL+' note'+(TOTAL===1?'':'s');
+    }}else{{
+      bar.textContent='';
+    }}
+
+    // Empty state
+    document.getElementById('empty').style.display=vis?'none':'block';
+
+    // Update URL
+    var p=new URLSearchParams();
+    if(q)p.set('q',state.q);
+    if(cat!=='all')p.set('category',cat);
+    if(sent!=='all')p.set('sentiment',sent);
+    if(state.sort!=='newest')p.set('sort',state.sort);
+    var qs=p.toString();
+    history.replaceState(null,'',qs?'?'+qs:window.location.pathname);
+  }}
+
+  // ── Public handlers ──
+  window.setCat=function(el,cat){{
+    state.cat=cat;
+    document.querySelectorAll('.cat-item').forEach(function(li){{li.classList.remove('active')}});
+    el.classList.add('active');
+    apply();
+  }};
+  window.setSent=function(el,sent){{
+    state.sent=sent;
+    document.querySelectorAll('.sf').forEach(function(b){{b.classList.remove('active')}});
+    el.classList.add('active');
+    apply();
+  }};
+  window.setSort=function(val){{
+    state.sort=val;
+    apply();
+  }};
+  window.setQ=function(val){{
+    state.q=val;
+    apply();
+  }};
+  window.toggle=function(id){{
+    var bd=document.getElementById(id+'-bd');
+    var ico=document.getElementById(id+'-ico');
+    var hidden=bd.hasAttribute('hidden');
+    if(hidden){{bd.removeAttribute('hidden');ico.classList.add('open');}}
+    else{{bd.setAttribute('hidden','');ico.classList.remove('open');}}
+  }};
+
+  // Run initial filter (applies URL params)
+  applyInit();
+  document.getElementById('search').focus();
+}})();
 </script>
 </body>
 </html>"""
 
 
+def generate_sitemap(notes, out_path):
+    lines = ['<?xml version="1.0" encoding="UTF-8"?>',
+             '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">',
+             f'  <url><loc>{SITE_URL}/</loc><changefreq>weekly</changefreq><priority>1.0</priority></url>']
+    for note in notes:
+        d = note.get("date", "")
+        if d:
+            lines.append(f'  <url><loc>{SITE_URL}/</loc>'
+                         f'<lastmod>{d}</lastmod>'
+                         f'<changefreq>weekly</changefreq><priority>0.8</priority></url>')
+            break  # one entry with most-recent lastmod is enough for a single-page site
+    lines.append('</urlset>')
+    with open(out_path, "w", encoding="utf-8") as f:
+        f.write("\n".join(lines) + "\n")
+
+
+def write_robots(docs_dir):
+    path = os.path.join(docs_dir, "robots.txt")
+    content = f"User-agent: *\nAllow: /\nSitemap: {SITE_URL}/sitemap.xml\n"
+    with open(path, "w", encoding="utf-8") as f:
+        f.write(content)
+    return path
+
+
 def main():
-    p = argparse.ArgumentParser()
+    p = argparse.ArgumentParser(description="Generate GitHub Pages viewer from knowledge notes")
     p.add_argument("--notes-dir", default=DEFAULT_NOTES_DIR)
     p.add_argument("--out", default=DEFAULT_OUT)
     p.add_argument("--no-open", action="store_true", help="Don't open browser")
@@ -410,10 +638,19 @@ def main():
         sys.exit(0)
 
     html = generate_html(notes)
-    os.makedirs(os.path.dirname(args.out), exist_ok=True)
+    docs_dir = os.path.dirname(args.out)
+    os.makedirs(docs_dir, exist_ok=True)
+
     with open(args.out, "w", encoding="utf-8") as f:
         f.write(html)
     print(f"Generated: {args.out}  ({len(notes)} notes)")
+
+    sitemap_path = os.path.join(docs_dir, "sitemap.xml")
+    generate_sitemap(notes, sitemap_path)
+    print(f"Generated: {sitemap_path}")
+
+    robots_path = write_robots(docs_dir)
+    print(f"Generated: {robots_path}")
 
     if not args.no_open:
         webbrowser.open(f"file:///{args.out.replace(os.sep, '/')}")
