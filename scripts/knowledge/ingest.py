@@ -43,9 +43,8 @@ def _already_processed(notes_dir: str, source_path: str) -> bool:
 
 
 def process_file(source_path: str, notes_dir: str, api_key: str, chroma_dir: str | None = None) -> bool:
-    """Distill a file and store the note. Returns True on success."""
+    """Distill a file and save the note as JSON. Returns True on success."""
     from distill import extract_text, call_claude, build_note
-    from store import add_note
 
     print(f"[ingest] Processing: {source_path}")
 
@@ -70,15 +69,11 @@ def process_file(source_path: str, notes_dir: str, api_key: str, chroma_dir: str
     note_path = _note_path(notes_dir, source_path)
     with open(note_path, "w", encoding="utf-8") as f:
         json.dump(note, f, indent=2, ensure_ascii=False)
-    print(f"[ingest]   Saved note: {note_path}")
-
-    try:
-        doc_id = add_note(note, chroma_dir=chroma_dir)
-        print(f"[ingest]   Stored in ChromaDB: {doc_id}")
-    except Exception as exc:
-        print(f"[ingest]   ChromaDB skipped ({type(exc).__name__}: {exc})")
-
+    print(f"[ingest]   Saved: {note_path}")
     print(f"[ingest]   Summary: {note['summary']}")
+    if note.get("takeaways"):
+        for t in note["takeaways"]:
+            print(f"[ingest]     • {t}")
     return True
 
 
