@@ -1,130 +1,115 @@
 {
   "date": "2026-06-14",
-  "ingested_at": "2026-06-14T17:19:08.720168+00:00",
+  "ingested_at": "2026-06-14T17:39:32.627416+00:00",
   "source_file": "International_Monetary_Fund_Systemic_Banking_Crises_Database_1970.pdf",
   "source_path": "H:\\My Drive\\daily reads\\International_Monetary_Fund_Systemic_Banking_Crises_Database_1970.pdf",
   "file_type": "pdf",
-  "summary": "This IMF Working Paper updates the Laeven-Valencia systemic banking crises database through 2025, recording 164 crises since 1970 (including 13 new and 3 borderline episodes), using a hybrid textual-analysis and expert-evaluation methodology. The key finding is that despite COVID-19 and the post-pandemic inflation surge, no widespread systemic banking crises materialized—reflecting post-GFC capital/liquidity reforms and prompt policy support—while the 2023 US (SVB, Signature, First Republic) and Swiss (Credit Suisse) failures fell short of the systemic threshold yet underscored persistent interest-rate and deposit-flight vulnerabilities.",
-  "takeaways": [
-    "The database now covers 164 systemic banking crises over 1970-2025, with 13 new episodes added since the 2020 update and 3 borderline cases (Nicaragua 2018, Vietnam 2022, Sri Lanka 2023).",
-    "A banking crisis is defined by two conditions: significant signs of financial distress (bank runs, losses, liquidations) AND significant policy intervention (at least 3 of 6 specified measures).",
-    "Severe losses alone can date a crisis: NPLs above 20% of total loans, bank closures of at least 20% of banking-system assets, or fiscal restructuring costs exceeding 5% of GDP.",
-    "The methodology now integrates textual analysis of IMF Article IV reports, TA reports, and FSSAs (2017-2025) using a dictionary of ~250 banking-stress terms, combined with manual expert verification.",
-    "Most new episodes originated from shocks OUTSIDE the financial sector—notably the post-2014 oil price collapse hitting oil producers like Angola, Chad, Azerbaijan, Equatorial Guinea, and Republic of Congo.",
-    "The 2023 US regional bank failures (SVB, Signature, First Republic) and Credit Suisse's takeover did NOT meet the systemic crisis definition because early intervention prevented contagion and thresholds were not crossed.",
-    "SVB and Signature both had about 90% uninsured deposits; together with First Republic they held US$367 billion in deposits (2.0% of total US bank deposits).",
-    "Credit Suisse represented 14.2% of Swiss banking sector assets; SNB liquidity support reached 4.5% of total banking system liabilities, just below the 5% systemic threshold.",
-    "US peak liquidity support during 2023 was about 1% of total US bank liabilities—well below the 5% threshold—with no fiscal restructuring costs.",
-    "Post-GFC reforms (Basel III releasable buffers—CCyB, capital conservation buffer—and the LCR) materially diversified the crisis-response toolkit and contributed to avoiding a COVID-era crisis wave.",
-    "Liquidity support is pervasive across all crises; the median peak liquidity support ratio reaches 20% of deposits and foreign liabilities.",
-    "High-income countries experience longer crises (often 5+ years) with greater output losses but lower fiscal costs, while low/middle-income crises are shorter (typically ≤4 years) with higher fiscal costs and much higher NPLs.",
-    "Median gross fiscal cost is 6.7% of GDP (high income) versus 7.5% of GDP (low/middle income).",
-    "Median peak NPLs are ~11.1% (high income) versus 30% (low/middle income).",
-    "Median cumulative output loss is 31.75% of GDP (high income) versus 10.8% (low/middle income), reflecting deeper financial systems in advanced economies.",
-    "Only Argentina (4), Chad (3), DR Congo (3), Nicaragua (3), and Ukraine (3) experienced more than two crises in the period.",
-    "Significant blanket guarantees on bank liabilities are more common in high-income countries, possibly due to stronger institutions, more fiscal space, or lower FX-denominated liabilities.",
-    "Crisis end dates are defined as the year before both real GDP and real credit growth turn positive for two consecutive years; durations are truncated at five years.",
-    "Lebanon's 2019 crisis had estimated overall financial-system losses of about US$70 billion (more than 300% of estimated 2022 GDP)."
+  "executive_summary": [
+    "IMF Working Paper (Laeven & Valencia, 2026) updates the systemic banking crises database to cover 1970-2025, recording 164 crises (including borderline cases), with 13 new episodes since the 2020 update.",
+    "Most new episodes stem from non-financial shocks—particularly the late-2014 oil price collapse hitting oil exporters (Angola, Chad, Azerbaijan, Equatorial Guinea)—rather than financial-sector origins.",
+    "The 2023 turmoil (SVB, Signature, First Republic in the US; Credit Suisse in Switzerland) did NOT meet the systemic crisis threshold, as prompt intervention contained contagion and liquidity support stayed below the 5% threshold.",
+    "Despite COVID-19, supply shocks and the inflation surge, no wave of systemic crises materialized—credited to post-GFC Basel III buffers (CCyB, capital conservation buffer), LCR, and decisive policy support.",
+    "High-income crises tend to last longer with larger output losses (median ~31.75% of GDP) but lower median fiscal costs and NPLs; low/middle-income crises show higher NPLs (median 30%) and shorter durations."
   ],
-  "risk_analysis": [
-    "Interest-rate risk: The 2023 episodes highlighted that rapid rate increases impaired bank securities portfolios (SVB), creating mark-to-market solvency pressures even in sophisticated systems.",
-    "Liquidity/deposit-flight risk: Bank runs occurred at unprecedented speed due to high uninsured-deposit concentration (~90% at SVB/Signature) and ease of online withdrawals—SVB lost US$42 billion (~25% of deposits) in one day; this signals heightened modern run dynamics.",
-    "Credit risk/asset quality: Peak NPLs reach a median of 30% in low/middle-income crises and 11% in high-income, indicating severe portfolio deterioration; commodity-price shocks (oil) are a key channel impairing bank balance sheets.",
-    "Sovereign-fiscal risk: Bank rescues impose substantial fiscal costs (median ~7% of GDP, ranging up to ~57% historically for Argentina/Indonesia/Thailand), creating bank-sovereign feedback loops; Lebanon's losses exceeding 300% of GDP illustrate extreme tail outcomes.",
-    "Contagion/spillover risk: Crises are rarely single-country events—common global/regional shocks and cross-border exposures propagate stress (Latin America 1980s, Asian crisis, GFC).",
-    "Concentration risk: Wholesale-funding and uninsured-deposit concentration amplified run speed and vulnerability in the 2023 failures.",
-    "Regulatory/forbearance risk: NPL comparability is limited by regulatory forbearance and non-homogeneous definitions across countries, potentially understating distress.",
-    "Solvency-versus-liquidity misdiagnosis risk: Low/middle-income countries' prolonged reliance on liquidity support reflects difficulty distinguishing temporary liquidity shocks from solvency problems and lack of fiscal backstops, which can delay resolution.",
-    "FX/blanket-guarantee credibility risk: Guarantees on foreign-currency-denominated bank liabilities depend on available FX liquidity, undermining the credibility of blanket guarantees in low/middle-income countries.",
-    "Operational/model risk: Crisis dating depends on textual-analysis tools and judgmental thresholds, introducing potential for missed or misclassified episodes."
+  "key_takeaways": [
+    {
+      "takeaway": "Post-GFC regulatory reforms (Basel III releasable buffers, LCR) materially strengthened banking-system resilience and diversified the crisis-response toolkit, preventing a pandemic-era wave of systemic crises.",
+      "analyst_lens": "Validates that well-capitalized, liquidity-buffered banks can absorb severe macro shocks without state rescue—supportive for bank sector credit profiles in jurisdictions with full Basel III implementation. Opportunity to differentiate issuers by buffer headroom and CCyB releasability. Monitor whether buffers are actually released in downturns versus hoarded, and whether weaker-implementing jurisdictions remain vulnerable; rating implications skew stable-to-positive for compliant banks, negative for laggards."
+    },
+    {
+      "takeaway": "The 2023 failures (SVB, Signature, First Republic, Credit Suisse) demonstrated that fast deposit runs—driven by uninsured/wholesale deposit concentration and digital withdrawals—can fell individual banks even in advanced systems, yet swift official action prevented systemic escalation.",
+      "analyst_lens": "Interest-rate risk in held-to-maturity portfolios plus concentrated uninsured funding is now a front-line credit risk, especially for mid-sized banks lacking G-SIB scrutiny. Risk: speed of modern runs compresses reaction time for both supervisors and analysts. Rating implication—penalize deposit concentration and unhedged duration risk; reward diversified, insured, sticky funding. Monitor uninsured deposit ratios, AFS/HTM unrealized losses, and deposit beta."
+    },
+    {
+      "takeaway": "New crisis episodes are increasingly driven by external real-economy shocks (notably the oil price collapse) feeding into bank balance sheets, rather than endogenous financial excess.",
+      "analyst_lens": "For commodity-dependent and concentrated economies, sovereign and banking risk are tightly linked through the commodity channel—bank asset quality is hostage to terms-of-trade swings. Opportunity to use commodity price scenarios as leading indicators of banking stress. Monitor oil/commodity exposure concentration in loan books, FX-denominated liabilities, and sovereign-bank doom-loop dynamics in frontier markets."
+    },
+    {
+      "takeaway": "Crisis outcomes diverge sharply by income level: high-income crises last longer with larger output losses but lower NPLs and fiscal costs; low/middle-income crises show much higher NPLs (median 30% vs 11%) but shorter durations.",
+      "analyst_lens": "Implies different recovery and loss-given-default assumptions by jurisdiction class. Larger, deeper financial systems transmit disruption more forcefully to GDP, while EM crises hit asset quality harder but resolve faster. Rating implication—calibrate sovereign and bank recovery timelines and through-the-cycle loss assumptions to income tier. Monitor fiscal space for backstops, as lack of a fiscal backstop prolongs reliance on liquidity over recapitalization."
+    },
+    {
+      "takeaway": "Extensive central-bank liquidity support is the near-universal first response to crises (median peak liquidity support ~20% of deposits/foreign liabilities), but prolonged reliance can mask solvency problems.",
+      "analyst_lens": "Heavy liquidity provision is a signal of stress, not stabilization—analysts should not read central-bank lifelines as resolution. Risk: low/middle-income countries lean on liquidity far longer before recapitalizing, delaying loss recognition and inflating eventual fiscal costs. Monitor the transition from liquidity support to recapitalization/restructuring as a key inflection in crisis trajectory and fiscal-cost build-up."
+    }
   ],
-  "key_implications": [
-    "Monitor banks with high uninsured/wholesale deposit concentrations and large unrealized losses on held securities as elevated run-risk candidates—a key idiosyncratic watch-list trigger post-2023.",
-    "Sector view: global banking resilience improved post-GFC due to Basel III buffers and LCR, supporting a relatively constructive baseline, but tail vulnerabilities to rate and confidence shocks persist.",
-    "Watch commodity-exporting/oil-dependent sovereigns and their banking systems as crisis-prone given the demonstrated transmission of oil-price shocks to bank balance sheets.",
-    "Use NPL >20%, bank closures >20% of assets, and restructuring costs >5% of GDP as concrete escalation thresholds for flagging systemic deterioration.",
-    "For high-income bank exposures, anticipate longer crisis duration and larger output drag (median ~32% of GDP) even where direct fiscal costs are contained.",
-    "For low/middle-income sovereign and bank exposures, anticipate higher fiscal-cost and NPL burdens, stressing the bank-sovereign nexus relevant to sovereign ratings.",
-    "Treat extensive liquidity support (>5% of deposits/foreign liabilities, more than doubling) and deposit freezes/bank holidays as confirmation signals that distress has become systemic.",
-    "Lebanon's >300%-of-GDP losses warrant continued distressed/default treatment of its banking and sovereign exposures.",
-    "Sri Lanka (2023), Vietnam (2022), and Nicaragua (2018) flagged as borderline—keep on heightened surveillance for potential escalation to full systemic status."
+  "entities_impacted": [
+    {
+      "entity": "Silicon Valley Bank, Signature Bank, First Republic (US regional banks)",
+      "impact": "Failed in 2023 due to concentrated uninsured/wholesale deposits and rapid digital runs; resolved via FDIC (systemic risk exception, full uninsured-depositor protection; First Republic sold to JP Morgan Chase). Did not meet systemic crisis criteria."
+    },
+    {
+      "entity": "Credit Suisse / UBS (Switzerland)",
+      "impact": "G-SIB representing 14.2% of Swiss banking assets failed in March 2023; SNB injected CHF168bn liquidity (4.5% of system liabilities, below 5% threshold); taken over by UBS with a CHF9bn state guarantee. Classified non-systemic due to speedy resolution."
+    },
+    {
+      "entity": "Federal Reserve / FDIC / US Treasury",
+      "impact": "Deployed new liquidity facility, invoked systemic risk exception, and backed uninsured deposits—early intervention prevented spillover; no fiscal restructuring cost incurred."
+    },
+    {
+      "entity": "Oil-exporting frontier economies (Angola, Chad, Azerbaijan, Equatorial Guinea, Republic of Congo)",
+      "impact": "Suffered banking crises triggered by the late-2014 oil price collapse damaging bank balance sheets via deteriorating asset quality; recorded high output losses and NPLs."
+    },
+    {
+      "entity": "Lebanon",
+      "impact": "2019 systemic crisis with deposit freezes and bank holidays; estimated overall financial-system losses ~US$70bn (over 300% of 2022 GDP), one of the most severe in the sample."
+    },
+    {
+      "entity": "Borderline cases (Nicaragua 2018, Vietnam 2022, Sri Lanka 2023)",
+      "impact": "Experienced significant stress but did not fully meet the systemic crisis definition; flagged as borderline for monitoring."
+    },
+    {
+      "entity": "IMF / Basel Committee / BIS",
+      "impact": "Provide the analytical framework and data; the database underpins cross-country vulnerability assessment, resolution-framework evaluation, and validates the effectiveness of post-GFC Basel III reforms."
+    }
   ],
-  "key_data_points": [
-    "164 total systemic banking crises during 1970-2025 (including borderline cases)",
-    "13 new crisis episodes since the 2020 update; 3 borderline (Nicaragua 2018, Vietnam 2022, Sri Lanka 2023)",
-    "NPL threshold: above 20% of total loans (sufficient if ratio at least doubled in three years)",
-    "Bank closures threshold: at least 20% of banking system assets",
-    "Fiscal restructuring cost threshold for severe losses: exceeding 5% of GDP",
-    "Policy intervention test: at least 3 of 6 measures",
-    "Bank restructuring fiscal cost significance threshold: at least 3% of GDP",
-    "Extensive liquidity support threshold: at least 5% of deposits and liabilities to nonresidents (and more than doubling pre-crisis level)",
-    "Significant asset purchases threshold: at least 5% of GDP",
-    "Textual dictionary: ~250 unique words; IMF reports 2017-2025",
-    "SVB, Signature, First Republic combined deposits: US$367 billion = 2.0% of total US bank deposits",
-    "SVB withdrawals March 9, 2023: US$42 billion (~25% of deposits) in one day",
-    "Signature Bank withdrawals: more than US$10 billion (~20% of deposits) over two days",
-    "SVB and Signature uninsured deposits: ~90%",
-    "US peak liquidity support 2023: ~1% of total US bank liabilities (below 5% threshold)",
-    "Credit Suisse: 14.2% of Swiss total banking sector assets",
-    "SNB emergency liquidity: 168 billion Swiss francs (~US$185 billion, ~20% of Swiss GDP)",
-    "UBS takeover state guarantee: 9 billion Swiss francs",
-    "SNB liquidity support: 4.5% of total Swiss banking system liabilities (below 5% threshold)",
-    "Credit Suisse share price drop March 15, 2023: nearly 25%",
-    "First Republic failed May 1, 2023; liquidity support from 11 major US banks March 16, 2023; sold to J.P. Morgan Chase",
-    "Median peak liquidity support ratio: 20%",
-    "Median gross fiscal cost: 6.7% of GDP (high income); 7.5% of GDP (low/middle income)",
-    "Median peak NPLs: 11.14% (high income); 30.00% (low/middle income)",
-    "Median cumulative output loss: 31.75% of GDP (high income); 10.80% (low/middle income)",
-    "Countries with >2 crises: Argentina (4), Chad (3), DR Congo (3), Nicaragua (3), Ukraine (3)",
-    "Lebanon (2019) estimated financial system losses: ~US$70 billion (>300% of estimated 2022 GDP)",
-    "Output loss measured as 4-year cumulative deviation [T, T+3]; crisis duration truncated at 5 years",
-    "HP filter λ=100 for trend GDP; uses fall 2025 WEO database",
-    "Spain deferred tax assets excluded: €70 billion as of end-2016"
+  "monitoring_points": [
+    "Monitor uninsured/wholesale deposit concentration and HTM/AFS unrealized losses at mid-sized banks because the 2023 episodes showed these drive ultra-fast, fatal deposit runs.",
+    "Monitor commodity/oil price trajectories and loan-book concentration in commodity-dependent economies because terms-of-trade shocks now originate most new banking crises.",
+    "Monitor the shift from central-bank liquidity support to recapitalization/restructuring because prolonged liquidity reliance often masks underlying solvency problems and inflates eventual fiscal costs.",
+    "Monitor Basel III buffer headroom and whether authorities actually release CCyB/capital conservation buffers in downturns because release capacity underpins system resilience.",
+    "Monitor borderline cases (Vietnam 2022, Sri Lanka 2023, Nicaragua 2018) and sovereign-bank linkages because they can escalate into full systemic crises."
   ],
+  "learning": [
+    "Liquidity support is a stress signal, not a resolution—median peak liquidity support of ~20% shows central-bank lifelines pervade crises; do not interpret them as stabilization.",
+    "Calibrate recovery timelines and loss assumptions by income tier: high-income crises are longer with larger GDP losses but lower NPLs/fiscal costs, while EM crises feature much higher NPLs but faster resolution.",
+    "Funding structure is a primary credit driver—concentrated uninsured/wholesale deposits combined with unhedged duration risk can fell a bank within days, irrespective of headline capital ratios.",
+    "Real-economy and commodity shocks can be leading indicators of banking distress; integrate terms-of-trade and oil-price scenarios into bank asset-quality stress tests for commodity-exposed jurisdictions.",
+    "Strong post-GFC capital and liquidity frameworks (Basel III buffers, LCR) plus available fiscal backstops materially reduce crisis incidence and severity—jurisdictional implementation quality should feed into sovereign and bank ratings."
+  ],
+  "related_topics": [
+    "Basel III capital buffers (CCyB, capital conservation buffer)",
+    "Liquidity Coverage Ratio (LCR)",
+    "Nonperforming loans (NPL/GNPA)",
+    "Deposit insurance and uninsured deposits",
+    "FDIC systemic risk exception and bank resolution",
+    "Interest-rate / duration risk (HTM vs AFS)",
+    "Sovereign-bank doom loop",
+    "Central bank liquidity facilities and swap lines",
+    "Bank recapitalization and nationalization",
+    "Output-loss and fiscal-cost measurement methodologies"
+  ],
+  "category": "Credit Research",
   "sentiment": "mixed",
-  "category": "Financial Stability",
-  "relevance": [
-    "sector_analysis",
-    "macro",
-    "credit_event",
-    "regulatory",
-    "training"
-  ],
-  "entities": [
-    "International Monetary Fund",
-    "European Central Bank",
-    "Silicon Valley Bank",
-    "Signature Bank",
-    "First Republic Bank",
-    "Credit Suisse",
-    "UBS",
-    "Swiss National Bank",
-    "Federal Reserve",
-    "FDIC",
-    "J.P. Morgan Chase",
-    "FINMA",
-    "Basel Committee on Banking Supervision",
-    "Lebanon",
-    "Argentina",
-    "Sri Lanka",
-    "United States",
-    "Switzerland",
-    "Angola",
-    "Azerbaijan",
-    "Chad"
-  ],
   "tags": [
     "banking crisis",
     "systemic risk",
-    "financial stability",
-    "fiscal costs",
-    "nonperforming loans",
-    "liquidity support",
-    "basel iii",
-    "deposit flight",
-    "bank resolution",
     "imf",
+    "basel iii",
+    "liquidity support",
+    "npl",
+    "fiscal cost",
+    "svb",
     "credit suisse",
-    "svb"
+    "bank resolution",
+    "deposit run",
+    "financial stability"
+  ],
+  "relevance": [
+    "regulatory",
+    "sector_analysis",
+    "macro",
+    "credit_event",
+    "training"
   ]
 }
