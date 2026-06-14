@@ -4,17 +4,37 @@ store.py — Shared ChromaDB helpers for the knowledge pipeline.
 Collection: "daily_reads"
 Default DB path: ~/.jeetz-knowledge/chroma/
 Override with KNOWLEDGE_CHROMA_DIR env var or chroma_dir kwarg.
+
+Uses a stdlib-only hash-trick embedding so onnxruntime is NOT required.
 """
 
+import math
 import os
+import re
 
 DEFAULT_CHROMA_DIR = os.path.expanduser("~/.jeetz-knowledge/chroma")
+
+_DIM = 512  # embedding dimensions
+
+
+class _HashEmbedding:
+    """Bag-of-words embedding using Python's built-in hash — no onnxruntime needed."""
+
+    def __call__(self, input: list[str]) -> list[list[float]]:
+        return [self._embed(text) for text in input]
+
+    def _embed(self, text: str) -> list[float]:
+        words = re.findall(r"\b\w+\b", text.lower())
+        vec = [0.0] * _DIM
+        for word in words:
+            vec[hash(word) % _DIM] += 1.0
+        norm = math.sqrt(sum(x * x for x in vec)) or 1.0
+        return [x / norm for x in vec]
 
 
 def _get_collection(chroma_dir: str | None = None):
     try:
         import chromadb
-        from chromadb.utils.embedding_functions import DefaultEmbeddingFunction
     except ImportError:
         raise ImportError("chromadb not installed — run: pip install chromadb")
 
@@ -23,7 +43,8 @@ def _get_collection(chroma_dir: str | None = None):
     client = chromadb.PersistentClient(path=path)
     return client.get_or_create_collection(
         "daily_reads",
-        embedding_function=DefaultEmbeddingFunction(),
+        embedding_function=_HashEmbedding(),
+        metadata={"hnsw:space": "cosine"},
     )
 
 
