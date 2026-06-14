@@ -40,6 +40,9 @@ def fetch_bse_announcements(companies: list[str]) -> list[str]:
         r = requests.get(url, headers=_HEADERS, timeout=12)
         r.raise_for_status()
         data = r.json()
+        if isinstance(data, str):
+            import json as _json
+            data = _json.loads(data)
     except Exception as exc:
         print(f"[fetch_bse] API error: {exc}")
         return []
