@@ -8,9 +8,9 @@
     "sebi_rss": true,
     "google_news": true,
     "newsapi": false,
-    "company_watchlist": false,
-    "rating_agencies": true,
+    "company_watchlist": true,
     "bse_announcements": true,
+    "rating_agencies": true,
     "telegram": true,
     "web_scraper": false
   },

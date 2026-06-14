@@ -2,14 +2,18 @@ name: Daily Credit Intelligence Report
 
 on:
   schedule:
-    - cron: '30 3 * * 1-6'   # 9 AM IST daily (Mon-Sat)
-    - cron: '30 10 * * 5'    # 4 PM IST Friday (weekly digest)
+    # 03:30 UTC = 9:00 AM IST, Mon-Sat (daily report)
+    - cron: '30 3 * * 1-6'
+    # 10:30 UTC = 4:00 PM IST, Friday (weekly digest)
+    - cron: '30 10 * * 5'
   workflow_dispatch:
     inputs:
       weekly:
-        description: 'Send weekly digest instead of daily'
+        description: 'Send weekly digest instead of daily report'
         required: false
         default: 'false'
+        type: choice
+        options: ['false', 'true']
 
 jobs:
   send-report:
@@ -45,5 +49,5 @@ jobs:
           TELEGRAM_API_ID: ${{ secrets.TELEGRAM_API_ID }}
           TELEGRAM_API_HASH: ${{ secrets.TELEGRAM_API_HASH }}
           TELEGRAM_SESSION: ${{ secrets.TELEGRAM_SESSION }}
-          WEEKLY_DIGEST: ${{ github.event.schedule == '30 10 * * 5' && 'true' || github.event.inputs.weekly || 'false' }}
+          WEEKLY_DIGEST: ${{ github.event.schedule == '30 10 * * 5' && 'true' || inputs.weekly || 'false' }}
         run: python scripts/send_credit_report.py

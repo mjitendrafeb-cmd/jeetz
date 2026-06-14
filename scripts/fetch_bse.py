@@ -1,121 +1,131 @@
 #!/usr/bin/env python3
 """
-fetch_bse.py — BSE announcements and financials for watchlist companies.
+fetch_bse.py — BSE corporate announcements and quarterly financials for watchlist companies.
 """
 
+import re
 import datetime
-import time
 import requests
 import feedparser
 
-
 _HEADERS = {
-    "User-Agent": "Mozilla/5.0",
+    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36",
     "Referer": "https://www.bseindia.com/",
 }
 
 
+def _clean(text: str) -> str:
+    text = re.sub(r"\s+", " ", text or "")
+    return text.strip()
+
+
 def fetch_bse_announcements(companies: list[str]) -> list[str]:
-    """Fetch BSE corporate announcements for watchlist companies."""
+    """Fetch today's BSE corporate announcements filtered for watchlist companies."""
     if not companies:
         return []
-    try:
-        today = datetime.date.today()
-        yesterday = today - datetime.timedelta(days=1)
-        today_str = today.strftime("%d%m%Y")
-        yesterday_str = yesterday.strftime("%d%m%Y")
 
+    today = datetime.date.today()
+    yesterday = today - datetime.timedelta(days=1)
+
+    def fmt_date(d: datetime.date) -> str:
+        return d.strftime("%Y%m%d")
+
+    try:
         url = (
             f"https://api.bseindia.com/BseIndiaAPI/api/AnnGetData/w"
             f"?strScrip=&strSearch=P&strType=C"
-            f"&strPrevDate={yesterday_str}&strToDate={today_str}"
+            f"&strPrevDate={fmt_date(yesterday)}&strToDate={fmt_date(today)}"
             f"&subcategory=-1&strCat=-1"
         )
-        r = requests.get(url, headers=_HEADERS, timeout=10)
+        r = requests.get(url, headers=_HEADERS, timeout=12)
         r.raise_for_status()
         data = r.json()
-
-        # Prepare first words of company names for matching
-        company_first_words = {
-            company: company.lower().split()[0]
-            for company in companies
-        }
-
-        items = []
-        announcements = data if isinstance(data, list) else data.get("Table", [])
-        for ann in announcements:
-            if len(items) >= 20:
-                break
-            long_name = (ann.get("SLONGNAME") or "").lower()
-            news_sub = (ann.get("NEWSSUB") or "").lower()
-            combined = long_name + " " + news_sub
-
-            matched_company = None
-            for company, first_word in company_first_words.items():
-                if first_word in combined:
-                    matched_company = company
-                    break
-
-            if matched_company:
-                news_sub_display = ann.get("NEWSSUB", "Corporate Announcement")
-                items.append(
-                    f"[BSE — {matched_company}] BSE: {news_sub_display} — "
-                    f"Corporate announcement | URL:https://www.bseindia.com/corporates/ann.html"
-                )
-
-        return items
     except Exception as exc:
-        print(f"[fetch_bse] BSE announcements error: {exc}")
+        print(f"[fetch_bse] API error: {exc}")
         return []
+
+    # Build first-word lookup for fast matching
+    first_words = {c.split()[0].lower(): c for c in companies}
+
+    items = []
+    for ann in data.get("Table", [])[:200]:
+        name = _clean(ann.get("SLONGNAME", "") + " " + ann.get("SCRIP_CD", ""))
+        subj = _clean(ann.get("NEWSSUB", ""))
+        combined = (name + " " + subj).lower()
+
+        matched_company = None
+        for fw, company in first_words.items():
+            if fw in combined:
+                matched_company = company
+                break
+
+        if not matched_company:
+            continue
+
+        link = f"https://www.bseindia.com/corporates/ann.html"
+        ann_link = ann.get("ATTACHMENTNAME", "")
+        if ann_link:
+            link = f"https://www.bseindia.com/{ann_link}"
+
+        items.append(
+            f"[BSE — {matched_company}] BSE: {subj[:200]} — Corporate announcement | URL:{link}"
+        )
+        if len(items) >= 20:
+            break
+
+    print(f"[fetch_bse] Announcements: {len(items)} matched watchlist companies")
+    return items
 
 
 def fetch_bse_financials(companies: list[str]) -> list[str]:
-    """Fetch quarterly results news for watchlist companies. Only runs on Mondays."""
+    """Monday-only: search Google News for recent quarterly results of watchlist companies."""
     if datetime.date.today().weekday() != 0:  # 0 = Monday
         return []
     if not companies:
         return []
 
-    cutoff = datetime.date.today() - datetime.timedelta(days=30)
     items = []
+    seen: set[str] = set()
 
     for company in companies:
         if len(items) >= 20:
             break
         try:
-            short_name = " ".join(company.split()[:2])
-            query = f"{short_name} quarterly results"
+            short = " ".join(company.split()[:2])
+            query = f"{short} quarterly results financial results India"
             url = (
                 f"https://news.google.com/rss/search"
                 f"?q={requests.utils.quote(query)}&hl=en-IN&gl=IN&ceid=IN:en"
             )
             feed = feedparser.parse(url)
+            cutoff = datetime.date.today() - datetime.timedelta(days=30)
             count = 0
             for entry in feed.entries:
                 if count >= 2:
                     break
-                # Check if within last 30 days
+                title = _clean(entry.get("title", ""))
+                if not title or title in seen:
+                    continue
+                # Check recency
                 pub = entry.get("published_parsed")
                 if pub:
-                    import calendar
-                    pub_date = datetime.date(*pub[:3])
+                    pub_date = datetime.date(pub.tm_year, pub.tm_mon, pub.tm_mday)
                     if pub_date < cutoff:
                         continue
-                title = entry.get("title", "").strip()
-                if not title:
-                    continue
-                # Strip publication name suffix
+                seen.add(title)
+                summary = _clean(entry.get("summary", ""))
+                link = entry.get("link", "")
+                source = "Google News"
                 if " - " in title:
                     parts = title.rsplit(" - ", 1)
                     title = parts[0].strip()
-                summary = entry.get("summary", entry.get("description", "")).strip()
-                link = entry.get("link", "")
+                    source = parts[1].strip()
                 items.append(
-                    f"[FINANCIALS — {company}] Source: {title} — {summary[:200]} | URL:{link}"
+                    f"[FINANCIALS — {company}] {source}: {title} — {summary[:200]} | URL:{link}"
                 )
                 count += 1
-            time.sleep(0.3)
-        except Exception as exc:
-            print(f"[fetch_bse] Financials error for '{company}': {exc}")
+        except Exception:
+            pass
 
+    print(f"[fetch_bse] Financials snapshot: {len(items)} items")
     return items
