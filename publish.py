@@ -70,15 +70,23 @@ def main():
         return
 
     print("\n[3/3] Pushing to GitHub...")
+
+    # Sync with remote before pushing
+    run(["git", "fetch", "origin", "claude/knowledge-mgmt-daily-reads-cj7wbf"], check=False)
+    has_remote = run(["git", "branch", "-r"], check=False)
+    if "claude/knowledge-mgmt-daily-reads-cj7wbf" in has_remote.stdout:
+        run(["git", "merge", "origin/claude/knowledge-mgmt-daily-reads-cj7wbf",
+             "--allow-unrelated-histories", "--no-edit", "-X", "ours"], check=False)
+
     status = run(["git", "status", "--porcelain"], check=False)
     if not status.stdout.strip():
         print("Nothing new to commit.")
-        return
+    else:
+        from datetime import datetime
+        date_str = datetime.now().strftime("%Y-%m-%d")
+        run(["git", "add", "docs/"])
+        run(["git", "commit", "-m", f"Update knowledge notes {date_str}"])
 
-    from datetime import datetime
-    date_str = datetime.now().strftime("%Y-%m-%d")
-    run(["git", "add", "docs/"])
-    run(["git", "commit", "-m", f"Update knowledge notes {date_str}"])
     run(["git", "push", "-u", "origin", "HEAD:claude/knowledge-mgmt-daily-reads-cj7wbf"])
 
     print(f"\n✓ Published! GitHub Pages will update in ~1 minute.")
