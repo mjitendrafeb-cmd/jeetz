@@ -2,8 +2,8 @@ name: Daily Credit Intelligence Report
 
 on:
   schedule:
-    # 03:30 UTC = 9:00 AM IST, Mon-Fri
-    - cron: '30 3 * * 1-5'
+    # 03:30 UTC = 9:00 AM IST, Mon-Sat
+    - cron: '30 3 * * 1-6'
   workflow_dispatch:
 
 jobs:
