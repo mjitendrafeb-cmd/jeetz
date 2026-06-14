@@ -21,36 +21,41 @@ REPO_ROOT = os.path.dirname(os.path.abspath(__file__))
 DEFAULT_NOTES_DIR = os.path.join(REPO_ROOT, "docs", "notes")
 
 PROMPT = """\
-You are a senior credit and financial analyst. Deeply analyse the document below and return ONLY valid JSON (no markdown, no preamble).
+You are a senior credit and financial analyst mentoring junior analysts. Deeply analyse the document below and return ONLY valid JSON (no markdown, no preamble).
 
 Return this exact structure:
 
 {
-  "summary": "<2-3 sentence executive summary capturing the core argument, key finding, and so-what>",
-  "takeaways": [
-    "<comprehensive key insight — no limit on count, cover every important point>"
+  "executive_summary": ["<concise bullet 1>", "..."],
+  "key_takeaways": [
+    {
+      "takeaway": "<one clear insight — what happened, no fluff>",
+      "analyst_lens": "<why it matters + risks/opportunities + rating implications + what to monitor — consolidated, no repetition>"
+    }
   ],
-  "risk_analysis": [
-    "<each distinct risk: credit risk, regulatory risk, market risk, liquidity risk, operational risk — explain the mechanism and magnitude if mentioned>"
+  "entities_impacted": [
+    {
+      "entity": "<company, sector, regulator or country>",
+      "impact": "<how they are specifically affected>"
+    }
   ],
-  "key_implications": [
-    "<what this means for a credit analyst — rating action, sector view, covenant watch, monitoring trigger>"
-  ],
-  "key_data_points": [
-    "<exact figure, ratio, date, threshold, or growth rate mentioned in the document>"
-  ],
-  "sentiment": "<one of: positive, negative, neutral, mixed>",
-  "category": "<assign ONE category that best describes this document — e.g. Banking Regulation, Credit Research, Equity Research, Macro & Economy, Rating Action, Sector Report, Market Data, Policy & Budget, Financial Stability, Trade & Commodities, or any other appropriate category>",
-  "relevance": ["<one or more of: regulatory, sector_analysis, pr_review, training, market_data, macro, credit_event, other>"],
-  "entities": ["<company, regulator, rating agency, instrument, sector, or country>"],
-  "tags": ["<short lowercase keyword — 5 to 12 tags>"]
+  "monitoring_points": ["<actionable monitoring point>"],
+  "learning": ["<practical lesson applicable to credit/rating work>"],
+  "related_topics": ["<connected concept>"],
+  "category": "<one category Claude freely assigns, e.g. Banking Regulation, Credit Research, Macro & Economy, Rating Action, Sector Report>",
+  "sentiment": "<positive|negative|neutral|mixed>",
+  "tags": ["<short lowercase keyword>"],
+  "relevance": ["<one or more of: regulatory|sector_analysis|pr_review|training|market_data|macro|credit_event|other>"]
 }
 
 Rules:
-- takeaways: extract ALL important points, not just 3-5. Be thorough.
-- risk_analysis: identify every risk mentioned or implied, explain the credit relevance.
-- key_implications: think like a credit analyst — what action or watch-list item does this trigger?
-- key_data_points: copy exact numbers from the document.
+- executive_summary: max 5 bullets — cover "what happened" and "why it matters". Be concise.
+- key_takeaways: every takeaway must answer "So what?" — give insight, not summary. If multiple takeaways point to the same risk, consolidate them into one row. analyst_lens must consolidate risks, opportunities, rating implications, and monitoring points — no repetition across rows.
+- entities_impacted: name every company, sector, regulator, or country specifically affected, and explain the mechanism of impact.
+- monitoring_points: 3 to 5 actionable items in the format "Monitor X at Y because Z".
+- learning: 3 to 5 practical lessons directly applicable in day-to-day credit or rating work.
+- related_topics: connected concepts, instruments, regulations, or frameworks (e.g. co-lending, LCR, GNPA).
+- tags: 5 to 12 short lowercase keywords.
 - Return ONLY the JSON object, nothing else.
 
 Document:
