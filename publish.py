@@ -70,24 +70,26 @@ def main():
         return
 
     print("\n[3/3] Pushing to GitHub...")
+    from datetime import datetime
+    date_str = datetime.now().strftime("%Y-%m-%d")
+    BRANCH = "claude/knowledge-mgmt-daily-reads-cj7wbf"
 
-    # Sync with remote before pushing
-    run(["git", "fetch", "origin", "claude/knowledge-mgmt-daily-reads-cj7wbf"], check=False)
-    has_remote = run(["git", "branch", "-r"], check=False)
-    if "claude/knowledge-mgmt-daily-reads-cj7wbf" in has_remote.stdout:
-        run(["git", "merge", "origin/claude/knowledge-mgmt-daily-reads-cj7wbf",
-             "--allow-unrelated-histories", "--no-edit", "-X", "ours"], check=False)
+    # Stage docs changes, stash them, pull remote history, then re-apply
+    run(["git", "add", "docs/"], check=False)
+    run(["git", "stash"], check=False)
+    run(["git", "fetch", "origin", BRANCH], check=False)
+    run(["git", "merge", f"origin/{BRANCH}",
+         "--allow-unrelated-histories", "--no-edit", "-X", "ours"], check=False)
+    run(["git", "stash", "pop"], check=False)
 
     status = run(["git", "status", "--porcelain"], check=False)
     if not status.stdout.strip():
-        print("Nothing new to commit.")
+        print("Nothing new to commit — notes already up to date.")
     else:
-        from datetime import datetime
-        date_str = datetime.now().strftime("%Y-%m-%d")
         run(["git", "add", "docs/"])
         run(["git", "commit", "-m", f"Update knowledge notes {date_str}"])
 
-    run(["git", "push", "-u", "origin", "HEAD:claude/knowledge-mgmt-daily-reads-cj7wbf"])
+    run(["git", "push", "-u", "origin", f"HEAD:{BRANCH}"])
 
     print(f"\n✓ Published! GitHub Pages will update in ~1 minute.")
     print(f"  View at: https://mjitendrafeb-cmd.github.io/jeetz/")
