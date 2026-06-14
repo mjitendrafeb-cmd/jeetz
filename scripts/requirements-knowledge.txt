@@ -1,0 +1,4 @@
+anthropic
+pdfplumber
+chromadb
+watchdog
