@@ -79,7 +79,7 @@ def main():
     date_str = datetime.now().strftime("%Y-%m-%d")
     run(["git", "add", "docs/"])
     run(["git", "commit", "-m", f"Update knowledge notes {date_str}"])
-    run(["git", "push"])
+    run(["git", "push", "-u", "origin", "HEAD:claude/knowledge-mgmt-daily-reads-cj7wbf"])
 
     print(f"\n✓ Published! GitHub Pages will update in ~1 minute.")
     print(f"  View at: https://mjitendrafeb-cmd.github.io/jeetz/")
