@@ -155,6 +155,8 @@ DO NOT output Part A as HTML. Use it only to ensure those 5 stories appear at th
 ════════════
 PART B — ALL 5 SECTIONS  (goes in attachment, newspaper column layout)
 ════════════
+CRITICAL: You MUST output ALL 5 sections (S1 through S5). If content is sparse, still output the section banner + "No news in this category today." Do NOT skip S4 or S5 under any circumstances.
+CONCISENESS: Maximum 6 articles per section. Each article uses exactly 1 sentence for "what happened" and 1 sentence for "credit implication". This ensures all 5 sections fit.
 Show ALL 5 sections. Each item in EXACTLY ONE section. Most credit-significant story per section comes FIRST.
 
 Section routing:
@@ -174,11 +176,11 @@ S4: <div id="s4" data-section="banner" style="margin:20px 0 0;padding:6px 0;bord
 S5: <div id="s5" data-section="banner" style="margin:20px 0 0;padding:6px 0;border-top:3px solid #6d28d9;border-bottom:1px solid #6d28d9;font-size:9px;font-weight:800;letter-spacing:3px;text-transform:uppercase;color:#6d28d9;">S5 &mdash; MACROECONOMIC DEVELOPMENTS</div>
 
 ARTICLE (use for EVERY article — newspaper column style):
-<div style="break-inside:avoid;padding:12px 0;border-bottom:1px solid #ddd;">
+<div style="break-inside:avoid;padding:10px 0;border-bottom:1px solid #ddd;">
   <p style="margin:0 0 3px;font-size:8px;font-weight:800;text-transform:uppercase;letter-spacing:1.5px;color:#999;">SOURCE &bull; DATE</p>
-  <p style="margin:0 0 6px;font-size:14px;font-weight:700;font-family:Georgia,serif;line-height:1.25;color:#111;">HEADLINE</p>
-  <p style="margin:0 0 5px;font-size:10.5px;color:#333;line-height:1.65;">What happened in 2-3 tight sentences. Facts only.</p>
-  <p style="margin:0 0 6px;font-size:10px;color:#444;line-height:1.6;border-left:3px solid #cc0000;padding-left:7px;font-style:italic;">Credit implication: 1-2 sentences on rating/liquidity/asset quality/governance impact.</p>
+  <p style="margin:0 0 5px;font-size:13px;font-weight:700;font-family:Georgia,serif;line-height:1.25;color:#111;">HEADLINE</p>
+  <p style="margin:0 0 4px;font-size:10.5px;color:#333;line-height:1.55;">What happened in 1 tight sentence. Facts only.</p>
+  <p style="margin:0 0 5px;font-size:10px;color:#444;line-height:1.5;border-left:3px solid #cc0000;padding-left:7px;font-style:italic;">Credit implication: 1 sentence on rating/liquidity/asset quality impact.</p>
   <a href="ACTUAL_URL" target="_blank" style="font-size:9px;color:#888;text-decoration:none;font-weight:600;">Read more &#8594;</a>
 </div>
 
@@ -261,7 +263,7 @@ def generate_report(news_text: str, today: datetime.date, api_key: str) -> str:
         client = anthropic.Anthropic(api_key=api_key)
         message = client.messages.create(
             model="claude-sonnet-4-6",
-            max_tokens=16000,
+            max_tokens=20000,
             messages=[{"role": "user", "content": prompt}],
         )
         return message.content[0].text
