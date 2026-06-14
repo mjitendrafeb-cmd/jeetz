@@ -81,13 +81,24 @@ def call_claude(text, api_key):
     client = anthropic.Anthropic(api_key=api_key)
     msg = client.messages.create(
         model="claude-opus-4-8",
-        max_tokens=2048,
+        max_tokens=8192,
         thinking={"type": "adaptive"},
         messages=[{"role": "user", "content": PROMPT % truncated}],
     )
-    raw = msg.content[-1].text.strip()
+    # Get the text block (last content block, skipping thinking blocks)
+    raw = ""
+    for block in reversed(msg.content):
+        if hasattr(block, "text"):
+            raw = block.text.strip()
+            break
+    # Strip markdown fences
     raw = re.sub(r"^```(?:json)?\s*", "", raw)
     raw = re.sub(r"\s*```$", "", raw)
+    # Extract JSON object between first { and last }
+    start = raw.find("{")
+    end = raw.rfind("}") + 1
+    if start != -1 and end > start:
+        raw = raw[start:end]
     return json.loads(raw)
 
 
