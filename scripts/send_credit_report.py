@@ -39,25 +39,62 @@ def _load_seen_headlines() -> set[str]:
     try:
         with open(_SEEN_PATH, encoding="utf-8") as f:
             data = json.load(f)
-        return set(data.get("keys", []))
+        # New format: {"days": {"2026-06-14": ["key1", ...], ...}}
+        if "days" in data:
+            today_str = str(datetime.date.today())
+            cutoff = str(datetime.date.today() - datetime.timedelta(days=5))
+            all_keys: set[str] = set()
+            for d, keys in data["days"].items():
+                if d >= cutoff:  # keep last 5 days
+                    all_keys.update(keys)
+            return all_keys
+        # Old format: {"date": "...", "keys": [...]}
+        if "keys" in data:
+            return set(data.get("keys", []))
+        return set()
     except Exception:
         return set()
 
 
 def _save_seen_headlines(news_text: str) -> None:
-    """Persist normalised keys from today's feed so tomorrow can skip them."""
+    """Persist normalised keys from today's feed using 5-day rolling window."""
     import re as _re
     keys = []
     for line in news_text.splitlines():
         # Strip numbering and tag prefix, take first 120 chars as key
         line = _re.sub(r"^\d+\.\s*", "", line)
         line = _re.sub(r"^\[[^\]]+\]\s*", "", line)
+        # Also strip tier tags like [T1]
+        line = _re.sub(r"^\[T\d\]\s*", "", line)
         key = line.lower().strip()[:120]
         if key:
             keys.append(key)
+
+    today_str = str(datetime.date.today())
+    cutoff = str(datetime.date.today() - datetime.timedelta(days=5))
+
+    # Load existing days dict
+    existing_days: dict = {}
+    try:
+        with open(_SEEN_PATH, encoding="utf-8") as f:
+            existing_data = json.load(f)
+        if "days" in existing_data:
+            existing_days = existing_data["days"]
+        elif "keys" in existing_data:
+            # Migrate old format
+            old_date = existing_data.get("date", today_str)
+            existing_days = {old_date: existing_data["keys"]}
+    except Exception:
+        pass
+
+    # Add today's keys and drop entries older than 5 days
+    existing_days[today_str] = keys
+    existing_days = {d: v for d, v in existing_days.items() if d >= cutoff}
+
     os.makedirs(os.path.dirname(_SEEN_PATH), exist_ok=True)
     with open(_SEEN_PATH, "w", encoding="utf-8") as f:
-        json.dump({"date": str(datetime.date.today()), "keys": keys}, f, indent=2)
+        json.dump({"days": existing_days}, f, indent=2)
+
     # Commit and push so the file persists across workflow runs
     try:
         import subprocess
@@ -80,7 +117,7 @@ def _save_seen_headlines(news_text: str) -> None:
         if result.returncode == 0:
             subprocess.run(["git", "push", "origin", "HEAD:main"],
                            cwd=_REPO_ROOT, check=True, capture_output=True)
-            print(f"[seen_headlines] Saved {len(keys)} keys and pushed to repo")
+            print(f"[seen_headlines] Saved {len(keys)} keys for {today_str} and pushed to repo")
         else:
             print("[seen_headlines] Nothing to commit (no change)")
     except Exception as exc:
@@ -118,6 +155,8 @@ SKIP: Product launches · CSR · Awards · Stock tips · Generic M&A · Generic 
 DEDUPLICATE: If two items cover the same story (even if from different sections), keep only ONE card in the most relevant section. Below that card's source link, add a single line: <span style="font-size:10px;color:#999;">Also reported by: Source2, Source3</span>
 MONETARY PENALTIES: Any "RBI Imposes Monetary Penalty", "SEBI Order", "NHB Penalty" or enforcement action ALWAYS goes to S3 — never S2 — regardless of which entity was penalised. Format: 1-sentence "What Happened" (amount + entity + reason), NO credit implication section, just the link.
 WATCHLIST items ([WATCHLIST — Company]) are HIGHEST PRIORITY — always appear first in S1.
+SOURCE TIERS: [T1] = Primary/Regulatory (highest trust), [T2] = Quality press, no tag = aggregated. When deduplicating, prefer [T1] source over [T2] over untagged. Mention source tier in cards where relevant.
+FINANCIALS items ([FINANCIALS — Company]): Format as a 2-line snapshot card with key metrics mentioned. No credit implication needed, just the numbers + link. Route to S1.
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 OUTPUT FORMAT — raw HTML, ALL inline styles, NO class names, NO <style> blocks
@@ -219,6 +258,85 @@ OUTPUT RULES:
 - ALL styles inline. No class names. No <style> blocks.
 - No html/head/body wrappers.
 - Output Part B then Part C in order. Nothing else."""
+
+
+# ---------------------------------------------------------------------------
+# Weekly digest prompt and email builder
+# ---------------------------------------------------------------------------
+
+def build_weekly_prompt(news_text: str, day_str: str, date_str: str) -> str:
+    return f"""You are a Credit Rating Intelligence Agent at CareEdge Ratings.
+Today is {day_str}, {date_str}. This is the WEEKLY DIGEST.
+
+NEWS ITEMS from the past week are below. Each is numbered. Tags as usual.
+URLs follow "| URL:" at end of each line.
+
+{news_text}
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+WEEKLY DIGEST RULES
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Do NOT produce daily article cards. Instead produce a thematic weekly summary.
+
+OUTPUT FORMAT — raw HTML, ALL inline styles, NO class names, NO <style> blocks:
+
+1. TOP 10 CREDIT THEMES OF THE WEEK
+   A numbered list of the 10 most significant credit themes/trends observed across the week.
+   Each theme: bold theme name + 2-3 sentence analyst summary + source attribution.
+
+2. REGULATORY ACTIONS SUMMARY
+   Count of enforcement actions (RBI, SEBI, NHB) and a 3-4 sentence summary of regulatory tone.
+
+3. RATING ACTIONS SUMMARY
+   Summary of upgrades vs downgrades seen, sectors most affected, key names mentioned.
+
+4. SECTOR HEAT MAP
+   A simple table showing: Sector | Activity Level (High/Medium/Low) | Key Development
+   Sectors: Banking, NBFC, HFC, Broking/Fintech, Bonds/CP, Securitisation
+
+5. 3 THINGS TO WATCH NEXT WEEK
+   Three forward-looking credit watch items with brief rationale.
+
+Wrap the entire output in a single div. Use inline styles throughout. No html/head/body wrappers.
+Use dark heading bars (background:#1a1a1a, color:#fff) for each section header.
+Tables: border-collapse:collapse, 1px solid #ddd borders.
+No <a> tags unless a real URL is available."""
+
+
+def build_weekly_email(html: str, today: datetime.date) -> str:
+    date_str = today.strftime("%d %B %Y")
+    dow = today.strftime("%A, %d %B %Y").upper()
+
+    return f"""<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"></head>
+<body style="margin:0;padding:12px 0;background:#d4d4d4;font-family:Arial,Helvetica,sans-serif;">
+<div style="max-width:660px;margin:0 auto;background:#fff;box-shadow:0 2px 10px rgba(0,0,0,.18);">
+
+<table width="100%" cellpadding="0" cellspacing="0"><tr><td style="background:#cc0000;height:5px;font-size:0;">&nbsp;</td></tr></table>
+
+<table width="100%" cellpadding="0" cellspacing="0" style="border-bottom:2px solid #1a1a1a;">
+<tr><td style="padding:12px 20px 10px;">
+  <p style="margin:0 0 3px;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:#999;">{dow} &bull; WEEKLY DIGEST &bull; INTERNAL USE ONLY</p>
+  <p style="margin:0;font-size:28px;font-weight:900;color:#1a1a1a;letter-spacing:-1px;line-height:1;font-family:Georgia,serif;">Credit Intelligence News</p>
+  <p style="margin:4px 0 0;font-size:11px;color:#cc0000;font-weight:700;letter-spacing:2px;text-transform:uppercase;">WEEKLY DIGEST</p>
+</td></tr>
+</table>
+
+<div style="padding:16px 20px;">
+{html}
+</div>
+
+<table width="100%" cellpadding="0" cellspacing="0" style="background:#1a1a1a;">
+<tr><td style="padding:8px 20px;text-align:center;font-size:10px;color:#555;">
+  <span style="color:#cc0000;font-weight:700;">Credit Intelligence News — Weekly Digest</span> &mdash; {date_str}<br>
+  <em>&#128274; Confidential — Internal Use Only</em>
+</td></tr>
+</table>
+
+</div>
+</body>
+</html>"""
 
 
 # ---------------------------------------------------------------------------
@@ -509,9 +627,16 @@ def main() -> None:
     gmail_password = os.environ["GMAIL_APP_PASSWORD"]
     anthropic_api_key = os.environ["ANTHROPIC_API_KEY"]
     newsapi_key = os.environ.get("NEWSAPI_KEY", "")
+    is_weekly = os.environ.get("WEEKLY_DIGEST", "").lower() == "true"
 
     today = datetime.date.today()
-    subject = f"Credit Intelligence News — {today.strftime('%d %B %Y')}"
+    day_str = today.strftime("%A")
+    date_str = today.strftime("%d %B %Y")
+
+    if is_weekly:
+        subject = f"Credit Intelligence Weekly Digest — {date_str}"
+    else:
+        subject = f"Credit Intelligence News — {date_str}"
 
     print("Fetching news...")
     news_text = fetch_all_news(newsapi_key)
@@ -522,22 +647,45 @@ def main() -> None:
     _save_seen_headlines(news_text)
 
     print("Calling Claude API...")
-    full_html = generate_report(news_text, today, anthropic_api_key)
+    if is_weekly:
+        print("Mode: WEEKLY DIGEST")
+        prompt = build_weekly_prompt(news_text, day_str, date_str)
+        if len(news_text) > 32000:
+            news_text = news_text[:32000] + "\n[...truncated]"
+        try:
+            client = anthropic.Anthropic(api_key=anthropic_api_key)
+            message = client.messages.create(
+                model="claude-sonnet-4-6",
+                max_tokens=16000,
+                messages=[{"role": "user", "content": build_weekly_prompt(news_text, day_str, date_str)}],
+            )
+            weekly_html = message.content[0].text
+        except Exception as exc:
+            print(f"[generate_report] Claude API error: {exc}")
+            weekly_html = f'<p style="color:#cc0000;">Weekly digest generation failed: {str(exc)[:200]}</p>'
 
-    print("Splitting parts...")
-    part_b, part_c = split_parts(full_html)
-    print(f"Part B (sections): {len(part_b)} chars | Part C (takeaways): {len(part_c)} chars")
+        print("Building weekly email...")
+        email_html = build_weekly_email(weekly_html, today)
 
-    print("Building email...")
-    email_html = build_email(part_c, today)
+        print("Sending weekly digest email...")
+        send_email(subject, email_html, gmail_user, gmail_password)
+    else:
+        full_html = generate_report(news_text, today, anthropic_api_key)
 
-    print("Building attachment...")
-    attachment_html = build_attachment(part_b, today)
-    attachment_name = f"Credit_Intelligence_{today.strftime('%d%b%Y')}.html"
+        print("Splitting parts...")
+        part_b, part_c = split_parts(full_html)
+        print(f"Part B (sections): {len(part_b)} chars | Part C (takeaways): {len(part_c)} chars")
 
-    print("Sending email...")
-    send_email(subject, email_html, gmail_user, gmail_password,
-               attachment_html=attachment_html, attachment_name=attachment_name)
+        print("Building email...")
+        email_html = build_email(part_c, today)
+
+        print("Building attachment...")
+        attachment_html = build_attachment(part_b, today)
+        attachment_name = f"Credit_Intelligence_{today.strftime('%d%b%Y')}.html"
+
+        print("Sending email...")
+        send_email(subject, email_html, gmail_user, gmail_password,
+                   attachment_html=attachment_html, attachment_name=attachment_name)
 
 
 if __name__ == "__main__":

@@ -12,9 +12,34 @@ import time
 import datetime
 import requests
 import feedparser
+from bs4 import BeautifulSoup
 
 from fetch_telegram import fetch_telegram_channels
 from fetch_web import fetch_all_web
+
+
+# ---------------------------------------------------------------------------
+# Source quality tiers
+# ---------------------------------------------------------------------------
+
+SOURCE_TIER = {
+    # Tier 1 — Primary / Regulatory
+    "RBI": 1, "SEBI": 1, "BSE": 1, "NHB": 1, "RBI-Enforcement": 1,
+    "CareEdge": 1, "CRISIL": 1, "ICRA": 1, "CARE Ratings": 1, "India Ratings": 1,
+    # Tier 2 — Quality Press
+    "Economic Times": 2, "ET": 2, "Mint": 2, "Business Standard": 2,
+    "Financial Express": 2, "Bloomberg": 2, "Reuters": 2, "Hindu Business Line": 2,
+    "Moneycontrol": 2,
+    # Tier 3 — Aggregated / Social
+    "Google News": 3, "Telegram": 3,
+}
+
+
+def _get_tier(source: str) -> int:
+    for key, tier in SOURCE_TIER.items():
+        if key.lower() in source.lower():
+            return tier
+    return 3
 
 
 def load_config() -> dict:
@@ -46,9 +71,27 @@ def _clean(text: str) -> str:
     return " ".join(text.split())
 
 
-def _fmt(source: str, title: str, summary: str, url: str = "") -> str:
+def _fetch_article_body(url: str, max_chars: int = 500) -> str:
+    """Fetch first 500 chars of article body. Returns empty string on any failure."""
+    if not url or not url.startswith("http"):
+        return ""
+    try:
+        r = requests.get(url, timeout=6, headers={"User-Agent": "Mozilla/5.0"})
+        soup = BeautifulSoup(r.text, "html.parser")
+        for tag in soup(["script", "style", "nav", "footer", "header", "aside"]):
+            tag.decompose()
+        text = " ".join(soup.get_text().split())
+        return text[:max_chars]
+    except Exception:
+        return ""
+
+
+def _fmt(source: str, title: str, summary: str, url: str = "", body: str = "") -> str:
+    tier = _get_tier(source)
+    tier_tag = f"[T{tier}]" if tier < 3 else ""
+    body_part = f" [BODY: {body}]" if body else ""
     link = f" | URL:{url}" if url else ""
-    return f"{source}: {title} — {summary[:250]}{link}"
+    return f"{tier_tag}{source}: {title} — {summary[:200]}{body_part}{link}"
 
 
 def fetch_rbi_news() -> list[str]:
@@ -60,10 +103,54 @@ def fetch_rbi_news() -> list[str]:
             summary = _clean(entry.get("summary", entry.get("description", ""))).strip()
             url = entry.get("link", "")
             if title:
-                items.append(_fmt("RBI", title, summary, url))
+                body = _fetch_article_body(url)
+                items.append(_fmt("RBI", title, summary, url, body))
         return items
     except Exception as exc:
         print(f"[fetch_news] RBI RSS error: {exc}")
+        return []
+
+
+def fetch_rbi_enforcement() -> list[str]:
+    """Scrape RBI enforcement actions from the last 7 days."""
+    try:
+        url = "https://www.rbi.org.in/Scripts/EnforcementAction.aspx"
+        r = requests.get(url, headers={"User-Agent": "Mozilla/5.0"}, timeout=10)
+        soup = BeautifulSoup(r.text, "html.parser")
+        table = soup.find("table")
+        if not table:
+            return []
+        rows = table.find_all("tr")
+        items = []
+        cutoff = datetime.date.today() - datetime.timedelta(days=7)
+        for row in rows[-10:]:
+            cells = row.find_all(["td", "th"])
+            if len(cells) < 2:
+                continue
+            texts = [c.get_text(strip=True) for c in cells]
+            # Try to parse a date from the row
+            date_found = None
+            for text in texts:
+                for fmt in ("%d-%b-%Y", "%d/%m/%Y", "%B %d, %Y", "%d %B %Y"):
+                    try:
+                        date_found = datetime.datetime.strptime(text, fmt).date()
+                        break
+                    except ValueError:
+                        continue
+                if date_found:
+                    break
+            if date_found and date_found < cutoff:
+                continue
+            entity = texts[0] if texts else "Unknown Entity"
+            amount = texts[1] if len(texts) > 1 else ""
+            reason = texts[2] if len(texts) > 2 else "regulatory violation"
+            items.append(
+                f"RBI-Enforcement: Monetary Penalty on {entity} — {amount}, {reason}"
+                f" | URL:{url}"
+            )
+        return items
+    except Exception as exc:
+        print(f"[fetch_news] RBI enforcement error: {exc}")
         return []
 
 
@@ -76,7 +163,8 @@ def fetch_sebi_news() -> list[str]:
             summary = _clean(entry.get("summary", entry.get("description", ""))).strip()
             url = entry.get("link", "")
             if title:
-                items.append(_fmt("SEBI", title, summary, url))
+                body = _fetch_article_body(url)
+                items.append(_fmt("SEBI", title, summary, url, body))
         return items
     except Exception as exc:
         print(f"[fetch_news] SEBI RSS error: {exc}")
@@ -248,6 +336,14 @@ def fetch_company_news() -> list[str]:
     return items
 
 
+def _normalise_key(item: str) -> str:
+    """Strip [TAG] prefix and take first 120 chars lowercase for dedup keying."""
+    text = re.sub(r"^\[[^\]]+\]\s*", "", item)
+    # Also strip tier tags like [T1]
+    text = re.sub(r"^\[T\d\]\s*", "", text)
+    return text.lower().strip()[:120]
+
+
 def fetch_all_news(newsapi_key: str = "") -> str:
     cfg = load_config()
     sources = cfg.get("sources", {})
@@ -256,33 +352,75 @@ def fetch_all_news(newsapi_key: str = "") -> str:
         return sources.get(key, True)
 
     all_items: list[str] = []
+
+    # 1. RBI RSS + enforcement
     if src_on("rbi_rss"):
         all_items.extend(fetch_rbi_news())
+        all_items.extend(fetch_rbi_enforcement())
+
+    # 2. SEBI RSS
     if src_on("sebi_rss"):
         all_items.extend(fetch_sebi_news())
+
+    # 3. Rating agencies
+    if src_on("rating_agencies"):
+        from fetch_ratings import fetch_rating_agency_news
+        all_items.extend(fetch_rating_agency_news())
+
+    # 4. Google News
     if src_on("google_news"):
         all_items.extend(fetch_google_news())
+
     if src_on("newsapi"):
         all_items.extend(fetch_newsapi_news(newsapi_key))
+
+    # 5. Company watchlist + BSE announcements + BSE financials
     if src_on("company_watchlist"):
         all_items.extend(fetch_company_news())
+        from fetch_bse import fetch_bse_announcements, fetch_bse_financials
+        watchlist = load_watchlist()
+        if src_on("bse_announcements"):
+            all_items.extend(fetch_bse_announcements(watchlist))
+        all_items.extend(fetch_bse_financials(watchlist))
+
+    # 6. Telegram
     if src_on("telegram"):
         channels = cfg.get("telegram_channels", [])
         if channels:
             all_items.extend(fetch_telegram_channels(channels))
+
+    # 7. Web scraper (OFF by default)
     if src_on("web_scraper"):
         all_items.extend(fetch_all_web(
             cfg.get("web_sources", {}),
             cfg.get("custom_scrape_urls", []),
         ))
 
+    # Load seen headlines for rolling 5-day dedup
+    seen_path = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "data", "seen_headlines.json")
+    try:
+        with open(seen_path) as f:
+            data = json.load(f)
+        # Support both old format {"date":..., "keys":[...]} and new {"days":{...}}
+        if "days" in data:
+            today_str = str(datetime.date.today())
+            all_keys: set[str] = set()
+            for d, keys in data["days"].items():
+                if d < today_str:  # only filter previous days, not today
+                    all_keys.update(keys)
+            seen_keys = all_keys
+        elif data.get("date", "") < str(datetime.date.today()):
+            seen_keys = set(data.get("keys", []))
+        else:
+            seen_keys = set()  # same day, skip filter
+    except Exception:
+        seen_keys = set()
+
     # Deduplicate by normalised headline — strip tag prefix like [TELEGRAM — @x] or [WATCHLIST — Co]
     seen: set[str] = set()
     unique: list[str] = []
     for item in all_items:
-        # Strip leading [TAG — value] prefix before keying
-        text = re.sub(r"^\[[^\]]+\]\s*", "", item)
-        key = text.split(" — ")[0].lower().strip()[:120]
+        key = _normalise_key(item)
         if not key:
             key = item[:120].lower()
         if key not in seen:
@@ -290,6 +428,9 @@ def fetch_all_news(newsapi_key: str = "") -> str:
             unique.append(item)
         if len(unique) >= 150:
             break
+
+    # Apply seen headlines filter (rolling 5-day dedup)
+    unique = [item for item in unique if _normalise_key(item) not in seen_keys]
 
     if not unique:
         return "No news items were fetched today. Please check network connectivity and RSS feed availability."
