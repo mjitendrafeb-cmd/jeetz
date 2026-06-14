@@ -20,18 +20,36 @@ MAX_CHARS = 60_000
 DEFAULT_NOTES_DIR = os.path.join(os.path.expanduser("~"), "daily-reads", "notes")
 
 PROMPT = """\
-You are a senior credit and financial analyst. Read the document below and return ONLY valid JSON (no markdown, no preamble):
+You are a senior credit and financial analyst. Deeply analyse the document below and return ONLY valid JSON (no markdown, no preamble).
+
+Return this exact structure:
 
 {
-  "summary": "<one sentence summary>",
-  "takeaways": ["<key point 1>", "<key point 2>", "<key point 3>"],
-  "key_data_points": ["<specific figure or date mentioned>"],
-  "relevance": ["<one or more of: regulatory, sector_analysis, pr_review, training, market_data, macro, other>"],
-  "entities": ["<company, regulator, instrument, or sector name>"],
-  "tags": ["<short keyword>"]
+  "summary": "<2-3 sentence executive summary capturing the core argument, key finding, and so-what>",
+  "takeaways": [
+    "<comprehensive key insight — no limit on count, cover every important point>"
+  ],
+  "risk_analysis": [
+    "<each distinct risk: credit risk, regulatory risk, market risk, liquidity risk, operational risk — explain the mechanism and magnitude if mentioned>"
+  ],
+  "key_implications": [
+    "<what this means for a credit analyst — rating action, sector view, covenant watch, monitoring trigger>"
+  ],
+  "key_data_points": [
+    "<exact figure, ratio, date, threshold, or growth rate mentioned in the document>"
+  ],
+  "sentiment": "<one of: positive, negative, neutral, mixed>",
+  "relevance": ["<one or more of: regulatory, sector_analysis, pr_review, training, market_data, macro, credit_event, other>"],
+  "entities": ["<company, regulator, rating agency, instrument, sector, or country>"],
+  "tags": ["<short lowercase keyword — 5 to 12 tags>"]
 }
 
-Rules: takeaways = 3-5 items focused on credit risk or market impact. tags = 3-8 lowercase keywords.
+Rules:
+- takeaways: extract ALL important points, not just 3-5. Be thorough.
+- risk_analysis: identify every risk mentioned or implied, explain the credit relevance.
+- key_implications: think like a credit analyst — what action or watch-list item does this trigger?
+- key_data_points: copy exact numbers from the document.
+- Return ONLY the JSON object, nothing else.
 
 Document:
 \"\"\"
