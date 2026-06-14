@@ -148,14 +148,7 @@ def render_card(raw_note, idx):
 
     # ── Expanded sections ──────────────────────────────────────────────
 
-    # 1. Executive Summary
-    exec_html = ""
-    if exec_summary:
-        items = "".join(f"<li>{esc(b)}</li>" for b in exec_summary)
-        exec_html = (f'<div class="sect"><div class="sh">Executive Summary</div>'
-                     f'<ul class="blist">{items}</ul></div>')
-
-    # 2. Key Takeaways & Analyst Lens
+    # 1. Key Takeaways & Analyst Lens
     kt_html = ""
     if key_takeaways:
         rows = "".join(
@@ -181,34 +174,20 @@ def render_card(raw_note, idx):
                    f'<thead><tr><th style="width:30%">Entity</th><th>Impact</th></tr></thead>'
                    f'<tbody>{rows}</tbody></table></div></div>')
 
-    # 4. What to Monitor
-    mon_html = ""
-    if monitoring_points:
-        items = "".join(f"<li>{esc(m)}</li>" for m in monitoring_points)
-        mon_html = (f'<div class="sect"><div class="sh">What to Monitor</div>'
-                    f'<ol class="blist mon">{items}</ol></div>')
-
-    # 5. What Can I Learn?
+    # 4. What Can I Learn?
     learn_html = ""
     if learning:
         items = "".join(f"<li>{esc(l)}</li>" for l in learning)
         learn_html = (f'<div class="sect"><div class="sh">What Can I Learn?</div>'
                       f'<ul class="blist learn">{items}</ul></div>')
 
-    # 6. Related Topics
-    rt_html = ""
-    if related_topics:
-        chips = "".join(tag_chip(t, "#7c3aed") for t in related_topics)
-        rt_html = (f'<div class="sect"><div class="sh">Related Topics</div>'
-                   f'<div class="chip-row">{chips}</div></div>')
-
-    # 7. Relevance footer
+    # 5. Relevance footer
     rel_html = ""
     if relevance:
         chips = "".join(f'<span class="rel-chip">{esc(r)}</span>' for r in relevance)
         rel_html = f'<div class="rel-row">Relevance: {chips}</div>'
 
-    body = exec_html + kt_html + ei_html + mon_html + learn_html + rt_html + rel_html
+    body = kt_html + ei_html + learn_html + rel_html
     cid = f"c{idx}"
 
     return (
@@ -368,8 +347,7 @@ main{{flex:1;min-width:0}}
   margin-bottom:10px;max-width:90ch}}
 .chip-row{{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:4px}}
 .chip{{font-size:11px;font-weight:500;padding:3px 10px;border-radius:20px;
-  background:color-mix(in srgb,var(--cc) 12%,transparent);
-  color:var(--cc);border:1px solid color-mix(in srgb,var(--cc) 25%,transparent);
+  background:#f1f5f9;color:#475569;border:1px solid #e2e8f0;
   display:inline-block}}
 .source-line{{font-size:11px;color:#cbd5e1;font-family:'SF Mono',Consolas,monospace;
   margin-top:6px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}}
@@ -540,12 +518,12 @@ mark{{background:#fef9c3;color:#713f12;border-radius:2px;padding:0 2px}}
       }}
     }});
 
-    // Stats bar
+    // Stats bar — always visible
     var bar=document.getElementById('stats-bar');
     if(q||cat!=='all'||sent!=='all'){{
       bar.textContent='Showing '+vis+' of '+TOTAL+' note'+(TOTAL===1?'':'s');
     }}else{{
-      bar.textContent='';
+      bar.textContent=TOTAL+' note'+(TOTAL===1?'':'s');
     }}
 
     // Empty state
