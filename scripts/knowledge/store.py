@@ -5,7 +5,8 @@ Collection: "daily_reads"
 Default DB path: ~/.jeetz-knowledge/chroma/
 Override with KNOWLEDGE_CHROMA_DIR env var or chroma_dir kwarg.
 
-Uses a stdlib-only hash-trick embedding so onnxruntime is NOT required.
+Embeddings are computed locally with a stdlib-only hash trick and passed
+directly to ChromaDB — no onnxruntime or sentence-transformers needed.
 """
 
 import math
@@ -14,22 +15,17 @@ import re
 
 DEFAULT_CHROMA_DIR = os.path.expanduser("~/.jeetz-knowledge/chroma")
 
-_DIM = 512  # embedding dimensions
+_DIM = 512
 
 
-class _HashEmbedding:
-    """Bag-of-words embedding using Python's built-in hash — no onnxruntime needed."""
-
-    def __call__(self, input: list[str]) -> list[list[float]]:
-        return [self._embed(text) for text in input]
-
-    def _embed(self, text: str) -> list[float]:
-        words = re.findall(r"\b\w+\b", text.lower())
-        vec = [0.0] * _DIM
-        for word in words:
-            vec[hash(word) % _DIM] += 1.0
-        norm = math.sqrt(sum(x * x for x in vec)) or 1.0
-        return [x / norm for x in vec]
+def _embed(text: str) -> list[float]:
+    """Bag-of-words hash-trick embedding — pure Python stdlib."""
+    words = re.findall(r"\b\w+\b", text.lower())
+    vec = [0.0] * _DIM
+    for word in words:
+        vec[hash(word) % _DIM] += 1.0
+    norm = math.sqrt(sum(x * x for x in vec)) or 1.0
+    return [x / norm for x in vec]
 
 
 def _get_collection(chroma_dir: str | None = None):
@@ -41,9 +37,9 @@ def _get_collection(chroma_dir: str | None = None):
     path = chroma_dir or os.environ.get("KNOWLEDGE_CHROMA_DIR", DEFAULT_CHROMA_DIR)
     os.makedirs(path, exist_ok=True)
     client = chromadb.PersistentClient(path=path)
+    # No embedding_function — we pass embeddings directly, avoiding onnxruntime
     return client.get_or_create_collection(
         "daily_reads",
-        embedding_function=_HashEmbedding(),
         metadata={"hnsw:space": "cosine"},
     )
 
@@ -75,7 +71,12 @@ def add_note(note: dict, chroma_dir: str | None = None) -> str:
         "entities": ",".join(note.get("entities", [])),
     }
 
-    col.upsert(ids=[doc_id], documents=[doc_text], metadatas=[metadata])
+    col.upsert(
+        ids=[doc_id],
+        embeddings=[_embed(doc_text)],
+        documents=[doc_text],
+        metadatas=[metadata],
+    )
     return doc_id
 
 
@@ -104,7 +105,7 @@ def query_notes(
 
     if query:
         raw = col.query(
-            query_texts=[query],
+            query_embeddings=[_embed(query)],
             n_results=fetch,
             where=where,
             include=["metadatas", "documents", "distances"],
