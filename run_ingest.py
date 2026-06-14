@@ -17,7 +17,8 @@ import time
 
 SUPPORTED = {".pdf", ".txt", ".md"}
 MAX_CHARS = 60_000
-DEFAULT_NOTES_DIR = os.path.join(os.path.expanduser("~"), "daily-reads", "notes")
+REPO_ROOT = os.path.dirname(os.path.abspath(__file__))
+DEFAULT_NOTES_DIR = os.path.join(REPO_ROOT, "docs", "notes")
 
 PROMPT = """\
 You are a senior credit and financial analyst. Deeply analyse the document below and return ONLY valid JSON (no markdown, no preamble).
@@ -39,6 +40,7 @@ Return this exact structure:
     "<exact figure, ratio, date, threshold, or growth rate mentioned in the document>"
   ],
   "sentiment": "<one of: positive, negative, neutral, mixed>",
+  "category": "<assign ONE category that best describes this document — e.g. Banking Regulation, Credit Research, Equity Research, Macro & Economy, Rating Action, Sector Report, Market Data, Policy & Budget, Financial Stability, Trade & Commodities, or any other appropriate category>",
   "relevance": ["<one or more of: regulatory, sector_analysis, pr_review, training, market_data, macro, credit_event, other>"],
   "entities": ["<company, regulator, rating agency, instrument, sector, or country>"],
   "tags": ["<short lowercase keyword — 5 to 12 tags>"]
