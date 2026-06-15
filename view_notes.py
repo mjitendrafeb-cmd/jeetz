@@ -119,6 +119,9 @@ def render_card(raw_note, idx):
     sentiment = note.get("sentiment", "neutral").lower()
     source = note.get("source_file", "")
     date = note.get("date", "")
+    doc_date = note.get("document_date") or ""
+    freshness = note.get("freshness", "").lower()
+    stale_items = note.get("stale_items", [])
     category = note.get("category", "Other")
     tags = note.get("tags", [])
     relevance = note.get("relevance", [])
@@ -190,6 +193,28 @@ def render_card(raw_note, idx):
     body = kt_html + ei_html + learn_html + rel_html
     cid = f"c{idx}"
 
+    # Freshness badge
+    freshness_html = ""
+    if freshness == "stale":
+        freshness_html = '<span class="fresh-badge stale">&#9888; Contains older news</span>'
+    elif freshness == "mixed":
+        freshness_html = '<span class="fresh-badge mixed">&#9432; Mixed freshness</span>'
+
+    # Stale items warning (shown in body)
+    stale_html = ""
+    if stale_items:
+        items = "".join(f"<li>{esc(s)}</li>" for s in stale_items)
+        stale_html = (f'<div class="sect stale-sect">'
+                      f'<div class="sh" style="color:#b45309">&#9888; Older / Recycled Items Spotted</div>'
+                      f'<ul class="blist" style="color:#92400e">{items}</ul></div>')
+
+    # Doc date line
+    doc_date_html = ""
+    if doc_date:
+        doc_date_html = f' &middot; Doc date: {esc(fmt_date(doc_date))}'
+
+    body_with_stale = stale_html + body
+
     return (
         f'<article class="card" '
         f'data-category="{esc(category)}" '
@@ -202,15 +227,16 @@ def render_card(raw_note, idx):
         f'      <span class="cat-badge">{esc(category)}</span>\n'
         f'      {sentiment_badge(sentiment)}\n'
         f'      <time class="date-badge" datetime="{esc(date)}">{esc(fmt_date(date))}</time>\n'
+        f'      {freshness_html}\n'
         f'      <span class="tog-ico" id="{cid}-ico">&#8964;</span>\n'
         f'    </div>\n'
         f'    <h2 class="card-title" data-raw="{esc(title)}">{esc(title)}</h2>\n'
         f'    <p class="card-preview" data-raw="{esc(preview)}">{esc(preview)}</p>\n'
         f'    <div class="chip-row">{tag_row}</div>\n'
-        f'    <div class="source-line">{esc(source)}</div>\n'
+        f'    <div class="source-line">{esc(source)}{doc_date_html}</div>\n'
         f'  </div>\n'
         f'  <div class="card-bd" id="{cid}-bd" hidden>\n'
-        f'    {body}\n'
+        f'    {body_with_stale}\n'
         f'  </div>\n'
         f'</article>'
     )
@@ -351,6 +377,9 @@ main{{flex:1;min-width:0}}
   display:inline-block}}
 .source-line{{font-size:11px;color:#cbd5e1;font-family:'SF Mono',Consolas,monospace;
   margin-top:6px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}}
+.fresh-badge{{font-size:11px;font-weight:600;padding:2px 9px;border-radius:20px;border:1px solid transparent}}
+.fresh-badge.stale{{background:#fef3c7;color:#b45309;border-color:#fde68a}}
+.fresh-badge.mixed{{background:#f0f9ff;color:#0284c7;border-color:#bae6fd}}
 
 /* ── Card body (expanded) ── */
 .card-bd{{padding:0 20px 18px;border-top:1.5px solid #f1f5f9}}

@@ -27,7 +27,9 @@ Return this exact structure:
 
 {
   "title": "<concise human-readable title for this document, e.g. 'Motilal Oswal: Nuvama Wealth BUY — FY26-28 Outlook' or 'IMF Systemic Banking Crises Database Update 2025'>",
-  "executive_summary": ["<concise bullet 1>", "..."],
+  "document_date": "<the date printed on the document itself, e.g. '2026-06-15' in YYYY-MM-DD format — look for newsletter date, report date, publication date. Use null if not found.>",
+  "freshness": "<fresh|stale|mixed — fresh = news events are recent relative to the document date; stale = the document discusses events that appear to be weeks/months old; mixed = document contains both recent and older items>",
+  "stale_items": ["<name any specific stories or items in this document that appear to be older/recycled news, so the reader knows>"],
   "key_takeaways": [
     {
       "takeaway": "<one clear insight — what happened, no fluff>",
@@ -40,7 +42,6 @@ Return this exact structure:
       "impact": "<how they are specifically affected>"
     }
   ],
-  "monitoring_points": ["<actionable monitoring point>"],
   "learning": ["<practical lesson applicable to credit/rating work>"],
   "related_topics": ["<connected concept>"],
   "category": "<one category Claude freely assigns, e.g. Banking Regulation, Credit Research, Macro & Economy, Rating Action, Sector Report, Wealth Management, Equities>",
@@ -51,12 +52,12 @@ Return this exact structure:
 
 Rules:
 - title: concise (max 80 chars), professional, human-readable. Capture the document type + key subject. No generic titles.
-- executive_summary: max 5 bullets — cover "what happened" and "why it matters". Be concise.
-- key_takeaways: every takeaway must answer "So what?" — give insight, not summary. If multiple takeaways point to the same risk, consolidate them. analyst_lens consolidates risks, opportunities, rating implications, monitoring points — no repetition.
+- document_date: extract the date FROM the document header/footer/masthead — NOT today's date. Newsletters often show their issue date prominently.
+- freshness: compare the dates of events described to the document_date. A newsletter dated today but covering a deal announced 3 months ago = stale.
+- stale_items: be specific — e.g. "Aseem Infrastructure TPG acquisition (announced March 2026, republished)". Leave empty array [] if all content is fresh.
+- key_takeaways: every takeaway must answer "So what?" — give insight, not summary. analyst_lens consolidates risks, opportunities, rating implications — no repetition.
 - entities_impacted: name every company, sector, regulator, or country specifically affected, explain the mechanism.
-- monitoring_points: 3 to 5 actionable items in the format "Monitor X at Y because Z".
 - learning: 3 to 5 practical lessons directly applicable in day-to-day credit or rating work.
-- related_topics: connected concepts, instruments, regulations, or frameworks (e.g. co-lending, LCR, GNPA).
 - tags: 5 to 12 short lowercase keywords.
 - Return ONLY the JSON object, nothing else.
 
