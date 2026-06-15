@@ -30,6 +30,7 @@ Return this exact structure:
   "document_date": "<the date printed on the document itself, e.g. '2026-06-15' in YYYY-MM-DD format — look for newsletter date, report date, publication date. Use null if not found.>",
   "freshness": "<fresh|stale|mixed — fresh = news events are recent relative to the document date; stale = the document discusses events that appear to be weeks/months old; mixed = document contains both recent and older items>",
   "stale_items": ["<name any specific stories or items in this document that appear to be older/recycled news, so the reader knows>"],
+  "duplicate_stories": ["<name any stories already covered in a previously processed document — match by company name, deal, or event. e.g. 'Aseem Infrastructure TPG deal — already covered 2026-06-15'>"],
   "key_takeaways": [
     {
       "takeaway": "<one clear insight — what happened, no fluff>",
@@ -55,6 +56,7 @@ Rules:
 - document_date: extract the date FROM the document header/footer/masthead — NOT today's date. Newsletters often show their issue date prominently.
 - freshness: compare the dates of events described to the document_date. A newsletter dated today but covering a deal announced 3 months ago = stale.
 - stale_items: be specific — e.g. "Aseem Infrastructure TPG acquisition (announced March 2026, republished)". Leave empty array [] if all content is fresh.
+- duplicate_stories: compare against the ALREADY PROCESSED list. If this document repeats a story already covered in a previous note, name it here. Leave empty array [] if no duplicates.
 - key_takeaways: every takeaway must answer "So what?" — give insight, not summary. analyst_lens consolidates risks, opportunities, rating implications — no repetition.
 - entities_impacted: name every company, sector, regulator, or country specifically affected, explain the mechanism.
 - learning: 3 to 5 practical lessons directly applicable in day-to-day credit or rating work.
@@ -81,17 +83,46 @@ def extract_text(path):
         return f.read(), "txt"
 
 
-def call_claude(text, api_key):
+def build_seen_context(notes_dir):
+    """Build a compact summary of already-processed notes for deduplication."""
+    if not os.path.isdir(notes_dir):
+        return ""
+    seen = []
+    for name in sorted(os.listdir(notes_dir)):
+        if not name.endswith("_note.json"):
+            continue
+        try:
+            with open(os.path.join(notes_dir, name), encoding="utf-8") as f:
+                n = json.load(f)
+            title = n.get("title") or n.get("source_file", "")
+            date = n.get("document_date") or n.get("date", "")
+            entities = ", ".join(e.get("entity", "") for e in n.get("entities_impacted", []))
+            tags = ", ".join(n.get("tags", []))
+            seen.append(f"- [{date}] {title} | entities: {entities} | tags: {tags}")
+        except Exception:
+            pass
+    if not seen:
+        return ""
+    return "\n".join(seen)
+
+
+def call_claude(text, api_key, seen_context=""):
     import anthropic
     truncated = text[:MAX_CHARS]
     if len(text) > MAX_CHARS:
         print(f"  [truncated {len(text):,} → {MAX_CHARS:,} chars]")
+
+    seen_block = ""
+    if seen_context:
+        seen_block = (f"\n\nALREADY PROCESSED (do not repeat these in key_takeaways — "
+                      f"flag them in duplicate_stories instead):\n{seen_context}\n")
+
     client = anthropic.Anthropic(api_key=api_key)
     msg = client.messages.create(
         model="claude-opus-4-8",
         max_tokens=8192,
         thinking={"type": "adaptive"},
-        messages=[{"role": "user", "content": PROMPT % truncated}],
+        messages=[{"role": "user", "content": PROMPT % truncated + seen_block}],
     )
     # Get the text block (last content block, skipping thinking blocks)
     raw = ""
@@ -132,8 +163,11 @@ def process(path, notes_dir, api_key):
         return False
 
     print(f"  Extracted {len(text):,} chars ({ftype}), calling Claude...")
+    seen_context = build_seen_context(notes_dir)
+    if seen_context:
+        print(f"  (passing {seen_context.count(chr(10))+1} previously seen note(s) for deduplication)")
     try:
-        result = call_claude(text, api_key)
+        result = call_claude(text, api_key, seen_context)
     except json.JSONDecodeError as e:
         print(f"  Claude returned bad JSON: {e}")
         return False

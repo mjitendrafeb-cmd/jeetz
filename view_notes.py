@@ -122,6 +122,7 @@ def render_card(raw_note, idx):
     doc_date = note.get("document_date") or ""
     freshness = note.get("freshness", "").lower()
     stale_items = note.get("stale_items", [])
+    duplicate_stories = note.get("duplicate_stories", [])
     category = note.get("category", "Other")
     tags = note.get("tags", [])
     relevance = note.get("relevance", [])
@@ -193,19 +194,32 @@ def render_card(raw_note, idx):
     body = kt_html + ei_html + learn_html + rel_html
     cid = f"c{idx}"
 
-    # Freshness badge
+    # Freshness / duplicate badge
+    has_dupes = bool(duplicate_stories)
     freshness_html = ""
-    if freshness == "stale":
+    if has_dupes and freshness == "stale":
+        freshness_html = '<span class="fresh-badge stale">&#9888; Older &amp; repeated news</span>'
+    elif has_dupes:
+        freshness_html = '<span class="fresh-badge stale">&#9888; Has repeated stories</span>'
+    elif freshness == "stale":
         freshness_html = '<span class="fresh-badge stale">&#9888; Contains older news</span>'
     elif freshness == "mixed":
         freshness_html = '<span class="fresh-badge mixed">&#9432; Mixed freshness</span>'
 
-    # Stale items warning (shown in body)
+    # Duplicate stories warning (shown at top of body)
+    dupe_html = ""
+    if duplicate_stories:
+        items = "".join(f"<li>{esc(s)}</li>" for s in duplicate_stories)
+        dupe_html = (f'<div class="sect">'
+                     f'<div class="sh" style="color:#6d28d9">&#10006; Already Covered in Previous Notes</div>'
+                     f'<ul class="blist" style="color:#5b21b6">{items}</ul></div>')
+
+    # Stale items warning
     stale_html = ""
     if stale_items:
         items = "".join(f"<li>{esc(s)}</li>" for s in stale_items)
-        stale_html = (f'<div class="sect stale-sect">'
-                      f'<div class="sh" style="color:#b45309">&#9888; Older / Recycled Items Spotted</div>'
+        stale_html = (f'<div class="sect">'
+                      f'<div class="sh" style="color:#b45309">&#9888; Older / Recycled Items</div>'
                       f'<ul class="blist" style="color:#92400e">{items}</ul></div>')
 
     # Doc date line
@@ -213,7 +227,7 @@ def render_card(raw_note, idx):
     if doc_date:
         doc_date_html = f' &middot; Doc date: {esc(fmt_date(doc_date))}'
 
-    body_with_stale = stale_html + body
+    body_with_stale = dupe_html + stale_html + body
 
     return (
         f'<article class="card" '
