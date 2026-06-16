@@ -1,0 +1,25 @@
+name: Keep Alive
+
+on:
+  schedule:
+    - cron: '0 1 * * 0'  # Every Sunday 1:00 UTC
+  workflow_dispatch:
+
+jobs:
+  keep-alive:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          fetch-depth: 0
+      - name: Keep repo active
+        run: |
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git config user.name "github-actions[bot]"
+          echo "$(date -u)" > .github/keep_alive.txt
+          git add .github/keep_alive.txt
+          git commit -m "chore: keep-alive ping $(date -u +%Y-%m-%d)"
+          git push origin HEAD:main
