@@ -107,13 +107,16 @@ def fetch_rbi_news() -> list[str]:
     try:
         feed = feedparser.parse("https://www.rbi.org.in/scripts/rss.aspx")
         items = []
-        for entry in feed.entries[:10]:
+        for entry in feed.entries[:20]:
+            if not _is_recent(entry, 72):
+                continue
             title = _clean(entry.get("title", "")).strip()
             summary = _clean(entry.get("summary", entry.get("description", ""))).strip()
             url = entry.get("link", "")
-            if title:
+            if title and not _is_market_ticker(title, summary):
                 body = _fetch_article_body(url)
                 items.append(_fmt("RBI", title, summary, url, body))
+        print(f"[fetch_news] RBI RSS: {len(items)} items (last 72h)")
         return items
     except Exception as exc:
         print(f"[fetch_news] RBI RSS error: {exc}")
@@ -159,13 +162,16 @@ def fetch_sebi_news() -> list[str]:
     try:
         feed = feedparser.parse("https://www.sebi.gov.in/sebirss.xml")
         items = []
-        for entry in feed.entries[:10]:
+        for entry in feed.entries[:20]:
+            if not _is_recent(entry, 72):
+                continue
             title = _clean(entry.get("title", "")).strip()
             summary = _clean(entry.get("summary", entry.get("description", ""))).strip()
             url = entry.get("link", "")
-            if title:
+            if title and not _is_market_ticker(title, summary):
                 body = _fetch_article_body(url)
                 items.append(_fmt("SEBI", title, summary, url, body))
+        print(f"[fetch_news] SEBI RSS: {len(items)} items (last 72h)")
         return items
     except Exception as exc:
         print(f"[fetch_news] SEBI RSS error: {exc}")
