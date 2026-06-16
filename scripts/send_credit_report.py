@@ -136,7 +136,7 @@ ALL items are from the last 48 hours only.
 RULES
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 INCLUDE only items affecting: Rating outlook · Liquidity · Funding · Asset quality · Capitalisation · Governance
-SKIP: Product launches · CSR · Awards · Stock tips · Generic M&A · Generic business news
+SKIP: Product launches · CSR · Awards · Stock tips · Generic M&A · Generic business news · Live market prices/indices (Sensex/Nifty points moves, "market opens higher", intraday moves, top gainers/losers, target price calls)
 DEDUPLICATE: If two items cover the same story (even if from different sections), keep only ONE card in the most relevant section. Below that card's source link, add a single line: <span style="font-size:10px;color:#999;">Also reported by: Source2, Source3</span>
 MONETARY PENALTIES: Any "RBI Imposes Monetary Penalty", "SEBI Order", "NHB Penalty" or enforcement action ALWAYS goes to S3 — never S2 — regardless of which entity was penalised. Format: 1-sentence "What Happened" (amount + entity + reason), NO credit implication section, just the link.
 WATCHLIST items ([WATCHLIST — Company]) and [BSE — Company] items are HIGHEST PRIORITY — always appear first in S1. [FINANCIALS — Company] items go to S1 as a brief numbers snapshot (no credit implication needed).

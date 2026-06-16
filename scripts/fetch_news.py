@@ -66,6 +66,21 @@ def _clean(text: str) -> str:
     return " ".join(text.split())
 
 
+# Patterns to drop at fetch time — live market tickers, intraday moves, stock tips
+_SKIP_PATTERNS = re.compile(
+    r'\b(sensex|nifty|bse sensex|nse nifty)\b.{0,40}(\+|-)\d+|'
+    r'\b(open higher|open lower|opens (flat|green|red)|market open|benchmarks open)\b|'
+    r'\bstock(s)? to (buy|sell|watch)\b|'
+    r'\b(top (gainers|losers)|multibagger|target price|buy call|sell call)\b|'
+    r'\bintraday\b',
+    re.IGNORECASE
+)
+
+
+def _is_market_ticker(title: str, summary: str = "") -> bool:
+    return bool(_SKIP_PATTERNS.search(title) or _SKIP_PATTERNS.search(summary))
+
+
 def _fmt(source: str, title: str, summary: str, url: str = "", body: str = "") -> str:
     tier = _source_tier(source)
     body_part = f" [BODY: {body[:400]}]" if body else ""
@@ -208,6 +223,9 @@ def fetch_google_news() -> list[str]:
                 raw_title = _clean(entry.get("title", "")).strip()
                 if not raw_title or raw_title in seen_titles:
                     continue
+                summary = _clean(entry.get("summary", entry.get("description", ""))).strip()
+                if _is_market_ticker(raw_title, summary):
+                    continue
                 seen_titles.add(raw_title)
                 source = tag
                 title = raw_title
@@ -215,7 +233,6 @@ def fetch_google_news() -> list[str]:
                     parts = raw_title.rsplit(" - ", 1)
                     title = parts[0].strip()
                     source = parts[1].strip()
-                summary = _clean(entry.get("summary", entry.get("description", ""))).strip()
                 link = entry.get("link", "")
                 items.append(_fmt(source, title, summary, link))
                 count += 1
@@ -304,6 +321,8 @@ def fetch_company_news() -> list[str]:
                 if not raw_title or raw_title in seen_titles:
                     continue
                 summary = _clean(entry.get("summary", entry.get("description", ""))).strip()
+                if _is_market_ticker(raw_title, summary):
+                    continue
                 first_word = company.lower().split()[0]
                 if first_word not in (raw_title + " " + summary).lower():
                     continue
