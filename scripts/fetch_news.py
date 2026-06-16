@@ -178,6 +178,16 @@ _GOOGLE_QUERIES = [
 ]
 
 
+def _is_recent(entry, hours: int = 48) -> bool:
+    """Return True if entry was published within the last N hours."""
+    pub = entry.get("published_parsed")
+    if not pub:
+        return True  # no date → assume recent
+    import calendar
+    pub_ts = calendar.timegm(pub)
+    return (time.time() - pub_ts) <= hours * 3600
+
+
 def fetch_google_news() -> list[str]:
     items = []
     seen_titles: set[str] = set()
@@ -186,13 +196,15 @@ def fetch_google_news() -> list[str]:
         try:
             url = (
                 f"https://news.google.com/rss/search"
-                f"?q={requests.utils.quote(query)}&hl=en-IN&gl=IN&ceid=IN:en"
+                f"?q={requests.utils.quote(query + ' when:2d')}&hl=en-IN&gl=IN&ceid=IN:en"
             )
             feed = feedparser.parse(url)
             count = 0
             for entry in feed.entries:
                 if count >= 2:
                     break
+                if not _is_recent(entry, 48):
+                    continue
                 raw_title = _clean(entry.get("title", "")).strip()
                 if not raw_title or raw_title in seen_titles:
                     continue
@@ -279,13 +291,15 @@ def fetch_company_news() -> list[str]:
             query = f"{short_name} India finance"
             url = (
                 f"https://news.google.com/rss/search"
-                f"?q={requests.utils.quote(query)}&hl=en-IN&gl=IN&ceid=IN:en"
+                f"?q={requests.utils.quote(query + ' when:2d')}&hl=en-IN&gl=IN&ceid=IN:en"
             )
             feed = feedparser.parse(url)
             count = 0
             for entry in feed.entries:
                 if count >= 3:
                     break
+                if not _is_recent(entry, 48):
+                    continue
                 raw_title = _clean(entry.get("title", "")).strip()
                 if not raw_title or raw_title in seen_titles:
                     continue
