@@ -560,7 +560,44 @@ def send_email(subject: str, html_body: str, gmail_user: str, gmail_password: st
 # ---------------------------------------------------------------------------
 
 def _build_weekly_prompt(news_text: str, day_str: str, date_str: str) -> str:
-    return f"""You are a Credit Rating Intelligence Agent at CareEdge Ratings.
+    # Count rating actions from seen_headlines.json (last 7 days)
+    upgrades = 0
+    downgrades = 0
+    watches = 0
+    outlooks = 0
+    try:
+        cutoff_date = str(datetime.date.today() - datetime.timedelta(days=7))
+        _seen_path = os.path.join(
+            os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
+            "data", "seen_headlines.json"
+        )
+        with open(_seen_path, encoding="utf-8") as f:
+            seen_data = json.load(f)
+        days_data = seen_data.get("days", {})
+        for day_key, headlines in days_data.items():
+            if day_key >= cutoff_date:
+                for h in headlines:
+                    h_lower = h.lower()
+                    if "upgrade" in h_lower:
+                        upgrades += 1
+                    if "downgrade" in h_lower:
+                        downgrades += 1
+                    if "watch" in h_lower:
+                        watches += 1
+                    if "outlook" in h_lower:
+                        outlooks += 1
+    except Exception:
+        pass
+    watch_total = watches + outlooks
+    rating_data_line = (
+        f"DATA: This week's rating actions from headlines: {upgrades} upgrades, "
+        f"{downgrades} downgrades, {watch_total} watch/outlook changes. "
+        f"Use these exact numbers in section 3."
+    )
+
+    return f"""{rating_data_line}
+
+You are a Credit Rating Intelligence Agent at CareEdge Ratings.
 Today is {day_str}, {date_str}. This is the WEEKLY DIGEST covering the full week's credit news.
 
 NEWS ITEMS from this week:
@@ -620,52 +657,76 @@ def main() -> None:
 
     today = datetime.date.today()
 
-    print("Fetching news...")
-    news_text, source_summary = fetch_all_news(newsapi_key)
-    item_count = source_summary.get("__total__", news_text.count("\n") + 1)
-    print(f"Fetched {item_count} news items.")
-    for src, cnt in source_summary.items():
-        if not src.startswith("__"):
-            status = "✓" if cnt > 0 else "✗"
-            print(f"  {status} {src}: {cnt}")
+    try:
+        print("Fetching news...")
+        news_text, source_summary = fetch_all_news(newsapi_key)
+        item_count = source_summary.get("__total__", news_text.count("\n") + 1)
+        print(f"Fetched {item_count} news items.")
+        for src, cnt in source_summary.items():
+            if not src.startswith("__"):
+                status = "✓" if cnt > 0 else "✗"
+                print(f"  {status} {src}: {cnt}")
 
-    print("Saving seen headlines for tomorrow's dedup...")
-    _save_seen_headlines(news_text)
+        print("Saving seen headlines for tomorrow's dedup...")
+        _save_seen_headlines(news_text)
 
-    if is_weekly:
-        print("Generating WEEKLY DIGEST...")
-        date_str = today.strftime("%d %B %Y")
-        day_str = today.strftime("%A")
-        prompt = _build_weekly_prompt(news_text, day_str, date_str)
-        client = anthropic.Anthropic(api_key=anthropic_api_key)
-        msg = client.messages.create(model="claude-sonnet-4-6", max_tokens=8000,
-                                     messages=[{"role": "user", "content": prompt}])
-        weekly_html = msg.content[0].text
-        email_html = build_weekly_email(weekly_html, today)
-        subject = f"Weekly Credit Intelligence Digest — Week ending {date_str}"
-        print("Sending weekly digest...")
-        send_email(subject, email_html, gmail_user, gmail_password)
-        return
+        if is_weekly:
+            print("Generating WEEKLY DIGEST...")
+            date_str = today.strftime("%d %B %Y")
+            day_str = today.strftime("%A")
+            prompt = _build_weekly_prompt(news_text, day_str, date_str)
+            client = anthropic.Anthropic(api_key=anthropic_api_key)
+            msg = client.messages.create(model="claude-sonnet-4-6", max_tokens=8000,
+                                         messages=[{"role": "user", "content": prompt}])
+            weekly_html = msg.content[0].text
+            email_html = build_weekly_email(weekly_html, today)
+            subject = f"Weekly Credit Intelligence Digest — Week ending {date_str}"
+            print("Sending weekly digest...")
+            send_email(subject, email_html, gmail_user, gmail_password)
+            return
 
-    subject = f"Credit Intelligence News — {today.strftime('%d %B %Y')}"
+        subject = f"Credit Intelligence News — {today.strftime('%d %B %Y')}"
 
-    print("Calling Claude API...")
-    full_html = generate_report(news_text, today, anthropic_api_key)
+        print("Calling Claude API...")
+        full_html = generate_report(news_text, today, anthropic_api_key)
 
-    print("Splitting parts...")
-    part_b, part_c = split_parts(full_html)
-    print(f"Part B (sections): {len(part_b)} chars | Part C (takeaways): {len(part_c)} chars")
+        print("Splitting parts...")
+        part_b, part_c = split_parts(full_html)
+        print(f"Part B (sections): {len(part_b)} chars | Part C (takeaways): {len(part_c)} chars")
 
-    print("Building email...")
-    email_html = build_email(part_c, today, source_summary)
+        print("Building email...")
+        email_html = build_email(part_c, today, source_summary)
 
-    print("Building attachment...")
-    attachment_html = build_attachment(part_b, today)
-    attachment_name = f"Credit_Intelligence_{today.strftime('%d%b%Y')}.html"
+        print("Building attachment...")
+        attachment_html = build_attachment(part_b, today)
+        attachment_name = f"Credit_Intelligence_{today.strftime('%d%b%Y')}.html"
 
-    print("Sending email...")
-    send_email(subject, email_html, gmail_user, gmail_password,
-               attachment_html=attachment_html, attachment_name=attachment_name)
+        print("Sending email...")
+        send_email(subject, email_html, gmail_user, gmail_password,
+                   attachment_html=attachment_html, attachment_name=attachment_name)
+
+    except Exception as exc:
+        import traceback
+        try:
+            date_str = today.strftime("%d %B %Y")
+            fail_subject = f"⚠️ Credit Intelligence Report FAILED — {date_str}"
+            fail_body = (
+                f"The Credit Intelligence Report failed on {date_str}.\n\n"
+                f"Error: {exc}\n\n"
+                f"Traceback:\n{traceback.format_exc()}"
+            )
+            recipients = _get_recipients()
+            msg = MIMEText(fail_body, "plain", "utf-8")
+            msg["Subject"] = fail_subject
+            msg["From"] = gmail_user
+            msg["To"] = ", ".join(recipients)
+            with smtplib.SMTP_SSL("smtp.gmail.com", 465) as server:
+                server.login(gmail_user, gmail_password)
+                server.sendmail(gmail_user, recipients, msg.as_string())
+            print(f"[main] Failure alert sent to {', '.join(recipients)}")
+        except Exception as alert_exc:
+            print(f"[main] Could not send failure alert: {alert_exc}")
+        raise
 
 
 if __name__ == "__main__":

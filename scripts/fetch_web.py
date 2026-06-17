@@ -514,6 +514,310 @@ def fetch_custom_urls(urls: list[str]) -> list[str]:
 
 
 # ─────────────────────────────────────────────────────────────────────────────
+# NSE DEBT SEGMENT CIRCULARS
+# ─────────────────────────────────────────────────────────────────────────────
+def fetch_nse_debt_circulars() -> list[str]:
+    """NSE debt segment circulars — falls back to Google News."""
+    items = []
+    try:
+        session = requests.Session()
+        session.headers.update({
+            **_HEADERS,
+            "Referer": "https://www.nseindia.com/",
+        })
+        try:
+            session.get("https://www.nseindia.com/", timeout=10)
+            r = session.get("https://www.nseindia.com/regulations/circulars", timeout=15)
+            if r and r.status_code == 200:
+                soup = BeautifulSoup(r.text, "html.parser")
+                count = 0
+                for a in soup.find_all("a", href=True):
+                    text = _clean(a.get_text()).strip()
+                    href = a["href"]
+                    if len(text) < 20:
+                        continue
+                    if not any(k in text.lower() for k in ["debt", "bond", "debenture", "ncd", "circular"]):
+                        continue
+                    full_url = href if href.startswith("http") else "https://www.nseindia.com" + href
+                    items.append(f"[T1]NSE: {text[:200]} | URL:{full_url}")
+                    count += 1
+                    if count >= 5:
+                        break
+        except Exception:
+            pass
+        if not items:
+            raise Exception("fallback to Google News")
+    except Exception:
+        pass
+    if not items:
+        try:
+            url = (
+                "https://news.google.com/rss/search"
+                f"?q={requests.utils.quote('NSE India debt circular bond debenture when:2d')}"
+                "&hl=en-IN&gl=IN&ceid=IN:en"
+            )
+            feed = feedparser.parse(url)
+            for entry in feed.entries[:5]:
+                raw_title = _clean(entry.get("title", "")).strip()
+                if not raw_title:
+                    continue
+                title = raw_title
+                if " - " in raw_title:
+                    parts = raw_title.rsplit(" - ", 1)
+                    title = parts[0].strip()
+                link = entry.get("link", "")
+                link_part = f" | URL:{link}" if link else ""
+                items.append(f"[T1]NSE: {title}{link_part}")
+        except Exception as exc:
+            print(f"[fetch_web] NSE debt circulars Google fallback error: {exc}")
+    return items[:5]
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+# RBI DBIE MACRO DATA
+# ─────────────────────────────────────────────────────────────────────────────
+def fetch_rbi_dbie() -> list[str]:
+    """RBI DBIE macro data via Google News fallback."""
+    items = []
+    try:
+        queries = [
+            ("RBI repo rate CRR liquidity India monetary policy when:2d", "T1", "RBI-DBIE"),
+            ("India CPI inflation GDP IIP data release when:2d", "T2", "Macro"),
+        ]
+        for query, tier, tag in queries:
+            try:
+                url = (
+                    "https://news.google.com/rss/search"
+                    f"?q={requests.utils.quote(query)}&hl=en-IN&gl=IN&ceid=IN:en"
+                )
+                feed = feedparser.parse(url)
+                count = 0
+                for entry in feed.entries[:5]:
+                    raw_title = _clean(entry.get("title", "")).strip()
+                    if not raw_title:
+                        continue
+                    title = raw_title
+                    if " - " in raw_title:
+                        parts = raw_title.rsplit(" - ", 1)
+                        title = parts[0].strip()
+                    link = entry.get("link", "")
+                    link_part = f" | URL:{link}" if link else ""
+                    items.append(f"[{tier}]{tag}: {title}{link_part}")
+                    count += 1
+                    if count >= 3:
+                        break
+            except Exception as exc:
+                print(f"[fetch_web] RBI DBIE query error: {exc}")
+    except Exception as exc:
+        print(f"[fetch_web] RBI DBIE error: {exc}")
+    return items[:5]
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+# BOND ISSUANCES TRACKER
+# ─────────────────────────────────────────────────────────────────────────────
+def fetch_bond_issuances() -> list[str]:
+    """Track bond/NCD/CP/securitisation issuances via Google News."""
+    items = []
+    try:
+        import datetime as _dt
+        year = _dt.date.today().year
+        queries = [
+            f"India NCD bond issuance allotment debenture {year} when:2d",
+            f"India commercial paper issuance money market {year} when:2d",
+            f"India securitisation ABS PTC issuance {year} when:2d",
+        ]
+        for query in queries:
+            try:
+                url = (
+                    "https://news.google.com/rss/search"
+                    f"?q={requests.utils.quote(query)}&hl=en-IN&gl=IN&ceid=IN:en"
+                )
+                feed = feedparser.parse(url)
+                count = 0
+                for entry in feed.entries[:3]:
+                    raw_title = _clean(entry.get("title", "")).strip()
+                    if not raw_title:
+                        continue
+                    title = raw_title
+                    if " - " in raw_title:
+                        parts = raw_title.rsplit(" - ", 1)
+                        title = parts[0].strip()
+                    link = entry.get("link", "")
+                    link_part = f" | URL:{link}" if link else ""
+                    items.append(f"[S4]Bond Markets: {title}{link_part}")
+                    count += 1
+                    if count >= 3:
+                        break
+            except Exception as exc:
+                print(f"[fetch_web] Bond issuances query error: {exc}")
+    except Exception as exc:
+        print(f"[fetch_web] Bond issuances error: {exc}")
+    return items[:9]
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+# MCA CHARGE FILINGS
+# ─────────────────────────────────────────────────────────────────────────────
+def fetch_mca_charges() -> list[str]:
+    """MCA charge filings via Google News (site requires login)."""
+    items = []
+    try:
+        url = (
+            "https://news.google.com/rss/search"
+            f"?q={requests.utils.quote('MCA India charge creation satisfaction ROC filing NBFC HFC when:2d')}"
+            "&hl=en-IN&gl=IN&ceid=IN:en"
+        )
+        feed = feedparser.parse(url)
+        for entry in feed.entries[:5]:
+            raw_title = _clean(entry.get("title", "")).strip()
+            if not raw_title:
+                continue
+            title = raw_title
+            if " - " in raw_title:
+                parts = raw_title.rsplit(" - ", 1)
+                title = parts[0].strip()
+            link = entry.get("link", "")
+            link_part = f" | URL:{link}" if link else ""
+            items.append(f"[MCA] {title}{link_part}")
+    except Exception as exc:
+        print(f"[fetch_web] MCA charges error: {exc}")
+    # Try MCA site (best-effort, likely fails)
+    try:
+        r = _get("https://www.mca.gov.in/content/mca/global/en/mca/master-data/GSTINandPAN.html", timeout=10)
+        # If we get here, it returned something but we just ignore it for now
+    except Exception:
+        pass
+    return items[:5]
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+# NSDL DEBENTURE DEFAULTS
+# ─────────────────────────────────────────────────────────────────────────────
+def fetch_nsdl_defaults() -> list[str]:
+    """NSDL debenture trustee defaults — tries scrape then Google News fallback."""
+    items = []
+    try:
+        r = _get("https://www.nsdl.co.in/debenture-trustee-default.php", timeout=15)
+        if r and r.status_code == 200:
+            soup = BeautifulSoup(r.text, "html.parser")
+            for row in soup.find_all("tr")[1:10]:
+                cols = row.find_all("td")
+                if not cols:
+                    continue
+                text = _clean(" | ".join(c.get_text() for c in cols)).strip()
+                if len(text) > 10:
+                    items.append(f"[T1]NSDL: {text[:200]}")
+                if len(items) >= 5:
+                    break
+    except Exception:
+        pass
+    if not items:
+        try:
+            url = (
+                "https://news.google.com/rss/search"
+                f"?q={requests.utils.quote('NSDL debenture trustee default India bond when:2d')}"
+                "&hl=en-IN&gl=IN&ceid=IN:en"
+            )
+            feed = feedparser.parse(url)
+            for entry in feed.entries[:5]:
+                raw_title = _clean(entry.get("title", "")).strip()
+                if not raw_title:
+                    continue
+                title = raw_title
+                if " - " in raw_title:
+                    parts = raw_title.rsplit(" - ", 1)
+                    title = parts[0].strip()
+                link = entry.get("link", "")
+                link_part = f" | URL:{link}" if link else ""
+                items.append(f"[T1]NSDL: {title}{link_part}")
+        except Exception as exc:
+            print(f"[fetch_web] NSDL defaults Google fallback error: {exc}")
+    return items[:5]
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+# MOSPI / MACRO DATA RELEASE CALENDAR
+# ─────────────────────────────────────────────────────────────────────────────
+def fetch_macro_releases() -> list[str]:
+    """Fetch macro data releases based on typical Indian release calendar."""
+    import datetime as _dt
+    items = []
+    today = _dt.date.today()
+    day = today.day
+    month_name = today.strftime("%B")
+    year = today.year
+
+    try:
+        # Check proximity to typical release dates
+        release_dates = {
+            "CPI": 12,
+            "IIP": 12,
+            "WPI": 14,
+        }
+        gdp_days = range(28, 32)
+
+        targeted_queries = []
+        for indicator, release_day in release_dates.items():
+            if abs(day - release_day) <= 2:
+                targeted_queries.append(
+                    (f"India {indicator} data {month_name} {year} release MOSPI when:2d", indicator)
+                )
+        if day in gdp_days:
+            targeted_queries.append(
+                (f"India GDP data {month_name} {year} release MOSPI when:2d", "GDP")
+            )
+
+        for query, indicator in targeted_queries:
+            try:
+                url = (
+                    "https://news.google.com/rss/search"
+                    f"?q={requests.utils.quote(query)}&hl=en-IN&gl=IN&ceid=IN:en"
+                )
+                feed = feedparser.parse(url)
+                for entry in feed.entries[:3]:
+                    raw_title = _clean(entry.get("title", "")).strip()
+                    if not raw_title:
+                        continue
+                    title = raw_title
+                    if " - " in raw_title:
+                        parts = raw_title.rsplit(" - ", 1)
+                        title = parts[0].strip()
+                    link = entry.get("link", "")
+                    link_part = f" | URL:{link}" if link else ""
+                    items.append(f"[T2]Macro-Release: {title}{link_part}")
+            except Exception as exc:
+                print(f"[fetch_web] Macro release query error for {indicator}: {exc}")
+
+        # Always run general query
+        try:
+            general_url = (
+                "https://news.google.com/rss/search"
+                f"?q={requests.utils.quote('India macro data GDP CPI IIP release MOSPI when:2d')}"
+                "&hl=en-IN&gl=IN&ceid=IN:en"
+            )
+            feed = feedparser.parse(general_url)
+            for entry in feed.entries[:3]:
+                raw_title = _clean(entry.get("title", "")).strip()
+                if not raw_title:
+                    continue
+                title = raw_title
+                if " - " in raw_title:
+                    parts = raw_title.rsplit(" - ", 1)
+                    title = parts[0].strip()
+                link = entry.get("link", "")
+                link_part = f" | URL:{link}" if link else ""
+                items.append(f"[T2]Macro-Release: {title}{link_part}")
+        except Exception as exc:
+            print(f"[fetch_web] Macro general query error: {exc}")
+
+    except Exception as exc:
+        print(f"[fetch_web] Macro releases error: {exc}")
+
+    return items
+
+
+# ─────────────────────────────────────────────────────────────────────────────
 # MAIN ENTRY POINT
 # ─────────────────────────────────────────────────────────────────────────────
 def fetch_all_web(sources: dict | None = None, custom_urls: list[str] | None = None) -> list[str]:
@@ -567,6 +871,30 @@ def fetch_all_web(sources: dict | None = None, custom_urls: list[str] | None = N
     if on("ccil"):
         print("[fetch_web] Fetching CCIL...")
         all_items.extend(fetch_ccil())
+
+    if on("nse_circulars"):
+        print("[fetch_web] Fetching NSE debt circulars...")
+        all_items.extend(fetch_nse_debt_circulars())
+
+    if on("rbi_dbie"):
+        print("[fetch_web] Fetching RBI DBIE macro data...")
+        all_items.extend(fetch_rbi_dbie())
+
+    if on("bond_issuances"):
+        print("[fetch_web] Fetching bond issuances...")
+        all_items.extend(fetch_bond_issuances())
+
+    if on("mca_charges"):
+        print("[fetch_web] Fetching MCA charges...")
+        all_items.extend(fetch_mca_charges())
+
+    if on("nsdl_defaults"):
+        print("[fetch_web] Fetching NSDL defaults...")
+        all_items.extend(fetch_nsdl_defaults())
+
+    if on("macro_releases"):
+        print("[fetch_web] Fetching macro releases...")
+        all_items.extend(fetch_macro_releases())
 
     if custom_urls:
         print(f"[fetch_web] Fetching {len(custom_urls)} custom URL(s)...")

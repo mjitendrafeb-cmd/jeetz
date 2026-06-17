@@ -87,11 +87,12 @@ def _is_market_ticker(title: str, summary: str = "") -> bool:
     return bool(_SKIP_PATTERNS.search(title) or _SKIP_PATTERNS.search(summary))
 
 
-def _fmt(source: str, title: str, summary: str, url: str = "", body: str = "") -> str:
+def _fmt(source: str, title: str, summary: str, url: str = "", body: str = "", pub_date: str = "") -> str:
     tier = _source_tier(source)
     body_part = f" [BODY: {body[:400]}]" if body else ""
+    date_part = f" | PUB:{pub_date}" if pub_date else ""
     link = f" | URL:{url}" if url else ""
-    return f"{tier}{source}: {title} — {summary[:200]}{body_part}{link}"
+    return f"{tier}{source}: {title} — {summary[:200]}{body_part}{date_part}{link}"
 
 
 def _fetch_article_body(url: str) -> str:
@@ -109,6 +110,24 @@ def _fetch_article_body(url: str) -> str:
         return ""
 
 
+def _fetch_pdf_text(url: str) -> str:
+    """Extract text from first 2 pages of a PDF URL. Returns first 600 chars."""
+    if not url or not url.lower().endswith(".pdf"):
+        return ""
+    try:
+        import pdfplumber
+        import io
+        r = requests.get(url, timeout=10, headers={"User-Agent": "Mozilla/5.0"})
+        r.raise_for_status()
+        with pdfplumber.open(io.BytesIO(r.content)) as pdf:
+            text = ""
+            for page in pdf.pages[:2]:
+                text += (page.extract_text() or "") + " "
+        return text.strip()[:600]
+    except Exception:
+        return ""
+
+
 def fetch_rbi_news() -> list[str]:
     try:
         feed = feedparser.parse("https://www.rbi.org.in/scripts/rss.aspx")
@@ -119,9 +138,21 @@ def fetch_rbi_news() -> list[str]:
             title = _clean(entry.get("title", "")).strip()
             summary = _clean(entry.get("summary", entry.get("description", ""))).strip()
             url = entry.get("link", "")
+            pub_date = ""
+            pub = entry.get("published_parsed")
+            if pub:
+                import calendar as _cal
+                import time as _time
+                try:
+                    pub_date = _time.strftime("%d %b", pub)
+                except Exception:
+                    pass
             if title and not _is_market_ticker(title, summary):
-                body = _fetch_article_body(url)
-                items.append(_fmt("RBI", title, summary, url, body))
+                if url.lower().endswith(".pdf"):
+                    body = _fetch_pdf_text(url)
+                else:
+                    body = _fetch_article_body(url)
+                items.append(_fmt("RBI", title, summary, url, body, pub_date))
         print(f"[fetch_news] RBI RSS: {len(items)} items (last 48h)")
         return items
     except Exception as exc:
@@ -137,6 +168,7 @@ def fetch_rbi_enforcement() -> list[str]:
         soup = BeautifulSoup(r.text, "html.parser")
         items = []
         cutoff = datetime.date.today() - datetime.timedelta(days=7)
+        watchlist = load_watchlist()
         for row in soup.find_all("tr")[1:15]:
             cols = row.find_all("td")
             if len(cols) < 3:
@@ -156,7 +188,15 @@ def fetch_rbi_enforcement() -> list[str]:
             text = f"RBI monetary penalty on {entity}"
             if penalty:
                 text += f" — {penalty}"
-            items.append(f"[T1]RBI-Enforcement: {text} | URL:{url}")
+            item = f"[T1]RBI-Enforcement: {text} | URL:{url}"
+            # Watchlist cross-check: if first word of any watchlist company appears in entity name
+            entity_lower = entity.lower()
+            for company in watchlist:
+                first_word = company.split()[0].lower()
+                if len(first_word) > 2 and first_word in entity_lower:
+                    item = f"[WATCHLIST — {company}] {item}"
+                    break
+            items.append(item)
         print(f"[fetch_news] RBI enforcement: {len(items)} items")
         return items
     except Exception as exc:
@@ -174,9 +214,20 @@ def fetch_sebi_news() -> list[str]:
             title = _clean(entry.get("title", "")).strip()
             summary = _clean(entry.get("summary", entry.get("description", ""))).strip()
             url = entry.get("link", "")
+            pub_date = ""
+            pub = entry.get("published_parsed")
+            if pub:
+                import time as _time
+                try:
+                    pub_date = _time.strftime("%d %b", pub)
+                except Exception:
+                    pass
             if title and not _is_market_ticker(title, summary):
-                body = _fetch_article_body(url)
-                items.append(_fmt("SEBI", title, summary, url, body))
+                if url.lower().endswith(".pdf"):
+                    body = _fetch_pdf_text(url)
+                else:
+                    body = _fetch_article_body(url)
+                items.append(_fmt("SEBI", title, summary, url, body, pub_date))
         print(f"[fetch_news] SEBI RSS: {len(items)} items (last 48h)")
         return items
     except Exception as exc:
@@ -246,7 +297,15 @@ def fetch_google_news() -> list[str]:
                     title = parts[0].strip()
                     source = parts[1].strip()
                 link = entry.get("link", "")
-                items.append(_fmt(source, title, summary, link))
+                pub_date = ""
+                pub = entry.get("published_parsed")
+                if pub:
+                    import time as _time
+                    try:
+                        pub_date = _time.strftime("%d %b", pub)
+                    except Exception:
+                        pass
+                items.append(_fmt(source, title, summary, link, pub_date=pub_date))
                 count += 1
         except Exception as exc:
             print(f"[fetch_news] Google News error for '{query}': {exc}")
@@ -346,7 +405,15 @@ def fetch_company_news() -> list[str]:
                     title = parts[0].strip()
                     source = parts[1].strip()
                 link = entry.get("link", "")
-                items.append(f"[WATCHLIST — {company}] {_fmt(source, title, summary, link)}")
+                pub_date = ""
+                pub = entry.get("published_parsed")
+                if pub:
+                    import time as _time
+                    try:
+                        pub_date = _time.strftime("%d %b", pub)
+                    except Exception:
+                        pass
+                items.append(f"[WATCHLIST — {company}] {_fmt(source, title, summary, link, pub_date=pub_date)}")
                 count += 1
             time.sleep(0.3)
         except Exception as exc:

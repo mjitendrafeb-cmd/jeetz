@@ -23,7 +23,13 @@
     "bse": true,
     "nse": true,
     "fimmda": true,
-    "ccil": true
+    "ccil": true,
+    "nse_circulars": true,
+    "rbi_dbie": true,
+    "bond_issuances": true,
+    "mca_charges": true,
+    "nsdl_defaults": true,
+    "macro_releases": true
   },
   "telegram_channels": [
     "@bank_nbfc_fintech",
