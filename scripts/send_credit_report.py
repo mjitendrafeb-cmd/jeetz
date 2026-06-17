@@ -466,12 +466,14 @@ def _build_source_summary_html(summary: dict) -> str:
             dot = '<span style="color:#15803d;font-weight:700;">&#9679;</span>'
         else:
             dot = '<span style="color:#aaa;">&#9675;</span>'
+        no_data = '<span style="color:#cc0000;">no data</span>'
+        count_str = "" if cnt == 0 else f"{cnt} items"
+        status_str = no_data if cnt == 0 else ""
         rows += (
             f'<tr>'
             f'<td style="padding:3px 8px 3px 0;font-size:10px;color:#555;">{dot} {src}</td>'
             f'<td style="padding:3px 0;font-size:10px;color:#888;text-align:right;">'
-            f'{"" if cnt == 0 else str(cnt) + " items"}'
-            f'{"<span style=\'color:#cc0000;\'>no data</span>" if cnt == 0 else ""}'
+            f'{count_str}{status_str}'
             f'</td>'
             f'</tr>'
         )
