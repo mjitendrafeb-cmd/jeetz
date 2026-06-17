@@ -454,9 +454,39 @@ def build_attachment(part_b_html: str, today: datetime.date) -> str:
 # Email body — short: masthead + top 5 takeaways + attachment notice
 # ---------------------------------------------------------------------------
 
-def build_email(part_c_html: str, today: datetime.date) -> str:
+def _build_source_summary_html(summary: dict) -> str:
+    if not summary:
+        return ""
+    total = summary.get("__total__", 0)
+    rows = ""
+    for src, cnt in summary.items():
+        if src.startswith("__"):
+            continue
+        if cnt > 0:
+            dot = '<span style="color:#15803d;font-weight:700;">&#9679;</span>'
+        else:
+            dot = '<span style="color:#aaa;">&#9675;</span>'
+        rows += (
+            f'<tr>'
+            f'<td style="padding:3px 8px 3px 0;font-size:10px;color:#555;">{dot} {src}</td>'
+            f'<td style="padding:3px 0;font-size:10px;color:#888;text-align:right;">'
+            f'{"" if cnt == 0 else str(cnt) + " items"}'
+            f'{"<span style=\'color:#cc0000;\'>no data</span>" if cnt == 0 else ""}'
+            f'</td>'
+            f'</tr>'
+        )
+    return f"""<table width="100%" cellpadding="0" cellspacing="0" style="border-top:1px solid #eee;margin-top:0;">
+<tr><td style="padding:8px 20px 4px;">
+  <p style="margin:0 0 6px;font-size:8px;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:#aaa;">Sources Fetched — {total} items total</p>
+  <table cellpadding="0" cellspacing="0" width="100%">{rows}</table>
+</td></tr>
+</table>"""
+
+
+def build_email(part_c_html: str, today: datetime.date, source_summary: dict = None) -> str:
     date_str = today.strftime("%d %B %Y")
     dow = today.strftime("%A, %d %B %Y").upper()
+    sources_html = _build_source_summary_html(source_summary or {})
 
     return f"""<!DOCTYPE html>
 <html lang="en">
@@ -481,6 +511,8 @@ def build_email(part_c_html: str, today: datetime.date) -> str:
   <p style="margin:0;font-size:11px;color:#888;">S1 Watchlist · S2 NBFC/FI · S3 Regulations · S4 Markets · S5 Macro — open in Chrome/Safari</p>
 </td></tr>
 </table>
+
+{sources_html}
 
 <table width="100%" cellpadding="0" cellspacing="0" style="background:#1a1a1a;">
 <tr><td style="padding:8px 20px;text-align:center;font-size:10px;color:#555;">
@@ -589,9 +621,13 @@ def main() -> None:
     today = datetime.date.today()
 
     print("Fetching news...")
-    news_text = fetch_all_news(newsapi_key)
-    item_count = news_text.count("\n") + 1
+    news_text, source_summary = fetch_all_news(newsapi_key)
+    item_count = source_summary.get("__total__", news_text.count("\n") + 1)
     print(f"Fetched {item_count} news items.")
+    for src, cnt in source_summary.items():
+        if not src.startswith("__"):
+            status = "✓" if cnt > 0 else "✗"
+            print(f"  {status} {src}: {cnt}")
 
     print("Saving seen headlines for tomorrow's dedup...")
     _save_seen_headlines(news_text)
@@ -621,7 +657,7 @@ def main() -> None:
     print(f"Part B (sections): {len(part_b)} chars | Part C (takeaways): {len(part_c)} chars")
 
     print("Building email...")
-    email_html = build_email(part_c, today)
+    email_html = build_email(part_c, today, source_summary)
 
     print("Building attachment...")
     attachment_html = build_attachment(part_b, today)

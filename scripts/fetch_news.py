@@ -72,7 +72,13 @@ _SKIP_PATTERNS = re.compile(
     r'\b(open higher|open lower|opens (flat|green|red)|market open|benchmarks open)\b|'
     r'\bstock(s)? to (buy|sell|watch)\b|'
     r'\b(top (gainers|losers)|multibagger|target price|buy call|sell call)\b|'
-    r'\bintraday\b',
+    r'\bintraday\b|'
+    r'\battend(s)? (investor|analyst) (meet|conference|day)\b|'
+    r'\binvestor meet\b|'
+    r'\bsets? record date\b|'
+    r'\brecord date for (dividend|commercial paper|cp maturity|interest)\b|'
+    r'\bcommercial paper maturit\b|'
+    r'\bsets? (ex-date|ex date)\b',
     re.IGNORECASE
 )
 
@@ -355,7 +361,8 @@ def _normalise_key(item: str) -> str:
     return text.split(" — ")[0].lower().strip()[:120]
 
 
-def fetch_all_news(newsapi_key: str = "") -> str:
+def fetch_all_news(newsapi_key: str = "") -> tuple[str, dict]:
+    """Returns (news_text, source_summary) where source_summary maps source name → item count."""
     cfg = load_config()
     sources = cfg.get("sources", {})
 
@@ -378,53 +385,69 @@ def fetch_all_news(newsapi_key: str = "") -> str:
                     seen_keys.update(keys)
         elif data.get("date", "") < today_str:
             seen_keys = set(data.get("keys", []))
-        # same-day: skip filter
     except Exception:
         pass
 
     all_items: list[str] = []
+    summary: dict[str, int] = {}
+
+    def _add(key: str, items: list[str]) -> None:
+        summary[key] = len(items)
+        all_items.extend(items)
 
     if src_on("rbi_rss"):
-        all_items.extend(fetch_rbi_news())
-        all_items.extend(fetch_rbi_enforcement())
+        rbi = fetch_rbi_news()
+        enf = fetch_rbi_enforcement()
+        summary["RBI RSS"] = len(rbi)
+        summary["RBI Enforcement"] = len(enf)
+        all_items.extend(rbi)
+        all_items.extend(enf)
 
     if src_on("sebi_rss"):
-        all_items.extend(fetch_sebi_news())
+        _add("SEBI RSS", fetch_sebi_news())
 
     if src_on("rating_agencies"):
         try:
             from fetch_ratings import fetch_all_ratings
-            all_items.extend(fetch_all_ratings())
+            _add("Rating Agencies", fetch_all_ratings())
         except Exception as exc:
+            summary["Rating Agencies"] = 0
             print(f"[fetch_news] Rating agencies error: {exc}")
 
     if src_on("google_news"):
-        all_items.extend(fetch_google_news())
+        _add("Google News", fetch_google_news())
 
     if src_on("newsapi"):
-        all_items.extend(fetch_newsapi_news(newsapi_key))
+        _add("NewsAPI", fetch_newsapi_news(newsapi_key))
 
     if src_on("company_watchlist"):
-        all_items.extend(fetch_company_news())
+        _add("Watchlist (Google)", fetch_company_news())
         try:
             from fetch_bse import fetch_bse_announcements, fetch_bse_financials
             watchlist = load_watchlist()
             if src_on("bse_announcements"):
-                all_items.extend(fetch_bse_announcements(watchlist))
-            all_items.extend(fetch_bse_financials(watchlist))
+                _add("BSE Announcements", fetch_bse_announcements(watchlist))
+            _add("BSE Financials", fetch_bse_financials(watchlist))
         except Exception as exc:
+            summary["BSE"] = 0
             print(f"[fetch_news] BSE error: {exc}")
 
     if src_on("telegram"):
         channels = cfg.get("telegram_channels", [])
         if channels:
-            all_items.extend(fetch_telegram_channels(channels))
+            _add("Telegram", fetch_telegram_channels(channels))
+        else:
+            summary["Telegram"] = 0
 
     if src_on("web_scraper"):
-        all_items.extend(fetch_all_web(
-            cfg.get("web_sources", {}),
-            cfg.get("custom_scrape_urls", []),
-        ))
+        try:
+            _add("Web Scraper", fetch_all_web(
+                cfg.get("web_sources", {}),
+                cfg.get("custom_scrape_urls", []),
+            ))
+        except Exception as exc:
+            summary["Web Scraper"] = 0
+            print(f"[fetch_news] Web scraper error: {exc}")
 
     # Deduplicate within this batch
     dedup_seen: set[str] = set()
@@ -439,13 +462,16 @@ def fetch_all_news(newsapi_key: str = "") -> str:
         if len(unique) >= 200:
             break
 
-    # Apply cross-day seen-headline filter
+    pre_dedup = len(unique)
     if seen_keys:
         unique = [item for item in unique if _normalise_key(item) not in seen_keys]
-        print(f"[fetch_news] After 5-day dedup filter: {len(unique)} items")
+        print(f"[fetch_news] After 5-day dedup filter: {len(unique)} items (was {pre_dedup})")
+
+    summary["__total__"] = len(unique)
+    summary["__pre_dedup__"] = pre_dedup
 
     if not unique:
-        return "No news items were fetched today. Please check network connectivity and RSS feed availability."
+        return "No news items were fetched today. Please check network connectivity and RSS feed availability.", summary
 
     lines = [f"{i + 1}. {item}" for i, item in enumerate(unique)]
-    return "\n".join(lines)
+    return "\n".join(lines), summary
