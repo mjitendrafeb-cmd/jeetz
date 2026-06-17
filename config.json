@@ -12,7 +12,7 @@
     "bse_announcements": true,
     "rating_agencies": true,
     "telegram": true,
-    "web_scraper": false
+    "web_scraper": true
   },
   "custom_scrape_urls": [],
   "web_sources": {
@@ -21,6 +21,7 @@
     "icra": true,
     "india_ratings": true,
     "bse": true,
+    "nse": true,
     "fimmda": true,
     "ccil": true
   },
