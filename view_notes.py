@@ -141,7 +141,6 @@ def render_card(raw_note, idx):
         " ".join(exec_summary),
         " ".join(kt.get("takeaway","") + " " + kt.get("analyst_lens","") for kt in key_takeaways),
         " ".join(ei.get("entity","") + " " + ei.get("impact","") for ei in entities_impacted),
-        " ".join(dp.get("metric","") + " " + dp.get("value","") + " " + dp.get("entity","") for dp in data_points),
         " ".join(learning),
     ]).lower().replace('"', "'")
 
