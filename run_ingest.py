@@ -31,30 +31,19 @@ Return this exact structure:
   "freshness": "<fresh|stale|mixed>",
   "stale_items": ["<specific story that appears old or recycled>"],
   "duplicate_stories": ["<story already covered in a previously processed note — match by company, deal, or event>"],
-  "data_points": [
-    {
-      "metric": "<specific ratio or figure name, e.g. 'deal size', 'GNPA ratio', 'NIM', 'AUM growth', 'net debt/EBITDA'>",
-      "value": "<the actual number, e.g. '4000 Cr', '13.95%% YoY', '2.3x'>",
-      "entity": "<company or sector this belongs to>"
-    }
-  ],
   "key_takeaways": [
     {
       "takeaway": "<one precise insight — lead with the credit or business implication, not the event description. Answer 'so what for credit?' not 'what happened'.>",
-      "materiality": "<high|medium|low — high = could move a rating or trigger a watch; medium = flag in a credit note; low = background context>",
       "credit_signal": "<positive|negative|neutral|watch — effect on credit quality of the most affected issuer or sector>",
-      "analyst_lens": "<three things in order: (1) credit implication in one sentence with a number where possible; (2) what specifically could trigger a rating action or watchlist change, or 'no near-term rating trigger'; (3) the single metric to track going forward and why.>"
+      "analyst_lens": "<why it matters for credit + risks/opportunities + what single metric to track going forward. Be specific, name numbers where possible.>"
     }
   ],
   "entities_impacted": [
     {
       "entity": "<company, sector, regulator or country>",
-      "credit_view": "<positive|negative|neutral|watch>",
       "impact": "<specific mechanism of impact on their credit profile, funding, operations, or market position>"
     }
   ],
-  "rating_trigger": "<yes|no|possible>",
-  "rating_trigger_detail": "<if yes or possible: name the entity and the specific factor. Empty string otherwise.>",
   "learning": ["<sharp, non-obvious lesson for credit or rating work — something a senior analyst would tell a junior that they cannot find in a textbook. Tie it directly to what this document shows.>"],
   "category": "<Banking Regulation|Credit Research|Macro & Economy|Rating Action|Sector Report|Wealth Management|Equities|NBFC & FI|Real Estate|Infrastructure|Other>",
   "sentiment": "<positive|negative|neutral|mixed>",
@@ -65,10 +54,9 @@ Return this exact structure:
 Rules:
 - title: max 80 chars. Capture document type and key subject. No generic titles.
 - document_date: from the document itself, not today's date. null if genuinely absent.
-- data_points: extract every specific number that matters — deal sizes, ratios, growth rates, yields, NPA, CAR, coverage. Skip vague descriptions. Empty array [] if no meaningful numbers.
-- key_takeaways: 3 to 6 takeaways, highest materiality first. Each must answer "so what for credit?" — not just summarise the event. Consolidate takeaways pointing to the same risk.
-- analyst_lens: be specific. "Leverage will increase" is bad. "Net debt/EBITDA likely rises above 3x post-acquisition, breaching typical investment-grade thresholds" is good.
-- rating_trigger: say yes only if the document contains material news that genuinely warrants credit action consideration. Do not overuse.
+- key_takeaways: 3 to 6 takeaways. Each must answer "so what for credit?" — not just summarise the event. Consolidate takeaways pointing to the same risk.
+- credit_signal: from the perspective of the most affected issuer or sector.
+- analyst_lens: be specific. "Leverage will increase" is bad. "Net debt/EBITDA likely rises above 3x post-acquisition, breaching typical investment-grade thresholds" is good. Always name a metric to track.
 - learning: 2 to 4 lessons, specific to this document, not generic credit advice.
 - tags: 5 to 12 lowercase keywords.
 - Return ONLY the JSON object, nothing else.
