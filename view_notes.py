@@ -129,48 +129,87 @@ def render_card(raw_note, idx):
     exec_summary = note.get("executive_summary", [])
     key_takeaways = note.get("key_takeaways", [])
     entities_impacted = note.get("entities_impacted", [])
-    monitoring_points = note.get("monitoring_points", [])
+    data_points = note.get("data_points", [])
     learning = note.get("learning", [])
-    related_topics = note.get("related_topics", [])
+    rating_trigger = note.get("rating_trigger", "no").lower()
+    rating_trigger_detail = note.get("rating_trigger_detail", "")
 
-    # Preview text: first key takeaway or first exec summary bullet
-    preview = (key_takeaways[0].get("takeaway", "") if key_takeaways
-               else exec_summary[0] if exec_summary else "")
+    # Preview text: first key takeaway
+    preview = key_takeaways[0].get("takeaway", "") if key_takeaways else (exec_summary[0] if exec_summary else "")
 
-    # Searchable blob (all lowercase, stored as data attr)
+    # Searchable blob
     search_blob = " ".join([
         title, source, category, sentiment,
         " ".join(tags), " ".join(relevance),
         " ".join(exec_summary),
         " ".join(kt.get("takeaway","") + " " + kt.get("analyst_lens","") for kt in key_takeaways),
         " ".join(ei.get("entity","") + " " + ei.get("impact","") for ei in entities_impacted),
-        " ".join(monitoring_points), " ".join(learning), " ".join(related_topics),
+        " ".join(dp.get("metric","") + " " + dp.get("value","") + " " + dp.get("entity","") for dp in data_points),
+        " ".join(learning),
     ]).lower().replace('"', "'")
 
     # Tags
     tag_row = "".join(tag_chip(t, TAG_COLORS[hash(t) % len(TAG_COLORS)]) for t in tags)
 
+    # Materiality colour map
+    MAT_COLOR = {"high": "#dc2626", "medium": "#d97706", "low": "#6b7280"}
+    CS_COLOR = {"positive": "#15803d", "negative": "#dc2626", "neutral": "#6b7280", "watch": "#d97706"}
+
     # ── Expanded sections ──────────────────────────────────────────────
 
-    # 1. Key Takeaways & Analyst Lens
-    kt_html = ""
-    if key_takeaways:
+    # 0. Data Points (key numbers)
+    dp_html = ""
+    if data_points:
         rows = "".join(
-            f'<tr><td class="kc tw">{esc(kt.get("takeaway",""))}</td>'
-            f'<td class="kc al">{esc(kt.get("analyst_lens",""))}</td></tr>'
-            for kt in key_takeaways
+            f'<tr><td class="kc tw">{esc(dp.get("metric",""))}</td>'
+            f'<td class="kc" style="font-weight:700;color:#0f172a">{esc(dp.get("value",""))}</td>'
+            f'<td class="kc" style="color:#64748b">{esc(dp.get("entity",""))}</td></tr>'
+            for dp in data_points
         )
-        kt_html = (f'<div class="sect"><div class="sh">Key Takeaways &amp; Analyst Lens</div>'
+        dp_html = (f'<div class="sect"><div class="sh">Key Numbers</div>'
                    f'<div class="tbl-wrap"><table class="dt">'
-                   f'<thead><tr><th style="width:42%">Key Takeaway</th><th>Analyst Lens</th></tr></thead>'
+                   f'<thead><tr><th style="width:35%">Metric</th><th style="width:25%">Value</th><th>Entity</th></tr></thead>'
                    f'<tbody>{rows}</tbody></table></div></div>')
 
-    # 3. Companies & Sectors Impacted
+    # 1. Key Takeaways & Analyst Lens (with materiality + credit_signal)
+    kt_html = ""
+    if key_takeaways:
+        rows = ""
+        for kt in key_takeaways:
+            mat = kt.get("materiality", "").lower()
+            cs = kt.get("credit_signal", "").lower()
+            mat_col = MAT_COLOR.get(mat, "#6b7280")
+            cs_col = CS_COLOR.get(cs, "#6b7280")
+            badges = ""
+            if mat:
+                badges += f'<span style="font-size:10px;font-weight:700;color:{mat_col};text-transform:uppercase;letter-spacing:.4px">{esc(mat)}</span> '
+            if cs:
+                badges += f'<span style="font-size:10px;font-weight:700;color:{cs_col};text-transform:uppercase;letter-spacing:.4px">&#x25CF; {esc(cs)}</span>'
+            rows += (
+                f'<tr><td class="kc tw"><div style="margin-bottom:4px">{badges}</div>{esc(kt.get("takeaway",""))}</td>'
+                f'<td class="kc al">{esc(kt.get("analyst_lens",""))}</td></tr>'
+            )
+        kt_html = (f'<div class="sect"><div class="sh">Key Takeaways &amp; Analyst Lens</div>'
+                   f'<div class="tbl-wrap"><table class="dt">'
+                   f'<thead><tr><th style="width:44%">Takeaway</th><th>Analyst Lens</th></tr></thead>'
+                   f'<tbody>{rows}</tbody></table></div></div>')
+
+    # 2. Rating Trigger
+    rt_html = ""
+    if rating_trigger in ("yes", "possible"):
+        rt_color = "#dc2626" if rating_trigger == "yes" else "#d97706"
+        rt_label = "Rating Action Likely" if rating_trigger == "yes" else "Rating Action Possible"
+        rt_html = (f'<div class="sect">'
+                   f'<div class="sh" style="color:{rt_color}">&#9888; {rt_label}</div>'
+                   f'<p style="font-size:13px;color:#374151;line-height:1.6">{esc(rating_trigger_detail)}</p></div>')
+
+    # 3. Companies & Sectors Impacted (with credit_view)
     ei_html = ""
     if entities_impacted:
         rows = "".join(
-            f'<tr><td class="kc tw">{esc(ei.get("entity",""))}</td>'
-            f'<td class="kc">{esc(ei.get("impact",""))}</td></tr>'
+            f'<tr><td class="kc tw">{esc(ei.get("entity",""))}'
+            + (f' <span style="font-size:10px;font-weight:700;color:{CS_COLOR.get(ei.get("credit_view","neutral").lower(),"#6b7280")};text-transform:uppercase"> {esc(ei.get("credit_view",""))}</span>' if ei.get("credit_view") else "")
+            + f'</td><td class="kc">{esc(ei.get("impact",""))}</td></tr>'
             for ei in entities_impacted
         )
         ei_html = (f'<div class="sect"><div class="sh">Companies &amp; Sectors Impacted</div>'
@@ -191,7 +230,7 @@ def render_card(raw_note, idx):
         chips = "".join(f'<span class="rel-chip">{esc(r)}</span>' for r in relevance)
         rel_html = f'<div class="rel-row">Relevance: {chips}</div>'
 
-    body = kt_html + ei_html + learn_html + rel_html
+    body = dp_html + kt_html + rt_html + ei_html + learn_html + rel_html
     cid = f"c{idx}"
 
     # Freshness / duplicate badge
@@ -229,6 +268,13 @@ def render_card(raw_note, idx):
 
     body_with_stale = dupe_html + stale_html + body
 
+    if rating_trigger == "yes":
+        rt_badge = '<span class="fresh-badge" style="background:#fef2f2;color:#dc2626;border-color:#fecaca">&#9888; Rating trigger</span>'
+    elif rating_trigger == "possible":
+        rt_badge = '<span class="fresh-badge" style="background:#fffbeb;color:#b45309;border-color:#fde68a">&#9432; Possible rating action</span>'
+    else:
+        rt_badge = ""
+
     return (
         f'<article class="card" '
         f'data-category="{esc(category)}" '
@@ -242,6 +288,7 @@ def render_card(raw_note, idx):
         f'      {sentiment_badge(sentiment)}\n'
         f'      <time class="date-badge" datetime="{esc(date)}">{esc(fmt_date(date))}</time>\n'
         f'      {freshness_html}\n'
+        f'      {rt_badge}\n'
         f'      <span class="tog-ico" id="{cid}-ico">&#8964;</span>\n'
         f'    </div>\n'
         f'    <h2 class="card-title" data-raw="{esc(title)}">{esc(title)}</h2>\n'
