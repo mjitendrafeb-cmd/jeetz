@@ -74,12 +74,13 @@ def main():
     date_str = datetime.now().strftime("%Y-%m-%d")
     BRANCH = "claude/knowledge-mgmt-daily-reads-cj7wbf"
 
-    # Stage docs changes, stash them, pull remote history, then re-apply
-    run(["git", "add", "docs/"], check=False)
-    run(["git", "stash"], check=False)
+    # Always sync to remote branch first so we never diverge from script updates.
+    # Stash any modified tracked files (index.html), leaving new note JSONs in place.
     run(["git", "fetch", "origin", BRANCH], check=False)
-    run(["git", "merge", f"origin/{BRANCH}",
-         "--allow-unrelated-histories", "--no-edit", "-X", "ours"], check=False)
+    run(["git", "stash", "--include-untracked"], check=False)
+    # Reset local to exactly match remote — picks up any script updates automatically
+    run(["git", "checkout", "-B", BRANCH, f"origin/{BRANCH}"], check=False)
+    # Restore the newly generated docs
     run(["git", "stash", "pop"], check=False)
 
     status = run(["git", "status", "--porcelain"], check=False)
@@ -89,7 +90,7 @@ def main():
         run(["git", "add", "docs/"])
         run(["git", "commit", "-m", f"Update knowledge notes {date_str}"])
 
-    run(["git", "push", "-u", "origin", f"HEAD:{BRANCH}"])
+    run(["git", "push", "-u", "origin", BRANCH])
 
     print(f"\n✓ Published! GitHub Pages will update in ~1 minute.")
     print(f"  View at: https://mjitendrafeb-cmd.github.io/jeetz/")
