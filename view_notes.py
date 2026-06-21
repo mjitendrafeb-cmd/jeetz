@@ -30,6 +30,8 @@ SENTIMENT_COLORS = {
     "mixed":    {"fg": "#b45309", "bg": "#fffbeb", "bd": "#fde68a"},
 }
 TAG_COLORS = ["#3b82f6","#8b5cf6","#ec4899","#f97316","#14b8a6","#64748b","#a16207","#0891b2"]
+SIGNAL_PRIORITY = {"negative": 0, "watch": 1, "positive": 2, "neutral": 3}
+SIGNAL_BORDER = {"negative": "#ef4444", "watch": "#f59e0b", "positive": "#22c55e", "neutral": "#e2e8f0"}
 SOURCE_TYPE_META = {
     "broker_research": {"label": "Broker Research", "bg": "#eff6ff", "fg": "#2563eb", "bd": "#bfdbfe"},
     "regulatory":      {"label": "Regulatory",      "bg": "#f0fdf4", "fg": "#15803d", "bd": "#bbf7d0"},
@@ -193,6 +195,14 @@ def render_card(raw_note, idx, watchlist=None):
     cid = f"c{idx}"
     has_dupes = bool(duplicate_stories)
 
+    # Dominant credit signal → card left-border color
+    if key_takeaways:
+        sigs = [kt.get("credit_signal", "neutral").lower() for kt in key_takeaways]
+        dominant_sig = min(sigs, key=lambda s: SIGNAL_PRIORITY.get(s, 3))
+    else:
+        dominant_sig = "neutral"
+    card_border = SIGNAL_BORDER.get(dominant_sig, "#e2e8f0")
+
     # ── Expanded sections ──────────────────────────────────────────────
 
     # 1. Key Takeaways & Analyst Lens (with credit_signal)
@@ -288,7 +298,7 @@ def render_card(raw_note, idx, watchlist=None):
     body_with_stale = dupe_html + stale_html + body
 
     return (
-        f'<article class="card" '
+        f'<article class="card" style="border-left-color:{card_border}" '
         f'data-category="{esc(category)}" '
         f'data-sentiment="{esc(sentiment)}" '
         f'data-date="{esc(date)}" '
@@ -366,6 +376,28 @@ def generate_html(notes):
         for t in n.get("tags", []):
             tag_counts[t] += 1
     top_tags = tag_counts.most_common(40)
+
+    # Credit signal summary bar
+    sig_counts = Counter()
+    for n in notes:
+        for kt in n.get("key_takeaways", []):
+            s = kt.get("credit_signal", "neutral").lower()
+            sig_counts[s] += 1
+    sig_bar_parts = []
+    for sig, label, color in [
+        ("negative", "Negative", "#dc2626"),
+        ("watch",    "Watch",    "#d97706"),
+        ("positive", "Positive", "#15803d"),
+        ("neutral",  "Neutral",  "#6b7280"),
+    ]:
+        cnt = sig_counts.get(sig, 0)
+        if cnt:
+            sig_bar_parts.append(
+                f'<span class="sig-pill" style="color:{color}">'
+                f'<span class="sig-dot" style="background:{color}"></span>'
+                f'{cnt} {label}</span>'
+            )
+    signal_bar_html = "".join(sig_bar_parts)
     tag_cloud_html = "".join(
         f'<span class="tc-chip" data-tag="{esc(t)}" onclick="setTag(\'{esc(t)}\')">'
         f'{esc(t)}<span class="tc-cnt">{c}</span></span>'
@@ -442,7 +474,7 @@ aside{{width:200px;flex-shrink:0;position:sticky;top:76px;
 main{{flex:1;min-width:0}}
 #stats-bar{{font-size:12px;color:#64748b;margin-bottom:14px;min-height:18px}}
 .card{{background:#fff;border-radius:14px;margin-bottom:14px;
-  border:1.5px solid #e2e8f0;overflow:hidden;
+  border:1.5px solid #e2e8f0;border-left-width:4px;overflow:hidden;
   transition:box-shadow .2s,border-color .2s}}
 .card:hover{{box-shadow:0 4px 20px #0000000f;border-color:#c7d2fe}}
 .card-hd{{padding:18px 20px 14px;cursor:pointer;user-select:none}}
@@ -532,6 +564,11 @@ body.compact .card-hd{{padding:10px 20px}}
 .rel-chip{{background:#f1f5f9;color:#64748b;border:1px solid #e2e8f0;
   padding:2px 8px;border-radius:12px;font-size:10px;font-weight:600}}
 
+/* ── Signal bar ── */
+.signal-bar{{display:flex;align-items:center;gap:16px;padding:10px 0 14px;flex-wrap:wrap}}
+.sig-pill{{display:inline-flex;align-items:center;gap:5px;font-size:12px;font-weight:600}}
+.sig-dot{{width:8px;height:8px;border-radius:50%;flex-shrink:0}}
+
 /* ── Highlights ── */
 mark{{background:#fef9c3;color:#713f12;border-radius:2px;padding:0 2px}}
 
@@ -598,6 +635,7 @@ mark{{background:#fef9c3;color:#713f12;border-radius:2px;padding:0 2px}}
   </aside>
   <main>
     <div id="stats-bar" role="status" aria-live="polite"></div>
+    <div class="signal-bar">{signal_bar_html}</div>
     <div id="cards-container">{cards_html}</div>
     <div id="empty" role="status">
       <svg width="48" height="48" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
