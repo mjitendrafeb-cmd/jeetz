@@ -443,30 +443,28 @@ def render_row(raw_note, idx, watchlist=None):
     dup_badge = ' <span class="dup-badge">&#8635; Repeat</span>' if duplicate_stories else ""
 
     return (
-        f'<tr class="doc-row" id="{cid}" '
+        f'<tr class="doc-row" id="{cid}" onclick="toggleRow(\'{cid}\')" '
         f'data-category="{esc(category)}" data-sentiment="{esc(sentiment)}" '
         f'data-date="{esc(date)}" data-docdate="{esc(doc_date)}" '
         f'data-tags="{esc(tags_csv)}" data-search="{esc(search_blob)}">'
         f'<td class="col-name" style="border-left:3px solid {lborder}">'
-        f'<div class="name-inner" onclick="toggleRow(\'{cid}\')">'
+        f'<div class="name-inner">'
         f'<span class="row-ico" id="{cid}-ico">&#8250;</span>'
         f'<span class="doc-title" data-raw="{esc(title)}">{esc(title)}</span>'
         f'{wl_badge}{dup_badge}'
         f'</div>'
         f'<div class="row-tags">{tag_chips}</div>'
         f'</td>'
-        f'<td class="col-abstract" onclick="toggleRow(\'{cid}\')">'
+        f'<td class="col-abstract">'
         f'<span data-raw="{esc(preview)}">'
         f'{esc(preview[:200])}{"&#8230;" if len(preview) > 200 else ""}'
         f'</span></td>'
-        f'<td class="col-status" onclick="toggleRow(\'{cid}\')">'
+        f'<td class="col-status">'
         f'<span class="stype-badge" style="color:{st_meta["fg"]};'
         f'background:{st_meta["bg"]};border-color:{st_meta["bd"]}">'
         f'{esc(st_meta["label"])}</span></td>'
-        f'<td class="col-date" onclick="toggleRow(\'{cid}\')">'
-        f'{esc(fmt_date(doc_date or date))}</td>'
-        f'<td class="col-cat" onclick="toggleRow(\'{cid}\')">'
-        f'<span class="cat-badge">{esc(category)}</span></td>'
+        f'<td class="col-date">{esc(fmt_date(doc_date or date))}</td>'
+        f'<td class="col-cat"><span class="cat-badge">{esc(category)}</span></td>'
         f'</tr>'
         f'<tr class="exp-row" id="{cid}-exp">'
         f'<td colspan="5"><div class="exp-content">{expanded_html}</div></td>'
@@ -614,7 +612,7 @@ main{{flex:1;min-width:0}}
 .doc-table thead th{{padding:10px 14px;text-align:left;font-size:11px;font-weight:700;
   color:#605e5c;background:#faf9f8;border-bottom:2px solid #edebe9;
   text-transform:uppercase;letter-spacing:.4px;white-space:nowrap}}
-.doc-row{{border-bottom:1px solid #f3f2f1;transition:background .1s}}
+.doc-row{{border-bottom:1px solid #f3f2f1;transition:background .1s;cursor:pointer}}
 .doc-row:hover td{{background:#f3f2f1}}
 .doc-row.exp-open td{{background:#faf9f8}}
 .col-name{{padding:11px 14px;width:28%;vertical-align:top}}
@@ -626,9 +624,10 @@ main{{flex:1;min-width:0}}
   white-space:nowrap;vertical-align:top;cursor:pointer}}
 .col-cat{{padding:11px 14px;width:15%;vertical-align:top;cursor:pointer}}
 .name-inner{{display:flex;align-items:flex-start;gap:6px;margin-bottom:4px;cursor:pointer}}
-.row-ico{{font-size:18px;color:#8a8886;flex-shrink:0;line-height:1;
-  transition:transform .18s;display:inline-block}}
+.row-ico{{font-size:18px;color:#0078d4;flex-shrink:0;line-height:1;
+  transition:transform .18s;display:inline-block;cursor:pointer}}
 .row-ico.open{{transform:rotate(90deg)}}
+.name-inner:hover .row-ico{{color:#004ea8}}
 .doc-title{{font-size:13px;font-weight:600;color:#323130;line-height:1.4}}
 .row-tags{{display:flex;flex-wrap:wrap;gap:3px;padding-left:24px;margin-top:3px}}
 .tc-sm{{font-size:10px;padding:1px 6px;border-radius:10px;
@@ -805,7 +804,7 @@ mark{{background:#fff100;color:#323130;border-radius:1px;padding:0 1px}}
       var show=catOk&&searchOk&&(!dateFrom||dd>=dateFrom)&&(!dateTo||dd<=dateTo);
       r.style.display=show?'':'none';
       var exp=document.getElementById(r.id+'-exp');
-      if(exp)exp.style.display=(!show)?'none':(exp.dataset.open==='1'?'':'none');
+      if(exp)exp.style.display=(!show)?'none':(exp.dataset.open==='1'?'table-row':'none');
       if(show){{
         vis++;
         var titleEl=r.querySelector('.doc-title');
@@ -851,7 +850,7 @@ mark{{background:#fff100;color:#323130;border-radius:1px;padding:0 1px}}
     if(!exp)return;
     var isOpen=exp.dataset.open==='1';
     exp.dataset.open=isOpen?'0':'1';
-    exp.style.display=isOpen?'none':'';
+    exp.style.display=isOpen?'none':'table-row';
     if(ico)ico.classList.toggle('open',!isOpen);
     if(row)row.classList.toggle('exp-open',!isOpen);
   }};
