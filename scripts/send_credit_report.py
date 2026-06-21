@@ -535,14 +535,9 @@ def build_email(part_c_html: str, today: datetime.date, source_summary: dict = N
 def send_email(subject: str, html_body: str, gmail_user: str, gmail_password: str,
                attachment_html: str = "", attachment_name: str = "") -> None:
     recipients = _get_recipients()
-    brevo_user = os.environ.get("BREVO_USER", "")
-    brevo_password = os.environ.get("BREVO_PASSWORD", "")
-    use_brevo = bool(brevo_user and brevo_password)
-
-    from_addr = brevo_user if use_brevo else gmail_user
     msg = MIMEMultipart("mixed")
     msg["Subject"] = subject
-    msg["From"] = from_addr
+    msg["From"] = gmail_user
     msg["To"] = ", ".join(recipients)
 
     body_part = MIMEMultipart("alternative")
@@ -556,17 +551,10 @@ def send_email(subject: str, html_body: str, gmail_user: str, gmail_password: st
         att.add_header("Content-Disposition", "attachment", filename=attachment_name)
         msg.attach(att)
 
-    if use_brevo:
-        with smtplib.SMTP("smtp-relay.brevo.com", 587) as server:
-            server.starttls()
-            server.login(brevo_user, brevo_password)
-            server.sendmail(from_addr, recipients, msg.as_string())
-        print(f"Email sent via Brevo to {', '.join(recipients)}")
-    else:
-        with smtplib.SMTP_SSL("smtp.gmail.com", 465) as server:
-            server.login(gmail_user, gmail_password)
-            server.sendmail(gmail_user, recipients, msg.as_string())
-        print(f"Email sent via Gmail to {', '.join(recipients)}")
+    with smtplib.SMTP_SSL("smtp.gmail.com", 465) as server:
+        server.login(gmail_user, gmail_password)
+        server.sendmail(gmail_user, recipients, msg.as_string())
+        print(f"Email sent to {', '.join(recipients)}")
 
 
 # ---------------------------------------------------------------------------
