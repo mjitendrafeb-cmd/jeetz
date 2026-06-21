@@ -548,6 +548,8 @@ body{{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
 .suite-btn:hover{{background:rgba(255,255,255,.2)}}
 .digest-tab{{background:#fff;color:#0078d4;border-color:#fff;font-weight:700}}
 .digest-tab:hover{{background:#e8f4fd}}
+.sync-btn{{background:#107c10;color:#fff;border-color:#0e6b0e;font-weight:700}}
+.sync-btn:hover{{background:#0e6b0e}}
 
 /* ── Command bar ── */
 .cmd-bar{{background:#fff;border-bottom:1px solid #edebe9;padding:6px 20px;
@@ -687,6 +689,10 @@ mark{{background:#fff100;color:#323130;border-radius:1px;padding:0 1px}}
     <span class="suite-meta">Updated {now_str} &middot; {total} note{'s' if total != 1 else ''}</span>
     <div class="suite-actions">
       <a href="digest.html" class="suite-btn digest-tab">&#128203; Weekly Digest</a>
+      <a href="https://github.com/mjitendrafeb-cmd/jeetz/actions/workflows/daily-reads.yml"
+         target="_blank" class="suite-btn sync-btn" title="Opens GitHub Actions — click Run workflow to pull new PDFs from Drive">
+        &#8635; Sync from Drive
+      </a>
       <button class="suite-btn" onclick="doShare()">&#128279; Share</button>
     </div>
   </div>
