@@ -1,0 +1,102 @@
+{
+  "date": "2026-06-21",
+  "ingested_at": "2026-06-21T00:00:00+00:00",
+  "source_file": "FCNR-B What new rates tell.pdf",
+  "source_path": "google-drive://1zXfVpNUQ2S7Lkfc6zKNc2FT1GpnNqu6h",
+  "file_type": "pdf",
+  "title": "FCNR-B 2026: Bank Rate Signals, IRR Dynamics & Forex Reserve Mobilisation",
+  "document_date": "2026-06-10",
+  "freshness": "fresh",
+  "stale_items": [],
+  "duplicate_stories": [],
+  "key_takeaways": [
+    {
+      "takeaway": "Large banks (SBI, HDFC) are pricing FCNR-B at 5.5-6%, 50-100bps below local retail term deposits — signalling they are testing demand at a cost advantage rather than competing aggressively; this limits near-term accretion to funding costs for large banks.",
+      "credit_signal": "positive",
+      "analyst_lens": "Track FCNR-B deposit rate vs. 3yr retail TD spread: currently -100bps for SBI, -100bps for HDFC Bank. Widening below local deposit cost improves blended cost of funds by ~5-15bps if $10bn+ is mobilised."
+    },
+    {
+      "takeaway": "Smaller banks (AU SFB, Yes Bank) offering 7%+ on FCNR-B deposits to win clients signals a structural funding vulnerability — they cannot rely on brand or balance sheet scale to attract NRI flows at competitive cost, raising their marginal cost of foreign currency liabilities.",
+      "credit_signal": "negative",
+      "analyst_lens": "Monitor AU SFB and Yes Bank FCNR-B deposit share as % of total liabilities; 7% FCNR-B cost vs. 4.85% borrowing cost at 10x leverage = 2.15% net spread — thin buffer against FX or rate volatility. Watch NIM compression if swap costs shift."
+    },
+    {
+      "takeaway": "RBI bearing the full hedging cost in 2026 (vs. a fixed 3.5% in 2013) materially improves bank economics and customer IRRs; NRI equity of $1mn at 10x leverage with large banks yields 18% US$ IRR, rising to 29% with smaller banks — structurally strong incentive to mobilise inflows.",
+      "credit_signal": "positive",
+      "analyst_lens": "RBI hedge subsidy eliminates FX risk for banks on eligible deposits; track RBI's contingent liability on hedging book if India-US 3yr spread moves beyond current 2.4% — every 50bps adverse move increases RBI cost by ~$340mn per $68bn mobilised."
+    },
+    {
+      "takeaway": "India-US rate spread has compressed to ~2.4-2.7% across tenors (vs. ~8.5% in Aug-2013), making the 2026 scheme structurally harder to market on yield carry alone; success depends on IRR amplification through leverage (7-10x), not rate arbitrage.",
+      "credit_signal": "watch",
+      "analyst_lens": "India-US 3yr spread at 2.4% vs. 8.5% in 2013 reduces organic pull; monitor subscription pace vs. 2013 benchmark ($34bn = 12% of then-$275bn reserves). $68bn target = 10% of $680bn — achievability contingent on leverage uptake by NRI borrowers."
+    },
+    {
+      "takeaway": "Inclusion of rollovers of maturing deposits (unlike 2013 which was fresh-only) inflates headline mobilisation numbers — credit analysts must strip out rollovers to assess net new forex inflow actually adding to reserves.",
+      "credit_signal": "neutral",
+      "analyst_lens": "Distinguish gross FCNR-B mobilisation from net fresh inflows; if 30-40% of reported flows are rollovers, actual reserve accretion could be $40-50bn vs. headline $68bn target — track RBI weekly forex reserve data for real-time validation."
+    },
+    {
+      "takeaway": "NRE deposits currently dominate NRI deposit mix at ~60% vs. FCNR-B at ~20% — a successful FCNR-B drive risks cannibalising NRE flows (fully repatriable, INR-denominated), which would be a neutral-to-negative shift in banks' liability structure without net forex benefit.",
+      "credit_signal": "watch",
+      "analyst_lens": "Track quarterly NRI deposit mix (NRE vs. FCNR-B vs. NRO) in RBI data; if FCNR-B share rises above 30% at expense of NRE, net forex gain may be overstated. Banks with high NRE share (HDFC Bank, SBI) face internal cannibalisation risk."
+    }
+  ],
+  "entities_impacted": [
+    {
+      "entity": "SBI",
+      "impact": "Offering 5.5% FCNR-B (3yr), 50bps below local TD rate; large balance sheet enables testing demand at lower cost without margin pressure; potential cost-of-funds benefit if mobilisation exceeds $10bn."
+    },
+    {
+      "entity": "HDFC Bank",
+      "impact": "Pricing FCNR-B at 6.0% vs. 7.0% local TD; 100bps sub-market pricing signals confidence in brand pull; forex liability diversification positive for funding mix but volume uptake uncertain at compressed spread."
+    },
+    {
+      "entity": "AU Small Finance Bank",
+      "impact": "Forced to offer 7.1% on FCNR-B to compete, implying higher marginal funding cost; 10x leverage at 7% deposit cost with 4.85% borrowing = 2.15% spread, thinner than large bank peers; credit profile sensitive to FX and rate volatility."
+    },
+    {
+      "entity": "Yes Bank",
+      "impact": "Similarly offering 7.0% FCNR-B; higher rate reflects reputational discount and need to incentivise NRI inflows; elevated cost of foreign currency deposits relative to large banks could weigh on NIM if volumes remain modest."
+    },
+    {
+      "entity": "Reserve Bank of India (RBI)",
+      "impact": "Bears full hedging cost on eligible FCNR-B deposits in 2026 (vs. fixed 3.5% in 2013); contingent FX liability grows with mobilisation — risk of significant P&L impact if rupee depreciates materially or India-US spreads compress further."
+    },
+    {
+      "entity": "Indian Banking Sector",
+      "impact": "Successful FCNR-B mobilisation of $68bn would strengthen systemic forex liquidity, ease potential INR pressure, and diversify banks' liability base toward foreign currency funding — net positive for sector credit stability."
+    },
+    {
+      "entity": "NRI Depositors / Investors",
+      "impact": "Leverage-amplified IRRs of 14-29% in USD terms create strong demand incentive; however, credit risk of the leveraged structure sits with NRI borrowers — any INR depreciation beyond hedge or rate spike increases effective borrowing cost."
+    }
+  ],
+  "learning": [
+    "When a central bank bears the full hedging cost on a foreign currency deposit scheme, the credit benefit accrues entirely to banks and depositors, but the sovereign absorbs FX risk — analysts must model RBI's contingent liability, not just bank-level economics, to assess systemic risk.",
+    "Compressed India-US rate spreads (2.4% in 2026 vs. 8.5% in 2013) mean leverage, not carry, drives the product proposition; credit analysts should evaluate FCNR-B schemes through an IRR-on-equity lens rather than traditional deposit yield comparisons.",
+    "Scheme design differences (fresh-only vs. fresh+rollover eligibility) can materially inflate headline mobilisation metrics — always decompose reported inflows into net fresh vs. rollover to assess real impact on forex reserves and bank liability growth.",
+    "Smaller banks pricing FCNR-B deposits at 100bps premium to large peers reveals a structural franchise discount in cross-border deposit markets; this is a leading indicator of funding cost divergence that should be reflected in bank credit differentiation models."
+  ],
+  "category": "Banking Regulation",
+  "sentiment": "positive",
+  "tags": [
+    "fcnr-b",
+    "nri deposits",
+    "forex reserves",
+    "rbi",
+    "deposit rates",
+    "banking sector",
+    "foreign currency",
+    "leverage",
+    "cost of funds",
+    "india banking",
+    "irr",
+    "small finance banks"
+  ],
+  "relevance": [
+    "regulatory",
+    "sector_analysis",
+    "market_data",
+    "macro"
+  ]
+}

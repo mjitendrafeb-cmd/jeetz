@@ -1,0 +1,103 @@
+{
+  "date": "2026-06-21",
+  "ingested_at": "2026-06-21T00:00:00+00:00",
+  "source_file": "International_Monetary_Fund_Systemic_Banking_Crises_Database_1970.pdf",
+  "source_path": "google-drive://1rkF6t94_zNQD0AJQ1AViAIkKePrriuUu",
+  "file_type": "pdf",
+  "title": "IMF Systemic Banking Crises Database 1970-2025 (WP/26/94)",
+  "document_date": "2026-05-01",
+  "freshness": "fresh",
+  "stale_items": [],
+  "duplicate_stories": [],
+  "key_takeaways": [
+    {
+      "takeaway": "Post-GFC Basel III reforms (CCyB, LCR, capital conservation buffer) demonstrably prevented a wave of banking crises through COVID-19 and the 2022 inflation surge — validating the credit-positive impact of stronger regulatory capital for bank issuers globally, but raising the bar for what constitutes a 'sufficient' capital buffer in stress analysis.",
+      "credit_signal": "positive",
+      "analyst_lens": "Track CCyB release decisions and LCR ratios; Basel III compliance reduced systemic crisis frequency over 2020-2025 despite three overlapping macro shocks. No new G20 banking crisis was recorded in this period."
+    },
+    {
+      "takeaway": "Median gross fiscal cost of systemic banking crises is 6.7% of GDP for high-income countries and 7.5% for low/middle-income countries — sovereign credit analysts must explicitly model contingent banking-sector liability of this magnitude as a tail risk, especially where NPLs are rising or bank concentration is high.",
+      "credit_signal": "watch",
+      "analyst_lens": "Fiscal cost median: 6.7% GDP (high-income), 7.5% GDP (low/middle-income); peak NPL median: 11.1% (high-income) vs. 30% (low/middle-income). Budget headroom below 7% of GDP in stressed sovereigns is a red flag."
+    },
+    {
+      "takeaway": "SVB, Signature Bank, and Credit Suisse all failed in 2023 but NONE met the systemic crisis threshold — early policy intervention (FDIC systemic risk exception, SNB CHF 168bn liquidity) capped contagion. For credit analysts, speed and credibility of lender-of-last-resort response, not just bank size, is the decisive variable in preventing systemic escalation.",
+      "credit_signal": "neutral",
+      "analyst_lens": "Peak US liquidity support was ~1% of total bank liabilities (threshold = 5%). SNB support was ~4.5% of Swiss banking liabilities — just below the 5% threshold. Monitoring central bank facility activation speed is a leading systemic indicator."
+    },
+    {
+      "takeaway": "High-income country crises last longer (median close to 5 years) with larger output losses (median 31.75% of GDP) despite lower NPLs — suggesting deep financial integration amplifies credit cycle downturns even when bank balance sheets are cleaner. This directly informs through-the-cycle PD assumptions for financial sector exposures in advanced economies.",
+      "credit_signal": "negative",
+      "analyst_lens": "Median output loss: 31.75% of GDP (high-income) vs. 10.80% (low/middle-income). Duration: high-income crises last 5+ years in ~35% of cases. For bank capital planning, a 5-year adverse stress horizon is empirically justified."
+    },
+    {
+      "takeaway": "Oil price shocks were the single most common trigger for new crises identified in this 2026 update (Angola 2015, Chad 2015, Azerbaijan 2015, Equatorial Guinea 2015) — commodity-export-linked sovereigns and their banking systems carry a structurally higher systemic crisis probability; credit analysts should use oil price volatility as a leading stress trigger, not a lagging one.",
+      "credit_signal": "negative",
+      "analyst_lens": "4 of 13 newly identified episodes (post-2020 update) were directly oil-price-driven. Angola 2016-2020: output loss 69.9% of GDP, peak NPL 29.8%. Watch: commodity-linked sovereigns with banking systems heavily exposed to state-owned enterprises."
+    },
+    {
+      "takeaway": "Lebanon's 2019 crisis (still ongoing at database cut-off) shows estimated financial system losses exceeding 300% of 2022 GDP — an order of magnitude beyond the median, illustrating that sovereign-bank doom loops in highly dollarised, politically dysfunctional systems can produce losses that are effectively unresolvable through conventional restructuring tools.",
+      "credit_signal": "negative",
+      "analyst_lens": "Lebanon peak liquidity support: 15% of banking liabilities. Estimated system losses: >US$70bn (>300% of 2022 GDP). This is the most extreme loss ratio in the database. Duration still open as of 2025."
+    }
+  ],
+  "entities_impacted": [
+    {
+      "entity": "Global banking sector (high-income countries)",
+      "impact": "Basel III reforms validated as effective crisis prevention; ongoing monitoring of CCyB and LCR levels now has 55-year empirical benchmark for calibrating stress tests."
+    },
+    {
+      "entity": "Silicon Valley Bank / Signature Bank / First Republic (USA, 2023)",
+      "impact": "Failed but did not trigger systemic crisis; FDIC systemic risk exception and Federal Reserve emergency liquidity facility capped contagion — policy speed proved decisive."
+    },
+    {
+      "entity": "Credit Suisse / UBS (Switzerland, 2023)",
+      "impact": "SNB injected CHF 168bn (~20% Swiss GDP) in emergency liquidity; UBS takeover with CHF 9bn state guarantee avoided systemic classification — liquidity at 4.5% of banking liabilities, just below 5% threshold."
+    },
+    {
+      "entity": "Lebanon banking system",
+      "impact": "Worst-ratio crisis in database: financial system losses >300% of GDP, crisis start 2019 with no end date recorded as of 2025 — sovereign-bank doom loop with no conventional resolution path."
+    },
+    {
+      "entity": "Oil-exporting low/middle-income sovereigns (Angola, Chad, Azerbaijan, Equatorial Guinea)",
+      "impact": "Late-2014 oil price collapse triggered systemic banking crises in all four; output losses ranged from 55% (Chad) to 122% (Equatorial Guinea) of GDP, with peak NPLs of 17-60%."
+    },
+    {
+      "entity": "IMF / ECB (research and regulatory policy)",
+      "impact": "This database (164 crises, 1970-2025) is the primary empirical reference for sovereign stress testing, Basel calibration, and FSB resolution framework design — its methodology now incorporates NLP text analysis of IMF Article IV reports."
+    },
+    {
+      "entity": "Emerging market and frontier sovereigns (multiple)",
+      "impact": "Median peak NPL of 30% in low/middle-income crises vs. 11% in high-income; combined with median fiscal cost of 7.5% of GDP, EMs face higher asset quality deterioration and lower fiscal capacity to resolve crises."
+    }
+  ],
+  "learning": [
+    "Fiscal cost of a banking crisis is not recoverable in the short run — median gross outlay is 6.7-7.5% of GDP but gross costs exclude guarantees, meaning the ex-ante sovereign contingent liability is substantially larger. A credit analyst who models only explicit recapitalisation costs is systematically underestimating sovereign risk in banking stress scenarios.",
+    "The 2023 US and Swiss bank failures are a masterclass in why 'systemic' is a policy outcome, not just a balance sheet condition: SVB held $367bn in deposits yet was not systemic because intervention was fast and targeted. For credit work, monitoring the credibility and speed of the lender-of-last-resort — not just bank size — is the right early-warning variable.",
+    "High-income countries consistently show longer crisis duration (5+ years) and larger output losses (median 31.75% of GDP) than emerging markets, despite better-capitalised banks. The mechanism is financial depth: deeper credit markets transmit bank solvency stress more broadly to the real economy. Through-the-cycle PD models for financial sector exposures in advanced economies must use longer, not shorter, stress horizons.",
+    "The 2014-2015 oil price shock shows that banking crises in commodity-dependent economies are triggered by sector-level revenue collapse, not financial sector excesses — yet the resolution toolkit (liquidity support, recapitalisation) is identical. Credit analysts covering resource-sector-concentrated banks should stress-test using commodity price scenarios as the primary shock, with banking system stress as the secondary, endogenous output."
+  ],
+  "category": "Banking Regulation",
+  "sentiment": "mixed",
+  "tags": [
+    "systemic banking crisis",
+    "imf database",
+    "fiscal costs",
+    "npl",
+    "banking regulation",
+    "basel iii",
+    "sovereign risk",
+    "credit suisse",
+    "silicon valley bank",
+    "emerging markets",
+    "oil price shock",
+    "lender of last resort"
+  ],
+  "relevance": [
+    "regulatory",
+    "sector_analysis",
+    "macro",
+    "training",
+    "credit_event"
+  ]
+}
