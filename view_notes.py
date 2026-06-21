@@ -459,15 +459,10 @@ def render_row(raw_note, idx, watchlist=None):
         f'<span data-raw="{esc(preview)}">'
         f'{esc(preview[:200])}{"&#8230;" if len(preview) > 200 else ""}'
         f'</span></td>'
-        f'<td class="col-status">'
-        f'<span class="stype-badge" style="color:{st_meta["fg"]};'
-        f'background:{st_meta["bg"]};border-color:{st_meta["bd"]}">'
-        f'{esc(st_meta["label"])}</span></td>'
         f'<td class="col-date">{esc(fmt_date(doc_date or date))}</td>'
-        f'<td class="col-cat"><span class="cat-badge">{esc(category)}</span></td>'
         f'</tr>'
         f'<tr class="exp-row" id="{cid}-exp">'
-        f'<td colspan="5"><div class="exp-content">{expanded_html}</div></td>'
+        f'<td colspan="3"><div class="exp-content">{expanded_html}</div></td>'
         f'</tr>'
     )
 
@@ -615,14 +610,11 @@ main{{flex:1;min-width:0}}
 .doc-row{{border-bottom:1px solid #f3f2f1;transition:background .1s;cursor:pointer}}
 .doc-row:hover td{{background:#f3f2f1}}
 .doc-row.exp-open td{{background:#faf9f8}}
-.col-name{{padding:11px 14px;width:28%;vertical-align:top}}
-.col-abstract{{padding:11px 14px;width:34%;color:#605e5c;font-size:13px;
+.col-name{{padding:11px 14px;width:32%;vertical-align:top}}
+.col-abstract{{padding:11px 14px;width:58%;color:#605e5c;font-size:13px;
   line-height:1.5;vertical-align:top;cursor:pointer}}
-.col-status{{padding:11px 14px;width:13%;vertical-align:top;
-  white-space:nowrap;cursor:pointer}}
 .col-date{{padding:11px 14px;width:10%;font-size:12px;color:#605e5c;
   white-space:nowrap;vertical-align:top;cursor:pointer}}
-.col-cat{{padding:11px 14px;width:15%;vertical-align:top;cursor:pointer}}
 .name-inner{{display:flex;align-items:flex-start;gap:6px;margin-bottom:4px;cursor:pointer}}
 .row-ico{{font-size:18px;color:#0078d4;flex-shrink:0;line-height:1;
   transition:transform .18s;display:inline-block;cursor:pointer}}
@@ -735,8 +727,7 @@ mark{{background:#fff100;color:#323130;border-radius:1px;padding:0 1px}}
     <div class="doc-table-wrap">
       <table class="doc-table">
         <thead><tr>
-          <th>Name</th><th>Abstract</th><th>Source Type</th>
-          <th>Date</th><th>Category</th>
+          <th>Name</th><th>Abstract</th><th>Date</th>
         </tr></thead>
         <tbody id="table-body">{rows_html}</tbody>
       </table>
