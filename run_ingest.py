@@ -28,6 +28,7 @@ Return this exact structure:
 {
   "title": "<concise human-readable title, e.g. 'Motilal Oswal: Nuvama Wealth BUY — FY26-28 Outlook' or 'Credit Intel Daily — 15 Jun 2026'>",
   "document_date": "<date printed on the document in YYYY-MM-DD format. Look for newsletter date, report date, issue date. null if not found.>",
+  "source_type": "<broker_research|regulatory|academic|news|other>",
   "freshness": "<fresh|stale|mixed>",
   "stale_items": ["<specific story that appears old or recycled>"],
   "duplicate_stories": ["<story already covered in a previously processed note — match by company, deal, or event>"],
@@ -54,6 +55,7 @@ Return this exact structure:
 Rules:
 - title: max 80 chars. Capture document type and key subject. No generic titles.
 - document_date: from the document itself, not today's date. null if genuinely absent.
+- source_type: classify the document publisher — broker_research (sell-side bank/broker equity or credit analysis), regulatory (RBI/SEBI/IRDAI/MoF circular or notification), academic (working paper, research paper), news (newsletter, news article), other.
 - key_takeaways: 3 to 6 takeaways. Each must answer "so what for credit?" — not just summarise the event. Consolidate takeaways pointing to the same risk.
 - credit_signal: from the perspective of the most affected issuer or sector.
 - analyst_lens: be specific. "Leverage will increase" is bad. "Net debt/EBITDA likely rises above 3x post-acquisition, breaching typical investment-grade thresholds" is good. Always name a metric to track.

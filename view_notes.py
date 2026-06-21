@@ -30,6 +30,13 @@ SENTIMENT_COLORS = {
     "mixed":    {"fg": "#b45309", "bg": "#fffbeb", "bd": "#fde68a"},
 }
 TAG_COLORS = ["#3b82f6","#8b5cf6","#ec4899","#f97316","#14b8a6","#64748b","#a16207","#0891b2"]
+SOURCE_TYPE_META = {
+    "broker_research": {"label": "Broker Research", "bg": "#eff6ff", "fg": "#2563eb", "bd": "#bfdbfe"},
+    "regulatory":      {"label": "Regulatory",      "bg": "#f0fdf4", "fg": "#15803d", "bd": "#bbf7d0"},
+    "academic":        {"label": "Academic",         "bg": "#faf5ff", "fg": "#7c3aed", "bd": "#ddd6fe"},
+    "news":            {"label": "News",             "bg": "#fff7ed", "fg": "#c2410c", "bd": "#fed7aa"},
+    "other":           {"label": "Other",            "bg": "#f8fafc", "fg": "#64748b", "bd": "#e2e8f0"},
+}
 
 
 def esc(s):
@@ -37,6 +44,29 @@ def esc(s):
             .replace("&", "&amp;").replace("<", "&lt;")
             .replace(">", "&gt;").replace('"', "&quot;")
             .replace("'", "&#39;"))
+
+
+def load_watchlist():
+    path = os.path.join(REPO_ROOT, "watchlist.txt")
+    if not os.path.isfile(path):
+        return set()
+    entries = set()
+    with open(path, encoding="utf-8") as f:
+        for line in f:
+            line = line.strip()
+            if line and not line.startswith("#"):
+                entries.add(line.lower())
+    return entries
+
+
+def check_watchlist(note, watchlist):
+    if not watchlist:
+        return False
+    title = (note.get("title") or "").lower()
+    entities = " ".join(ei.get("entity","").lower() for ei in note.get("entities_impacted",[]))
+    tags = " ".join(t.lower() for t in note.get("tags",[]))
+    blob = " ".join([title, entities, tags])
+    return any(w in blob for w in watchlist)
 
 
 def load_notes(notes_dir):
@@ -90,6 +120,9 @@ def normalize_note(note):
         if field not in out:
             out[field] = []
 
+    if "source_type" not in out:
+        out["source_type"] = "other"
+
     return out
 
 
@@ -105,6 +138,13 @@ def sentiment_badge(sentiment):
             f'{esc(s)}</span>')
 
 
+def source_type_badge(st):
+    m = SOURCE_TYPE_META.get((st or "other").lower(), SOURCE_TYPE_META["other"])
+    return (f'<span class="stype-badge" '
+            f'style="color:{m["fg"]};background:{m["bg"]};border-color:{m["bd"]}">'
+            f'{esc(m["label"])}</span>')
+
+
 def fmt_date(date_str):
     try:
         return datetime.date.fromisoformat(date_str).strftime("%d %b %Y")
@@ -112,7 +152,7 @@ def fmt_date(date_str):
         return date_str
 
 
-def render_card(raw_note, idx):
+def render_card(raw_note, idx, watchlist=None):
     note = normalize_note(raw_note)
 
     title = note.get("title", "Untitled")
@@ -145,9 +185,13 @@ def render_card(raw_note, idx):
     ]).lower().replace('"', "'")
 
     # Tags
+    source_type = note.get("source_type", "other")
+    tags_csv = ",".join(tags)
     tag_row = "".join(tag_chip(t, TAG_COLORS[hash(t) % len(TAG_COLORS)]) for t in tags)
 
     CS_COLOR = {"positive": "#15803d", "negative": "#dc2626", "neutral": "#6b7280", "watch": "#d97706"}
+    cid = f"c{idx}"
+    has_dupes = bool(duplicate_stories)
 
     # ── Expanded sections ──────────────────────────────────────────────
 
@@ -165,10 +209,19 @@ def render_card(raw_note, idx):
                 f'<tr><td class="kc tw"><div style="margin-bottom:3px">{cs_badge}</div>{esc(kt.get("takeaway",""))}</td>'
                 f'<td class="kc al">{esc(kt.get("analyst_lens",""))}</td></tr>'
             )
-        kt_html = (f'<div class="sect"><div class="sh">Key Takeaways &amp; Analyst Lens</div>'
-                   f'<div class="tbl-wrap"><table class="dt">'
-                   f'<thead><tr><th style="width:44%">Takeaway</th><th>Analyst Lens</th></tr></thead>'
-                   f'<tbody>{rows}</tbody></table></div></div>')
+        full_table = (f'<div class="tbl-wrap"><table class="dt">'
+                      f'<thead><tr><th style="width:44%">Takeaway</th><th>Analyst Lens</th></tr></thead>'
+                      f'<tbody>{rows}</tbody></table></div>')
+        if has_dupes:
+            kt_html = (f'<div class="sect"><div class="sh">Key Takeaways &amp; Analyst Lens</div>'
+                       f'<div id="{cid}-dupc" style="padding:8px 0;color:#6d28d9;font-size:13px">'
+                       f'{len(key_takeaways)} takeaway(s) — overlaps with earlier notes. '
+                       f'<a href="#" onclick="expandDupe(\'{cid}\');return false" '
+                       f'style="color:#6366f1;font-size:12px;text-decoration:none">Show anyway →</a>'
+                       f'</div><div id="{cid}-dupt" hidden>{full_table}</div></div>')
+        else:
+            kt_html = (f'<div class="sect"><div class="sh">Key Takeaways &amp; Analyst Lens</div>'
+                       f'{full_table}</div>')
 
     # 2. Companies & Sectors Impacted
     ei_html = ""
@@ -197,10 +250,10 @@ def render_card(raw_note, idx):
         rel_html = f'<div class="rel-row">Relevance: {chips}</div>'
 
     body = kt_html + ei_html + learn_html + rel_html
-    cid = f"c{idx}"
 
     # Freshness / duplicate badge
-    has_dupes = bool(duplicate_stories)
+    wl_hit = check_watchlist(note, watchlist or set())
+    wl_badge = '<span class="wl-badge">&#9733; Watchlist</span>' if wl_hit else ""
     freshness_html = ""
     if has_dupes and freshness == "stale":
         freshness_html = '<span class="fresh-badge stale">&#9888; Older &amp; repeated news</span>'
@@ -239,14 +292,18 @@ def render_card(raw_note, idx):
         f'data-category="{esc(category)}" '
         f'data-sentiment="{esc(sentiment)}" '
         f'data-date="{esc(date)}" '
+        f'data-docdate="{esc(doc_date)}" '
+        f'data-tags="{esc(tags_csv)}" '
         f'data-search="{esc(search_blob)}" '
         f'id="{cid}">\n'
         f'  <div class="card-hd" onclick="toggle(\'{cid}\')">\n'
         f'    <div class="card-meta">\n'
+        f'      {source_type_badge(source_type)}\n'
         f'      <span class="cat-badge">{esc(category)}</span>\n'
         f'      {sentiment_badge(sentiment)}\n'
         f'      <time class="date-badge" datetime="{esc(date)}">{esc(fmt_date(date))}</time>\n'
         f'      {freshness_html}\n'
+        f'      {wl_badge}\n'
         f'      <span class="tog-ico" id="{cid}-ico">&#8964;</span>\n'
         f'    </div>\n'
         f'    <h2 class="card-title" data-raw="{esc(title)}">{esc(title)}</h2>\n'
@@ -298,9 +355,22 @@ def generate_html(notes):
                       f"onclick=\"setCat(this,'{safe_cat}')\">"
                       f'{esc(cat)} <span class="cnt">{cnt}</span></li>\n')
 
-    cards_html = "\n".join(render_card(n, i) for i, n in enumerate(notes))
+    watchlist = load_watchlist()
+    cards_html = "\n".join(render_card(n, i, watchlist) for i, n in enumerate(notes))
     jsonld = build_jsonld(notes)
-    total_js = total  # used inside JS
+    total_js = total
+
+    # Tag cloud
+    tag_counts = Counter()
+    for n in notes:
+        for t in n.get("tags", []):
+            tag_counts[t] += 1
+    top_tags = tag_counts.most_common(40)
+    tag_cloud_html = "".join(
+        f'<span class="tc-chip" data-tag="{esc(t)}" onclick="setTag(\'{esc(t)}\')">'
+        f'{esc(t)}<span class="tc-cnt">{c}</span></span>'
+        for t, c in top_tags
+    )
 
     return f"""<!DOCTYPE html>
 <html lang="en">
@@ -399,6 +469,44 @@ main{{flex:1;min-width:0}}
 .fresh-badge{{font-size:11px;font-weight:600;padding:2px 9px;border-radius:20px;border:1px solid transparent}}
 .fresh-badge.stale{{background:#fef3c7;color:#b45309;border-color:#fde68a}}
 .fresh-badge.mixed{{background:#f0f9ff;color:#0284c7;border-color:#bae6fd}}
+.wl-badge{{background:#fef3c7;color:#92400e;border:1px solid #fde68a;font-size:10px;font-weight:700;padding:2px 8px;border-radius:20px}}
+.stype-badge{{font-size:10px;font-weight:600;padding:2px 8px;border-radius:20px;border:1px solid transparent}}
+
+/* ── Tag cloud ── */
+.tc-chip{{font-size:11px;padding:2px 8px;border-radius:12px;background:#f1f5f9;color:#475569;
+  border:1px solid #e2e8f0;cursor:pointer;margin:2px;display:inline-block;transition:all .15s}}
+.tc-chip:hover{{background:#e2e8f0;color:#0f172a}}
+.tc-chip.active{{background:#6366f1;color:#fff;border-color:#6366f1}}
+.tc-cnt{{font-size:10px;color:#94a3b8;margin-left:3px}}
+.tag-cloud{{display:flex;flex-wrap:wrap;gap:2px;margin-top:6px}}
+
+/* ── Date range ── */
+.date-range{{display:flex;align-items:center;gap:5px;font-size:11px;color:#94a3b8}}
+.date-range input[type=date]{{border:1.5px solid #e2e8f0;background:#f1f5f9;color:#475569;
+  padding:6px 8px;border-radius:8px;font-size:12px;outline:none;width:130px}}
+.date-range input[type=date]:focus{{border-color:#6366f1;background:#fff}}
+
+/* ── Compact / Print buttons ── */
+.compact-btn,.print-btn{{border:1.5px solid #e2e8f0;background:#f1f5f9;color:#475569;
+  padding:7px 12px;border-radius:8px;font-size:12px;cursor:pointer;white-space:nowrap;
+  transition:background .15s}}
+.compact-btn:hover,.print-btn:hover{{background:#e2e8f0}}
+
+/* ── Compact mode ── */
+body.compact .chip-row,body.compact .card-preview,body.compact .source-line{{display:none}}
+body.compact .card-hd{{padding:10px 20px}}
+
+/* ── Print ── */
+@media print{{
+  header .top-right,.sent-filters,#sort-sel,.date-range,.print-btn,.compact-btn,aside{{display:none!important}}
+  .layout{{max-width:100%;padding:0;display:block}}
+  .card{{break-inside:avoid;box-shadow:none!important;border:1px solid #ddd;margin-bottom:8px}}
+  .card-bd[hidden]{{display:block!important}}
+  body{{background:#fff}}
+  header{{position:static;box-shadow:none}}
+  .topbar{{height:auto;padding:10px 0}}
+  #stats-bar,#empty{{display:none!important}}
+}}
 
 /* ── Card body (expanded) ── */
 .card-bd{{padding:0 20px 18px;border-top:1.5px solid #f1f5f9}}
@@ -454,6 +562,7 @@ mark{{background:#fef9c3;color:#713f12;border-radius:2px;padding:0 2px}}
     <div class="brand">
       <h1>Daily Reads</h1>
       <small>Updated {now_str} &middot; {total} note{'s' if total != 1 else ''}</small>
+      <a href="digest.html" style="font-size:11px;color:#6366f1;text-decoration:none;margin-top:2px;display:inline-block">Weekly Digest →</a>
     </div>
     <div class="top-right">
       <div class="sent-filters" role="group" aria-label="Filter by sentiment">
@@ -463,10 +572,18 @@ mark{{background:#fef9c3;color:#713f12;border-radius:2px;padding:0 2px}}
         <button class="sf" data-sent="mixed" onclick="setSent(this,'mixed')">Mixed</button>
         <button class="sf" data-sent="neutral" onclick="setSent(this,'neutral')">Neutral</button>
       </div>
+      <div class="date-range">
+        <label>Doc date</label>
+        <input type="date" id="date-from" onchange="setDateFrom(this.value)" title="From">
+        <span>–</span>
+        <input type="date" id="date-to" onchange="setDateTo(this.value)" title="To">
+      </div>
       <select id="sort-sel" onchange="setSort(this.value)" aria-label="Sort order">
         <option value="newest">Newest first</option>
         <option value="oldest">Oldest first</option>
       </select>
+      <button class="compact-btn" onclick="toggleCompact()" title="Toggle compact view">&#9776; Compact</button>
+      <button class="print-btn" onclick="window.print()" title="Print / Save as PDF">&#9113; Print</button>
       <input id="search" type="search" placeholder="Search notes&#8230;"
              oninput="setQ(this.value)" autocomplete="off" aria-label="Search notes">
     </div>
@@ -476,6 +593,8 @@ mark{{background:#fef9c3;color:#713f12;border-radius:2px;padding:0 2px}}
   <aside>
     <div class="aside-title">Categories</div>
     <ul id="cat-list" role="list">{cat_items}</ul>
+    <div class="aside-title" style="margin-top:18px">Tags</div>
+    <div class="tag-cloud">{tag_cloud_html}</div>
   </aside>
   <main>
     <div id="stats-bar" role="status" aria-live="polite"></div>
@@ -493,7 +612,7 @@ mark{{background:#fef9c3;color:#713f12;border-radius:2px;padding:0 2px}}
 <script>
 (function(){{
   var TOTAL={total_js};
-  var state={{q:'',cat:'all',sent:'all',sort:'newest'}};
+  var state={{q:'',cat:'all',sent:'all',sort:'newest',tag:'',dateFrom:'',dateTo:''}};
 
   // ── Read URL params on load ──
   var params=new URLSearchParams(window.location.search);
@@ -501,26 +620,24 @@ mark{{background:#fef9c3;color:#713f12;border-radius:2px;padding:0 2px}}
   if(params.get('category'))state.cat=params.get('category');
   if(params.get('sentiment'))state.sent=params.get('sentiment');
   if(params.get('sort'))state.sort=params.get('sort');
+  if(params.get('tag'))state.tag=params.get('tag');
+  if(params.get('from'))state.dateFrom=params.get('from');
+  if(params.get('to'))state.dateTo=params.get('to');
 
   function applyInit(){{
-    if(state.q){{
-      var el=document.getElementById('search');
-      if(el)el.value=state.q;
-    }}
-    if(state.sort!=='newest'){{
-      var sel=document.getElementById('sort-sel');
-      if(sel)sel.value=state.sort;
-    }}
+    if(state.q){{var el=document.getElementById('search');if(el)el.value=state.q;}}
+    if(state.sort!=='newest'){{var sel=document.getElementById('sort-sel');if(sel)sel.value=state.sort;}}
     if(state.cat!=='all'){{
-      document.querySelectorAll('.cat-item').forEach(function(li){{
-        li.classList.toggle('active',li.dataset.cat===state.cat);
-      }});
+      document.querySelectorAll('.cat-item').forEach(function(li){{li.classList.toggle('active',li.dataset.cat===state.cat)}});
     }}
     if(state.sent!=='all'){{
-      document.querySelectorAll('.sf').forEach(function(b){{
-        b.classList.toggle('active',b.dataset.sent===state.sent);
-      }});
+      document.querySelectorAll('.sf').forEach(function(b){{b.classList.toggle('active',b.dataset.sent===state.sent)}});
     }}
+    if(state.tag){{
+      document.querySelectorAll('.tc-chip').forEach(function(c){{c.classList.toggle('active',c.dataset.tag===state.tag)}});
+    }}
+    if(state.dateFrom){{var f=document.getElementById('date-from');if(f)f.value=state.dateFrom;}}
+    if(state.dateTo){{var t=document.getElementById('date-to');if(t)t.value=state.dateTo;}}
     apply();
   }}
 
@@ -538,9 +655,9 @@ mark{{background:#fef9c3;color:#713f12;border-radius:2px;padding:0 2px}}
   function apply(){{
     var cards=Array.from(document.querySelectorAll('.card'));
     var q=state.q.toLowerCase().trim();
-    var cat=state.cat, sent=state.sent;
+    var cat=state.cat,sent=state.sent,tag=state.tag;
+    var dateFrom=state.dateFrom,dateTo=state.dateTo;
 
-    // Sort cards in DOM
     var container=document.getElementById('cards-container');
     if(state.sort==='oldest'){{
       cards.sort(function(a,b){{return a.dataset.date.localeCompare(b.dataset.date)}});
@@ -554,11 +671,14 @@ mark{{background:#fef9c3;color:#713f12;border-radius:2px;padding:0 2px}}
       var catOk=cat==='all'||c.dataset.category===cat;
       var sentOk=sent==='all'||c.dataset.sentiment===sent;
       var searchOk=!q||c.dataset.search.includes(q);
-      var show=catOk&&sentOk&&searchOk;
+      var tagOk=!tag||(c.dataset.tags&&c.dataset.tags.split(',').includes(tag));
+      var dd=c.dataset.docdate||c.dataset.date||'';
+      var dateFromOk=!dateFrom||dd>=dateFrom;
+      var dateToOk=!dateTo||dd<=dateTo;
+      var show=catOk&&sentOk&&searchOk&&tagOk&&dateFromOk&&dateToOk;
       c.style.display=show?'':'none';
       if(show){{
         vis++;
-        // Highlight title and preview
         var titleEl=c.querySelector('.card-title');
         var prevEl=c.querySelector('.card-preview');
         if(titleEl)titleEl.innerHTML=hlText(titleEl.dataset.raw||'',q);
@@ -566,23 +686,23 @@ mark{{background:#fef9c3;color:#713f12;border-radius:2px;padding:0 2px}}
       }}
     }});
 
-    // Stats bar — always visible
     var bar=document.getElementById('stats-bar');
-    if(q||cat!=='all'||sent!=='all'){{
+    var filtered=q||cat!=='all'||sent!=='all'||tag||dateFrom||dateTo;
+    if(filtered){{
       bar.textContent='Showing '+vis+' of '+TOTAL+' note'+(TOTAL===1?'':'s');
     }}else{{
       bar.textContent=TOTAL+' note'+(TOTAL===1?'':'s');
     }}
-
-    // Empty state
     document.getElementById('empty').style.display=vis?'none':'block';
 
-    // Update URL
     var p=new URLSearchParams();
     if(q)p.set('q',state.q);
     if(cat!=='all')p.set('category',cat);
     if(sent!=='all')p.set('sentiment',sent);
     if(state.sort!=='newest')p.set('sort',state.sort);
+    if(tag)p.set('tag',tag);
+    if(dateFrom)p.set('from',dateFrom);
+    if(dateTo)p.set('to',dateTo);
     var qs=p.toString();
     history.replaceState(null,'',qs?'?'+qs:window.location.pathname);
   }}
@@ -615,6 +735,24 @@ mark{{background:#fef9c3;color:#713f12;border-radius:2px;padding:0 2px}}
     if(hidden){{bd.removeAttribute('hidden');ico.classList.add('open');}}
     else{{bd.setAttribute('hidden','');ico.classList.remove('open');}}
   }};
+  window.setTag=function(tag){{
+    state.tag=(state.tag===tag)?'':tag;
+    document.querySelectorAll('.tc-chip').forEach(function(c){{c.classList.toggle('active',c.dataset.tag===state.tag)}});
+    apply();
+  }};
+  window.setDateFrom=function(v){{state.dateFrom=v;apply();}};
+  window.setDateTo=function(v){{state.dateTo=v;apply();}};
+  window.toggleCompact=function(){{
+    var on=document.body.classList.toggle('compact');
+    var btn=document.querySelector('.compact-btn');
+    if(btn)btn.innerHTML=on?'&#9732; Expanded':'&#9776; Compact';
+  }};
+  window.expandDupe=function(cid){{
+    var collapsed=document.getElementById(cid+'-dupc');
+    var table=document.getElementById(cid+'-dupt');
+    if(collapsed)collapsed.hidden=true;
+    if(table)table.removeAttribute('hidden');
+  }};
 
   // Run initial filter (applies URL params)
   applyInit();
@@ -623,6 +761,116 @@ mark{{background:#fef9c3;color:#713f12;border-radius:2px;padding:0 2px}}
 </script>
 </body>
 </html>"""
+
+
+def generate_digest(notes, out_path):
+    today = datetime.date.today()
+    week_ago = (today - datetime.timedelta(days=7)).isoformat()
+    week_end = today.strftime("%d %b %Y")
+    week_start = (today - datetime.timedelta(days=7)).strftime("%d %b")
+
+    recent = [n for n in notes if (n.get("document_date") or n.get("date","")) >= week_ago]
+
+    PRIORITY = {"negative": 0, "watch": 1, "positive": 2, "neutral": 3}
+    CS_STYLE = {
+        "negative": {"label": "Negative Signal", "bg": "#fef2f2", "fg": "#dc2626", "bd": "#fecaca"},
+        "watch":    {"label": "Watch",            "bg": "#fffbeb", "fg": "#d97706", "bd": "#fde68a"},
+        "positive": {"label": "Positive Signal",  "bg": "#f0fdf4", "fg": "#15803d", "bd": "#bbf7d0"},
+        "neutral":  {"label": "Neutral",          "bg": "#f8fafc", "fg": "#64748b", "bd": "#e2e8f0"},
+    }
+
+    all_tws = []
+    for n in recent:
+        note = normalize_note(n)
+        for kt in note.get("key_takeaways", []):
+            sig = kt.get("credit_signal", "neutral").lower()
+            all_tws.append({
+                "takeaway": kt.get("takeaway", ""),
+                "analyst_lens": kt.get("analyst_lens", ""),
+                "credit_signal": sig,
+                "source_title": note.get("title", ""),
+                "source_date": note.get("document_date") or note.get("date", ""),
+                "priority": PRIORITY.get(sig, 3),
+            })
+
+    all_tws.sort(key=lambda x: (x["priority"], x["source_date"]))
+    top_tws = all_tws[:15]
+
+    groups = {sig: [t for t in top_tws if t["credit_signal"] == sig]
+              for sig in ["negative", "watch", "positive", "neutral"]}
+
+    sections_html = ""
+    for sig in ["negative", "watch", "positive", "neutral"]:
+        items = groups[sig]
+        if not items:
+            continue
+        c = CS_STYLE[sig]
+        rows = ""
+        for t in items:
+            rows += (
+                f'<div style="border:1px solid {c["bd"]};border-radius:10px;'
+                f'padding:14px 16px;margin-bottom:10px;background:#fff">'
+                f'<div style="font-size:12px;color:{c["fg"]};font-weight:700;margin-bottom:6px">'
+                f'&#x25CF; {esc(t["source_title"])} &middot; '
+                f'<span style="color:#94a3b8;font-weight:400">{esc(fmt_date(t["source_date"]))}</span>'
+                f'</div>'
+                f'<div style="font-size:13px;font-weight:600;color:#0f172a;margin-bottom:5px">'
+                f'{esc(t["takeaway"])}</div>'
+                f'<div style="font-size:12px;color:#475569">{esc(t["analyst_lens"])}</div>'
+                f'</div>'
+            )
+        label = f'{c["label"]} ({len(items)})'
+        sections_html += (
+            f'<div style="margin-bottom:28px">'
+            f'<div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;'
+            f'color:{c["fg"]};background:{c["bg"]};border:1px solid {c["bd"]};'
+            f'padding:6px 14px;border-radius:20px;display:inline-block;margin-bottom:12px">'
+            f'{esc(label)}</div>{rows}</div>'
+        )
+
+    neg_cnt = len([t for t in all_tws if t["credit_signal"]=="negative"])
+    watch_cnt = len([t for t in all_tws if t["credit_signal"]=="watch"])
+    pos_cnt = len([t for t in all_tws if t["credit_signal"]=="positive"])
+
+    html = f"""<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Weekly Digest — {esc(week_start)}–{esc(week_end)}</title>
+<style>
+*{{box-sizing:border-box;margin:0;padding:0}}
+body{{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#f8fafc;color:#1e293b;font-size:14px;line-height:1.6}}
+.hdr{{background:#0f172a;color:#f8fafc;padding:20px 28px;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}}
+.hdr h1{{font-size:18px;font-weight:700}}.hdr small{{font-size:12px;color:#64748b;display:block;margin-top:3px}}
+.hdr a{{color:#818cf8;font-size:12px;text-decoration:none}}.hdr a:hover{{text-decoration:underline}}
+.content{{max-width:800px;margin:0 auto;padding:28px 20px}}
+.stat-row{{background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:16px 20px;margin-bottom:24px;display:flex;gap:28px;flex-wrap:wrap}}
+.stat{{text-align:center}}.stat-n{{font-size:22px;font-weight:700;color:#0f172a}}
+.stat-l{{font-size:11px;color:#94a3b8;text-transform:uppercase;letter-spacing:.5px}}
+@media print{{.hdr a{{display:none}}body{{background:#fff}}}}
+</style>
+</head>
+<body>
+<div class="hdr">
+  <div><h1>Weekly Digest</h1><small>{esc(week_start)} – {esc(week_end)} &middot; Top credit signals</small></div>
+  <a href="{SITE_URL}/">← Full library</a>
+</div>
+<div class="content">
+  <div class="stat-row">
+    <div class="stat"><div class="stat-n">{len(recent)}</div><div class="stat-l">Notes this week</div></div>
+    <div class="stat"><div class="stat-n">{len(all_tws)}</div><div class="stat-l">Total takeaways</div></div>
+    <div class="stat"><div class="stat-n">{neg_cnt}</div><div class="stat-l">Negative</div></div>
+    <div class="stat"><div class="stat-n">{watch_cnt}</div><div class="stat-l">Watch</div></div>
+    <div class="stat"><div class="stat-n">{pos_cnt}</div><div class="stat-l">Positive</div></div>
+  </div>
+  {sections_html or '<p style="color:#94a3b8;text-align:center;padding:40px 0">No notes from the past 7 days.</p>'}
+</div>
+</body>
+</html>"""
+
+    with open(out_path, "w", encoding="utf-8") as f:
+        f.write(html)
 
 
 def generate_sitemap(notes, out_path):
@@ -674,6 +922,10 @@ def main():
     sitemap_path = os.path.join(docs_dir, "sitemap.xml")
     generate_sitemap(notes, sitemap_path)
     print(f"Generated: {sitemap_path}")
+
+    digest_path = os.path.join(docs_dir, "digest.html")
+    generate_digest(notes, digest_path)
+    print(f"Generated: {digest_path}")
 
     robots_path = write_robots(docs_dir)
     print(f"Generated: {robots_path}")

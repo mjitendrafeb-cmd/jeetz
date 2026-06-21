@@ -30,18 +30,18 @@ If the notes don't cover the topic, say so clearly.
 Format your answer with these sections (use plain text, no markdown):
 
 ANSWER
-<2-4 sentence direct answer to the question>
+<2-4 sentence direct answer. Cite sources inline as [1], [2] etc.>
 
 KEY POINTS
-• <point from notes>
-• <point from notes>
+• <specific point from notes> [N]
+• <specific point from notes> [N]
 • (3-5 bullets maximum)
 
 ANALYST LENS
-<1-2 sentences on risks, opportunities, or rating implications>
+<1-2 sentences on risks or rating implications>
 
 SOURCES
-<list the document titles you drew from>
+<[N] Document title — one line per source you cited>
 
 Question: {question}
 
@@ -90,11 +90,10 @@ def build_context(notes, question, max_notes=30, max_chars=55000):
 
     parts = []
     total = 0
-    for note in selected:
+    for i, note in enumerate(selected):
         title = note.get("title") or note.get("source_file", "Unknown")
         date = note.get("date", "")
         category = note.get("category", "")
-        summary = "; ".join(note.get("executive_summary", []))
         takeaways = "\n".join(
             f"  - {kt.get('takeaway','')} | {kt.get('analyst_lens','')}"
             for kt in note.get("key_takeaways", [])
@@ -105,8 +104,7 @@ def build_context(notes, question, max_notes=30, max_chars=55000):
         )
         learning = "; ".join(note.get("learning", []))
 
-        chunk = (f"[{title}] ({date}, {category})\n"
-                 f"Summary: {summary}\n"
+        chunk = (f"[{i+1}] {title} ({date}, {category})\n"
                  f"Key takeaways:\n{takeaways}\n"
                  f"Entities: {entities}\n"
                  f"Lessons: {learning}\n")
@@ -286,6 +284,9 @@ main{{flex:1;min-width:0}}
   padding:2px 7px;border-radius:10px;font-size:10px;font-weight:600}}
 mark{{background:#fef9c3;color:#713f12;border-radius:2px;padding:0 1px}}
 #empty{{text-align:center;padding:60px 20px;display:none;color:#94a3b8}}
+.cite {{ background:#eff6ff; color:#2563eb; border-radius:3px; padding:1px 4px; font-size:11px; font-weight:700; }}
+.sec-hd {{ display:block; font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:.6px; color:#6366f1; margin-top:14px; margin-bottom:4px; }}
+#answer-text {{ white-space: pre-wrap; }}
 @media(max-width:700px){{
   aside{{display:none}}
   .ask-wrap{{padding:14px}}
@@ -366,7 +367,13 @@ function askLibrary() {{
   }})
   .then(function(r) {{ return r.json(); }})
   .then(function(d) {{
-    txt.textContent = d.answer || d.error || 'No answer.';
+    var ans = d.answer || d.error || 'No answer.';
+    // Style citation numbers [N]
+    function escH(t) {{ return String(t).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }}
+    var styled = escH(ans)
+        .replace(/\[(\d+)\]/g, '<span class="cite">[$1]</span>')
+        .replace(/^(ANSWER|KEY POINTS|ANALYST LENS|SOURCES)$/gm, '<span class="sec-hd">$1</span>');
+    txt.innerHTML = styled;
     btn.disabled = false;
     btn.textContent = 'Ask';
   }})
