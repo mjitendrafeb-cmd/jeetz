@@ -1,0 +1,57 @@
+name: Daily Reads Pipeline
+
+on:
+  schedule:
+    # 07:00 IST = 01:30 UTC every day
+    - cron: '30 1 * * *'
+  workflow_dispatch:  # also allows manual trigger from GitHub UI
+
+permissions:
+  contents: write
+
+jobs:
+  ingest:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout branch
+        uses: actions/checkout@v4
+        with:
+          ref: claude/knowledge-mgmt-daily-reads-cj7wbf
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: pip
+
+      - name: Install dependencies
+        run: |
+          pip install \
+            anthropic \
+            pdfplumber \
+            google-api-python-client \
+            google-auth
+
+      - name: Download & process PDFs from Google Drive
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          GOOGLE_SERVICE_ACCOUNT_JSON: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_JSON }}
+          GDRIVE_FOLDER_ID: 1DKkfBndGPDD-UWYWkIuYr8jdWb802BG0
+        run: python gdrive_ingest.py
+
+      - name: Regenerate HTML viewer
+        run: python view_notes.py --no-open
+
+      - name: Commit and push if changed
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add docs/
+          if git diff --staged --quiet; then
+            echo "Nothing new to commit — library already up to date."
+          else
+            git commit -m "Daily reads update $(date -u +%Y-%m-%d)"
+            git push origin claude/knowledge-mgmt-daily-reads-cj7wbf
+          fi
