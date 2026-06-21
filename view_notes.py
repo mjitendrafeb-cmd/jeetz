@@ -350,6 +350,130 @@ def build_jsonld(notes):
     return json.dumps(ld, ensure_ascii=False, indent=None)
 
 
+def render_row(raw_note, idx, watchlist=None):
+    note = normalize_note(raw_note)
+    title       = note.get("title", "Untitled")
+    date        = note.get("date", "")
+    doc_date    = note.get("document_date") or ""
+    category    = note.get("category", "Other")
+    source      = note.get("source_file", "")
+    source_type = note.get("source_type", "other")
+    sentiment   = note.get("sentiment", "neutral").lower()
+    key_takeaways     = note.get("key_takeaways", [])
+    entities_impacted = note.get("entities_impacted", [])
+    learning          = note.get("learning", [])
+    tags              = note.get("tags", [])
+    duplicate_stories = note.get("duplicate_stories", [])
+
+    preview = (key_takeaways[0].get("takeaway", "") if key_takeaways
+               else (note.get("executive_summary") or [""])[0])
+
+    search_blob = " ".join([
+        title, source, category, sentiment,
+        " ".join(tags),
+        " ".join(kt.get("takeaway","") + " " + kt.get("analyst_lens","")
+                 for kt in key_takeaways),
+        " ".join(ei.get("entity","") + " " + ei.get("impact","")
+                 for ei in entities_impacted),
+        " ".join(learning),
+    ]).lower().replace('"', "'")
+
+    tags_csv = ",".join(tags)
+    cid = f"r{idx}"
+
+    if key_takeaways:
+        sigs = [kt.get("credit_signal", "neutral").lower() for kt in key_takeaways]
+        dominant_sig = min(sigs, key=lambda s: SIGNAL_PRIORITY.get(s, 3))
+    else:
+        dominant_sig = "neutral"
+    lborder = SIGNAL_BORDER.get(dominant_sig, "#e2e8f0")
+
+    st_meta = SOURCE_TYPE_META.get(source_type, SOURCE_TYPE_META["other"])
+    wl_hit  = check_watchlist(note, watchlist or set())
+
+    CS_COLOR = {"positive": "#15803d", "negative": "#dc2626", "neutral": "#6b7280", "watch": "#d97706"}
+    kt_rows = ""
+    for kt in key_takeaways:
+        cs = kt.get("credit_signal", "").lower()
+        cs_col   = CS_COLOR.get(cs, "#6b7280")
+        cs_badge = (f'<span style="font-size:10px;font-weight:700;color:{cs_col};'
+                    f'text-transform:uppercase">&#x25CF; {esc(cs)}</span><br>') if cs else ""
+        kt_rows += (f'<tr><td class="kc tw"><div style="margin-bottom:3px">{cs_badge}</div>'
+                    f'{esc(kt.get("takeaway",""))}</td>'
+                    f'<td class="kc al">{esc(kt.get("analyst_lens",""))}</td></tr>')
+
+    ei_rows = "".join(
+        f'<tr><td class="kc tw">{esc(ei.get("entity",""))}</td>'
+        f'<td class="kc">{esc(ei.get("impact",""))}</td></tr>'
+        for ei in entities_impacted
+    )
+    learn_items = "".join(f"<li>{esc(l)}</li>" for l in learning)
+    tag_chips   = "".join(f'<span class="tc-sm">{esc(t)}</span>' for t in tags[:8])
+
+    exp_parts = []
+    if kt_rows:
+        exp_parts.append(
+            f'<div class="exp-sect"><div class="exp-sh">Key Takeaways &amp; Analyst Lens</div>'
+            f'<div class="tbl-wrap"><table class="dt"><thead><tr>'
+            f'<th style="width:44%">Takeaway</th><th>Analyst Lens</th>'
+            f'</tr></thead><tbody>{kt_rows}</tbody></table></div></div>'
+        )
+    if ei_rows:
+        exp_parts.append(
+            f'<div class="exp-sect"><div class="exp-sh">Companies &amp; Sectors Impacted</div>'
+            f'<div class="tbl-wrap"><table class="dt"><thead><tr>'
+            f'<th style="width:30%">Entity</th><th>Impact</th>'
+            f'</tr></thead><tbody>{ei_rows}</tbody></table></div></div>'
+        )
+    if learn_items:
+        exp_parts.append(
+            f'<div class="exp-sect"><div class="exp-sh">What Can I Learn?</div>'
+            f'<ul class="blist learn">{learn_items}</ul></div>'
+        )
+    if duplicate_stories:
+        dup_items = "".join(f"<li>{esc(s)}</li>" for s in duplicate_stories)
+        exp_parts.append(
+            f'<div class="exp-sect"><div class="exp-sh" style="color:#6d28d9">'
+            f'&#10006; Already Covered in Previous Notes</div>'
+            f'<ul class="blist" style="color:#5b21b6">{dup_items}</ul></div>'
+        )
+    expanded_html = "".join(exp_parts)
+
+    wl_badge  = ' <span class="wl-badge">&#9733; Watchlist</span>' if wl_hit else ""
+    dup_badge = ' <span class="dup-badge">&#8635; Repeat</span>' if duplicate_stories else ""
+
+    return (
+        f'<tr class="doc-row" id="{cid}" '
+        f'data-category="{esc(category)}" data-sentiment="{esc(sentiment)}" '
+        f'data-date="{esc(date)}" data-docdate="{esc(doc_date)}" '
+        f'data-tags="{esc(tags_csv)}" data-search="{esc(search_blob)}">'
+        f'<td class="col-name" style="border-left:3px solid {lborder}">'
+        f'<div class="name-inner" onclick="toggleRow(\'{cid}\')">'
+        f'<span class="row-ico" id="{cid}-ico">&#8250;</span>'
+        f'<span class="doc-title" data-raw="{esc(title)}">{esc(title)}</span>'
+        f'{wl_badge}{dup_badge}'
+        f'</div>'
+        f'<div class="row-tags">{tag_chips}</div>'
+        f'</td>'
+        f'<td class="col-abstract" onclick="toggleRow(\'{cid}\')">'
+        f'<span data-raw="{esc(preview)}">'
+        f'{esc(preview[:200])}{"&#8230;" if len(preview) > 200 else ""}'
+        f'</span></td>'
+        f'<td class="col-status" onclick="toggleRow(\'{cid}\')">'
+        f'<span class="stype-badge" style="color:{st_meta["fg"]};'
+        f'background:{st_meta["bg"]};border-color:{st_meta["bd"]}">'
+        f'{esc(st_meta["label"])}</span></td>'
+        f'<td class="col-date" onclick="toggleRow(\'{cid}\')">'
+        f'{esc(fmt_date(doc_date or date))}</td>'
+        f'<td class="col-cat" onclick="toggleRow(\'{cid}\')">'
+        f'<span class="cat-badge">{esc(category)}</span></td>'
+        f'</tr>'
+        f'<tr class="exp-row" id="{cid}-exp">'
+        f'<td colspan="5"><div class="exp-content">{expanded_html}</div></td>'
+        f'</tr>'
+    )
+
+
 def generate_html(notes):
     now_str = datetime.datetime.now().strftime("%d %b %Y, %H:%M")
     total = len(notes)
@@ -365,17 +489,13 @@ def generate_html(notes):
                       f"onclick=\"setCat(this,'{safe_cat}')\">"
                       f'{esc(cat)} <span class="cnt">{cnt}</span></li>\n')
 
-    watchlist = load_watchlist()
-    cards_html = "\n".join(render_card(n, i, watchlist) for i, n in enumerate(notes))
-    jsonld = build_jsonld(notes)
-    total_js = total
+    cat_options = f'<option value="all">All Notes ({total})</option>\n'
+    for cat, cnt in cats:
+        cat_options += f'<option value="{esc(cat)}">{esc(cat)} ({cnt})</option>\n'
 
-    # Tag cloud
-    tag_counts = Counter()
-    for n in notes:
-        for t in n.get("tags", []):
-            tag_counts[t] += 1
-    top_tags = tag_counts.most_common(40)
+    watchlist = load_watchlist()
+    rows_html = "\n".join(render_row(n, i, watchlist) for i, n in enumerate(notes))
+    jsonld    = build_jsonld(notes)
 
     # Credit signal summary bar
     sig_counts = Counter()
@@ -398,11 +518,6 @@ def generate_html(notes):
                 f'{cnt} {label}</span>'
             )
     signal_bar_html = "".join(sig_bar_parts)
-    tag_cloud_html = "".join(
-        f'<span class="tc-chip" data-tag="{esc(t)}" onclick="setTag(\'{esc(t)}\')">'
-        f'{esc(t)}<span class="tc-cnt">{c}</span></span>'
-        for t, c in top_tags
-    )
 
     return f"""<!DOCTYPE html>
 <html lang="en">
@@ -416,383 +531,350 @@ def generate_html(notes):
 <meta property="og:url" content="{SITE_URL}/">
 <meta property="og:title" content="{esc(SITE_TITLE)}">
 <meta property="og:description" content="{esc(SITE_DESC)}">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="{esc(SITE_TITLE)}">
-<meta name="twitter:description" content="{esc(SITE_DESC)}">
 <script type="application/ld+json">{jsonld}</script>
 <style>
 *{{box-sizing:border-box;margin:0;padding:0}}
 body{{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
-  background:#f8fafc;color:#1e293b;font-size:14px;line-height:1.6}}
+  background:#f3f2f1;color:#323130;font-size:14px;line-height:1.5;min-height:100vh}}
 
-/* ── Top bar ── */
-header{{background:#fff;border-bottom:1px solid #e2e8f0;
-  padding:0 28px;position:sticky;top:0;z-index:100;
-  box-shadow:0 1px 4px #0000000a}}
-.topbar{{display:flex;align-items:center;justify-content:space-between;
-  gap:16px;height:60px;max-width:1240px;margin:0 auto}}
-.brand h1{{font-size:17px;font-weight:700;color:#0f172a;letter-spacing:-.3px}}
-.brand small{{font-size:11px;color:#94a3b8;display:block;margin-top:1px}}
-.top-right{{display:flex;align-items:center;gap:10px;flex-shrink:0}}
+/* ── Suite bar ── */
+.suite-bar{{background:#0078d4;min-height:48px;padding:0 20px}}
+.suite-inner{{max-width:1400px;margin:0 auto;height:48px;
+  display:flex;align-items:center;gap:10px}}
+.suite-brand{{color:#fff;font-size:15px;font-weight:700;
+  display:flex;align-items:center;gap:8px}}
+.suite-sep{{color:rgba(255,255,255,.45);font-size:13px}}
+.suite-lib{{color:rgba(255,255,255,.88);font-size:14px;font-weight:400}}
+.suite-meta{{font-size:11px;color:rgba(255,255,255,.6);margin-left:6px}}
+.suite-actions{{margin-left:auto;display:flex;align-items:center;gap:8px}}
+.suite-btn{{color:rgba(255,255,255,.9);background:rgba(255,255,255,.1);
+  border:1px solid rgba(255,255,255,.22);padding:6px 14px;border-radius:2px;
+  font-size:12px;font-weight:600;cursor:pointer;text-decoration:none;
+  display:inline-flex;align-items:center;gap:5px;white-space:nowrap;
+  transition:background .15s}}
+.suite-btn:hover{{background:rgba(255,255,255,.2)}}
+.digest-tab{{background:#fff;color:#0078d4;border-color:#fff;font-weight:700}}
+.digest-tab:hover{{background:#e8f4fd}}
 
-/* search */
-#search{{background:#f1f5f9;border:1.5px solid #e2e8f0;color:#0f172a;
-  padding:8px 14px;border-radius:8px;font-size:13px;width:260px;
-  outline:none;transition:border-color .15s,box-shadow .15s}}
-#search::placeholder{{color:#94a3b8}}
-#search:focus{{border-color:#6366f1;box-shadow:0 0 0 3px #6366f122;background:#fff}}
-
-/* sort */
-#sort-sel{{border:1.5px solid #e2e8f0;background:#f1f5f9;color:#475569;
-  padding:8px 10px;border-radius:8px;font-size:12px;outline:none;cursor:pointer}}
-#sort-sel:focus{{border-color:#6366f1}}
-
-/* sentiment filter chips */
-.sent-filters{{display:flex;gap:6px;flex-wrap:wrap}}
-.sf{{border:1.5px solid #e2e8f0;background:#fff;color:#64748b;
-  padding:5px 12px;border-radius:20px;font-size:11px;font-weight:600;
-  cursor:pointer;transition:all .15s;white-space:nowrap}}
-.sf:hover{{border-color:#6366f1;color:#6366f1}}
-.sf.active{{background:#6366f1;border-color:#6366f1;color:#fff}}
+/* ── Command bar ── */
+.cmd-bar{{background:#fff;border-bottom:1px solid #edebe9;padding:6px 20px;
+  box-shadow:0 1px 3px rgba(0,0,0,.06)}}
+.cmd-inner{{max-width:1400px;margin:0 auto;display:flex;align-items:center;
+  gap:8px;flex-wrap:wrap}}
+.cmd-sel{{border:1px solid #8a8886;background:#fff;color:#323130;
+  padding:6px 10px;border-radius:2px;font-size:13px;outline:none;cursor:pointer;
+  min-width:140px}}
+.cmd-sel:focus{{border-color:#0078d4;box-shadow:0 0 0 1px #0078d4}}
+.search-wrap{{position:relative}}
+.search-ico{{position:absolute;left:8px;top:50%;transform:translateY(-50%);
+  color:#8a8886;font-size:14px;pointer-events:none;line-height:1}}
+#search{{border:1px solid #8a8886;background:#fff;color:#323130;
+  padding:6px 10px 6px 28px;border-radius:2px;font-size:13px;outline:none;width:220px}}
+#search:focus{{border-color:#0078d4;box-shadow:0 0 0 1px #0078d4}}
+#search::placeholder{{color:#a19f9d}}
+.date-lbl{{font-size:12px;color:#605e5c;white-space:nowrap}}
+.date-in{{border:1px solid #8a8886;background:#fff;color:#323130;
+  padding:6px 8px;border-radius:2px;font-size:12px;outline:none;width:130px}}
+.date-in:focus{{border-color:#0078d4}}
+.cmd-sep{{color:#e1dfdd;user-select:none}}
+.sort-sel{{border:1px solid #8a8886;background:#fff;color:#323130;
+  padding:6px 8px;border-radius:2px;font-size:12px;outline:none}}
+#stats-lbl{{font-size:12px;color:#605e5c;margin-left:auto;white-space:nowrap}}
+.share-btn{{background:#0078d4;color:#fff;border:none;padding:6px 14px;
+  border-radius:2px;font-size:12px;font-weight:600;cursor:pointer;
+  display:inline-flex;align-items:center;gap:5px;white-space:nowrap;
+  transition:background .15s}}
+.share-btn:hover{{background:#106ebe}}
 
 /* ── Layout ── */
-.layout{{display:flex;max-width:1240px;margin:0 auto;padding:24px 20px;gap:24px}}
-aside{{width:200px;flex-shrink:0;position:sticky;top:76px;
-  align-self:flex-start;max-height:calc(100vh - 96px);overflow-y:auto}}
-.aside-title{{font-size:10px;font-weight:700;text-transform:uppercase;
-  letter-spacing:.8px;color:#94a3b8;margin-bottom:10px;padding-left:4px}}
-.cat-item{{list-style:none;padding:7px 12px;border-radius:8px;cursor:pointer;
-  font-size:13px;display:flex;justify-content:space-between;align-items:center;
-  color:#475569;margin-bottom:2px;transition:background .1s,color .1s}}
-.cat-item:hover{{background:#e2e8f0;color:#0f172a}}
-.cat-item.active{{background:#0f172a;color:#f8fafc;font-weight:600}}
-.cnt{{font-size:11px;padding:1px 8px;border-radius:20px;font-weight:500;
-  background:#e2e8f0;color:#64748b}}
-.cat-item.active .cnt{{background:#334155;color:#94a3b8}}
-
-/* ── Cards area ── */
-main{{flex:1;min-width:0}}
-#stats-bar{{font-size:12px;color:#64748b;margin-bottom:14px;min-height:18px}}
-.card{{background:#fff;border-radius:14px;margin-bottom:14px;
-  border:1.5px solid #e2e8f0;border-left-width:4px;overflow:hidden;
-  transition:box-shadow .2s,border-color .2s}}
-.card:hover{{box-shadow:0 4px 20px #0000000f;border-color:#c7d2fe}}
-.card-hd{{padding:18px 20px 14px;cursor:pointer;user-select:none}}
-.card-hd:hover{{background:#fafbff}}
-.card-meta{{display:flex;align-items:center;gap:7px;margin-bottom:10px;flex-wrap:wrap}}
-.cat-badge{{background:#eff6ff;color:#2563eb;border:1px solid #bfdbfe;
-  font-size:11px;font-weight:600;padding:3px 10px;border-radius:20px}}
-.sent-badge{{font-size:11px;font-weight:600;padding:3px 10px;border-radius:20px;
-  border:1px solid transparent}}
-.date-badge{{font-size:11px;color:#94a3b8;font-weight:500}}
-.tog-ico{{margin-left:auto;color:#cbd5e1;font-size:18px;
-  transition:transform .2s;line-height:1}}
-.tog-ico.open{{transform:rotate(180deg)}}
-.card-title{{font-size:16px;font-weight:700;color:#0f172a;
-  line-height:1.4;margin-bottom:6px}}
-.card-preview{{font-size:13px;color:#475569;line-height:1.6;
-  margin-bottom:10px;max-width:90ch}}
-.chip-row{{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:4px}}
-.chip{{font-size:11px;font-weight:500;padding:3px 10px;border-radius:20px;
-  background:#f1f5f9;color:#475569;border:1px solid #e2e8f0;
-  display:inline-block}}
-.source-line{{font-size:11px;color:#cbd5e1;font-family:'SF Mono',Consolas,monospace;
-  margin-top:6px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}}
-.fresh-badge{{font-size:11px;font-weight:600;padding:2px 9px;border-radius:20px;border:1px solid transparent}}
-.fresh-badge.stale{{background:#fef3c7;color:#b45309;border-color:#fde68a}}
-.fresh-badge.mixed{{background:#f0f9ff;color:#0284c7;border-color:#bae6fd}}
-.wl-badge{{background:#fef3c7;color:#92400e;border:1px solid #fde68a;font-size:10px;font-weight:700;padding:2px 8px;border-radius:20px}}
-.stype-badge{{font-size:10px;font-weight:600;padding:2px 8px;border-radius:20px;border:1px solid transparent}}
-
-/* ── Tag cloud ── */
-.tc-chip{{font-size:11px;padding:2px 8px;border-radius:12px;background:#f1f5f9;color:#475569;
-  border:1px solid #e2e8f0;cursor:pointer;margin:2px;display:inline-block;transition:all .15s}}
-.tc-chip:hover{{background:#e2e8f0;color:#0f172a}}
-.tc-chip.active{{background:#6366f1;color:#fff;border-color:#6366f1}}
-.tc-cnt{{font-size:10px;color:#94a3b8;margin-left:3px}}
-.tag-cloud{{display:flex;flex-wrap:wrap;gap:2px;margin-top:6px}}
-
-/* ── Date range ── */
-.date-range{{display:flex;align-items:center;gap:5px;font-size:11px;color:#94a3b8}}
-.date-range input[type=date]{{border:1.5px solid #e2e8f0;background:#f1f5f9;color:#475569;
-  padding:6px 8px;border-radius:8px;font-size:12px;outline:none;width:130px}}
-.date-range input[type=date]:focus{{border-color:#6366f1;background:#fff}}
-
-/* ── Compact / Print buttons ── */
-.compact-btn,.print-btn{{border:1.5px solid #e2e8f0;background:#f1f5f9;color:#475569;
-  padding:7px 12px;border-radius:8px;font-size:12px;cursor:pointer;white-space:nowrap;
-  transition:background .15s}}
-.compact-btn:hover,.print-btn:hover{{background:#e2e8f0}}
-
-/* ── Compact mode ── */
-body.compact .chip-row,body.compact .card-preview,body.compact .source-line{{display:none}}
-body.compact .card-hd{{padding:10px 20px}}
-
-/* ── Print ── */
-@media print{{
-  header .top-right,.sent-filters,#sort-sel,.date-range,.print-btn,.compact-btn,aside{{display:none!important}}
-  .layout{{max-width:100%;padding:0;display:block}}
-  .card{{break-inside:avoid;box-shadow:none!important;border:1px solid #ddd;margin-bottom:8px}}
-  .card-bd[hidden]{{display:block!important}}
-  body{{background:#fff}}
-  header{{position:static;box-shadow:none}}
-  .topbar{{height:auto;padding:10px 0}}
-  #stats-bar,#empty{{display:none!important}}
-}}
-
-/* ── Card body (expanded) ── */
-.card-bd{{padding:0 20px 18px;border-top:1.5px solid #f1f5f9}}
-.sect{{margin-top:18px}}
-.sh{{font-size:10px;font-weight:700;text-transform:uppercase;
-  letter-spacing:.7px;color:#94a3b8;margin-bottom:8px;
-  padding-bottom:5px;border-bottom:1px solid #f1f5f9}}
-.blist{{padding-left:20px}}
-.blist li{{margin-bottom:6px;line-height:1.65;color:#334155;font-size:13px}}
-.mon li{{color:#92400e}}
-.learn li{{color:#075985}}
-.tbl-wrap{{overflow-x:auto}}
-.dt{{width:100%;border-collapse:collapse;font-size:13px}}
-.dt thead th{{padding:8px 12px;text-align:left;font-size:10px;font-weight:700;
-  text-transform:uppercase;letter-spacing:.5px;color:#64748b;
-  background:#f8fafc;border-bottom:2px solid #e2e8f0}}
-.kc{{padding:9px 12px;vertical-align:top;border-bottom:1px solid #f8fafc;
-  line-height:1.6;font-size:13px;color:#334155}}
-.tw{{font-weight:600;color:#0f172a;width:40%}}
-.al{{color:#475569}}
-.rel-row{{margin-top:14px;font-size:11px;color:#94a3b8;display:flex;
-  align-items:center;gap:6px;flex-wrap:wrap}}
-.rel-chip{{background:#f1f5f9;color:#64748b;border:1px solid #e2e8f0;
-  padding:2px 8px;border-radius:12px;font-size:10px;font-weight:600}}
+.layout{{display:flex;max-width:1400px;margin:0 auto;padding:16px 20px;gap:18px}}
+aside{{width:188px;flex-shrink:0;position:sticky;top:0;align-self:flex-start}}
+.aside-sec{{background:#fff;border:1px solid #edebe9;border-radius:2px;overflow:hidden}}
+.aside-title{{font-size:11px;font-weight:700;text-transform:uppercase;
+  letter-spacing:.6px;color:#605e5c;padding:10px 12px 6px}}
+.cat-item{{list-style:none;padding:7px 12px;cursor:pointer;font-size:13px;
+  display:flex;justify-content:space-between;align-items:center;color:#323130;
+  transition:background .1s;border-left:2px solid transparent}}
+.cat-item:hover{{background:#f3f2f1}}
+.cat-item.active{{background:#deecf9;color:#0078d4;font-weight:600;
+  border-left-color:#0078d4}}
+.cnt{{font-size:11px;color:#605e5c;background:#f3f2f1;
+  padding:1px 7px;border-radius:10px}}
+.cat-item.active .cnt{{background:#c7e0f4;color:#0078d4}}
 
 /* ── Signal bar ── */
-.signal-bar{{display:flex;align-items:center;gap:16px;padding:10px 0 14px;flex-wrap:wrap}}
+.signal-bar{{display:flex;align-items:center;gap:16px;padding:0 0 10px;flex-wrap:wrap}}
 .sig-pill{{display:inline-flex;align-items:center;gap:5px;font-size:12px;font-weight:600}}
 .sig-dot{{width:8px;height:8px;border-radius:50%;flex-shrink:0}}
 
-/* ── Highlights ── */
-mark{{background:#fef9c3;color:#713f12;border-radius:2px;padding:0 2px}}
+/* ── Main / Table ── */
+main{{flex:1;min-width:0}}
+.doc-table-wrap{{background:#fff;border:1px solid #edebe9;border-radius:2px;overflow:hidden}}
+.doc-table{{width:100%;border-collapse:collapse}}
+.doc-table thead th{{padding:10px 14px;text-align:left;font-size:11px;font-weight:700;
+  color:#605e5c;background:#faf9f8;border-bottom:2px solid #edebe9;
+  text-transform:uppercase;letter-spacing:.4px;white-space:nowrap}}
+.doc-row{{border-bottom:1px solid #f3f2f1;transition:background .1s}}
+.doc-row:hover td{{background:#f3f2f1}}
+.doc-row.exp-open td{{background:#faf9f8}}
+.col-name{{padding:11px 14px;width:28%;vertical-align:top}}
+.col-abstract{{padding:11px 14px;width:34%;color:#605e5c;font-size:13px;
+  line-height:1.5;vertical-align:top;cursor:pointer}}
+.col-status{{padding:11px 14px;width:13%;vertical-align:top;
+  white-space:nowrap;cursor:pointer}}
+.col-date{{padding:11px 14px;width:10%;font-size:12px;color:#605e5c;
+  white-space:nowrap;vertical-align:top;cursor:pointer}}
+.col-cat{{padding:11px 14px;width:15%;vertical-align:top;cursor:pointer}}
+.name-inner{{display:flex;align-items:flex-start;gap:6px;margin-bottom:4px;cursor:pointer}}
+.row-ico{{font-size:18px;color:#8a8886;flex-shrink:0;line-height:1;
+  transition:transform .18s;display:inline-block}}
+.row-ico.open{{transform:rotate(90deg)}}
+.doc-title{{font-size:13px;font-weight:600;color:#323130;line-height:1.4}}
+.row-tags{{display:flex;flex-wrap:wrap;gap:3px;padding-left:24px;margin-top:3px}}
+.tc-sm{{font-size:10px;padding:1px 6px;border-radius:10px;
+  background:#f3f2f1;color:#605e5c;border:1px solid #edebe9}}
+.stype-badge{{font-size:11px;font-weight:600;padding:3px 9px;
+  border-radius:2px;border:1px solid transparent;white-space:nowrap}}
+.cat-badge{{background:#deecf9;color:#0078d4;font-size:11px;font-weight:600;
+  padding:3px 9px;border-radius:2px;white-space:nowrap}}
+.wl-badge{{background:#fff4ce;color:#7a4e00;border:1px solid #f8e7ab;
+  font-size:10px;font-weight:700;padding:2px 7px;border-radius:10px;white-space:nowrap}}
+.dup-badge{{background:#f0f0f0;color:#605e5c;border:1px solid #d2d0ce;
+  font-size:10px;font-weight:600;padding:2px 7px;border-radius:10px;white-space:nowrap}}
 
-/* ── Empty state ── */
-#empty{{text-align:center;padding:80px 20px;display:none}}
-#empty svg{{color:#e2e8f0;margin-bottom:16px}}
-#empty h3{{font-size:16px;color:#94a3b8;margin-bottom:6px}}
-#empty p{{font-size:13px;color:#cbd5e1}}
+/* ── Expanded row ── */
+.exp-row{{display:none;background:#faf9f8}}
+.exp-content{{padding:14px 20px 18px 40px;border-top:1px solid #edebe9}}
+.exp-sect{{margin-bottom:14px}}
+.exp-sh{{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;
+  color:#8a8886;margin-bottom:8px;padding-bottom:4px;border-bottom:1px solid #edebe9}}
+.tbl-wrap{{overflow-x:auto}}
+.dt{{width:100%;border-collapse:collapse;font-size:13px}}
+.dt thead th{{padding:7px 12px;text-align:left;font-size:10px;font-weight:700;
+  text-transform:uppercase;letter-spacing:.4px;color:#605e5c;
+  background:#faf9f8;border-bottom:1px solid #edebe9}}
+.kc{{padding:9px 12px;vertical-align:top;border-bottom:1px solid #f3f2f1;
+  line-height:1.55;font-size:13px;color:#323130}}
+.tw{{font-weight:600;width:40%}}
+.al{{color:#605e5c}}
+.blist{{padding-left:20px}}
+.blist li{{margin-bottom:5px;line-height:1.6;font-size:13px;color:#323130}}
+.learn li{{color:#075985}}
+
+/* ── Empty / Highlights / Toast ── */
+#empty{{text-align:center;padding:60px 20px;display:none;
+  color:#605e5c;background:#fff;border-top:1px solid #edebe9}}
+mark{{background:#fff100;color:#323130;border-radius:1px;padding:0 1px}}
+.toast{{position:fixed;bottom:24px;right:24px;background:#323130;color:#fff;
+  padding:12px 20px;border-radius:2px;font-size:13px;font-weight:600;
+  box-shadow:0 4px 16px rgba(0,0,0,.25);z-index:999;opacity:0;
+  transform:translateY(8px);transition:all .25s;pointer-events:none}}
+.toast.show{{opacity:1;transform:translateY(0)}}
+.toast.ok{{border-left:3px solid #107c10}}
 
 /* ── Responsive ── */
-@media(max-width:800px){{
-  aside{{display:none}}
-  .layout{{padding:16px 12px}}
-  .topbar{{flex-wrap:wrap;height:auto;padding:10px 0;gap:8px}}
-  #search{{width:100%}}
-  .top-right{{flex-wrap:wrap;width:100%}}
-  .sent-filters{{display:none}}
+@media(max-width:900px){{
+  aside{{display:none}}.layout{{padding:12px}}.col-abstract{{display:none}}
 }}
-@media(max-width:480px){{
-  .card-title{{font-size:14px}}
-  header{{padding:0 14px}}
+@media(max-width:600px){{
+  .col-date,.col-status{{display:none}}#search{{width:140px}}
+}}
+@media print{{
+  .suite-bar,.cmd-bar,.signal-bar,aside{{display:none!important}}
+  .exp-row{{display:table-row!important}}body{{background:#fff}}
+  .doc-table-wrap{{border:none}}
 }}
 </style>
 </head>
 <body>
-<header>
-  <div class="topbar">
-    <div class="brand">
-      <h1>Daily Reads</h1>
-      <small>Updated {now_str} &middot; {total} note{'s' if total != 1 else ''}</small>
-      <a href="digest.html" style="font-size:11px;color:#6366f1;text-decoration:none;margin-top:2px;display:inline-block">Weekly Digest →</a>
-    </div>
-    <div class="top-right">
-      <div class="sent-filters" role="group" aria-label="Filter by sentiment">
-        <button class="sf active" data-sent="all" onclick="setSent(this,'all')">All</button>
-        <button class="sf" data-sent="positive" onclick="setSent(this,'positive')">Positive</button>
-        <button class="sf" data-sent="negative" onclick="setSent(this,'negative')">Negative</button>
-        <button class="sf" data-sent="mixed" onclick="setSent(this,'mixed')">Mixed</button>
-        <button class="sf" data-sent="neutral" onclick="setSent(this,'neutral')">Neutral</button>
-      </div>
-      <div class="date-range">
-        <label>Doc date</label>
-        <input type="date" id="date-from" onchange="setDateFrom(this.value)" title="From">
-        <span>–</span>
-        <input type="date" id="date-to" onchange="setDateTo(this.value)" title="To">
-      </div>
-      <select id="sort-sel" onchange="setSort(this.value)" aria-label="Sort order">
-        <option value="newest">Newest first</option>
-        <option value="oldest">Oldest first</option>
-      </select>
-      <button class="compact-btn" onclick="toggleCompact()" title="Toggle compact view">&#9776; Compact</button>
-      <button class="print-btn" onclick="window.print()" title="Print / Save as PDF">&#9113; Print</button>
-      <input id="search" type="search" placeholder="Search notes&#8230;"
-             oninput="setQ(this.value)" autocomplete="off" aria-label="Search notes">
+
+<div class="suite-bar">
+  <div class="suite-inner">
+    <div class="suite-brand">&#128218; Daily Reads</div>
+    <span class="suite-sep">&#8250;</span>
+    <span class="suite-lib">Knowledge Depot</span>
+    <span class="suite-meta">Updated {now_str} &middot; {total} note{'s' if total != 1 else ''}</span>
+    <div class="suite-actions">
+      <a href="digest.html" class="suite-btn digest-tab">&#128203; Weekly Digest</a>
+      <button class="suite-btn" onclick="doShare()">&#128279; Share</button>
     </div>
   </div>
-</header>
+</div>
+
+<div class="cmd-bar">
+  <div class="cmd-inner">
+    <select id="cat-sel" class="cmd-sel" onchange="setCatSel(this.value)">
+      {cat_options}
+    </select>
+    <div class="search-wrap">
+      <span class="search-ico">&#9906;</span>
+      <input id="search" type="search" placeholder="Search notes&#8230;"
+             oninput="setQ(this.value)" autocomplete="off">
+    </div>
+    <span class="date-lbl">Doc date</span>
+    <input type="date" id="date-from" class="date-in" onchange="setDateFrom(this.value)">
+    <span class="cmd-sep">&ndash;</span>
+    <input type="date" id="date-to" class="date-in" onchange="setDateTo(this.value)">
+    <select id="sort-sel" class="sort-sel" onchange="setSort(this.value)">
+      <option value="newest">Newest first</option>
+      <option value="oldest">Oldest first</option>
+    </select>
+    <span id="stats-lbl"></span>
+    <button class="share-btn" onclick="doShare()">&#128279; Share</button>
+  </div>
+</div>
+
 <div class="layout">
   <aside>
-    <div class="aside-title">Categories</div>
-    <ul id="cat-list" role="list">{cat_items}</ul>
-    <div class="aside-title" style="margin-top:18px">Tags</div>
-    <div class="tag-cloud">{tag_cloud_html}</div>
+    <div class="aside-sec">
+      <div class="aside-title">Categories</div>
+      <ul id="cat-list">{cat_items}</ul>
+    </div>
   </aside>
   <main>
-    <div id="stats-bar" role="status" aria-live="polite"></div>
     <div class="signal-bar">{signal_bar_html}</div>
-    <div id="cards-container">{cards_html}</div>
-    <div id="empty" role="status">
-      <svg width="48" height="48" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
-          d="M21 21l-4.35-4.35M17 11A6 6 0 1 1 5 11a6 6 0 0 1 12 0z"/>
-      </svg>
-      <h3>No notes found</h3>
-      <p>Try a different search term or clear the filters.</p>
+    <div class="doc-table-wrap">
+      <table class="doc-table">
+        <thead><tr>
+          <th>Name</th><th>Abstract</th><th>Source Type</th>
+          <th>Date</th><th>Category</th>
+        </tr></thead>
+        <tbody id="table-body">{rows_html}</tbody>
+      </table>
+      <div id="empty">No notes match your filter.</div>
     </div>
   </main>
 </div>
+<div class="toast" id="toast"></div>
+
 <script>
 (function(){{
-  var TOTAL={total_js};
-  var state={{q:'',cat:'all',sent:'all',sort:'newest',tag:'',dateFrom:'',dateTo:''}};
+  var TOTAL={total};
+  var state={{q:'',cat:'all',sort:'newest',dateFrom:'',dateTo:''}};
 
-  // ── Read URL params on load ──
   var params=new URLSearchParams(window.location.search);
   if(params.get('q'))state.q=params.get('q');
   if(params.get('category'))state.cat=params.get('category');
-  if(params.get('sentiment'))state.sent=params.get('sentiment');
   if(params.get('sort'))state.sort=params.get('sort');
-  if(params.get('tag'))state.tag=params.get('tag');
   if(params.get('from'))state.dateFrom=params.get('from');
   if(params.get('to'))state.dateTo=params.get('to');
 
   function applyInit(){{
     if(state.q){{var el=document.getElementById('search');if(el)el.value=state.q;}}
-    if(state.sort!=='newest'){{var sel=document.getElementById('sort-sel');if(sel)sel.value=state.sort;}}
+    if(state.sort!=='newest'){{var s=document.getElementById('sort-sel');if(s)s.value=state.sort;}}
     if(state.cat!=='all'){{
-      document.querySelectorAll('.cat-item').forEach(function(li){{li.classList.toggle('active',li.dataset.cat===state.cat)}});
-    }}
-    if(state.sent!=='all'){{
-      document.querySelectorAll('.sf').forEach(function(b){{b.classList.toggle('active',b.dataset.sent===state.sent)}});
-    }}
-    if(state.tag){{
-      document.querySelectorAll('.tc-chip').forEach(function(c){{c.classList.toggle('active',c.dataset.tag===state.tag)}});
+      var cs=document.getElementById('cat-sel');if(cs)cs.value=state.cat;
+      document.querySelectorAll('.cat-item').forEach(function(li){{
+        li.classList.toggle('active',li.dataset.cat===state.cat);
+      }});
     }}
     if(state.dateFrom){{var f=document.getElementById('date-from');if(f)f.value=state.dateFrom;}}
     if(state.dateTo){{var t=document.getElementById('date-to');if(t)t.value=state.dateTo;}}
     apply();
   }}
 
-  // ── Highlight helper ──
+  function escH(t){{return String(t).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}}
   function hlText(txt,q){{
     if(!q)return escH(txt);
     var re=new RegExp('('+q.replace(/[.*+?^${{}}()|[\\]\\\\]/g,'\\\\$&')+')','gi');
     return escH(txt).replace(re,'<mark>$1</mark>');
   }}
-  function escH(t){{
-    return String(t).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
-  }}
 
-  // ── Apply all filters ──
   function apply(){{
-    var cards=Array.from(document.querySelectorAll('.card'));
+    var rows=Array.from(document.querySelectorAll('.doc-row'));
     var q=state.q.toLowerCase().trim();
-    var cat=state.cat,sent=state.sent,tag=state.tag;
-    var dateFrom=state.dateFrom,dateTo=state.dateTo;
+    var cat=state.cat,dateFrom=state.dateFrom,dateTo=state.dateTo;
+    var tbody=document.getElementById('table-body');
 
-    var container=document.getElementById('cards-container');
     if(state.sort==='oldest'){{
-      cards.sort(function(a,b){{return a.dataset.date.localeCompare(b.dataset.date)}});
+      rows.sort(function(a,b){{return (a.dataset.docdate||a.dataset.date).localeCompare(b.dataset.docdate||b.dataset.date);}});
     }}else{{
-      cards.sort(function(a,b){{return b.dataset.date.localeCompare(a.dataset.date)}});
+      rows.sort(function(a,b){{return (b.dataset.docdate||b.dataset.date).localeCompare(a.dataset.docdate||a.dataset.date);}});
     }}
-    cards.forEach(function(c){{container.appendChild(c)}});
+    rows.forEach(function(r){{
+      tbody.appendChild(r);
+      var exp=document.getElementById(r.id+'-exp');
+      if(exp)tbody.appendChild(exp);
+    }});
 
     var vis=0;
-    cards.forEach(function(c){{
-      var catOk=cat==='all'||c.dataset.category===cat;
-      var sentOk=sent==='all'||c.dataset.sentiment===sent;
-      var searchOk=!q||c.dataset.search.includes(q);
-      var tagOk=!tag||(c.dataset.tags&&c.dataset.tags.split(',').includes(tag));
-      var dd=c.dataset.docdate||c.dataset.date||'';
-      var dateFromOk=!dateFrom||dd>=dateFrom;
-      var dateToOk=!dateTo||dd<=dateTo;
-      var show=catOk&&sentOk&&searchOk&&tagOk&&dateFromOk&&dateToOk;
-      c.style.display=show?'':'none';
+    rows.forEach(function(r){{
+      var catOk=cat==='all'||r.dataset.category===cat;
+      var searchOk=!q||r.dataset.search.includes(q);
+      var dd=r.dataset.docdate||r.dataset.date||'';
+      var show=catOk&&searchOk&&(!dateFrom||dd>=dateFrom)&&(!dateTo||dd<=dateTo);
+      r.style.display=show?'':'none';
+      var exp=document.getElementById(r.id+'-exp');
+      if(exp)exp.style.display=(!show)?'none':(exp.dataset.open==='1'?'':'none');
       if(show){{
         vis++;
-        var titleEl=c.querySelector('.card-title');
-        var prevEl=c.querySelector('.card-preview');
+        var titleEl=r.querySelector('.doc-title');
+        var absEl=r.querySelector('.col-abstract span');
         if(titleEl)titleEl.innerHTML=hlText(titleEl.dataset.raw||'',q);
-        if(prevEl)prevEl.innerHTML=hlText(prevEl.dataset.raw||'',q);
+        if(absEl)absEl.innerHTML=hlText(absEl.dataset.raw||'',q);
       }}
     }});
 
-    var bar=document.getElementById('stats-bar');
-    var filtered=q||cat!=='all'||sent!=='all'||tag||dateFrom||dateTo;
-    if(filtered){{
-      bar.textContent='Showing '+vis+' of '+TOTAL+' note'+(TOTAL===1?'':'s');
-    }}else{{
-      bar.textContent=TOTAL+' note'+(TOTAL===1?'':'s');
-    }}
+    var lbl=document.getElementById('stats-lbl');
+    var filtered=q||cat!=='all'||dateFrom||dateTo;
+    lbl.textContent=filtered?('Showing '+vis+' of '+TOTAL+' notes'):(TOTAL+' note'+(TOTAL===1?'':'s'));
     document.getElementById('empty').style.display=vis?'none':'block';
 
     var p=new URLSearchParams();
     if(q)p.set('q',state.q);
     if(cat!=='all')p.set('category',cat);
-    if(sent!=='all')p.set('sentiment',sent);
     if(state.sort!=='newest')p.set('sort',state.sort);
-    if(tag)p.set('tag',tag);
     if(dateFrom)p.set('from',dateFrom);
     if(dateTo)p.set('to',dateTo);
-    var qs=p.toString();
-    history.replaceState(null,'',qs?'?'+qs:window.location.pathname);
+    history.replaceState(null,'',p.toString()?'?'+p.toString():window.location.pathname);
+
+    document.querySelectorAll('.cat-item').forEach(function(li){{
+      li.classList.toggle('active',li.dataset.cat===state.cat);
+    }});
   }}
 
-  // ── Public handlers ──
   window.setCat=function(el,cat){{
     state.cat=cat;
-    document.querySelectorAll('.cat-item').forEach(function(li){{li.classList.remove('active')}});
-    el.classList.add('active');
+    var cs=document.getElementById('cat-sel');if(cs)cs.value=cat;
     apply();
   }};
-  window.setSent=function(el,sent){{
-    state.sent=sent;
-    document.querySelectorAll('.sf').forEach(function(b){{b.classList.remove('active')}});
-    el.classList.add('active');
-    apply();
-  }};
-  window.setSort=function(val){{
-    state.sort=val;
-    apply();
-  }};
-  window.setQ=function(val){{
-    state.q=val;
-    apply();
-  }};
-  window.toggle=function(id){{
-    var bd=document.getElementById(id+'-bd');
-    var ico=document.getElementById(id+'-ico');
-    var hidden=bd.hasAttribute('hidden');
-    if(hidden){{bd.removeAttribute('hidden');ico.classList.add('open');}}
-    else{{bd.setAttribute('hidden','');ico.classList.remove('open');}}
-  }};
-  window.setTag=function(tag){{
-    state.tag=(state.tag===tag)?'':tag;
-    document.querySelectorAll('.tc-chip').forEach(function(c){{c.classList.toggle('active',c.dataset.tag===state.tag)}});
-    apply();
-  }};
+  window.setCatSel=function(val){{state.cat=val;apply();}};
+  window.setSort=function(val){{state.sort=val;apply();}};
+  window.setQ=function(val){{state.q=val;apply();}};
   window.setDateFrom=function(v){{state.dateFrom=v;apply();}};
   window.setDateTo=function(v){{state.dateTo=v;apply();}};
-  window.toggleCompact=function(){{
-    var on=document.body.classList.toggle('compact');
-    var btn=document.querySelector('.compact-btn');
-    if(btn)btn.innerHTML=on?'&#9732; Expanded':'&#9776; Compact';
-  }};
-  window.expandDupe=function(cid){{
-    var collapsed=document.getElementById(cid+'-dupc');
-    var table=document.getElementById(cid+'-dupt');
-    if(collapsed)collapsed.hidden=true;
-    if(table)table.removeAttribute('hidden');
+
+  window.toggleRow=function(id){{
+    var exp=document.getElementById(id+'-exp');
+    var ico=document.getElementById(id+'-ico');
+    var row=document.getElementById(id);
+    if(!exp)return;
+    var isOpen=exp.dataset.open==='1';
+    exp.dataset.open=isOpen?'0':'1';
+    exp.style.display=isOpen?'none':'';
+    if(ico)ico.classList.toggle('open',!isOpen);
+    if(row)row.classList.toggle('exp-open',!isOpen);
   }};
 
-  // Run initial filter (applies URL params)
+  window.expandDupe=function(cid){{
+    var c=document.getElementById(cid+'-dupc');var t=document.getElementById(cid+'-dupt');
+    if(c)c.hidden=true;if(t)t.removeAttribute('hidden');
+  }};
+
+  function showToast(msg,type){{
+    var t=document.getElementById('toast');
+    t.textContent=msg;t.className='toast '+(type||'ok');t.classList.add('show');
+    setTimeout(function(){{t.classList.remove('show');}},3000);
+  }}
+
+  window.doShare=function(){{
+    var url=window.location.href;
+    if(navigator.clipboard){{
+      navigator.clipboard.writeText(url).then(function(){{showToast('Link copied to clipboard','ok');}})
+        .catch(function(){{prompt('Copy this link:',url);}});
+    }}else{{prompt('Copy this link:',url);}}
+  }};
+
   applyInit();
   document.getElementById('search').focus();
 }})();
