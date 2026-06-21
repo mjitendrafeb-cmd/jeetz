@@ -15,7 +15,7 @@ import re
 import sys
 import time
 
-SUPPORTED = {".pdf", ".txt", ".md"}
+SUPPORTED = {".pdf", ".txt", ".md", ".html", ".htm"}
 MAX_CHARS = 60_000
 REPO_ROOT = os.path.dirname(os.path.abspath(__file__))
 DEFAULT_NOTES_DIR = os.path.join(REPO_ROOT, "docs", "notes")
@@ -75,10 +75,46 @@ def extract_pdf(path):
         return "\n".join(p.extract_text() or "" for p in pdf.pages)
 
 
+def extract_html(path):
+    from html.parser import HTMLParser
+
+    class _Strip(HTMLParser):
+        def __init__(self):
+            super().__init__()
+            self._parts = []
+            self._skip = False
+
+        def handle_starttag(self, tag, attrs):
+            if tag in ("script", "style"):
+                self._skip = True
+            if tag in ("p", "br", "div", "h1", "h2", "h3", "h4", "h5", "li", "tr"):
+                self._parts.append("\n")
+
+        def handle_endtag(self, tag):
+            if tag in ("script", "style"):
+                self._skip = False
+
+        def handle_data(self, data):
+            if not self._skip:
+                self._parts.append(data)
+
+        def text(self):
+            raw = "".join(self._parts)
+            return re.sub(r"\n{3,}", "\n\n", raw).strip()
+
+    with open(path, encoding="utf-8", errors="replace") as f:
+        content = f.read()
+    p = _Strip()
+    p.feed(content)
+    return p.text()
+
+
 def extract_text(path):
     ext = os.path.splitext(path)[1].lower()
     if ext == ".pdf":
         return extract_pdf(path), "pdf"
+    if ext in (".html", ".htm"):
+        return extract_html(path), "html"
     with open(path, encoding="utf-8", errors="replace") as f:
         return f.read(), "txt"
 

@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
 """
-gdrive_ingest.py — Download PDFs from Google Drive folder, distil with Claude, save JSON notes.
+gdrive_ingest.py — Download files from Google Drive folder, distil with Claude, save JSON notes.
 
 Reads from a shared Google Drive folder using a service account.
+Supports PDF, HTML, TXT, and Markdown files.
 Skips files already processed (stem_note.json already exists in docs/notes/).
 
 Required environment variables:
@@ -19,6 +20,13 @@ import tempfile
 REPO_ROOT = os.path.dirname(os.path.abspath(__file__))
 NOTES_DIR = os.path.join(REPO_ROOT, "docs", "notes")
 GDRIVE_FOLDER_ID = os.environ.get("GDRIVE_FOLDER_ID", "1DKkfBndGPDD-UWYWkIuYr8jdWb802BG0")
+
+SUPPORTED_MIMES = (
+    "mimeType='application/pdf'"
+    " or mimeType='text/html'"
+    " or mimeType='text/plain'"
+    " or mimeType='text/markdown'"
+)
 
 
 def _drive_service():
@@ -37,14 +45,14 @@ def _drive_service():
     return build("drive", "v3", credentials=creds, cache_discovery=False)
 
 
-def list_pdfs(service, folder_id):
+def list_files(service, folder_id):
     files, page_token = [], None
     while True:
         resp = service.files().list(
             q=(f"'{folder_id}' in parents"
-               " and mimeType='application/pdf'"
+               f" and ({SUPPORTED_MIMES})"
                " and trashed=false"),
-            fields="nextPageToken, files(id, name, modifiedTime)",
+            fields="nextPageToken, files(id, name, mimeType, modifiedTime)",
             pageToken=page_token,
             orderBy="name",
         ).execute()
@@ -55,7 +63,7 @@ def list_pdfs(service, folder_id):
     return files
 
 
-def download_pdf(service, file_id, dest_path):
+def download_file(service, file_id, dest_path):
     from googleapiclient.http import MediaIoBaseDownload
 
     req = service.files().get_media(fileId=file_id)
@@ -85,15 +93,17 @@ def main():
     print(f"Connecting to Google Drive folder: {GDRIVE_FOLDER_ID}")
     service = _drive_service()
 
-    all_files = list_pdfs(service, GDRIVE_FOLDER_ID)
-    print(f"Found {len(all_files)} PDF(s) in Drive folder.")
+    all_files = list_files(service, GDRIVE_FOLDER_ID)
+    print(f"Found {len(all_files)} supported file(s) in Drive folder.")
+    for f in all_files:
+        print(f"  {f['name']}  [{f.get('mimeType','')}]")
 
     new_files = [f for f in all_files if not already_done(f["name"])]
     if not new_files:
-        print("No new PDFs — library already up to date.")
+        print("No new files — library already up to date.")
         return
 
-    print(f"{len(new_files)} new file(s) to process.")
+    print(f"\n{len(new_files)} new file(s) to process.")
     os.makedirs(NOTES_DIR, exist_ok=True)
 
     with tempfile.TemporaryDirectory() as tmpdir:
@@ -102,7 +112,7 @@ def main():
             dest = os.path.join(tmpdir, f["name"])
             print(f"\nDownloading: {f['name']}")
             try:
-                download_pdf(service, f["id"], dest)
+                download_file(service, f["id"], dest)
             except Exception as e:
                 print(f"  Download failed: {e}")
                 continue
