@@ -1,0 +1,7 @@
+# Proprietary CareEdge files — do not commit
+*.xlsx
+*.pdf
+*.docx
+*.doc
+!.gitkeep
+!.gitignore

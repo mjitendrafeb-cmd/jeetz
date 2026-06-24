@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PR Audit — CareEdge Ratings</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#f5f6f8;font-family:Arial,Helvetica,sans-serif;color:#1a1a1a;min-height:100vh}
+
+/* ── TOP BAR ── */
+.topbar{background:#1a3c5e;padding:0 32px;display:flex;align-items:center;justify-content:space-between;height:54px;border-bottom:3px solid #2c6fad}
+.topbar-brand{display:flex;align-items:center;gap:12px}
+.topbar-logo{width:36px;height:36px;background:#2c6fad;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:900;color:#fff;letter-spacing:-0.5px}
+.topbar-title{font-size:15px;font-weight:700;color:#fff;letter-spacing:0.3px}
+.topbar-sub{font-size:10px;color:#93b8d4;letter-spacing:1.5px;text-transform:uppercase;margin-top:1px}
+.topbar-badge{font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#93b8d4;border:1px solid #2c6fad;padding:3px 10px;border-radius:3px}
+
+/* ── UPLOAD CARD ── */
+.wrap{max-width:800px;margin:32px auto;padding:0 16px 48px}
+.card{background:#fff;border:1px solid #e0e4ea;border-radius:6px;box-shadow:0 2px 8px rgba(0,0,0,.07);margin-bottom:20px}
+.card-head{background:#1a3c5e;border-radius:6px 6px 0 0;padding:14px 24px;display:flex;align-items:center;gap:10px}
+.card-head h2{font-size:14px;font-weight:700;color:#fff;letter-spacing:0.3px}
+.card-head p{font-size:10px;color:#93b8d4;margin-top:2px}
+.card-body{padding:24px}
+
+/* ── FILE ZONES ── */
+.file-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:20px}
+@media(max-width:600px){.file-grid{grid-template-columns:1fr}}
+.file-zone{border:2px dashed #c8d5e3;border-radius:5px;padding:20px 16px;text-align:center;cursor:pointer;transition:.2s;position:relative;background:#fafbfd}
+.file-zone:hover,.file-zone.drag-over{border-color:#2c6fad;background:#eef3f8}
+.file-zone.has-file{border-color:#27ae60;border-style:solid;background:#f0fdf4}
+.file-zone input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%}
+.fz-icon{font-size:28px;margin-bottom:8px;color:#9ca3af}
+.fz-label{font-size:12px;font-weight:700;color:#1a3c5e;margin-bottom:4px}
+.fz-sub{font-size:10px;color:#6b7280}
+.fz-badge{display:inline-block;font-size:9px;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:2px 7px;border-radius:3px;margin-bottom:8px}
+.fz-badge.req{background:#fdf0f0;color:#c0392b;border:1px solid #f5c6cb}
+.fz-badge.opt{background:#f4f4f4;color:#6b7280;border:1px solid #e0e0e0}
+.fz-name{font-size:11px;font-weight:700;color:#1a7a40;margin-top:6px;word-break:break-all}
+
+/* ── FORM FIELDS ── */
+.field-row{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px}
+@media(max-width:600px){.field-row{grid-template-columns:1fr}}
+.field-group{display:flex;flex-direction:column;gap:5px}
+.field-group label{font-size:11px;font-weight:700;color:#374151;letter-spacing:0.3px;text-transform:uppercase}
+.field-group select,.field-group input{padding:9px 12px;font-size:12px;border:1px solid #d0d5dd;border-radius:4px;color:#1a1a1a;background:#fff;outline:none;font-family:inherit}
+.field-group select:focus,.field-group input:focus{border-color:#2c6fad;box-shadow:0 0 0 2px rgba(44,111,173,.12)}
+.field-group .hint{font-size:10px;color:#9ca3af;margin-top:2px}
+
+/* ── API KEY TOGGLE ── */
+.api-toggle{font-size:11px;color:#2c6fad;cursor:pointer;font-weight:700;margin-bottom:12px;display:inline-flex;align-items:center;gap:4px;user-select:none}
+.api-toggle:hover{text-decoration:underline}
+#apiKeyRow{display:none;margin-bottom:16px}
+
+/* ── RUN BUTTON ── */
+.run-btn{width:100%;padding:13px;background:#1a3c5e;color:#fff;border:none;border-radius:4px;font-size:13px;font-weight:700;letter-spacing:0.5px;cursor:pointer;transition:.2s;display:flex;align-items:center;justify-content:center;gap:10px}
+.run-btn:hover:not(:disabled){background:#2c6fad}
+.run-btn:disabled{background:#9ca3af;cursor:not-allowed}
+.run-btn .spinner{display:none;width:16px;height:16px;border:2px solid rgba(255,255,255,.4);border-top-color:#fff;border-radius:50%;animation:spin .7s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* ── STATUS FILES CHECK ── */
+.files-status{background:#f0fdf4;border:1px solid #bbf7d0;border-radius:4px;padding:10px 14px;margin-bottom:16px;font-size:11px;display:none}
+.files-status.warn{background:#fffbea;border-color:#fde68a}
+.files-status.err{background:#fdf0f0;border-color:#fecaca}
+.fs-item{display:flex;align-items:center;gap:6px;padding:2px 0;color:#374151}
+.fs-ok{color:#16a34a;font-weight:700}
+.fs-miss{color:#dc2626;font-weight:700}
+
+/* ── PROGRESS BAR ── */
+.progress-wrap{display:none;margin-top:16px}
+.progress-bar{height:4px;background:#e0e4ea;border-radius:2px;overflow:hidden}
+.progress-fill{height:100%;background:#2c6fad;border-radius:2px;animation:prog 3s ease-in-out infinite}
+@keyframes prog{0%{width:0%;margin-left:0}50%{width:70%;margin-left:0}100%{width:100%;margin-left:0}}
+.progress-msg{font-size:11px;color:#6b7280;text-align:center;margin-top:8px}
+
+/* ── ERROR BANNER ── */
+.error-banner{display:none;background:#fdf0f0;border:1px solid #fecaca;border-left:4px solid #c0392b;border-radius:4px;padding:12px 16px;font-size:12px;color:#922b21;margin-top:16px}
+
+/* ── REPORT OUTPUT ── */
+.report-wrap{display:none;margin-top:24px}
+.report-toolbar{background:#1a3c5e;border-radius:6px 6px 0 0;padding:10px 20px;display:flex;align-items:center;justify-content:space-between}
+.report-toolbar h3{font-size:13px;font-weight:700;color:#fff}
+.toolbar-btns{display:flex;gap:8px}
+.tb-btn{padding:6px 14px;font-size:11px;font-weight:700;border:none;border-radius:3px;cursor:pointer;letter-spacing:0.3px}
+.tb-btn.print{background:#2c6fad;color:#fff}
+.tb-btn.print:hover{background:#1e5a9e}
+.tb-btn.dl{background:#e9f7ef;color:#1a7a40;border:1px solid #c6efce}
+.tb-btn.dl:hover{background:#c6efce}
+.tb-btn.new{background:#f4f4f4;color:#4b5563;border:1px solid #e0e0e0}
+.tb-btn.new:hover{background:#e0e0e0}
+.report-frame{width:100%;border:none;background:#f5f6f8;min-height:600px;border-radius:0 0 6px 6px}
+
+/* ── INFO CALLOUT ── */
+.info-box{background:#eef3f8;border-left:4px solid #2c6fad;border-radius:4px;padding:10px 16px;font-size:11px;color:#1a3c5e;line-height:1.7;margin-bottom:20px}
+.info-box strong{font-weight:700}
+</style>
+</head>
+<body>
+
+<!-- TOP BAR -->
+<div class="topbar">
+  <div class="topbar-brand">
+    <div class="topbar-logo">CE</div>
+    <div>
+      <div class="topbar-title">PR Audit — AI-Assisted QC</div>
+      <div class="topbar-sub">CareEdge Ratings · Internal Use Only</div>
+    </div>
+  </div>
+  <div class="topbar-badge">Beta</div>
+</div>
+
+<!-- MAIN WRAP -->
+<div class="wrap">
+
+  <!-- INFO -->
+  <div class="info-box" style="margin-top:0">
+    <strong>How it works:</strong> Upload the latest press release (required) and an older PR for comparison (optional). The AI auditor evaluates every checkpoint in the applicable checklist sheet and generates a structured HTML report — identical to what you receive from the Claude Project.
+  </div>
+
+  <!-- UPLOAD CARD -->
+  <div class="card">
+    <div class="card-head">
+      <div>
+        <h2>Upload Press Releases</h2>
+        <p>Accepted formats: PDF, DOCX &nbsp;·&nbsp; Max 20 MB per file</p>
+      </div>
+    </div>
+    <div class="card-body">
+
+      <!-- Project files status (loaded async) -->
+      <div class="files-status" id="filesStatus"></div>
+
+      <!-- File drop zones -->
+      <div class="file-grid">
+        <div class="file-zone" id="zone-latest" ondragover="onDrag(event,this)" ondragleave="offDrag(this)" ondrop="onDrop(event,'latest_pr',this)">
+          <input type="file" id="latest_pr" name="latest_pr" accept=".pdf,.docx,.doc" onchange="onPick(this,'zone-latest')">
+          <div class="fz-icon">📄</div>
+          <div class="fz-badge req">Required</div>
+          <div class="fz-label">Latest Press Release</div>
+          <div class="fz-sub">Drag & drop or click to browse</div>
+          <div class="fz-name" id="name-latest"></div>
+        </div>
+        <div class="file-zone" id="zone-older" ondragover="onDrag(event,this)" ondragleave="offDrag(this)" ondrop="onDrop(event,'older_pr',this)">
+          <input type="file" id="older_pr" name="older_pr" accept=".pdf,.docx,.doc" onchange="onPick(this,'zone-older')">
+          <div class="fz-icon">📋</div>
+          <div class="fz-badge opt">Optional</div>
+          <div class="fz-label">Older PR (for comparison)</div>
+          <div class="fz-sub">Drag & drop or click to browse</div>
+          <div class="fz-name" id="name-older"></div>
+        </div>
+      </div>
+
+      <!-- Model + API key -->
+      <div class="field-row">
+        <div class="field-group">
+          <label>Model</label>
+          <select id="modelSelect" name="model">
+            {% for model_id, model_label in models.items() %}
+            <option value="{{ model_id }}">{{ model_label }}</option>
+            {% endfor %}
+          </select>
+          <span class="hint">Opus gives highest-quality audit results</span>
+        </div>
+        <div class="field-group" style="justify-content:flex-end">
+          <label style="visibility:hidden">.</label>
+          <div class="api-toggle" onclick="toggleApiKey()">
+            <span id="apiToggleIcon">&#9660;</span> API Key (optional if set server-side)
+          </div>
+        </div>
+      </div>
+
+      <div id="apiKeyRow">
+        <div class="field-group">
+          <label>Anthropic API Key</label>
+          <input type="password" id="apiKey" placeholder="sk-ant-api03-..." autocomplete="off">
+          <span class="hint">Stored only in your browser session — never saved to server</span>
+        </div>
+      </div>
+
+      <!-- Run button -->
+      <button class="run-btn" id="runBtn" onclick="runAudit()">
+        <span class="spinner" id="spinner"></span>
+        <span id="runBtnText">&#9654;&nbsp; Run PR Audit</span>
+      </button>
+
+      <!-- Progress -->
+      <div class="progress-wrap" id="progressWrap">
+        <div class="progress-bar"><div class="progress-fill"></div></div>
+        <div class="progress-msg" id="progressMsg">Extracting text and calling Claude API — this may take 2–4 minutes for a full audit…</div>
+      </div>
+
+      <!-- Error -->
+      <div class="error-banner" id="errorBanner"></div>
+
+    </div>
+  </div>
+
+  <!-- REPORT OUTPUT -->
+  <div class="report-wrap" id="reportWrap">
+    <div class="report-toolbar">
+      <h3 id="reportLabel">Audit Report</h3>
+      <div class="toolbar-btns">
+        <button class="tb-btn print" onclick="printReport()">&#128438; Print / Save PDF</button>
+        <button class="tb-btn dl" onclick="downloadReport()">&#8595; Download HTML</button>
+        <button class="tb-btn new" onclick="newAudit()">&#43; New Audit</button>
+      </div>
+    </div>
+    <iframe id="reportFrame" class="report-frame" title="Audit Report"></iframe>
+  </div>
+
+</div><!-- /wrap -->
+
+<script>
+let reportHtml = "";
+let latestFile = null;
+let olderFile = null;
+
+// ── FILE HANDLING ──
+
+function onPick(input, zoneId) {
+  const file = input.files[0];
+  if (!file) return;
+  assignFile(file, input.name, zoneId);
+}
+
+function assignFile(file, inputName, zoneId) {
+  const zone = document.getElementById(zoneId);
+  const nameEl = document.getElementById('name-' + (inputName === 'latest_pr' ? 'latest' : 'older'));
+  zone.classList.add('has-file');
+  nameEl.textContent = '✓ ' + file.name;
+  if (inputName === 'latest_pr') latestFile = file;
+  else olderFile = file;
+}
+
+function onDrag(e, zone) {
+  e.preventDefault();
+  zone.classList.add('drag-over');
+}
+function offDrag(zone) { zone.classList.remove('drag-over'); }
+
+function onDrop(e, inputName, zone) {
+  e.preventDefault();
+  zone.classList.remove('drag-over');
+  const file = e.dataTransfer.files[0];
+  if (!file) return;
+  const ext = file.name.split('.').pop().toLowerCase();
+  if (!['pdf','docx','doc'].includes(ext)) {
+    showError('Unsupported file type. Please upload PDF or DOCX.');
+    return;
+  }
+  const zoneId = zone.id;
+  // Also assign to hidden input so FormData picks it up
+  const input = document.getElementById(inputName);
+  const dt = new DataTransfer();
+  dt.items.add(file);
+  input.files = dt.files;
+  assignFile(file, inputName, zoneId);
+}
+
+// ── API KEY TOGGLE ──
+function toggleApiKey() {
+  const row = document.getElementById('apiKeyRow');
+  const icon = document.getElementById('apiToggleIcon');
+  const visible = row.style.display !== 'none' && row.style.display !== '';
+  row.style.display = visible ? 'none' : 'block';
+  icon.textContent = visible ? '▼' : '▲';
+}
+
+// ── RUN AUDIT ──
+async function runAudit() {
+  hideError();
+  const latestInput = document.getElementById('latest_pr');
+  if (!latestInput.files.length && !latestFile) {
+    showError('Please select a Latest PR file before running the audit.');
+    return;
+  }
+
+  setLoading(true);
+  document.getElementById('reportWrap').style.display = 'none';
+
+  const fd = new FormData();
+  fd.append('latest_pr', latestInput.files[0] || latestFile);
+  const olderInput = document.getElementById('older_pr');
+  if (olderInput.files.length) fd.append('older_pr', olderInput.files[0]);
+
+  fd.append('model', document.getElementById('modelSelect').value);
+  const apiKey = document.getElementById('apiKey').value.trim();
+  if (apiKey) fd.append('api_key', apiKey);
+
+  // Cycle through status messages
+  const msgs = [
+    'Extracting full text from uploaded documents…',
+    'Loading checklist and draft templates…',
+    'Calling Claude API — evaluating all checkpoints…',
+    'Almost there — generating structured HTML report…',
+  ];
+  let mi = 0;
+  const msgEl = document.getElementById('progressMsg');
+  const msgTimer = setInterval(() => {
+    mi = (mi + 1) % msgs.length;
+    msgEl.textContent = msgs[mi];
+  }, 15000);
+
+  try {
+    const res = await fetch('/audit', { method: 'POST', body: fd });
+    clearInterval(msgTimer);
+    const data = await res.json();
+
+    if (!res.ok || data.error) {
+      showError(data.error || 'An unexpected error occurred.');
+      setLoading(false);
+      return;
+    }
+
+    reportHtml = data.html;
+    renderReport(reportHtml, latestInput.files[0] ? latestInput.files[0].name : '');
+    setLoading(false);
+
+  } catch (err) {
+    clearInterval(msgTimer);
+    showError('Network error: ' + err.message);
+    setLoading(false);
+  }
+}
+
+// ── RENDER REPORT ──
+function renderReport(html, filename) {
+  const wrap = document.getElementById('reportWrap');
+  const frame = document.getElementById('reportFrame');
+  const label = document.getElementById('reportLabel');
+
+  label.textContent = 'Audit Report' + (filename ? ' — ' + filename : '');
+  wrap.style.display = 'block';
+  wrap.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+  // Wrap bare HTML fragments in a full document shell so print styles work
+  let docHtml = html;
+  if (!html.trim().startsWith('<!DOCTYPE') && !html.trim().startsWith('<html')) {
+    docHtml = `<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8">
+<style>body{margin:0;font-family:Arial,Helvetica,sans-serif}
+@media print{@page{size:A4;margin:15mm}}</style>
+</head><body>${html}</body></html>`;
+  }
+
+  frame.srcdoc = docHtml;
+  // Resize iframe after content loads
+  frame.onload = () => {
+    try {
+      const h = frame.contentDocument.body.scrollHeight;
+      frame.style.height = Math.max(600, h + 40) + 'px';
+    } catch(e) {}
+  };
+}
+
+// ── PRINT ──
+function printReport() {
+  const frame = document.getElementById('reportFrame');
+  try {
+    frame.contentWindow.focus();
+    frame.contentWindow.print();
+  } catch(e) {
+    window.print();
+  }
+}
+
+// ── DOWNLOAD ──
+function downloadReport() {
+  if (!reportHtml) return;
+  const blob = new Blob([reportHtml], { type: 'text/html;charset=utf-8' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  const d = new Date();
+  const ds = d.toISOString().slice(0,10).replace(/-/g,'');
+  a.download = `PR_Audit_${ds}.html`;
+  a.click();
+  URL.revokeObjectURL(a.href);
+}
+
+// ── NEW AUDIT ──
+function newAudit() {
+  document.getElementById('reportWrap').style.display = 'none';
+  reportHtml = "";
+  latestFile = null;
+  olderFile = null;
+  ['latest_pr','older_pr'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.value = '';
+  });
+  document.getElementById('zone-latest').classList.remove('has-file');
+  document.getElementById('zone-older').classList.remove('has-file');
+  document.getElementById('name-latest').textContent = '';
+  document.getElementById('name-older').textContent = '';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// ── HELPERS ──
+function setLoading(on) {
+  const btn = document.getElementById('runBtn');
+  const spinner = document.getElementById('spinner');
+  const btnText = document.getElementById('runBtnText');
+  const prog = document.getElementById('progressWrap');
+  btn.disabled = on;
+  spinner.style.display = on ? 'block' : 'none';
+  btnText.textContent = on ? 'Running Audit…' : '▶  Run PR Audit';
+  prog.style.display = on ? 'block' : 'none';
+}
+
+function showError(msg) {
+  const el = document.getElementById('errorBanner');
+  el.textContent = msg;
+  el.style.display = 'block';
+}
+
+function hideError() {
+  document.getElementById('errorBanner').style.display = 'none';
+}
+
+// ── PROJECT FILES STATUS ──
+async function checkFiles() {
+  try {
+    const res = await fetch('/health');
+    const data = await res.json();
+    const files = data.project_files || {};
+    const missing = Object.entries(files).filter(([,v]) => !v).map(([k]) => ({
+      checklist: 'PR_checklist_AI_guidance_V1.xlsx',
+      draft_non_so: 'PR_Draft_V1.pdf / .docx',
+      draft_so: 'Securitisation_PR_Format_Feb2025.pdf / .docx',
+    }[k]));
+
+    const el = document.getElementById('filesStatus');
+    if (missing.length === 0) {
+      el.style.display = 'block';
+      el.className = 'files-status';
+      el.innerHTML = '<span class="fs-ok">✓</span> All checklist & draft template files are loaded and ready.';
+    } else {
+      el.style.display = 'block';
+      el.className = 'files-status warn';
+      el.innerHTML = '<strong>⚠ Missing project files</strong> — place these in <code>pr_auditor/project_files/</code>:<br>' +
+        missing.map(f => `<span class="fs-miss">✗ ${f}</span>`).join('<br>');
+    }
+  } catch(e) {}
+}
+
+window.addEventListener('DOMContentLoaded', checkFiles);
+</script>
+</body>
+</html>
