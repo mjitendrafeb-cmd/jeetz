@@ -1,0 +1,15 @@
+{
+    "project_url": "https://claude.ai/project/YOUR_PROJECT_ID_HERE",
+    "queue_folder": "Queue",
+    "chrome_profile_path": "C:\\Users\\YOUR_USERNAME\\AppData\\Local\\Google\\Chrome\\User Data",
+    "chrome_profile_name": "Default",
+    "skill_name": "/pr-audit-master",
+    "retry_count": 3,
+    "download_timeout": 120000,
+    "upload_timeout": 60000,
+    "response_timeout": 300000,
+    "navigation_timeout": 30000,
+    "headless": false,
+    "slow_mo": 100,
+    "log_file": "logs/automation.log"
+}
