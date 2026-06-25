@@ -4,3 +4,5 @@ feedparser
 beautifulsoup4
 telethon
 pdfplumber
+pymupdf
+flask
