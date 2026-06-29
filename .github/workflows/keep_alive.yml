@@ -1,8 +1,9 @@
 name: Keep Alive
 
-# Disabled — external cron (cron-job.org) now handles scheduling reliably.
-# This workflow is kept as workflow_dispatch only for manual use.
 on:
+  schedule:
+    # Run daily at 01:00 UTC to keep repo active so the 02:00 UTC report cron fires
+    - cron: '0 1 * * *'
   workflow_dispatch:
 
 jobs:
@@ -21,5 +22,5 @@ jobs:
           git config user.name "github-actions[bot]"
           echo "$(date -u +%Y-%m-%dT%H:%M:%SZ)" > .github/keep_alive.txt
           git add .github/keep_alive.txt
-          git commit -m "chore: keep-alive $(date -u +%Y-%m-%d)"
+          git commit -m "chore: keep-alive $(date -u +%Y-%m-%d)" || echo "Nothing to commit"
           git push origin HEAD:main
