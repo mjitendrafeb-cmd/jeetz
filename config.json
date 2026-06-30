@@ -15,7 +15,9 @@
     "telegram": true,
     "web_scraper": true
   },
-  "custom_scrape_urls": [],
+  "custom_scrape_urls": [
+    "https://bfsi.economictimes.indiatimes.com/"
+  ],
   "web_sources": {
     "careedge": true,
     "crisil": true,
