@@ -15,7 +15,11 @@
     "web_scraper": true
   },
   "custom_scrape_urls": [
-    "https://bfsi.economictimes.indiatimes.com/"
+    "https://bfsi.economictimes.indiatimes.com/",
+    "https://www.livemint.com/industry/banking",
+    "https://www.business-standard.com/finance",
+    "https://www.financialexpress.com/business/banking-finance/",
+    "https://www.moneycontrol.com/news/business/banks/"
   ],
   "web_sources": {
     "careedge": true,
