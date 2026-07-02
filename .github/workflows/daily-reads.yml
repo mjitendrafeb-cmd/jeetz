@@ -1,9 +1,8 @@
 name: Daily Reads Pipeline
 
+# Schedule disabled — pipeline was failing daily and spamming failure emails.
+# Trigger manually from the Actions tab if needed.
 on:
-  schedule:
-    # 07:00 IST = 01:30 UTC every day
-    - cron: '30 1 * * *'
   workflow_dispatch:  # also allows manual trigger from GitHub UI
     inputs:
       reprocess:

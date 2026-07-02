@@ -1,9 +1,7 @@
 name: Keep Alive
 
+# Schedule disabled — the hourly report gate keeps the repo active.
 on:
-  schedule:
-    # Run daily at 01:00 UTC to keep repo active so the 02:00 UTC report cron fires
-    - cron: '0 1 * * *'
   workflow_dispatch:
 
 jobs:
