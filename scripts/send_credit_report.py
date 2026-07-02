@@ -222,7 +222,7 @@ Omit the link if no URL. For empty section: <p style="padding:10px 0;font-size:1
 ════════════
 PART C — TOP 5 CREDIT TAKEAWAYS  (goes in email body)
 ════════════
-<table width="100%" cellpadding="0" cellspacing="0" style="background:#1a1a1a;">
+<table id="takeaways" width="100%" cellpadding="0" cellspacing="0" style="background:#1a1a1a;">
 <tr><td style="padding:8px 16px;font-size:9px;font-weight:800;letter-spacing:3px;text-transform:uppercase;color:#fff;">&#9679; TOP 5 CREDIT TAKEAWAYS — {date_str}</td></tr>
 </table>
 <table width="100%" cellpadding="0" cellspacing="0" style="border:1px solid #e5e5e5;border-top:none;">
@@ -306,20 +306,31 @@ def generate_report(news_text: str, today: datetime.date, api_key: str) -> str:
 
 def split_parts(full_html: str) -> tuple[str, str]:
     """Return (part_b, part_c). part_b = S1-S5 sections, part_c = takeaways."""
-    # Part C starts at the black takeaways header (background:#1a1a1a table)
-    c_match = re.search(
-        r'<table[^>]*style="[^"]*background\s*:\s*#1a1a1a[^"]*"',
-        full_html
-    )
     # Part B starts at first section banner (data-section="banner" div or id="s1")
     b_match = re.search(r'<div[^>]+data-section=["\']banner["\']|<div[^>]+id=["\']s1["\']', full_html)
 
-    if b_match and c_match and c_match.start() > b_match.start():
-        part_b = full_html[b_match.start():c_match.start()].strip()
-        part_c = full_html[c_match.start():].strip()
+    # Part C start — try, in order: explicit id marker, takeaways heading text,
+    # dark-header table style. Models vary in how faithfully they copy markup.
+    c_start = None
+    m = re.search(r'<table[^>]+id=["\']takeaways["\']', full_html)
+    if m:
+        c_start = m.start()
+    if c_start is None:
+        t = full_html.find("TOP 5 CREDIT TAKEAWAYS")
+        if t != -1:
+            tb = full_html.rfind("<table", 0, t)
+            c_start = tb if tb != -1 else t
+    if c_start is None:
+        m = re.search(r'<table[^>]*style="[^"]*background(?:-color)?\s*:\s*#1a1a1a[^"]*"', full_html)
+        if m:
+            c_start = m.start()
+
+    if b_match and c_start is not None and c_start > b_match.start():
+        part_b = full_html[b_match.start():c_start].strip()
+        part_c = full_html[c_start:].strip()
         return part_b, part_c
-    if c_match:
-        return full_html[:c_match.start()].strip(), full_html[c_match.start():].strip()
+    if c_start is not None:
+        return full_html[:c_start].strip(), full_html[c_start:].strip()
     if b_match:
         return full_html[b_match.start():].strip(), ""
     return full_html, ""
