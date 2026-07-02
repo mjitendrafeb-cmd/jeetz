@@ -267,7 +267,10 @@ OUTPUT RULES:
 - Real URLs only from "| URL:" — never placeholder text. No <a> if no URL.
 - ALL styles inline. No class names. No <style> blocks.
 - No html/head/body wrappers.
-- Output Part B then Part C in order. Nothing else."""
+- Output Part B then Part C in order. Nothing else.
+- PART C IS MANDATORY — never end without it. Budget your output: keep Part B
+  under 25,000 characters total (max 5 articles per section, 1 tight sentence
+  each for what-happened and implication) so Part C always fits."""
 
 
 # ---------------------------------------------------------------------------
@@ -290,7 +293,7 @@ def generate_report(news_text: str, today: datetime.date, api_key: str) -> str:
         # streaming for large max_tokens).
         with client.messages.stream(
             model="claude-sonnet-5",
-            max_tokens=40000,
+            max_tokens=64000,
             messages=[{"role": "user", "content": prompt}],
         ) as stream:
             message = stream.get_final_message()
