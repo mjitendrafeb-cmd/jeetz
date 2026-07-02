@@ -20,6 +20,11 @@ import anthropic
 from fetch_news import fetch_all_news
 
 
+def _msg_text(message) -> str:
+    """Join text blocks, skipping thinking blocks newer models emit first."""
+    return "".join(b.text for b in message.content if getattr(b, "type", "") == "text")
+
+
 def _load_config() -> dict:
     base = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
     path = os.path.join(base, "config.json")
@@ -285,7 +290,7 @@ def generate_report(news_text: str, today: datetime.date, api_key: str) -> str:
             max_tokens=20000,
             messages=[{"role": "user", "content": prompt}],
         )
-        return message.content[0].text
+        return _msg_text(message)
     except Exception as exc:
         print(f"[generate_report] Claude API error: {exc}")
         return f"""<table width="100%" cellpadding="0" cellspacing="0" style="background:#1a1a1a;">
@@ -707,7 +712,7 @@ def main() -> None:
             client = anthropic.Anthropic(api_key=anthropic_api_key)
             msg = client.messages.create(model="claude-sonnet-5", max_tokens=8000,
                                          messages=[{"role": "user", "content": prompt}])
-            weekly_html = msg.content[0].text
+            weekly_html = _msg_text(msg)
             email_html = build_weekly_email(weekly_html, today)
             subject = f"Weekly Credit Intelligence Digest — Week ending {date_str}"
             print("Sending weekly digest...")
