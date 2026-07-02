@@ -98,7 +98,12 @@ def main():
     for f in all_files:
         print(f"  {f['name']}  [{f.get('mimeType','')}]")
 
-    new_files = [f for f in all_files if not already_done(f["name"])]
+    force = os.environ.get("FORCE_REPROCESS", "").lower() in ("1", "true", "yes")
+    if force:
+        print("FORCE_REPROCESS set — reprocessing ALL files.")
+        new_files = all_files
+    else:
+        new_files = [f for f in all_files if not already_done(f["name"])]
     if not new_files:
         print("No new files — library already up to date.")
         return

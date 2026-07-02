@@ -3,26 +3,55 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Weekly Digest — 14 Jun–21 Jun 2026</title>
+<title>Weekly Digest — 25 Jun–02 Jul 2026</title>
 <style>
+
 *{box-sizing:border-box;margin:0;padding:0}
-body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#f8fafc;color:#1e293b;font-size:14px;line-height:1.6}
-.hdr{background:#0f172a;color:#f8fafc;padding:20px 28px;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
-.hdr h1{font-size:18px;font-weight:700}.hdr small{font-size:12px;color:#64748b;display:block;margin-top:3px}
-.hdr a{color:#818cf8;font-size:12px;text-decoration:none}.hdr a:hover{text-decoration:underline}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+  background:#f3f2f1;color:#323130;font-size:14px;line-height:1.5;min-height:100vh}
+.suite-bar{background:#0078d4;min-height:48px;padding:0 20px}
+.suite-inner{max-width:1400px;margin:0 auto;min-height:48px;
+  display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.suite-brand{color:#fff;font-size:15px;font-weight:700;
+  display:flex;align-items:center;gap:8px;white-space:nowrap}
+.suite-nav{display:flex;align-items:stretch;gap:2px;margin-left:10px}
+.nav-lnk{color:rgba(255,255,255,.85);text-decoration:none;font-size:13px;font-weight:600;
+  padding:14px 12px;border-bottom:2px solid transparent;white-space:nowrap}
+.nav-lnk:hover{color:#fff;background:rgba(255,255,255,.08)}
+.nav-lnk.active{color:#fff;border-bottom-color:#fff}
+.suite-actions{margin-left:auto;display:flex;align-items:center;gap:8px}
+.suite-btn{color:rgba(255,255,255,.9);background:rgba(255,255,255,.1);
+  border:1px solid rgba(255,255,255,.22);padding:6px 14px;border-radius:2px;
+  font-size:12px;font-weight:600;cursor:pointer;text-decoration:none;
+  display:inline-flex;align-items:center;gap:5px;white-space:nowrap;
+  transition:background .15s}
+.suite-btn:hover{background:rgba(255,255,255,.2)}
+.sync-btn{background:#107c10;color:#fff;border-color:#0e6b0e;font-weight:700}
+.sync-btn:hover{background:#0e6b0e}
+mark{background:#fff100;color:#323130;border-radius:1px;padding:0 1px}
+.toast{position:fixed;bottom:24px;right:24px;background:#323130;color:#fff;
+  padding:12px 20px;border-radius:2px;font-size:13px;font-weight:600;
+  box-shadow:0 4px 16px rgba(0,0,0,.25);z-index:999;opacity:0;
+  transform:translateY(8px);transition:all .25s;pointer-events:none}
+.toast.show{opacity:1;transform:translateY(0)}
+.toast.ok{border-left:3px solid #107c10}
+
 .content{max-width:800px;margin:0 auto;padding:28px 20px}
-.stat-row{background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:16px 20px;margin-bottom:24px;display:flex;gap:28px;flex-wrap:wrap}
+.pg-hd{margin-bottom:18px}
+.pg-hd h1{font-size:18px;font-weight:700;color:#0f172a}
+.pg-hd small{font-size:12px;color:#64748b}
+.stat-row{background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:16px 20px;
+  margin-bottom:24px;display:flex;gap:28px;flex-wrap:wrap}
 .stat{text-align:center}.stat-n{font-size:22px;font-weight:700;color:#0f172a}
 .stat-l{font-size:11px;color:#94a3b8;text-transform:uppercase;letter-spacing:.5px}
-@media print{.hdr a{display:none}body{background:#fff}}
+@media print{.suite-bar{display:none}body{background:#fff}}
 </style>
 </head>
 <body>
-<div class="hdr">
-  <div><h1>Weekly Digest</h1><small>14 Jun – 21 Jun 2026 &middot; Top credit signals</small></div>
-  <a href="https://mjitendrafeb-cmd.github.io/jeetz/">← Full library</a>
-</div>
+<div class="suite-bar"><div class="suite-inner"><div class="suite-brand">&#128218; Daily Reads</div><nav class="suite-nav"><a class="nav-lnk" href="index.html">Dashboard</a><a class="nav-lnk" href="library.html">Library</a><a class="nav-lnk" href="insights.html">Insights</a><a class="nav-lnk active" href="digest.html">Weekly Digest</a></nav><div class="suite-actions"><a href="https://github.com/mjitendrafeb-cmd/jeetz/actions/workflows/daily-reads.yml" target="_blank" class="suite-btn sync-btn" title="Opens GitHub Actions — click Run workflow to pull new files from Drive">&#8635; Sync from Drive</a><button class="suite-btn" onclick="doShare()">&#128279; Share</button></div></div></div>
 <div class="content">
+  <div class="pg-hd"><h1>Weekly Digest</h1>
+  <small>25 Jun – 02 Jul 2026 &middot; Top credit signals</small></div>
   <div class="stat-row">
     <div class="stat"><div class="stat-n">0</div><div class="stat-l">Notes this week</div></div>
     <div class="stat"><div class="stat-n">0</div><div class="stat-l">Total takeaways</div></div>
@@ -32,5 +61,21 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
   </div>
   <p style="color:#94a3b8;text-align:center;padding:40px 0">No notes from the past 7 days.</p>
 </div>
+<div class="toast" id="toast"></div>
+<script>
+function showToast(msg,type){
+  var t=document.getElementById('toast');
+  if(!t)return;
+  t.textContent=msg;t.className='toast '+(type||'ok');t.classList.add('show');
+  setTimeout(function(){t.classList.remove('show');},3000);
+}
+function doShare(){
+  var url=window.location.href;
+  if(navigator.clipboard){
+    navigator.clipboard.writeText(url).then(function(){showToast('Link copied to clipboard','ok');})
+      .catch(function(){prompt('Copy this link:',url);});
+  }else{prompt('Copy this link:',url);}
+}
+</script>
 </body>
 </html>

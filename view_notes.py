@@ -1,37 +1,40 @@
 #!/usr/bin/env python3
 """
-view_notes.py — Generate docs/index.html + docs/sitemap.xml from all distilled notes.
+view_notes.py — Generate the Daily Reads knowledge-base site from distilled notes.
+
+Pages generated into docs/:
+  index.html    — dashboard home (stats, signals needing attention, entities in focus)
+  library.html  — document library table (search / filter / expand)
+  insights.html — knowledge views: entity-wise, sector-wise, macro-wise timelines
+  digest.html   — weekly digest of top credit signals
+  sitemap.xml, robots.txt
 
 Usage:
   python view_notes.py
-  python view_notes.py --notes-dir path/to/notes --out docs/index.html --no-open
+  python view_notes.py --notes-dir path/to/notes --no-open
 """
 import argparse
 import datetime
 import json
 import os
+import re
 import sys
 import webbrowser
 from collections import Counter
 
 REPO_ROOT = os.path.dirname(os.path.abspath(__file__))
 DEFAULT_NOTES_DIR = os.path.join(REPO_ROOT, "docs", "notes")
-DEFAULT_OUT = os.path.join(REPO_ROOT, "docs", "index.html")
+DEFAULT_DOCS_DIR = os.path.join(REPO_ROOT, "docs")
 
 SITE_URL = "https://mjitendrafeb-cmd.github.io/jeetz"
 SITE_TITLE = "Daily Reads — Knowledge Notes"
 SITE_DESC = ("Personal knowledge library — distilled notes from daily reading "
              "in finance, credit research, macro, and regulatory analysis.")
+SYNC_URL = "https://github.com/mjitendrafeb-cmd/jeetz/actions/workflows/daily-reads.yml"
 
-SENTIMENT_COLORS = {
-    "positive": {"fg": "#15803d", "bg": "#f0fdf4", "bd": "#bbf7d0"},
-    "negative": {"fg": "#dc2626", "bg": "#fef2f2", "bd": "#fecaca"},
-    "neutral":  {"fg": "#6b7280", "bg": "#f9fafb", "bd": "#e5e7eb"},
-    "mixed":    {"fg": "#b45309", "bg": "#fffbeb", "bd": "#fde68a"},
-}
-TAG_COLORS = ["#3b82f6","#8b5cf6","#ec4899","#f97316","#14b8a6","#64748b","#a16207","#0891b2"]
 SIGNAL_PRIORITY = {"negative": 0, "watch": 1, "positive": 2, "neutral": 3}
 SIGNAL_BORDER = {"negative": "#ef4444", "watch": "#f59e0b", "positive": "#22c55e", "neutral": "#e2e8f0"}
+CS_COLOR = {"positive": "#15803d", "negative": "#dc2626", "neutral": "#6b7280", "watch": "#d97706"}
 SOURCE_TYPE_META = {
     "broker_research": {"label": "Broker Research", "bg": "#eff6ff", "fg": "#2563eb", "bd": "#bfdbfe"},
     "regulatory":      {"label": "Regulatory",      "bg": "#f0fdf4", "fg": "#15803d", "bd": "#bbf7d0"},
@@ -40,12 +43,43 @@ SOURCE_TYPE_META = {
     "other":           {"label": "Other",            "bg": "#f8fafc", "fg": "#64748b", "bd": "#e2e8f0"},
 }
 
+# ── Entity normalization ────────────────────────────────────────────────────
+ENTITY_ALIAS = {
+    "reserve bank of india": "RBI",
+    "securities and exchange board of india": "SEBI",
+    "state bank of india": "SBI",
+    "larsen & toubro": "L&T",
+    "power grid corporation": "Power Grid",
+    "power grid corporation of india": "Power Grid",
+    "indian banking sector": "Banking Sector",
+    "indian economy": "Indian Economy",
+}
+REGULATOR_PAT = ("rbi", "sebi", "irdai", "pfrda", "nabard", "reserve bank", "ministry",
+                 "government", "regulator", "central bank", "federal reserve", "ecb")
+MACRO_PAT = ("economy", "inflation", "gdp", "interest rate", "currency", "rupee",
+             "fiscal", "monetary", "liquidity", "crude", "macro", "bond market")
+TYPE_LABEL = {"company": "Company", "sector": "Sector", "regulator": "Regulator",
+              "macro": "Macro", "other": "Other"}
+TYPE_COLOR = {"company": "#2563eb", "sector": "#7c3aed", "regulator": "#15803d",
+              "macro": "#c2410c", "other": "#64748b"}
+
 
 def esc(s):
     return (str(s)
             .replace("&", "&amp;").replace("<", "&lt;")
             .replace(">", "&gt;").replace('"', "&quot;")
             .replace("'", "&#39;"))
+
+
+def fmt_date(date_str):
+    try:
+        return datetime.date.fromisoformat(date_str).strftime("%d %b %Y")
+    except Exception:
+        return date_str
+
+
+def slugify(name):
+    return re.sub(r"[^a-z0-9]+", "-", name.lower()).strip("-") or "x"
 
 
 def load_watchlist():
@@ -65,8 +99,8 @@ def check_watchlist(note, watchlist):
     if not watchlist:
         return False
     title = (note.get("title") or "").lower()
-    entities = " ".join(ei.get("entity","").lower() for ei in note.get("entities_impacted",[]))
-    tags = " ".join(t.lower() for t in note.get("tags",[]))
+    entities = " ".join(ei.get("entity", "").lower() for ei in note.get("entities_impacted", []))
+    tags = " ".join(t.lower() for t in note.get("tags", []))
     blob = " ".join([title, entities, tags])
     return any(w in blob for w in watchlist)
 
@@ -90,18 +124,15 @@ def load_notes(notes_dir):
 def normalize_note(note):
     out = dict(note)
 
-    # title: fall back to readable version of source filename
     if not out.get("title"):
         src = out.get("source_file", "")
         stem = os.path.splitext(src)[0] if src else "Untitled"
         out["title"] = stem.replace("_", " ").replace("-", " ").strip()
 
-    # executive_summary
     if "executive_summary" not in out:
         old = out.get("summary", "")
         out["executive_summary"] = [old] if old else []
 
-    # key_takeaways
     if "key_takeaways" not in out:
         kt = []
         for t in out.get("takeaways", []):
@@ -112,7 +143,6 @@ def normalize_note(note):
             kt.append({"takeaway": i, "analyst_lens": "(implication)"})
         out["key_takeaways"] = kt
 
-    # entities_impacted
     if "entities_impacted" not in out:
         out["entities_impacted"] = [
             {"entity": e, "impact": ""} for e in out.get("entities", [])
@@ -128,241 +158,204 @@ def normalize_note(note):
     return out
 
 
-def tag_chip(text, color):
-    return f'<span class="chip" style="--cc:{color}">{esc(text)}</span>'
+def note_date(note):
+    return note.get("document_date") or note.get("date", "")
 
 
-def sentiment_badge(sentiment):
-    s = sentiment.lower()
-    c = SENTIMENT_COLORS.get(s, SENTIMENT_COLORS["neutral"])
-    return (f'<span class="sent-badge" '
-            f'style="color:{c["fg"]};background:{c["bg"]};border-color:{c["bd"]}">'
-            f'{esc(s)}</span>')
+def note_signal(note):
+    kts = note.get("key_takeaways", [])
+    if not kts:
+        return "neutral"
+    sigs = [kt.get("credit_signal", "neutral").lower() for kt in kts]
+    return min(sigs, key=lambda s: SIGNAL_PRIORITY.get(s, 3))
 
 
-def source_type_badge(st):
-    m = SOURCE_TYPE_META.get((st or "other").lower(), SOURCE_TYPE_META["other"])
-    return (f'<span class="stype-badge" '
-            f'style="color:{m["fg"]};background:{m["bg"]};border-color:{m["bd"]}">'
-            f'{esc(m["label"])}</span>')
+def canonical_name(ei):
+    c = (ei.get("canonical") or "").strip()
+    if c:
+        return c
+    name = (ei.get("entity") or "").strip()
+    if not name:
+        return ""
+    m = re.search(r"\(([A-Za-z&]{2,10})\)\s*$", name)
+    base = re.sub(r"\s*\([^)]*\)\s*$", "", name).strip()
+    if base.lower() in ENTITY_ALIAS:
+        return ENTITY_ALIAS[base.lower()]
+    if m and m.group(1).isupper():
+        return m.group(1)
+    base = re.sub(r"\s+(ltd\.?|limited|corp\.?|corporation of india|corporation)$",
+                  "", base, flags=re.I).strip()
+    return base
 
 
-def fmt_date(date_str):
-    try:
-        return datetime.date.fromisoformat(date_str).strftime("%d %b %Y")
-    except Exception:
-        return date_str
+def guess_type(name):
+    l = name.lower()
+    if any(k in l for k in REGULATOR_PAT):
+        return "regulator"
+    if "sector" in l or "industry" in l or "banking" in l:
+        return "sector"
+    if any(k in l for k in MACRO_PAT):
+        return "macro"
+    return "company"
 
 
-def render_card(raw_note, idx, watchlist=None):
-    note = normalize_note(raw_note)
+def entity_type_of(ei, canon):
+    t = (ei.get("type") or "").strip().lower()
+    if t in ("company", "sector", "regulator", "macro"):
+        return t
+    if t in ("government",):
+        return "regulator"
+    return guess_type(canon)
 
-    title = note.get("title", "Untitled")
-    sentiment = note.get("sentiment", "neutral").lower()
-    source = note.get("source_file", "")
-    date = note.get("date", "")
-    doc_date = note.get("document_date") or ""
-    freshness = note.get("freshness", "").lower()
-    stale_items = note.get("stale_items", [])
-    duplicate_stories = note.get("duplicate_stories", [])
-    category = note.get("category", "Other")
-    tags = note.get("tags", [])
-    relevance = note.get("relevance", [])
-    exec_summary = note.get("executive_summary", [])
-    key_takeaways = note.get("key_takeaways", [])
-    entities_impacted = note.get("entities_impacted", [])
-    learning = note.get("learning", [])
 
-    # Preview text: first key takeaway
-    preview = key_takeaways[0].get("takeaway", "") if key_takeaways else (exec_summary[0] if exec_summary else "")
+def build_entities(notes):
+    """Aggregate all notes into entity timelines.
 
-    # Searchable blob
-    search_blob = " ".join([
-        title, source, category, sentiment,
-        " ".join(tags), " ".join(relevance),
-        " ".join(exec_summary),
-        " ".join(kt.get("takeaway","") + " " + kt.get("analyst_lens","") for kt in key_takeaways),
-        " ".join(ei.get("entity","") + " " + ei.get("impact","") for ei in entities_impacted),
-        " ".join(learning),
-    ]).lower().replace('"', "'")
+    Returns dict canon_key -> {name, type, docs:set, items:[...]} where items are
+    {date, kind: impact|takeaway, text, lens, signal, doc_title, row_id}.
+    """
+    entities = {}
+    for idx, raw in enumerate(notes):
+        n = normalize_note(raw)
+        date = note_date(n)
+        title = n.get("title", "Untitled")
+        dom_sig = note_signal(n)
+        row_id = f"r{idx}"
 
-    # Tags
-    source_type = note.get("source_type", "other")
-    tags_csv = ",".join(tags)
-    tag_row = "".join(tag_chip(t, TAG_COLORS[hash(t) % len(TAG_COLORS)]) for t in tags)
+        note_canons = []
+        for ei in n.get("entities_impacted", []):
+            canon = canonical_name(ei)
+            if not canon:
+                continue
+            key = canon.lower()
+            e = entities.setdefault(key, {"name": canon, "type": None,
+                                          "type_votes": Counter(), "docs": set(),
+                                          "items": []})
+            e["type_votes"][entity_type_of(ei, canon)] += 1
+            e["docs"].add(idx)
+            impact = (ei.get("impact") or "").strip()
+            if impact:
+                e["items"].append({"date": date, "kind": "impact", "text": impact,
+                                   "lens": "", "signal": dom_sig,
+                                   "doc_title": title, "row_id": row_id})
+            note_canons.append((key, canon))
 
-    CS_COLOR = {"positive": "#15803d", "negative": "#dc2626", "neutral": "#6b7280", "watch": "#d97706"}
-    cid = f"c{idx}"
-    has_dupes = bool(duplicate_stories)
+        # attach takeaways that mention one of this note's entities
+        for kt in n.get("key_takeaways", []):
+            blob = (kt.get("takeaway", "") + " " + kt.get("analyst_lens", "")).lower()
+            sig = kt.get("credit_signal", "neutral").lower()
+            for key, canon in note_canons:
+                if canon.lower() in blob:
+                    entities[key]["items"].append({
+                        "date": date, "kind": "takeaway",
+                        "text": kt.get("takeaway", ""),
+                        "lens": kt.get("analyst_lens", ""),
+                        "signal": sig, "doc_title": title, "row_id": row_id})
 
-    # Dominant credit signal → card left-border color
-    if key_takeaways:
-        sigs = [kt.get("credit_signal", "neutral").lower() for kt in key_takeaways]
-        dominant_sig = min(sigs, key=lambda s: SIGNAL_PRIORITY.get(s, 3))
-    else:
-        dominant_sig = "neutral"
-    card_border = SIGNAL_BORDER.get(dominant_sig, "#e2e8f0")
+    for e in entities.values():
+        e["type"] = e["type_votes"].most_common(1)[0][0] if e["type_votes"] else "company"
+        e["items"].sort(key=lambda i: i["date"], reverse=True)
+        e["latest"] = max((i["date"] for i in e["items"]), default="")
+        e["sig_counts"] = Counter(i["signal"] for i in e["items"])
+    return entities
 
-    # ── Expanded sections ──────────────────────────────────────────────
 
-    # 1. Key Takeaways & Analyst Lens (with credit_signal)
-    kt_html = ""
-    if key_takeaways:
-        rows = ""
-        for kt in key_takeaways:
-            cs = kt.get("credit_signal", "").lower()
-            cs_col = CS_COLOR.get(cs, "#6b7280")
-            cs_badge = (f'<span style="font-size:10px;font-weight:700;color:{cs_col};'
-                        f'text-transform:uppercase;letter-spacing:.4px">&#x25CF; {esc(cs)}</span><br>'
-                        ) if cs else ""
-            rows += (
-                f'<tr><td class="kc tw"><div style="margin-bottom:3px">{cs_badge}</div>{esc(kt.get("takeaway",""))}</td>'
-                f'<td class="kc al">{esc(kt.get("analyst_lens",""))}</td></tr>'
-            )
-        full_table = (f'<div class="tbl-wrap"><table class="dt">'
-                      f'<thead><tr><th style="width:44%">Takeaway</th><th>Analyst Lens</th></tr></thead>'
-                      f'<tbody>{rows}</tbody></table></div>')
-        if has_dupes:
-            kt_html = (f'<div class="sect"><div class="sh">Key Takeaways &amp; Analyst Lens</div>'
-                       f'<div id="{cid}-dupc" style="padding:8px 0;color:#6d28d9;font-size:13px">'
-                       f'{len(key_takeaways)} takeaway(s) — overlaps with earlier notes. '
-                       f'<a href="#" onclick="expandDupe(\'{cid}\');return false" '
-                       f'style="color:#6366f1;font-size:12px;text-decoration:none">Show anyway →</a>'
-                       f'</div><div id="{cid}-dupt" hidden>{full_table}</div></div>')
-        else:
-            kt_html = (f'<div class="sect"><div class="sh">Key Takeaways &amp; Analyst Lens</div>'
-                       f'{full_table}</div>')
+# ── Shared page chrome ──────────────────────────────────────────────────────
 
-    # 2. Companies & Sectors Impacted
-    ei_html = ""
-    if entities_impacted:
-        rows = "".join(
-            f'<tr><td class="kc tw">{esc(ei.get("entity",""))}</td>'
-            f'<td class="kc">{esc(ei.get("impact",""))}</td></tr>'
-            for ei in entities_impacted
-        )
-        ei_html = (f'<div class="sect"><div class="sh">Companies &amp; Sectors Impacted</div>'
-                   f'<div class="tbl-wrap"><table class="dt">'
-                   f'<thead><tr><th style="width:30%">Entity</th><th>Impact</th></tr></thead>'
-                   f'<tbody>{rows}</tbody></table></div></div>')
+BASE_CSS = """
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+  background:#f3f2f1;color:#323130;font-size:14px;line-height:1.5;min-height:100vh}
+.suite-bar{background:#0078d4;min-height:48px;padding:0 20px}
+.suite-inner{max-width:1400px;margin:0 auto;min-height:48px;
+  display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.suite-brand{color:#fff;font-size:15px;font-weight:700;
+  display:flex;align-items:center;gap:8px;white-space:nowrap}
+.suite-nav{display:flex;align-items:stretch;gap:2px;margin-left:10px}
+.nav-lnk{color:rgba(255,255,255,.85);text-decoration:none;font-size:13px;font-weight:600;
+  padding:14px 12px;border-bottom:2px solid transparent;white-space:nowrap}
+.nav-lnk:hover{color:#fff;background:rgba(255,255,255,.08)}
+.nav-lnk.active{color:#fff;border-bottom-color:#fff}
+.suite-actions{margin-left:auto;display:flex;align-items:center;gap:8px}
+.suite-btn{color:rgba(255,255,255,.9);background:rgba(255,255,255,.1);
+  border:1px solid rgba(255,255,255,.22);padding:6px 14px;border-radius:2px;
+  font-size:12px;font-weight:600;cursor:pointer;text-decoration:none;
+  display:inline-flex;align-items:center;gap:5px;white-space:nowrap;
+  transition:background .15s}
+.suite-btn:hover{background:rgba(255,255,255,.2)}
+.sync-btn{background:#107c10;color:#fff;border-color:#0e6b0e;font-weight:700}
+.sync-btn:hover{background:#0e6b0e}
+mark{background:#fff100;color:#323130;border-radius:1px;padding:0 1px}
+.toast{position:fixed;bottom:24px;right:24px;background:#323130;color:#fff;
+  padding:12px 20px;border-radius:2px;font-size:13px;font-weight:600;
+  box-shadow:0 4px 16px rgba(0,0,0,.25);z-index:999;opacity:0;
+  transform:translateY(8px);transition:all .25s;pointer-events:none}
+.toast.show{opacity:1;transform:translateY(0)}
+.toast.ok{border-left:3px solid #107c10}
+"""
 
-    # 4. What Can I Learn?
-    learn_html = ""
-    if learning:
-        items = "".join(f"<li>{esc(l)}</li>" for l in learning)
-        learn_html = (f'<div class="sect"><div class="sh">What Can I Learn?</div>'
-                      f'<ul class="blist learn">{items}</ul></div>')
+SHARE_JS = """
+function showToast(msg,type){
+  var t=document.getElementById('toast');
+  if(!t)return;
+  t.textContent=msg;t.className='toast '+(type||'ok');t.classList.add('show');
+  setTimeout(function(){t.classList.remove('show');},3000);
+}
+function doShare(){
+  var url=window.location.href;
+  if(navigator.clipboard){
+    navigator.clipboard.writeText(url).then(function(){showToast('Link copied to clipboard','ok');})
+      .catch(function(){prompt('Copy this link:',url);});
+  }else{prompt('Copy this link:',url);}
+}
+"""
 
-    # 5. Relevance footer
-    rel_html = ""
-    if relevance:
-        chips = "".join(f'<span class="rel-chip">{esc(r)}</span>' for r in relevance)
-        rel_html = f'<div class="rel-row">Relevance: {chips}</div>'
 
-    body = kt_html + ei_html + learn_html + rel_html
-
-    # Freshness / duplicate badge
-    wl_hit = check_watchlist(note, watchlist or set())
-    wl_badge = '<span class="wl-badge">&#9733; Watchlist</span>' if wl_hit else ""
-    freshness_html = ""
-    if has_dupes and freshness == "stale":
-        freshness_html = '<span class="fresh-badge stale">&#9888; Older &amp; repeated news</span>'
-    elif has_dupes:
-        freshness_html = '<span class="fresh-badge stale">&#9888; Has repeated stories</span>'
-    elif freshness == "stale":
-        freshness_html = '<span class="fresh-badge stale">&#9888; Contains older news</span>'
-    elif freshness == "mixed":
-        freshness_html = '<span class="fresh-badge mixed">&#9432; Mixed freshness</span>'
-
-    # Duplicate stories warning (shown at top of body)
-    dupe_html = ""
-    if duplicate_stories:
-        items = "".join(f"<li>{esc(s)}</li>" for s in duplicate_stories)
-        dupe_html = (f'<div class="sect">'
-                     f'<div class="sh" style="color:#6d28d9">&#10006; Already Covered in Previous Notes</div>'
-                     f'<ul class="blist" style="color:#5b21b6">{items}</ul></div>')
-
-    # Stale items warning
-    stale_html = ""
-    if stale_items:
-        items = "".join(f"<li>{esc(s)}</li>" for s in stale_items)
-        stale_html = (f'<div class="sect">'
-                      f'<div class="sh" style="color:#b45309">&#9888; Older / Recycled Items</div>'
-                      f'<ul class="blist" style="color:#92400e">{items}</ul></div>')
-
-    # Doc date line
-    doc_date_html = ""
-    if doc_date:
-        doc_date_html = f' &middot; Doc date: {esc(fmt_date(doc_date))}'
-
-    body_with_stale = dupe_html + stale_html + body
-
+def suite_bar(active):
+    def lnk(href, label, key):
+        cls = "nav-lnk active" if key == active else "nav-lnk"
+        return f'<a class="{cls}" href="{href}">{label}</a>'
     return (
-        f'<article class="card" style="border-left-color:{card_border}" '
-        f'data-category="{esc(category)}" '
-        f'data-sentiment="{esc(sentiment)}" '
-        f'data-date="{esc(date)}" '
-        f'data-docdate="{esc(doc_date)}" '
-        f'data-tags="{esc(tags_csv)}" '
-        f'data-search="{esc(search_blob)}" '
-        f'id="{cid}">\n'
-        f'  <div class="card-hd" onclick="toggle(\'{cid}\')">\n'
-        f'    <div class="card-meta">\n'
-        f'      {source_type_badge(source_type)}\n'
-        f'      <span class="cat-badge">{esc(category)}</span>\n'
-        f'      {sentiment_badge(sentiment)}\n'
-        f'      <time class="date-badge" datetime="{esc(date)}">{esc(fmt_date(date))}</time>\n'
-        f'      {freshness_html}\n'
-        f'      {wl_badge}\n'
-        f'      <span class="tog-ico" id="{cid}-ico">&#8964;</span>\n'
-        f'    </div>\n'
-        f'    <h2 class="card-title" data-raw="{esc(title)}">{esc(title)}</h2>\n'
-        f'    <p class="card-preview" data-raw="{esc(preview)}">{esc(preview)}</p>\n'
-        f'    <div class="chip-row">{tag_row}</div>\n'
-        f'    <div class="source-line">{esc(source)}{doc_date_html}</div>\n'
-        f'  </div>\n'
-        f'  <div class="card-bd" id="{cid}-bd" hidden>\n'
-        f'    {body_with_stale}\n'
-        f'  </div>\n'
-        f'</article>'
+        '<div class="suite-bar"><div class="suite-inner">'
+        '<div class="suite-brand">&#128218; Daily Reads</div>'
+        '<nav class="suite-nav">'
+        + lnk("index.html", "Dashboard", "dashboard")
+        + lnk("library.html", "Library", "library")
+        + lnk("insights.html", "Insights", "insights")
+        + lnk("digest.html", "Weekly Digest", "digest")
+        + '</nav>'
+        '<div class="suite-actions">'
+        f'<a href="{SYNC_URL}" target="_blank" class="suite-btn sync-btn" '
+        'title="Opens GitHub Actions — click Run workflow to pull new files from Drive">'
+        '&#8635; Sync from Drive</a>'
+        '<button class="suite-btn" onclick="doShare()">&#128279; Share</button>'
+        '</div></div></div>'
     )
 
 
-def build_jsonld(notes):
-    articles = []
-    for note in notes[:30]:
-        n = normalize_note(note)
-        articles.append({
-            "@type": "Article",
-            "headline": n.get("title", ""),
-            "datePublished": n.get("date", ""),
-            "description": (n.get("executive_summary") or [""])[0],
-            "keywords": ", ".join(n.get("tags", [])),
-        })
-    ld = {
-        "@context": "https://schema.org",
-        "@type": "CollectionPage",
-        "name": SITE_TITLE,
-        "description": SITE_DESC,
-        "url": SITE_URL + "/",
-        "hasPart": articles,
-    }
-    return json.dumps(ld, ensure_ascii=False, indent=None)
+def sig_dot(sig, count=None):
+    color = CS_COLOR.get(sig, "#6b7280")
+    txt = f"&nbsp;{count}" if count is not None else ""
+    return (f'<span style="display:inline-flex;align-items:center;gap:3px;font-size:11px;'
+            f'font-weight:700;color:{color}">'
+            f'<span style="width:8px;height:8px;border-radius:50%;background:{color};'
+            f'display:inline-block"></span>{txt}</span>')
 
+
+# ── Library page (document table) ───────────────────────────────────────────
 
 def render_row(raw_note, idx, watchlist=None):
     note = normalize_note(raw_note)
-    title       = note.get("title", "Untitled")
-    date        = note.get("date", "")
-    doc_date    = note.get("document_date") or ""
-    category    = note.get("category", "Other")
-    source      = note.get("source_file", "")
-    source_type = note.get("source_type", "other")
-    sentiment   = note.get("sentiment", "neutral").lower()
-    key_takeaways     = note.get("key_takeaways", [])
+    title = note.get("title", "Untitled")
+    date = note.get("date", "")
+    doc_date = note.get("document_date") or ""
+    category = note.get("category", "Other")
+    source = note.get("source_file", "")
+    sentiment = note.get("sentiment", "neutral").lower()
+    key_takeaways = note.get("key_takeaways", [])
     entities_impacted = note.get("entities_impacted", [])
-    learning          = note.get("learning", [])
-    tags              = note.get("tags", [])
+    learning = note.get("learning", [])
+    tags = note.get("tags", [])
     duplicate_stories = note.get("duplicate_stories", [])
 
     preview = (key_takeaways[0].get("takeaway", "") if key_takeaways
@@ -371,9 +364,9 @@ def render_row(raw_note, idx, watchlist=None):
     search_blob = " ".join([
         title, source, category, sentiment,
         " ".join(tags),
-        " ".join(kt.get("takeaway","") + " " + kt.get("analyst_lens","")
+        " ".join(kt.get("takeaway", "") + " " + kt.get("analyst_lens", "")
                  for kt in key_takeaways),
-        " ".join(ei.get("entity","") + " " + ei.get("impact","")
+        " ".join(ei.get("entity", "") + " " + ei.get("impact", "")
                  for ei in entities_impacted),
         " ".join(learning),
     ]).lower().replace('"', "'")
@@ -381,21 +374,14 @@ def render_row(raw_note, idx, watchlist=None):
     tags_csv = ",".join(tags)
     cid = f"r{idx}"
 
-    if key_takeaways:
-        sigs = [kt.get("credit_signal", "neutral").lower() for kt in key_takeaways]
-        dominant_sig = min(sigs, key=lambda s: SIGNAL_PRIORITY.get(s, 3))
-    else:
-        dominant_sig = "neutral"
+    dominant_sig = note_signal(note)
     lborder = SIGNAL_BORDER.get(dominant_sig, "#e2e8f0")
+    wl_hit = check_watchlist(note, watchlist or set())
 
-    st_meta = SOURCE_TYPE_META.get(source_type, SOURCE_TYPE_META["other"])
-    wl_hit  = check_watchlist(note, watchlist or set())
-
-    CS_COLOR = {"positive": "#15803d", "negative": "#dc2626", "neutral": "#6b7280", "watch": "#d97706"}
     kt_rows = ""
     for kt in key_takeaways:
         cs = kt.get("credit_signal", "").lower()
-        cs_col   = CS_COLOR.get(cs, "#6b7280")
+        cs_col = CS_COLOR.get(cs, "#6b7280")
         cs_badge = (f'<span style="font-size:10px;font-weight:700;color:{cs_col};'
                     f'text-transform:uppercase">&#x25CF; {esc(cs)}</span><br>') if cs else ""
         kt_rows += (f'<tr><td class="kc tw"><div style="margin-bottom:3px">{cs_badge}</div>'
@@ -403,12 +389,12 @@ def render_row(raw_note, idx, watchlist=None):
                     f'<td class="kc al">{esc(kt.get("analyst_lens",""))}</td></tr>')
 
     ei_rows = "".join(
-        f'<tr><td class="kc tw">{esc(ei.get("entity",""))}</td>'
+        f'<tr><td class="kc tw">{esc(ei.get("canonical") or ei.get("entity",""))}</td>'
         f'<td class="kc">{esc(ei.get("impact",""))}</td></tr>'
         for ei in entities_impacted
     )
     learn_items = "".join(f"<li>{esc(l)}</li>" for l in learning)
-    tag_chips   = "".join(f'<span class="tc-sm">{esc(t)}</span>' for t in tags[:8])
+    tag_chips = "".join(f'<span class="tc-sm">{esc(t)}</span>' for t in tags[:8])
 
     exp_parts = []
     if kt_rows:
@@ -439,7 +425,7 @@ def render_row(raw_note, idx, watchlist=None):
         )
     expanded_html = "".join(exp_parts)
 
-    wl_badge  = ' <span class="wl-badge">&#9733; Watchlist</span>' if wl_hit else ""
+    wl_badge = ' <span class="wl-badge">&#9733; Watchlist</span>' if wl_hit else ""
     dup_badge = ' <span class="dup-badge">&#8635; Repeat</span>' if duplicate_stories else ""
 
     return (
@@ -467,7 +453,29 @@ def render_row(raw_note, idx, watchlist=None):
     )
 
 
-def generate_html(notes):
+def build_jsonld(notes):
+    articles = []
+    for note in notes[:30]:
+        n = normalize_note(note)
+        articles.append({
+            "@type": "Article",
+            "headline": n.get("title", ""),
+            "datePublished": n.get("date", ""),
+            "description": (n.get("executive_summary") or [""])[0],
+            "keywords": ", ".join(n.get("tags", [])),
+        })
+    ld = {
+        "@context": "https://schema.org",
+        "@type": "CollectionPage",
+        "name": SITE_TITLE,
+        "description": SITE_DESC,
+        "url": SITE_URL + "/",
+        "hasPart": articles,
+    }
+    return json.dumps(ld, ensure_ascii=False, indent=None)
+
+
+def generate_library(notes):
     now_str = datetime.datetime.now().strftime("%d %b %Y, %H:%M")
     total = len(notes)
 
@@ -488,23 +496,18 @@ def generate_html(notes):
 
     watchlist = load_watchlist()
     rows_html = "\n".join(render_row(n, i, watchlist) for i, n in enumerate(notes))
-    jsonld    = build_jsonld(notes)
+    jsonld = build_jsonld(notes)
 
-    # Credit signal summary bar
     sig_counts = Counter()
     for n in notes:
-        for kt in n.get("key_takeaways", []):
-            s = kt.get("credit_signal", "neutral").lower()
-            sig_counts[s] += 1
+        for kt in normalize_note(n).get("key_takeaways", []):
+            sig_counts[kt.get("credit_signal", "neutral").lower()] += 1
     sig_bar_parts = []
-    for sig, label, color in [
-        ("negative", "Negative", "#dc2626"),
-        ("watch",    "Watch",    "#d97706"),
-        ("positive", "Positive", "#15803d"),
-        ("neutral",  "Neutral",  "#6b7280"),
-    ]:
+    for sig, label in [("negative", "Negative"), ("watch", "Watch"),
+                       ("positive", "Positive"), ("neutral", "Neutral")]:
         cnt = sig_counts.get(sig, 0)
         if cnt:
+            color = CS_COLOR[sig]
             sig_bar_parts.append(
                 f'<span class="sig-pill" style="color:{color}">'
                 f'<span class="sig-dot" style="background:{color}"></span>'
@@ -517,40 +520,12 @@ def generate_html(notes):
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>{esc(SITE_TITLE)}</title>
+<title>Library — Daily Reads</title>
 <meta name="description" content="{esc(SITE_DESC)}">
-<link rel="canonical" href="{SITE_URL}/">
-<meta property="og:type" content="website">
-<meta property="og:url" content="{SITE_URL}/">
-<meta property="og:title" content="{esc(SITE_TITLE)}">
-<meta property="og:description" content="{esc(SITE_DESC)}">
+<link rel="canonical" href="{SITE_URL}/library.html">
 <script type="application/ld+json">{jsonld}</script>
 <style>
-*{{box-sizing:border-box;margin:0;padding:0}}
-body{{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
-  background:#f3f2f1;color:#323130;font-size:14px;line-height:1.5;min-height:100vh}}
-
-/* ── Suite bar ── */
-.suite-bar{{background:#0078d4;min-height:48px;padding:0 20px}}
-.suite-inner{{max-width:1400px;margin:0 auto;height:48px;
-  display:flex;align-items:center;gap:10px}}
-.suite-brand{{color:#fff;font-size:15px;font-weight:700;
-  display:flex;align-items:center;gap:8px}}
-.suite-sep{{color:rgba(255,255,255,.45);font-size:13px}}
-.suite-lib{{color:rgba(255,255,255,.88);font-size:14px;font-weight:400}}
-.suite-meta{{font-size:11px;color:rgba(255,255,255,.6);margin-left:6px}}
-.suite-actions{{margin-left:auto;display:flex;align-items:center;gap:8px}}
-.suite-btn{{color:rgba(255,255,255,.9);background:rgba(255,255,255,.1);
-  border:1px solid rgba(255,255,255,.22);padding:6px 14px;border-radius:2px;
-  font-size:12px;font-weight:600;cursor:pointer;text-decoration:none;
-  display:inline-flex;align-items:center;gap:5px;white-space:nowrap;
-  transition:background .15s}}
-.suite-btn:hover{{background:rgba(255,255,255,.2)}}
-.digest-tab{{background:#fff;color:#0078d4;border-color:#fff;font-weight:700}}
-.digest-tab:hover{{background:#e8f4fd}}
-.sync-btn{{background:#107c10;color:#fff;border-color:#0e6b0e;font-weight:700}}
-.sync-btn:hover{{background:#0e6b0e}}
-
+{BASE_CSS}
 /* ── Command bar ── */
 .cmd-bar{{background:#fff;border-bottom:1px solid #edebe9;padding:6px 20px;
   box-shadow:0 1px 3px rgba(0,0,0,.06)}}
@@ -575,12 +550,6 @@ body{{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
 .sort-sel{{border:1px solid #8a8886;background:#fff;color:#323130;
   padding:6px 8px;border-radius:2px;font-size:12px;outline:none}}
 #stats-lbl{{font-size:12px;color:#605e5c;margin-left:auto;white-space:nowrap}}
-.share-btn{{background:#0078d4;color:#fff;border:none;padding:6px 14px;
-  border-radius:2px;font-size:12px;font-weight:600;cursor:pointer;
-  display:inline-flex;align-items:center;gap:5px;white-space:nowrap;
-  transition:background .15s}}
-.share-btn:hover{{background:#106ebe}}
-
 /* ── Layout ── */
 .layout{{display:flex;max-width:1400px;margin:0 auto;padding:16px 20px;gap:18px}}
 aside{{width:188px;flex-shrink:0;position:sticky;top:0;align-self:flex-start}}
@@ -596,13 +565,11 @@ aside{{width:188px;flex-shrink:0;position:sticky;top:0;align-self:flex-start}}
 .cnt{{font-size:11px;color:#605e5c;background:#f3f2f1;
   padding:1px 7px;border-radius:10px}}
 .cat-item.active .cnt{{background:#c7e0f4;color:#0078d4}}
-
 /* ── Signal bar ── */
 .signal-bar{{display:flex;align-items:center;gap:16px;padding:0 0 10px;flex-wrap:wrap}}
 .sig-pill{{display:inline-flex;align-items:center;gap:5px;font-size:12px;font-weight:600}}
 .sig-dot{{width:8px;height:8px;border-radius:50%;flex-shrink:0}}
-
-/* ── Main / Table ── */
+/* ── Table ── */
 main{{flex:1;min-width:0}}
 .doc-table-wrap{{background:#fff;border:1px solid #edebe9;border-radius:2px;overflow:hidden}}
 .doc-table{{width:100%;border-collapse:collapse}}
@@ -626,15 +593,10 @@ main{{flex:1;min-width:0}}
 .row-tags{{display:flex;flex-wrap:wrap;gap:3px;padding-left:24px;margin-top:3px}}
 .tc-sm{{font-size:10px;padding:1px 6px;border-radius:10px;
   background:#f3f2f1;color:#605e5c;border:1px solid #edebe9}}
-.stype-badge{{font-size:11px;font-weight:600;padding:3px 9px;
-  border-radius:2px;border:1px solid transparent;white-space:nowrap}}
-.cat-badge{{background:#deecf9;color:#0078d4;font-size:11px;font-weight:600;
-  padding:3px 9px;border-radius:2px;white-space:nowrap}}
 .wl-badge{{background:#fff4ce;color:#7a4e00;border:1px solid #f8e7ab;
   font-size:10px;font-weight:700;padding:2px 7px;border-radius:10px;white-space:nowrap}}
 .dup-badge{{background:#f0f0f0;color:#605e5c;border:1px solid #d2d0ce;
   font-size:10px;font-weight:600;padding:2px 7px;border-radius:10px;white-space:nowrap}}
-
 /* ── Expanded row ── */
 .exp-row{{display:none;background:#faf9f8}}
 .exp-content{{padding:14px 20px 18px 40px;border-top:1px solid #edebe9}}
@@ -653,24 +615,13 @@ main{{flex:1;min-width:0}}
 .blist{{padding-left:20px}}
 .blist li{{margin-bottom:5px;line-height:1.6;font-size:13px;color:#323130}}
 .learn li{{color:#075985}}
-
-/* ── Empty / Highlights / Toast ── */
 #empty{{text-align:center;padding:60px 20px;display:none;
   color:#605e5c;background:#fff;border-top:1px solid #edebe9}}
-mark{{background:#fff100;color:#323130;border-radius:1px;padding:0 1px}}
-.toast{{position:fixed;bottom:24px;right:24px;background:#323130;color:#fff;
-  padding:12px 20px;border-radius:2px;font-size:13px;font-weight:600;
-  box-shadow:0 4px 16px rgba(0,0,0,.25);z-index:999;opacity:0;
-  transform:translateY(8px);transition:all .25s;pointer-events:none}}
-.toast.show{{opacity:1;transform:translateY(0)}}
-.toast.ok{{border-left:3px solid #107c10}}
-
-/* ── Responsive ── */
 @media(max-width:900px){{
   aside{{display:none}}.layout{{padding:12px}}.col-abstract{{display:none}}
 }}
 @media(max-width:600px){{
-  .col-date,.col-status{{display:none}}#search{{width:140px}}
+  .col-date{{display:none}}#search{{width:140px}}
 }}
 @media print{{
   .suite-bar,.cmd-bar,.signal-bar,aside{{display:none!important}}
@@ -681,22 +632,7 @@ mark{{background:#fff100;color:#323130;border-radius:1px;padding:0 1px}}
 </head>
 <body>
 
-<div class="suite-bar">
-  <div class="suite-inner">
-    <div class="suite-brand">&#128218; Daily Reads</div>
-    <span class="suite-sep">&#8250;</span>
-    <span class="suite-lib">Knowledge Depot</span>
-    <span class="suite-meta">Updated {now_str} &middot; {total} note{'s' if total != 1 else ''}</span>
-    <div class="suite-actions">
-      <a href="digest.html" class="suite-btn digest-tab">&#128203; Weekly Digest</a>
-      <a href="https://github.com/mjitendrafeb-cmd/jeetz/actions/workflows/daily-reads.yml"
-         target="_blank" class="suite-btn sync-btn" title="Opens GitHub Actions — click Run workflow to pull new PDFs from Drive">
-        &#8635; Sync from Drive
-      </a>
-      <button class="suite-btn" onclick="doShare()">&#128279; Share</button>
-    </div>
-  </div>
-</div>
+{suite_bar("library")}
 
 <div class="cmd-bar">
   <div class="cmd-inner">
@@ -716,8 +652,7 @@ mark{{background:#fff100;color:#323130;border-radius:1px;padding:0 1px}}
       <option value="newest">Newest first</option>
       <option value="oldest">Oldest first</option>
     </select>
-    <span id="stats-lbl"></span>
-    <button class="share-btn" onclick="doShare()">&#128279; Share</button>
+    <span id="stats-lbl">Updated {now_str}</span>
   </div>
 </div>
 
@@ -744,6 +679,7 @@ mark{{background:#fff100;color:#323130;border-radius:1px;padding:0 1px}}
 <div class="toast" id="toast"></div>
 
 <script>
+{SHARE_JS}
 (function(){{
   var TOTAL={total};
   var state={{q:'',cat:'all',sort:'newest',dateFrom:'',dateTo:''}};
@@ -767,6 +703,14 @@ mark{{background:#fff100;color:#323130;border-radius:1px;padding:0 1px}}
     if(state.dateFrom){{var f=document.getElementById('date-from');if(f)f.value=state.dateFrom;}}
     if(state.dateTo){{var t=document.getElementById('date-to');if(t)t.value=state.dateTo;}}
     apply();
+    if(window.location.hash){{
+      var id=window.location.hash.slice(1);
+      var row=document.getElementById(id);
+      if(row&&document.getElementById(id+'-exp')){{
+        toggleRow(id);
+        setTimeout(function(){{row.scrollIntoView({{block:'center'}});}},50);
+      }}
+    }}
   }}
 
   function escH(t){{return String(t).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}}
@@ -852,42 +796,411 @@ mark{{background:#fff100;color:#323130;border-radius:1px;padding:0 1px}}
     if(row)row.classList.toggle('exp-open',!isOpen);
   }};
 
-  window.expandDupe=function(cid){{
-    var c=document.getElementById(cid+'-dupc');var t=document.getElementById(cid+'-dupt');
-    if(c)c.hidden=true;if(t)t.removeAttribute('hidden');
-  }};
-
-  function showToast(msg,type){{
-    var t=document.getElementById('toast');
-    t.textContent=msg;t.className='toast '+(type||'ok');t.classList.add('show');
-    setTimeout(function(){{t.classList.remove('show');}},3000);
-  }}
-
-  window.doShare=function(){{
-    var url=window.location.href;
-    if(navigator.clipboard){{
-      navigator.clipboard.writeText(url).then(function(){{showToast('Link copied to clipboard','ok');}})
-        .catch(function(){{prompt('Copy this link:',url);}});
-    }}else{{prompt('Copy this link:',url);}}
-  }};
-
   applyInit();
-  document.getElementById('search').focus();
 }})();
 </script>
 </body>
 </html>"""
 
 
-def generate_digest(notes, out_path):
+# ── Dashboard page ──────────────────────────────────────────────────────────
+
+def generate_dashboard(notes, entities):
+    now_str = datetime.datetime.now().strftime("%d %b %Y, %H:%M")
+    today = datetime.date.today()
+    week_ago = (today - datetime.timedelta(days=7)).isoformat()
+
+    total_docs = len(notes)
+    docs_week = sum(1 for n in notes if note_date(n) >= week_ago)
+
+    all_tws = []
+    for idx, raw in enumerate(notes):
+        n = normalize_note(raw)
+        d = note_date(n)
+        for kt in n.get("key_takeaways", []):
+            all_tws.append({
+                "date": d, "signal": kt.get("credit_signal", "neutral").lower(),
+                "takeaway": kt.get("takeaway", ""), "lens": kt.get("analyst_lens", ""),
+                "doc_title": n.get("title", ""), "row_id": f"r{idx}",
+            })
+    total_tws = len(all_tws)
+    sig_all = Counter(t["signal"] for t in all_tws)
+    sig_week = Counter(t["signal"] for t in all_tws if t["date"] >= week_ago)
+
+    def tile(num, label, sub="", color="#0f172a"):
+        sub_html = f'<div class="tile-sub">{sub}</div>' if sub else ""
+        return (f'<div class="tile"><div class="tile-n" style="color:{color}">{num}</div>'
+                f'<div class="tile-l">{label}</div>{sub_html}</div>')
+
+    tiles = (
+        tile(total_docs, "Documents", f"+{docs_week} this week" if docs_week else "")
+        + tile(total_tws, "Takeaways")
+        + tile(len(entities), "Entities tracked")
+        + tile(sig_all.get("negative", 0), "Negative signals",
+               f"+{sig_week.get('negative', 0)} this week" if sig_week.get("negative") else "",
+               CS_COLOR["negative"])
+        + tile(sig_all.get("watch", 0), "Watch signals",
+               f"+{sig_week.get('watch', 0)} this week" if sig_week.get("watch") else "",
+               CS_COLOR["watch"])
+    )
+
+    # Needs attention: recent negative/watch takeaways
+    attn = [t for t in all_tws if t["signal"] in ("negative", "watch")]
+    attn.sort(key=lambda t: (t["date"], -SIGNAL_PRIORITY.get(t["signal"], 3)), reverse=True)
+    attn_html = ""
+    for t in attn[:8]:
+        color = CS_COLOR.get(t["signal"], "#6b7280")
+        attn_html += (
+            f'<a class="attn-item" href="library.html#{t["row_id"]}">'
+            f'<span class="attn-dot" style="background:{color}"></span>'
+            f'<span class="attn-body"><span class="attn-tw">{esc(t["takeaway"])}</span>'
+            f'<span class="attn-src">{esc(t["doc_title"])} &middot; {esc(fmt_date(t["date"]))}</span>'
+            f'</span></a>'
+        )
+    if not attn_html:
+        attn_html = '<div class="empty-sec">No negative or watch signals yet.</div>'
+
+    # Entities in focus: most-mentioned
+    ents_sorted = sorted(entities.values(), key=lambda e: (-len(e["docs"]), e["name"]))
+    ent_html = ""
+    for e in ents_sorted[:14]:
+        tcol = TYPE_COLOR.get(e["type"], "#64748b")
+        neg = e["sig_counts"].get("negative", 0)
+        wat = e["sig_counts"].get("watch", 0)
+        warn = ""
+        if neg:
+            warn = f'<span class="ent-warn" style="color:{CS_COLOR["negative"]}">&#x25CF;{neg}</span>'
+        elif wat:
+            warn = f'<span class="ent-warn" style="color:{CS_COLOR["watch"]}">&#x25CF;{wat}</span>'
+        ent_html += (
+            f'<a class="ent-chip" href="insights.html#e-{slugify(e["name"])}" '
+            f'style="border-color:{tcol}33">'
+            f'<span class="ent-chip-name">{esc(e["name"])}</span>'
+            f'<span class="ent-chip-n" style="background:{tcol}18;color:{tcol}">{len(e["docs"])}</span>'
+            f'{warn}</a>'
+        )
+
+    # Recent documents
+    recent_html = ""
+    dated = sorted(enumerate(notes), key=lambda p: note_date(p[1]), reverse=True)
+    for idx, raw in dated[:6]:
+        n = normalize_note(raw)
+        sig = note_signal(n)
+        color = SIGNAL_BORDER.get(sig, "#e2e8f0")
+        kts = n.get("key_takeaways", [])
+        preview = kts[0].get("takeaway", "") if kts else ""
+        recent_html += (
+            f'<a class="doc-item" href="library.html#r{idx}" style="border-left-color:{color}">'
+            f'<span class="doc-item-t">{esc(n.get("title", "Untitled"))}</span>'
+            f'<span class="doc-item-p">{esc(preview[:140])}{"&#8230;" if len(preview) > 140 else ""}</span>'
+            f'<span class="doc-item-d">{esc(fmt_date(note_date(n)))}</span>'
+            f'</a>'
+        )
+
+    return f"""<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>{esc(SITE_TITLE)}</title>
+<meta name="description" content="{esc(SITE_DESC)}">
+<link rel="canonical" href="{SITE_URL}/">
+<meta property="og:type" content="website">
+<meta property="og:url" content="{SITE_URL}/">
+<meta property="og:title" content="{esc(SITE_TITLE)}">
+<meta property="og:description" content="{esc(SITE_DESC)}">
+<style>
+{BASE_CSS}
+.wrap{{max-width:1100px;margin:0 auto;padding:22px 20px}}
+.pg-sub{{font-size:12px;color:#605e5c;margin-bottom:16px}}
+.tiles{{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:22px}}
+.tile{{background:#fff;border:1px solid #edebe9;border-radius:2px;
+  padding:14px 20px;min-width:150px;flex:1}}
+.tile-n{{font-size:26px;font-weight:700;line-height:1.2}}
+.tile-l{{font-size:11px;color:#605e5c;text-transform:uppercase;letter-spacing:.5px;margin-top:2px}}
+.tile-sub{{font-size:11px;color:#107c10;font-weight:600;margin-top:3px}}
+.grid{{display:grid;grid-template-columns:1fr 1fr;gap:18px}}
+.panel{{background:#fff;border:1px solid #edebe9;border-radius:2px;overflow:hidden}}
+.panel-hd{{padding:12px 16px;border-bottom:1px solid #edebe9;
+  display:flex;align-items:center;justify-content:space-between}}
+.panel-t{{font-size:13px;font-weight:700;color:#323130}}
+.panel-lnk{{font-size:12px;color:#0078d4;text-decoration:none}}
+.panel-lnk:hover{{text-decoration:underline}}
+.panel-bd{{padding:8px 0}}
+.attn-item{{display:flex;gap:10px;padding:10px 16px;text-decoration:none;
+  border-bottom:1px solid #f3f2f1;transition:background .1s;align-items:flex-start}}
+.attn-item:hover{{background:#f3f2f1}}
+.attn-item:last-child{{border-bottom:none}}
+.attn-dot{{width:9px;height:9px;border-radius:50%;flex-shrink:0;margin-top:5px}}
+.attn-body{{display:flex;flex-direction:column;gap:2px;min-width:0}}
+.attn-tw{{font-size:13px;font-weight:600;color:#323130;line-height:1.45}}
+.attn-src{{font-size:11px;color:#8a8886}}
+.ent-wrap{{display:flex;flex-wrap:wrap;gap:8px;padding:14px 16px}}
+.ent-chip{{display:inline-flex;align-items:center;gap:6px;background:#fff;
+  border:1px solid #e2e8f0;border-radius:16px;padding:5px 11px;text-decoration:none;
+  font-size:12px;font-weight:600;color:#323130;transition:box-shadow .12s}}
+.ent-chip:hover{{box-shadow:0 1px 5px rgba(0,0,0,.12)}}
+.ent-chip-n{{font-size:10px;font-weight:700;padding:1px 7px;border-radius:9px}}
+.ent-warn{{font-size:10px;font-weight:700}}
+.doc-item{{display:flex;flex-direction:column;gap:3px;padding:11px 16px;
+  border-left:3px solid #e2e8f0;border-bottom:1px solid #f3f2f1;
+  text-decoration:none;transition:background .1s}}
+.doc-item:hover{{background:#f3f2f1}}
+.doc-item:last-child{{border-bottom:none}}
+.doc-item-t{{font-size:13px;font-weight:600;color:#323130}}
+.doc-item-p{{font-size:12px;color:#605e5c;line-height:1.5}}
+.doc-item-d{{font-size:11px;color:#8a8886}}
+.empty-sec{{padding:24px 16px;color:#8a8886;font-size:13px;text-align:center}}
+@media(max-width:800px){{.grid{{grid-template-columns:1fr}}}}
+</style>
+</head>
+<body>
+
+{suite_bar("dashboard")}
+
+<div class="wrap">
+  <div class="pg-sub">Updated {now_str} &middot; {total_docs} document{'s' if total_docs != 1 else ''} in the library</div>
+  <div class="tiles">{tiles}</div>
+  <div class="grid">
+    <div class="panel" style="grid-column:1/-1">
+      <div class="panel-hd"><span class="panel-t">&#9888; Needs Attention — Negative &amp; Watch Signals</span>
+        <a class="panel-lnk" href="digest.html">Weekly digest &rarr;</a></div>
+      <div class="panel-bd">{attn_html}</div>
+    </div>
+    <div class="panel">
+      <div class="panel-hd"><span class="panel-t">&#127919; Entities in Focus</span>
+        <a class="panel-lnk" href="insights.html">All insights &rarr;</a></div>
+      <div class="ent-wrap">{ent_html or '<div class="empty-sec">No entities yet.</div>'}</div>
+    </div>
+    <div class="panel">
+      <div class="panel-hd"><span class="panel-t">&#128196; Latest Documents</span>
+        <a class="panel-lnk" href="library.html">Full library &rarr;</a></div>
+      <div class="panel-bd">{recent_html or '<div class="empty-sec">No documents yet.</div>'}</div>
+    </div>
+  </div>
+</div>
+<div class="toast" id="toast"></div>
+<script>{SHARE_JS}</script>
+</body>
+</html>"""
+
+
+# ── Insights page (entity / sector / macro views) ───────────────────────────
+
+def render_entity_card(e):
+    slug = slugify(e["name"])
+    tcol = TYPE_COLOR.get(e["type"], "#64748b")
+    tlabel = TYPE_LABEL.get(e["type"], "Other")
+
+    dots = ""
+    for sig in ("negative", "watch", "positive", "neutral"):
+        c = e["sig_counts"].get(sig, 0)
+        if c:
+            dots += sig_dot(sig, c) + " "
+
+    rows = ""
+    for it in e["items"]:
+        color = CS_COLOR.get(it["signal"], "#6b7280")
+        kind_lbl = "Impact" if it["kind"] == "impact" else "Takeaway"
+        lens = (f'<div style="font-size:12px;color:#605e5c;margin-top:3px">{esc(it["lens"])}</div>'
+                if it.get("lens") else "")
+        rows += (
+            f'<tr>'
+            f'<td class="tl-date">{esc(fmt_date(it["date"]))}</td>'
+            f'<td class="tl-sig"><span style="color:{color};font-size:10px;font-weight:700;'
+            f'text-transform:uppercase">&#x25CF; {esc(it["signal"])}</span><br>'
+            f'<span class="tl-kind">{kind_lbl}</span></td>'
+            f'<td class="tl-text">{esc(it["text"])}{lens}</td>'
+            f'<td class="tl-src"><a href="library.html#{it["row_id"]}">'
+            f'{esc(it["doc_title"][:48])}{"&#8230;" if len(it["doc_title"]) > 48 else ""}</a></td>'
+            f'</tr>'
+        )
+
+    search_blob = (e["name"] + " " + " ".join(i["text"] for i in e["items"])).lower().replace('"', "'")
+
+    return (
+        f'<div class="ent-card" id="e-{slug}" data-type="{e["type"]}" '
+        f'data-search="{esc(search_blob)}">'
+        f'<div class="ent-hd" onclick="toggleEnt(\'e-{slug}\')">'
+        f'<span class="ent-ico" id="e-{slug}-ico">&#8250;</span>'
+        f'<span class="ent-name">{esc(e["name"])}</span>'
+        f'<span class="ent-type" style="color:{tcol};background:{tcol}14;border-color:{tcol}40">{tlabel}</span>'
+        f'<span class="ent-sigs">{dots}</span>'
+        f'<span class="ent-meta">{len(e["docs"])} doc{"s" if len(e["docs"]) != 1 else ""}'
+        f'{" &middot; last " + esc(fmt_date(e["latest"])) if e["latest"] else ""}</span>'
+        f'</div>'
+        f'<div class="ent-bd" id="e-{slug}-bd" hidden>'
+        f'<div class="tbl-wrap"><table class="tl-table"><thead><tr>'
+        f'<th style="width:11%">Date</th><th style="width:11%">Signal</th>'
+        f'<th>Insight</th><th style="width:22%">Source</th>'
+        f'</tr></thead><tbody>{rows}</tbody></table></div>'
+        f'</div></div>'
+    )
+
+
+def generate_insights(entities):
+    now_str = datetime.datetime.now().strftime("%d %b %Y, %H:%M")
+    ents = sorted(entities.values(), key=lambda e: (-len(e["docs"]), -len(e["items"]), e["name"]))
+
+    counts = Counter()
+    for e in ents:
+        if e["type"] == "company":
+            counts["companies"] += 1
+        elif e["type"] == "sector":
+            counts["sectors"] += 1
+        elif e["type"] in ("regulator", "macro"):
+            counts["macro"] += 1
+        else:
+            counts["companies"] += 1
+
+    cards = "".join(render_entity_card(e) for e in ents)
+
+    return f"""<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Insights — Daily Reads</title>
+<meta name="description" content="Entity-wise, sector-wise and macro-wise credit insights.">
+<link rel="canonical" href="{SITE_URL}/insights.html">
+<style>
+{BASE_CSS}
+.wrap{{max-width:1100px;margin:0 auto;padding:20px}}
+.pg-sub{{font-size:12px;color:#605e5c;margin-bottom:14px}}
+.tab-bar{{display:flex;gap:4px;border-bottom:2px solid #edebe9;margin-bottom:6px;
+  align-items:center;flex-wrap:wrap}}
+.tab{{padding:9px 16px;font-size:13px;font-weight:600;color:#605e5c;cursor:pointer;
+  border-bottom:2px solid transparent;margin-bottom:-2px;background:none;border-top:none;
+  border-left:none;border-right:none}}
+.tab:hover{{color:#0078d4}}
+.tab.active{{color:#0078d4;border-bottom-color:#0078d4}}
+.tab .tcnt{{font-size:11px;color:#8a8886;margin-left:4px}}
+#esearch{{margin-left:auto;border:1px solid #8a8886;background:#fff;color:#323130;
+  padding:6px 12px;border-radius:2px;font-size:13px;outline:none;width:230px;margin-bottom:4px}}
+#esearch:focus{{border-color:#0078d4;box-shadow:0 0 0 1px #0078d4}}
+.ent-card{{background:#fff;border:1px solid #edebe9;border-radius:2px;margin-top:10px;
+  overflow:hidden}}
+.ent-hd{{display:flex;align-items:center;gap:10px;padding:12px 16px;cursor:pointer;
+  transition:background .1s;flex-wrap:wrap}}
+.ent-hd:hover{{background:#f3f2f1}}
+.ent-ico{{font-size:18px;color:#0078d4;line-height:1;transition:transform .18s;
+  display:inline-block;flex-shrink:0}}
+.ent-ico.open{{transform:rotate(90deg)}}
+.ent-name{{font-size:14px;font-weight:700;color:#323130}}
+.ent-type{{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;
+  padding:2px 8px;border-radius:10px;border:1px solid}}
+.ent-sigs{{display:inline-flex;gap:8px;align-items:center}}
+.ent-meta{{margin-left:auto;font-size:11px;color:#8a8886;white-space:nowrap}}
+.ent-bd{{border-top:1px solid #edebe9;background:#faf9f8;padding:12px 16px}}
+.tbl-wrap{{overflow-x:auto}}
+.tl-table{{width:100%;border-collapse:collapse;font-size:13px;background:#fff;
+  border:1px solid #edebe9}}
+.tl-table thead th{{padding:7px 12px;text-align:left;font-size:10px;font-weight:700;
+  text-transform:uppercase;letter-spacing:.4px;color:#605e5c;
+  background:#faf9f8;border-bottom:1px solid #edebe9}}
+.tl-table td{{padding:9px 12px;vertical-align:top;border-bottom:1px solid #f3f2f1;
+  line-height:1.55}}
+.tl-date{{font-size:12px;color:#605e5c;white-space:nowrap}}
+.tl-kind{{font-size:10px;color:#a19f9d}}
+.tl-text{{color:#323130}}
+.tl-src a{{color:#0078d4;text-decoration:none;font-size:12px}}
+.tl-src a:hover{{text-decoration:underline}}
+#empty{{text-align:center;padding:50px 20px;color:#8a8886;display:none}}
+@media(max-width:700px){{.ent-meta{{display:none}}.tl-src{{display:none}}
+  .tl-table thead th:last-child{{display:none}}#esearch{{width:100%;margin-left:0}}}}
+</style>
+</head>
+<body>
+
+{suite_bar("insights")}
+
+<div class="wrap">
+  <div class="pg-sub">Everything the library knows, re-assembled by entity, sector and macro theme &middot; Updated {now_str}</div>
+  <div class="tab-bar">
+    <button class="tab active" id="tab-companies" onclick="setTab('companies')">
+      &#127970; Companies<span class="tcnt">{counts.get("companies", 0)}</span></button>
+    <button class="tab" id="tab-sectors" onclick="setTab('sectors')">
+      &#128202; Sectors<span class="tcnt">{counts.get("sectors", 0)}</span></button>
+    <button class="tab" id="tab-macro" onclick="setTab('macro')">
+      &#127758; Macro &amp; Policy<span class="tcnt">{counts.get("macro", 0)}</span></button>
+    <input id="esearch" type="search" placeholder="Search entities &amp; insights&#8230;"
+           oninput="setQ(this.value)" autocomplete="off">
+  </div>
+  <div id="cards">{cards or '<div style="padding:40px;text-align:center;color:#8a8886">No entities yet.</div>'}</div>
+  <div id="empty">No entities match your filter.</div>
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+{SHARE_JS}
+(function(){{
+  var TAB_TYPES={{companies:['company','other'],sectors:['sector'],macro:['regulator','macro']}};
+  var state={{tab:'companies',q:''}};
+
+  window.toggleEnt=function(id){{
+    var bd=document.getElementById(id+'-bd');
+    var ico=document.getElementById(id+'-ico');
+    if(!bd)return;
+    var isOpen=!bd.hidden;
+    bd.hidden=isOpen;
+    if(ico)ico.classList.toggle('open',!isOpen);
+  }};
+
+  function apply(){{
+    var types=TAB_TYPES[state.tab]||[];
+    var q=state.q.toLowerCase().trim();
+    var vis=0;
+    document.querySelectorAll('.ent-card').forEach(function(c){{
+      var typeOk=types.indexOf(c.dataset.type)!==-1;
+      var qOk=!q||c.dataset.search.includes(q);
+      var show=(q?qOk:typeOk&&qOk);
+      c.style.display=show?'':'none';
+      if(show)vis++;
+    }});
+    document.getElementById('empty').style.display=vis?'none':'block';
+    ['companies','sectors','macro'].forEach(function(t){{
+      document.getElementById('tab-'+t).classList.toggle('active',t===state.tab&&!q);
+    }});
+  }}
+
+  window.setTab=function(t){{
+    state.tab=t;state.q='';
+    var s=document.getElementById('esearch');if(s)s.value='';
+    apply();
+  }};
+  window.setQ=function(v){{state.q=v;apply();}};
+
+  apply();
+  if(window.location.hash){{
+    var id=window.location.hash.slice(1);
+    var card=document.getElementById(id);
+    if(card){{
+      // switch to the tab containing this entity
+      var t=card.dataset.type;
+      for(var tab in TAB_TYPES){{
+        if(TAB_TYPES[tab].indexOf(t)!==-1){{state.tab=tab;break;}}
+      }}
+      apply();
+      toggleEnt(id);
+      setTimeout(function(){{card.scrollIntoView({{block:'start'}});}},50);
+    }}
+  }}
+}})();
+</script>
+</body>
+</html>"""
+
+
+# ── Weekly digest ───────────────────────────────────────────────────────────
+
+def generate_digest(notes):
     today = datetime.date.today()
     week_ago = (today - datetime.timedelta(days=7)).isoformat()
     week_end = today.strftime("%d %b %Y")
     week_start = (today - datetime.timedelta(days=7)).strftime("%d %b")
 
-    recent = [n for n in notes if (n.get("document_date") or n.get("date","")) >= week_ago]
+    recent = [n for n in notes if note_date(n) >= week_ago]
 
-    PRIORITY = {"negative": 0, "watch": 1, "positive": 2, "neutral": 3}
     CS_STYLE = {
         "negative": {"label": "Negative Signal", "bg": "#fef2f2", "fg": "#dc2626", "bd": "#fecaca"},
         "watch":    {"label": "Watch",            "bg": "#fffbeb", "fg": "#d97706", "bd": "#fde68a"},
@@ -905,8 +1218,8 @@ def generate_digest(notes, out_path):
                 "analyst_lens": kt.get("analyst_lens", ""),
                 "credit_signal": sig,
                 "source_title": note.get("title", ""),
-                "source_date": note.get("document_date") or note.get("date", ""),
-                "priority": PRIORITY.get(sig, 3),
+                "source_date": note_date(note),
+                "priority": SIGNAL_PRIORITY.get(sig, 3),
             })
 
     all_tws.sort(key=lambda x: (x["priority"], x["source_date"]))
@@ -944,35 +1257,34 @@ def generate_digest(notes, out_path):
             f'{esc(label)}</div>{rows}</div>'
         )
 
-    neg_cnt = len([t for t in all_tws if t["credit_signal"]=="negative"])
-    watch_cnt = len([t for t in all_tws if t["credit_signal"]=="watch"])
-    pos_cnt = len([t for t in all_tws if t["credit_signal"]=="positive"])
+    neg_cnt = len([t for t in all_tws if t["credit_signal"] == "negative"])
+    watch_cnt = len([t for t in all_tws if t["credit_signal"] == "watch"])
+    pos_cnt = len([t for t in all_tws if t["credit_signal"] == "positive"])
 
-    html = f"""<!DOCTYPE html>
+    return f"""<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Weekly Digest — {esc(week_start)}–{esc(week_end)}</title>
 <style>
-*{{box-sizing:border-box;margin:0;padding:0}}
-body{{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#f8fafc;color:#1e293b;font-size:14px;line-height:1.6}}
-.hdr{{background:#0f172a;color:#f8fafc;padding:20px 28px;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}}
-.hdr h1{{font-size:18px;font-weight:700}}.hdr small{{font-size:12px;color:#64748b;display:block;margin-top:3px}}
-.hdr a{{color:#818cf8;font-size:12px;text-decoration:none}}.hdr a:hover{{text-decoration:underline}}
+{BASE_CSS}
 .content{{max-width:800px;margin:0 auto;padding:28px 20px}}
-.stat-row{{background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:16px 20px;margin-bottom:24px;display:flex;gap:28px;flex-wrap:wrap}}
+.pg-hd{{margin-bottom:18px}}
+.pg-hd h1{{font-size:18px;font-weight:700;color:#0f172a}}
+.pg-hd small{{font-size:12px;color:#64748b}}
+.stat-row{{background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:16px 20px;
+  margin-bottom:24px;display:flex;gap:28px;flex-wrap:wrap}}
 .stat{{text-align:center}}.stat-n{{font-size:22px;font-weight:700;color:#0f172a}}
 .stat-l{{font-size:11px;color:#94a3b8;text-transform:uppercase;letter-spacing:.5px}}
-@media print{{.hdr a{{display:none}}body{{background:#fff}}}}
+@media print{{.suite-bar{{display:none}}body{{background:#fff}}}}
 </style>
 </head>
 <body>
-<div class="hdr">
-  <div><h1>Weekly Digest</h1><small>{esc(week_start)} – {esc(week_end)} &middot; Top credit signals</small></div>
-  <a href="{SITE_URL}/">← Full library</a>
-</div>
+{suite_bar("digest")}
 <div class="content">
+  <div class="pg-hd"><h1>Weekly Digest</h1>
+  <small>{esc(week_start)} – {esc(week_end)} &middot; Top credit signals</small></div>
   <div class="stat-row">
     <div class="stat"><div class="stat-n">{len(recent)}</div><div class="stat-l">Notes this week</div></div>
     <div class="stat"><div class="stat-n">{len(all_tws)}</div><div class="stat-l">Total takeaways</div></div>
@@ -982,24 +1294,24 @@ body{{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
   </div>
   {sections_html or '<p style="color:#94a3b8;text-align:center;padding:40px 0">No notes from the past 7 days.</p>'}
 </div>
+<div class="toast" id="toast"></div>
+<script>{SHARE_JS}</script>
 </body>
 </html>"""
 
-    with open(out_path, "w", encoding="utf-8") as f:
-        f.write(html)
 
+# ── Sitemap / robots ────────────────────────────────────────────────────────
 
 def generate_sitemap(notes, out_path):
+    lastmod = max((n.get("date", "") for n in notes), default="")
+    pages = [("", "1.0"), ("library.html", "0.9"), ("insights.html", "0.9"),
+             ("digest.html", "0.7")]
     lines = ['<?xml version="1.0" encoding="UTF-8"?>',
-             '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">',
-             f'  <url><loc>{SITE_URL}/</loc><changefreq>weekly</changefreq><priority>1.0</priority></url>']
-    for note in notes:
-        d = note.get("date", "")
-        if d:
-            lines.append(f'  <url><loc>{SITE_URL}/</loc>'
-                         f'<lastmod>{d}</lastmod>'
-                         f'<changefreq>weekly</changefreq><priority>0.8</priority></url>')
-            break  # one entry with most-recent lastmod is enough for a single-page site
+             '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">']
+    for page, prio in pages:
+        lm = f"<lastmod>{lastmod}</lastmod>" if lastmod else ""
+        lines.append(f'  <url><loc>{SITE_URL}/{page}</loc>{lm}'
+                     f'<changefreq>daily</changefreq><priority>{prio}</priority></url>')
     lines.append('</urlset>')
     with open(out_path, "w", encoding="utf-8") as f:
         f.write("\n".join(lines) + "\n")
@@ -1014,9 +1326,10 @@ def write_robots(docs_dir):
 
 
 def main():
-    p = argparse.ArgumentParser(description="Generate GitHub Pages viewer from knowledge notes")
+    p = argparse.ArgumentParser(description="Generate GitHub Pages knowledge base from notes")
     p.add_argument("--notes-dir", default=DEFAULT_NOTES_DIR)
-    p.add_argument("--out", default=DEFAULT_OUT)
+    p.add_argument("--out", default=os.path.join(DEFAULT_DOCS_DIR, "index.html"),
+                   help="Path of index.html (other pages go in the same directory)")
     p.add_argument("--no-open", action="store_true", help="Don't open browser")
     args = p.parse_args()
 
@@ -1027,27 +1340,33 @@ def main():
         print(f"No notes found in: {notes_dir}")
         sys.exit(0)
 
-    html = generate_html(notes)
-    docs_dir = os.path.dirname(args.out)
+    docs_dir = os.path.dirname(os.path.abspath(args.out)) or DEFAULT_DOCS_DIR
     os.makedirs(docs_dir, exist_ok=True)
 
-    with open(args.out, "w", encoding="utf-8") as f:
-        f.write(html)
-    print(f"Generated: {args.out}  ({len(notes)} notes)")
+    entities = build_entities(notes)
+
+    pages = {
+        os.path.join(docs_dir, "index.html"): generate_dashboard(notes, entities),
+        os.path.join(docs_dir, "library.html"): generate_library(notes),
+        os.path.join(docs_dir, "insights.html"): generate_insights(entities),
+        os.path.join(docs_dir, "digest.html"): generate_digest(notes),
+    }
+    for path, html in pages.items():
+        with open(path, "w", encoding="utf-8") as f:
+            f.write(html)
+        print(f"Generated: {path}")
 
     sitemap_path = os.path.join(docs_dir, "sitemap.xml")
     generate_sitemap(notes, sitemap_path)
     print(f"Generated: {sitemap_path}")
 
-    digest_path = os.path.join(docs_dir, "digest.html")
-    generate_digest(notes, digest_path)
-    print(f"Generated: {digest_path}")
-
     robots_path = write_robots(docs_dir)
     print(f"Generated: {robots_path}")
 
+    print(f"\n{len(notes)} note(s), {len(entities)} entities aggregated.")
+
     if not args.no_open:
-        webbrowser.open(f"file:///{args.out.replace(os.sep, '/')}")
+        webbrowser.open(f"file:///{os.path.join(docs_dir, 'index.html').replace(os.sep, '/')}")
 
 
 if __name__ == "__main__":

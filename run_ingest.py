@@ -8,6 +8,7 @@ Usage:
   python run_ingest.py --batch --watch --watch-dir "H:\My Drive\daily reads"
 """
 import argparse
+import base64
 import datetime
 import json
 import os
@@ -16,7 +17,10 @@ import sys
 import time
 
 SUPPORTED = {".pdf", ".txt", ".md", ".html", ".htm"}
-MAX_CHARS = 60_000
+MAX_CHARS = 150_000
+PDF_MAX_BYTES = 30 * 1024 * 1024  # above this, fall back to text extraction
+SEEN_DAYS = 60    # dedup context: only look back this far
+SEEN_MAX = 40     # dedup context: at most this many recent notes
 REPO_ROOT = os.path.dirname(os.path.abspath(__file__))
 DEFAULT_NOTES_DIR = os.path.join(REPO_ROOT, "docs", "notes")
 
@@ -41,7 +45,9 @@ Return this exact structure:
   ],
   "entities_impacted": [
     {
-      "entity": "<company, sector, regulator or country>",
+      "entity": "<name as written in the document>",
+      "canonical": "<short canonical name, used consistently across all documents, e.g. 'RBI' not 'Reserve Bank of India (RBI)', 'HDFC Bank' not 'HDFC Bank Ltd.', 'L&T' not 'Larsen & Toubro'>",
+      "type": "<company|sector|regulator|macro>",
       "impact": "<specific mechanism of impact on their credit profile, funding, operations, or market position>"
     }
   ],
@@ -60,13 +66,9 @@ Rules:
 - credit_signal: from the perspective of the most affected issuer or sector.
 - analyst_lens: be specific. "Leverage will increase" is bad. "Net debt/EBITDA likely rises above 3x post-acquisition, breaching typical investment-grade thresholds" is good. Always name a metric to track.
 - learning: 2 to 4 lessons, specific to this document, not generic credit advice.
+- canonical: the same real-world entity must always get the same canonical name — use the most common short market name. type=sector for industries ('Indian Banking Sector' → canonical 'Banking Sector'), type=macro for economy-wide themes (rates, inflation, currency, fiscal policy), type=regulator for RBI/SEBI/IRDAI/ministries.
 - tags: 5 to 12 lowercase keywords.
-- Return ONLY the JSON object, nothing else.
-
-Document:
-\"\"\"
-%s
-\"\"\""""
+- Return ONLY the JSON object, nothing else."""
 
 
 def extract_pdf(path):
@@ -120,9 +122,14 @@ def extract_text(path):
 
 
 def build_seen_context(notes_dir):
-    """Build a compact summary of already-processed notes for deduplication."""
+    """Compact summary of recently processed notes for deduplication.
+
+    Capped to the last SEEN_DAYS days and SEEN_MAX notes so the prompt
+    stays small as the library grows — dedup only matters for recent stories.
+    """
     if not os.path.isdir(notes_dir):
         return ""
+    cutoff = (datetime.date.today() - datetime.timedelta(days=SEEN_DAYS)).isoformat()
     seen = []
     for name in sorted(os.listdir(notes_dir)):
         if not name.endswith("_note.json"):
@@ -130,36 +137,64 @@ def build_seen_context(notes_dir):
         try:
             with open(os.path.join(notes_dir, name), encoding="utf-8") as f:
                 n = json.load(f)
-            title = n.get("title") or n.get("source_file", "")
             date = n.get("document_date") or n.get("date", "")
-            entities = ", ".join(e.get("entity", "") for e in n.get("entities_impacted", []))
+            if date and date < cutoff:
+                continue
+            title = n.get("title") or n.get("source_file", "")
+            entities = ", ".join(e.get("canonical") or e.get("entity", "")
+                                 for e in n.get("entities_impacted", []))
             tags = ", ".join(n.get("tags", []))
-            seen.append(f"- [{date}] {title} | entities: {entities} | tags: {tags}")
+            seen.append((date, f"- [{date}] {title} | entities: {entities} | tags: {tags}"))
         except Exception:
             pass
     if not seen:
         return ""
-    return "\n".join(seen)
+    seen.sort(key=lambda x: x[0])
+    return "\n".join(line for _, line in seen[-SEEN_MAX:])
 
 
-def call_claude(text, api_key, seen_context=""):
+def call_claude(path, api_key, seen_context=""):
+    """Distil one document. PDFs are sent natively (tables/charts included);
+    HTML/text files are sent as extracted text. Returns (result_dict, ftype)."""
     import anthropic
-    truncated = text[:MAX_CHARS]
-    if len(text) > MAX_CHARS:
-        print(f"  [truncated {len(text):,} → {MAX_CHARS:,} chars]")
 
     seen_block = ""
     if seen_context:
         seen_block = (f"\n\nALREADY PROCESSED (do not repeat these in key_takeaways — "
                       f"flag them in duplicate_stories instead):\n{seen_context}\n")
 
+    ext = os.path.splitext(path)[1].lower()
+    if ext == ".pdf" and os.path.getsize(path) <= PDF_MAX_BYTES:
+        with open(path, "rb") as f:
+            pdf_b64 = base64.standard_b64encode(f.read()).decode("ascii")
+        content = [
+            {"type": "document",
+             "source": {"type": "base64", "media_type": "application/pdf", "data": pdf_b64}},
+            {"type": "text",
+             "text": PROMPT + seen_block +
+                     "\n\nAnalyse the attached PDF document, including its tables, charts and exhibits."},
+        ]
+        ftype = "pdf"
+        print("  Sending PDF natively to Claude (tables/charts included)...")
+    else:
+        text, ftype = extract_text(path)
+        if len(text.strip()) < 50:
+            raise ValueError("too little text extracted")
+        truncated = text[:MAX_CHARS]
+        if len(text) > MAX_CHARS:
+            print(f"  [truncated {len(text):,} → {MAX_CHARS:,} chars]")
+        content = (PROMPT + seen_block +
+                   '\n\nDocument:\n"""\n' + truncated + '\n"""')
+        print(f"  Extracted {len(text):,} chars ({ftype}), calling Claude...")
+
     client = anthropic.Anthropic(api_key=api_key)
-    msg = client.messages.create(
+    with client.messages.stream(
         model="claude-opus-4-8",
         max_tokens=8192,
         thinking={"type": "adaptive"},
-        messages=[{"role": "user", "content": PROMPT % truncated + seen_block}],
-    )
+        messages=[{"role": "user", "content": content}],
+    ) as stream:
+        msg = stream.get_final_message()
     # Get the text block (last content block, skipping thinking blocks)
     raw = ""
     for block in reversed(msg.content):
@@ -174,7 +209,7 @@ def call_claude(text, api_key, seen_context=""):
     end = raw.rfind("}") + 1
     if start != -1 and end > start:
         raw = raw[start:end]
-    return json.loads(raw)
+    return json.loads(raw), ftype
 
 
 def note_path(notes_dir, source_path):
@@ -188,24 +223,16 @@ def already_done(notes_dir, path):
 
 def process(path, notes_dir, api_key):
     print(f"\nProcessing: {os.path.basename(path)}")
-    try:
-        text, ftype = extract_text(path)
-    except Exception as e:
-        print(f"  Extract failed: {e}")
-        return False
-
-    if len(text.strip()) < 50:
-        print("  Skipping — too little text")
-        return False
-
-    print(f"  Extracted {len(text):,} chars ({ftype}), calling Claude...")
     seen_context = build_seen_context(notes_dir)
     if seen_context:
-        print(f"  (passing {seen_context.count(chr(10))+1} previously seen note(s) for deduplication)")
+        print(f"  (passing {seen_context.count(chr(10))+1} recent note(s) for deduplication)")
     try:
-        result = call_claude(text, api_key, seen_context)
+        result, ftype = call_claude(path, api_key, seen_context)
     except json.JSONDecodeError as e:
         print(f"  Claude returned bad JSON: {e}")
+        return False
+    except ValueError as e:
+        print(f"  Skipping — {e}")
         return False
     except Exception as e:
         print(f"  Claude call failed: {e}")
@@ -227,9 +254,9 @@ def process(path, notes_dir, api_key):
         json.dump(note, f, indent=2, ensure_ascii=False)
 
     print(f"  Saved: {out}")
-    print(f"  Summary: {note.get('summary','')}")
-    for t in note.get("takeaways", []):
-        print(f"    • {t}")
+    print(f"  Title: {note.get('title','')}")
+    print(f"  {len(note.get('key_takeaways', []))} takeaway(s), "
+          f"{len(note.get('entities_impacted', []))} entity(ies)")
     return True
 
 
