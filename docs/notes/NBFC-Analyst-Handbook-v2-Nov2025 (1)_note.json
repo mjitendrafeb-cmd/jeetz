@@ -1,0 +1,116 @@
+{
+  "date": "2026-07-02",
+  "ingested_at": "2026-07-02T19:17:17.869935+00:00",
+  "source_file": "NBFC-Analyst-Handbook-v2-Nov2025 (1).html",
+  "source_path": "NBFC-Analyst-Handbook-v2-Nov2025 (1).html",
+  "file_type": "html",
+  "title": "NBFC Regulation Analyst Handbook v2 — RBI Nov 2025 Master Directions Framework",
+  "document_date": "2025-11-28",
+  "source_type": "other",
+  "freshness": "fresh",
+  "stale_items": [],
+  "duplicate_stories": [],
+  "key_takeaways": [
+    {
+      "takeaway": "RBI's 28 Nov 2025 overhaul split the 2023 consolidated SBR Master Direction into 36 themed MDs without tightening substance — the four-layer SBR pyramid, 15% CRAR / 10% Tier-1 / 9% CET-1 (UL), the ₹1,000 cr ML threshold and 25%/40% concentration caps are all preserved, so there is no new capital burden, only a citation and compliance-mapping shift.",
+      "credit_signal": "neutral",
+      "analyst_lens": "Rating reports issued after 28 Nov 2025 must cite the specific themed MD (the 2023 SBR MD is repealed); the brand-new instruments to know cold are Concentration Risk Mgmt, Credit Risk Mgmt, Resolution of Stressed Assets, and Climate Finance & Green Deposits. Metric to track: issuer compliance gap-analysis against the new themed MDs, especially the now-mandatory Board-approved concentration policy that extends to Base Layer entities."
+    },
+    {
+      "takeaway": "The NPA glide path reaches final convergence at >90 days overdue by 31 March 2026 (from 120 days at March 2025), which mechanically inflates GNPA prints for legacy Base Layer NBFCs still on longer triggers — compounded by day-end recognition, cross-default contamination across all facilities of a borrower, and upgrade only on full clearance of arrears.",
+      "credit_signal": "watch",
+      "analyst_lens": "Reported GNPA jumps at smaller NBFCs in FY26 may be reclassification, not new stress — normalise before downgrading. The leading indicator is SMA-2 stock (61-90 DPD) at quarter-end, which telegraphs next quarter's NPA print; also watch restructured-standard books, which stay sub-standard until 12 months of satisfactory performance and are the classic evergreening channel."
+    },
+    {
+      "takeaway": "The 125% risk weight on unsecured consumer credit and credit-card receivables (Nov 2023, preserved in the 2025 MD) is a permanent capital headwind — it cut effective CRAR by 100-200 bps overnight for consumer-heavy NBFCs — and is paired with mandatory Board-approved sub-segment exposure caps that are strictly binding, not advisory.",
+      "credit_signal": "negative",
+      "analyst_lens": "Consumer-finance and digital-lending NBFCs face structurally higher capital consumption per rupee of growth; the same MD treats vehicle top-up loans as unsecured and caps FLDG at 5% of portfolio (cash/HQLA only). Track equity-only Tier-1 after stripping perpetual debt (PDI can be up to 15% of Tier-1) — a 15.5% headline CRAR can conceal ~9% pure-equity Tier-1."
+    },
+    {
+      "takeaway": "The Resolution of Stressed Assets MD hardwires teeth into workout timelines: 30-day Review Period from default, ICA binding at 75% by value and 60% by number, 180-day implementation deadline, and additional specific provisioning of 20% at 180 days plus 15% at 365 days (35% cumulative) for delayed plans — a direct P&L and capital penalty for slow resolution.",
+      "credit_signal": "watch",
+      "analyst_lens": "Any 'Additional Specific Provisioning' line in an NBFC's financials means large exposures have blown the 180/365-day deadlines — identify which. For project finance, DCCO extension headroom is 4 years (infra, court delay), 3 years (infra, other), 2 years (non-infra), 1 year (CRE); serial DCCO extensions on the same project are the strongest single early-warning signal of stress."
+    },
+    {
+      "takeaway": "Microfinance is the sector's live stress point: industry GNPA at some NBFC-MFIs rose from ~2% (Mar 2024) to 6%+ (Mar 2025) on household over-leverage that breached the 50% FOIR cap via under-reported multi-lender debt, with co-lending bank partners pulling back and adding funding stress on top of asset-quality stress.",
+      "credit_signal": "negative",
+      "analyst_lens": "The ₹4.2 lakh cr microfinance book (₹3 lakh household-income definition, collateral-free) carries tail risks models must stress explicitly: political loan-waiver cycles (Karnataka 2024), 2-3 state geographic concentration, and monsoon/calamity shocks. Track state-wise exposure mix and FOIR policy conservatism (issuers moving to 40% Board caps are de-risking); divergence between monthly collection efficiency and DPD buckets signals slow degradation."
+    },
+    {
+      "takeaway": "Off-balance-sheet structures give far less credit relief than headlines suggest: a ₹400 cr securitisation releasing ₹360 cr of assets nets only ~₹14 cr of capital after the 10% MRR retained tranche is fully deducted, and co-lending (80:20 with banks) leaves the NBFC holding full origination, servicing, FLDG and partner-concentration risk on the entire volume.",
+      "credit_signal": "neutral",
+      "analyst_lens": "Rate co-lending and securitising NBFCs on full origination volume and operational risk, not the retained book; a bank partner exit can choke growth overnight and FLDG is contingent capital absorption. Reconcile disclosed capital × CRAR against implied RWA including CCFs on undrawn committed lines (50% for >1-year irrevocable) — ignoring undrawn commitments can understate capital consumption by 60%."
+    }
+  ],
+  "entities_impacted": [
+    {
+      "entity": "Reserve Bank of India",
+      "canonical": "RBI",
+      "type": "regulator",
+      "impact": "Replaced the 2023 consolidated SBR MD with 36 themed Master Directions on 28 Nov 2025, preserving prudential substance while adding new standalone regimes (climate finance, responsible business conduct, concentration and credit risk management, resolution of stressed assets), raising compliance granularity across all ~9,300 NBFCs."
+    },
+    {
+      "entity": "NBFC sector (₹47 lakh crore, ~23% of systemic credit)",
+      "canonical": "NBFC sector",
+      "type": "sector",
+      "impact": "Faces final 90-day NPA convergence by March 2026, NOF glide path to ₹10 cr by 2027, quarterly public disclosures from Oct 2025, and standardised disclosure templates — raising compliance cost but improving cross-issuer comparability and early-warning visibility for creditors."
+    },
+    {
+      "entity": "NBFC-MFIs / microfinance lenders",
+      "canonical": "NBFC-MFI sector",
+      "type": "sector",
+      "impact": "Household over-leverage past the 50% FOIR cap drove GNPA from ~2% to 6%+ over FY24-25 at some issuers; fortnightly CIC reporting from Jan 2025 and tighter conduct rules aim to contain multi-lender leverage, while co-lending bank pullback pressures funding."
+    },
+    {
+      "entity": "Upper Layer NBFCs (top ~25)",
+      "canonical": "NBFC-UL",
+      "type": "sector",
+      "impact": "Bank-grade regime: 9% CET-1 floor, Large Exposure Framework (10% Tier-1 LE trigger, 800% aggregate cap), differential standard-asset provisioning (1% CRE, 2% teaser-rate housing), mandatory listing within 3 years, and 5-year sticky classification — compressing capital flexibility versus ML peers."
+    },
+    {
+      "entity": "Consumer-finance and digital-lending NBFCs",
+      "canonical": "consumer-credit NBFCs",
+      "type": "sector",
+      "impact": "125% risk weight on unsecured consumer credit and credit cards plus binding Board sectoral caps permanently raise capital intensity; digital-lending rules (direct disbursal flows, 5% FLDG cap in cash/HQLA, LSP accountability) constrain fintech-partnership economics."
+    },
+    {
+      "entity": "Housing Finance Companies",
+      "canonical": "HFCs",
+      "type": "sector",
+      "impact": "Retain the 60%/50% housing-asset test, LTV ladder (90%/80%/75% by ticket size), 3x NOF deposit cap and ₹20 cr minimum NOF under RBI's HFC MD 2025; mix-shift toward LAP/CRE-RH changes provisioning load (0.75-1.00%) and risk profile."
+    },
+    {
+      "entity": "Core Investment Companies",
+      "canonical": "CICs",
+      "type": "sector",
+      "impact": "CIC-SI regime (30% ANW ratio, 2.5x leverage cap, two-layer rule) leaves ratings hinging on group cash flows and double-leverage; the 50% recognition of unrealised appreciation on quoted group equity can flatter ANW and reverse in market corrections."
+    }
+  ],
+  "learning": [
+    "Rate the headroom, not the technical pass: an ML NBFC at 24% single-borrower exposure against a 25% Tier-1 cap, or a BL at 6.5x against the 7x leverage cap, is one bad quarter from breach — aggregate margin of safety across ratios matters more than any single compliant number.",
+    "Capital quality beats capital quantity: always recompute NOF (deducting group exposures above 10% of Owned Fund) and equity-only Tier-1 (stripping PDIs at the 15% cap) — a headline ₹40 cr Owned Fund can be ₹26 cr NOF, and rating on the headline overstates loss absorption materially.",
+    "SBR layer classification is sticky upward and aggregates across group NBFCs — two sister entities of ₹850 cr and ₹450 cr are both Middle Layer, so a fast-growing BL NBFC with thin capital should be rated for the ML compliance cliff (15% CRAR, CCO/CRO/ICAAP) it will hit in 6-12 months, not its current light-touch regime.",
+    "Triangulate issuer claims against regulator-facing filings: the NBS-2 auditor certificate, DNBS-02 prudential return, and CRILC SMA reporting reveal what RBI sees; inconsistency between disclosed SMA positions and CRILC data, or between quarterly press releases and audited annual tables, is itself a rating signal."
+  ],
+  "category": "NBFC & FI",
+  "sentiment": "neutral",
+  "tags": [
+    "nbfc",
+    "rbi",
+    "master directions",
+    "sbr",
+    "crar",
+    "npa",
+    "ecl",
+    "lcr",
+    "microfinance",
+    "co-lending",
+    "securitisation",
+    "concentration risk"
+  ],
+  "relevance": [
+    "regulatory",
+    "training",
+    "sector_analysis"
+  ]
+}
