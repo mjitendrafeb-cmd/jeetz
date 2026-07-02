@@ -285,11 +285,17 @@ def generate_report(news_text: str, today: datetime.date, api_key: str) -> str:
 
     try:
         client = anthropic.Anthropic(api_key=api_key)
-        message = client.messages.create(
+        # Sonnet 5 thinks by default and thinking tokens count against
+        # max_tokens, so give generous headroom and stream (SDK requires
+        # streaming for large max_tokens).
+        with client.messages.stream(
             model="claude-sonnet-5",
-            max_tokens=20000,
+            max_tokens=40000,
             messages=[{"role": "user", "content": prompt}],
-        )
+        ) as stream:
+            message = stream.get_final_message()
+        if message.stop_reason == "max_tokens":
+            print("[generate_report] WARNING: output truncated at max_tokens")
         return _msg_text(message)
     except Exception as exc:
         print(f"[generate_report] Claude API error: {exc}")
@@ -721,8 +727,9 @@ def main() -> None:
             day_str = today.strftime("%A")
             prompt = _build_weekly_prompt(news_text, day_str, date_str)
             client = anthropic.Anthropic(api_key=anthropic_api_key)
-            msg = client.messages.create(model="claude-sonnet-5", max_tokens=8000,
-                                         messages=[{"role": "user", "content": prompt}])
+            with client.messages.stream(model="claude-sonnet-5", max_tokens=24000,
+                                        messages=[{"role": "user", "content": prompt}]) as _s:
+                msg = _s.get_final_message()
             weekly_html = _msg_text(msg)
             email_html = build_weekly_email(weekly_html, today)
             subject = f"Weekly Credit Intelligence Digest — Week ending {date_str}"
