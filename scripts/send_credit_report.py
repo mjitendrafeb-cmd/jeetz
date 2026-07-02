@@ -81,6 +81,12 @@ def _save_seen_headlines(news_text: str) -> None:
     with open(_SEEN_PATH, "w", encoding="utf-8") as f:
         json.dump({"days": days}, f, indent=2)
 
+    if _git_commit_push([_SEEN_PATH], f"chore: update seen headlines {datetime.date.today()}"):
+        print(f"[seen_headlines] Saved {len(keys)} keys (5-day window) and pushed to repo")
+
+
+def _git_commit_push(paths: list[str], message: str) -> bool:
+    """Commit the given paths and push to main. Returns True if a commit was pushed."""
     try:
         import subprocess
         token = os.environ.get("GITHUB_TOKEN", "")
@@ -94,19 +100,32 @@ def _save_seen_headlines(news_text: str) -> None:
                        cwd=_REPO_ROOT, check=True, capture_output=True)
         subprocess.run(["git", "config", "user.name", "github-actions[bot]"],
                        cwd=_REPO_ROOT, check=True, capture_output=True)
-        subprocess.run(["git", "add", _SEEN_PATH], cwd=_REPO_ROOT, check=True, capture_output=True)
-        result = subprocess.run(
-            ["git", "commit", "-m", f"chore: update seen headlines {datetime.date.today()}"],
-            cwd=_REPO_ROOT, capture_output=True
-        )
-        if result.returncode == 0:
-            subprocess.run(["git", "push", "origin", "HEAD:main"],
-                           cwd=_REPO_ROOT, check=True, capture_output=True)
-            print(f"[seen_headlines] Saved {len(keys)} keys (5-day window) and pushed to repo")
-        else:
-            print("[seen_headlines] Nothing to commit (no change)")
+        subprocess.run(["git", "add", *paths], cwd=_REPO_ROOT, check=True, capture_output=True)
+        result = subprocess.run(["git", "commit", "-m", message],
+                                cwd=_REPO_ROOT, capture_output=True)
+        if result.returncode != 0:
+            print(f"[git] Nothing to commit for: {message}")
+            return False
+        subprocess.run(["git", "pull", "--rebase", "origin", "main"],
+                       cwd=_REPO_ROOT, capture_output=True)
+        subprocess.run(["git", "push", "origin", "HEAD:main"],
+                       cwd=_REPO_ROOT, check=True, capture_output=True)
+        return True
     except Exception as exc:
-        print(f"[seen_headlines] Push failed (non-fatal): {exc}")
+        print(f"[git] Push failed (non-fatal): {exc}")
+        return False
+
+
+def _mark_sent_today() -> None:
+    """Record today's IST date so hourly scheduled runs don't send a duplicate."""
+    ist = datetime.timezone(datetime.timedelta(hours=5, minutes=30))
+    today_ist = datetime.datetime.now(ist).date().isoformat()
+    path = os.path.join(_REPO_ROOT, "data", "last_sent.json")
+    os.makedirs(os.path.dirname(path), exist_ok=True)
+    with open(path, "w", encoding="utf-8") as f:
+        json.dump({"date": today_ist}, f)
+    if _git_commit_push([path], f"chore: mark report sent {today_ist}"):
+        print(f"[last_sent] Marked report sent for {today_ist}")
 
 
 def _get_recipients() -> list[str]:
@@ -254,15 +273,15 @@ def generate_report(news_text: str, today: datetime.date, api_key: str) -> str:
     day_str = today.strftime("%A")
     date_str = today.strftime("%d %B %Y")
 
-    if len(news_text) > 32000:
-        news_text = news_text[:32000] + "\n[...truncated]"
+    if len(news_text) > 60000:
+        news_text = news_text[:60000] + "\n[...truncated]"
 
     prompt = _build_prompt(news_text, day_str, date_str)
 
     try:
         client = anthropic.Anthropic(api_key=api_key)
         message = client.messages.create(
-            model="claude-sonnet-4-6",
+            model="claude-sonnet-5",
             max_tokens=20000,
             messages=[{"role": "user", "content": prompt}],
         )
@@ -678,7 +697,7 @@ def main() -> None:
             day_str = today.strftime("%A")
             prompt = _build_weekly_prompt(news_text, day_str, date_str)
             client = anthropic.Anthropic(api_key=anthropic_api_key)
-            msg = client.messages.create(model="claude-sonnet-4-6", max_tokens=8000,
+            msg = client.messages.create(model="claude-sonnet-5", max_tokens=8000,
                                          messages=[{"role": "user", "content": prompt}])
             weekly_html = msg.content[0].text
             email_html = build_weekly_email(weekly_html, today)
@@ -706,6 +725,8 @@ def main() -> None:
         print("Sending email...")
         send_email(subject, email_html, gmail_user, gmail_password,
                    attachment_html=attachment_html, attachment_name=attachment_name)
+
+        _mark_sent_today()
 
     except Exception as exc:
         import traceback

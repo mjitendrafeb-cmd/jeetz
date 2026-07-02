@@ -128,36 +128,78 @@ def _fetch_pdf_text(url: str) -> str:
         return ""
 
 
+_UA = ("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
+       "(KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36")
+
+# RBI migrated to website.rbi.org.in — old scripts/rss.aspx serves nothing.
+_RBI_FEEDS = [
+    "https://website.rbi.org.in/web/rbi/press-releases/rss",
+    "https://website.rbi.org.in/web/rbi/notifications/rss",
+    "https://www.rbi.org.in/pressreleases_rss.xml",
+    "https://www.rbi.org.in/notifications_rss.xml",
+]
+
+
 def fetch_rbi_news() -> list[str]:
-    try:
-        feed = feedparser.parse("https://www.rbi.org.in/scripts/rss.aspx")
-        items = []
-        for entry in feed.entries[:20]:
-            if not _is_recent(entry, 48):
-                continue
-            title = _clean(entry.get("title", "")).strip()
-            summary = _clean(entry.get("summary", entry.get("description", ""))).strip()
-            url = entry.get("link", "")
-            pub_date = ""
-            pub = entry.get("published_parsed")
-            if pub:
-                import calendar as _cal
-                import time as _time
-                try:
-                    pub_date = _time.strftime("%d %b", pub)
-                except Exception:
-                    pass
-            if title and not _is_market_ticker(title, summary):
-                if url.lower().endswith(".pdf"):
-                    body = _fetch_pdf_text(url)
-                else:
-                    body = _fetch_article_body(url)
+    items: list[str] = []
+    seen: set[str] = set()
+    body_fetches = 0
+    for feed_url in _RBI_FEEDS:
+        try:
+            feed = feedparser.parse(feed_url, agent=_UA)
+            for entry in feed.entries[:20]:
+                if not _is_recent(entry, 48):
+                    continue
+                title = _clean(entry.get("title", "")).strip()
+                if not title or title.lower() in seen:
+                    continue
+                summary = _clean(entry.get("summary", entry.get("description", ""))).strip()
+                url = entry.get("link", "")
+                pub_date = ""
+                pub = entry.get("published_parsed")
+                if pub:
+                    import time as _time
+                    try:
+                        pub_date = _time.strftime("%d %b", pub)
+                    except Exception:
+                        pass
+                if _is_market_ticker(title, summary):
+                    continue
+                body = ""
+                if body_fetches < 8:
+                    body = _fetch_pdf_text(url) if url.lower().endswith(".pdf") else _fetch_article_body(url)
+                    body_fetches += 1
+                seen.add(title.lower())
                 items.append(_fmt("RBI", title, summary, url, body, pub_date))
-        print(f"[fetch_news] RBI RSS: {len(items)} items (last 48h)")
-        return items
-    except Exception as exc:
-        print(f"[fetch_news] RBI RSS error: {exc}")
-        return []
+        except Exception as exc:
+            print(f"[fetch_news] RBI feed error ({feed_url}): {exc}")
+        if len(items) >= 15:
+            break
+
+    # RSS endpoints are flaky — always guarantee RBI coverage via Google News.
+    if not items:
+        try:
+            query = "RBI press release OR notification OR circular OR master direction when:2d"
+            url = (
+                f"https://news.google.com/rss/search"
+                f"?q={requests.utils.quote(query)}&hl=en-IN&gl=IN&ceid=IN:en"
+            )
+            feed = feedparser.parse(url, agent=_UA)
+            for entry in feed.entries[:10]:
+                raw_title = _clean(entry.get("title", "")).strip()
+                if not raw_title or raw_title.lower() in seen:
+                    continue
+                summary = _clean(entry.get("summary", "")).strip()
+                if _is_market_ticker(raw_title, summary):
+                    continue
+                title = raw_title.rsplit(" - ", 1)[0].strip() if " - " in raw_title else raw_title
+                seen.add(raw_title.lower())
+                items.append(_fmt("RBI", title, summary, entry.get("link", "")))
+        except Exception as exc:
+            print(f"[fetch_news] RBI Google fallback error: {exc}")
+
+    print(f"[fetch_news] RBI RSS: {len(items)} items (last 48h)")
+    return items
 
 
 def fetch_rbi_enforcement() -> list[str]:
