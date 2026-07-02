@@ -447,7 +447,7 @@ def build_attachment(part_b_html: str, today: datetime.date) -> str:
   .page-header .ph-num{{font-size:26px;font-weight:900;font-family:'Playfair Display',Georgia,serif;color:#cc0000;line-height:1}}
 
   /* ── COLUMNS ── */
-  .columns{{padding:0 28px 8px;column-count:3;column-gap:0;column-rule:1px solid #ccc;min-height:80px}}
+  .columns{{padding:0 28px 8px;column-count:3;column-gap:22px;column-rule:1px solid #ccc;min-height:80px}}
 
   /* Section banners span all columns */
   [data-section="banner"]{{column-span:all;margin:20px -28px 0;padding:5px 28px;border-top:3px solid;border-bottom:1px solid}}
@@ -534,6 +534,14 @@ def build_email(part_c_html: str, today: datetime.date, source_summary: dict = N
 </table>
 
 {sources_html}
+
+<table width="100%" cellpadding="0" cellspacing="0" style="border-top:1px solid #eee;background:#fafafa;">
+<tr><td style="padding:8px 20px;text-align:center;font-size:9px;color:#aaa;">
+  &#9881;&#65039; <a href="https://github.com/mjitendrafeb-cmd/jeetz/edit/main/config.json" style="color:#888;text-decoration:underline;">Add/remove sources &amp; recipients</a>
+  &nbsp;&middot;&nbsp; <a href="https://github.com/mjitendrafeb-cmd/jeetz/edit/main/watchlist.txt" style="color:#888;text-decoration:underline;">Edit watchlist</a>
+  &nbsp;&middot;&nbsp; <a href="https://github.com/mjitendrafeb-cmd/jeetz/actions/workflows/daily_credit_report.yml" style="color:#888;text-decoration:underline;">Run report now</a>
+</td></tr>
+</table>
 
 <table width="100%" cellpadding="0" cellspacing="0" style="background:#1a1a1a;">
 <tr><td style="padding:8px 20px;text-align:center;font-size:10px;color:#555;">
