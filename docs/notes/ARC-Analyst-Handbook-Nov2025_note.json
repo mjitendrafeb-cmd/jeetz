@@ -1,100 +1,138 @@
 {
   "date": "2026-07-02",
-  "ingested_at": "2026-07-02T19:16:55.350447+00:00",
+  "ingested_at": "2026-07-02T19:56:16.820346+00:00",
   "source_file": "ARC-Analyst-Handbook-Nov2025.html",
   "source_path": "ARC-Analyst-Handbook-Nov2025.html",
   "file_type": "html",
-  "title": "ARC Analyst Handbook: RBI Asset Reconstruction Companies Directions 2025",
+  "title": "ARC Analyst Handbook: RBI Asset Reconstruction Companies Directions, 2025",
   "document_date": "2025-11-28",
-  "source_type": "other",
+  "source_type": "regulatory",
   "freshness": "fresh",
-  "stale_items": [],
+  "stale_items": [
+    "The legacy-ARC NOF glide path deadline (₹300 crore by 31 March 2026 for ARCs existing as on 11 October 2022) has already lapsed as of July 2026 — treat any ARC still below ₹300 crore NOF as non-compliant now, not 'on a glide path'."
+  ],
   "duplicate_stories": [],
+  "executive_summary": [
+    "20-chapter reference handbook distilling the RBI (Asset Reconstruction Companies) Directions, 2025 (DoR.FIN.REC.No.293/26.03.001/2025-26, dated 28 Nov 2025, updated to 10 Mar 2026); ARCs are regulated under SARFAESI (Sections 3, 9, 10, 12, 12A), not the RBI Act, and a single CoR covers both securitisation and asset reconstruction.",
+    "Capital gateway: minimum NOF of ₹300 crore (ongoing; legacy ARCs had until 31 Mar 2026), with a March 2026 amendment letting quarterly profits count toward Owned Fund via EPt = NPt − 0.25×D×t; the IBC Resolution Applicant role needs ₹1,000 crore NOF plus a 5-year control-exit sunset; deposit-taking is absolutely prohibited and bilateral acquisitions from sponsors/lenders/group entities are banned (open auctions permitted).",
+    "Acquisition and realisation mechanics: Board-approved acquisition policy within 90 days of CoR, at least 2 weeks pre-bid diligence, a 60%-by-value secured-creditor consent threshold for enforcement, a 6-month Planning Period (assets treated as standard), and a 5-year base / 8-year maximum realisation ceiling that carries over unreset even on ARC-to-ARC secondary sales.",
+    "Reconstruction toolkit: management change/takeover needs the ARC's claim ≥25% of borrower total assets plus 60% SR-holder consent, IAC review, 60-day notice and a reasoned Board order in 30 days; settlements above ₹1 crore require IAC-plus-independent-director committee governance (fraud/wilful-defaulter cases regardless of size, with a Para 62 NPV-≥-realisable-security-value floor); debt-to-equity conversion is capped at 26% of post-conversion equity unless a four-condition exemption (half-independent Board, majority-ID committee, monthly MTM, NOF compliance) is met.",
+    "Security Receipts: privately placed, QB-only, generally below-investment-grade hybrids issued via ARC-trusteed trusts; the ARC must retain the higher of 15% of transferors' SR investment or 2.5% of total SRs per class until full redemption; recovery ratings (a recovery-percentage band, not a default rating) are due within 6 months of acquisition, reviewed each 30 June/31 December with 6-cycle (3-year) minimum CRA retention; NAV = face value × the ARC's chosen point within the CRA band (judgement risk).",
+    "Prudential rules: single CRAR of NOF/RWA ≥15% with a flat 100% risk weight on virtually all core assets (0% only on cash/G-secs/other-ARC shares, 50% on contingents); the ARC's own NPA clock is 180 days (vs 90 for NBFCs) with sub-standard ≤12 months, doubtful thereafter, and automatic Loss at 36 months NPA or on breach of the 5/8-year realisation ceiling; provisioning is security-coverage-driven — 10% sub-standard, 100% on the uncovered doubtful portion plus 50% on the covered portion, 100%/write-off for Loss, and no standard-asset provision.",
+    "Earnings quality is deliberately suppressed: SR yield/upside is recognised only after full redemption of the entire SR principal (no accrual), and management fee — computed on NAV at the lower end of the CRA range, capped at acquisition value, payable only from recoveries — must be reversed if unrealised within 180 days or immediately if SR NAV falls below 50% of face value, with unrealised fee deducted from NOF for Ind-AS ARCs; ECL runs against an IRACP prudential floor via a non-distributable Impairment Reserve.",
+    "Governance and disclosure: prior RBI approval for every director/MD-CEO (90-day PRAVAAH lead time), mandatory independent Board Chair for all ARCs, MD/CEO caps of 70 years age / 5-year terms / 15-year continuous tenure with 3-year cooling-off, sponsor fit-and-proper with FATF-jurisdiction investors capped below 20% voting power; the Para 150 schedule mandates 18 balance-sheet disclosures (including auto-flags for >20% disposal discounts and >20% SR value declines), plus monthly public SARFAESI-possession disclosure and an FPC with 8am–7pm recovery calling hours and ₹5,000/day document-release delay compensation."
+  ],
   "key_takeaways": [
     {
-      "takeaway": "The Rs 300 crore minimum NOF (up from Rs 100 crore historically), with legacy ARCs required to comply by 31 March 2026, forces sector consolidation — undercapitalised ARCs face prohibition on incremental business, which is existential for a pure-recovery model with no other revenue engine.",
+      "takeaway": "An ARC below ₹300 crore NOF faces prohibition on incremental business — existential for a pure-recovery model — and the quarterly-profit inclusion route (EPt = NPt − 0.25×D×t, March 2026 amendment) makes Owned Fund composition more volatile and audit-dependent.",
       "credit_signal": "watch",
-      "analyst_lens": "NOF shortfall triggers a ban on new acquisitions, not just a penalty — a stop-business event. Track each ARC's NOF trend versus Rs 300 crore, and its composition: quarterly-profit inclusion (per the March 2026 amendment formula EPt = NPt − 0.25×D×t) is volatile and audit-dependent, and cross-holdings in group entities/other ARCs beyond 10% of Owned Fund get netted out, so a strong Owned Fund can hide a weak NOF. Metric: NOF headroom over Rs 300 crore, adjusted for netting."
+      "analyst_lens": "NOF is the single capital gateway (no SBR-style layers) and cross-holdings in group entities or other ARCs beyond 10% of Owned Fund are netted out, so a strong headline Owned Fund can collapse into a weak NOF. Track NOF trend versus ₹300 crore and the share of NOF resting on quarterly profits rather than paid-up capital."
     },
     {
-      "takeaway": "ARC income recognition is the most conservative in the RBI framework — SR yield/upside is booked only after FULL redemption of the entire SR principal (no accrual), and management fee must be reversed if unrealised within 180 days or if SR NAV falls below 50% of face value — so reported P&L can diverge from economic recovery performance for years.",
-      "credit_signal": "neutral",
-      "analyst_lens": "A young, fast-growing ARC can show thin or volatile profits while building genuine recovery value; conversely, a healthy-looking P&L dependent on lumpy SR-redemption gains is lower quality. Unrealised fee also deducts directly from NOF for CRAR at Ind-AS ARCs, linking revenue discipline to capital. Metric: unrealised management-fee ageing (Para 150(18) disclosure), especially the >1-year and >3-year buckets, alongside scheme-level collection efficiency against realisation plans."
-    },
-    {
-      "takeaway": "The 5-year base / 8-year maximum realisation ceiling is a hard forcing function: any asset (including its SRs) unrealised beyond the plan period must be classified Loss with 100% provision/write-off, regardless of underlying collateral performance — and an ARC-to-ARC sale does not reset the clock.",
+      "takeaway": "The 5-year base / 8-year maximum realisation ceiling is a forcing function: any asset (including via ARC-to-ARC sale, which inherits the original clock) unrealised past the ceiling is automatically classified Loss and fully provided/written off regardless of collateral quality.",
       "credit_signal": "negative",
-      "analyst_lens": "An ARC with a large book of vintage pools approaching year 5-8 faces a wall of compulsory write-offs even on recoverable assets. Timeline extensions toward 8 years also delay Qualified Buyers' Section 7(3) enforcement rights — a governance red flag for SR-holding lenders. Metric: share of AUM by acquisition vintage against the 5/8-year clock, and Para 150 Item 10 (SRs unredeemed due to plan non-realisation)."
+      "analyst_lens": "A book with heavy vintages approaching year 5-8 faces a wall of compulsory write-offs even on genuinely recoverable assets; routine Board extensions to 8 years also delay QBs' Section 7(3) enforcement rights. Track the vintage distribution of acquired assets against the 5/8-year clock and the share of Loss classifications that are timeline-driven versus collateral-driven."
     },
     {
-      "takeaway": "Capital adequacy is a blunt 15% NOF/RWA ratio with a flat 100% risk weight on virtually the entire active book (acquired assets, SR holdings, converted equity, enforced real estate) — CRAR compresses near 1:1 with asset growth and tells you nothing about asset quality.",
+      "takeaway": "ARC reported earnings structurally lag economic recovery: SR yield/upside is recognised only after full redemption of the entire SR principal, and management fee reverses if unrealised in 180 days or instantly when SR NAV drops below 50% of face value — with unrealised fee deducted from NOF for Ind-AS ARCs.",
+      "credit_signal": "neutral",
+      "analyst_lens": "A young ARC can show thin profits while building real recovery value, and conversely a fee-heavy P&L can be hollow if collections lag. Track the Para 150(18) unrealised management-fee ageing (especially >1-year and >3-year buckets) and scheme-level collection efficiency against realisation plans, not just reported P&L."
+    },
+    {
+      "takeaway": "Capital adequacy is mechanically fragile: a single 15% CRAR test on NOF with a flat 100% risk weight on essentially the whole core asset base means CRAR compresses near-1:1 with book growth and offers almost no risk-weight-mix management lever.",
       "credit_signal": "watch",
-      "analyst_lens": "Unlike NBFCs, there is no risk-weight-mix lever: growth is capital-intensive by construction, and NOF erosion from provisioning or unrealised-fee deductions hits CRAR directly. Asset quality must be read separately via sub-standard-to-doubtful migration and provision coverage (Doubtful = 100% on the security-uncovered portion + 50% on covered, making collateral valuation quality the swing factor). Metric: CRAR headroom over 15% versus planned acquisition volume."
+      "analyst_lens": "Growth is capital-intensive and CRAR tells you about capital, not asset quality (unlike NBFCs where RW mix encodes quality). Track CRAR headroom above 15% against planned acquisition volume, plus NOF-eroding items: provisioning hits, unrealised-fee deductions, and fair-value losses (gains are excluded, losses included — asymmetric)."
     },
     {
-      "takeaway": "For lenders holding Security Receipts, both the recovery rating and NAV are judgement-laden: the CRA gives a ~±10pp recovery band and the ARC itself picks the NAV point within it (e.g., Rs 10 face × 87% chosen in an 81-90% band = Rs 8.70), so published NAV embeds two layers of estimation risk on a half-yearly lagging cadence.",
+      "takeaway": "SR recovery ratings are not credit ratings and NAV embeds management judgement: NAV = face value × a percentage the ARC itself selects within a ±10pp-wide CRA recovery band, reviewed only half-yearly (30 June/31 December).",
       "credit_signal": "watch",
-      "analyst_lens": "A recovery rating measures recoverable percentage, not default probability — do not read RR grades like credit ratings. ARCs consistently selecting the top of the band without matching realised collections overstate NAV; lenders above the 10% SR-holding threshold face stricter notional-provisioning treatment. Metric: recovery-rating migration across half-yearly reviews (30 June/31 December) and the ARC's NAV-selection point versus realised collection experience; build an independent recovery model for material SR exposures."
+      "analyst_lens": "For any lender holding SRs, published NAV is a judgement-laden, lagging number — two ARCs with identical CRA bands can report different NAVs. Track recovery-rating migration across half-yearly reviews and whether the ARC consistently picks the top of its band without realised-collection support; CRA changes inside the mandatory 6-cycle (3-year) retention window are a rating-shopping red flag."
     },
     {
-      "takeaway": "Governance is deliberately stricter than the NBFC framework — mandatory independent Board chair for every ARC, prior RBI approval for all director appointments, 15-year MD/CEO continuous-tenure ceiling with 3-year cooling-off, sponsor fit-and-proper regime, bilateral acquisition ban from sponsor/lender entities, and a Rs 1,000 crore NOF gate for the IBC Resolution Applicant role.",
+      "takeaway": "Doubtful-asset provisioning swings entirely on the 'estimated realisable value of security' — 100% on the uncovered portion plus 50% on the covered portion — making collateral valuation quality a live provisioning input every period, not just an acquisition-stage control.",
+      "credit_signal": "watch",
+      "analyst_lens": "An ARC carrying stale or optimistic realisable-value assumptions can materially understate provisions (e.g., ₹100 cr doubtful at 60% coverage needs ₹70 cr provision; at 30% coverage, ₹85 cr). Track provision coverage ratio trend, disclosed covered/uncovered splits, and revaluation recency on large doubtful exposures."
+    },
+    {
+      "takeaway": "The 180-day regulatory NPA clock (twice the NBFC 90-day standard) coexists with Ind-AS 109's 90-day default presumption, so Ind-AS ARCs generally recognise Stage 3 impairment earlier than regulatory NPA — any later default definition needs ACB approval and disclosure, and SICR recognition cannot be deferred beyond 60 days past due.",
+      "credit_signal": "neutral",
+      "analyst_lens": "The accounting-versus-regulatory gap is a disclosure-rich diagnostic: the Annex VI ECL-vs-IRACP comparison and the Impairment Reserve (non-distributable, non-capital) reveal whether ECL models are running lighter than the prudential floor. Track the size and trend of Impairment Reserve appropriations and disclosed >90-day-not-impaired accounts."
+    },
+    {
+      "takeaway": "Related-party and captive-vehicle risk is the framework's central anti-abuse theme: bilateral acquisitions from sponsor banks, ARC lenders/fund subscribers and group entities are banned (auctions only), management fee may be paid only out of actual recoveries, and enforcement-acquired land/buildings must be disposed of within 5 years.",
+      "credit_signal": "watch",
+      "analyst_lens": "Historic ARC failure modes are sponsor-captive balance-sheet laundering and becoming an accidental real-estate/PE vehicle. Track Para 150 Item 1 seller concentration (dominance of a single sponsor bank even via 'auctions' warrants auction-design scrutiny), year-wise land/building holdings against the 5-year window, and debt-conversion equity stakes as a percentage of NOF."
+    },
+    {
+      "takeaway": "Governance requirements exceed the NBFC middle-layer standard — universal independent Board Chair, prior RBI approval for every director appointment, 70-year age cap, 5-year terms with a 15-year continuous-tenure ceiling and 3-year cooling-off, and NRC scrutiny extending to sponsors — because ARC economics rest on hard-to-verify judgement calls (NAV selection, settlement NPV, takeover grounds).",
       "credit_signal": "positive",
-      "analyst_lens": "The framework targets the two historical ARC failure modes: becoming a captive balance-sheet-cleaning vehicle for a sponsor bank, and drifting into a real-estate/private-equity warehouse (5-year disposal rule on enforced property, 26% debt-to-equity conversion cap). Compliance with Para 22/23/34 is a leading governance indicator, not boilerplate. Metric: seller concentration in Para 150 Item 1 disclosures — acquisitions dominated by the sponsor bank, even via 'auction', signal captive-vehicle dynamics."
+      "analyst_lens": "Governance quality is the most reliable differentiator between ARCs with similar headline metrics. Track independent-chair genuineness, MD/CEO tenure against the 15-year ceiling with succession planning, IAC member independence, and whether fraud/wilful-defaulter settlements get full Tier-1 committee governance irrespective of size."
+    },
+    {
+      "takeaway": "The Para 150 schedule of 18 mandatory balance-sheet disclosures is the richest single diagnostic on any ARC, including automatic threshold-triggered flags: assets disposed at >20% discount to prior-year valuation and SRs whose value has declined >20% below acquisition value.",
+      "credit_signal": "neutral",
+      "analyst_lens": "Read items together: acquisition (Item 5) vs realisation (Item 6) vs backlog (Item 7) trended over 3+ years reveals whether the pipeline is outrunning recovery capacity; Items 13-14 surface material valuation misses without digging; monthly public SARFAESI-possession disclosure on the ARC's website is a free primary-source cross-check on specific exposures."
     }
   ],
   "entities_impacted": [
     {
-      "entity": "Asset Reconstruction Companies",
-      "canonical": "ARC sector",
-      "type": "sector",
-      "impact": "Entire operating, capital, accounting and governance rulebook consolidated: Rs 300 crore NOF floor by March 2026, 15% CRAR on flat 100% risk weights, 180-day NPA clock, security-coverage-driven provisioning, full-redemption-only SR income recognition, and hard realisation-timeline-to-Loss linkage — consolidating the sector into fewer, better-capitalised players."
-    },
-    {
       "entity": "Reserve Bank of India",
       "canonical": "RBI",
       "type": "regulator",
-      "impact": "Issuer of the ARC Directions 2025 under SARFAESI Sections 3/9/10/12/12A (not the RBI Act); retains approval gates on registration, every director appointment, sponsor changes, and 10%+ sponsor share transfers within 5 years of CoR."
+      "impact": "Issuer of the ARC Directions 2025 under SARFAESI; grants CoR, approves every director appointment, caps FATF-jurisdiction ownership, and can prohibit incremental business for NOF non-compliance."
     },
     {
-      "entity": "NBFCs and banks selling stressed assets / holding SRs",
+      "entity": "Asset Reconstruction Companies",
+      "canonical": "ARCs",
+      "type": "sector",
+      "impact": "Directly bound by the full framework: ₹300 crore NOF, 15% CRAR at flat 100% risk weights, 5/8-year realisation ceilings, conservative income recognition, and strict governance/conduct rules — post-2022 consolidation pressure favours fewer, better-capitalised players."
+    },
+    {
+      "entity": "Banks and NBFCs selling stressed assets / holding Security Receipts",
       "canonical": "SR-holding lenders",
       "type": "sector",
-      "impact": "SR valuation, income recognition and provisioning on lender balance sheets key off ARC-side rules: NAV = face value x ARC-chosen recovery percentage; holdings above 10% of a scheme attract stricter notional provisioning; a weak issuing ARC is itself a credit risk to the holder since recovery execution drives collections."
+      "impact": "SR valuation, income recognition and risk on their balance sheets depend on ARC-side rules — recovery-rating bands, ARC-chosen NAV points, the ARC's 15%/2.5% retention, and the 10% holding threshold for stricter notional-provisioning treatment under the Transfer framework."
     },
     {
-      "entity": "Qualified Buyers (SR investors)",
-      "canonical": "Qualified Buyers",
+      "entity": "Qualified Buyers",
+      "canonical": "QBs",
       "type": "sector",
-      "impact": "Protected by the ARC's mandatory skin-in-the-game retention (higher of 15% of transferors' SR investment or 2.5% of total SRs, per class, until full redemption), the 25% cap on using QB funds for restructuring, quarterly disclosures, and Section 7(3) enforcement rights at realisation-period expiry."
+      "impact": "Sole permitted holders of privately placed SRs; protected by the 25% cap on scheme funds used for restructuring, quarterly disclosures, and Section 7(3) enforcement rights that activate only at the end of any Board-extended realisation period."
     },
     {
-      "entity": "Credit Rating Agencies (recovery ratings)",
+      "entity": "Credit Rating Agencies assigning recovery ratings",
       "canonical": "CRAs",
       "type": "sector",
-      "impact": "Mandatory recovery-rating cycle (initial within 6 months, reviews each 30 June/31 December, minimum 6-cycle/3-year retention with disclosed reasons for any change) plus quarterly ARC-CRA conflict-of-interest disclosure — anti-rating-shopping and anti-captive-CRA provisions."
+      "impact": "Must rate SRs within 6 months of acquisition and half-yearly thereafter with a minimum 6-cycle engagement; ARC-CRA commonality/conflict must be disclosed quarterly, and mid-window CRA changes require disclosed reasons to deter rating shopping."
+    },
+    {
+      "entity": "Stressed corporate borrowers",
+      "canonical": "Borrowers",
+      "type": "macro",
+      "impact": "Subject to management change/takeover on 12 grounds (with 25%-of-assets and 60%-SR-consent eligibility tests, 60-day notice, IAC due process), debt-to-equity conversion up to 26% (or more via exemption), and FPC protections including 8am-7pm recovery calling hours and 30-day document release."
     }
   ],
   "learning": [
-    "An ARC's NPA clock (180 days) and its Ind-AS default presumption (90 days) deliberately diverge — expect Stage 3 impairment to lead regulatory NPA classification unless the audit committee documents a rebuttal; the gap accounts must be disclosed, making it a checkable audit-quality signal.",
-    "ARC provisioning on Doubtful assets swings entirely on the 'estimated realisable value of security' — a 60%-covered vs 30%-covered assumption moves the required provision from 70% to 85% of the same exposure — so collateral revaluation recency and independence are the real provisioning-quality questions, not the headline coverage ratio.",
-    "The Para 150 disclosure schedule is a self-surfacing diagnostic: Items 13 and 14 automatically flag any asset disposed at >20% discount to prior valuation or any SR down >20% from acquisition value — scan these first in any ARC review before building your own screens.",
-    "Regulatory timelines are the hidden classification driver: the 5/8-year realisation ceiling converts unrealised assets straight to Loss irrespective of collateral, so vintage analysis of the acquired book matters more for an ARC than for any conventional lender."
+    "For ARCs, always check the realisation-timeline clock before collateral analysis: the 5/8-year ceiling silently drives mandatory Loss classification — the most severe consequence in the framework — and secondary ARC-to-ARC sales inherit, not reset, the original 8-year clock.",
+    "Treat SR NAV and recovery ratings as judgement-laden estimates, not observed prices: NAV is the ARC's chosen point inside a ±10pp CRA band updated only half-yearly, so build an independent recovery model for any material SR exposure and track band-selection behaviour across schemes.",
+    "ARC earnings analysis inverts NBFC analysis: with SR yield locked until full redemption and management fee on an aggressive 180-day/NAV-below-50% reversal regime, judge the franchise on scheme-level collection efficiency against realisation plans, not reported P&L.",
+    "An ARC's CRAR carries no asset-quality information — the flat 100% risk weight makes RWA nearly proportional to gross book size — so asset quality must be read separately through sub-standard-to-doubtful migration rates and security-coverage-driven provisioning adequacy."
   ],
   "category": "NBFC & FI",
   "sentiment": "neutral",
   "tags": [
     "arc",
-    "rbi",
     "sarfaesi",
+    "rbi directions 2025",
     "security receipts",
-    "nof",
-    "stressed assets",
     "recovery rating",
+    "nav",
+    "nof",
+    "crar",
     "provisioning",
-    "capital adequacy",
-    "securitisation",
-    "governance",
-    "nbfc"
+    "management fee",
+    "qualified buyers",
+    "stressed assets"
   ],
   "relevance": [
     "regulatory",
