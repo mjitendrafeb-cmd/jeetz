@@ -358,12 +358,14 @@ def render_row(raw_note, idx, watchlist=None):
     tags = note.get("tags", [])
     duplicate_stories = note.get("duplicate_stories", [])
 
-    preview = (key_takeaways[0].get("takeaway", "") if key_takeaways
-               else (note.get("executive_summary") or [""])[0])
+    exec_summary = note.get("executive_summary") or []
+    preview = (exec_summary[0] if exec_summary
+               else (key_takeaways[0].get("takeaway", "") if key_takeaways else ""))
 
     search_blob = " ".join([
         title, source, category, sentiment,
         " ".join(tags),
+        " ".join(exec_summary),
         " ".join(kt.get("takeaway", "") + " " + kt.get("analyst_lens", "")
                  for kt in key_takeaways),
         " ".join(ei.get("entity", "") + " " + ei.get("impact", "")
@@ -397,6 +399,12 @@ def render_row(raw_note, idx, watchlist=None):
     tag_chips = "".join(f'<span class="tc-sm">{esc(t)}</span>' for t in tags[:8])
 
     exp_parts = []
+    if exec_summary:
+        crux_items = "".join(f"<li>{esc(s)}</li>" for s in exec_summary)
+        exp_parts.append(
+            f'<div class="exp-sect"><div class="exp-sh">&#128204; Crux of the Report</div>'
+            f'<ul class="blist crux">{crux_items}</ul></div>'
+        )
     if kt_rows:
         exp_parts.append(
             f'<div class="exp-sect"><div class="exp-sh">Key Takeaways &amp; Analyst Lens</div>'
@@ -615,6 +623,7 @@ main{{flex:1;min-width:0}}
 .blist{{padding-left:20px}}
 .blist li{{margin-bottom:5px;line-height:1.6;font-size:13px;color:#323130}}
 .learn li{{color:#075985}}
+.crux li{{color:#1e293b;font-weight:500}}
 #empty{{text-align:center;padding:60px 20px;display:none;
   color:#605e5c;background:#fff;border-top:1px solid #edebe9}}
 @media(max-width:900px){{
@@ -887,8 +896,9 @@ def generate_dashboard(notes, entities):
         n = normalize_note(raw)
         sig = note_signal(n)
         color = SIGNAL_BORDER.get(sig, "#e2e8f0")
+        exec_s = n.get("executive_summary") or []
         kts = n.get("key_takeaways", [])
-        preview = kts[0].get("takeaway", "") if kts else ""
+        preview = exec_s[0] if exec_s else (kts[0].get("takeaway", "") if kts else "")
         recent_html += (
             f'<a class="doc-item" href="library.html#r{idx}" style="border-left-color:{color}">'
             f'<span class="doc-item-t">{esc(n.get("title", "Untitled"))}</span>'

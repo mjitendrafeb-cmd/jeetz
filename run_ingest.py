@@ -36,6 +36,7 @@ Return this exact structure:
   "freshness": "<fresh|stale|mixed>",
   "stale_items": ["<specific story that appears old or recycled>"],
   "duplicate_stories": ["<story already covered in a previously processed note — match by company, deal, or event>"],
+  "executive_summary": ["<4 to 8 crisp bullets that together form the CRUX of the ENTIRE document — a reader should get 80% of the document's value from these alone. Cover every major section and theme, include the key numbers. This is the substitute for reading the full report.>"],
   "key_takeaways": [
     {
       "takeaway": "<one precise insight — lead with the credit or business implication, not the event description. Answer 'so what for credit?' not 'what happened'.>",
@@ -62,7 +63,9 @@ Rules:
 - title: max 80 chars. Capture document type and key subject. No generic titles.
 - document_date: from the document itself, not today's date. null if genuinely absent.
 - source_type: classify the document publisher — broker_research (sell-side bank/broker equity or credit analysis), regulatory (RBI/SEBI/IRDAI/MoF circular or notification), academic (working paper, research paper), news (newsletter, news article), other.
-- key_takeaways: 3 to 6 takeaways. Each must answer "so what for credit?" — not just summarise the event. Consolidate takeaways pointing to the same risk.
+- executive_summary: this is the crux. Walk through the document section by section — no major section, entity, data table, chart or exhibit may go unrepresented. Name specific numbers, dates and companies.
+- key_takeaways: 3 to 10 takeaways — scale with the document's density. A multi-sector conference note or long report warrants 8-10; a short newsletter 3-4. NEVER drop a material credit-relevant point to stay within a count. Each must answer "so what for credit?" — not just summarise the event. Consolidate takeaways pointing to the same risk.
+- Coverage check: before finalising, re-scan the document and verify nothing material is missing from executive_summary + key_takeaways combined.
 - credit_signal: from the perspective of the most affected issuer or sector.
 - analyst_lens: be specific. "Leverage will increase" is bad. "Net debt/EBITDA likely rises above 3x post-acquisition, breaching typical investment-grade thresholds" is good. Always name a metric to track.
 - learning: 2 to 4 lessons, specific to this document, not generic credit advice.
