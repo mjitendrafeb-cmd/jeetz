@@ -1,9 +1,12 @@
 name: Daily Credit Intelligence Report
 
+# GitHub delays a single daily cron on this repo by many hours, so instead the
+# workflow wakes hourly and a cheap gate step decides whether to actually send:
+# past 07:15 IST, not Sunday, and not already sent today (data/last_sent.json).
 on:
   schedule:
-    # 02:00 UTC = 7:30 AM IST, Mon-Sat (daily report)
-    - cron: '0 2 * * 1-6'
+    # Hourly tick — the gate below turns exactly one tick per day into the report
+    - cron: '23 * * * *'
     # 10:30 UTC = 4:00 PM IST, Friday (weekly digest)
     - cron: '30 10 * * 5'
   workflow_dispatch:
@@ -14,6 +17,16 @@ on:
         default: 'false'
         type: choice
         options: ['false', 'true']
+      force:
+        description: 'Send even if today''s report already went out'
+        required: false
+        default: 'true'
+        type: choice
+        options: ['true', 'false']
+
+concurrency:
+  group: credit-report
+  cancel-in-progress: false
 
 jobs:
   send-report:
@@ -28,17 +41,63 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           fetch-depth: 0
 
+      - name: Decide whether to send
+        id: gate
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          FORCE: ${{ inputs.force || 'true' }}
+          SCHEDULE: ${{ github.event.schedule }}
+        run: |
+          python3 - <<'PY'
+          import os, json, datetime
+
+          event = os.environ.get("EVENT_NAME", "")
+          force = os.environ.get("FORCE", "true").lower()
+          schedule = os.environ.get("SCHEDULE", "")
+
+          IST = datetime.timezone(datetime.timedelta(hours=5, minutes=30))
+          now = datetime.datetime.now(IST)
+          today = now.date().isoformat()
+
+          last_sent = ""
+          try:
+              with open("data/last_sent.json", encoding="utf-8") as f:
+                  last_sent = json.load(f).get("date", "")
+          except Exception:
+              pass
+
+          if schedule == "30 10 * * 5":
+              send, why = True, "Friday weekly digest cron"
+          elif event == "workflow_dispatch" and force != "false":
+              send, why = True, "manual trigger (force)"
+          elif now.weekday() == 6:
+              send, why = False, "Sunday — no daily report"
+          elif last_sent == today:
+              send, why = False, f"already sent today ({last_sent})"
+          elif (now.hour, now.minute) < (7, 15):
+              send, why = False, f"before 07:15 IST window (now {now:%H:%M} IST)"
+          else:
+              send, why = True, f"window open ({now:%H:%M} IST), not yet sent today"
+
+          print(("SEND" if send else "SKIP") + f" — {why}")
+          with open(os.environ["GITHUB_OUTPUT"], "a") as f:
+              f.write(f"send={'true' if send else 'false'}\n")
+          PY
+
       - name: Set up Python 3.11
+        if: steps.gate.outputs.send == 'true'
         uses: actions/setup-python@v5
         with:
           python-version: '3.11'
 
       - name: Install dependencies
+        if: steps.gate.outputs.send == 'true'
         run: |
           python -m pip install --upgrade pip
           if [ -f scripts/requirements.txt ]; then pip install -r scripts/requirements.txt; fi
 
       - name: Send Daily Credit Intelligence Report
+        if: steps.gate.outputs.send == 'true'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GMAIL_USER: ${{ secrets.GMAIL_USER }}
