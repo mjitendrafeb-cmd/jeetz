@@ -1,0 +1,164 @@
+{
+  "date": "2026-07-03",
+  "ingested_at": "2026-07-03T03:48:56.541376+00:00",
+  "source_file": "KPMG_India_&_FICCI_Next_Gen_Forensic_The_new_age_of_fraud_investigation.pdf",
+  "source_path": "KPMG_India_&_FICCI_Next_Gen_Forensic_The_new_age_of_fraud_investigation.pdf",
+  "file_type": "pdf",
+  "title": "KPMG India & FICCI: Next-Gen Forensic — The New Age of Fraud Investigation (Jun 2026)",
+  "document_date": "2026-06-01",
+  "source_type": "other",
+  "freshness": "fresh",
+  "stale_items": [
+    "Several global statistics are recycled from 2025-vintage third-party reports (Europol IOCTA 2025, FBI IC3 2025 — USD7.2bn SE-Asia crypto fraud losses, ~25,000 employment scam complaints; Chainalysis mid-2025 crypto crime update; USD1.5bn exchange breach of early 2025) rather than new KPMG primary data",
+    "CERT-In April 2022 directions (180-day log retention, 6-hour incident reporting) presented as a key control are four years old"
+  ],
+  "duplicate_stories": [],
+  "executive_summary": [
+    "June 2026 KPMG India–FICCI report argues fraud has industrialised into a specialised criminal ecosystem (reconnaissance, access brokerage, execution, mule laundering, recovery obstruction) and that investigation must shift from device-centric, post-loss review to identity-centric, cloud-aware, payment-aware, intelligence-led 'next-gen forensic' readiness owned at board/CXO level.",
+    "Scale of the problem: UPI processed 24,162 crore transactions worth ~INR314 lakh crore (~USD3.3tn) in FY2025-26 (~85% of digital payment volume); NCRP/CFCFRMS logged 24,02,579 online financial fraud complaints in 2025 with INR22,495 crore reported losses, while the CFCFRMS freeze mechanism saved INR8,189 crore to 31 Dec 2025; India cancelled 12 lakh fraudulent SIMs and blocked 3 lakh IMEIs in one crackdown; CERT-In handled over 29 lakh cyber incidents in 2025.",
+    "RBI data show BFSI fraud diverging: digital/card scams are 66.8% of bank fraud incidents by number but under 10% of losses, whereas high-value loan/credit frauds (19% of cases) drive about one-third of losses; recovery rates on digital payment frauds are as low as ~6% (INR805 crore UPI frauds this fiscal), making pre-transaction controls (payee-name validation, RBI's Fraud Risk Indicator) more valuable than post-loss redress.",
+    "Typology map (Ch 2 & 5): account takeover via credential theft/SIM swap/OTP interception; deepfake CEO-voice payment fraud (Singapore case ~USD3.8mn); digital arrest scams; UPI collect-request and QR substitution abuse; trade-based money laundering (DRI/ED cases in diamonds, chemicals, textiles); organised insurance claims fraud (IRDAI's Insurance Fraud Monitoring Framework 2025, effective April 2026, mandates fraud systems and IIB data sharing — pooled IIB data already exposed hospital-network fraud clusters invisible to any single insurer); DeFi/NFT rug pulls (USD500mn lost 2025) and corporate loan/procurement/shell-company fraud (SFIO has investigated 1,000+ cases).",
+    "Crypto is the preferred layering instrument: fraud proceeds convert to USDT via P2P/unlicensed exchanges, pass wallets/mixers/cross-chain bridges, then re-enter fiat via hawala/TBML; US victims reported USD11bn crypto scam losses in 2025; FIU-IND has 47 registered VASPs under PMLA but unregistered P2P remains opaque; Egmont Group (170+ FIUs) helps, yet 'money moves in minutes, legal cooperation moves in months' — MLAT timescales remain incompatible with fraud velocity.",
+    "Evidence has changed (Ch 3-4): critical artefacts sit across cloud (30-90 day default log retention that often lapses before preservation requests land), payment rails (UPI logs at payer app, payer PSP, NPCI switch, payee PSP, beneficiary bank), telecom metadata (CDR/IPDR, 2-year retention mandate) and devices; a 24-72 hour gap between incident detection and forensic deployment routinely destroys volatile evidence; BSA 2023 Section 63 certificates, e-Sakshya, and a May 2026 Supreme Court ruling (Pune Bar Association v. UoI) letting private cyber-forensic experts certify digital evidence remove a major admissibility chokepoint.",
+    "Technology/defence: RBI's MuleHunter.AI (RBIH) is live across 26 banks as of March 2026, detecting ~20,000 mule accounts per month at >90% precision; RBI has also formed the Q-SAFE expert committee (May 2026) on post-quantum cryptography, mandating Cryptography Bills of Materials; report flags NLP models' weakness on Indian code-mixed text and urges epistemic caution presenting deepfake-detection outputs in court.",
+    "Way forward (Ch 7): annual Digital Forensic Readiness Assessments for corporates; India-specific fraud analytics for BFSI; formal board fraud-risk oversight; national case-management/digital-evidence platform, shared blockchain analytics for state cyber cells, AI triage tools and a forensic accreditation body; a pre-agreed real-time fraud data-sharing protocol among I4C, NPCI, banks, telcos and cloud providers modelled on Australia's Fintel Alliance, UK Joint Fraud Taskforce and US FinCEN 314(b)."
+  ],
+  "key_takeaways": [
+    {
+      "takeaway": "For banks, the loss concentration is still credit-side: loan/credit frauds are only 19% of RBI-reported fraud cases but drive roughly one-third of losses — digital scam volume (66.8% of incidents) is a reputational/operational issue, but fraud-driven credit cost remains a lending-underwriting problem.",
+      "credit_signal": "watch",
+      "analyst_lens": "When assessing bank asset quality, weight loan-fraud disclosures (RBI fraud reporting, divergence reports) over headline cyber-fraud counts. Track the ratio of loan-fraud amounts to gross advances and the lag between Early Warning Signal triggers and fraud classification — the report flags suppressed/delayed EWS reporting under RBI's July 2024 Master Directions on Fraud Risk Management as a persistent enforcement gap that lets frauds grow beyond recovery prospects."
+    },
+    {
+      "takeaway": "Recovery on digital payment fraud is ~6%, so once funds move, they are effectively gone; expected loss on payment fraud should be modelled near gross, not net of recovery, for banks, fintechs and PSPs.",
+      "credit_signal": "negative",
+      "analyst_lens": "Provisioning and customer-compensation liability for UPI/payment fraud (INR22,495 crore reported complaints in 2025 vs INR8,189 crore saved via CFCFRMS) will increasingly land on regulated entities as RBI tightens customer-protection norms. Track CFCFRMS save-rate versus reported fraud value as a system-level recovery proxy, and individual banks' digital-fraud reimbursement expense."
+    },
+    {
+      "takeaway": "Regulatory direction is converging on mandatory fraud governance — RBI Master Directions on Fraud Risk Management (2024), IRDAI Insurance Fraud Monitoring Framework (2025, effective April 2026), CERT-In log/reporting directions, DPDP Act constraints — so weak forensic readiness is becoming a supervisory and liability issue, not just an operational one.",
+      "credit_signal": "watch",
+      "analyst_lens": "The report's line that 'liability increasingly flows from failures of governance and controls, not just the original fraud event' is the credit crux: penalties, business restrictions and directors' liability now attach to control failure. For rated FIs, probe board-level fraud oversight, EWS automation, and evidence/logging maturity in management meetings; a fintech straddling sectors must satisfy CERT-In, RBI and possibly IRDAI simultaneously — compliance-cost and enforcement risk is highest for multi-licence entities."
+    },
+    {
+      "takeaway": "Mule-account risk is now measurable and being actively policed: MuleHunter.AI across 26 banks flags ~20,000 mule accounts a month at >90% precision — banks with high mule-account incidence face KYC/AML enforcement and onboarding-control scrutiny.",
+      "credit_signal": "neutral",
+      "analyst_lens": "Positive for systemic resilience, but it creates a new supervisory dataset that can differentiate banks: institutions (especially PSBs and small finance banks with aggressive digital onboarding) showing persistent mule concentrations invite RBI action akin to past KYC penalties. Track RBI enforcement orders citing mule accounts and any public MuleHunter rollout metrics as an early indicator of which banks have weak onboarding controls."
+    },
+    {
+      "takeaway": "Insurance fraud is organised and deliberately distributed below single-insurer alert thresholds; IRDAI's April 2026 framework plus IIB pooled-data clustering will surface previously hidden claims leakage — near-term claims-ratio noise, medium-term underwriting benefit.",
+      "credit_signal": "mixed",
+      "analyst_lens": "For rated insurers, expect one-off deterioration in reported claims/fraud statistics as pooled IIB detection exposes hospital-network collusion, followed by structural loss-ratio improvement. Track combined ratios in motor/health lines and IIB fraud-cluster disclosures; insurers slow to implement mandated fraud-management systems carry regulatory-penalty risk from April 2026."
+    },
+    {
+      "takeaway": "Crypto/VDA exposure sits at the intersection of fraud, AML and sanctions: layering through USDT, mixers and cross-chain bridges defeats standard banking trace, and FATF benchmarking means Indian FIs' partner-bank and investor confidence is tied to demonstrable crypto-AML capability.",
+      "credit_signal": "negative",
+      "analyst_lens": "Banks and PSPs with exposure to VASP flows (only 47 FIU-registered entities; P2P segment opaque) face FATF mutual-evaluation risk — outcomes now require demonstrated recoveries and prosecutions, not just laws. Watch India's FATF mutual evaluation findings and FIU-IND actions against unregistered exchanges; adverse findings would raise correspondent-banking friction and compliance costs sector-wide."
+    },
+    {
+      "takeaway": "The May 2026 Supreme Court ruling allowing private experts to certify digital evidence (Section 63(4) BSA) materially speeds corporate fraud litigation and recovery actions — a quiet positive for lenders pursuing fraudulent borrowers.",
+      "credit_signal": "positive",
+      "analyst_lens": "Faster, cheaper admissibility of emails/logs/chats strengthens banks' ability to prove borrower fraud, support wilful-defaulter tagging and pursue personal guarantees under IBC. Track whether fraud-classified NPA recovery rates improve post-2026 and the growth of accredited private forensic capacity; weak evidence handling was previously a key reason fraud cases stalled in court."
+    },
+    {
+      "takeaway": "Deepfake/AI-enabled fraud (voice-cloned CEO payment instructions, with material losses already reported in Indian manufacturing) shifts fraud risk into corporates' treasury operations — payment-authorisation controls are now a credit-relevant governance item for non-financial issuers too.",
+      "credit_signal": "watch",
+      "analyst_lens": "For mid-market corporates, a single deepfake-authorised payment or vendor-impersonation redirection can be a liquidity event; the Singapore precedent (~USD3.8mn loss) shows scale. In management assessments, ask about call-back verification, dual authorisation and vendor-master change controls; rising crime-insurance premia or claims are a proxy metric."
+    },
+    {
+      "takeaway": "Structural mismatch — fraud executes in minutes, cross-border legal cooperation in months — means high-value fraud losses involving Eastern Europe/Southeast Asia/West Africa syndicates are largely unrecoverable, keeping system loss-given-fraud elevated until bilateral freeze provisions expand.",
+      "credit_signal": "negative",
+      "analyst_lens": "Do not assume recovery upside on cross-border fraud exposures in bank loss models. Track progress on bilateral provisional-freeze agreements (Singapore, UAE, UK, US named) and any real-time transaction-chain access mechanism regulators are exploring under BNSS 2023/DPDPA — these are the concrete triggers that would lift recovery rates above the current ~6% for digital fraud."
+    }
+  ],
+  "entities_impacted": [
+    {
+      "entity": "Reserve Bank of India (RBI)",
+      "canonical": "RBI",
+      "type": "regulator",
+      "impact": "Driving fraud-governance architecture: 2024 Master Directions on Fraud Risk Management (EWS obligations for bank boards), Fraud Risk Indicator and payee-name validation, MuleHunter.AI rollout across 26 banks, and Q-SAFE post-quantum cryptography committee — raises compliance bar and supervisory intensity for all regulated lenders."
+    },
+    {
+      "entity": "Banks / BFSI sector",
+      "canonical": "Indian banks",
+      "type": "sector",
+      "impact": "Bear both fraud losses (loan frauds ~one-third of losses; digital fraud recovery ~6%) and rising regulatory liability for control failures; must fund forensic readiness, EWS automation, mule-account detection and India-specific fraud analytics or face penalties and reimbursement costs."
+    },
+    {
+      "entity": "NPCI / UPI ecosystem",
+      "canonical": "NPCI",
+      "type": "company",
+      "impact": "Operates the forensically rich but fragmented payment rail (24,162 crore transactions, INR314 lakh crore FY2025-26); central to fund-freeze and evidence chains across payer PSP, switch and beneficiary bank; faces design pressure for pre-transaction risk signalling and real-time trace-and-halt capability."
+    },
+    {
+      "entity": "IRDAI / insurers",
+      "canonical": "IRDAI",
+      "type": "regulator",
+      "impact": "Insurance Fraud Monitoring Framework Guidelines 2025 (effective April 2026) mandate fraud-management systems and IIB data sharing; pooled data is exposing organised hospital-network fraud clusters, pressuring insurers' claims ratios near term but improving underwriting integrity."
+    },
+    {
+      "entity": "FIU-IND",
+      "canonical": "FIU-IND",
+      "type": "regulator",
+      "impact": "PMLA supervision of 47 registered VASPs and Egmont Group membership (170+ FIUs) make it the chokepoint for crypto-layered fraud tracing; effectiveness gaps in unregistered P2P crypto segments are India's residual FATF exposure."
+    },
+    {
+      "entity": "I4C / MHA (NCRP, CFCFRMS)",
+      "canonical": "I4C",
+      "type": "regulator",
+      "impact": "Runs the rapid-report-and-freeze backbone: 24,02,579 fraud complaints logged in 2025 (INR22,495 crore) and INR8,189 crore saved via CFCFRMS; proposed as anchor of a real-time public-private fraud data-sharing protocol with NPCI, banks, telcos and cloud providers."
+    },
+    {
+      "entity": "CERT-In",
+      "canonical": "CERT-In",
+      "type": "regulator",
+      "impact": "April 2022 directions (180-day log retention, 6-hour incident reporting, verified VPN subscriber data) underpin evidence availability for regulated entities; handled 29 lakh+ cyber incidents in 2025; compliance monitoring remains incomplete."
+    },
+    {
+      "entity": "Fintech / VASP / crypto platforms",
+      "canonical": "Fintechs & VASPs",
+      "type": "sector",
+      "impact": "High-risk nodes for fraud routing and layering; regulated fintechs face overlapping CERT-In/RBI/IRDAI obligations while unregistered crypto P2P segments face escalating FIU-IND and FATF-driven enforcement, raising funding and partnership risk."
+    },
+    {
+      "entity": "Telecom operators",
+      "canonical": "Telcos",
+      "type": "sector",
+      "impact": "Mandatory 2-year CDR/IPDR retention and TRAI SIM-swap tightening make telcos core fraud-control infrastructure; 12 lakh fraudulent SIMs cancelled shows enforcement exposure where distribution KYC is weak."
+    },
+    {
+      "entity": "Non-financial corporates (manufacturing, energy, e-commerce)",
+      "canonical": "India Inc",
+      "type": "sector",
+      "impact": "Deepfake CEO-voice payment fraud, vendor impersonation, ransomware on IT/OT (oil & gas incidents), and insider-enabled fraud convert cyber risk into liquidity, business-continuity and board-liability risk; Companies Act 2023 duties plus DPDP constraints reshape internal investigation design."
+    }
+  ],
+  "learning": [
+    "Fraud incident counts and fraud loss values point at different risks: in Indian banking, digital scams dominate counts (66.8%) but loan frauds dominate losses (~one-third from 19% of cases) — a rating analyst should never treat 'cyber fraud statistics' as a proxy for fraud-driven credit cost.",
+    "Recovery assumptions on payment fraud should be near zero (~6% recovery; freezes saved INR8,189 crore against INR22,495 crore reported) — the binding control is the 'golden hour' freeze speed, not investigation quality, so a bank's real-time reporting plumbing into CFCFRMS is a rateable operational-risk attribute.",
+    "Forensic readiness is becoming a supervisory liability line: poor logging, 30-90 day cloud retention lapses and the typical 24-72 hour forensic deployment gap can convert a fraud event into a governance finding, penalty or litigation loss — ask issuers about log retention, DEMS/chain-of-custody and evidence preservation retainers, not just cyber insurance.",
+    "Organised fraud is engineered to stay below single-institution alert thresholds (distributed low-value attacks; insurance fraud spread across insurers) — only pooled-data mechanisms (IIB, FIU-IND, proposed I4C-NPCI-bank-telco protocol) can see it, so an issuer's participation in industry data-sharing is itself a fraud-control quality signal."
+  ],
+  "category": "Other",
+  "sentiment": "mixed",
+  "tags": [
+    "fraud risk",
+    "forensic",
+    "kpmg",
+    "ficci",
+    "upi",
+    "cybercrime",
+    "mule accounts",
+    "aml",
+    "crypto",
+    "deepfake",
+    "rbi",
+    "digital evidence",
+    "bsa 2023",
+    "insurance fraud"
+  ],
+  "relevance": [
+    "regulatory",
+    "training",
+    "sector_analysis"
+  ]
+}

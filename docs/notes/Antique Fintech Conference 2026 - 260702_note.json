@@ -1,0 +1,203 @@
+{
+  "date": "2026-07-03",
+  "ingested_at": "2026-07-03T03:48:48.247467+00:00",
+  "source_file": "Antique Fintech Conference 2026 - 260702.pdf",
+  "source_path": "Antique Fintech Conference 2026 - 260702.pdf",
+  "file_type": "pdf",
+  "title": "Antique Fintech Conference 2026: Monetisation & Merchant Lending Themes",
+  "document_date": "2026-07-02",
+  "source_type": "broker_research",
+  "freshness": "fresh",
+  "stale_items": [
+    "SEBI's 2025 F&O tightening cutting derivatives volumes ~13% is a recycled 2025 storyline, though updated with Q4 exit run-rate (~+40% Q4-vs-Q4) commentary",
+    "RBI risk-weight-driven unsecured lending slowdown hurting Mobikwik profitability is an old (FY25) narrative, now presented as resolved"
+  ],
+  "duplicate_stories": [],
+  "executive_summary": [
+    "Antique hosted 18 fintechs and industry experts (2 Jul 2026) across payments, banking infrastructure, RegTech and digital lending; core message: the next growth phase will be driven by monetisation, integrated platforms and disciplined execution rather than payment-volume or account growth alone",
+    "Merchant loan asset quality has improved considerably over 2 years: Paytm flags declining expected credit loss, Mobikwik cites lower slippages/better recoveries for 2 quarters, FLDG guarantees now capped at 5% with Mobikwik's outstanding FLDG losses down ~35% YoY; consumer fintech lending stress post-2023 is described as stabilized",
+    "Payments economics improving: merchant payment margins expanded from ~3bps to ~4bps heading to ~5bps (Paytm guides 20-25% FY27 revenue growth, mid-50s contribution margin; 35% merchant GMV growth vs ~30% industry); Mobikwik claims ~20% wallet share and 14-16bps payment monetisation; MDR on UPI visibility remains limited",
+    "NBFC deep-dives: Creditwise Capital (2W lender) - AUM INR 7bn, 20-21% IRR, credit cost 2.5-2.6% on conservative 360-DPD write-off, CRAR 27%, CRISIL BBB with BBB+ upgrade expected, HDFC Bank/Muthoot Capital co-lending (80:20, no FLDG), equity raise to lift net worth to INR 4.5bn; Moneyboxx - pivot from 94% unsecured (FY23) to 67% secured disbursements, GNPA down to 3.59% from 6.61% (ARC-aided), NIM compressed to 13.9%, PAT just INR 13mn, targeting INR 12.5bn AUM by FY27",
+    "Infrastructure/RegTech demand strong: M2P (200+ banks, ~50% international revenue) near break-even, targeting 25-30% EBITDA margin in 2-3 years and possible listing in 3-4 years; IDfy at ~INR 2.5bn revenue/~5% EBITDA margin targets INR 8-10bn at 30-40% margin over 3-4 years; DiGiSPICE/Spice Money leads Off-Us AEPS (18.4% share), FY26 PAT INR 254mn with credit disbursements up 2.8x",
+    "New-age brokers (Dhan, Upstox, Univest) describe a maturing cycle: demat accounts ~26 crore (up ~6x in 8 years) but SEBI F&O curbs pushed diversification into MTF, mutual funds, wealth and lending; Upstox reports ~INR 1,200cr revenue (~50% F&O), fourth straight profitable year; Dhan (unicorn at $1.2bn, Oct 2025) remains 78% derivatives-revenue-heavy but says no fund raise needed for 2 years",
+    "Other pipeline names: Pine Labs (~70% POS share, ~85% in-store affordability share, 24-26% FY27 revenue growth guidance, INR 27bn cash), Zaggle (25-30% standalone / ~40% consolidated FY27 growth, cash-flow break-even targeted this year, investor caveat on Propel gross-revenue accounting), Revolut India (PPI + AD2 licences, 12k users onboarded, 1 lakh target in 3-4 months), GetePay (300 bank integrations, profitable since inception), Upsure (AI insurance-underwriting platform)",
+    "PhonePe (13mn+ merchants, Unity SFB JV, new PA licence) operates as an LSP without its own NBFC - capital-light growth; merchant loans priced ~28% initially with 6-8% first loss; fintechs dominate the INR 50k-3 lakh ticket segment where banks stay cautious"
+  ],
+  "key_takeaways": [
+    {
+      "takeaway": "Merchant-lending asset quality across fintech platforms has structurally improved - Paytm's expected credit loss is declining, Mobikwik slippages have fallen for two quarters, and daily-repayment merchant cash advance products show materially better performance than monthly-EMI books",
+      "credit_signal": "positive",
+      "analyst_lens": "Reduces tail risk for banks/NBFCs funding fintech-originated merchant books and for co-lending partners. Daily deduction from settlement flows aligns repayment with cash generation (15-20% stated rate translating to ~30% IRR for Paytm). Track platform-level ECL/slippage disclosures and FLDG invocation rates quarterly"
+    },
+    {
+      "takeaway": "The FLDG regime has stabilised as a risk-sharing mechanism: guarantees capped at 5%, Mobikwik's outstanding FLDG losses down ~35% YoY with clawbacks contributing, and 70-75% of its lending still FLDG-based while it migrates toward co-lending under its new NBFC licence",
+      "credit_signal": "positive",
+      "analyst_lens": "For partner banks/NBFCs the capped-FLDG plus co-lending shift means cleaner, regulated risk transfer versus the pre-2023 uncapped model. Watch the pace of migration from FLDG to co-lending and whether Mobikwik keeps the model asset-light rather than balance-sheet-heavy; metric: share of lending under FLDG vs co-lending"
+    },
+    {
+      "takeaway": "Creditwise Capital is an emerging 2W NBFC credit story: CRAR 27%, leverage 3x, CRISIL BBB with BBB+ upgrade expected, CoF 10.5%, credit cost 2.5-2.6% recognised conservatively at 360 DPD (industry writes off at 720 DPD), and institutional validation via HDFC Bank co-lending and an ICICI Bank term sheet for equity",
+      "credit_signal": "positive",
+      "analyst_lens": "The 360-DPD write-off policy means reported credit cost understates the gap versus peers reporting at 720 DPD - a genuine underwriting edge (75-80% rejection rate). Risks: geographic concentration (50% Bihar+Maharashtra), FY25 disbursement growth of only 6% after Haryana disruptions, and an ambitious INR 50bn AUM target requiring the nascent LAP vertical (INR 250mn today). Track post-raise net worth (INR 4.5bn planned) and rating upgrade to BBB+"
+    },
+    {
+      "takeaway": "Moneyboxx's pivot from 94% unsecured (FY23) to 67% secured disbursements is de-risking the book, but profitability is wafer-thin: FY26 PAT of just INR 13mn on INR 2,321mn income, NIM compressed to 13.9% (from 16.3%) as lending IRR fell to 26.0%, and GNPA improvement to 3.59% was partly ARC-transaction-aided",
+      "credit_signal": "watch",
+      "analyst_lens": "A BBB/Stable (CRISIL and India Ratings) micro-enterprise lender mid-pivot: the secured book's ~2-year vintage is unseasoned and headline GNPA is flattered by the ARC sale. Livestock is 53.1% of AUM - a differentiated but monoline-adjacent exposure. Track collection efficiency (95.7% secured, 93.5% overall in Q4FY26), credit cost vs the ~3.5% stated peak, and progress toward the INR 12.5bn FY27 AUM target without diluting yield further"
+    },
+    {
+      "takeaway": "Merchant payments monetisation is structurally improving - margins up from ~3bps to ~4bps and heading to ~5bps on rationalised industry pricing - giving payments platforms a self-funding acquisition engine even without UPI MDR, whose introduction remains uncertain",
+      "credit_signal": "positive",
+      "analyst_lens": "Better payment unit economics reduce cash burn and reliance on lending income across Paytm, PhonePe, Pine Labs and Mobikwik, supporting standalone viability. UPI MDR would be pure upside not baked into plans. Track Paytm's mid-50s contribution margin guidance and 20-25% FY27 revenue growth as the sector bellwether"
+    },
+    {
+      "takeaway": "SEBI's 2025 F&O tightening cut broking industry volumes ~13% overnight and has forced structural diversification - brokers with 50-78% derivatives revenue concentration (Upstox ~50%, Dhan ~78%) are pushing into MTF, mutual funds, lending and wealth to defend earnings",
+      "credit_signal": "watch",
+      "analyst_lens": "Regulatory revenue concentration risk remains the key credit issue for new-age brokers despite strong current profitability (Upstox in its 4th profitable year at industry-best margins). Q4 exit run-rate ~+40% Q4-vs-Q4 suggests recovery, but margins are guided to normalise lower as models diversify into capital-consuming NBFC/MTF businesses. Track F&O share of revenue and MTF book funding structure"
+    },
+    {
+      "takeaway": "Banking infrastructure and RegTech vendors (M2P, IDfy) are approaching profitability inflection with strong secular demand as banks consolidate technology vendors - M2P targets 25-30% EBITDA margin in 2-3 years with a listing in 3-4; IDfy targets INR 8-10bn revenue at 30-40% EBITDA margin (from INR 2.5bn at ~5%)",
+      "credit_signal": "positive",
+      "analyst_lens": "Recurring, compliance-driven revenue with 8-10 year build barriers makes these attractive future issuers, but both are pre-scale on margins and M2P has cut headcount 1,800 to 1,300 to reach break-even. Ambitious 3-4x revenue targets embed M&A execution risk (IDfy has an acquisition war chest). Track EBITDA margin trajectory versus guidance and India-vs-international mix (M2P ~50% overseas at higher margins)"
+    },
+    {
+      "takeaway": "Financial inclusion rails are becoming profitable: Spice Money leads Off-Us AEPS with 18.4% share (up from 17.3%), FY26 PAT from continuing operations rose to INR 254mn from INR 65mn, credit disbursements grew 2.8x, and new levers (UPI cash withdrawal launched Mar 2026, BBPS Agent Mode) extend the runway",
+      "credit_signal": "positive",
+      "analyst_lens": "The DiGiSPICE-Spice Money merger simplifies the listed structure around the profitable fintech core. Assisted-commerce agents (1.7mn serving 170mn customers in Tier 4/5/6) provide a durable distribution moat, but revenue grew only 3.6% YoY - profitability is coming from mix, not top-line. Track AEPS market share and credit-business break-even"
+    },
+    {
+      "takeaway": "Zaggle guided 25-30% standalone and ~40% consolidated FY27 revenue growth with consolidated cash-flow break-even targeted this year, but management itself flagged that Propel voucher redemptions are booked gross - investors must value net monetisation, not reported revenue",
+      "credit_signal": "watch",
+      "analyst_lens": "The gross-vs-net accounting caveat on Propel (57% of revenue) means headline growth overstates economic value; software (2% of revenue) and program fees (41%) are the higher-quality streams expected to drive ~50% of incremental growth. For credit, watch the operating-cash-flow break-even milestone and working-capital intensity around the 19-bank partnership model"
+    },
+    {
+      "takeaway": "Global entrant Revolut is deliberately scaling slowly in India (12,000 users from a 4.5 lakh waitlist, targeting 1 lakh in 3-4 months) via owned PPI and AD2 licences, with a five-year ambition for India to be 20% of its 70mn global customer base and plans to add an NBFC licence for credit",
+      "credit_signal": "neutral",
+      "analyst_lens": "A well-capitalised global challenger entering wallets/forex adds long-term competitive pressure on incumbent card/forex players, but INR non-convertibility and full tech-stack localisation (~200 services) slow the threat. Watch the NBFC licence application - Revolut moving into credit would change the competitive map for premium consumer lending"
+    }
+  ],
+  "entities_impacted": [
+    {
+      "entity": "Paytm",
+      "canonical": "Paytm",
+      "type": "company",
+      "impact": "Improving credit profile: declining expected credit loss in merchant loans, merchant GMV +35% vs industry ~30%, payment margins up to ~4bps heading to ~5bps, 20-25% FY27 revenue growth with mid-50s contribution margin; 50-60% share in UPI-linked postpaid"
+    },
+    {
+      "entity": "Mobikwik",
+      "canonical": "MobiKwik",
+      "type": "company",
+      "impact": "Returned to profit for 2 quarters (~INR 600mn annualised EBITDA); FLDG losses down ~35% YoY with 5% cap; new NBFC licence to lower funding cost and enable co-lending while staying asset-light; targets INR 1bn+ EBITDA and 7-8% medium-term margins"
+    },
+    {
+      "entity": "Creditwise Capital",
+      "canonical": "CreditWise Capital",
+      "type": "company",
+      "impact": "2W NBFC with CRAR 27%, CRISIL BBB (BBB+ upgrade expected), CoF 10.5%, credit cost 2.5-2.6% at conservative 360-DPD write-off; HDFC Bank/Muthoot co-lending and ICICI Bank equity term sheet validate the model; equity raise to lift net worth to INR 4.5bn for growth toward INR 50bn AUM"
+    },
+    {
+      "entity": "Moneyboxx Finance Ltd",
+      "canonical": "Moneyboxx Finance",
+      "type": "company",
+      "impact": "De-risking via secured pivot (67% of disbursements) after FY24 unsecured slippages; GNPA improved to 3.59% (ARC-aided) but NIM compressed to 13.9% and PAT only INR 13mn; BBB/Stable ratings, 32 lenders, targeting INR 12.5bn AUM by FY27"
+    },
+    {
+      "entity": "PhonePe",
+      "canonical": "PhonePe",
+      "type": "company",
+      "impact": "Capital-light LSP lending model (no own NBFC) removes balance-sheet risk while monetising 13mn+ merchants; Unity SFB JV and new PA licence broaden the franchise; 46-47% consumer payments share"
+    },
+    {
+      "entity": "Pine Labs Ltd",
+      "canonical": "Pine Labs",
+      "type": "company",
+      "impact": "~70% POS and ~85% in-store affordability market share, 24-26% FY27 revenue growth guidance, INR 27bn cash and healthy FCF - comfortably capitalised with recurring device-rental revenue (~2mn POS at INR 350/month)"
+    },
+    {
+      "entity": "M2P Solutions Pvt Ltd",
+      "canonical": "M2P Fintech",
+      "type": "company",
+      "impact": "Approaching break-even after headcount cut from 1,800 to 1,300; targets 25-30% EBITDA margin and 35-40% revenue growth with possible listing in 3-4 years; ~50% international revenue at higher margins de-risks India pricing pressure"
+    },
+    {
+      "entity": "IDfy - Baldor Technologies Ltd",
+      "canonical": "IDfy",
+      "type": "company",
+      "impact": "EBITDA-positive RegTech (INR 2.5bn revenue, ~5% margin) targeting INR 8-10bn at 30-40% margin in 3-4 years; compliance-driven recurring demand from DPDP Act and fraud detection; acquisition war chest adds execution risk"
+    },
+    {
+      "entity": "DiGiSPICE Technologies Ltd",
+      "canonical": "DiGiSPICE",
+      "type": "company",
+      "impact": "Merging with subsidiary Spice Money to simplify structure; FY26 PAT INR 254mn (vs INR 65mn), Off-Us AEPS share 18.4%, credit disbursements up 2.8x - improving cash generation from inclusion rails despite only 3.6% revenue growth"
+    },
+    {
+      "entity": "Zaggle Prepaid Ocean Services Ltd",
+      "canonical": "Zaggle",
+      "type": "company",
+      "impact": "Guides 25-30% standalone/~40% consolidated FY27 growth and consolidated cash-flow break-even this year; Propel gross-revenue accounting means net monetisation is the true economic metric; 19-bank partnerships avoid balance-sheet deployment"
+    },
+    {
+      "entity": "Upstox",
+      "canonical": "Upstox",
+      "type": "company",
+      "impact": "Fourth consecutive profitable year, ~INR 1,200cr revenue with ~50% from F&O - regulatory concentration risk persists; diversifying into MTF (book doubled), mutual funds and potentially own NBFC/AMC, which will consume capital and lower margins"
+    },
+    {
+      "entity": "Dhan - Raise Financial Services",
+      "canonical": "Dhan",
+      "type": "company",
+      "impact": "Unicorn ($1.2bn, Oct 2025 Series B); 78% of revenue from derivatives leaves it exposed to F&O regulation, mitigated by no-prop-trading model, diversification and no funding need for 2 years"
+    },
+    {
+      "entity": "Revolut Payments India",
+      "canonical": "Revolut India",
+      "type": "company",
+      "impact": "Licence-owning entry (PPI + AD2) into wallets/forex with plans for NBFC-led credit and wealth - long-term competitive threat to incumbent forex/premium-card players; deliberately slow scaling (12k users, 1 lakh target)"
+    },
+    {
+      "entity": "SEBI",
+      "canonical": "SEBI",
+      "type": "regulator",
+      "impact": "2025 F&O measures cut industry derivatives volumes ~13% and washed out low-frequency traders, forcing broker diversification; described as pragmatic but strict"
+    },
+    {
+      "entity": "RBI",
+      "canonical": "RBI",
+      "type": "regulator",
+      "impact": "FLDG cap (5%), BNPL tightening (forcing M2P's pivot), unsecured risk weights, PA/wallet licensing and UPI MDR uncertainty are the key regulatory levers shaping fintech business models; RBI closely monitoring Moneyboxx's INR 3bn solar-loan target"
+    },
+    {
+      "entity": "Fintech / digital lending sector",
+      "canonical": "Indian fintech sector",
+      "type": "sector",
+      "impact": "Sector-wide shift from volume growth to monetisation, integrated platforms and disciplined execution; merchant-loan asset quality improved materially over 2 years and consumer fintech lending stress has stabilised post-2023"
+    }
+  ],
+  "learning": [
+    "Write-off/DPD recognition timing makes credit-cost comparisons across NBFCs misleading: CreditWise's 2.5-2.6% credit cost at 360-DPD write-off is more conservative than an identical number at the industry-standard 720 DPD - always normalise the recognition timeline before benchmarking",
+    "Headline GNPA improvement can be transaction-driven, not operational: Moneyboxx's GNPA drop from 6.61% to 3.59% was aided by an ARC sale, and its secured book has only ~2 years of vintage - adjust for sales and seasoning before crediting an underwriting turnaround",
+    "Repayment mechanics are an underwriting variable: daily auto-deduction from merchant settlement flows (Paytm's merchant cash advance) structurally outperforms monthly EMI products because collection is embedded in the cash cycle - product design can substitute for borrower quality",
+    "Gross-vs-net revenue accounting matters for platform credit analysis: Zaggle's Propel voucher redemptions are booked gross, so leverage and coverage metrics built on reported revenue overstate true monetisation - anchor analysis on net take-rate economics"
+  ],
+  "category": "Sector Report",
+  "sentiment": "positive",
+  "tags": [
+    "fintech",
+    "merchant lending",
+    "payments",
+    "upi",
+    "nbfc",
+    "co-lending",
+    "fldg",
+    "regtech",
+    "broking",
+    "asset quality",
+    "financial inclusion",
+    "monetisation"
+  ],
+  "relevance": [
+    "sector_analysis",
+    "market_data",
+    "training"
+  ]
+}

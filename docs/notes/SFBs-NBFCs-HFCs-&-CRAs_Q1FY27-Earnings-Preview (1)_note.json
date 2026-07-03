@@ -1,0 +1,206 @@
+{
+  "date": "2026-07-03",
+  "ingested_at": "2026-07-03T03:48:35.123794+00:00",
+  "source_file": "SFBs-NBFCs-HFCs-&-CRAs_Q1FY27-Earnings-Preview (1).pdf",
+  "source_path": "SFBs-NBFCs-HFCs-&-CRAs_Q1FY27-Earnings-Preview (1).pdf",
+  "file_type": "pdf",
+  "title": "YES Securities Q1FY27 Earnings Preview: SFBs, NBFCs, HFCs & Credit Rating Agencies",
+  "document_date": "2026-07-01",
+  "source_type": "broker_research",
+  "freshness": "fresh",
+  "stale_items": [],
+  "duplicate_stories": [],
+  "executive_summary": [
+    "YES Securities (analyst Rajiv Mehta, signed 1 Jul 2026) expects a resilient Q1FY27 for its SFB/NBFC/HFC/CRA coverage, with MFIs and SFBs delivering the strongest results, followed by Affordable HFCs and Vehicle Financiers; the West Asia conflict (energy/commodity price surge, supply-chain disruption) has had no meaningful impact on low/mid-income household debt servicing due to controlled leverage, weak inflation transmission and no significant job/migration losses.",
+    "Microfinance is the standout: X-bucket collection efficiency held up despite TN/WB state elections and heat waves, 1-90 dpd collections stayed resilient, write-offs are declining, and new loan pricing above portfolio yield (price hikes + risk-based pricing) should lift NIMs — positive surprises seen from Ujjivan SFB, CreditAccess Grameen, Fusion, Aptus and Home First.",
+    "Expected YoY PAT growth (Exhibit 2/5): CreditAccess +606.7% (PAT Rs4.1bn), Manappuram +293% (Rs5.2bn), Ujjivan SFB +179% (Rs2.9bn), Muthoot +79.3% (Rs35.4bn on NII +54.3%), Shriram Finance +53.2% (Rs33bn, NII +28.2%), MMFS +44.9%, Chola +26.4% (PAT Rs14.4bn), Bajaj Finance +25.9% (PAT Rs60bn, NII Rs150.5bn +19.4%); laggards are Repco (-1.9%) and Spandana (still loss-making at Rs-52mn); Equitas and Fusion swing back from year-ago losses.",
+    "Sequential AUM growth leaders (Exhibit 1): Spandana 6.5%, Home First 6.1%, Bajaj Finance 5.6%, Manappuram 5.3%, Ujjivan 4.7%, Chola 4.6%; tail-enders SBI Card 0.4%, LIC HF 0.5%, Muthoot 1.0% — gold loan growth moderating on tighter new regulations (interest loaded into LTV calculation, borrower repayment-capacity assessment for loans >Rs2.5 lakh), higher competition and late-quarter gold price softness.",
+    "Annualized credit cost estimates (Exhibit 3): SBI Card highest at 8.2%, CreditAccess 3.7%, Shriram 2.1%, MMFS 2.1%, Fusion 2.0%, Chola 1.9%, Five Star 1.8%, Bajaj Finance 1.6%; HFCs near-zero (Aavas 0.2%, LIC HF 0.1%, Repco 0.1%) — asset quality expected to show only seasonal movement with no additional flows from war, inflation or weather.",
+    "Vehicle finance: PV/Tractor retail strongest, MHCV hit from May by fuel price hike and fuel-availability uncertainty; MMFS benefits from PV/Tractor exposure, Chola from non-vehicle diversification, Shriram sees transient Used-CV slowdown but NIM improvement of 50-60bps from the large equity infusion at the start of Q1FY27.",
+    "Affordable HFCs: disbursement growth resurrecting via distribution addition, pricing/ticket-size refinement and strong LAP growth; balance-transfer-out stable at moderate levels, but spreads to compress from recent PLR cuts and lower new-loan pricing with CoF broadly stable.",
+    "Credit Rating Agencies (Exhibit 4): bond issuances tepid on higher rates but bank credit to large corporates and NBFC/HFCs accelerated; surveillance-fee growth healthy and fee caps mute mix-shift impact on realizations — expected YoY: CRISIL revenue +14.9%/EBITDA +15.3%/PAT +13.1%, CARE +14.5%/+22.6%/+19.4%, ICRA revenue +30.5%/EBITDA +26.4% but PAT -6.4% with continued Knowledge Services challenges."
+  ],
+  "key_takeaways": [
+    {
+      "takeaway": "The microfinance credit cycle has decisively turned: with X-bucket CE resilient through elections and heat waves, declining write-offs and shrinking delinquency buckets, credit costs fall further sequentially — driving outsized PAT normalization (CreditAccess +606.7%, Ujjivan +179%, Fusion back to Rs619mn profit).",
+      "credit_signal": "positive",
+      "analyst_lens": "MFI lenders' loss-absorption buffers rebuild as NIMs expand (new loan pricing above portfolio yield) while credit cost normalizes; residual risk is event-driven (state-level ordinances, weather). Track X-bucket collection efficiency and CreditAccess's annualized credit cost (still elevated at 3.7%) for confirmation the cycle trough is behind."
+    },
+    {
+      "takeaway": "Gold loan NBFCs face a growth inflection: sequential portfolio growth moderates sharply for Muthoot (AUM +1.0% QoQ) as new RBI rules — interest loaded into LTV computation and mandatory repayment-capacity assessment for loans >Rs2.5 lakh — create on-ground friction, even as current-quarter profitability stays strong (Muthoot PAT +79.3%, Manappuram +293%).",
+      "credit_signal": "watch",
+      "analyst_lens": "Peak profitability on trailing AUM growth masks a forward growth/yield/opex squeeze from regulation, competition and gold price softness. Track sequential gold AUM growth and portfolio yield trajectory over the next 2-3 quarters; rising BT activity would signal pricing power erosion."
+    },
+    {
+      "takeaway": "The West Asia conflict's energy/commodity shock has surprisingly NOT impaired debt servicing of low and mid-income households — leverage is controlled, inflation transmission weak, and no significant migration/job losses — so no additional asset-quality flows beyond seasonality across the coverage.",
+      "credit_signal": "neutral",
+      "analyst_lens": "A key macro-overhang for retail lenders is currently benign, but it is an assumption resting on limited inflation pass-through; a sustained fuel/commodity price rise would first show in MHCV operator cash flows (already hit from May) and MFI household budgets. Track fuel prices and 1+ dpd formation in vehicle finance and MFI books."
+    },
+    {
+      "takeaway": "SBI Card remains the credit-quality outlier with an 8.2% annualized credit cost estimate — roughly 2.2x the next highest (CreditAccess 3.7%) — combined with the weakest sequential receivables growth (0.4%) and muted PAT growth of 7.9%.",
+      "credit_signal": "negative",
+      "analyst_lens": "Unsecured revolver stress persists even as secured/MFI books heal, showing this cycle is asset-class-specific rather than systemic. Track SBI Card's credit cost and net flow into Stage 2/3; sustained 8%+ credit cost compresses risk-adjusted margins and internal capital generation."
+    },
+    {
+      "takeaway": "Shriram Finance's NIM should improve 50-60bps owing to the large equity infusion at the start of Q1FY27, supporting 53.2% PAT growth (Rs33bn) and 28.2% NII growth despite a transient Used-CV slowdown.",
+      "credit_signal": "positive",
+      "analyst_lens": "Fresh equity simultaneously lowers leverage and funds growth — a structural credit positive for a large wholesale-funded NBFC. Track whether the NIM uplift sustains once the capital is deployed into assets and gearing normalizes; also monitor Used-CV demand recovery."
+    },
+    {
+      "takeaway": "Affordable HFCs face margin compression: spreads come under pressure from PLR cuts taken in recent months and lower new-loan pricing while cost of funds stays flat — growth (Home First +6.1% QoQ AUM, PAT +22.3%) is being partly bought at thinner spreads and via LAP.",
+      "credit_signal": "watch",
+      "analyst_lens": "In a falling-rate cycle, asset-side repricing leads liability-side relief for NBFC-HFCs, squeezing spreads near-term; rising LAP mix subtly raises portfolio risk. Track incremental spreads and LAP share of disbursements; stable BT-out rates confirm competition is not intensifying indirectly."
+    },
+    {
+      "takeaway": "Vehicle financier fortunes diverge by asset mix: MHCV retail sales fell from May on fuel price hikes and fuel-availability uncertainty, while PV, Tractor, 2W and LCV stayed healthy-to-strong — favouring MMFS (PAT +44.9%) and Chola (PAT +26.4%, AUM +4.6% QoQ) over CV-heavy books.",
+      "credit_signal": "neutral",
+      "analyst_lens": "Fleet-operator cash flow is the transmission channel from fuel prices to NBFC asset quality; a prolonged MHCV downcycle would lift Stage 2 in CV books. Track monthly MHCV retail registrations and CV-segment collection efficiency at Shriram and Chola."
+    },
+    {
+      "takeaway": "For CRAs, the revenue engine has rotated from bond issuance (tepid on higher rates) to bank loan ratings — bank credit to large corporates and NBFC/HFCs accelerated — with fee caps in larger clients muting any adverse mix impact; domestic ratings margin expansion continues (CARE EBITDA +22.6% vs revenue +14.5%).",
+      "credit_signal": "positive",
+      "analyst_lens": "Surveillance fees (bulk of rating revenue) provide annuity-like stability, making CRA earnings resilient to capital-market cycles. Track corporate bond issuance volumes as rates ease — a bond revival would be an incremental kicker; watch ICRA's PAT decline (-6.4% YoY) driven by Knowledge Services, a diversification cautionary tale."
+    },
+    {
+      "takeaway": "Full-year guidance risk is skewed positive for select names: strong Q1 execution by Chola and Bajaj Finance (PAT Rs60bn, +25.9%, AUM +5.6% QoQ) would augment confidence in their FY27 growth outlook/guidance, while positive earnings surprises are flagged for Ujjivan SFB, CreditAccess, Fusion, Aptus and Home First against extant valuations.",
+      "credit_signal": "positive",
+      "analyst_lens": "Guidance-affirming quarters lower funding costs and widen investor access for these issuers. Track disbursement growth momentum (expected strong for a second successive quarter for MFIs/SFBs) and any guidance revisions on Q1 calls."
+    },
+    {
+      "takeaway": "Tail-risk names remain visible within the recovery: Spandana is still loss-making (Rs-52mn PAT, revenue barely +1.4% YoY despite 6.5% QoQ AUM growth) and Repco's PAT declines 1.9% YoY — the sector recovery is broad but not universal.",
+      "credit_signal": "negative",
+      "analyst_lens": "Growth restarts before profitability at stressed franchises; Spandana growing AUM 6.5% QoQ while unprofitable warrants scrutiny of underwriting discipline. Track Spandana's credit cost (1.3% annualized estimate) and pre-provision operating profit trajectory (down 117.3% YoY) for franchise viability."
+    }
+  ],
+  "entities_impacted": [
+    {
+      "entity": "CreditAccess Grameen (CREDAG)",
+      "canonical": "CreditAccess Grameen",
+      "type": "company",
+      "impact": "Largest PAT normalization in coverage (+606.7% YoY to Rs4.1bn) as MFI credit costs fall from crisis levels, though annualized credit cost of 3.7% is still second-highest; flagged as a positive-surprise candidate."
+    },
+    {
+      "entity": "Ujjivan SFB (UJJIVANS)",
+      "canonical": "Ujjivan SFB",
+      "type": "company",
+      "impact": "PAT +179% YoY (Rs2.9bn) on NII +38%, PPoP +47.3% and 4.7% QoQ advances growth; positive-surprise candidate as MFI collections and NIM improve — strengthens capital generation and deposit franchise credibility."
+    },
+    {
+      "entity": "Bajaj Finance (BAF)",
+      "canonical": "Bajaj Finance",
+      "type": "company",
+      "impact": "PAT Rs60bn (+25.9%), NII Rs150.5bn (+19.4%), AUM +5.6% QoQ with 1.6% credit cost; strong execution would reinforce FY27 guidance and funding-market confidence."
+    },
+    {
+      "entity": "Cholamandalam (CIFC)",
+      "canonical": "Chola",
+      "type": "company",
+      "impact": "PAT +26.4% (Rs14.4bn), AUM +4.6% QoQ driven by non-vehicle diversification offsetting MHCV weakness; stable core NIM expected — supports growth guidance credibility."
+    },
+    {
+      "entity": "Shriram Finance (SHFL)",
+      "canonical": "Shriram Finance",
+      "type": "company",
+      "impact": "NIM +50-60bps from large equity infusion at start of Q1FY27; PAT +53.2% (Rs33bn) despite transient Used-CV slowdown — lower leverage improves standalone credit profile."
+    },
+    {
+      "entity": "M&M Financial (MMFS)",
+      "canonical": "MMFS",
+      "type": "company",
+      "impact": "PAT +44.9% aided by heavy PV/Tractor exposure where retail sales were strongest; 2.1% credit cost with only seasonal asset-quality movement."
+    },
+    {
+      "entity": "Muthoot Finance (MUTH)",
+      "canonical": "Muthoot Finance",
+      "type": "company",
+      "impact": "Peak profitability (PAT +79.3% to Rs35.4bn, NII +54.3%) but AUM growth collapses to 1.0% QoQ as new gold-loan regulations (interest-in-LTV, repayment assessment >Rs2.5 lakh) and competition bite; forward yield/growth pressure."
+    },
+    {
+      "entity": "Manappuram (MGFL)",
+      "canonical": "Manappuram",
+      "type": "company",
+      "impact": "PAT +293% on strong gold AUM growth (5.3% QoQ), firm yields, credit-cost reduction in non-gold book and possible portfolio yield improvement from March-April rate corrections; same regulatory growth headwinds apply."
+    },
+    {
+      "entity": "SBI Cards (SBICARD)",
+      "canonical": "SBI Card",
+      "type": "company",
+      "impact": "Highest credit cost in coverage at 8.2% annualized, weakest sequential growth (0.4%) and muted PAT +7.9% — unsecured revolver stress persists, pressuring risk-adjusted returns."
+    },
+    {
+      "entity": "Home First (HOMEFIRS)",
+      "canonical": "Home First Finance",
+      "type": "company",
+      "impact": "Second-fastest sequential AUM growth (6.1%) with PAT +22.3% and 0.4% credit cost; positive-surprise candidate among affordable HFCs despite sector spread pressure from PLR cuts."
+    },
+    {
+      "entity": "Aptus / Aavas / Aadhar / Five Star / Can Fin / LIC HF / Repco",
+      "canonical": "Affordable HFCs",
+      "type": "sector",
+      "impact": "Disbursement growth resurrecting with stable BT-out and near-zero credit costs (0.1-0.4%), but spreads compress from PLR cuts and lower new-loan pricing; LIC HF (+0.5% QoQ) and Repco (PAT -1.9%) lag."
+    },
+    {
+      "entity": "Spandana Sphoorty (SPANDANA)",
+      "canonical": "Spandana",
+      "type": "company",
+      "impact": "Still loss-making (PAT Rs-52mn, PPoP -117.3% YoY) despite the fastest sequential AUM growth (6.5%) — recovery incomplete, franchise profitability under watch."
+    },
+    {
+      "entity": "Fusion Finance (FUSION)",
+      "canonical": "Fusion Finance",
+      "type": "company",
+      "impact": "Returns to profit (Rs619mn PAT vs year-ago loss) with 2.0% credit cost as MFI stress recedes; positive-surprise candidate."
+    },
+    {
+      "entity": "Equitas SFB (EQUITASB)",
+      "canonical": "Equitas SFB",
+      "type": "company",
+      "impact": "Swings from year-ago loss to Rs1.6bn PAT on NII +28.1%, though PPoP falls 9.8% QoQ — profitability recovery underway but sequentially soft operating profit."
+    },
+    {
+      "entity": "CRISIL / CARE / ICRA",
+      "canonical": "Credit Rating Agencies",
+      "type": "sector",
+      "impact": "Revenue driven by accelerating bank credit ratings to large corporates and NBFC/HFCs offsetting tepid bond issuance; CARE margin expansion strongest (EBITDA +22.6%); ICRA PAT -6.4% on Knowledge Services drag; CRISIL non-ratings (GAC, Benchmarking, IIQ, CI) sturdy."
+    },
+    {
+      "entity": "RBI gold loan regulations",
+      "canonical": "RBI",
+      "type": "regulator",
+      "impact": "New rules loading interest into LTV calculation and requiring borrower repayment-capacity assessment for loans above Rs2.5 lakh are directly moderating gold-loan NBFC portfolio growth."
+    },
+    {
+      "entity": "West Asia conflict",
+      "canonical": "West Asia conflict",
+      "type": "macro",
+      "impact": "Energy/commodity price surge and supply-chain disruption have not impaired low/mid-income household debt servicing due to controlled leverage and weak inflation transmission; MHCV demand is the one visible casualty via fuel price hikes."
+    }
+  ],
+  "learning": [
+    "Retail credit cycles in India are increasingly asset-class-specific, not systemic: in the same quarter, MFI credit costs normalize sharply (CreditAccess PAT +607%) while credit-card credit cost sits at 8.2% — portfolio surveillance must be segmented by product, not by 'retail NBFC' as a bloc.",
+    "Regulation can flip a sector's credit narrative faster than the macro: gold loan NBFCs post peak profits (Muthoot PAT +79%) exactly when LTV-computation and repayment-assessment rules choke forward growth to 1% QoQ — trailing profitability is a lagging indicator when the rulebook changes.",
+    "In a rate-cut cycle, floating-rate lenders (AHFCs taking PLR cuts) see spread compression before CoF relief, while fixed-rate/short-duration lenders (MFIs repricing new loans above portfolio yield) see NIM expansion — the direction of margin impact depends on repricing asymmetry, not the rate move itself.",
+    "A geopolitical commodity shock transmits to retail asset quality only through specific channels — fuel-dependent fleet operators (MHCV) cracked first while low-income household books stayed clean due to weak inflation pass-through; map the transmission channel before assuming broad-based stress."
+  ],
+  "category": "Sector Report",
+  "sentiment": "positive",
+  "tags": [
+    "q1fy27",
+    "earnings preview",
+    "nbfc",
+    "sfb",
+    "microfinance",
+    "gold loans",
+    "affordable housing",
+    "vehicle finance",
+    "credit rating agencies",
+    "credit cost",
+    "nim",
+    "yes securities"
+  ],
+  "relevance": [
+    "sector_analysis",
+    "market_data",
+    "credit_event"
+  ]
+}
