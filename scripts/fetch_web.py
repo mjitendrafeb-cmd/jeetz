@@ -411,6 +411,100 @@ def fetch_ccil() -> list[str]:
 
 
 # ─────────────────────────────────────────────────────────────────────────────
+# NSE / BSE RSS FEEDS — static XML on archive servers, usually not IP-blocked
+# like the JSON APIs are.
+# ─────────────────────────────────────────────────────────────────────────────
+def _load_watchlist_first_words() -> set[str]:
+    import os
+    path = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "watchlist.txt")
+    words: set[str] = set()
+    try:
+        with open(path, encoding="utf-8") as f:
+            for line in f:
+                line = line.strip()
+                if line and not line.startswith("#"):
+                    w = line.split()[0].lower()
+                    if len(w) > 2:
+                        words.add(w)
+    except Exception:
+        pass
+    return words
+
+
+def fetch_nse_rss() -> list[str]:
+    """NSE corporate announcements / circulars via nsearchives RSS."""
+    feeds = [
+        ("https://nsearchives.nseindia.com/content/RSS/Online_announcements.xml", "NSE Announcement"),
+        ("https://nsearchives.nseindia.com/content/RSS/Circulars.xml", "NSE Circular"),
+        ("https://nsearchives.nseindia.com/content/RSS/Financial_Results.xml", "NSE Results"),
+    ]
+    watch = _load_watchlist_first_words()
+    items: list[str] = []
+    for url, tag in feeds:
+        try:
+            feed = feedparser.parse(url, agent=_HEADERS["User-Agent"])
+            count = 0
+            for entry in feed.entries[:60]:
+                title = _clean(entry.get("title", "")).strip()
+                desc = _clean(entry.get("summary", entry.get("description", ""))).strip()
+                if not title:
+                    continue
+                combined = (title + " " + desc).lower()
+                is_watch = any(w in combined for w in watch)
+                is_credit = any(k in combined for k in _CREDIT_KEYWORDS)
+                if tag == "NSE Circular":
+                    keep = is_credit or any(k in combined for k in ("debt", "bond", "debenture", "ncd", "listing"))
+                else:
+                    keep = is_watch or is_credit
+                if not keep:
+                    continue
+                link = entry.get("link", "")
+                prefix = "[WATCHLIST-NSE]" if is_watch else "[T1]"
+                items.append(f"{prefix}{tag}: {title} — {desc[:150]} | URL:{link}")
+                count += 1
+                if count >= 10:
+                    break
+            print(f"[fetch_web] NSE RSS {tag}: {count} items")
+        except Exception as exc:
+            print(f"[fetch_web] NSE RSS error ({url}): {exc}")
+    return items[:20]
+
+
+def fetch_bse_rss() -> list[str]:
+    """BSE notices/announcements via RSS/XML endpoints."""
+    feeds = [
+        ("https://www.bseindia.com/data/xml/notices.xml", "BSE Notice"),
+        ("https://www.bseindia.com/data/xml/announcements.xml", "BSE Announcement"),
+    ]
+    watch = _load_watchlist_first_words()
+    items: list[str] = []
+    for url, tag in feeds:
+        try:
+            feed = feedparser.parse(url, agent=_HEADERS["User-Agent"])
+            count = 0
+            for entry in feed.entries[:60]:
+                title = _clean(entry.get("title", "")).strip()
+                desc = _clean(entry.get("summary", entry.get("description", ""))).strip()
+                if not title:
+                    continue
+                combined = (title + " " + desc).lower()
+                is_watch = any(w in combined for w in watch)
+                is_credit = any(k in combined for k in _CREDIT_KEYWORDS)
+                if not (is_watch or is_credit):
+                    continue
+                link = entry.get("link", "")
+                prefix = "[WATCHLIST-BSE]" if is_watch else "[T1]"
+                items.append(f"{prefix}{tag}: {title} — {desc[:150]} | URL:{link}")
+                count += 1
+                if count >= 10:
+                    break
+            print(f"[fetch_web] BSE RSS {tag}: {count} items")
+        except Exception as exc:
+            print(f"[fetch_web] BSE RSS error ({url}): {exc}")
+    return items[:20]
+
+
+# ─────────────────────────────────────────────────────────────────────────────
 # GOOGLE NEWS FALLBACK for rating agency content
 # ─────────────────────────────────────────────────────────────────────────────
 def _google_news_fallback(query: str, tag: str, limit: int = 5) -> list[str]:
@@ -862,6 +956,12 @@ def fetch_all_web(sources: dict | None = None, custom_urls: list[str] | None = N
     if on("nse"):
         print("[fetch_web] Fetching NSE corporate actions...")
         all_items.extend(fetch_nse_corporate_actions())
+        print("[fetch_web] Fetching NSE RSS feeds...")
+        all_items.extend(fetch_nse_rss())
+
+    if on("bse"):
+        print("[fetch_web] Fetching BSE RSS feeds...")
+        all_items.extend(fetch_bse_rss())
 
     if on("fimmda"):
         print("[fetch_web] Fetching FIMMDA...")
