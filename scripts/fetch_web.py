@@ -467,13 +467,20 @@ def _entry_recent(entry, hours: int = 48) -> bool:
     return (time.time() - calendar.timegm(pub)) <= hours * 3600
 
 
-def _exchange_keep(combined: str, watch_phrases: list[str]) -> tuple[bool, bool]:
-    """Returns (keep, is_watchlist) for an exchange RSS item."""
+def _exchange_keep(combined: str, watch_phrases: list[str],
+                   watchlist_only: bool = False) -> tuple[bool, bool]:
+    """Returns (keep, is_watchlist) for an exchange RSS item.
+
+    watchlist_only=True (company announcement feeds): only watchlist companies
+    pass, and even those are junk-filtered. False (exchange circulars/notices):
+    credit-relevant items pass regardless of company."""
     is_watch = any(p in combined for p in watch_phrases)
     if _EXCHANGE_JUNK_RE.search(combined):
-        if _EXCHANGE_JUNK_OVERRIDE_RE.search(combined):
-            return True, is_watch  # auditor/CFO/MD events are governance signals
+        if is_watch and _EXCHANGE_JUNK_OVERRIDE_RE.search(combined):
+            return True, is_watch  # watchlist auditor/CFO/MD events = governance signals
         return False, is_watch
+    if watchlist_only:
+        return is_watch, is_watch
     is_credit = bool(_EXCHANGE_CREDIT_RE.search(combined))
     return (is_watch or is_credit), is_watch
 
@@ -499,9 +506,12 @@ def fetch_nse_rss() -> list[str]:
                 if not title:
                     continue
                 combined = (title + " " + desc).lower()
-                keep, is_watch = _exchange_keep(combined, watch)
-                if tag == "NSE Circular" and not keep:
-                    keep = bool(re.search(r"\b(debt|listing)\b", combined))
+                if tag == "NSE Circular":
+                    keep, is_watch = _exchange_keep(combined, watch)
+                    if not keep:
+                        keep = bool(re.search(r"\b(debt|listing)\b", combined))
+                else:
+                    keep, is_watch = _exchange_keep(combined, watch, watchlist_only=True)
                 if not keep:
                     continue
                 link = entry.get("link", "")
@@ -536,7 +546,8 @@ def fetch_bse_rss() -> list[str]:
                 if not title:
                     continue
                 combined = (title + " " + desc).lower()
-                keep, is_watch = _exchange_keep(combined, watch)
+                keep, is_watch = _exchange_keep(
+                    combined, watch, watchlist_only=(tag == "BSE Announcement"))
                 if not keep:
                     continue
                 link = entry.get("link", "")
