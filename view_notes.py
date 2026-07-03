@@ -389,10 +389,21 @@ def render_doc(raw_note, idx):
             f'<div class="more" id="{rid}-more" hidden>{more_html}</div>'
         )
 
+    month = (date or "")[:7]
+    key = slugify(os.path.splitext(source)[0] if source else title)
+    week_ago = (datetime.date.today() - datetime.timedelta(days=7)).isoformat()
+    is_new = (n.get("ingested_at", "")[:10] or n.get("date", "")) >= week_ago
+    new_chip = '<span class="new-chip">NEW</span>' if is_new else ""
+
     return (
         f'<article class="doc" id="{rid}" data-search="{esc(search_blob)}" '
+        f'data-key="{key}" data-month="{month}" '
         f'style="border-left-color:{border}">'
-        f'<h2 class="doc-t">{esc(title)}</h2>'
+        f'<div class="doc-top">'
+        f'<h2 class="doc-t">{esc(title)}{new_chip}</h2>'
+        f'<button class="read-btn" data-key="{key}" '
+        f'onclick="toggleRead(\'{key}\')">&#10003; Mark as read</button>'
+        f'</div>'
         f'<div class="doc-meta">{esc(fmt_date(date))} &middot; {esc(st_label)} &middot; '
         f'{esc(category)} &middot; <span class="doc-src">{esc(source)}</span></div>'
         f'<div class="sec"><div class="sec-t">{crux_title}</div>'
@@ -425,18 +436,38 @@ def build_jsonld(notes):
     return json.dumps(ld, ensure_ascii=False, indent=None)
 
 
+def month_label(ym):
+    try:
+        return datetime.date.fromisoformat(ym + "-01").strftime("%b %Y")
+    except Exception:
+        return ym or "Undated"
+
+
 def generate_briefing(notes):
     now_str = datetime.datetime.now().strftime("%d %b %Y, %H:%M")
     total = len(notes)
     jsonld = build_jsonld(notes)
+
+    month_counts = Counter((note_date(n) or "")[:7] for n in notes)
+    months = sorted(month_counts.keys(), reverse=True)
+    month_items = (f'<div class="side-i m-i active" data-month="all" '
+                   f'onclick="setMonth(\'all\')">All months '
+                   f'<span class="cnt">{total}</span></div>')
+    for m in months:
+        month_items += (f'<div class="side-i m-i" data-month="{m}" '
+                        f'onclick="setMonth(\'{m}\')">{esc(month_label(m))} '
+                        f'<span class="cnt">{month_counts[m]}</span></div>')
 
     toc_items = ""
     for idx, raw in enumerate(notes):
         n = normalize_note(raw)
         sig = note_signal(n)
         color = CS_COLOR.get(sig, "#6b7280") if sig != "neutral" else "#9aa1ab"
+        source = n.get("source_file", "")
+        key = slugify(os.path.splitext(source)[0] if source else n.get("title", ""))
+        month = (note_date(n) or "")[:7]
         toc_items += (
-            f'<a class="toc-i" href="#r{idx}">'
+            f'<a class="toc-i" href="#r{idx}" data-key="{key}" data-month="{month}">'
             f'<span class="toc-dot" style="background:{color}"></span>'
             f'<span class="toc-t">{esc(n.get("title", "Untitled"))}</span>'
             f'<span class="toc-d">{esc(fmt_date(note_date(n)))}</span></a>'
@@ -459,14 +490,27 @@ def generate_briefing(notes):
 <script type="application/ld+json">{jsonld}</script>
 <style>
 {BASE_CSS}
-.wrap{{max-width:900px;margin:0 auto;padding:20px}}
+.shell{{max-width:1320px;margin:0 auto;padding:18px 18px;display:flex;gap:22px}}
+aside{{width:198px;flex-shrink:0;position:sticky;top:66px;align-self:flex-start}}
+.side-sec{{background:#fff;border:1px solid #e6e8ec;border-radius:10px;
+  padding:6px 0 8px;margin-bottom:14px}}
+.side-h{{font-size:10.5px;font-weight:800;text-transform:uppercase;letter-spacing:.7px;
+  color:#8a919c;padding:9px 15px 5px}}
+.side-i{{display:flex;justify-content:space-between;align-items:center;gap:8px;
+  padding:8px 15px;font-size:13px;font-weight:600;color:#3a4150;cursor:pointer;
+  border-left:3px solid transparent;transition:background .1s}}
+.side-i:hover{{background:#f0f2f5}}
+.side-i.active{{background:#eef4ff;color:#2563eb;border-left-color:#2563eb}}
+.cnt{{font-size:11px;color:#8a919c;background:#f0f2f5;padding:1px 8px;border-radius:9px}}
+.side-i.active .cnt{{background:#dbe7ff;color:#2563eb}}
+main{{flex:1;min-width:0}}
 .searchrow{{margin-bottom:14px}}
 #search{{width:100%;border:1px solid #d6dae0;background:#fff;color:#1e2430;
   padding:11px 16px;border-radius:8px;font-size:14px;outline:none}}
 #search:focus{{border-color:#2563eb;box-shadow:0 0 0 2px #2563eb22}}
 #search::placeholder{{color:#9aa1ab}}
 .toc{{background:#fff;border:1px solid #e6e8ec;border-radius:10px;
-  padding:8px 0;margin-bottom:22px}}
+  padding:8px 0;margin-bottom:20px}}
 .toc-h{{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;
   color:#8a919c;padding:8px 18px 4px}}
 .toc-i{{display:flex;align-items:baseline;gap:9px;padding:7px 18px;
@@ -476,8 +520,16 @@ def generate_briefing(notes):
 .toc-t{{font-size:13.5px;font-weight:600;color:#1e2430;flex:1;min-width:0}}
 .toc-d{{font-size:11.5px;color:#9aa1ab;white-space:nowrap}}
 .doc{{background:#fff;border:1px solid #e6e8ec;border-left-width:4px;
-  border-radius:10px;padding:22px 26px;margin-bottom:20px;scroll-margin-top:70px}}
+  border-radius:10px;padding:20px 24px;margin-bottom:18px;scroll-margin-top:70px}}
+.doc-top{{display:flex;align-items:flex-start;gap:14px;justify-content:space-between}}
 .doc-t{{font-size:18px;font-weight:800;line-height:1.35;color:#111726}}
+.new-chip{{background:#dcfce7;color:#15803d;font-size:10px;font-weight:800;
+  letter-spacing:.5px;padding:2px 8px;border-radius:9px;margin-left:8px;
+  vertical-align:3px;white-space:nowrap}}
+.read-btn{{border:1px solid #d6dae0;background:#fff;color:#5b6472;
+  padding:6px 12px;border-radius:6px;font-size:12px;font-weight:600;cursor:pointer;
+  white-space:nowrap;flex-shrink:0;transition:all .15s}}
+.read-btn:hover{{background:#f0fdf4;border-color:#86efac;color:#15803d}}
 .doc-meta{{font-size:12.5px;color:#8a919c;margin:5px 0 4px}}
 .doc-src{{color:#b4bac2}}
 .sec{{margin-top:16px}}
@@ -500,10 +552,16 @@ def generate_briefing(notes):
 .ent-tbl td{{padding:8px 12px 8px 0;vertical-align:top;border-bottom:1px solid #f0f2f5;
   line-height:1.55}}
 .ent-c{{font-weight:700;white-space:nowrap;width:1%;padding-right:18px;color:#1e2430}}
+mark.hl{{background:#fde047;color:#111726;border-radius:2px;padding:0 1px}}
 #empty{{text-align:center;padding:60px 20px;color:#8a919c;display:none}}
-@media(max-width:640px){{.doc{{padding:16px 16px}}.wrap{{padding:12px}}
-  .toc-d{{display:none}}}}
-@media print{{.top,.searchrow,.toc,.more-btn{{display:none!important}}
+@media(max-width:820px){{
+  .shell{{flex-direction:column;padding:12px}}
+  aside{{width:100%;position:static;display:flex;gap:10px}}
+  .side-sec{{flex:1;min-width:0;margin-bottom:0}}
+  .m-i,.side-i{{padding:7px 12px}}
+  .doc{{padding:16px 16px}}.toc-d{{display:none}}
+}}
+@media print{{.top,.searchrow,.toc,.more-btn,aside,.read-btn{{display:none!important}}
   .more{{display:block!important}}body{{background:#fff}}}}
 </style>
 </head>
@@ -511,51 +569,151 @@ def generate_briefing(notes):
 
 {top_bar(now_str, total, "home")}
 
-<div class="wrap">
-  <div class="searchrow">
-    <input id="search" type="search"
-           placeholder="Search reports, risks, companies&#8230;"
-           oninput="doSearch(this.value)" autocomplete="off">
-  </div>
-  <div class="toc" id="toc">
-    <div class="toc-h">In this briefing</div>
-    {toc_items}
-  </div>
-  {docs_html}
-  <div id="empty">Nothing matches your search.</div>
+<div class="shell">
+  <aside>
+    <div class="side-sec">
+      <div class="side-h">View</div>
+      <div class="side-i active" id="v-briefing" onclick="setView('briefing')">
+        &#128229; Briefing <span class="cnt" id="cnt-briefing"></span></div>
+      <div class="side-i" id="v-archive" onclick="setView('archive')">
+        &#9989; Archive <span class="cnt" id="cnt-archive"></span></div>
+    </div>
+    <div class="side-sec">
+      <div class="side-h">Months</div>
+      {month_items}
+    </div>
+  </aside>
+  <main>
+    <div class="searchrow">
+      <input id="search" type="search"
+             placeholder="Search reports, risks, companies&#8230;"
+             oninput="doSearch(this.value)" autocomplete="off">
+    </div>
+    <div class="toc" id="toc">
+      <div class="toc-h">In this briefing</div>
+      {toc_items}
+    </div>
+    {docs_html}
+    <div id="empty">Nothing here — try another view, month, or search.</div>
+  </main>
 </div>
 <div class="toast" id="toast"></div>
 
 <script>
 {SHARE_JS}
-window.toggleMore=function(id){{
-  var m=document.getElementById(id+'-more');
-  var b=document.getElementById(id+'-btn');
-  if(!m)return;
-  var open=!m.hidden;
-  m.hidden=open;
-  if(b)b.innerHTML=open?'Full analysis \\u25BE':'Hide full analysis \\u25B4';
-}};
-window.doSearch=function(q){{
-  q=q.toLowerCase().trim();
-  var vis=0;
-  document.querySelectorAll('.doc').forEach(function(d){{
-    var show=!q||d.dataset.search.includes(q);
-    d.style.display=show?'':'none';
-    if(show)vis++;
-  }});
-  document.querySelectorAll('.toc-i').forEach(function(t){{
-    var id=t.getAttribute('href').slice(1);
-    var d=document.getElementById(id);
-    t.style.display=(d&&d.style.display!=='none')?'':'none';
-  }});
-  document.getElementById('toc').style.display=q?'none':'';
-  document.getElementById('empty').style.display=vis?'none':'block';
-}};
-if(window.location.hash){{
-  var el=document.getElementById(window.location.hash.slice(1));
-  if(el)setTimeout(function(){{el.scrollIntoView({{block:'start'}});}},50);
-}}
+(function(){{
+  var READ_KEY='dailyreads_read';
+  var state={{view:'briefing',month:'all',q:''}};
+
+  function getRead(){{
+    try{{return new Set(JSON.parse(localStorage.getItem(READ_KEY)||'[]'));}}
+    catch(e){{return new Set();}}
+  }}
+  function saveRead(s){{localStorage.setItem(READ_KEY,JSON.stringify(Array.from(s)));}}
+
+  function clearMarks(root){{
+    root.querySelectorAll('mark.hl').forEach(function(m){{
+      var p=m.parentNode;
+      p.replaceChild(document.createTextNode(m.textContent),m);
+      p.normalize();
+    }});
+  }}
+  function highlight(el,q){{
+    if(!q)return;
+    var re=new RegExp('('+q.replace(/[.*+?^${{}}()|[\\]\\\\]/g,'\\\\$&')+')','gi');
+    var walker=document.createTreeWalker(el,NodeFilter.SHOW_TEXT,null);
+    var nodes=[];
+    while(walker.nextNode())nodes.push(walker.currentNode);
+    nodes.forEach(function(n){{
+      var pn=n.parentNode;
+      if(!n.nodeValue.trim())return;
+      if(pn.nodeName==='MARK'||pn.nodeName==='BUTTON'||pn.nodeName==='SCRIPT')return;
+      var v=n.nodeValue;
+      re.lastIndex=0;
+      if(!re.test(v))return;
+      re.lastIndex=0;
+      var frag=document.createDocumentFragment(),last=0,m;
+      while((m=re.exec(v))){{
+        frag.appendChild(document.createTextNode(v.slice(last,m.index)));
+        var mk=document.createElement('mark');
+        mk.className='hl';mk.textContent=m[0];
+        frag.appendChild(mk);
+        last=m.index+m[0].length;
+      }}
+      frag.appendChild(document.createTextNode(v.slice(last)));
+      pn.replaceChild(frag,n);
+    }});
+  }}
+
+  function apply(){{
+    var read=getRead();
+    var q=state.q.toLowerCase().trim();
+    var vis=0,nB=0,nA=0;
+    document.querySelectorAll('.doc').forEach(function(d){{
+      clearMarks(d);
+      var key=d.dataset.key;
+      var isRead=read.has(key);
+      if(isRead)nA++;else nB++;
+      var viewOk=(state.view==='briefing')?!isRead:isRead;
+      var monthOk=state.month==='all'||d.dataset.month===state.month;
+      var qOk=!q||d.dataset.search.includes(q);
+      var show=viewOk&&monthOk&&qOk;
+      d.style.display=show?'':'none';
+      var btn=d.querySelector('.read-btn');
+      if(btn)btn.innerHTML=isRead?'&#8617; Move to briefing':'&#10003; Mark as read';
+      if(show){{
+        vis++;
+        var more=document.getElementById(d.id+'-more');
+        var mbtn=document.getElementById(d.id+'-btn');
+        if(q&&more){{more.hidden=false;if(mbtn)mbtn.innerHTML='Hide full analysis \\u25B4';}}
+        if(q)highlight(d,q);
+      }}
+    }});
+    document.getElementById('cnt-briefing').textContent=nB;
+    document.getElementById('cnt-archive').textContent=nA;
+    document.querySelectorAll('.toc-i').forEach(function(t){{
+      var id=t.getAttribute('href').slice(1);
+      var d=document.getElementById(id);
+      t.style.display=(d&&d.style.display!=='none')?'':'none';
+    }});
+    document.getElementById('toc').style.display=(q||state.view==='archive')?'none':'';
+    document.getElementById('empty').style.display=vis?'none':'block';
+    document.getElementById('v-briefing').classList.toggle('active',state.view==='briefing');
+    document.getElementById('v-archive').classList.toggle('active',state.view==='archive');
+    document.querySelectorAll('.m-i').forEach(function(mi){{
+      mi.classList.toggle('active',mi.dataset.month===state.month);
+    }});
+  }}
+
+  window.setView=function(v){{state.view=v;apply();window.scrollTo(0,0);}};
+  window.setMonth=function(m){{state.month=m;apply();window.scrollTo(0,0);}};
+  window.doSearch=function(q){{state.q=q;apply();}};
+  window.toggleRead=function(key){{
+    var r=getRead();
+    if(r.has(key)){{r.delete(key);showToast('Moved back to briefing');}}
+    else{{r.add(key);showToast('Marked as read — moved to Archive');}}
+    saveRead(r);
+    apply();
+  }};
+  window.toggleMore=function(id){{
+    var m=document.getElementById(id+'-more');
+    var b=document.getElementById(id+'-btn');
+    if(!m)return;
+    var open=!m.hidden;
+    m.hidden=open;
+    if(b)b.innerHTML=open?'Full analysis \\u25BE':'Hide full analysis \\u25B4';
+  }};
+
+  if(window.location.hash){{
+    var el=document.getElementById(window.location.hash.slice(1));
+    if(el&&getRead().has(el.dataset.key))state.view='archive';
+  }}
+  apply();
+  if(window.location.hash){{
+    var el2=document.getElementById(window.location.hash.slice(1));
+    if(el2)setTimeout(function(){{el2.scrollIntoView({{block:'start'}});}},50);
+  }}
+}})();
 </script>
 </body>
 </html>"""
