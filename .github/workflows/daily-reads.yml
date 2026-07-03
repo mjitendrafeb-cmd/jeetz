@@ -1,9 +1,7 @@
 name: Daily Reads Pipeline
 
-# Schedule disabled — pipeline was failing daily and spamming failure emails.
-# Trigger manually from the Actions tab if needed.
 on:
-  workflow_dispatch:  # also allows manual trigger from GitHub UI
+  workflow_dispatch:  # manual trigger from GitHub UI ("Run workflow" button)
     inputs:
       reprocess:
         description: 'Reprocess ALL files (rebuild every note with the latest schema)'
