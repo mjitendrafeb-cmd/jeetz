@@ -414,21 +414,68 @@ def fetch_ccil() -> list[str]:
 # NSE / BSE RSS FEEDS — static XML on archive servers, usually not IP-blocked
 # like the JSON APIs are.
 # ─────────────────────────────────────────────────────────────────────────────
-def _load_watchlist_first_words() -> set[str]:
+def _load_watchlist_phrases() -> list[str]:
+    """First two words of each watchlist company (lowercased) — precise enough
+    to not match sibling group entities (e.g. 'shriram credit' won't match
+    Shriram Finance news)."""
     import os
     path = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "watchlist.txt")
-    words: set[str] = set()
+    phrases: list[str] = []
     try:
         with open(path, encoding="utf-8") as f:
             for line in f:
                 line = line.strip()
                 if line and not line.startswith("#"):
-                    w = line.split()[0].lower()
-                    if len(w) > 2:
-                        words.add(w)
+                    words = line.lower().split()
+                    phrases.append(" ".join(words[:2]) if len(words) >= 2 else words[0])
     except Exception:
         pass
-    return words
+    return phrases
+
+
+# Word-boundary credit keywords for exchange feeds (no generic 'resolution'/'credit'
+# substrings — those match routine board/shareholder resolutions).
+_EXCHANGE_CREDIT_RE = re.compile(
+    r"\b(rating|rated|downgrad\w*|upgrad\w*|default\w*|npa|debenture[s]?|ncd[s]?|"
+    r"bond[s]?|commercial paper|borrowing[s]?|fund[- ]?rais\w*|repayment|restructur\w*|"
+    r"insolvency|liquidation|moratorium|write[- ]?off|provisioning|stressed|pledge[d]?|"
+    r"one[- ]?time settlement|debt)\b",
+    re.IGNORECASE,
+)
+
+# Routine corporate housekeeping — never credit-relevant.
+_EXCHANGE_JUNK_RE = re.compile(
+    r"trading window|book closure|record date|investor (meet|presentation|call)|"
+    r"analyst meet|newspaper (publication|advertisement)|dividend.{0,40}(tax|tds)|"
+    r"tds on dividend|esop|employee stock|allotment of equity shares|postal ballot|"
+    r"\bagm\b|\begm\b|annual general meeting|extraordinary general meeting|"
+    r"share transfer|\biepf\b|loss of share certificate|duplicate share|"
+    r"regulation (39|40|74)|scrutinizer|cessation of|change in senior management|"
+    r"company secretary|compliance certificate|shareholder intimation",
+    re.IGNORECASE,
+)
+_EXCHANGE_JUNK_OVERRIDE_RE = re.compile(
+    r"auditor|chief financial|cfo|managing director|statutory", re.IGNORECASE
+)
+
+
+def _entry_recent(entry, hours: int = 48) -> bool:
+    pub = entry.get("published_parsed") or entry.get("updated_parsed")
+    if not pub:
+        return True
+    import calendar
+    return (time.time() - calendar.timegm(pub)) <= hours * 3600
+
+
+def _exchange_keep(combined: str, watch_phrases: list[str]) -> tuple[bool, bool]:
+    """Returns (keep, is_watchlist) for an exchange RSS item."""
+    is_watch = any(p in combined for p in watch_phrases)
+    if _EXCHANGE_JUNK_RE.search(combined):
+        if _EXCHANGE_JUNK_OVERRIDE_RE.search(combined):
+            return True, is_watch  # auditor/CFO/MD events are governance signals
+        return False, is_watch
+    is_credit = bool(_EXCHANGE_CREDIT_RE.search(combined))
+    return (is_watch or is_credit), is_watch
 
 
 def fetch_nse_rss() -> list[str]:
@@ -438,24 +485,23 @@ def fetch_nse_rss() -> list[str]:
         ("https://nsearchives.nseindia.com/content/RSS/Circulars.xml", "NSE Circular"),
         ("https://nsearchives.nseindia.com/content/RSS/Financial_Results.xml", "NSE Results"),
     ]
-    watch = _load_watchlist_first_words()
+    watch = _load_watchlist_phrases()
     items: list[str] = []
     for url, tag in feeds:
         try:
             feed = feedparser.parse(url, agent=_HEADERS["User-Agent"])
             count = 0
             for entry in feed.entries[:60]:
+                if not _entry_recent(entry, 48):
+                    continue
                 title = _clean(entry.get("title", "")).strip()
                 desc = _clean(entry.get("summary", entry.get("description", ""))).strip()
                 if not title:
                     continue
                 combined = (title + " " + desc).lower()
-                is_watch = any(w in combined for w in watch)
-                is_credit = any(k in combined for k in _CREDIT_KEYWORDS)
-                if tag == "NSE Circular":
-                    keep = is_credit or any(k in combined for k in ("debt", "bond", "debenture", "ncd", "listing"))
-                else:
-                    keep = is_watch or is_credit
+                keep, is_watch = _exchange_keep(combined, watch)
+                if tag == "NSE Circular" and not keep:
+                    keep = bool(re.search(r"\b(debt|listing)\b", combined))
                 if not keep:
                     continue
                 link = entry.get("link", "")
@@ -476,21 +522,22 @@ def fetch_bse_rss() -> list[str]:
         ("https://www.bseindia.com/data/xml/notices.xml", "BSE Notice"),
         ("https://www.bseindia.com/data/xml/announcements.xml", "BSE Announcement"),
     ]
-    watch = _load_watchlist_first_words()
+    watch = _load_watchlist_phrases()
     items: list[str] = []
     for url, tag in feeds:
         try:
             feed = feedparser.parse(url, agent=_HEADERS["User-Agent"])
             count = 0
             for entry in feed.entries[:60]:
+                if not _entry_recent(entry, 48):
+                    continue
                 title = _clean(entry.get("title", "")).strip()
                 desc = _clean(entry.get("summary", entry.get("description", ""))).strip()
                 if not title:
                     continue
                 combined = (title + " " + desc).lower()
-                is_watch = any(w in combined for w in watch)
-                is_credit = any(k in combined for k in _CREDIT_KEYWORDS)
-                if not (is_watch or is_credit):
+                keep, is_watch = _exchange_keep(combined, watch)
+                if not keep:
                     continue
                 link = entry.get("link", "")
                 prefix = "[WATCHLIST-BSE]" if is_watch else "[T1]"
