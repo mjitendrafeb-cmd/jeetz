@@ -180,7 +180,11 @@ DO NOT output Part A as HTML. Use it only to ensure those 5 stories appear at th
 PART B — ALL 5 SECTIONS  (goes in attachment, newspaper column layout)
 ════════════
 CRITICAL: You MUST output ALL 5 sections (S1 through S5). If content is sparse, still output the section banner + "No news in this category today." Do NOT skip S4 or S5 under any circumstances.
-CONCISENESS: Maximum 6 articles per section. Each article uses exactly 1 sentence for "what happened" and 1 sentence for "credit implication". This ensures all 5 sections fit within the output limit.
+CONCISENESS: Maximum 6 full-format articles per section (S1 EXCEPTION: every [WATCHLIST — Company] and [WATCHLIST-NSE]/[WATCHLIST-BSE] item MUST appear in S1 as a full article — no cap). Each article uses exactly 1 sentence for "what happened" and 1 sentence for "credit implication".
+IN BRIEF — ZERO SILENT DROPS: any remaining credit-relevant item that didn't make the full-article cut MUST still appear as a one-liner at the END of its section, under this exact block:
+<p style="margin:14px 0 4px;font-size:8px;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:#999;">In brief</p>
+then one line per item: <p style="margin:0 0 4px;font-size:9.5px;color:#555;line-height:1.5;">&#8226; HEADLINE (Source) <a href="URL" style="color:#999;font-size:8.5px;">&#8594;</a></p>
+Only truly non-credit items (per SKIP rules) may be omitted entirely.
 Show ALL 5 sections. Each item in EXACTLY ONE section. Most credit-significant story per section comes FIRST.
 
 Section routing:
@@ -269,8 +273,8 @@ OUTPUT RULES:
 - No html/head/body wrappers.
 - Output Part B then Part C in order. Nothing else.
 - PART C IS MANDATORY — never end without it. Budget your output: keep Part B
-  under 25,000 characters total (max 5 articles per section, 1 tight sentence
-  each for what-happened and implication) so Part C always fits."""
+  under 35,000 characters total (full articles stay tight — 1 sentence each for
+  what-happened and implication; In-brief lines are cheap) so Part C always fits."""
 
 
 # ---------------------------------------------------------------------------
@@ -281,8 +285,8 @@ def generate_report(news_text: str, today: datetime.date, api_key: str) -> str:
     day_str = today.strftime("%A")
     date_str = today.strftime("%d %B %Y")
 
-    if len(news_text) > 60000:
-        news_text = news_text[:60000] + "\n[...truncated]"
+    if len(news_text) > 100000:
+        news_text = news_text[:100000] + "\n[...truncated]"
 
     prompt = _build_prompt(news_text, day_str, date_str)
 
