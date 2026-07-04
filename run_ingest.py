@@ -18,7 +18,11 @@ import time
 
 SUPPORTED = {".pdf", ".txt", ".md", ".html", ".htm"}
 MAX_CHARS = 150_000
-PDF_MAX_BYTES = 30 * 1024 * 1024  # above this, fall back to text extraction
+PDF_MAX_BYTES = 30 * 1024 * 1024  # native-vision mode unavailable above this size
+# Smart PDF routing: text-rich PDFs go as cheap extracted text; only low-text
+# (scanned / chart-heavy) PDFs are sent natively so Claude can see the pages.
+PDF_TEXT_MIN_CHARS = 5_000   # below this total, extraction considered failed
+PDF_TEXT_MIN_DENSITY = 400   # avg chars/page below this → image-heavy → native
 SEEN_DAYS = 60    # dedup context: only look back this far
 SEEN_MAX = 40     # dedup context: at most this many recent notes
 
@@ -103,6 +107,14 @@ def extract_pdf(path):
     import pdfplumber
     with pdfplumber.open(path) as pdf:
         return "\n".join(p.extract_text() or "" for p in pdf.pages)
+
+
+def extract_pdf_pages(path):
+    """Extract text plus page count, for deciding text vs native-vision mode."""
+    import pdfplumber
+    with pdfplumber.open(path) as pdf:
+        texts = [p.extract_text() or "" for p in pdf.pages]
+    return "\n".join(texts), len(texts)
 
 
 def extract_html(path):
@@ -192,18 +204,44 @@ def call_claude(path, api_key, seen_context=""):
                       f"flag them in duplicate_stories instead):\n{seen_context}\n")
 
     ext = os.path.splitext(path)[1].lower()
-    if ext == ".pdf" and os.path.getsize(path) <= PDF_MAX_BYTES:
-        with open(path, "rb") as f:
-            pdf_b64 = base64.standard_b64encode(f.read()).decode("ascii")
-        content = [
-            {"type": "document",
-             "source": {"type": "base64", "media_type": "application/pdf", "data": pdf_b64}},
-            {"type": "text",
-             "text": PROMPT + seen_block +
-                     "\n\nAnalyse the attached PDF document, including its tables, charts and exhibits."},
-        ]
+    content = None
+    if ext == ".pdf":
         ftype = "pdf"
-        print("  Sending PDF natively to Claude (tables/charts included)...")
+        try:
+            text, n_pages = extract_pdf_pages(path)
+        except Exception as e:
+            print(f"  Text extraction failed ({e}) — will try native mode")
+            text, n_pages = "", 0
+        density = len(text) / max(n_pages, 1)
+        text_rich = (len(text.strip()) >= PDF_TEXT_MIN_CHARS
+                     and density >= PDF_TEXT_MIN_DENSITY)
+        if text_rich:
+            truncated = text[:MAX_CHARS]
+            if len(text) > MAX_CHARS:
+                print(f"  [truncated {len(text):,} → {MAX_CHARS:,} chars]")
+            content = (PROMPT + seen_block +
+                       '\n\nDocument:\n"""\n' + truncated + '\n"""')
+            print(f"  Text-rich PDF ({n_pages} pages, {len(text):,} chars) — "
+                  f"using cheap text mode")
+        elif os.path.getsize(path) <= PDF_MAX_BYTES:
+            with open(path, "rb") as f:
+                pdf_b64 = base64.standard_b64encode(f.read()).decode("ascii")
+            content = [
+                {"type": "document",
+                 "source": {"type": "base64", "media_type": "application/pdf", "data": pdf_b64}},
+                {"type": "text",
+                 "text": PROMPT + seen_block +
+                         "\n\nAnalyse the attached PDF document, including its tables, charts and exhibits."},
+            ]
+            print(f"  Low-text PDF ({n_pages} pages, {len(text):,} chars extractable) — "
+                  f"sending natively so scans/charts are read")
+        elif len(text.strip()) >= 50:
+            # oversized for native mode; use whatever text we have
+            content = (PROMPT + seen_block +
+                       '\n\nDocument:\n"""\n' + text[:MAX_CHARS] + '\n"""')
+            print(f"  PDF too large for native mode — using extracted text")
+        else:
+            raise ValueError("too little text extracted and file too large for native mode")
     else:
         text, ftype = extract_text(path)
         if len(text.strip()) < 50:
