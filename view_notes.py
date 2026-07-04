@@ -30,6 +30,8 @@ SITE_TITLE = "Daily Reads — Report Briefings"
 SITE_DESC = ("Every report distilled: the crux, the risks, and the analyst lens — "
              "finance, credit research, macro, and regulatory analysis.")
 SYNC_URL = "https://github.com/mjitendrafeb-cmd/jeetz/actions/workflows/daily-reads.yml"
+REPO_BRANCH = "claude/knowledge-mgmt-daily-reads-cj7wbf"
+GH_DELETE_BASE = f"https://github.com/mjitendrafeb-cmd/jeetz/delete/{REPO_BRANCH}/docs/notes/"
 
 SIGNAL_PRIORITY = {"negative": 0, "watch": 1, "positive": 2, "neutral": 3}
 SIGNAL_BORDER = {"negative": "#ef4444", "watch": "#f59e0b", "positive": "#22c55e", "neutral": "#cbd5e1"}
@@ -389,8 +391,11 @@ def render_doc(raw_note, idx):
             f'<div class="more" id="{rid}-more" hidden>{more_html}</div>'
         )
 
+    import urllib.parse
     month = (date or "")[:7]
-    key = slugify(os.path.splitext(source)[0] if source else title)
+    stem = os.path.splitext(source)[0] if source else title
+    key = slugify(stem)
+    gh_del_url = GH_DELETE_BASE + urllib.parse.quote(f"{stem}_note.json")
     week_ago = (datetime.date.today() - datetime.timedelta(days=7)).isoformat()
     is_new = (n.get("ingested_at", "")[:10] or n.get("date", "")) >= week_ago
     new_chip = '<span class="new-chip">NEW</span>' if is_new else ""
@@ -406,6 +411,9 @@ def render_doc(raw_note, idx):
         f'onclick="toggleRead(\'{key}\')">&#10003; Mark as read</button>'
         f'<button class="del-btn" data-key="{key}" '
         f'onclick="toggleDelete(\'{key}\')">&#128465;</button>'
+        f'<button class="perm-btn" data-ghdel="{esc(gh_del_url)}" '
+        f'onclick="permDelete(this)" style="display:none">'
+        f'&#10060; Delete permanently</button>'
         f'</div>'
         f'</div>'
         f'<div class="doc-meta">{esc(fmt_date(date))} &middot; {esc(st_label)} &middot; '
@@ -539,6 +547,10 @@ main{{flex:1;min-width:0}}
   padding:6px 10px;border-radius:6px;font-size:12px;font-weight:600;cursor:pointer;
   white-space:nowrap;flex-shrink:0;transition:all .15s}}
 .del-btn:hover{{background:#fef2f2;border-color:#fca5a5;color:#dc2626}}
+.perm-btn{{border:1px solid #fca5a5;background:#fef2f2;color:#dc2626;
+  padding:6px 12px;border-radius:6px;font-size:12px;font-weight:700;cursor:pointer;
+  white-space:nowrap;flex-shrink:0;transition:all .15s}}
+.perm-btn:hover{{background:#dc2626;color:#fff}}
 .doc-meta{{font-size:12.5px;color:#8a919c;margin:5px 0 4px}}
 .doc-src{{color:#b4bac2}}
 .sec{{margin-top:16px}}
@@ -604,10 +616,10 @@ mark.hl{{background:#fde047;color:#111726;border-radius:2px;padding:0 1px}}
              oninput="doSearch(this.value)" autocomplete="off">
     </div>
     <div class="trash-note" id="trash-note" style="display:none">
-      Reports in Trash are only hidden on this device. To delete a report
-      <b>permanently for everyone</b>: open
-      <a href="{SYNC_URL}" target="_blank">Run workflow</a>, type part of the
-      report name in the <b>purge</b> box, and run it.
+      Reports here are only hidden on this device — <b>&#8617; Restore</b> brings them back.
+      To erase one <b>for everyone</b>, click <b>&#10060; Delete permanently</b> on the report:
+      a GitHub page opens where you confirm with "Commit changes". It vanishes from the site
+      after the next <a href="{SYNC_URL}" target="_blank">Sync run</a> (or ask Claude to run it).
     </div>
     <div class="toc" id="toc">
       <div class="toc-h">In this briefing</div>
@@ -690,11 +702,13 @@ mark.hl{{background:#fde047;color:#111726;border-radius:2px;padding:0 1px}}
       d.style.display=show?'':'none';
       var btn=d.querySelector('.read-btn');
       var dbtn=d.querySelector('.del-btn');
+      var pbtn=d.querySelector('.perm-btn');
       if(btn){{
         btn.style.display=isDel?'none':'';
         btn.innerHTML=isRead?'&#8617; Move to briefing':'&#10003; Mark as read';
       }}
       if(dbtn)dbtn.innerHTML=isDel?'&#8617; Restore':'&#128465;';
+      if(pbtn)pbtn.style.display=isDel?'':'none';
       if(show){{
         vis++;
         var more=document.getElementById(d.id+'-more');
@@ -738,6 +752,14 @@ mark.hl{{background:#fde047;color:#111726;border-radius:2px;padding:0 1px}}
     else{{d.add(key);showToast('Moved to Trash — restore anytime from the Trash view');}}
     saveDel(d);
     apply();
+  }};
+  window.permDelete=function(btn){{
+    var ok=confirm('This permanently deletes the summary for EVERYONE (not just this device).\\n\\n'+
+      'A GitHub page will open — click the green "Commit changes" button there to finish.\\n\\n'+
+      'The report disappears from the site after the next Sync run. Continue?');
+    if(!ok)return;
+    window.open(btn.dataset.ghdel,'_blank');
+    showToast('Finish on the GitHub page: click Commit changes');
   }};
   window.toggleMore=function(id){{
     var m=document.getElementById(id+'-more');
