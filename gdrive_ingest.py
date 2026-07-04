@@ -88,7 +88,7 @@ def main():
         sys.exit(1)
 
     sys.path.insert(0, REPO_ROOT)
-    from run_ingest import process  # reuse all extraction + Claude logic
+    from run_ingest import process, print_session_summary  # reuse all extraction + Claude logic
 
     print(f"Connecting to Google Drive folder: {GDRIVE_FOLDER_ID}")
     service = _drive_service()
@@ -136,6 +136,7 @@ def main():
                 ok += 1
 
     print(f"\nDone: {ok}/{len(new_files)} successfully processed.")
+    print_session_summary()
 
 
 if __name__ == "__main__":

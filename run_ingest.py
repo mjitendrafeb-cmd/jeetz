@@ -21,6 +21,31 @@ MAX_CHARS = 150_000
 PDF_MAX_BYTES = 30 * 1024 * 1024  # above this, fall back to text extraction
 SEEN_DAYS = 60    # dedup context: only look back this far
 SEEN_MAX = 40     # dedup context: at most this many recent notes
+
+# claude-opus-4-8 pricing (USD per 1M tokens) — update if the model/pricing changes
+PRICE_PER_M_INPUT = 5.00
+PRICE_PER_M_OUTPUT = 25.00
+SESSION_USAGE = {"input_tokens": 0, "output_tokens": 0, "docs": 0}
+
+
+def _track_usage(usage):
+    inp = getattr(usage, "input_tokens", 0) or 0
+    out = getattr(usage, "output_tokens", 0) or 0
+    SESSION_USAGE["input_tokens"] += inp
+    SESSION_USAGE["output_tokens"] += out
+    SESSION_USAGE["docs"] += 1
+    cost = inp / 1_000_000 * PRICE_PER_M_INPUT + out / 1_000_000 * PRICE_PER_M_OUTPUT
+    print(f"  API usage: {inp:,} in + {out:,} out tokens (~${cost:.3f})")
+
+
+def print_session_summary():
+    if not SESSION_USAGE["docs"]:
+        return
+    inp, out = SESSION_USAGE["input_tokens"], SESSION_USAGE["output_tokens"]
+    cost = inp / 1_000_000 * PRICE_PER_M_INPUT + out / 1_000_000 * PRICE_PER_M_OUTPUT
+    print(f"\nSession API usage: {SESSION_USAGE['docs']} document(s), "
+          f"{inp:,} input + {out:,} output tokens — approx ${cost:.2f} total "
+          f"(claude-opus-4-8: ${PRICE_PER_M_INPUT}/1M in, ${PRICE_PER_M_OUTPUT}/1M out)")
 REPO_ROOT = os.path.dirname(os.path.abspath(__file__))
 DEFAULT_NOTES_DIR = os.path.join(REPO_ROOT, "docs", "notes")
 
@@ -200,6 +225,7 @@ def call_claude(path, api_key, seen_context=""):
         msg = stream.get_final_message()
     if msg.stop_reason == "max_tokens":
         print("  Claude hit the output token limit — response was truncated, retrying is unlikely to help without raising max_tokens further")
+    _track_usage(msg.usage)
     # Get the text block (last content block, skipping thinking blocks)
     raw = ""
     for block in reversed(msg.content):
@@ -279,6 +305,7 @@ def batch(watch_dir, notes_dir, api_key):
     print(f"Found {len(files)} file(s).")
     ok = sum(1 for p in files if process(p, notes_dir, api_key))
     print(f"\nDone: {ok}/{len(files)} processed.")
+    print_session_summary()
 
 
 def watch(watch_dir, notes_dir, api_key):
