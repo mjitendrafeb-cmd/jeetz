@@ -321,7 +321,7 @@ def fetch_google_news() -> list[str]:
             feed = feedparser.parse(url)
             count = 0
             for entry in feed.entries:
-                if count >= 2:
+                if count >= 3:
                     break
                 if not _is_recent(entry, 48):
                     continue

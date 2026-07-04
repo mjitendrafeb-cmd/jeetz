@@ -632,7 +632,7 @@ def fetch_custom_url(url: str) -> list[str]:
             link_part = f" | URL:{href}" if href else ""
             seen.add(text.lower())
             items.append(f"[WEB — {domain}] {text[:200]}{link_part}")
-            if len(items) >= 10:
+            if len(items) >= 15:
                 break
 
         # If headings didn't yield enough, try article/card links
@@ -646,7 +646,7 @@ def fetch_custom_url(url: str) -> list[str]:
                     href = f"https://{domain}{href if href.startswith('/') else '/' + href}"
                 seen.add(text.lower())
                 items.append(f"[WEB — {domain}] {text[:200]} | URL:{href}")
-                if len(items) >= 10:
+                if len(items) >= 15:
                     break
 
     except Exception as exc:

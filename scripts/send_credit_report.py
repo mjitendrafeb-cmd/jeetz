@@ -167,7 +167,7 @@ WATCHLIST items ([WATCHLIST — Company]) and [BSE — Company] items are HIGHES
 SOURCE TIERS: [T1] = Primary/Regulatory (RBI, SEBI, BSE, rating agencies) — highest trust. [T2] = Quality press (ET, Mint, Bloomberg). No tag = aggregated. When deduplicating, always prefer [T1] over [T2] over untagged. Show source tier in parentheses after source name: e.g. "RBI (Primary)" or "Economic Times (Press)".
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-OUTPUT FORMAT — raw HTML, ALL inline styles, NO class names, NO <style> blocks
+OUTPUT FORMAT — raw HTML. Part B: compact class markup. Part C: inline styles.
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 ════════════
@@ -182,8 +182,8 @@ PART B — ALL 5 SECTIONS  (goes in attachment, newspaper column layout)
 CRITICAL: You MUST output ALL 5 sections (S1 through S5). If content is sparse, still output the section banner + "No news in this category today." Do NOT skip S4 or S5 under any circumstances.
 CONCISENESS: Maximum 6 full-format articles per section (S1 EXCEPTION: every [WATCHLIST — Company] and [WATCHLIST-NSE]/[WATCHLIST-BSE] item MUST appear in S1 as a full article — no cap). Each article uses exactly 1 sentence for "what happened" and 1 sentence for "credit implication".
 IN BRIEF — ZERO SILENT DROPS: any remaining credit-relevant item that didn't make the full-article cut MUST still appear as a one-liner at the END of its section, under this exact block:
-<p style="margin:14px 0 4px;font-size:8px;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:#999;">In brief</p>
-then one line per item: <p style="margin:0 0 4px;font-size:9.5px;color:#555;line-height:1.5;">&#8226; HEADLINE (Source) <a href="URL" style="color:#999;font-size:8.5px;">&#8594;</a></p>
+<p class="ibh">In brief</p>
+then one line per item: <p class="ib">&#8226; HEADLINE (Source) <a href="URL">&#8594;</a></p>
 Only truly non-credit items (per SKIP rules) may be omitted entirely.
 Show ALL 5 sections. Each item in EXACTLY ONE section. Most credit-significant story per section comes FIRST.
 
@@ -196,32 +196,28 @@ Section routing:
 
 Each section = one section-banner div + article divs. Use EXACTLY this structure:
 
-SECTION BANNER (copy exactly, note id and data-section):
-S1: <div id="s1" data-section="banner" style="margin:20px 0 0;padding:6px 0;border-top:3px solid #cc0000;border-bottom:1px solid #cc0000;font-size:9px;font-weight:800;letter-spacing:3px;text-transform:uppercase;color:#cc0000;">&#9733; S1 &mdash; MY RATED ENTITIES &amp; WATCHLIST</div>
-S2: <div id="s2" data-section="banner" style="margin:20px 0 0;padding:6px 0;border-top:3px solid #b45309;border-bottom:1px solid #b45309;font-size:9px;font-weight:800;letter-spacing:3px;text-transform:uppercase;color:#b45309;">S2 &mdash; NBFC, HFC, BROKING, FINTECH, FI SECTORS</div>
-S3: <div id="s3" data-section="banner" style="margin:20px 0 0;padding:6px 0;border-top:3px solid #1e3a8a;border-bottom:1px solid #1e3a8a;font-size:9px;font-weight:800;letter-spacing:3px;text-transform:uppercase;color:#1e3a8a;">S3 &mdash; RBI, SEBI, NHB REGULATIONS</div>
-S4: <div id="s4" data-section="banner" style="margin:20px 0 0;padding:6px 0;border-top:3px solid #15803d;border-bottom:1px solid #15803d;font-size:9px;font-weight:800;letter-spacing:3px;text-transform:uppercase;color:#15803d;">S4 &mdash; BOND &amp; MONEY MARKETS</div>
-S5: <div id="s5" data-section="banner" style="margin:20px 0 0;padding:6px 0;border-top:3px solid #6d28d9;border-bottom:1px solid #6d28d9;font-size:9px;font-weight:800;letter-spacing:3px;text-transform:uppercase;color:#6d28d9;">S5 &mdash; MACROECONOMIC DEVELOPMENTS</div>
+PART B uses COMPACT CLASS MARKUP (styles are added later — never write style= attributes in Part B).
 
-ARTICLE (use for EVERY article — newspaper column style):
-<div style="break-inside:avoid;padding:12px 0;border-bottom:1px solid #ddd;">
-  <p style="margin:0 0 3px;font-size:8px;font-weight:800;text-transform:uppercase;letter-spacing:1.5px;color:#999;">SOURCE &bull; DATE</p>
-  <p style="margin:0 0 6px;font-size:14px;font-weight:700;font-family:Georgia,serif;line-height:1.25;color:#111;">HEADLINE</p>
-  <p style="margin:0 0 5px;font-size:10.5px;color:#333;line-height:1.55;">What happened in 1 tight sentence. Facts only.</p>
-  <p style="margin:0 0 6px;font-size:10px;color:#444;line-height:1.5;border-left:3px solid #cc0000;padding-left:7px;font-style:italic;">Credit implication: 1 sentence on rating/liquidity/asset quality impact.</p>
-  <a href="ACTUAL_URL" target="_blank" style="font-size:9px;color:#888;text-decoration:none;font-weight:600;">Read more &#8594;</a>
+SECTION BANNER (copy exactly, note id, data-section and class):
+S1: <div id="s1" data-section="banner" class="sb sb1">&#9733; S1 &mdash; MY RATED ENTITIES &amp; WATCHLIST</div>
+S2: <div id="s2" data-section="banner" class="sb sb2">S2 &mdash; NBFC, HFC, BROKING, FINTECH, FI SECTORS</div>
+S3: <div id="s3" data-section="banner" class="sb sb3">S3 &mdash; RBI, SEBI, NHB REGULATIONS</div>
+S4: <div id="s4" data-section="banner" class="sb sb4">S4 &mdash; BOND &amp; MONEY MARKETS</div>
+S5: <div id="s5" data-section="banner" class="sb sb5">S5 &mdash; MACROECONOMIC DEVELOPMENTS</div>
+
+ARTICLE (use for EVERY article):
+<div class="art">
+  <p class="src">SOURCE &bull; DATE</p>
+  <p class="hl">HEADLINE</p>
+  <p class="wh">What happened in 1 tight sentence. Facts only.</p>
+  <p class="ci">Credit implication: 1 sentence on rating/liquidity/asset quality impact.</p>
+  <a class="rm" href="ACTUAL_URL" target="_blank">Read more &#8594;</a>
 </div>
 
-For FIRST article in S1 only (lead story), use this wider hero format:
-<div style="break-inside:avoid;padding:12px 0 14px;border-bottom:2px solid #cc0000;margin-bottom:4px;">
-  <p style="margin:0 0 3px;font-size:8px;font-weight:800;text-transform:uppercase;letter-spacing:1.5px;color:#cc0000;">&#9733; WATCHLIST &bull; SOURCE</p>
-  <p style="margin:0 0 8px;font-size:18px;font-weight:800;font-family:Georgia,serif;line-height:1.2;color:#111;">HEADLINE — BIGGER AND BOLDER</p>
-  <p style="margin:0 0 6px;font-size:11px;color:#222;line-height:1.7;">What happened in 2-3 sentences. Facts only.</p>
-  <p style="margin:0 0 6px;font-size:10.5px;color:#333;line-height:1.65;border-left:3px solid #cc0000;padding-left:8px;font-style:italic;">Credit implication: impact on rating outlook / liquidity / asset quality.</p>
-  <a href="ACTUAL_URL" target="_blank" style="font-size:9px;color:#cc0000;text-decoration:none;font-weight:700;">Read full story &#8594;</a>
-</div>
+For FIRST article in S1 only (lead story), use class="art hero" and 2-3 sentence what-happened.
+For "Also reported by": <span class="also">Also reported by: Source2, Source3</span>
 
-Omit the link if no URL. For empty section: <p style="padding:10px 0;font-size:10px;color:#aaa;font-style:italic;">No news in this category today.</p>
+Omit the link if no URL. For empty section: <p class="empty">No news in this category today.</p>
 
 ════════════
 PART C — TOP 5 CREDIT TAKEAWAYS  (goes in email body)
@@ -269,11 +265,11 @@ PART C — TOP 5 CREDIT TAKEAWAYS  (goes in email body)
 
 OUTPUT RULES:
 - Real URLs only from "| URL:" — never placeholder text. No <a> if no URL.
-- ALL styles inline. No class names. No <style> blocks.
+- Part B: compact class markup ONLY (no style= attributes). Part C: ALL styles inline exactly as templated.
 - No html/head/body wrappers.
 - Output Part B then Part C in order. Nothing else.
 - PART C IS MANDATORY — never end without it. Budget your output: keep Part B
-  under 35,000 characters total (full articles stay tight — 1 sentence each for
+  under 20,000 characters total (full articles stay tight — 1 sentence each for
   what-happened and implication; In-brief lines are cheap) so Part C always fits."""
 
 
@@ -298,6 +294,7 @@ def generate_report(news_text: str, today: datetime.date, api_key: str) -> str:
         with client.messages.stream(
             model="claude-sonnet-5",
             max_tokens=64000,
+            output_config={"effort": "medium"},
             messages=[{"role": "user", "content": prompt}],
         ) as stream:
             message = stream.get_final_message()
@@ -480,6 +477,31 @@ def build_attachment(part_b_html: str, today: datetime.date) -> str:
 
   /* Section banners span all columns */
   [data-section="banner"]{{column-span:all;margin:20px -28px 0;padding:5px 28px;border-top:3px solid;border-bottom:1px solid}}
+
+  /* ── COMPACT ARTICLE CLASSES (model emits these; styles live here) ── */
+  .sb{{font-size:9px;font-weight:800;letter-spacing:3px;text-transform:uppercase;padding-top:6px;padding-bottom:6px}}
+  .sb1{{color:#cc0000;border-color:#cc0000}}
+  .sb2{{color:#b45309;border-color:#b45309}}
+  .sb3{{color:#1e3a8a;border-color:#1e3a8a}}
+  .sb4{{color:#15803d;border-color:#15803d}}
+  .sb5{{color:#6d28d9;border-color:#6d28d9}}
+  .art{{break-inside:avoid;padding:12px 0;border-bottom:1px solid #ddd}}
+  .art .src{{margin:0 0 3px;font-size:8px;font-weight:800;text-transform:uppercase;letter-spacing:1.5px;color:#999}}
+  .art .hl{{margin:0 0 6px;font-size:14px;font-weight:700;font-family:Georgia,serif;line-height:1.25;color:#111}}
+  .art .wh{{margin:0 0 5px;font-size:10.5px;color:#333;line-height:1.55}}
+  .art .ci{{margin:0 0 6px;font-size:10px;color:#444;line-height:1.5;border-left:3px solid #cc0000;padding-left:7px;font-style:italic}}
+  .art .rm{{font-size:9px;color:#888;text-decoration:none;font-weight:600}}
+  .art .also{{font-size:10px;color:#999}}
+  .art.hero{{padding:12px 0 14px;border-bottom:2px solid #cc0000;margin-bottom:4px}}
+  .art.hero .src{{color:#cc0000}}
+  .art.hero .hl{{font-size:18px;font-weight:800;line-height:1.2}}
+  .art.hero .wh{{font-size:11px;color:#222;line-height:1.7}}
+  .art.hero .ci{{font-size:10.5px;line-height:1.65;padding-left:8px}}
+  .art.hero .rm{{color:#cc0000;font-weight:700}}
+  .ibh{{margin:14px 0 4px;font-size:8px;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:#999}}
+  .ib{{margin:0 0 4px;font-size:9.5px;color:#555;line-height:1.5}}
+  .ib a{{color:#999;font-size:8.5px;text-decoration:none}}
+  .empty{{padding:10px 0;font-size:10px;color:#aaa;font-style:italic}}
 
   /* ── PAGE FOOTER ── */
   .page-foot{{display:flex;justify-content:space-between;border-top:1px solid #bbb;margin:8px 28px 0;padding-top:6px;font-size:8px;color:#888;letter-spacing:1px;text-transform:uppercase}}
