@@ -401,8 +401,12 @@ def render_doc(raw_note, idx):
         f'style="border-left-color:{border}">'
         f'<div class="doc-top">'
         f'<h2 class="doc-t">{esc(title)}{new_chip}</h2>'
+        f'<div class="doc-btns">'
         f'<button class="read-btn" data-key="{key}" '
         f'onclick="toggleRead(\'{key}\')">&#10003; Mark as read</button>'
+        f'<button class="del-btn" data-key="{key}" '
+        f'onclick="toggleDelete(\'{key}\')">&#128465;</button>'
+        f'</div>'
         f'</div>'
         f'<div class="doc-meta">{esc(fmt_date(date))} &middot; {esc(st_label)} &middot; '
         f'{esc(category)} &middot; <span class="doc-src">{esc(source)}</span></div>'
@@ -526,10 +530,15 @@ main{{flex:1;min-width:0}}
 .new-chip{{background:#dcfce7;color:#15803d;font-size:10px;font-weight:800;
   letter-spacing:.5px;padding:2px 8px;border-radius:9px;margin-left:8px;
   vertical-align:3px;white-space:nowrap}}
+.doc-btns{{display:flex;gap:6px;flex-shrink:0;align-items:flex-start}}
 .read-btn{{border:1px solid #d6dae0;background:#fff;color:#5b6472;
   padding:6px 12px;border-radius:6px;font-size:12px;font-weight:600;cursor:pointer;
   white-space:nowrap;flex-shrink:0;transition:all .15s}}
 .read-btn:hover{{background:#f0fdf4;border-color:#86efac;color:#15803d}}
+.del-btn{{border:1px solid #d6dae0;background:#fff;color:#8a919c;
+  padding:6px 10px;border-radius:6px;font-size:12px;font-weight:600;cursor:pointer;
+  white-space:nowrap;flex-shrink:0;transition:all .15s}}
+.del-btn:hover{{background:#fef2f2;border-color:#fca5a5;color:#dc2626}}
 .doc-meta{{font-size:12.5px;color:#8a919c;margin:5px 0 4px}}
 .doc-src{{color:#b4bac2}}
 .sec{{margin-top:16px}}
@@ -577,6 +586,8 @@ mark.hl{{background:#fde047;color:#111726;border-radius:2px;padding:0 1px}}
         &#128229; Briefing <span class="cnt" id="cnt-briefing"></span></div>
       <div class="side-i" id="v-archive" onclick="setView('archive')">
         &#9989; Archive <span class="cnt" id="cnt-archive"></span></div>
+      <div class="side-i" id="v-trash" onclick="setView('trash')">
+        &#128465; Trash <span class="cnt" id="cnt-trash"></span></div>
     </div>
     <div class="side-sec">
       <div class="side-h">Months</div>
@@ -603,13 +614,18 @@ mark.hl{{background:#fde047;color:#111726;border-radius:2px;padding:0 1px}}
 {SHARE_JS}
 (function(){{
   var READ_KEY='dailyreads_read';
+  var DEL_KEY='dailyreads_deleted';
   var state={{view:'briefing',month:'all',q:''}};
 
-  function getRead(){{
-    try{{return new Set(JSON.parse(localStorage.getItem(READ_KEY)||'[]'));}}
+  function getSet(k){{
+    try{{return new Set(JSON.parse(localStorage.getItem(k)||'[]'));}}
     catch(e){{return new Set();}}
   }}
-  function saveRead(s){{localStorage.setItem(READ_KEY,JSON.stringify(Array.from(s)));}}
+  function saveSet(k,s){{localStorage.setItem(k,JSON.stringify(Array.from(s)));}}
+  function getRead(){{return getSet(READ_KEY);}}
+  function saveRead(s){{saveSet(READ_KEY,s);}}
+  function getDel(){{return getSet(DEL_KEY);}}
+  function saveDel(s){{saveSet(DEL_KEY,s);}}
 
   function clearMarks(root){{
     root.querySelectorAll('mark.hl').forEach(function(m){{
@@ -646,21 +662,30 @@ mark.hl{{background:#fde047;color:#111726;border-radius:2px;padding:0 1px}}
   }}
 
   function apply(){{
-    var read=getRead();
+    var read=getRead(),del=getDel();
     var q=state.q.toLowerCase().trim();
-    var vis=0,nB=0,nA=0;
+    var vis=0,nB=0,nA=0,nT=0;
     document.querySelectorAll('.doc').forEach(function(d){{
       clearMarks(d);
       var key=d.dataset.key;
+      var isDel=del.has(key);
       var isRead=read.has(key);
-      if(isRead)nA++;else nB++;
-      var viewOk=(state.view==='briefing')?!isRead:isRead;
+      if(isDel)nT++;else if(isRead)nA++;else nB++;
+      var viewOk;
+      if(state.view==='trash')viewOk=isDel;
+      else if(state.view==='archive')viewOk=isRead&&!isDel;
+      else viewOk=!isRead&&!isDel;
       var monthOk=state.month==='all'||d.dataset.month===state.month;
       var qOk=!q||d.dataset.search.includes(q);
       var show=viewOk&&monthOk&&qOk;
       d.style.display=show?'':'none';
       var btn=d.querySelector('.read-btn');
-      if(btn)btn.innerHTML=isRead?'&#8617; Move to briefing':'&#10003; Mark as read';
+      var dbtn=d.querySelector('.del-btn');
+      if(btn){{
+        btn.style.display=isDel?'none':'';
+        btn.innerHTML=isRead?'&#8617; Move to briefing':'&#10003; Mark as read';
+      }}
+      if(dbtn)dbtn.innerHTML=isDel?'&#8617; Restore':'&#128465;';
       if(show){{
         vis++;
         var more=document.getElementById(d.id+'-more');
@@ -671,15 +696,17 @@ mark.hl{{background:#fde047;color:#111726;border-radius:2px;padding:0 1px}}
     }});
     document.getElementById('cnt-briefing').textContent=nB;
     document.getElementById('cnt-archive').textContent=nA;
+    document.getElementById('cnt-trash').textContent=nT;
     document.querySelectorAll('.toc-i').forEach(function(t){{
       var id=t.getAttribute('href').slice(1);
       var d=document.getElementById(id);
       t.style.display=(d&&d.style.display!=='none')?'':'none';
     }});
-    document.getElementById('toc').style.display=(q||state.view==='archive')?'none':'';
+    document.getElementById('toc').style.display=(q||state.view!=='briefing')?'none':'';
     document.getElementById('empty').style.display=vis?'none':'block';
     document.getElementById('v-briefing').classList.toggle('active',state.view==='briefing');
     document.getElementById('v-archive').classList.toggle('active',state.view==='archive');
+    document.getElementById('v-trash').classList.toggle('active',state.view==='trash');
     document.querySelectorAll('.m-i').forEach(function(mi){{
       mi.classList.toggle('active',mi.dataset.month===state.month);
     }});
@@ -693,6 +720,13 @@ mark.hl{{background:#fde047;color:#111726;border-radius:2px;padding:0 1px}}
     if(r.has(key)){{r.delete(key);showToast('Moved back to briefing');}}
     else{{r.add(key);showToast('Marked as read — moved to Archive');}}
     saveRead(r);
+    apply();
+  }};
+  window.toggleDelete=function(key){{
+    var d=getDel();
+    if(d.has(key)){{d.delete(key);showToast('Restored');}}
+    else{{d.add(key);showToast('Moved to Trash — restore anytime from the Trash view');}}
+    saveDel(d);
     apply();
   }};
   window.toggleMore=function(id){{
