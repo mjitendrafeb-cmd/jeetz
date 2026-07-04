@@ -288,14 +288,20 @@ def generate_report(news_text: str, today: datetime.date, api_key: str) -> str:
 
     try:
         client = anthropic.Anthropic(api_key=api_key)
-        # Sonnet 5 thinks by default and thinking tokens count against
-        # max_tokens, so give generous headroom and stream (SDK requires
-        # streaming for large max_tokens).
+        # Model is configurable via config.json "model". Thinking tokens count
+        # against max_tokens, so give generous headroom and stream.
+        model = _load_config().get("model", "claude-sonnet-5")
+        extra = {}
+        if model.startswith("claude-haiku"):
+            # Haiku has no effort param; use an explicit thinking budget instead.
+            extra["thinking"] = {"type": "enabled", "budget_tokens": 8000}
+        else:
+            extra["output_config"] = {"effort": "medium"}
         with client.messages.stream(
-            model="claude-sonnet-5",
+            model=model,
             max_tokens=64000,
-            output_config={"effort": "medium"},
             messages=[{"role": "user", "content": prompt}],
+            **extra,
         ) as stream:
             message = stream.get_final_message()
         if message.stop_reason == "max_tokens":
@@ -756,7 +762,8 @@ def main() -> None:
             day_str = today.strftime("%A")
             prompt = _build_weekly_prompt(news_text, day_str, date_str)
             client = anthropic.Anthropic(api_key=anthropic_api_key)
-            with client.messages.stream(model="claude-sonnet-5", max_tokens=24000,
+            _model = _load_config().get("model", "claude-sonnet-5")
+            with client.messages.stream(model=_model, max_tokens=24000,
                                         messages=[{"role": "user", "content": prompt}]) as _s:
                 msg = _s.get_final_message()
             weekly_html = _msg_text(msg)
