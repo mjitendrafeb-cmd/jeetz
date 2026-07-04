@@ -562,6 +562,9 @@ main{{flex:1;min-width:0}}
   line-height:1.55}}
 .ent-c{{font-weight:700;white-space:nowrap;width:1%;padding-right:18px;color:#1e2430}}
 mark.hl{{background:#fde047;color:#111726;border-radius:2px;padding:0 1px}}
+.trash-note{{background:#fffbeb;border:1px solid #fde68a;color:#92400e;
+  border-radius:8px;padding:12px 16px;font-size:13px;margin-bottom:16px;line-height:1.6}}
+.trash-note a{{color:#b45309;font-weight:700}}
 #empty{{text-align:center;padding:60px 20px;color:#8a919c;display:none}}
 @media(max-width:820px){{
   .shell{{flex-direction:column;padding:12px}}
@@ -599,6 +602,12 @@ mark.hl{{background:#fde047;color:#111726;border-radius:2px;padding:0 1px}}
       <input id="search" type="search"
              placeholder="Search reports, risks, companies&#8230;"
              oninput="doSearch(this.value)" autocomplete="off">
+    </div>
+    <div class="trash-note" id="trash-note" style="display:none">
+      Reports in Trash are only hidden on this device. To delete a report
+      <b>permanently for everyone</b>: open
+      <a href="{SYNC_URL}" target="_blank">Run workflow</a>, type part of the
+      report name in the <b>purge</b> box, and run it.
     </div>
     <div class="toc" id="toc">
       <div class="toc-h">In this briefing</div>
@@ -703,6 +712,7 @@ mark.hl{{background:#fde047;color:#111726;border-radius:2px;padding:0 1px}}
       t.style.display=(d&&d.style.display!=='none')?'':'none';
     }});
     document.getElementById('toc').style.display=(q||state.view!=='briefing')?'none':'';
+    document.getElementById('trash-note').style.display=(state.view==='trash')?'':'none';
     document.getElementById('empty').style.display=vis?'none':'block';
     document.getElementById('v-briefing').classList.toggle('active',state.view==='briefing');
     document.getElementById('v-archive').classList.toggle('active',state.view==='archive');
