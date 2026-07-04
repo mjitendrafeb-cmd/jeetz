@@ -26,30 +26,40 @@ PDF_TEXT_MIN_DENSITY = 400   # avg chars/page below this → image-heavy → nat
 SEEN_DAYS = 60    # dedup context: only look back this far
 SEEN_MAX = 40     # dedup context: at most this many recent notes
 
-# claude-opus-4-8 pricing (USD per 1M tokens) — update if the model/pricing changes
-PRICE_PER_M_INPUT = 5.00
-PRICE_PER_M_OUTPUT = 25.00
-SESSION_USAGE = {"input_tokens": 0, "output_tokens": 0, "docs": 0}
+# Model + pricing (USD per 1M tokens). Override model with CLAUDE_MODEL env var.
+MODEL = os.environ.get("CLAUDE_MODEL", "claude-sonnet-4-6")
+MODEL_PRICES = {
+    "claude-opus-4-8": (5.00, 25.00),
+    "claude-sonnet-4-6": (3.00, 15.00),
+    "claude-haiku-4-5": (1.00, 5.00),
+}
+PRICE_PER_M_INPUT, PRICE_PER_M_OUTPUT = MODEL_PRICES.get(MODEL, (5.00, 25.00))
+BATCH_POLL_S = 30           # how often to check a submitted batch
+BATCH_TIMEOUT_S = 3 * 3600  # give up waiting after this (files retry next run)
+SESSION_USAGE = {"input_tokens": 0, "output_tokens": 0, "docs": 0, "cost": 0.0}
 
 
-def _track_usage(usage):
+def _track_usage(usage, batch=False):
     inp = getattr(usage, "input_tokens", 0) or 0
     out = getattr(usage, "output_tokens", 0) or 0
+    cost = inp / 1_000_000 * PRICE_PER_M_INPUT + out / 1_000_000 * PRICE_PER_M_OUTPUT
+    if batch:
+        cost *= 0.5  # Message Batches API is billed at 50%
     SESSION_USAGE["input_tokens"] += inp
     SESSION_USAGE["output_tokens"] += out
     SESSION_USAGE["docs"] += 1
-    cost = inp / 1_000_000 * PRICE_PER_M_INPUT + out / 1_000_000 * PRICE_PER_M_OUTPUT
-    print(f"  API usage: {inp:,} in + {out:,} out tokens (~${cost:.3f})")
+    SESSION_USAGE["cost"] += cost
+    tag = ", batch 50% off" if batch else ""
+    print(f"  API usage: {inp:,} in + {out:,} out tokens (~${cost:.3f}{tag})")
 
 
 def print_session_summary():
     if not SESSION_USAGE["docs"]:
         return
     inp, out = SESSION_USAGE["input_tokens"], SESSION_USAGE["output_tokens"]
-    cost = inp / 1_000_000 * PRICE_PER_M_INPUT + out / 1_000_000 * PRICE_PER_M_OUTPUT
     print(f"\nSession API usage: {SESSION_USAGE['docs']} document(s), "
-          f"{inp:,} input + {out:,} output tokens — approx ${cost:.2f} total "
-          f"(claude-opus-4-8: ${PRICE_PER_M_INPUT}/1M in, ${PRICE_PER_M_OUTPUT}/1M out)")
+          f"{inp:,} input + {out:,} output tokens — approx ${SESSION_USAGE['cost']:.2f} total "
+          f"({MODEL}: ${PRICE_PER_M_INPUT}/1M in, ${PRICE_PER_M_OUTPUT}/1M out)")
 REPO_ROOT = os.path.dirname(os.path.abspath(__file__))
 DEFAULT_NOTES_DIR = os.path.join(REPO_ROOT, "docs", "notes")
 
@@ -193,11 +203,9 @@ def build_seen_context(notes_dir):
     return "\n".join(line for _, line in seen[-SEEN_MAX:])
 
 
-def call_claude(path, api_key, seen_context=""):
-    """Distil one document. PDFs are sent natively (tables/charts included);
-    HTML/text files are sent as extracted text. Returns (result_dict, ftype)."""
-    import anthropic
-
+def build_content(path, seen_context=""):
+    """Build the Claude message content for one document. Returns (content, ftype).
+    Text-rich PDFs go as cheap extracted text; low-text PDFs go natively."""
     seen_block = ""
     if seen_context:
         seen_block = (f"\n\nALREADY PROCESSED (do not repeat these in key_takeaways — "
@@ -253,17 +261,14 @@ def call_claude(path, api_key, seen_context=""):
                    '\n\nDocument:\n"""\n' + truncated + '\n"""')
         print(f"  Extracted {len(text):,} chars ({ftype}), calling Claude...")
 
-    client = anthropic.Anthropic(api_key=api_key)
-    with client.messages.stream(
-        model="claude-opus-4-8",
-        max_tokens=16384,
-        thinking={"type": "adaptive"},
-        messages=[{"role": "user", "content": content}],
-    ) as stream:
-        msg = stream.get_final_message()
+    return content, ftype
+
+
+def parse_result_message(msg, batch=False):
+    """Extract and parse the JSON note from a Claude response message."""
     if msg.stop_reason == "max_tokens":
-        print("  Claude hit the output token limit — response was truncated, retrying is unlikely to help without raising max_tokens further")
-    _track_usage(msg.usage)
+        print("  Claude hit the output token limit — response truncated")
+    _track_usage(msg.usage, batch=batch)
     # Get the text block (last content block, skipping thinking blocks)
     raw = ""
     for block in reversed(msg.content):
@@ -278,7 +283,22 @@ def call_claude(path, api_key, seen_context=""):
     end = raw.rfind("}") + 1
     if start != -1 and end > start:
         raw = raw[start:end]
-    return json.loads(raw), ftype
+    return json.loads(raw)
+
+
+def call_claude(path, api_key, seen_context=""):
+    """Distil one document synchronously. Returns (result_dict, ftype)."""
+    import anthropic
+    content, ftype = build_content(path, seen_context)
+    client = anthropic.Anthropic(api_key=api_key)
+    with client.messages.stream(
+        model=MODEL,
+        max_tokens=16384,
+        thinking={"type": "adaptive"},
+        messages=[{"role": "user", "content": content}],
+    ) as stream:
+        msg = stream.get_final_message()
+    return parse_result_message(msg), ftype
 
 
 def note_path(notes_dir, source_path):
@@ -307,18 +327,23 @@ def process(path, notes_dir, api_key):
         print(f"  Claude call failed: {e}")
         return False
 
+    save_note(result, ftype, path, notes_dir)
+    return True
+
+
+def save_note(result, ftype, source_path, notes_dir):
     now = datetime.datetime.now(datetime.timezone.utc)
     note = {
         "date": now.strftime("%Y-%m-%d"),
         "ingested_at": now.isoformat(),
-        "source_file": os.path.basename(path),
-        "source_path": os.path.abspath(path),
+        "source_file": os.path.basename(source_path),
+        "source_path": os.path.abspath(source_path),
         "file_type": ftype,
         **result,
     }
 
     os.makedirs(notes_dir, exist_ok=True)
-    out = note_path(notes_dir, path)
+    out = note_path(notes_dir, source_path)
     with open(out, "w", encoding="utf-8") as f:
         json.dump(note, f, indent=2, ensure_ascii=False)
 
@@ -326,7 +351,83 @@ def process(path, notes_dir, api_key):
     print(f"  Title: {note.get('title','')}")
     print(f"  {len(note.get('key_takeaways', []))} takeaway(s), "
           f"{len(note.get('entities_impacted', []))} entity(ies)")
-    return True
+
+
+def process_batch(paths, notes_dir, api_key):
+    """Distil many documents in one Message Batch (billed at 50% of normal price).
+
+    Submits all documents at once, polls until the batch completes (usually
+    minutes, guaranteed within 24h; we give up after BATCH_TIMEOUT_S so the
+    remaining files are simply retried on the next run). Returns count saved.
+    """
+    import anthropic
+
+    client = anthropic.Anthropic(api_key=api_key)
+    seen_context = build_seen_context(notes_dir)
+    if seen_context:
+        print(f"(passing {seen_context.count(chr(10))+1} recent note(s) for deduplication)")
+
+    requests, meta = [], {}
+    for i, path in enumerate(paths):
+        name = os.path.basename(path)
+        print(f"\nPreparing: {name}")
+        try:
+            content, ftype = build_content(path, seen_context)
+        except ValueError as e:
+            print(f"  Skipping — {e}")
+            continue
+        except Exception as e:
+            print(f"  Failed to prepare: {e}")
+            continue
+        cid = f"doc{i}"
+        meta[cid] = (name, ftype)
+        requests.append({
+            "custom_id": cid,
+            "params": {
+                "model": MODEL,
+                "max_tokens": 16384,
+                "thinking": {"type": "adaptive"},
+                "messages": [{"role": "user", "content": content}],
+            },
+        })
+
+    if not requests:
+        print("Nothing to submit.")
+        return 0
+
+    mb = client.messages.batches.create(requests=requests)
+    print(f"\nSubmitted batch {mb.id}: {len(requests)} document(s) at 50% pricing. Waiting...")
+
+    deadline = time.time() + BATCH_TIMEOUT_S
+    while True:
+        mb = client.messages.batches.retrieve(mb.id)
+        if mb.processing_status == "ended":
+            break
+        if time.time() > deadline:
+            print("Batch still processing at timeout — unfinished files will be "
+                  "picked up automatically on the next run.")
+            return 0
+        c = mb.request_counts
+        print(f"  ...{c.succeeded} done, {c.processing} processing, "
+              f"{c.errored} errored ({int(time.time() - deadline + BATCH_TIMEOUT_S)}s elapsed)")
+        time.sleep(BATCH_POLL_S)
+
+    ok = 0
+    for entry in client.messages.batches.results(mb.id):
+        name, ftype = meta.get(entry.custom_id, (entry.custom_id, "pdf"))
+        print(f"\nResult: {name}")
+        if entry.result.type != "succeeded":
+            err = getattr(entry.result, "error", None)
+            print(f"  {entry.result.type}: {err or 'no detail'}")
+            continue
+        try:
+            result = parse_result_message(entry.result.message, batch=True)
+        except json.JSONDecodeError as e:
+            print(f"  Claude returned bad JSON: {e}")
+            continue
+        save_note(result, ftype, name, notes_dir)
+        ok += 1
+    return ok
 
 
 def batch(watch_dir, notes_dir, api_key):

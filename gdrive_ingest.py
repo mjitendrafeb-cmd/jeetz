@@ -88,7 +88,7 @@ def main():
         sys.exit(1)
 
     sys.path.insert(0, REPO_ROOT)
-    from run_ingest import process, print_session_summary  # reuse all extraction + Claude logic
+    from run_ingest import process, process_batch, print_session_summary  # reuse all extraction + Claude logic
 
     print(f"Connecting to Google Drive folder: {GDRIVE_FOLDER_ID}")
     service = _drive_service()
@@ -122,18 +122,29 @@ def main():
     print(f"\n{len(new_files)} new file(s) to process.")
     os.makedirs(NOTES_DIR, exist_ok=True)
 
+    use_batch = os.environ.get("USE_BATCH", "1").lower() not in ("0", "false", "no")
+
     with tempfile.TemporaryDirectory() as tmpdir:
-        ok = 0
+        # download everything first
+        paths = []
         for f in new_files:
             dest = os.path.join(tmpdir, f["name"])
             print(f"\nDownloading: {f['name']}")
             try:
                 download_file(service, f["id"], dest)
+                paths.append(dest)
             except Exception as e:
                 print(f"  Download failed: {e}")
-                continue
-            if process(dest, NOTES_DIR, api_key):
-                ok += 1
+
+        ok = 0
+        if use_batch and paths:
+            try:
+                ok = process_batch(paths, NOTES_DIR, api_key)
+            except Exception as e:
+                print(f"\nBatch submission failed ({e}) — falling back to one-by-one processing.")
+                ok = sum(1 for p in paths if process(p, NOTES_DIR, api_key))
+        else:
+            ok = sum(1 for p in paths if process(p, NOTES_DIR, api_key))
 
     print(f"\nDone: {ok}/{len(new_files)} successfully processed.")
     print_session_summary()
