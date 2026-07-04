@@ -75,12 +75,12 @@ Return this exact structure:
   "freshness": "<fresh|stale|mixed>",
   "stale_items": ["<specific story that appears old or recycled>"],
   "duplicate_stories": ["<story already covered in a previously processed note — match by company, deal, or event>"],
-  "executive_summary": ["<4 to 8 crisp bullets that together form the CRUX of the ENTIRE document — a reader should get 80% of the document's value from these alone. Cover every major section and theme, include the key numbers. This is the substitute for reading the full report.>"],
+  "executive_summary": ["<4 to 8 crisp bullets — a section-by-section table of contents of the document. For each major section, state what it covers and include the key numbers, dates, and company names. These bullets tell the reader WHAT the document is about and its factual scope. Do NOT state credit implications or analyst judgments here — those belong exclusively in key_takeaways.>"],
   "key_takeaways": [
     {
-      "takeaway": "<one precise insight — lead with the credit or business implication, not the event description. Answer 'so what for credit?' not 'what happened'.>",
+      "takeaway": "<one precise credit insight — assume the reader already read executive_summary and knows the facts. Do NOT restate the event. Lead immediately with the credit consequence: what does this mean for default risk, funding costs, debt capacity, or rating trajectory?>",
       "credit_signal": "<positive|negative|neutral|watch — effect on credit quality of the most affected issuer or sector>",
-      "analyst_lens": "<why it matters for credit + risks/opportunities + what single metric to track going forward. Be specific, name numbers where possible.>"
+      "analyst_lens": "<Do NOT repeat the takeaway's conclusion. Start directly with the mechanism or reasoning: why this matters structurally, what second-order effects follow, what could go wrong or right. End with the single metric and specific threshold to track.>"
     }
   ],
   "entities_impacted": [
@@ -102,11 +102,11 @@ Rules:
 - title: max 80 chars. Capture document type and key subject. No generic titles.
 - document_date: from the document itself, not today's date. null if genuinely absent.
 - source_type: classify the document publisher — broker_research (sell-side bank/broker equity or credit analysis), regulatory (RBI/SEBI/IRDAI/MoF circular or notification), academic (working paper, research paper), news (newsletter, news article), other.
-- executive_summary: this is the crux. Walk through the document section by section — no major section, entity, data table, chart or exhibit may go unrepresented. Name specific numbers, dates and companies.
-- key_takeaways: 3 to 10 takeaways — scale with the document's density. A multi-sector conference note or long report warrants 8-10; a short newsletter 3-4. NEVER drop a material credit-relevant point to stay within a count. Each must answer "so what for credit?" — not just summarise the event. Consolidate takeaways pointing to the same risk.
+- executive_summary: factual scope only. Walk through every major section, data table, chart, and exhibit — name specific numbers, dates, and companies. These bullets establish WHAT the document covers, not what it implies. Do NOT include credit implications, analyst judgments, or "so what" conclusions — those belong exclusively in key_takeaways. A reader uses executive_summary to understand the document's structure and coverage, not to extract credit insight.
+- key_takeaways: 3 to 10 takeaways — scale with the document's density. A multi-sector conference note or long report warrants 8-10; a short newsletter 3-4. NEVER drop a material credit-relevant point to stay within a count. Each takeaway must deliver a credit insight that is NOT already stated in executive_summary. Assume the reader knows the facts; lead with the credit consequence. Do NOT restate the event — go straight to the implication. Consolidate takeaways pointing to the same risk.
 - Coverage check: before finalising, re-scan the document and verify nothing material is missing from executive_summary + key_takeaways combined.
 - credit_signal: from the perspective of the most affected issuer or sector.
-- analyst_lens: be specific. "Leverage will increase" is bad. "Net debt/EBITDA likely rises above 3x post-acquisition, breaching typical investment-grade thresholds" is good. Always name a metric to track.
+- analyst_lens: do NOT repeat the takeaway's conclusion — start with the mechanism, second-order effects, or structural reasoning. "Leverage will increase" is bad. "Net debt/EBITDA likely rises above 3x post-acquisition, breaching typical investment-grade thresholds" is good. Always name a specific metric and threshold to watch.
 - learning: 2 to 4 lessons, specific to this document, not generic credit advice.
 - canonical: the same real-world entity must always get the same canonical name — use the most common short market name. type=sector for industries ('Indian Banking Sector' → canonical 'Banking Sector'), type=macro for economy-wide themes (rates, inflation, currency, fiscal policy), type=regulator for RBI/SEBI/IRDAI/ministries.
 - tags: 5 to 12 lowercase keywords.
