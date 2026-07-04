@@ -193,11 +193,13 @@ def call_claude(path, api_key, seen_context=""):
     client = anthropic.Anthropic(api_key=api_key)
     with client.messages.stream(
         model="claude-opus-4-8",
-        max_tokens=8192,
+        max_tokens=16384,
         thinking={"type": "adaptive"},
         messages=[{"role": "user", "content": content}],
     ) as stream:
         msg = stream.get_final_message()
+    if msg.stop_reason == "max_tokens":
+        print("  Claude hit the output token limit — response was truncated, retrying is unlikely to help without raising max_tokens further")
     # Get the text block (last content block, skipping thinking blocks)
     raw = ""
     for block in reversed(msg.content):

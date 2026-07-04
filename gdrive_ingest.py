@@ -101,9 +101,20 @@ def main():
     force = os.environ.get("FORCE_REPROCESS", "").lower() in ("1", "true", "yes")
     if force:
         print("FORCE_REPROCESS set — reprocessing ALL files.")
-        new_files = all_files
+        candidates = all_files
     else:
-        new_files = [f for f in all_files if not already_done(f["name"])]
+        candidates = [f for f in all_files if not already_done(f["name"])]
+
+    # Drop same-name duplicates within this run (e.g. a file uploaded to Drive
+    # twice) so we don't pay for the same document more than once per sync.
+    seen_names, new_files = set(), []
+    for f in candidates:
+        if f["name"] in seen_names:
+            print(f"  Skipping duplicate: {f['name']} (already queued this run)")
+            continue
+        seen_names.add(f["name"])
+        new_files.append(f)
+
     if not new_files:
         print("No new files — library already up to date.")
         return
