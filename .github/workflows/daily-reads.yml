@@ -44,13 +44,18 @@ jobs:
         run: python purge_notes.py "${{ github.event.inputs.purge }}"
 
       - name: Download & process files from Google Drive
-        if: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_JSON != '' }}
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           GOOGLE_SERVICE_ACCOUNT_JSON: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_JSON }}
           GDRIVE_FOLDER_ID: 1DKkfBndGPDD-UWYWkIuYr8jdWb802BG0
           FORCE_REPROCESS: ${{ github.event.inputs.reprocess }}
-        run: python gdrive_ingest.py
+        run: |
+          if [ -z "$GOOGLE_SERVICE_ACCOUNT_JSON" ]; then
+            echo "GOOGLE_SERVICE_ACCOUNT_JSON secret not set — skipping Drive sync."
+            echo "Add it under Settings > Secrets and variables > Actions to enable syncing."
+          else
+            python gdrive_ingest.py
+          fi
 
       - name: Regenerate HTML viewer
         run: python view_notes.py --no-open
