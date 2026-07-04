@@ -7,6 +7,10 @@ on:
         description: 'Reprocess ALL files (rebuild every note with the latest schema)'
         type: boolean
         default: false
+      purge:
+        description: 'PERMANENTLY delete report(s): type part of the report name (comma-separated for multiple)'
+        type: string
+        default: ''
 
 permissions:
   contents: write
@@ -35,7 +39,12 @@ jobs:
             google-api-python-client \
             google-auth
 
+      - name: Purge notes (if requested)
+        if: github.event.inputs.purge != ''
+        run: python purge_notes.py "${{ github.event.inputs.purge }}"
+
       - name: Download & process files from Google Drive
+        if: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_JSON != '' }}
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           GOOGLE_SERVICE_ACCOUNT_JSON: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_JSON }}
