@@ -308,6 +308,21 @@ def _is_recent(entry, hours: int = 48) -> bool:
     return (time.time() - pub_ts) <= hours * 3600
 
 
+def _parse_gnews(url: str, label: str):
+    """Fetch a Google News RSS URL with a browser UA and timeout, then parse.
+
+    feedparser.parse(url) fetches with its own default user-agent and no
+    timeout — Google silently serves empty results to that UA, which made
+    Google News return 0 items with no error. Fetch explicitly instead.
+    """
+    resp = requests.get(url, headers={"User-Agent": _UA}, timeout=15)
+    feed = feedparser.parse(resp.content)
+    if resp.status_code != 200 or not feed.entries:
+        print(f"[fetch_news] Google News empty for '{label}' "
+              f"(HTTP {resp.status_code}, {len(feed.entries)} entries)")
+    return feed
+
+
 def fetch_google_news() -> list[str]:
     items = []
     seen_titles: set[str] = set()
@@ -318,7 +333,7 @@ def fetch_google_news() -> list[str]:
                 f"https://news.google.com/rss/search"
                 f"?q={requests.utils.quote(query + ' when:2d')}&hl=en-IN&gl=IN&ceid=IN:en"
             )
-            feed = feedparser.parse(url)
+            feed = _parse_gnews(url, query)
             count = 0
             for entry in feed.entries:
                 if count >= 3:
@@ -423,7 +438,7 @@ def fetch_company_news() -> list[str]:
                 f"https://news.google.com/rss/search"
                 f"?q={requests.utils.quote(query + ' when:2d')}&hl=en-IN&gl=IN&ceid=IN:en"
             )
-            feed = feedparser.parse(url)
+            feed = _parse_gnews(url, short_name)
             count = 0
             for entry in feed.entries:
                 if count >= 3:
