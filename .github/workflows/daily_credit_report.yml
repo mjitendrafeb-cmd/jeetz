@@ -1,8 +1,18 @@
 name: Daily Credit Intelligence Report
 
-# Automatic scheduling disabled at user's request — report now runs only when
-# manually triggered (Actions tab > Run workflow, or via API).
+# GitHub's cron scheduler is unreliable (ticks are often skipped or hours
+# late), so we fire MANY staggered ticks across the 7:20-9:00 AM IST window.
+# The gate step below sends the report at most once per day — whichever tick
+# actually fires first wins, and the rest no-op. Sundays are skipped.
 on:
+  schedule:
+    - cron: '52 1 * * *'   # 07:22 IST
+    - cron: '7 2 * * *'    # 07:37 IST
+    - cron: '23 2 * * *'   # 07:53 IST
+    - cron: '38 2 * * *'   # 08:08 IST
+    - cron: '53 2 * * *'   # 08:23 IST
+    - cron: '8 3 * * *'    # 08:38 IST
+    - cron: '24 3 * * *'   # 08:54 IST
   workflow_dispatch:
     inputs:
       weekly:
