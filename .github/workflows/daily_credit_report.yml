@@ -1,18 +1,19 @@
 name: Daily Credit Intelligence Report
 
-# GitHub's cron scheduler is unreliable (ticks are often skipped or hours
-# late), so we fire MANY staggered ticks across the 7:20-9:00 AM IST window.
-# The gate step below sends the report at most once per day — whichever tick
-# actually fires first wins, and the rest no-op. Sundays are skipped.
+# GitHub's cron scheduler runs this repo's ticks ~3-3.5 hours LATE, so ticks
+# are scheduled from 3:22 AM IST onwards. Whichever tick executes first before
+# the 7:15 IST window simply sleeps until 7:15, then sends; later ticks see
+# the report was already sent and no-op. Sundays are skipped.
 on:
   schedule:
-    - cron: '52 1 * * *'   # 07:22 IST
-    - cron: '7 2 * * *'    # 07:37 IST
-    - cron: '23 2 * * *'   # 07:53 IST
-    - cron: '38 2 * * *'   # 08:08 IST
-    - cron: '53 2 * * *'   # 08:23 IST
-    - cron: '8 3 * * *'    # 08:38 IST
-    - cron: '24 3 * * *'   # 08:54 IST
+    - cron: '52 21 * * *'  # 03:22 IST nominal
+    - cron: '37 22 * * *'  # 04:07 IST
+    - cron: '22 23 * * *'  # 04:52 IST
+    - cron: '7 0 * * *'    # 05:37 IST
+    - cron: '52 0 * * *'   # 06:22 IST
+    - cron: '37 1 * * *'   # 07:07 IST
+    - cron: '22 2 * * *'   # 07:52 IST
+    - cron: '7 3 * * *'    # 08:37 IST
   workflow_dispatch:
     inputs:
       weekly:
@@ -52,8 +53,11 @@ jobs:
           FORCE: ${{ inputs.force || 'true' }}
           SCHEDULE: ${{ github.event.schedule }}
         run: |
+          # A queued tick may have checked out a commit older than the marker
+          # pushed by an earlier tick — always read the freshest last_sent.
+          git fetch origin main --quiet && git checkout origin/main -- data/last_sent.json 2>/dev/null || true
           python3 - <<'PY'
-          import os, json, datetime
+          import os, json, datetime, subprocess
 
           event = os.environ.get("EVENT_NAME", "")
           force = os.environ.get("FORCE", "true").lower()
@@ -63,12 +67,14 @@ jobs:
           now = datetime.datetime.now(IST)
           today = now.date().isoformat()
 
-          last_sent = ""
-          try:
-              with open("data/last_sent.json", encoding="utf-8") as f:
-                  last_sent = json.load(f).get("date", "")
-          except Exception:
-              pass
+          def read_last_sent():
+              try:
+                  with open("data/last_sent.json", encoding="utf-8") as f:
+                      return json.load(f).get("date", "")
+              except Exception:
+                  return ""
+
+          last_sent = read_last_sent()
 
           if schedule == "30 10 * * 5":
               send, why = True, "Friday weekly digest cron"
@@ -79,7 +85,20 @@ jobs:
           elif last_sent == today:
               send, why = False, f"already sent today ({last_sent})"
           elif (now.hour, now.minute) < (7, 15):
-              send, why = False, f"before 07:15 IST window (now {now:%H:%M} IST)"
+              # Tick arrived before the delivery window — hold until 07:15 IST
+              # (GitHub's scheduler is hours late some days and on time others,
+              # so early ticks wait instead of being wasted).
+              import time as _t
+              target = now.replace(hour=7, minute=15, second=0, microsecond=0)
+              wait = (target - now).total_seconds()
+              print(f"holding {wait/60:.0f} min until 07:15 IST (now {now:%H:%M} IST)")
+              _t.sleep(max(0, wait))
+              subprocess.run(["git", "fetch", "origin", "main", "--quiet"], check=False)
+              subprocess.run(["git", "checkout", "origin/main", "--", "data/last_sent.json"], check=False)
+              if read_last_sent() == today:
+                  send, why = False, "another run sent while holding"
+              else:
+                  send, why = True, "window reached after hold, not yet sent today"
           else:
               send, why = True, f"window open ({now:%H:%M} IST), not yet sent today"
 
