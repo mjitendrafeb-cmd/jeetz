@@ -298,11 +298,16 @@ _GOOGLE_QUERIES = [
 ]
 
 
-def _is_recent(entry, hours: int = 48) -> bool:
-    """Return True if entry was published within the last N hours."""
+def _is_recent(entry, hours: int = 48, assume: bool = True) -> bool:
+    """Return True if entry was published within the last N hours.
+
+    assume controls undated entries: True for primary feeds (RBI RSS
+    sometimes omits dates), False for Google News (always dated, so a
+    missing date means something is off — drop it).
+    """
     pub = entry.get("published_parsed")
     if not pub:
-        return True  # no date → assume recent
+        return assume
     import calendar
     pub_ts = calendar.timegm(pub)
     return (time.time() - pub_ts) <= hours * 3600
@@ -338,7 +343,7 @@ def fetch_google_news() -> list[str]:
             for entry in feed.entries:
                 if count >= 3:
                     break
-                if not _is_recent(entry, 48):
+                if not _is_recent(entry, 48, assume=False):
                     continue
                 raw_title = _clean(entry.get("title", "")).strip()
                 if not raw_title or raw_title in seen_titles:
@@ -443,7 +448,7 @@ def fetch_company_news() -> list[str]:
             for entry in feed.entries:
                 if count >= 3:
                     break
-                if not _is_recent(entry, 48):
+                if not _is_recent(entry, 48, assume=False):
                     continue
                 raw_title = _clean(entry.get("title", "")).strip()
                 if not raw_title or raw_title in seen_titles:
