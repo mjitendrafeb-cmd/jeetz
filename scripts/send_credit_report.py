@@ -152,7 +152,8 @@ Today is {day_str}, {date_str}.
 
 NEWS ITEMS below. Each is numbered. Tags: [WATCHLIST — Company], [TELEGRAM — @ch], source names.
 URLs follow "| URL:" at end of each line.
-ALL items are from the last 48 hours only.
+Items were collected in the last 48 hours, but sources often REPUBLISH old news —
+the article date can be fresh while the underlying event is weeks old.
 
 {news_text}
 
@@ -160,6 +161,7 @@ ALL items are from the last 48 hours only.
 RULES
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 INCLUDE only items affecting: Rating outlook · Liquidity · Funding · Asset quality · Capitalisation · Governance
+RECENCY (STRICT): Judge the date of the underlying EVENT, not the article. If the content shows the event happened more than 48 hours before today ({date_str}) — an old MPC meeting, a notification/circular dated weeks ago, a deal or appointment already weeks old, an "explainer" recycling past developments — EXCLUDE it entirely from all sections including In Brief. Never include an item with a caveat like "published in window" or an undated "Recent" label; if you cannot confirm the event is from the last 48 hours and it is not from a [T1] primary source, drop it.
 SKIP: Product launches · CSR · Awards · Stock tips · Generic M&A · Generic business news · Live market prices/indices (Sensex/Nifty points moves, "market opens higher", intraday moves, top gainers/losers, target price calls)
 DEDUPLICATE: If two items cover the same story (even if from different sections), keep only ONE card in the most relevant section. Below that card's source link, add a single line: <span style="font-size:10px;color:#999;">Also reported by: Source2, Source3</span>
 MONETARY PENALTIES: Any "RBI Imposes Monetary Penalty", "SEBI Order", "NHB Penalty" or enforcement action ALWAYS goes to S3 — never S2 — regardless of which entity was penalised. Format: 1-sentence "What Happened" (amount + entity + reason), NO credit implication section, just the link.
