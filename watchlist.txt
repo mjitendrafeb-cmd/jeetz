@@ -6,342 +6,45 @@
 # The report will fetch latest news for each company every day.
 # ============================================================
 
-MINTIFI Finserve Private Limited
-Ashika Stock Services Limited
-KrazyBee Services Limited
-SK Finance Limited
-Namdev Finvest Private Limited
-Belstar Microfinance Limited
-Shriram Insight Share Brokers Limited
-Shriram Credit Company Limited
-The South Indian Bank Limited
+# --- Banks/NBFCs/FIs/Broking ---
+Alpha Alternatives Financial Services Private Limited
 Ambit Finvest Private Limited
-Edelweiss Asset Management Limited
-Mahindra Manulife Investment Management Private Limited
-Home First Finance Company India Limited
-KLM Axiva Finvest Limited
-IDBI Bank Limited
-Dar Credit & Capital Limited
-Kissandhan Agri Financial Serviced Limited
+Anand Rathi Share and Stock Brokers Limited
+Aseem Infrastructure Finance Limited
+Auxilo Finserve Private Limited
+Avanse Financial Services Limited
+Avendus Finance Private Limited
+Credila Financial Services Limited
+D. S. Integrated FinSec Private Limited
+Earlysalary Services Private Limited
+Fedbank Financial Services Limited
+Hiranandani Financial Services Private Limited
+Indostar Capital Finance Limited
+Infinity Fincorp Solutions Private Limited
+Integro Finserv Private Limited
+Kaleidofin Capital Private Limited
+Khushbu Auto Finance Limited
+KISETSU Saison Finance (INDIA) Private Limited
 Manba Finance Limited
-Karnataka State Financial Corporation
-Indian Overseas Bank
-SMIFS LIMITED
-Religare Housing Development Finance Corporation Limited
-Supreme Housing Finance Limited
-Home Credit India Finance Private Limited
-TVS Holdings Limited
-TVS Credit Services Limited
-Karnataka Bank Limited
-Tourism Finance Corporation of India Limited
-Nabkisan Finance limited
-Svamaan Financial Services Private Limited
-Axis Securities Limited
-Axis Bank Limited
-IFCI Limited
-Bank of Baroda
-Punjab and Sind Bank
-Wonder Home Finance Limited
-SBM Bank (INDIA) Limited
-NIPUN PROJECTS & FINANCE PRIVATE LIMITED
-Sitara Housing Finance Limited
-Shrinithi Capital Private Limited
-Religare Broking Limited
-Finova Capital Private Limited
-Geojit Credits Private Limited
-Geojit Financial Services Limited
-Geojit Investment
-SMFG India Credit Company Limited
-SMFG India Home Finance Company Limited
-Nivara Home Finance Limited
-Pahal Financial Services Private Limited
+Mantra Capital Limited
+Micro Units Development and Refinance Agency Limited
+MINTIFI Finserve Private Limited
+NABFINS Limited
+NABKISAN Finance Limited
+Netzero Finance Private Limited
+NIIF Infrastructure Finance Limited
 Nisus Finance Services Co Limited
 Profectus Capital Private Limited
-Indian Clearing Corporation Limited
-NSE IFSC Clearing Corporation Limited
-Repco Home Finance Limited
-Jharkhand Rajya Gramin Bank
-Bharti Axa Life Insurance Company Limited
-MS Fincap Private Limited
-Jammu & Kashmir Bank Limited
-HDFC Life Insurance Company Limited
-ESAF Small Finance Bank Limited
-Sarala Development & Microfinance Private Limited
-Cyqure India Private Limited
-Reliance Capital Limited
-Maanaveeya Development & Finance Private Limited
-360 One Alternates Asset Management Limited
-360 One Distribution Services Limited
-360 One Prime Limited
-360 One Wam Limited
-Yogakshemam Loans Limited
-HDFC Securities Limited
-Alpha Alternatives Financial Services Private Limited
-Agrim Housing Finance Private Limited
-National Bank For Financing Infrastructure And Development
-Equitas Small Finance Bank Limited
-IndusInd General Insurance Company Limited
-NABFINS Limited
-Northern Arc Capital Limited
-Baid Finserv Limited
-Star Union Dai-ichi Life Insurance Company Limited
-Kusalava Finance Limited
-Sammaan Capital Limited
-Sammaan Finserve Limited
-Shubham Housing Development Finance Company Limited
-L&T Finance Limited (formerly known as L&T Finance Holdings Limited)
-Light Microfinance Private Limited
-National Housing Bank
-SBFC Finance Limited
-Earlysalary Services Private Limited
-Crest Ventures Limited
-IDBI Capital Markets & Securities Limited
-Share India Fincap Private Limited
-Share India Securities Limited
-Poonawalla Fincorp Limited
-Power Finance Corporation Limited
-REC Limited
-IDFC First Bank
-Federal Bank Limited
-HDB Financial Services Limited
-Union Bank of India
-State Bank of India
-Arya Fin-Trade Services (India) Private Limited
-Asthana Rural Development & Services Private Limited
-Aavas Financiers Limited
-Auriolus Finvest
-Canara Bank
-Central Bank of India
-Bank of India
-Truhome Finance Limited
-ART Housing Finance India Limited
-ICICI Bank Limited
-Bandhan Mutual Fund (BLR)
-Aditya Birla Sun Life Mutual Fund
-Finnable Credit Private Limited
-Midland Microfin Limited
-Fedbank Financial Services Limited
-Keshava Prabha Microfin Private Limited
-Cars24 Financial Services Private Limited
-Setia Auto Finance Private Limited
+Red Fort Capital Finance Company Private Limited
+Shriram Credit Company Limited
+Shriram Insight Share Brokers Limited
+Small Industries Development Bank of India
+SMFG India Credit Company Limited
+SMFG India Home Finance Company Limited
+Spark Institutional Equities Private Limited
+STCI Finance Limited
+Svakarma Finance Private Limited
+Svamaan Financial Services Private Limited
 Svatantra Micro Housing Finance Corporation Limited
 Svatantra Microfin Limited
-RAR Fincare Limited
-Aseem Infrastructure Finance Limited
-Red Fort Capital Finance Company Private Limited
-The Puducherry Public Servants Co-op. Credit Society Ltd P-52
-Star Housing Finance Limited
-Manipal Cigna Health Insurance Company Limited
-LIC Housing Finance Limited
-ECAP EQUITIES LIMITED (formerly known as EDEL LAND LIMITED)
-ECL Finance Limited
-Edel Finance Company Limited
-Edelweiss Asset Reconstruction Company Limited
-Edelweiss Financial Services Limited
-Nido Home Finance Limited
-Svasti Microfinance Private Limited
-Grow Money Capital Private Limited
-India Mortgage Guarantee Corporation Private Limited
-Utkarsh Small Finance Bank Limited
-Oxyzo Finance
-Can Fin Homes Limited
-Hero Fincorp Limited
-STCI Finance Limited
-Spark Institutional Equities Private Limited
-Avendus Finance Private Limited
-Coimbatore Capital Limited
-Au Small Finance Bank Limited
-Hinduja Housing Finance Limited
-Hinduja Leyland Finance Limited
-Godrej Finance Limited
-Godrej Housing Finance Limited
-North Eastern Development Finance Corporation Limited
-Punjab National Bank
-Indresh Financial
-Axis Finance Limited
-Savery Transport Finance Limited
-Madhya Pradesh Financial Corporation
-Union Mutual Fund (BLR)
-Ambium Finserve Limited
-Taru Agencies and Investment Private Limited
-Mas Financial Services Limited
-MAS Rural Housing and Mortgage Finance Limited
-Tata Capital Limited
-Darashaw and Company Private Limited
-ICICI Prudential Mutual Fund - BLR
-Arohan Financial Services Limited
-Akme Fintrade (India) Limited
-Aryadhan Financial Solutions Private Limited
-Bahadur Chand Investments Private Limited
-Indian Bank
-The Kalupur Commercial Co-Operative Bank Limited
-Hiranandani Financial Services Private Limited
-Khushbu Auto Finance Limited
-Namra Finance Limited
-Arman Financial Services Limited
-The Karur Vysya Bank Limited
-ICICI Securities Primary Dealership Limited
-Best Finance Corporation Limited
-Navi Finserv Limited
-Amrit Malwa Capital Limited
-Capital Trust Limited
-GIC-Bhutan Reinsurance Company Limited
-Shriram Finance Limited
-Muthoot Homefin (India) Limited
-Muthoot Mcred Limited
-IL&FS Financial Services Limited
-Infrastructure Leasing & Financial Services Limited
-The Gujarat State Co Operative Bank Limited
-SBI Mutual Fund - BLR
-HDFC Bank Limited
-Cholamandalam Investment And Finance Company Limited
-Asirvad Micro Finance Limited
-IL&FS Securities Services Limited
-Manappuram Finance Limited
-Manappuram Home Finance Limited
-Viksit Capital Private Limited
-Annapurna Finance Private Limited
-General Insurance Corporation of India
-CLIX Capital Services Private Limited
-Meet Finance Private Limited
 Way2Wealth Brokers Private Limited
-Axis Max Life Insurance Limited
-Roha Housing Finance Private Limited
-UCO Bank
-Auxilo Finserve Private Limited
-Bandhan Life Insurance Limited
-Infinity Fincorp Solutions Private Limited
-Mirae Asset Investment Managers (India) Private Limited (CQR)
-Gosree Finance Limited
-Raise Fintech Ventures Private Limited
-The Clearing Corporation of India Limited
-Multi Commodity Exchange Clearing Corporation Limited
-Bizloan Private Limited
-CSA Investments Private Limited
-Housing and Urban Development Corporation Limited
-Mantra Capital Limited
-City Union Bank Limited
-Pantomath Capital Advisors Private Limited
-Aham Housing Finance Limited
-NTC Finance Private Limited
-INFINA Finance Private Limited
-Magalir Micro Capital Private Limited
-Kamal Autofinance Private Limited
-Finkurve Financial Services Limited
-Punjab Infrastructure Development Board
-Sagarmala Finance Corporation Limited
-Capital Small Finance Bank Limited
-Invesco Asset Management (India) Private Limited (BLR)
-Micro Units Development and Refinance Agency Limited
-Ceejay Finance Limited
-Integro Finserv Private Limited
-Magma General Insurance Limited
-Grihum Housing Finance Limited
-National Minorities Development & Finance Corporation
-Netzero Finance Private Limited
-Kaleidofin Capital Private Limited
-Jana Small Finance Bank Limited
-Orocorp Technologies Private Limited
-Canara HSBC Life Insurance Company Limited
-Jewel Rock Hire Purchase and Leasing Private Limited
-Kanakadurga Finance Limited
-Samaaru Finance Private Limited
-SBI Payment Services Private Limited
-Venkateswara Financiers Hyderabad Private Limited
-Aphelion Finance Private Limited
-Universal Sompo General Insurance Company Limited
-Trust Investment Advisors Private Limited
-The National Small Industries Corporation Limited
-Chinmay Finlease Limited
-Indusind Bank Limited
-Dandona Finance Limited
-Fusion Finance Limited
-India Infrastructure Finance Company Limited
-Billionbrains Garage Ventures Limited
-Groww Creditserv Technology Private Limited
-Tamilnadu Industrial Development Corporation Limited
-PPFAS Mutual Fund
-Manappuram Asset Finance Limited
-D. S. Integrated FinSec Private Limited
-Credila Financial Services Limited
-Anand Rathi Share and Stock Brokers Limited
-Star Health and Allied Insurance Company Limited
-Akara Capital Advisors Private Limited
-Maben Nidhi Limited
-RNFI Service Limited
-Ujjivan Small Finance Bank Limited
-Dvara Kshetriya Gramin Financial Services Private Limited
-SBERBANK Branch in India
-Angel One Limited
-Bajaj Life Insurance Limited
-CRSP CAPITAL PRIVATE LIMITED
-Bajaj Auto Credit Limited
-Indiafirst Life Insurance Company Limited
-Bajaj Finance Limited
-Tata Mutual Fund
-PNB Housing
-HDFC Mutual Fund
-Invesco Asset Management (India) Private Limited
-Nippon Life India Asset Management Limited
-Bandhan Mutual Fund
-ICICI Home Finance Company Limited
-Centrum Housing Finance Limited
-Royal Sundaram General Insurance Co. Limited
-Altum Credo Home Finance Private Limited
-Nuvama Wealth Management Limited
-Nuvama Clearing Services Limited
-Nuvama Wealth And Investment Limited
-Nuvama Wealth Finance Limited
-Vastu Finserve India Private limited
-Vastu Housing Finance Corporation Limited
-Mirae Asset Investment Managers (India) Private Limited (BLR)
-A. K. Capital Finance Limited
-A. K. Capital Services Limited
-Avanse Financial Services Limited
-Bank of Maharashtra
-NIIF Infrastructure Finance Limited
-Small Industries Development Bank of India
-Spandana Sphoorty Financial Limited
-Yes Securities (INDIA) Limited
-Kogta Financial (india) Limited
-Yes Bank Limited
-Jio Credit Limited
-Jio Leasing Services Limited
-Vistaar Financial Services Private Limited
-DCB Bank
-Mahindra And Mahindra Financial Services Limited
-Mahindra Rural Housing Finance Limited
-KISETSU Saison Finance (INDIA) Private Limited
-Indostar Capital Finance Limited
-IKF Finance Limited
-IKF Home Finance Limited
-Aadhar Housing Finance Limited
-Aptus Finance India Private Limited
-Aptus Value Housing Finance India Limited
-Indian Railway Finance
-Mahaveer Finance India Limited
-Veritas Finance Limited
-Five-Star Business Finance Limited
-Piramal Finance Limited (erstwhile Piramal Capital & Housing Finance Limited)
-RBL Bank Limited
-Svakarma Finance Private Limited
-India Shelter Finance
-Indian Renewable Energy Development Agency Limited (IREDA)
-S V Creditline Limited
-Save Microfinance Private Limited
-Save Solutions Private Limited
-Ummeed Housing Finance Private Limited
-Niva Bupa Health Insurance Company Limited
-Axis Mutual Fund
-Jio BlackRock Asset Management Private Limited
-LIC Mutual Fund
-Union Mutual Fund
-ICICI Prudential Mutual Fund
-Bajaj Finserv Asset Management Limited
-Baroda BNP Paribas Mutual Fund
-Canara Robeco Mutual Fund
-SBI Funds Management Limited
-Kotak Mahindra Mutual Fund
-Sundaram Asset Management Company Limited
-UTI Asset Management Company Limited
-Vivriti Capital Limited
