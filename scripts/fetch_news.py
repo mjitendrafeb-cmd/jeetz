@@ -433,9 +433,12 @@ def fetch_company_news() -> list[str]:
     items = []
     seen_titles: set[str] = set()
 
+    # Query EVERY company (no global early-break) so a long watchlist isn't
+    # starved — with 340 names the old `len(items) >= 60` cap stopped after
+    # ~30 companies. Per-company output is capped at 2, and generate_report's
+    # 100k-char input cap trims the tail if the total ever gets large.
+    empty_streak = 0
     for company in companies:
-        if len(items) >= 60:
-            break
         try:
             short_name = " ".join(company.split()[:2])
             query = f"{short_name} India finance"
@@ -444,9 +447,18 @@ def fetch_company_news() -> list[str]:
                 f"?q={requests.utils.quote(query + ' when:2d')}&hl=en-IN&gl=IN&ceid=IN:en"
             )
             feed = _parse_gnews(url, short_name)
+            # Google throttles rapid-fire requests by returning empty feeds.
+            # If many queries come back empty in a row, back off harder.
+            if not feed.entries:
+                empty_streak += 1
+                if empty_streak >= 15:
+                    time.sleep(2.0)
+                    empty_streak = 0
+            else:
+                empty_streak = 0
             count = 0
             for entry in feed.entries:
-                if count >= 3:
+                if count >= 2:
                     break
                 if not _is_recent(entry, 48, assume=False):
                     continue
