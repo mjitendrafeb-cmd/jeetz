@@ -57,7 +57,7 @@ def _load_seen_headlines() -> set[str]:
 
 
 def _save_seen_headlines(news_text: str) -> None:
-    """Persist normalised keys using 5-day rolling window."""
+    """Persist normalised keys using 30-day rolling window."""
     import re as _re
     keys = []
     for line in news_text.splitlines():
@@ -79,15 +79,16 @@ def _save_seen_headlines(news_text: str) -> None:
 
     today_str = str(datetime.date.today())
     days[today_str] = keys
-    # Keep only last 5 days
-    cutoff = str(datetime.date.today() - datetime.timedelta(days=5))
+    # Keep only last 30 days — scraped press pages resurface old items
+    # after short windows, so remember headlines for a month
+    cutoff = str(datetime.date.today() - datetime.timedelta(days=30))
     days = {d: v for d, v in days.items() if d >= cutoff}
 
     with open(_SEEN_PATH, "w", encoding="utf-8") as f:
         json.dump({"days": days}, f, indent=2)
 
     if _git_commit_push([_SEEN_PATH], f"chore: update seen headlines {datetime.date.today()}"):
-        print(f"[seen_headlines] Saved {len(keys)} keys (5-day window) and pushed to repo")
+        print(f"[seen_headlines] Saved {len(keys)} keys (30-day window) and pushed to repo")
 
 
 def _git_commit_push(paths: list[str], message: str) -> bool:
@@ -161,7 +162,8 @@ the article date can be fresh while the underlying event is weeks old.
 RULES
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 INCLUDE only items affecting: Rating outlook · Liquidity · Funding · Asset quality · Capitalisation · Governance
-RECENCY (STRICT): Judge the date of the underlying EVENT, not the article. If the content shows the event happened more than 48 hours before today ({date_str}) — an old MPC meeting, a notification/circular dated weeks ago, a deal or appointment already weeks old, an "explainer" recycling past developments — EXCLUDE it entirely from all sections including In Brief. Never include an item with a caveat like "published in window" or an undated "Recent" label; if you cannot confirm the event is from the last 48 hours and it is not from a [T1] primary source, drop it.
+RECENCY (STRICT): Judge the date of the underlying EVENT, not the article. If the content shows the event happened more than 48 hours before today ({date_str}) — an old MPC meeting, a notification/circular dated weeks ago, a deal, rating action or appointment already weeks old, a semi-annual study (credit ratio reports, upgrade/downgrade cycle reviews), an "explainer" recycling past developments — EXCLUDE it entirely from all sections including In Brief. This applies to ALL sources including [T1]: rating-agency press pages are scraped without dates and often surface months-old actions. If an item carries no date (no "| PUB:") and its content does not clearly show a new event from the last 48 hours, DROP it. Never hedge with labels like "published in window" or "Recent".
+LINKS: Only use the URL given after "| URL:". If an item has no URL, render the card without any link — NEVER output href="#" or invent a URL.
 SKIP: Product launches · CSR · Awards · Stock tips · Generic M&A · Generic business news · Live market prices/indices (Sensex/Nifty points moves, "market opens higher", intraday moves, top gainers/losers, target price calls)
 DEDUPLICATE: If two items cover the same story (even if from different sections), keep only ONE card in the most relevant section. Below that card's source link, add a single line: <span style="font-size:10px;color:#999;">Also reported by: Source2, Source3</span>
 MONETARY PENALTIES: Any "RBI Imposes Monetary Penalty", "SEBI Order", "NHB Penalty" or enforcement action ALWAYS goes to S3 — never S2 — regardless of which entity was penalised. Format: 1-sentence "What Happened" (amount + entity + reason), NO credit implication section, just the link.
