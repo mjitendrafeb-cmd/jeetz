@@ -142,6 +142,26 @@ def _type_str(i: dict) -> str:
     return " · ".join(parts) if parts else "—"
 
 
+def _gsec_match(gsec: dict | None, tenure):
+    """Closest curve tenor for an issue's tenure -> (tenor_years, yield) or None."""
+    curve = (gsec or {}).get("curve") or {}
+    if not curve or not tenure:
+        return None
+    tenor = min(curve, key=lambda t: abs(t - tenure))
+    return tenor, curve[tenor]
+
+
+def _spread_bps(i: dict, gsec) -> tuple[int, int] | None:
+    """(spread_bps, matched_tenor) vs closest-tenor G-sec, or None."""
+    if not i.get("coupon"):
+        return None
+    m = _gsec_match(gsec, i.get("tenure_years"))
+    if not m:
+        return None
+    tenor, y = m
+    return round((i["coupon"] - y) * 100), tenor
+
+
 def _is_financial(i: dict) -> bool:
     blob = " ".join(str(i.get(k, "")) for k in ("issuer_nature", "ownership", "sector")).lower()
     return any(k in blob for k in ("nbfc", "hfc", "bank", "financial", "finance"))
@@ -171,7 +191,7 @@ def _computed_analysis(issues, fy_total, quarters, prev_total=None, gsec=None) -
     band_groups: dict[str, list] = {}
     for i in with_coupon:
         band_groups.setdefault(_rating_band(i), []).append(i)
-    gsec_yield = (gsec or {}).get("yield")
+    curve = (gsec or {}).get("curve") or {}
     band_bits = []
     for band in _BANDS:
         g = band_groups.get(band)
@@ -179,14 +199,18 @@ def _computed_analysis(issues, fy_total, quarters, prev_total=None, gsec=None) -
             avg = sum(x["coupon"] * x["issue_size_cr"] for x in g) / \
                 sum(x["issue_size_cr"] for x in g)
             bit = f"{band.split(' (')[0]} {avg:.2f}%"
-            if gsec_yield:
-                bit += f" ({(avg - gsec_yield) * 100:+.0f} bps vs G-sec)"
+            spreads = [(_spread_bps(x, gsec), x["issue_size_cr"]) for x in g]
+            spreads = [(s[0], w) for s, w in spreads if s]
+            if spreads:
+                wavg = sum(s * w for s, w in spreads) / sum(w for _, w in spreads)
+                bit += f" ({wavg:+.0f} bps vs tenor-matched G-sec)"
             band_bits.append(bit)
     if band_bits:
         lines.append("Weighted avg coupon: " + " · ".join(band_bits) + ".")
-    if gsec_yield:
-        lines.append(f"Benchmark: India 10Y G-sec at {gsec_yield:.2f}% "
-                     f"(source: {gsec.get('source', 'n/a')}).")
+    if curve:
+        pts = " · ".join(f"{t}Y {curve[t]:.2f}%" for t in sorted(curve))
+        lines.append(f"G-sec curve: {pts} (source: {gsec.get('source', 'n/a')}). "
+                     f"Spreads use the closest tenor to each ISIN.")
 
     # FY-to-date vs last FY
     if fy_total and fy_total.get("issueSize"):
@@ -267,11 +291,14 @@ def build_email(issues, fy_total, quarters, watchlist, today,
             star = " ⭐" if hit else ""
             row_bg = "#fff8e1" if hit else "#ffffff"
             rating = "; ".join((i.get("ratings") or [])[:2]) or "Not rated / available"
+            sp = _spread_bps(i, gsec)
+            spread_html = (f"<div style='font-size:10px;color:#888;'>{sp[0]:+d} bps vs {sp[1]}Y G-sec</div>"
+                           if sp else "")
             rows_html += f"""<tr style="background:{row_bg};">
 <td style="padding:7px 10px;border-bottom:1px solid #eee;font-weight:600;">{i['issuer'].title()}{star}</td>
 <td style="padding:7px 10px;border-bottom:1px solid #eee;font-family:monospace;font-size:11px;">{i['isin']}</td>
 <td style="padding:7px 10px;border-bottom:1px solid #eee;text-align:right;">{_fmt_cr(i['issue_size_cr'])}</td>
-<td style="padding:7px 10px;border-bottom:1px solid #eee;text-align:center;">{_coupon_str(i)}</td>
+<td style="padding:7px 10px;border-bottom:1px solid #eee;text-align:center;">{_coupon_str(i)}{spread_html}</td>
 <td style="padding:7px 10px;border-bottom:1px solid #eee;text-align:center;">{i.get('tenure_years') or '—'}</td>
 <td style="padding:7px 10px;border-bottom:1px solid #eee;font-size:11px;">{rating}</td>
 </tr>"""
@@ -394,7 +421,7 @@ def main() -> None:
 
     watchlist = _load_watchlist()
     html = build_email(issues, data["fy_total"], data["quarters"], watchlist, today,
-                       prev_total=data.get("prev_total"), gsec=data.get("gsec_10y"))
+                       prev_total=data.get("prev_total"), gsec=data.get("gsec"))
     subject = f"NSDL New Debt Issuances — {today.strftime('%d %b %Y')}"
     if not issues:
         subject += " (no fresh issues)"

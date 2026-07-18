@@ -270,47 +270,49 @@ def fetch_new_issuances(debug: bool = False) -> dict:
     issues.sort(key=lambda x: (x["allotment_date"] or datetime.date.min, -x["issue_size_cr"]),
                 reverse=True)
     return {"issues": issues, "fy_total": fy_total, "prev_total": prev_total,
-            "quarters": quarters, "gsec_10y": fetch_gsec_10y(session, debug=debug)}
+            "quarters": quarters, "gsec": fetch_gsec_curve(session, debug=debug)}
 
 
-def fetch_gsec_10y(session=None, debug: bool = False):
-    """Best-effort India 10Y G-sec yield for benchmarking new-issue coupons.
+def fetch_gsec_curve(session=None, debug: bool = False):
+    """Best-effort India G-sec yield curve (1/2/3/5/7/10Y) so new-issue
+    coupons can be benchmarked against the closest-tenor G-sec.
 
-    Tries public sources; falls back to a manual "gsec_10y_yield" value in
-    config.json. Returns {"yield": float, "source": str} or None.
+    Tries worldgovernmentbonds.com; falls back to a manual "gsec_yields"
+    dict (e.g. {"1": 5.9, "3": 6.0, "5": 6.1, "10": 6.3}) or legacy
+    "gsec_10y_yield" in config.json.
+    Returns {"curve": {tenor_years: yield_pct}, "source": str} or None.
     """
     session = session or _session()
+    wanted = (1, 2, 3, 5, 7, 10)
     try:
         r = session.get("https://www.worldgovernmentbonds.com/country/india/", timeout=(10, 20))
-        if r.status_code == 200:
-            m = re.search(r"10\s*year[s]?.{0,400}?(\d{1,2}\.\d{1,3})\s*%",
-                          re.sub(r"<[^>]+>", " ", r.text), re.IGNORECASE | re.DOTALL)
-            if m and 3 < float(m.group(1)) < 12:
-                return {"yield": float(m.group(1)), "source": "worldgovernmentbonds.com"}
         if debug:
             print(f"[nsdl_issuance] wgb gsec fetch: status={r.status_code}")
+        if r.status_code == 200:
+            text = re.sub(r"\s+", " ", re.sub(r"<[^>]+>", " ", r.text))
+            curve = {}
+            for tenor in wanted:
+                m = re.search(rf"\b{tenor}\s*year[s]?\b\D{{0,60}}?(\d{{1,2}}\.\d{{1,3}})\s*%",
+                              text, re.IGNORECASE)
+                if m and 3 < float(m.group(1)) < 12:
+                    curve[tenor] = float(m.group(1))
+            if debug:
+                print(f"[nsdl_issuance] gsec curve parsed: {curve}")
+            if curve:
+                return {"curve": curve, "source": "worldgovernmentbonds.com"}
     except Exception as exc:
         if debug:
             print(f"[nsdl_issuance] wgb gsec fetch failed: {exc}")
     try:
-        r = session.get("https://tradingeconomics.com/india/government-bond-yield",
-                        timeout=(10, 20))
-        if r.status_code == 200:
-            m = re.search(r'id="p"[^>]*>(\d{1,2}\.\d{1,3})', r.text) or \
-                re.search(r"(\d{1,2}\.\d{2,3})\s*percent", r.text)
-            if m and 3 < float(m.group(1)) < 12:
-                return {"yield": float(m.group(1)), "source": "tradingeconomics.com"}
-        if debug:
-            print(f"[nsdl_issuance] te gsec fetch: status={r.status_code}")
-    except Exception as exc:
-        if debug:
-            print(f"[nsdl_issuance] te gsec fetch failed: {exc}")
-    try:
         base = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
         with open(os.path.join(base, "config.json"), encoding="utf-8") as f:
-            manual = json.load(f).get("gsec_10y_yield")
-        if manual:
-            return {"yield": float(manual), "source": "config.json (manual)"}
+            cfg = json.load(f)
+        manual = cfg.get("gsec_yields") or {}
+        curve = {int(k): float(v) for k, v in manual.items() if float(v) > 0}
+        if not curve and cfg.get("gsec_10y_yield"):
+            curve = {10: float(cfg["gsec_10y_yield"])}
+        if curve:
+            return {"curve": curve, "source": "config.json (manual)"}
     except Exception:
         pass
     return None
