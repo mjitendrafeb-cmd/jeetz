@@ -273,7 +273,7 @@ def build_email(issues, fy_total, quarters, watchlist, today) -> str:
                 watchlist_hits.append(i["issuer"].title())
             star = " ⭐" if hit else ""
             row_bg = "#fff8e1" if hit else "#ffffff"
-            rating = "; ".join((i.get("ratings") or [])[:2]) or _type_str(i)
+            rating = "; ".join((i.get("ratings") or [])[:2]) or "—"
             rows_html += f"""<tr style="background:{row_bg};">
 <td style="padding:7px 10px;border-bottom:1px solid #eee;font-weight:600;">{i['issuer'].title()}{star}</td>
 <td style="padding:7px 10px;border-bottom:1px solid #eee;font-family:monospace;font-size:11px;">{i['isin']}</td>

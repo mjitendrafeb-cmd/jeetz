@@ -219,8 +219,13 @@ def fetch_new_issuances(debug: bool = False) -> dict:
                     {"date": d.strftime("%Y-%m-%d")}) or []
             except Exception:
                 continue
+            grade_re = re.compile(r"^(AAA|AA[+-]?|A[+-]?|BBB[+-]?|BB[+-]?|B[+-]?|C|D|"
+                                  r"A[1-4]\+?)(\s*\(.*\))?$", re.IGNORECASE)
             for a in actions:
                 if not isinstance(a, dict) or not a.get("rating"):
+                    continue
+                # only actual grades count — skip WITHDRAWN / SUSPENDED etc.
+                if not grade_re.match(a["rating"].strip()):
                     continue
                 tag = f"{_cra_short(a.get('craName'))} {a['rating'].strip()}"
                 key = (a.get("isin") or "").strip()
