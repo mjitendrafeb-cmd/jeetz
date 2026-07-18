@@ -1,0 +1,38 @@
+name: NSDL New Issuance Report
+
+# Daily email of fresh corporate debt issuances (issuer, amount, coupon,
+# tenor) from NSDL India Bond Info, with watchlist flags and analysis.
+# NSDL's "Recent Issues" feed carries the latest allotment date (usually
+# the previous business day), so the report runs in the evening IST.
+on:
+  schedule:
+    - cron: '30 13 * * 1-6'   # 19:00 IST, Mon-Sat
+  workflow_dispatch:
+
+concurrency:
+  group: nsdl-issuance-report
+  cancel-in-progress: false
+
+jobs:
+  send-report:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: pip install requests anthropic
+
+      - name: Send NSDL issuance report
+        timeout-minutes: 15
+        env:
+          GMAIL_USER: ${{ secrets.GMAIL_USER }}
+          GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: python -u scripts/send_nsdl_issuance_report.py
+        working-directory: ${{ github.workspace }}
