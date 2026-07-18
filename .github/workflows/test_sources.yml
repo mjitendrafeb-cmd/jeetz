@@ -26,4 +26,5 @@ jobs:
           GMAIL_USER: ${{ secrets.GMAIL_USER }}
           GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
-        run: python -u scripts/send_nsdl_issuance_report.py
+        run: |
+          python -u -c "import sys; sys.path.insert(0,'scripts'); from fetch_nsdl_issuance import fetch_gsec_curve; print('CURVE:', fetch_gsec_curve(debug=True))"
