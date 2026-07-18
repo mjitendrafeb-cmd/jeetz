@@ -95,7 +95,7 @@ _RATING_TOKEN = re.compile(
 
 _BANDS = ["AAA", "AA band (AA+/AA/AA-)", "A band (A+/A/A-)", "BBB band",
           "Below investment grade", "Short-term (A1+/A1/...)",
-          "Rated — grade not yet on NSDL", "Unrated"]
+          "Not rated / available"]
 
 
 def _rating_band(i: dict) -> str:
@@ -120,9 +120,7 @@ def _rating_band(i: dict) -> str:
     for t in tokens:
         if t.startswith(("A1", "A2", "A3", "A4")):
             return _BANDS[5]
-    if (i.get("rated") or "").lower() == "rated":
-        return _BANDS[6]
-    return _BANDS[7]
+    return _BANDS[6]
 
 
 def _type_str(i: dict) -> str:
@@ -252,11 +250,6 @@ def _claude_commentary(issues, watchlist_hits) -> str:
 
 def build_email(issues, fy_total, quarters, watchlist, today) -> str:
     date_str = today.strftime("%d %B %Y")
-    # only rated issues make the table; the rest get a one-line footnote
-    rated_issues = [i for i in issues if i.get("ratings")]
-    excluded = [i for i in issues if not i.get("ratings")]
-    issues = rated_issues
-
     watchlist_hits = []
     banded: dict[str, list] = {}
     for i in issues:
@@ -278,7 +271,7 @@ def build_email(issues, fy_total, quarters, watchlist, today) -> str:
                 watchlist_hits.append(i["issuer"].title())
             star = " ⭐" if hit else ""
             row_bg = "#fff8e1" if hit else "#ffffff"
-            rating = "; ".join((i.get("ratings") or [])[:2]) or "—"
+            rating = "; ".join((i.get("ratings") or [])[:2]) or "Not rated / available"
             rows_html += f"""<tr style="background:{row_bg};">
 <td style="padding:7px 10px;border-bottom:1px solid #eee;font-weight:600;">{i['issuer'].title()}{star}</td>
 <td style="padding:7px 10px;border-bottom:1px solid #eee;font-family:monospace;font-size:11px;">{i['isin']}</td>
@@ -324,18 +317,8 @@ def build_email(issues, fy_total, quarters, watchlist, today) -> str:
     empty_html = ""
     if not issues:
         empty_html = """<tr><td colspan="6" style="padding:20px;text-align:center;color:#666;font-size:13px;">
-No fresh rated issuances reported on NSDL India Bond Info for this run.</td></tr>"""
-
+No fresh issuances reported on NSDL India Bond Info for this run.</td></tr>"""
     excluded_note = ""
-    if excluded:
-        ex_total = sum(e["issue_size_cr"] for e in excluded)
-        ex_names = ", ".join(e["issuer"].title() for e in excluded[:4])
-        if len(excluded) > 4:
-            ex_names += f" +{len(excluded) - 4} more"
-        excluded_note = (f"<div style='margin-top:6px;font-family:Arial,sans-serif;font-size:11px;"
-                         f"color:#888;'>Excluded (no published rating): {len(excluded)} issue"
-                         f"{'s' if len(excluded) > 1 else ''} totalling ₹{_fmt_cr(ex_total)} cr — "
-                         f"{ex_names}.</div>")
 
     return f"""<html><body style="margin:0;padding:0;background:#f0f0f0;font-family:Georgia,'Times New Roman',serif;">
 <div style="max-width:760px;margin:0 auto;background:#ffffff;">
