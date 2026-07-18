@@ -28,19 +28,12 @@ jobs:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
         run: |
           python -u -c "
-          import requests
+          import re, requests
           h={'User-Agent':'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36'}
-          for u in ['https://stooq.com/q/l/?s=10yiny.b&f=sd2t2ohlcv&e=csv',
-                    'https://stooq.pl/q/l/?s=10yiny.b&f=sd2t2ohlcv&e=csv',
-                    'https://stooq.com/q/l/?s=10yiny.b&i=d',
-                    'https://fred.stlouisfed.org/graph/fredgraph.csv?id=IRLTLT01INM156N',
-                    'https://tradingeconomics.com/india/government-bond-yield']:
-              try:
-                  r=requests.get(u, headers=h, timeout=25)
-                  print('===', u, '->', r.status_code, 'len', len(r.text))
-                  print(r.text[:400].replace(chr(10),' | ')[:400])
-                  if 'fredgraph' in u and r.status_code==200:
-                      print('TAIL:', r.text.strip().split(chr(10))[-3:])
-              except Exception as e:
-                  print('===', u, 'ERROR', e)
+          r=requests.get('https://tradingeconomics.com/india/government-bond-yield', headers=h, timeout=25)
+          print('status', r.status_code, 'len', len(r.text))
+          html=r.text
+          for i,m in enumerate(re.finditer(r'(?:GIND|India )(\d{1,2})\s*Y', html)):
+              s=max(0,m.start()-100); print(f'CTX{i}:', re.sub(r'\s+',' ',html[s:m.end()+250])[:340])
+              if i>=14: break
           "
