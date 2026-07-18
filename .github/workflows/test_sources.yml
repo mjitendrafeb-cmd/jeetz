@@ -22,4 +22,4 @@ jobs:
       - name: Run source test
         env:
           NEWSAPI_KEY: ${{ secrets.NEWSAPI_KEY }}
-        run: python scripts/test_sources.py
+        run: python scripts/probe_nsdl.py
