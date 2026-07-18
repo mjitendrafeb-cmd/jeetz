@@ -17,15 +17,9 @@ jobs:
 
       - name: Install dependencies
         run: |
-          pip install requests feedparser beautifulsoup4 anthropic
+          pip install requests feedparser beautifulsoup4
 
       - name: Run source test
-        timeout-minutes: 15
         env:
           NEWSAPI_KEY: ${{ secrets.NEWSAPI_KEY }}
-          GMAIL_USER: ${{ secrets.GMAIL_USER }}
-          GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
-          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
-          NSDL_DEBUG: 'true'
-        working-directory: ${{ github.workspace }}/scripts
-        run: python -u send_nsdl_issuance_report.py
+        run: python scripts/test_sources.py
