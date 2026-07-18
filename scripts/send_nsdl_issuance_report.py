@@ -94,7 +94,8 @@ _RATING_TOKEN = re.compile(
     r"A1\+|A1|A2\+|A2|A3\+|A3|A4\+|A4|C|D|A)\b")
 
 _BANDS = ["AAA", "AA band (AA+/AA/AA-)", "A band (A+/A/A-)", "BBB band",
-          "Below investment grade", "Short-term (A1+/A1/...)", "Unrated / Not available"]
+          "Below investment grade", "Short-term (A1+/A1/...)",
+          "Rated — grade not yet on NSDL", "Unrated"]
 
 
 def _rating_band(i: dict) -> str:
@@ -119,7 +120,9 @@ def _rating_band(i: dict) -> str:
     for t in tokens:
         if t.startswith(("A1", "A2", "A3", "A4")):
             return _BANDS[5]
-    return _BANDS[6]
+    if (i.get("rated") or "").lower() == "rated":
+        return _BANDS[6]
+    return _BANDS[7]
 
 
 def _type_str(i: dict) -> str:

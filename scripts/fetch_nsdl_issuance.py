@@ -210,7 +210,7 @@ def fetch_new_issuances(debug: bool = False) -> dict:
                        reverse=True)
         lookback = []
         for d in dates[:2]:
-            lookback += [d - datetime.timedelta(days=n) for n in range(0, 8)]
+            lookback += [d - datetime.timedelta(days=n) for n in range(0, 31)]
         by_isin, by_issuer = {}, {}
         for d in sorted(set(lookback), reverse=True):
             try:
