@@ -27,4 +27,4 @@ jobs:
           GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           NSDL_DEBUG: 'true'
-        run: python -u scripts/probe_nsdl.py
+        run: python -u scripts/send_nsdl_issuance_report.py

@@ -143,16 +143,6 @@ def _isin_details(session, prefix, isin, debug=False):
         if debug:
             print(f"[nsdl_issuance] instruments?isin={isin} failed: {exc}")
 
-    # isindisplay feed: the ISIN page's summary card — carries credit rating
-    try:
-        data = _get_json(session, f"{prefix}/public/bdsinfo/isindisplay", {"isin": isin})
-        if debug:
-            print(f"[nsdl_issuance] isindisplay?isin={isin} -> {json.dumps(data)[:1200]}")
-        _harvest(data, detail)
-    except Exception as exc:
-        if debug:
-            print(f"[nsdl_issuance] isindisplay?isin={isin} failed: {exc}")
-
     # isins feed: issuer classification (NBFC / PSU / sector); secType also
     # embeds the coupon ("... SR 249 7.8324 NCD 04JL31 ...") as a fallback
     try:
@@ -202,31 +192,58 @@ def fetch_new_issuances(debug: bool = False) -> dict:
         issue.update(_isin_details(session, prefix, issue["isin"], debug=debug))
         issues.append(issue)
 
-    # rating actions filed on the allotment dates — second shot at a rating
-    # for ISINs whose display card doesn't carry one yet
+    # Rating actions feed (date must be ISO YYYY-MM-DD) — carries per-ISIN
+    # rating + agency for actions filed on/around the allotment dates.
+    _CRA_SHORT = (("CRISIL", "CRISIL"), ("ICRA", "ICRA"), ("CARE", "CareEdge"),
+                  ("INDIA RATING", "IND-Ra"), ("BRICKWORK", "Brickwork"),
+                  ("ACUITE", "Acuité"), ("INFOMERICS", "Infomerics"))
+
+    def _cra_short(name: str) -> str:
+        up = (name or "").upper()
+        for key, short in _CRA_SHORT:
+            if key in up:
+                return short
+        return (name or "").strip()[:20]
+
     try:
-        dates = {i["allotment_date"] for i in issues if i["allotment_date"]}
-        actions = []
-        for d in sorted(dates, reverse=True)[:3]:
-            actions += _get_json(
-                session, f"{prefix}/public/bdsinfo/getallratingactioncralst",
-                {"date": d.strftime("%d-%m-%Y")}) or []
-        if debug and actions:
-            print(f"[nsdl_issuance] rating actions sample -> {json.dumps(actions[:3])[:800]}")
-        by_isin = {}
-        for a in actions:
-            if isinstance(a, dict):
+        dates = sorted({i["allotment_date"] for i in issues if i["allotment_date"]},
+                       reverse=True)
+        lookback = []
+        for d in dates[:2]:
+            lookback += [d - datetime.timedelta(days=n) for n in range(0, 8)]
+        by_isin, by_issuer = {}, {}
+        for d in sorted(set(lookback), reverse=True):
+            try:
+                actions = _get_json(
+                    session, f"{prefix}/public/bdsinfo/getallratingactioncralst",
+                    {"date": d.strftime("%Y-%m-%d")}) or []
+            except Exception:
+                continue
+            for a in actions:
+                if not isinstance(a, dict) or not a.get("rating"):
+                    continue
+                tag = f"{_cra_short(a.get('craName'))} {a['rating'].strip()}"
                 key = (a.get("isin") or "").strip()
                 if key:
-                    by_isin.setdefault(key, []).append(a)
+                    by_isin.setdefault(key, [])
+                    if tag not in by_isin[key]:
+                        by_isin[key].append(tag)
+                name = re.sub(r"\s+", " ", (a.get("issuer") or "").strip().upper())
+                if name:
+                    by_issuer.setdefault(name, [])
+                    if tag not in by_issuer[name]:
+                        by_issuer[name].append(tag)
         for issue in issues:
-            if issue.get("ratings"):
-                continue
-            for a in by_isin.get(issue["isin"], []):
-                out = {}
-                _harvest(a, out)
-                if out.get("ratings"):
-                    issue.setdefault("ratings", []).extend(out["ratings"])
+            tags = by_isin.get(issue["isin"]) or \
+                by_issuer.get(re.sub(r"\s+", " ", issue["issuer"].upper()))
+            if tags:
+                existing = issue.setdefault("ratings", [])
+                for t in tags:
+                    if t not in existing:
+                        existing.append(t)
+        if debug:
+            print(f"[nsdl_issuance] rating actions matched: "
+                  f"{[(i['isin'], i.get('ratings')) for i in issues]}")
     except Exception as exc:
         if debug:
             print(f"[nsdl_issuance] rating actions lookup failed: {exc}")
