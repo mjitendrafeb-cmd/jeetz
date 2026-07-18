@@ -89,6 +89,39 @@ def _rating_str(i: dict) -> str:
     return "; ".join(r[:2]) if r else "—"
 
 
+_RATING_TOKEN = re.compile(
+    r"\b(AAA|AA\+|AA-|AA|A\+|A-|BBB\+|BBB-|BBB|BB\+|BB-|BB|B\+|B-|"
+    r"A1\+|A1|A2\+|A2|A3\+|A3|A4\+|A4|C|D|A)\b")
+
+_BANDS = ["AAA", "AA band (AA+/AA/AA-)", "A band (A+/A/A-)", "BBB band",
+          "Below investment grade", "Short-term (A1+/A1/...)", "Unrated / Not available"]
+
+
+def _rating_band(i: dict) -> str:
+    tokens = []
+    for r in i.get("ratings") or []:
+        tokens += _RATING_TOKEN.findall(r.upper().replace("(", " ").replace(")", " "))
+    for t in tokens:
+        if t == "AAA":
+            return _BANDS[0]
+    for t in tokens:
+        if t in ("AA+", "AA", "AA-"):
+            return _BANDS[1]
+    for t in tokens:
+        if t in ("A+", "A", "A-"):
+            return _BANDS[2]
+    for t in tokens:
+        if t in ("BBB+", "BBB", "BBB-"):
+            return _BANDS[3]
+    for t in tokens:
+        if t in ("BB+", "BB", "BB-", "B+", "B-", "C", "D"):
+            return _BANDS[4]
+    for t in tokens:
+        if t.startswith(("A1", "A2", "A3", "A4")):
+            return _BANDS[5]
+    return _BANDS[6]
+
+
 def _type_str(i: dict) -> str:
     parts = []
     if i.get("issuer_nature") and i["issuer_nature"] != "Other":
@@ -131,6 +164,20 @@ def _computed_analysis(issues, fy_total, quarters) -> list[str]:
             line += (f"; cheapest {lo['issuer'].title()} at {lo['coupon']:.2f}%, "
                      f"costliest {hi['issuer'].title()} at {hi['coupon']:.2f}%")
         lines.append(line + ".")
+    # rating-band coupon averages
+    band_groups: dict[str, list] = {}
+    for i in with_coupon:
+        band_groups.setdefault(_rating_band(i), []).append(i)
+    band_bits = []
+    for band in _BANDS:
+        g = band_groups.get(band)
+        if g:
+            avg = sum(x["coupon"] * x["issue_size_cr"] for x in g) / \
+                sum(x["issue_size_cr"] for x in g)
+            band_bits.append(f"{band.split(' (')[0]} {avg:.2f}%")
+    if len(band_bits) >= 2:
+        lines.append("Weighted avg coupon by rating band: " + " · ".join(band_bits) + ".")
+
     # coupon spread between comparable-tenor deals — the "who borrows better" signal
     if len(with_coupon) >= 2:
         pairs = []
@@ -157,6 +204,9 @@ def _computed_analysis(issues, fy_total, quarters) -> list[str]:
                      f"₹{_fmt_cr(float(fy_total['issueSize']))} cr across "
                      f"{fy_total.get('noOfIsin', '?')} ISINs (NSDL).")
     return lines
+
+
+_CLAUDE_ERROR = {"msg": ""}
 
 
 def _claude_commentary(issues, watchlist_hits) -> str:
@@ -190,20 +240,38 @@ def _claude_commentary(issues, watchlist_hits) -> str:
         return "".join(b.text for b in msg.content if getattr(b, "type", "") == "text").strip()
     except Exception as exc:
         print(f"[nsdl_issuance] Claude commentary skipped: {exc}")
+        if "credit balance" in str(exc).lower():
+            _CLAUDE_ERROR["msg"] = ("AI commentary unavailable — the Anthropic API account "
+                                    "is out of credits (top up at console.anthropic.com → "
+                                    "Plans &amp; Billing).")
         return ""
 
 
 def build_email(issues, fy_total, quarters, watchlist, today) -> str:
     date_str = today.strftime("%d %B %Y")
-    rows_html = ""
     watchlist_hits = []
+    banded: dict[str, list] = {}
     for i in issues:
-        hit = _watchlist_hit(i["issuer"], watchlist)
-        if hit:
-            watchlist_hits.append(i["issuer"].title())
-        star = " ⭐" if hit else ""
-        row_bg = "#fff8e1" if hit else "#ffffff"
-        rows_html += f"""<tr style="background:{row_bg};">
+        banded.setdefault(_rating_band(i), []).append(i)
+
+    rows_html = ""
+    for band in _BANDS:
+        group = banded.get(band)
+        if not group:
+            continue
+        group.sort(key=lambda x: -x["issue_size_cr"])
+        band_total = sum(g["issue_size_cr"] for g in group)
+        rows_html += f"""<tr style="background:#3d3d3d;color:#fff;">
+<td colspan="8" style="padding:6px 10px;font-weight:700;font-size:12px;letter-spacing:0.5px;">
+{band.upper()} &nbsp;·&nbsp; {len(group)} issue{'s' if len(group) > 1 else ''} · ₹{_fmt_cr(band_total)} cr</td></tr>"""
+        for i in group:
+            hit = _watchlist_hit(i["issuer"], watchlist)
+            if hit:
+                watchlist_hits.append(i["issuer"].title())
+            star = " ⭐" if hit else ""
+            row_bg = "#fff8e1" if hit else "#ffffff"
+            rating = "; ".join((i.get("ratings") or [])[:2]) or _type_str(i)
+            rows_html += f"""<tr style="background:{row_bg};">
 <td style="padding:7px 10px;border-bottom:1px solid #eee;font-weight:600;">{i['issuer'].title()}{star}</td>
 <td style="padding:7px 10px;border-bottom:1px solid #eee;font-family:monospace;font-size:11px;">{i['isin']}</td>
 <td style="padding:7px 10px;border-bottom:1px solid #eee;text-align:right;">{_fmt_cr(i['issue_size_cr'])}</td>
@@ -211,7 +279,7 @@ def build_email(issues, fy_total, quarters, watchlist, today) -> str:
 <td style="padding:7px 10px;border-bottom:1px solid #eee;text-align:center;">{i.get('tenure_years') or '—'}</td>
 <td style="padding:7px 10px;border-bottom:1px solid #eee;">{_fmt_date(i['allotment_date'])}</td>
 <td style="padding:7px 10px;border-bottom:1px solid #eee;">{_fmt_date(i['maturity_date'])}</td>
-<td style="padding:7px 10px;border-bottom:1px solid #eee;font-size:11px;">{_type_str(i)}</td>
+<td style="padding:7px 10px;border-bottom:1px solid #eee;font-size:11px;">{rating}</td>
 </tr>"""
 
     analysis_items = _computed_analysis(issues, fy_total, quarters)
@@ -219,6 +287,12 @@ def build_email(issues, fy_total, quarters, watchlist, today) -> str:
 
     commentary = _claude_commentary(issues, watchlist_hits)
     commentary_html = ""
+    if not commentary and _CLAUDE_ERROR["msg"]:
+        commentary_html = f"""
+<tr><td style="padding:10px 20px 0;">
+  <div style="font-family:Arial,sans-serif;font-size:11px;color:#a15c00;background:#fff3cd;
+              border:1px solid #ffe69c;border-radius:4px;padding:8px 10px;">{_CLAUDE_ERROR['msg']}</div>
+</td></tr>"""
     if commentary:
         bullets = "".join(f"<li style='padding:3px 0;'>{b.strip().lstrip('•').strip()}</li>"
                           for b in commentary.split("\n") if b.strip())
@@ -262,7 +336,7 @@ No fresh issuances reported on NSDL India Bond Info for this run.</td></tr>"""
   <th style="padding:8px 10px;">Tenor (y)</th>
   <th style="padding:8px 10px;text-align:left;">Allotment</th>
   <th style="padding:8px 10px;text-align:left;">Maturity</th>
-  <th style="padding:8px 10px;text-align:left;">Type</th>
+  <th style="padding:8px 10px;text-align:left;">Rating / Type</th>
 </tr>
 {rows_html}{empty_html}
 </table>

@@ -143,6 +143,16 @@ def _isin_details(session, prefix, isin, debug=False):
         if debug:
             print(f"[nsdl_issuance] instruments?isin={isin} failed: {exc}")
 
+    # isindisplay feed: the ISIN page's summary card — carries credit rating
+    try:
+        data = _get_json(session, f"{prefix}/public/bdsinfo/isindisplay", {"isin": isin})
+        if debug:
+            print(f"[nsdl_issuance] isindisplay?isin={isin} -> {json.dumps(data)[:1200]}")
+        _harvest(data, detail)
+    except Exception as exc:
+        if debug:
+            print(f"[nsdl_issuance] isindisplay?isin={isin} failed: {exc}")
+
     # isins feed: issuer classification (NBFC / PSU / sector); secType also
     # embeds the coupon ("... SR 249 7.8324 NCD 04JL31 ...") as a fallback
     try:
@@ -191,6 +201,35 @@ def fetch_new_issuances(debug: bool = False) -> dict:
         }
         issue.update(_isin_details(session, prefix, issue["isin"], debug=debug))
         issues.append(issue)
+
+    # rating actions filed on the allotment dates — second shot at a rating
+    # for ISINs whose display card doesn't carry one yet
+    try:
+        dates = {i["allotment_date"] for i in issues if i["allotment_date"]}
+        actions = []
+        for d in sorted(dates, reverse=True)[:3]:
+            actions += _get_json(
+                session, f"{prefix}/public/bdsinfo/getallratingactioncralst",
+                {"date": d.strftime("%d-%m-%Y")}) or []
+        if debug and actions:
+            print(f"[nsdl_issuance] rating actions sample -> {json.dumps(actions[:3])[:800]}")
+        by_isin = {}
+        for a in actions:
+            if isinstance(a, dict):
+                key = (a.get("isin") or "").strip()
+                if key:
+                    by_isin.setdefault(key, []).append(a)
+        for issue in issues:
+            if issue.get("ratings"):
+                continue
+            for a in by_isin.get(issue["isin"], []):
+                out = {}
+                _harvest(a, out)
+                if out.get("ratings"):
+                    issue.setdefault("ratings", []).extend(out["ratings"])
+    except Exception as exc:
+        if debug:
+            print(f"[nsdl_issuance] rating actions lookup failed: {exc}")
 
     fy_total, quarters = {}, []
     try:
