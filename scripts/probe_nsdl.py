@@ -1,10 +1,10 @@
-"""Probe #13: enumerate every bdsService endpoint template in the CBDServices
-bundle, then call the rating/coupon-flavoured ones for a current new-issue ISIN.
+"""Probe #14: hunt for credit rating grades — advancedSearch dtoString,
+rating-action list date formats, isindisplay retry.
 Runs on the GitHub Actions runner. Not used by reports.
 """
 
+import base64
 import json
-import re
 import signal
 
 import requests
@@ -34,35 +34,53 @@ def get(url, params=None):
         signal.alarm(0)
 
 
-def main():
-    idx = get(BASE + "/CBDServices/").text
-    script = re.search(r'src="(main-[^"]+\.js)"', idx).group(1)
-    js = get(BASE + "/CBDServices/" + script).text
-
-    # every template appended to a cbdApiUrl base: `)}/something?...`
-    templates = sorted(set(re.findall(r"cbdApiUrl\.\w+\)\}(/[A-Za-z0-9_/]+(?:\?[^`]{0,80})?)`", js)))
-    print(f"{len(templates)} endpoint templates:", flush=True)
-    for t in templates:
-        print(f"  {t}", flush=True)
-
-    issues = get(f"{PREFIX}/public/bdsinfo/newbondissues").json()
-    isin = issues[0]["isin"] if issues else "INE756I07FT8"
-    print(f"\ntest isin: {isin}", flush=True)
-
-    for t in templates:
-        if not re.search(r"rating|coupon|redemption|cra|grade", t, re.IGNORECASE):
-            continue
-        path = t.split("?")[0]
-        url = f"{PREFIX}/public/bdsinfo{path}" if not path.startswith("/public") else f"{PREFIX}{path}"
-        for params in ({"isin": isin},):
-            print(f"\n=== {url} {params}", flush=True)
+def show(label, url, params=None, clip=3000):
+    print(f"\n=== {label}: {url} {params or ''}", flush=True)
+    try:
+        r = get(url, params)
+        print(f"  status={r.status_code} len={len(r.text)}", flush=True)
+        if r.status_code == 200:
             try:
-                r = get(url, params)
-                print(f"  status={r.status_code} len={len(r.text)}", flush=True)
-                if r.status_code == 200:
-                    print(f"  JSON[:3000]: {json.dumps(r.json())[:3000]}", flush=True)
-            except Exception as exc:
-                print(f"  ERROR {exc}", flush=True)
+                print(f"  JSON[:{clip}]: {json.dumps(r.json())[:clip]}", flush=True)
+            except Exception:
+                print(f"  body[:400]: {r.text[:400]!r}", flush=True)
+        else:
+            print(f"  body[:300]: {r.text[:300]!r}", flush=True)
+    except Exception as exc:
+        print(f"  ERROR {exc}", flush=True)
+
+
+def main():
+    isin = "INE756I07FT8"  # HDB (rated instrument)
+
+    # 1. advancedSearch: bundle builds GET {bdsService}/advancedSearch?dtoString=<b64 payload>
+    payload = {
+        "businessSector": [], "couponRateFrom": "", "couponRateTo": "",
+        "creditRatingAgencyID": None, "couponType": [], "couponBasis": None,
+        "convertibilityA": [], "convertibilityB": [],
+        "dateOfAllotmentFrom": "17-07-2026", "dateOfAllotmentTo": "17-07-2026",
+        "dateOfMaturityFrom": None, "dateOfMaturityTo": None,
+        "freqInterestPayment": [], "instrumentStatus": [], "isin": "",
+        "issueCategory": [], "modeOfIssue": [], "nameOfIssuer": "",
+        "searchCriteriaCount": "", "typeOfInstrument": [],
+        "typeOfIssuerNature": [], "typeOfIssuerOwnership": []}
+    dto = base64.b64encode(json.dumps(payload).encode()).decode()
+    show("advancedSearch-by-date", f"{PREFIX}/public/bdsinfo/advancedSearch", {"dtoString": dto}, clip=5000)
+
+    payload2 = dict(payload, dateOfAllotmentFrom=None, dateOfAllotmentTo=None, isin=isin)
+    dto2 = base64.b64encode(json.dumps(payload2).encode()).decode()
+    show("advancedSearch-by-isin", f"{PREFIX}/public/bdsinfo/advancedSearch", {"dtoString": dto2}, clip=5000)
+
+    # 2. rating actions list: try several date formats
+    for d in ("17-07-2026", "2026-07-17", "17/07/2026", "17-Jul-2026"):
+        show(f"ratingactions:{d}", f"{PREFIX}/public/bdsinfo/getallratingactioncralst", {"date": d}, clip=2000)
+
+    # 3. isindisplay retry
+    show("isindisplay", f"{PREFIX}/public/bdsinfo/isindisplay", {"isin": isin}, clip=2500)
+
+    # 4. dropdown for credit rating agencies / categorymap — may reveal rating attr keys
+    show("dropdown-cra", f"{PREFIX}/public/bdsinfo/dropdown", {"attrkey": "creditRatingAgency"})
+    show("categorymap-rating", f"{PREFIX}/public/bdsinfo/categorymap", {"attributekey": "creditRating"})
 
 
 if __name__ == "__main__":
