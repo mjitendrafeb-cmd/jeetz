@@ -1,6 +1,6 @@
-"""Probe #5: dump the JS around the ISD search submit handler to learn the
-exact querystring; try combined/company+date and 2025 searches.
-Runs on the GitHub Actions runner. Not used by reports.
+"""Probe #6: learn ISD issue_type options, pagination and attribute payloads;
+check indiabondinfo for the debt new-issuance report. Runs on GitHub Actions.
+Not used by reports.
 """
 
 import json
@@ -27,15 +27,15 @@ signal.signal(signal.SIGALRM, lambda s, f: (_ for _ in ()).throw(TimeoutError())
 
 
 def get(url, params=None):
-    signal.alarm(60)
+    signal.alarm(50)
     try:
-        return session.get(url, params=params, timeout=(10, 30))
+        return session.get(url, params=params, timeout=(10, 25))
     finally:
         signal.alarm(0)
 
 
-def api(label, path, params=None, clip=3500):
-    print(f"\n=== {label}: {path} params={params}", flush=True)
+def api(label, path, params=None, clip=2500):
+    print(f"\n=== {label}: params={params}", flush=True)
     try:
         r = get(API + path, params)
     except Exception as exc:
@@ -47,40 +47,50 @@ def api(label, path, params=None, clip=3500):
         print(f"  JSON[:{clip}]: {json.dumps(data)[:clip]}", flush=True)
         return data
     except Exception:
-        print(f"  body[:400]: {r.text[:400]!r}", flush=True)
+        print(f"  body[:300]: {r.text[:300]!r}", flush=True)
         return None
 
 
 def main():
-    # ---- JS context dump
+    # ---- dropdown options + pagination from the JS chunk
     page = get("https://nsdl.com/resources/data/issue-summary-document")
-    chunk = None
-    for c in re.findall(r'src="(/_next/static/chunks/[^"]+)"', page.text):
-        if "issue-summary-document" in c:
-            chunk = c
-            break
-    print(f"chunk={chunk}", flush=True)
+    chunk = next((c for c in re.findall(r'src="(/_next/static/chunks/[^"]+)"', page.text)
+                  if "issue-summary-document" in c), None)
     if chunk:
         js = get("https://nsdl.com" + chunk).text
-        for kw in ("search?", "URLSearchParams", "toISOString", "format(", "dayjs", "moment",
-                   "Please Enter", "handleSearch", "onSubmit", "params"):
-            for m in re.finditer(re.escape(kw), js):
-                s = max(0, m.start() - 400)
-                print(f"\nCTX[{kw}]:\n{js[s:m.end() + 800]}", flush=True)
-                break  # first occurrence only
+        for kw in ("issue_type\"", "Debt", "NCD", "Commercial", "option", "page=", "offset", "gL"):
+            for i, m in enumerate(re.finditer(re.escape(kw), js)):
+                s = max(0, m.start() - 300)
+                print(f"\nCTX[{kw}#{i}]:\n{js[s:m.end() + 500]}", flush=True)
+                if i >= 1:
+                    break
 
-    # ---- API trials
-    base = {"isin_code": "", "company_name": "", "issue_type": "", "stage_of_issue": "", "date_from": "", "date_to": ""}
-    api("company+dates", "v1/issue-summary-details/search",
-        dict(base, company_name="Finance", date_from="2026-01-01", date_to="2026-07-18"))
-    api("2025-iso", "v1/issue-summary-details/search",
-        dict(base, date_from="2025-01-01", date_to="2025-12-31"))
-    api("2025-dmy", "v1/issue-summary-details/search",
-        dict(base, date_from="01-01-2025", date_to="31-12-2025"))
-    api("company-only-nodates", "v1/issue-summary-details/search",
-        {"company_name": "Finance"})
-    api("isin", "v1/issue-summary-details/search",
-        dict(base, isin_code="INE"))
+    base = {"isin_code": "", "company_name": "", "issue_type": "", "stage_of_issue": "",
+            "date_from": "01-01-2020", "date_to": "31-12-2030"}
+
+    # match-all range; check pagination params
+    api("all", "v1/issue-summary-details/search", base)
+    api("all-page2", "v1/issue-summary-details/search", dict(base, page=2))
+    api("all-limit", "v1/issue-summary-details/search", dict(base, limit=100))
+    api("all-offset", "v1/issue-summary-details/search", dict(base, offset=10))
+
+    # debt-flavoured issue types
+    for t in ("Debt", "Debt IPO", "Debenture", "NCD", "Debt Private Placement", "Commercial Paper"):
+        api(f"type:{t}", "v1/issue-summary-details/search", dict(base, issue_type=t), clip=1200)
+
+    # attributes payload for one known record
+    api("attrs-1226", "view/issue_summary_attributes/listing", {"issue_summary_details_id": 1226}, clip=5000)
+
+    # ---- indiabondinfo: the tiny homepage + data reports page
+    for u in ("https://www.indiabondinfo.nsdl.com/",
+              "https://www.indiabondinfo.nsdl.com/bds-web/dataReportsMenu.do"):
+        print(f"\n=== IBI {u}", flush=True)
+        try:
+            r = get(u)
+            print(f"  status={r.status_code} len={len(r.text)}", flush=True)
+            print(f"  body[:1500]: {r.text[:1500]!r}", flush=True)
+        except Exception as exc:
+            print(f"  ERROR {exc}", flush=True)
 
 
 if __name__ == "__main__":
