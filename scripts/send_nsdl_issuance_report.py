@@ -89,6 +89,25 @@ def _rating_str(i: dict) -> str:
     return "; ".join(r[:2]) if r else "—"
 
 
+def _type_str(i: dict) -> str:
+    parts = []
+    if i.get("issuer_nature") and i["issuer_nature"] != "Other":
+        parts.append(i["issuer_nature"])
+    elif i.get("sector"):
+        parts.append(i["sector"])
+    if i.get("ownership") and "psu" in i["ownership"].lower().replace(" ", ""):
+        parts.append(i["ownership"])
+    if i.get("secured"):
+        parts.append(i["secured"])
+    if i.get("rated"):
+        parts.append(i["rated"])
+    if i.get("ratings"):
+        parts.append("; ".join(i["ratings"][:1]))
+    if i.get("discount_pct"):
+        parts.append(f"issued at {i['discount_pct']}% discount")
+    return " · ".join(parts) if parts else "—"
+
+
 def _computed_analysis(issues, fy_total, quarters) -> list[str]:
     if not issues:
         return []
@@ -112,6 +131,23 @@ def _computed_analysis(issues, fy_total, quarters) -> list[str]:
             line += (f"; cheapest {lo['issuer'].title()} at {lo['coupon']:.2f}%, "
                      f"costliest {hi['issuer'].title()} at {hi['coupon']:.2f}%")
         lines.append(line + ".")
+    # coupon spread between comparable-tenor deals — the "who borrows better" signal
+    if len(with_coupon) >= 2:
+        pairs = []
+        for a in with_coupon:
+            for b in with_coupon:
+                if a["isin"] < b["isin"] and a.get("tenure_years") and b.get("tenure_years") \
+                        and abs(a["tenure_years"] - b["tenure_years"]) <= 0.6:
+                    pairs.append((a, b))
+        if pairs:
+            a, b = max(pairs, key=lambda p: abs(p[0]["coupon"] - p[1]["coupon"]))
+            if abs(a["coupon"] - b["coupon"]) >= 0.05:
+                cheap, dear = (a, b) if a["coupon"] < b["coupon"] else (b, a)
+                lines.append(
+                    f"Same-tenor spread: {dear['issuer'].title()} paid "
+                    f"{(dear['coupon'] - cheap['coupon']) * 100:.0f} bps over "
+                    f"{cheap['issuer'].title()} for ~{cheap['tenure_years']}y money "
+                    f"({dear['coupon']:.2f}% vs {cheap['coupon']:.2f}%).")
     tenors = [i["tenure_years"] for i in issues if i.get("tenure_years")]
     if tenors:
         lines.append(f"Tenor range {min(tenors):.1f}y–{max(tenors):.1f}y "
@@ -133,7 +169,7 @@ def _claude_commentary(issues, watchlist_hits) -> str:
             f"- {i['issuer']} | ISIN {i['isin']} | ₹{_fmt_cr(i['issue_size_cr'])} cr | "
             f"coupon {_coupon_str(i)} | allotted {_fmt_date(i['allotment_date'])} | "
             f"matures {_fmt_date(i['maturity_date'])} | tenor {i.get('tenure_years') or '?'}y | "
-            f"rating {_rating_str(i)}"
+            f"type {_type_str(i)}"
             for i in issues
         )
         wl = ", ".join(watchlist_hits) if watchlist_hits else "none"
@@ -175,7 +211,7 @@ def build_email(issues, fy_total, quarters, watchlist, today) -> str:
 <td style="padding:7px 10px;border-bottom:1px solid #eee;text-align:center;">{i.get('tenure_years') or '—'}</td>
 <td style="padding:7px 10px;border-bottom:1px solid #eee;">{_fmt_date(i['allotment_date'])}</td>
 <td style="padding:7px 10px;border-bottom:1px solid #eee;">{_fmt_date(i['maturity_date'])}</td>
-<td style="padding:7px 10px;border-bottom:1px solid #eee;font-size:11px;">{_rating_str(i)}</td>
+<td style="padding:7px 10px;border-bottom:1px solid #eee;font-size:11px;">{_type_str(i)}</td>
 </tr>"""
 
     analysis_items = _computed_analysis(issues, fy_total, quarters)
@@ -226,7 +262,7 @@ No fresh issuances reported on NSDL India Bond Info for this run.</td></tr>"""
   <th style="padding:8px 10px;">Tenor (y)</th>
   <th style="padding:8px 10px;text-align:left;">Allotment</th>
   <th style="padding:8px 10px;text-align:left;">Maturity</th>
-  <th style="padding:8px 10px;text-align:left;">Rating</th>
+  <th style="padding:8px 10px;text-align:left;">Type</th>
 </tr>
 {rows_html}{empty_html}
 </table>

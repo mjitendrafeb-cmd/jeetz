@@ -110,19 +110,59 @@ def _harvest(obj, out):
 
 def _isin_details(session, prefix, isin, debug=False):
     detail = {}
-    for path, params in ((f"{prefix}/public/bdsinfo/instruments", {"isin": isin}),
-                         (f"{prefix}/public/isins", {"isin": isin})):
-        try:
-            data = _get_json(session, path, params)
-        except Exception as exc:
-            if debug:
-                print(f"[nsdl_issuance] {path}?isin={isin} failed: {exc}")
-            continue
+
+    # instruments feed: coupon lives at the start of instrumentDesc
+    # ("7.8324% SECURED RATED LISTED REDEEMABLE NON CONVERTIBLE DEBENTURE ...")
+    try:
+        data = _get_json(session, f"{prefix}/public/bdsinfo/instruments", {"isin": isin})
         if debug:
-            print(f"[nsdl_issuance] {path}?isin={isin} -> {json.dumps(data)[:1000]}")
+            print(f"[nsdl_issuance] instruments?isin={isin} -> {json.dumps(data)[:600]}")
+        inst = (data.get("instrumentsVo") or {}).get("instruments") or {}
+        desc = inst.get("instrumentDesc") or ""
+        m = re.match(r"\s*(\d+(?:\.\d+)?)\s*%", desc)
+        if m and 0 < float(m.group(1)) < 40:
+            detail["coupon"] = float(m.group(1))
+        if "UNRATED" in desc.upper():
+            detail["rated"] = "Unrated"
+        elif "RATED" in desc.upper():
+            detail["rated"] = "Rated"
+        if inst.get("secured"):
+            detail["secured"] = inst["secured"]
+        if inst.get("modeOfIssue"):
+            detail["mode"] = inst["modeOfIssue"]
+        if inst.get("seniorityRepayment"):
+            detail["seniority"] = inst["seniorityRepayment"]
+        try:
+            fv, ip = float(inst.get("faceValue") or 0), float(inst.get("issuePrice") or 0)
+            if fv and ip and ip < fv:
+                detail["discount_pct"] = round((fv - ip) / fv * 100, 2)
+        except (TypeError, ValueError):
+            pass
         _harvest(data, detail)
-        if "coupon" in detail and "ratings" in detail:
-            break
+    except Exception as exc:
+        if debug:
+            print(f"[nsdl_issuance] instruments?isin={isin} failed: {exc}")
+
+    # isins feed: issuer classification (NBFC / PSU / sector); secType also
+    # embeds the coupon ("... SR 249 7.8324 NCD 04JL31 ...") as a fallback
+    try:
+        data = _get_json(session, f"{prefix}/public/isins", {"isin": isin})
+        if debug:
+            print(f"[nsdl_issuance] isins?isin={isin} -> {json.dumps(data)[:400]}")
+        if data.get("issuerTypeNature"):
+            detail["issuer_nature"] = str(data["issuerTypeNature"]).strip()
+        if data.get("issuerTypeOwner"):
+            detail["ownership"] = str(data["issuerTypeOwner"]).strip()
+        if data.get("sector"):
+            detail["sector"] = str(data["sector"]).strip()
+        if "coupon" not in detail:
+            m = re.search(r"\b(\d{1,2}\.\d{1,4})\b", data.get("secType") or "")
+            if m and 0 < float(m.group(1)) < 40:
+                detail["coupon"] = float(m.group(1))
+    except Exception as exc:
+        if debug:
+            print(f"[nsdl_issuance] isins?isin={isin} failed: {exc}")
+
     return detail
 
 
