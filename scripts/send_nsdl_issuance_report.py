@@ -265,7 +265,7 @@ def build_email(issues, fy_total, quarters, watchlist, today) -> str:
         group.sort(key=lambda x: -x["issue_size_cr"])
         band_total = sum(g["issue_size_cr"] for g in group)
         rows_html += f"""<tr style="background:#3d3d3d;color:#fff;">
-<td colspan="8" style="padding:6px 10px;font-weight:700;font-size:12px;letter-spacing:0.5px;">
+<td colspan="6" style="padding:6px 10px;font-weight:700;font-size:12px;letter-spacing:0.5px;">
 {band.upper()} &nbsp;·&nbsp; {len(group)} issue{'s' if len(group) > 1 else ''} · ₹{_fmt_cr(band_total)} cr</td></tr>"""
         for i in group:
             hit = _watchlist_hit(i["issuer"], watchlist)
@@ -280,10 +280,16 @@ def build_email(issues, fy_total, quarters, watchlist, today) -> str:
 <td style="padding:7px 10px;border-bottom:1px solid #eee;text-align:right;">{_fmt_cr(i['issue_size_cr'])}</td>
 <td style="padding:7px 10px;border-bottom:1px solid #eee;text-align:center;">{_coupon_str(i)}</td>
 <td style="padding:7px 10px;border-bottom:1px solid #eee;text-align:center;">{i.get('tenure_years') or '—'}</td>
-<td style="padding:7px 10px;border-bottom:1px solid #eee;">{_fmt_date(i['allotment_date'])}</td>
-<td style="padding:7px 10px;border-bottom:1px solid #eee;">{_fmt_date(i['maturity_date'])}</td>
 <td style="padding:7px 10px;border-bottom:1px solid #eee;font-size:11px;">{rating}</td>
 </tr>"""
+
+    allot_dates = sorted({i["allotment_date"] for i in issues if i.get("allotment_date")})
+    allot_str = ""
+    if allot_dates:
+        allot_str = " — ALLOTMENT " + _fmt_date(allot_dates[-1]).upper()
+        if len(allot_dates) > 1:
+            allot_str = (" — ALLOTMENT " + _fmt_date(allot_dates[0]).upper()
+                         + " TO " + _fmt_date(allot_dates[-1]).upper())
 
     analysis_items = _computed_analysis(issues, fy_total, quarters)
     analysis_html = "".join(f"<li style='padding:3px 0;'>{a}</li>" for a in analysis_items)
@@ -312,7 +318,7 @@ def build_email(issues, fy_total, quarters, watchlist, today) -> str:
 
     empty_html = ""
     if not issues:
-        empty_html = """<tr><td style="padding:20px;text-align:center;color:#666;font-size:13px;">
+        empty_html = """<tr><td colspan="6" style="padding:20px;text-align:center;color:#666;font-size:13px;">
 No fresh issuances reported on NSDL India Bond Info for this run.</td></tr>"""
 
     return f"""<html><body style="margin:0;padding:0;background:#f0f0f0;font-family:Georgia,'Times New Roman',serif;">
@@ -326,7 +332,7 @@ No fresh issuances reported on NSDL India Bond Info for this run.</td></tr>"""
 
 <table width="100%" cellpadding="0" cellspacing="0">
 <tr><td style="padding:16px 20px 4px;">
-  <div style="font-size:13px;font-weight:700;color:#cc0000;border-bottom:2px solid #cc0000;padding-bottom:4px;">FRESH ISSUANCES (SOURCE: NSDL INDIA BOND INFO)</div>
+  <div style="font-size:13px;font-weight:700;color:#cc0000;border-bottom:2px solid #cc0000;padding-bottom:4px;">FRESH ISSUANCES{allot_str} (SOURCE: NSDL INDIA BOND INFO)</div>
   {wl_note}
 </td></tr>
 <tr><td style="padding:8px 20px;">
@@ -337,8 +343,6 @@ No fresh issuances reported on NSDL India Bond Info for this run.</td></tr>"""
   <th style="padding:8px 10px;text-align:right;">₹ cr</th>
   <th style="padding:8px 10px;">Coupon</th>
   <th style="padding:8px 10px;">Tenor (y)</th>
-  <th style="padding:8px 10px;text-align:left;">Allotment</th>
-  <th style="padding:8px 10px;text-align:left;">Maturity</th>
   <th style="padding:8px 10px;text-align:left;">Rating / Type</th>
 </tr>
 {rows_html}{empty_html}
