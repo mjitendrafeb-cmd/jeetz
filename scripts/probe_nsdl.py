@@ -1,9 +1,8 @@
-"""Probe #16: find exchange endpoints for fresh Commercial Paper listings.
-Scans BSE debt pages for api.bseindia.com endpoints and CP links; tries NSE
-archive file patterns. Runs on the GitHub Actions runner. Not used by reports.
+"""Probe #17: extract api.bseindia.com endpoints from the BSE SPA bundles,
+focusing on CP / debt-listing feeds. Runs on the GitHub Actions runner.
+Not used by reports.
 """
 
-import datetime
 import re
 import signal
 
@@ -27,59 +26,36 @@ def get(url, **kw):
         signal.alarm(0)
 
 
-def scan_page(url):
-    print(f"\n=== {url}", flush=True)
-    try:
-        r = get(url)
-    except Exception as exc:
-        print(f"  ERROR {exc}", flush=True)
-        return
-    print(f"  status={r.status_code} len={len(r.text)}", flush=True)
-    if r.status_code != 200:
-        return
-    html = r.text
-    for m in sorted(set(re.findall(r"""["'](https?://api\.bseindia\.com/[^"']+)["']""", html))):
-        print(f"  API: {m[:180]}", flush=True)
-    for m in sorted(set(re.findall(r"""["']([A-Za-z0-9_/.-]*api/[A-Za-z0-9_/?=&{}.-]+)["']""", html)))[:25]:
-        print(f"  RELAPI: {m[:160]}", flush=True)
-    for href, text in re.findall(r'href="([^"]+)"[^>]*>([^<]{0,60})', html):
-        blob = (href + " " + text).lower()
-        if "cp" in blob.split("/")[-1][:20] or "commercial" in blob:
-            print(f"  LINK: {href[:120]} | {text.strip()[:60]}", flush=True)
-
-
 def main():
-    for u in ("https://www.bseindia.com/markets/debt/debt_home.aspx",
-              "https://www.bseindia.com/markets/debt/CPS.aspx",
-              "https://www.bseindia.com/markets/debt/cparchives.aspx",
-              "https://www.bseindia.com/markets/debt/NewDebtListing.aspx",
-              "https://www.bseindia.com/markets/Debt/DebtNewListing.aspx"):
-        scan_page(u)
+    shell = get("https://www.bseindia.com/markets/debt/debt_home.aspx").text
+    print(f"shell len={len(shell)}", flush=True)
+    scripts = re.findall(r'src="([^"]+\.js[^"]*)"', shell)
+    print(f"scripts: {scripts}", flush=True)
 
-    # BSE API blind guesses for CP/new debt listings
-    for u in ("https://api.bseindia.com/BseIndiaAPI/api/DebtNewListing/w",
-              "https://api.bseindia.com/BseIndiaAPI/api/CPArchives/w",
-              "https://api.bseindia.com/BseIndiaAPI/api/DebtCPOTB/w"):
-        print(f"\n=== GUESS {u}", flush=True)
+    endpoints = set()
+    for s in scripts:
+        url = s if s.startswith("http") else "https://www.bseindia.com" + (
+            s if s.startswith("/") else "/" + s)
         try:
-            r = get(u)
-            print(f"  status={r.status_code} body[:300]: {r.text[:300]!r}", flush=True)
+            js = get(url).text
         except Exception as exc:
-            print(f"  ERROR {exc}", flush=True)
+            print(f"JS {url} ERROR {exc}", flush=True)
+            continue
+        print(f"\nJS {url} len={len(js)}", flush=True)
+        for m in re.findall(r"""https?://api\.bseindia\.com/[A-Za-z0-9_/.{}$?=&%-]+""", js):
+            endpoints.add(m)
+        for m in re.findall(r"""BseIndiaAPI/api/[A-Za-z0-9_/.{}$?=&%-]+""", js):
+            endpoints.add(m)
 
-    # NSE archives static files (no cookies needed on nsearchives)
-    d = datetime.date(2026, 7, 17)
-    for pat in ("https://nsearchives.nseindia.com/content/debt/CP_{d2}.csv",
-                "https://nsearchives.nseindia.com/content/debt/cp_{d2}.csv",
-                "https://nsearchives.nseindia.com/content/debt/Debt_CP_{d2}.csv",
-                "https://nsearchives.nseindia.com/content/debt/NewDebt_{d2}.csv"):
-        u = pat.format(d2=d.strftime("%d%m%Y"))
-        print(f"\n=== NSE {u}", flush=True)
-        try:
-            r = get(u, headers={"User-Agent": H["User-Agent"]})
-            print(f"  status={r.status_code} body[:300]: {r.text[:300]!r}", flush=True)
-        except Exception as exc:
-            print(f"  ERROR {exc}", flush=True)
+    cps = sorted(e for e in endpoints
+                 if re.search(r"cp|commercial|debt|ncd|bond|listing", e, re.IGNORECASE))
+    print(f"\n{len(endpoints)} endpoints total; {len(cps)} CP/debt-flavoured:", flush=True)
+    for e in cps:
+        print(f"  {e[:170]}", flush=True)
+    others = sorted(endpoints - set(cps))
+    print(f"\nOTHERS ({len(others)}):", flush=True)
+    for e in others[:80]:
+        print(f"  {e[:150]}", flush=True)
 
 
 if __name__ == "__main__":
