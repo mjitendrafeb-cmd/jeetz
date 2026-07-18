@@ -1,5 +1,5 @@
-"""Probe #9: resolve cbdApiPrefixURL from the CBDServices runtime config and
-call the new-bond-issues endpoints. Runs on the GitHub Actions runner.
+"""Probe #10: resolve the portal-config name/prefix, read cbdApiPrefixURL,
+call the new-bond-issues endpoint. Runs on the GitHub Actions runner.
 Not used by reports.
 """
 
@@ -39,44 +39,35 @@ def main():
     script = re.search(r'src="(main-[^"]+\.js)"', idx).group(1)
     js = get(BASE + "/CBDServices/" + script).text
 
-    # where does the config come from?
-    for kw in ("cbdApiPrefixURL", "getConfigValue", "loadConfig", "assets/"):
+    for kw in ("portal-config", ".loadConfig(", "loadConfig("):
         for i, m in enumerate(re.finditer(re.escape(kw), js)):
-            s = max(0, m.start() - 250)
-            print(f"CTX[{kw}#{i}]: {js[s:m.end() + 400]!r}"[:900], flush=True)
-            if i >= 2:
+            s = max(0, m.start() - 350)
+            print(f"CTX[{kw}#{i}]: {js[s:m.end() + 350]!r}"[:900], flush=True)
+            if i >= 3:
                 break
 
-    asset_jsons = sorted(set(re.findall(r"""["'`](assets/[A-Za-z0-9_./-]+\.json)["'`]""", js)))
-    print(f"\nasset jsons in bundle: {asset_jsons}", flush=True)
-
     prefix = None
-    candidates = list(asset_jsons) + [
-        "assets/config.json", "assets/config/config.json", "assets/app-config.json",
-        "assets/appconfig.json", "assets/data/config.json",
-    ]
-    for a in candidates:
-        url = BASE + "/CBDServices/" + a
-        try:
-            r = get(url)
-        except Exception as exc:
-            print(f"{a} ERROR {exc}", flush=True)
-            continue
-        if r.status_code != 200:
-            print(f"{a} -> {r.status_code}", flush=True)
-            continue
-        body = r.text
-        print(f"\n{a} -> 200 len={len(body)} body[:800]: {body[:800]!r}", flush=True)
-        m = re.search(r'"cbdApiPrefixURL"\s*:\s*"([^"]+)"', body)
-        if m:
-            prefix = m.group(1)
-            print(f"FOUND cbdApiPrefixURL = {prefix}", flush=True)
+    for name in ("config", "portal", "cbd", "prod", "production", "app", "bds", "CBDServices"):
+        for root in (BASE, BASE + "/CBDServices"):
+            url = f"{root}/portal-config/{name}.json"
+            try:
+                r = get(url)
+            except Exception as exc:
+                print(f"{url} ERROR {exc}", flush=True)
+                continue
+            ok = r.status_code == 200 and "cbdApiPrefixURL" in r.text
+            print(f"{url} -> {r.status_code} len={len(r.text)}{' HIT' if ok else ''}", flush=True)
+            if r.status_code == 200 and len(r.text) < 3000 and r.text.strip().startswith(("{", "[")):
+                print(f"  body: {r.text[:1500]}", flush=True)
+            if ok:
+                prefix = re.search(r'"cbdApiPrefixURL"\s*:\s*"([^"]+)"', r.text).group(1)
+                break
+        if prefix:
             break
 
+    print(f"\nprefix={prefix}", flush=True)
     if not prefix:
-        print("no prefix found; guessing", flush=True)
-        prefix = BASE + "/CBDSAPIs"
-
+        return
     if prefix.startswith("/"):
         prefix = BASE + prefix
 
@@ -92,7 +83,7 @@ def main():
             continue
         print(f"  status={r.status_code} type={r.headers.get('content-type')} len={len(r.text)}", flush=True)
         try:
-            print(f"  JSON[:5000]: {json.dumps(r.json())[:5000]}", flush=True)
+            print(f"  JSON[:6000]: {json.dumps(r.json())[:6000]}", flush=True)
         except Exception:
             print(f"  body[:300]: {r.text[:300]!r}", flush=True)
 
