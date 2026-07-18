@@ -1,8 +1,10 @@
-"""Probe #17: extract api.bseindia.com endpoints from the BSE SPA bundles,
-focusing on CP / debt-listing feeds. Runs on the GitHub Actions runner.
+"""Probe #18: grep the BSE SPA bundle for Debt/CP API method names and try
+the most promising ones against api.bseindia.com. Runs on GitHub Actions.
 Not used by reports.
 """
 
+import datetime
+import json
 import re
 import signal
 
@@ -19,43 +21,56 @@ signal.signal(signal.SIGALRM, lambda s, f: (_ for _ in ()).throw(TimeoutError())
 
 
 def get(url, **kw):
-    signal.alarm(45)
+    signal.alarm(60)
     try:
-        return session.get(url, timeout=(10, 20), **kw)
+        return session.get(url, timeout=(10, 25), **kw)
     finally:
         signal.alarm(0)
 
 
 def main():
     shell = get("https://www.bseindia.com/markets/debt/debt_home.aspx").text
-    print(f"shell len={len(shell)}", flush=True)
-    scripts = re.findall(r'src="([^"]+\.js[^"]*)"', shell)
-    print(f"scripts: {scripts}", flush=True)
+    script = re.search(r'src="([^"]+main[^"]*\.js[^"]*)"', shell).group(1)
+    url = script if script.startswith("http") else "https://www.bseindia.com" + (
+        script if script.startswith("/") else "/" + script)
+    js = get(url).text
+    print(f"bundle len={len(js)}", flush=True)
 
-    endpoints = set()
-    for s in scripts:
-        url = s if s.startswith("http") else "https://www.bseindia.com" + (
-            s if s.startswith("/") else "/" + s)
-        try:
-            js = get(url).text
-        except Exception as exc:
-            print(f"JS {url} ERROR {exc}", flush=True)
+    # quoted strings that look like API method names
+    names = set()
+    for m in re.findall(r'"([A-Za-z][A-Za-z0-9_]{2,40})/w"', js):
+        names.add(m)
+    for m in re.findall(r'"([A-Za-z0-9_]*(?:CP|Debt|debt|Comm|NCB|NCD|Listing)[A-Za-z0-9_]*)"', js):
+        if 3 < len(m) < 45:
+            names.add(m)
+    hits = sorted(n for n in names
+                  if re.search(r"cp|debt|comm|ncd|ncb|listing", n, re.IGNORECASE))
+    print(f"{len(hits)} candidate names:", flush=True)
+    for n in hits[:120]:
+        print(f"  {n}", flush=True)
+
+    # context around 'CP' API-ish usages
+    for i, m in enumerate(re.finditer(r'[A-Za-z0-9_]*CP[A-Za-z0-9_]*/w', js)):
+        s = max(0, m.start() - 150)
+        print(f"CTX{i}: {js[s:m.end() + 150]!r}"[:400], flush=True)
+        if i >= 8:
+            break
+
+    # try promising method names as GET .../api/<name>/w
+    tried = 0
+    for n in hits:
+        if not re.search(r"cp|debtnew|newdebt|debtlisting", n, re.IGNORECASE):
             continue
-        print(f"\nJS {url} len={len(js)}", flush=True)
-        for m in re.findall(r"""https?://api\.bseindia\.com/[A-Za-z0-9_/.{}$?=&%-]+""", js):
-            endpoints.add(m)
-        for m in re.findall(r"""BseIndiaAPI/api/[A-Za-z0-9_/.{}$?=&%-]+""", js):
-            endpoints.add(m)
-
-    cps = sorted(e for e in endpoints
-                 if re.search(r"cp|commercial|debt|ncd|bond|listing", e, re.IGNORECASE))
-    print(f"\n{len(endpoints)} endpoints total; {len(cps)} CP/debt-flavoured:", flush=True)
-    for e in cps:
-        print(f"  {e[:170]}", flush=True)
-    others = sorted(endpoints - set(cps))
-    print(f"\nOTHERS ({len(others)}):", flush=True)
-    for e in others[:80]:
-        print(f"  {e[:150]}", flush=True)
+        u = f"https://api.bseindia.com/BseIndiaAPI/api/{n}/w"
+        try:
+            r = get(u)
+            body = r.text[:150].replace("\n", " ")
+            print(f"TRY {n} -> {r.status_code} {body!r}", flush=True)
+        except Exception as exc:
+            print(f"TRY {n} -> ERROR {exc}", flush=True)
+        tried += 1
+        if tried >= 15:
+            break
 
 
 if __name__ == "__main__":
