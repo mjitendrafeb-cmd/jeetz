@@ -30,7 +30,17 @@ jobs:
           python -u -c "
           import requests
           h={'User-Agent':'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36'}
-          syms='1yiny.b,2yiny.b,3yiny.b,5yiny.b,7yiny.b,10yiny.b'
-          r=requests.get(f'https://stooq.com/q/l/?s={syms}&f=sd2t2ohlcv&h&e=csv', headers=h, timeout=30)
-          print('stooq status', r.status_code); print(r.text[:1200])
+          for u in ['https://stooq.com/q/l/?s=10yiny.b&f=sd2t2ohlcv&e=csv',
+                    'https://stooq.pl/q/l/?s=10yiny.b&f=sd2t2ohlcv&e=csv',
+                    'https://stooq.com/q/l/?s=10yiny.b&i=d',
+                    'https://fred.stlouisfed.org/graph/fredgraph.csv?id=IRLTLT01INM156N',
+                    'https://tradingeconomics.com/india/government-bond-yield']:
+              try:
+                  r=requests.get(u, headers=h, timeout=25)
+                  print('===', u, '->', r.status_code, 'len', len(r.text))
+                  print(r.text[:400].replace(chr(10),' | ')[:400])
+                  if 'fredgraph' in u and r.status_code==200:
+                      print('TAIL:', r.text.strip().split(chr(10))[-3:])
+              except Exception as e:
+                  print('===', u, 'ERROR', e)
           "
