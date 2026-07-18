@@ -1,5 +1,5 @@
-"""Probe #3: exercise nsdl.com's Issue Summary Document API to learn the
-response shape and accepted date formats. Runs on the GitHub Actions runner.
+"""Probe #4: find real Issue Summary Document records to learn field names,
+date semantics and the attributes payload. Runs on the GitHub Actions runner.
 Not used by reports.
 """
 
@@ -18,92 +18,65 @@ HEADERS = {
         "(KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36"
     ),
     "Accept": "application/json, text/plain, */*",
-    "Accept-Language": "en-US,en;q=0.9",
     "Referer": "https://nsdl.com/resources/data/issue-summary-document",
 }
 
 session = requests.Session()
 session.headers.update(HEADERS)
-
 signal.signal(signal.SIGALRM, lambda s, f: (_ for _ in ()).throw(TimeoutError()))
 
 
-def get(url, params=None):
+def show(label, path, params=None, clip=4000):
+    print(f"\n=== {label}: {path} params={params}", flush=True)
     signal.alarm(60)
     try:
-        return session.get(url, params=params, timeout=(10, 30))
-    finally:
-        signal.alarm(0)
-
-
-def show(label, url, params=None):
-    print(f"\n=== {label}: {url} params={params}", flush=True)
-    try:
-        r = get(url, params)
+        r = session.get(API + path, params=params, timeout=(10, 30))
     except Exception as exc:
         print(f"  ERROR {exc}", flush=True)
         return None
-    print(f"  status={r.status_code} type={r.headers.get('content-type')} len={len(r.text)}", flush=True)
+    finally:
+        signal.alarm(0)
+    print(f"  status={r.status_code} len={len(r.text)}", flush=True)
     try:
         data = r.json()
     except Exception:
-        print(f"  body[:600]: {r.text[:600]!r}", flush=True)
+        print(f"  body[:500]: {r.text[:500]!r}", flush=True)
         return None
-    txt = json.dumps(data)[:3000]
-    print(f"  JSON[:3000]: {txt}", flush=True)
+    print(f"  JSON[:{clip}]: {json.dumps(data)[:clip]}", flush=True)
     return data
 
 
 def main():
-    today = datetime.date.today()
-    week_ago = today - datetime.timedelta(days=7)
-
-    # empty search — some APIs return everything / latest
-    show("empty", API + "v1/issue-summary-details/search")
+    base = {"isin_code": "", "company_name": "", "issue_type": "", "stage_of_issue": "", "date_from": "", "date_to": ""}
 
     found = None
-    for fmt, label in (("%Y-%m-%d", "iso"), ("%d-%m-%Y", "dmy-dash"), ("%d/%m/%Y", "dmy-slash")):
-        params = {
-            "isin_code": "", "company_name": "", "issue_type": "",
-            "stage_of_issue": "",
-            "date_from": week_ago.strftime(fmt),
-            "date_to": today.strftime(fmt),
-        }
-        data = show(f"search-{label}", API + "v1/issue-summary-details/search", params)
-        if data and not found:
+    for name in ("HDB Financial", "REC Limited", "Power Finance", "Bajaj Finance", "HDFC"):
+        p = dict(base, company_name=name)
+        data = show(f"name:{name}", "v1/issue-summary-details/search", p, clip=5000)
+        if data and data.get("data"):
             found = data
+            break
 
-    # pagination hints
-    show("search-page", API + "v1/issue-summary-details/search", {
-        "date_from": week_ago.strftime("%Y-%m-%d"),
-        "date_to": today.strftime("%Y-%m-%d"),
-        "page": 1, "limit": 50,
-    })
-
-    # attributes of the first record we can identify
-    rec_id = None
-    def find_id(obj):
-        if isinstance(obj, dict):
-            for k, v in obj.items():
-                if k in ("id", "issue_summary_details_id") and isinstance(v, (int, str)):
-                    return v
-                r = find_id(v)
-                if r is not None:
-                    return r
-        elif isinstance(obj, list):
-            for it in obj:
-                r = find_id(it)
-                if r is not None:
-                    return r
-        return None
+    # Broad date ranges to learn which format actually matches records
+    today = datetime.date.today()
+    for fmt in ("%Y-%m-%d", "%d-%m-%Y", "%m-%d-%Y"):
+        p = dict(base, date_from=datetime.date(2026, 1, 1).strftime(fmt), date_to=today.strftime(fmt))
+        d = show(f"range2026:{fmt}", "v1/issue-summary-details/search", p, clip=2500)
+        if d and d.get("data") and not found:
+            found = d
 
     if found:
-        rec_id = find_id(found)
-    if rec_id is not None:
-        show("attributes", API + "view/issue_summary_attributes/listing",
-             {"issue_summary_details_id": rec_id})
-    else:
-        print("\nNo record id found to fetch attributes for", flush=True)
+        recs = found["data"]
+        print(f"\nFIRST RECORD KEYS: {list(recs[0].keys()) if isinstance(recs[0], dict) else recs[0]}", flush=True)
+        rid = None
+        if isinstance(recs[0], dict):
+            for k in ("id", "issue_summary_details_id", "isd_id"):
+                if k in recs[0]:
+                    rid = recs[0][k]
+                    break
+        if rid is not None:
+            show("attributes", "view/issue_summary_attributes/listing",
+                 {"issue_summary_details_id": rid}, clip=6000)
 
 
 if __name__ == "__main__":
