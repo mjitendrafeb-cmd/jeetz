@@ -252,6 +252,11 @@ def _claude_commentary(issues, watchlist_hits) -> str:
 
 def build_email(issues, fy_total, quarters, watchlist, today) -> str:
     date_str = today.strftime("%d %B %Y")
+    # only rated issues make the table; the rest get a one-line footnote
+    rated_issues = [i for i in issues if i.get("ratings")]
+    excluded = [i for i in issues if not i.get("ratings")]
+    issues = rated_issues
+
     watchlist_hits = []
     banded: dict[str, list] = {}
     for i in issues:
@@ -319,7 +324,18 @@ def build_email(issues, fy_total, quarters, watchlist, today) -> str:
     empty_html = ""
     if not issues:
         empty_html = """<tr><td colspan="6" style="padding:20px;text-align:center;color:#666;font-size:13px;">
-No fresh issuances reported on NSDL India Bond Info for this run.</td></tr>"""
+No fresh rated issuances reported on NSDL India Bond Info for this run.</td></tr>"""
+
+    excluded_note = ""
+    if excluded:
+        ex_total = sum(e["issue_size_cr"] for e in excluded)
+        ex_names = ", ".join(e["issuer"].title() for e in excluded[:4])
+        if len(excluded) > 4:
+            ex_names += f" +{len(excluded) - 4} more"
+        excluded_note = (f"<div style='margin-top:6px;font-family:Arial,sans-serif;font-size:11px;"
+                         f"color:#888;'>Excluded (no published rating): {len(excluded)} issue"
+                         f"{'s' if len(excluded) > 1 else ''} totalling ₹{_fmt_cr(ex_total)} cr — "
+                         f"{ex_names}.</div>")
 
     return f"""<html><body style="margin:0;padding:0;background:#f0f0f0;font-family:Georgia,'Times New Roman',serif;">
 <div style="max-width:760px;margin:0 auto;background:#ffffff;">
@@ -347,6 +363,7 @@ No fresh issuances reported on NSDL India Bond Info for this run.</td></tr>"""
 </tr>
 {rows_html}{empty_html}
 </table>
+{excluded_note}
 </td></tr>
 
 <tr><td style="padding:14px 20px 4px;">
