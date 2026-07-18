@@ -283,26 +283,31 @@ def fetch_gsec_curve(session=None, debug: bool = False):
     Returns {"curve": {tenor_years: yield_pct}, "source": str} or None.
     """
     session = session or _session()
-    wanted = (1, 2, 3, 5, 7, 10)
+    # tradingeconomics' India bond page carries a static table of tenors:
+    # <tr data-symbol="GIND2Y:IND"> ... <td id="p">5.94</td>
     try:
-        r = session.get("https://www.worldgovernmentbonds.com/country/india/", timeout=(10, 20))
+        r = session.get("https://tradingeconomics.com/india/government-bond-yield",
+                        timeout=(10, 20))
         if debug:
-            print(f"[nsdl_issuance] wgb gsec fetch: status={r.status_code}")
+            print(f"[nsdl_issuance] te gsec fetch: status={r.status_code}")
         if r.status_code == 200:
-            text = re.sub(r"\s+", " ", re.sub(r"<[^>]+>", " ", r.text))
             curve = {}
-            for tenor in wanted:
-                m = re.search(rf"\b{tenor}\s*year[s]?\b\D{{0,60}}?(\d{{1,2}}\.\d{{1,3}})\s*%",
-                              text, re.IGNORECASE)
-                if m and 3 < float(m.group(1)) < 12:
-                    curve[tenor] = float(m.group(1))
+            for tenor, val in re.findall(
+                    r'data-symbol="GIND(\d{1,2})YR?:IND"\s*>.{0,400}?<td id="p">\s*(\d{1,2}\.\d{1,4})',
+                    r.text, re.DOTALL):
+                if 3 < float(val) < 12:
+                    curve[int(tenor)] = float(val)
+            if not curve:
+                m = re.search(r"India 10Y Bond Yield \w+ to (\d{1,2}\.\d{1,2})%", r.text)
+                if m:
+                    curve = {10: float(m.group(1))}
             if debug:
                 print(f"[nsdl_issuance] gsec curve parsed: {curve}")
             if curve:
-                return {"curve": curve, "source": "worldgovernmentbonds.com"}
+                return {"curve": curve, "source": "tradingeconomics.com"}
     except Exception as exc:
         if debug:
-            print(f"[nsdl_issuance] wgb gsec fetch failed: {exc}")
+            print(f"[nsdl_issuance] te gsec fetch failed: {exc}")
     try:
         base = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
         with open(os.path.join(base, "config.json"), encoding="utf-8") as f:

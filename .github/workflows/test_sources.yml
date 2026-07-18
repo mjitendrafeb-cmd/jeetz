@@ -26,14 +26,4 @@ jobs:
           GMAIL_USER: ${{ secrets.GMAIL_USER }}
           GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
-        run: |
-          python -u -c "
-          import re, requests
-          h={'User-Agent':'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36'}
-          r=requests.get('https://tradingeconomics.com/india/government-bond-yield', headers=h, timeout=25)
-          print('status', r.status_code, 'len', len(r.text))
-          html=r.text
-          for i,m in enumerate(re.finditer(r'(?:GIND|India )(\d{1,2})\s*Y', html)):
-              s=max(0,m.start()-100); print(f'CTX{i}:', re.sub(r'\s+',' ',html[s:m.end()+250])[:340])
-              if i>=14: break
-          "
+        run: python -u scripts/send_nsdl_issuance_report.py
