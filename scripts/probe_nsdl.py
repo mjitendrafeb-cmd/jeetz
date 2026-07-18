@@ -1,9 +1,7 @@
-"""Probe #19: dump BSE's full debt API map and call the CP/CD endpoints.
-Runs on the GitHub Actions runner. Not used by reports.
+"""Probe #20: find the base URL for BSE's debt API map and call
+rdbtr / CTRPrimaryMkt with it. Runs on GitHub Actions. Not used by reports.
 """
 
-import datetime
-import json
 import re
 import signal
 
@@ -34,29 +32,34 @@ def main():
         script if script.startswith("/") else "/" + script)
     js = get(url).text
 
-    i = js.find('GetrdbRFQCPCD')
-    print(f"MAP CONTEXT:\n{js[max(0, i - 2500):i + 2500]}", flush=True)
+    # how is the map consumed? look just before the map for the service class
+    i = js.find('GetRbCorpBonds1:"/rbcorpbonds1/w"')
+    print(f"BEFORE-MAP:\n{js[max(0, i - 1200):i]}\n", flush=True)
 
-    today = datetime.date(2026, 7, 17)
-    prev = today - datetime.timedelta(days=1)
-    f1, t1 = prev.strftime("%d/%m/%Y"), today.strftime("%d/%m/%Y")
-    f2, t2 = prev.strftime("%Y%m%d"), today.strftime("%Y%m%d")
+    # base URL candidates in the bundle
+    for kw in ("BseIndiaAPI", "api.bseindia.com", "apiBaseUrl", "baseUrl", "apiUrl"):
+        idxs = [m.start() for m in re.finditer(re.escape(kw), js)][:4]
+        for n, ix in enumerate(idxs):
+            print(f"CTX[{kw}#{n}]: {js[max(0, ix - 200):ix + 250]!r}"[:500], flush=True)
 
-    for name in ("rdbRFQCPCD", "rcds", "rdbtr", "rdbTradensettle", "wdsc"):
-        for params in (None,
-                       {"fmdt": f1, "todt": t1},
-                       {"strPrevDate": f2, "strToDate": t2}):
-            u = f"https://api.bseindia.com/BseIndiaAPI/api/{name}/w"
+    # try candidate bases
+    for base in ("https://api.bseindia.com/BseIndiaAPI/api",
+                 "https://api.bseindia.com/RealTimeBseIndiaAPI/api",
+                 "https://api.bseindia.com/BseIndiaAPI/api1",
+                 "https://apiv3.bseindia.com/BseIndiaAPI/api",
+                 "https://api.bseindia.com/msource/1d/debt"):
+        for path, params in (("/rdbtr/w", {"fmdt": "17/07/2026", "todt": "17/07/2026"}),
+                             ("/Mkt_debt_search_CTRPrimaryMkt_DownloadCSV_ng/w",
+                              {"fmdt": "17/07/2026", "todt": "17/07/2026"})):
+            u = base + path
             try:
                 r = get(u, params=params)
-                ct = r.headers.get("content-type", "")
-                if "json" in ct or r.text[:1].strip() in "[{":
-                    print(f"\nHIT {name} {params} -> {r.status_code} JSON[:1500]: {r.text[:1500]}", flush=True)
-                    break
-                else:
-                    print(f"{name} {params} -> {r.status_code} {ct} (html)", flush=True)
+                head = r.text[:120].replace("\n", " ")
+                tag = "JSON!" if r.text[:1].strip() in "[{" or "json" in r.headers.get(
+                    "content-type", "") else ""
+                print(f"{tag} {u} -> {r.status_code} {head!r}", flush=True)
             except Exception as exc:
-                print(f"{name} {params} -> ERROR {exc}", flush=True)
+                print(f"{u} -> ERROR {exc}", flush=True)
 
 
 if __name__ == "__main__":
