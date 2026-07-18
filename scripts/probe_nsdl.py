@@ -1,9 +1,10 @@
-"""Probe #12: dump FULL instrument/isin JSON for current new-issue ISINs and
-try candidate rating endpoints, to locate credit rating data.
+"""Probe #13: enumerate every bdsService endpoint template in the CBDServices
+bundle, then call the rating/coupon-flavoured ones for a current new-issue ISIN.
 Runs on the GitHub Actions runner. Not used by reports.
 """
 
 import json
+import re
 import signal
 
 import requests
@@ -25,50 +26,43 @@ session.headers.update(HEADERS)
 signal.signal(signal.SIGALRM, lambda s, f: (_ for _ in ()).throw(TimeoutError()))
 
 
-def get_json(url, params=None):
+def get(url, params=None):
     signal.alarm(50)
     try:
-        r = session.get(url, params=params, timeout=(10, 25))
-        print(f"\n=== {r.url}\n  status={r.status_code} len={len(r.text)}", flush=True)
-        return r.json()
-    except Exception as exc:
-        print(f"  ERROR {exc}", flush=True)
-        return None
+        return session.get(url, params=params, timeout=(10, 25))
     finally:
         signal.alarm(0)
 
 
 def main():
-    issues = get_json(f"{PREFIX}/public/bdsinfo/newbondissues") or []
-    isins = [i["isin"] for i in issues]
-    print(f"isins: {isins}", flush=True)
+    idx = get(BASE + "/CBDServices/").text
+    script = re.search(r'src="(main-[^"]+\.js)"', idx).group(1)
+    js = get(BASE + "/CBDServices/" + script).text
 
-    first = True
-    for isin in isins:
-        data = get_json(f"{PREFIX}/public/bdsinfo/instruments", {"isin": isin})
-        if data is not None:
-            txt = json.dumps(data)
-            if first:
-                # full dump once, in chunks the log can hold
-                for off in range(0, min(len(txt), 40000), 4000):
-                    print(f"FULL[{off}]: {txt[off:off + 4000]}", flush=True)
-                first = False
-            else:
-                low = txt.lower()
-                for kw in ("rating", "crisil", "icra", "care", "cra"):
-                    idx = low.find(kw)
-                    if idx >= 0:
-                        print(f"  {kw}@{idx}: {txt[max(0, idx - 200):idx + 400]}", flush=True)
+    # every template appended to a cbdApiUrl base: `)}/something?...`
+    templates = sorted(set(re.findall(r"cbdApiUrl\.\w+\)\}(/[A-Za-z0-9_/]+(?:\?[^`]{0,80})?)`", js)))
+    print(f"{len(templates)} endpoint templates:", flush=True)
+    for t in templates:
+        print(f"  {t}", flush=True)
 
-    # candidate rating endpoints for the first ISIN
-    if isins:
-        isin = isins[0]
-        for path in ("/public/bdsinfo/ratingdetails", "/public/bdsinfo/creditrating",
-                     "/public/bdsinfo/ratings", "/public/bdsinfo/coupons",
-                     "/public/bdsinfo/coupondetails", "/public/ratings"):
-            data = get_json(f"{PREFIX}{path}", {"isin": isin})
-            if data is not None:
-                print(f"  {path}: {json.dumps(data)[:2500]}", flush=True)
+    issues = get(f"{PREFIX}/public/bdsinfo/newbondissues").json()
+    isin = issues[0]["isin"] if issues else "INE756I07FT8"
+    print(f"\ntest isin: {isin}", flush=True)
+
+    for t in templates:
+        if not re.search(r"rating|coupon|redemption|cra|grade", t, re.IGNORECASE):
+            continue
+        path = t.split("?")[0]
+        url = f"{PREFIX}/public/bdsinfo{path}" if not path.startswith("/public") else f"{PREFIX}{path}"
+        for params in ({"isin": isin},):
+            print(f"\n=== {url} {params}", flush=True)
+            try:
+                r = get(url, params)
+                print(f"  status={r.status_code} len={len(r.text)}", flush=True)
+                if r.status_code == 200:
+                    print(f"  JSON[:3000]: {json.dumps(r.json())[:3000]}", flush=True)
+            except Exception as exc:
+                print(f"  ERROR {exc}", flush=True)
 
 
 if __name__ == "__main__":
