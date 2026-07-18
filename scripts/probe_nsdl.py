@@ -1,6 +1,6 @@
-"""Probe #7: map the India Bond Info CBDServices Angular app — bundle names,
-API endpoint strings, and try the discovered endpoints. Runs on GitHub Actions.
-Not used by reports.
+"""Probe #8: extract the CBDServices API base URL and the new-bond-issues
+endpoints from the Angular bundle, then call them and print sample JSON.
+Runs on the GitHub Actions runner. Not used by reports.
 """
 
 import json
@@ -17,7 +17,7 @@ HEADERS = {
         "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
         "(KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36"
     ),
-    "Accept": "*/*",
+    "Accept": "application/json, text/plain, */*",
     "Referer": BASE + "/CBDServices/",
 }
 
@@ -34,41 +34,40 @@ def get(url, **kw):
         signal.alarm(0)
 
 
+def show_json(label, url):
+    print(f"\n=== {label}: {url}", flush=True)
+    try:
+        r = get(url)
+    except Exception as exc:
+        print(f"  ERROR {exc}", flush=True)
+        return
+    print(f"  status={r.status_code} type={r.headers.get('content-type')} len={len(r.text)}", flush=True)
+    try:
+        print(f"  JSON[:4000]: {json.dumps(r.json())[:4000]}", flush=True)
+    except Exception:
+        print(f"  body[:400]: {r.text[:400]!r}", flush=True)
+
+
 def main():
-    r = get(BASE + "/CBDServices/")
-    print(f"index status={r.status_code} len={len(r.text)}", flush=True)
-    print(r.text[:2500], flush=True)
+    idx = get(BASE + "/CBDServices/").text
+    script = re.search(r'src="(main-[^"]+\.js)"', idx).group(1)
+    js = get(BASE + "/CBDServices/" + script).text
+    print(f"bundle len={len(js)}", flush=True)
 
-    scripts = re.findall(r'src="([^"]+\.js)"', r.text)
-    print(f"scripts: {scripts}", flush=True)
+    for kw in ("getCbdApiUrl", "cbdApiUrl=", "cbdApiUrl:", "bdsService", "newbondissues",
+               "getnewBondIssuesList", "environment", "apiBaseUrl", "baseUrl"):
+        for i, m in enumerate(re.finditer(re.escape(kw), js)):
+            s = max(0, m.start() - 250)
+            print(f"\nCTX[{kw}#{i}]: {js[s:m.end() + 600]!r}"[:1100], flush=True)
+            if i >= 2:
+                break
 
-    api_hits = set()
-    for s in scripts:
-        url = s if s.startswith("http") else BASE + "/CBDServices/" + s.lstrip("/")
-        try:
-            js = get(url).text
-        except Exception as exc:
-            print(f"JS {url} ERROR {exc}", flush=True)
-            continue
-        print(f"\nJS {url} len={len(js)}", flush=True)
-        # endpoint-ish strings
-        for m in re.finditer(r"""["'`]((?:[A-Za-z0-9_./-]*/)?(?:api|rest|service)[A-Za-z0-9_./?=&-]*)["'`]""", js):
-            api_hits.add(m.group(1))
-        for m in re.finditer(r"""["'`](https?://[^"'`\s]{8,150})["'`]""", js):
-            api_hits.add(m.group(1))
-        # keywords around issuance
-        for kw in ("newIssue", "issuance", "primary", "getIsin", "isinList", "activat", "allotment", "coupon"):
-            for i, m in enumerate(re.finditer(kw, js, re.IGNORECASE)):
-                st = max(0, m.start() - 200)
-                print(f"CTX[{kw}#{i}]: {js[st:m.end() + 300]!r}"[:700], flush=True)
-                if i >= 2:
-                    break
-
-    print("\nAPI-LIKE STRINGS:", flush=True)
-    for h in sorted(api_hits):
-        if any(x in h.lower() for x in ("w3.org", "angular", "npmjs", "github", "google")):
-            continue
-        print(f"  {h[:160]}", flush=True)
+    # Try likely bases with the discovered endpoint names
+    for base in (BASE + "/CBDSAPIs/bdsService",
+                 BASE + "/CBDServices/api/bdsService",
+                 BASE + "/bdsService",
+                 BASE + "/api/bdsService"):
+        show_json("dash@" + base, base + "/issuancedashboard")
 
 
 if __name__ == "__main__":
