@@ -142,68 +142,62 @@ def _type_str(i: dict) -> str:
     return " · ".join(parts) if parts else "—"
 
 
-def _computed_analysis(issues, fy_total, quarters) -> list[str]:
+def _is_financial(i: dict) -> bool:
+    blob = " ".join(str(i.get(k, "")) for k in ("issuer_nature", "ownership", "sector")).lower()
+    return any(k in blob for k in ("nbfc", "hfc", "bank", "financial", "finance"))
+
+
+def _computed_analysis(issues, fy_total, quarters, prev_total=None, gsec=None) -> list[str]:
     if not issues:
         return []
     lines = []
     total = sum(i["issue_size_cr"] for i in issues)
-    latest = issues[0]["allotment_date"]
-    lines.append(f"{len(issues)} fresh issuances totalling ₹{_fmt_cr(total)} cr "
-                 f"(latest allotment date {_fmt_date(latest)}).")
-    biggest = max(issues, key=lambda x: x["issue_size_cr"])
-    lines.append(f"Largest deal: {biggest['issuer'].title()} — ₹{_fmt_cr(biggest['issue_size_cr'])} cr"
-                 + (f", {biggest['tenure_years']}y tenor" if biggest.get("tenure_years") else "") + ".")
+
+    # today's total with NBFC/financial vs corporate split
+    fin = [i for i in issues if _is_financial(i)]
+    corp = [i for i in issues if not _is_financial(i)]
+    split_bits = []
+    if fin:
+        split_bits.append(f"NBFC/financials ₹{_fmt_cr(sum(i['issue_size_cr'] for i in fin))} cr "
+                          f"({len(fin)})")
+    if corp:
+        split_bits.append(f"corporates/others ₹{_fmt_cr(sum(i['issue_size_cr'] for i in corp))} cr "
+                          f"({len(corp)})")
+    lines.append(f"{len(issues)} fresh issuances totalling ₹{_fmt_cr(total)} cr — "
+                 + ", ".join(split_bits) + ".")
+
+    # rating-band coupon averages, benchmarked to 10Y G-sec where available
     with_coupon = [i for i in issues if i.get("coupon")]
-    if with_coupon:
-        w = sum(i["coupon"] * i["issue_size_cr"] for i in with_coupon) / \
-            sum(i["issue_size_cr"] for i in with_coupon)
-        line = (f"Coupons disclosed for {len(with_coupon)}/{len(issues)} deals — "
-                f"value-weighted avg {w:.2f}%")
-        if len(with_coupon) >= 2:
-            lo = min(with_coupon, key=lambda x: x["coupon"])
-            hi = max(with_coupon, key=lambda x: x["coupon"])
-            line += (f"; cheapest {lo['issuer'].title()} at {lo['coupon']:.2f}%, "
-                     f"costliest {hi['issuer'].title()} at {hi['coupon']:.2f}%")
-        lines.append(line + ".")
-    # rating-band coupon averages
     band_groups: dict[str, list] = {}
     for i in with_coupon:
         band_groups.setdefault(_rating_band(i), []).append(i)
+    gsec_yield = (gsec or {}).get("yield")
     band_bits = []
     for band in _BANDS:
         g = band_groups.get(band)
         if g:
             avg = sum(x["coupon"] * x["issue_size_cr"] for x in g) / \
                 sum(x["issue_size_cr"] for x in g)
-            band_bits.append(f"{band.split(' (')[0]} {avg:.2f}%")
-    if len(band_bits) >= 2:
-        lines.append("Weighted avg coupon by rating band: " + " · ".join(band_bits) + ".")
+            bit = f"{band.split(' (')[0]} {avg:.2f}%"
+            if gsec_yield:
+                bit += f" ({(avg - gsec_yield) * 100:+.0f} bps vs G-sec)"
+            band_bits.append(bit)
+    if band_bits:
+        lines.append("Weighted avg coupon: " + " · ".join(band_bits) + ".")
+    if gsec_yield:
+        lines.append(f"Benchmark: India 10Y G-sec at {gsec_yield:.2f}% "
+                     f"(source: {gsec.get('source', 'n/a')}).")
 
-    # coupon spread between comparable-tenor deals — the "who borrows better" signal
-    if len(with_coupon) >= 2:
-        pairs = []
-        for a in with_coupon:
-            for b in with_coupon:
-                if a["isin"] < b["isin"] and a.get("tenure_years") and b.get("tenure_years") \
-                        and abs(a["tenure_years"] - b["tenure_years"]) <= 0.6:
-                    pairs.append((a, b))
-        if pairs:
-            a, b = max(pairs, key=lambda p: abs(p[0]["coupon"] - p[1]["coupon"]))
-            if abs(a["coupon"] - b["coupon"]) >= 0.05:
-                cheap, dear = (a, b) if a["coupon"] < b["coupon"] else (b, a)
-                lines.append(
-                    f"Same-tenor spread: {dear['issuer'].title()} paid "
-                    f"{(dear['coupon'] - cheap['coupon']) * 100:.0f} bps over "
-                    f"{cheap['issuer'].title()} for ~{cheap['tenure_years']}y money "
-                    f"({dear['coupon']:.2f}% vs {cheap['coupon']:.2f}%).")
-    tenors = [i["tenure_years"] for i in issues if i.get("tenure_years")]
-    if tenors:
-        lines.append(f"Tenor range {min(tenors):.1f}y–{max(tenors):.1f}y "
-                     f"(median {sorted(tenors)[len(tenors)//2]:.1f}y).")
+    # FY-to-date vs last FY
     if fy_total and fy_total.get("issueSize"):
-        lines.append(f"FY{fy_total.get('dataForYear', '')} corporate bond issuance so far: "
-                     f"₹{_fmt_cr(float(fy_total['issueSize']))} cr across "
-                     f"{fy_total.get('noOfIsin', '?')} ISINs (NSDL).")
+        fy_line = (f"Corporate bond issuance FY{fy_total.get('dataForYear', '')} so far: "
+                   f"₹{_fmt_cr(float(fy_total['issueSize']))} cr "
+                   f"({fy_total.get('noOfIsin', '?')} ISINs)")
+        if prev_total and prev_total.get("issueSize"):
+            fy_line += (f" vs FY{prev_total.get('dataForYear', '')} total "
+                        f"₹{_fmt_cr(float(prev_total['issueSize']))} cr "
+                        f"({prev_total.get('noOfIsin', '?')} ISINs)")
+        lines.append(fy_line + ". (Source: NSDL)")
     return lines
 
 
@@ -248,7 +242,8 @@ def _claude_commentary(issues, watchlist_hits) -> str:
         return ""
 
 
-def build_email(issues, fy_total, quarters, watchlist, today) -> str:
+def build_email(issues, fy_total, quarters, watchlist, today,
+                prev_total=None, gsec=None) -> str:
     date_str = today.strftime("%d %B %Y")
     watchlist_hits = []
     banded: dict[str, list] = {}
@@ -289,7 +284,7 @@ def build_email(issues, fy_total, quarters, watchlist, today) -> str:
             allot_str = (" — ALLOTMENT " + _fmt_date(allot_dates[0]).upper()
                          + " TO " + _fmt_date(allot_dates[-1]).upper())
 
-    analysis_items = _computed_analysis(issues, fy_total, quarters)
+    analysis_items = _computed_analysis(issues, fy_total, quarters, prev_total, gsec)
     analysis_html = "".join(f"<li style='padding:3px 0;'>{a}</li>" for a in analysis_items)
 
     commentary = _claude_commentary(issues, watchlist_hits)
@@ -398,7 +393,8 @@ def main() -> None:
               f"allot {_fmt_date(i['allotment_date'])} | tenor {i.get('tenure_years')}y")
 
     watchlist = _load_watchlist()
-    html = build_email(issues, data["fy_total"], data["quarters"], watchlist, today)
+    html = build_email(issues, data["fy_total"], data["quarters"], watchlist, today,
+                       prev_total=data.get("prev_total"), gsec=data.get("gsec_10y"))
     subject = f"NSDL New Debt Issuances — {today.strftime('%d %b %Y')}"
     if not issues:
         subject += " (no fresh issues)"

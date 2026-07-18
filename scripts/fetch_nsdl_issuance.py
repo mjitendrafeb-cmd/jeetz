@@ -253,11 +253,15 @@ def fetch_new_issuances(debug: bool = False) -> dict:
         if debug:
             print(f"[nsdl_issuance] rating actions lookup failed: {exc}")
 
-    fy_total, quarters = {}, []
+    fy_total, prev_total, quarters = {}, {}, []
     try:
         fy_total = _get_json(session, f"{prefix}/public/bdsinfo/currentissuance")
     except Exception as exc:
         print(f"[nsdl_issuance] currentissuance failed: {exc}")
+    try:
+        prev_total = _get_json(session, f"{prefix}/public/bdsinfo/previousissuance")
+    except Exception as exc:
+        print(f"[nsdl_issuance] previousissuance failed: {exc}")
     try:
         quarters = _get_json(session, f"{prefix}/public/bdsinfo/issuancedashboard")
     except Exception as exc:
@@ -265,7 +269,51 @@ def fetch_new_issuances(debug: bool = False) -> dict:
 
     issues.sort(key=lambda x: (x["allotment_date"] or datetime.date.min, -x["issue_size_cr"]),
                 reverse=True)
-    return {"issues": issues, "fy_total": fy_total, "quarters": quarters}
+    return {"issues": issues, "fy_total": fy_total, "prev_total": prev_total,
+            "quarters": quarters, "gsec_10y": fetch_gsec_10y(session, debug=debug)}
+
+
+def fetch_gsec_10y(session=None, debug: bool = False):
+    """Best-effort India 10Y G-sec yield for benchmarking new-issue coupons.
+
+    Tries public sources; falls back to a manual "gsec_10y_yield" value in
+    config.json. Returns {"yield": float, "source": str} or None.
+    """
+    session = session or _session()
+    try:
+        r = session.get("https://www.worldgovernmentbonds.com/country/india/", timeout=(10, 20))
+        if r.status_code == 200:
+            m = re.search(r"10\s*year[s]?.{0,400}?(\d{1,2}\.\d{1,3})\s*%",
+                          re.sub(r"<[^>]+>", " ", r.text), re.IGNORECASE | re.DOTALL)
+            if m and 3 < float(m.group(1)) < 12:
+                return {"yield": float(m.group(1)), "source": "worldgovernmentbonds.com"}
+        if debug:
+            print(f"[nsdl_issuance] wgb gsec fetch: status={r.status_code}")
+    except Exception as exc:
+        if debug:
+            print(f"[nsdl_issuance] wgb gsec fetch failed: {exc}")
+    try:
+        r = session.get("https://tradingeconomics.com/india/government-bond-yield",
+                        timeout=(10, 20))
+        if r.status_code == 200:
+            m = re.search(r'id="p"[^>]*>(\d{1,2}\.\d{1,3})', r.text) or \
+                re.search(r"(\d{1,2}\.\d{2,3})\s*percent", r.text)
+            if m and 3 < float(m.group(1)) < 12:
+                return {"yield": float(m.group(1)), "source": "tradingeconomics.com"}
+        if debug:
+            print(f"[nsdl_issuance] te gsec fetch: status={r.status_code}")
+    except Exception as exc:
+        if debug:
+            print(f"[nsdl_issuance] te gsec fetch failed: {exc}")
+    try:
+        base = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+        with open(os.path.join(base, "config.json"), encoding="utf-8") as f:
+            manual = json.load(f).get("gsec_10y_yield")
+        if manual:
+            return {"yield": float(manual), "source": "config.json (manual)"}
+    except Exception:
+        pass
+    return None
 
 
 if __name__ == "__main__":
