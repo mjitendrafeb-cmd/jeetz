@@ -1,10 +1,9 @@
-"""Probe #10: resolve the portal-config name/prefix, read cbdApiPrefixURL,
-call the new-bond-issues endpoint. Runs on the GitHub Actions runner.
-Not used by reports.
+"""Probe #11 (final): read /portal-config/portal-cbd.json, then dump samples
+from newbondissues / currentissuance / issuancedashboard.
+Runs on the GitHub Actions runner. Not used by reports.
 """
 
 import json
-import re
 import signal
 import sys
 
@@ -35,57 +34,34 @@ def get(url, **kw):
 
 
 def main():
-    idx = get(BASE + "/CBDServices/").text
-    script = re.search(r'src="(main-[^"]+\.js)"', idx).group(1)
-    js = get(BASE + "/CBDServices/" + script).text
-
-    for kw in ("portal-config", ".loadConfig(", "loadConfig("):
-        for i, m in enumerate(re.finditer(re.escape(kw), js)):
-            s = max(0, m.start() - 350)
-            print(f"CTX[{kw}#{i}]: {js[s:m.end() + 350]!r}"[:900], flush=True)
-            if i >= 3:
-                break
-
-    prefix = None
-    for name in ("config", "portal", "cbd", "prod", "production", "app", "bds", "CBDServices"):
-        for root in (BASE, BASE + "/CBDServices"):
-            url = f"{root}/portal-config/{name}.json"
-            try:
-                r = get(url)
-            except Exception as exc:
-                print(f"{url} ERROR {exc}", flush=True)
-                continue
-            ok = r.status_code == 200 and "cbdApiPrefixURL" in r.text
-            print(f"{url} -> {r.status_code} len={len(r.text)}{' HIT' if ok else ''}", flush=True)
-            if r.status_code == 200 and len(r.text) < 3000 and r.text.strip().startswith(("{", "[")):
-                print(f"  body: {r.text[:1500]}", flush=True)
-            if ok:
-                prefix = re.search(r'"cbdApiPrefixURL"\s*:\s*"([^"]+)"', r.text).group(1)
-                break
-        if prefix:
-            break
-
-    print(f"\nprefix={prefix}", flush=True)
-    if not prefix:
-        return
+    r = get(BASE + "/portal-config/portal-cbd.json")
+    print(f"portal-cbd.json status={r.status_code} len={len(r.text)}", flush=True)
+    print(r.text[:2000], flush=True)
+    cfg = r.json()
+    prefix = cfg.get("cbdApiPrefixURL", "")
+    print(f"\ncbdApiPrefixURL={prefix!r}", flush=True)
     if prefix.startswith("/"):
         prefix = BASE + prefix
 
     for path in ("/public/bdsinfo/newbondissues",
-                 "/public/bdsinfo/issuancedashboard",
-                 "/public/bdsinfo/currentissuance"):
+                 "/public/bdsinfo/currentissuance",
+                 "/public/bdsinfo/issuancedashboard"):
         url = prefix.rstrip("/") + path
         print(f"\n=== {url}", flush=True)
         try:
-            r = get(url)
+            rr = get(url)
         except Exception as exc:
             print(f"  ERROR {exc}", flush=True)
             continue
-        print(f"  status={r.status_code} type={r.headers.get('content-type')} len={len(r.text)}", flush=True)
+        print(f"  status={rr.status_code} type={rr.headers.get('content-type')} len={len(rr.text)}", flush=True)
         try:
-            print(f"  JSON[:6000]: {json.dumps(r.json())[:6000]}", flush=True)
+            data = rr.json()
+            txt = json.dumps(data)
+            print(f"  JSON[:8000]: {txt[:8000]}", flush=True)
+            if isinstance(data, list) and data:
+                print(f"  N={len(data)} FIRST KEYS: {list(data[0].keys())}", flush=True)
         except Exception:
-            print(f"  body[:300]: {r.text[:300]!r}", flush=True)
+            print(f"  body[:300]: {rr.text[:300]!r}", flush=True)
 
 
 if __name__ == "__main__":
