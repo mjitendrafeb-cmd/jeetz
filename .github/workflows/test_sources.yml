@@ -28,12 +28,9 @@ jobs:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
         run: |
           python -u -c "
-          import re, requests
+          import requests
           h={'User-Agent':'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36'}
-          r=requests.get('https://www.worldgovernmentbonds.com/country/india/', headers=h, timeout=30)
-          print('status', r.status_code, 'len', len(r.text))
-          text=re.sub(r'\s+',' ',re.sub(r'<[^>]+>',' ',r.text))
-          for m in re.finditer(r'\b(\d{1,2})\s*(?:year|yr|Y)\b', text, re.I):
-              s=max(0,m.start()-60); print('CTX:', text[s:m.end()+120])
-          print('PCTS:', re.findall(r'\d{1,2}\.\d{1,3}\s*%', text)[:40])
+          syms='1yiny.b,2yiny.b,3yiny.b,5yiny.b,7yiny.b,10yiny.b'
+          r=requests.get(f'https://stooq.com/q/l/?s={syms}&f=sd2t2ohlcv&h&e=csv', headers=h, timeout=30)
+          print('stooq status', r.status_code); print(r.text[:1200])
           "
