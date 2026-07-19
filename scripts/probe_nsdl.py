@@ -1,5 +1,5 @@
-"""Probe #21: nsdl.com Detailed List of Debt Instruments — find its API and
-check for Commercial Paper data. Runs on GitHub Actions. Not used by reports.
+"""Probe #22: CP issuance monthly files on nsdl.com — list availability and
+inspect columns of the latest file. Runs on GitHub Actions. Not used by reports.
 """
 
 import json
@@ -23,57 +23,43 @@ signal.signal(signal.SIGALRM, lambda s, f: (_ for _ in ()).throw(TimeoutError())
 
 
 def get(url, params=None):
-    signal.alarm(60)
+    signal.alarm(90)
     try:
-        return session.get(url, params=params, timeout=(10, 30))
+        return session.get(url, params=params, timeout=(10, 60))
     finally:
         signal.alarm(0)
 
 
 def main():
-    r = get("https://nsdl.com/resources/data/detailed-list-debt-instruments")
-    html = r.text
-    print(f"page status={r.status_code} len={len(html)}", flush=True)
-    print(f"'Commercial' occurrences in HTML: {len(re.findall('Commercial', html))}", flush=True)
-    for i, m in enumerate(re.finditer(r"Commercial", html)):
-        s = max(0, m.start() - 150)
-        print(f"CTX{i}: {re.sub(r'<[^>]+>', ' ', html[s:m.end() + 250])[:350]!r}", flush=True)
-        if i >= 4:
-            break
-
-    chunks = re.findall(r'src="(/_next/static/chunks/[^"]+)"', html)
-    page_chunks = [c for c in chunks if "detailed-list" in c or "debt" in c.lower()]
-    print(f"page chunks: {page_chunks}", flush=True)
-    for c in page_chunks or chunks[:4]:
-        js = get("https://nsdl.com" + c).text
-        found = sorted(set(re.findall(
-            r"""[`"'](v1/[A-Za-z0-9_/-]+(?:\?[^`"']{0,120})?)[`"']""", js)))
-        found += sorted(set(re.findall(
-            r"""\.get\(\s*[`"']([^`"']{4,150})[`"']""", js)))
-        if found:
-            print(f"\nCHUNK {c}:", flush=True)
-            for fnd in found:
-                print(f"  {fnd[:150]}", flush=True)
-        for kw in ("debt", "instrument", "commercial"):
-            m = re.search(kw, js, re.IGNORECASE)
-            if m:
-                s = max(0, m.start() - 200)
-                print(f"  CTX[{kw}]: {js[s:m.end() + 400]!r}"[:650], flush=True)
-
-    # likely API guesses on the nsdl.com backend
-    base = "https://nsdl.com/web/api/"
-    for path, params in (
-            ("v1/debt-instruments/search", {"page": 1, "per_page": 10}),
-            ("v1/detailed-list-debt-instruments", None),
-            ("v1/debt-instrument-details/search", {"page": 1, "per_page": 10}),
-            ("view/debt-instruments/listing", None)):
+    base = "https://nsdl.com/web/api/view/resources-data-sub-page/listing/"
+    for label, params in (("all", None), ("2026", {"year": "2026"}),
+                         ("apr26", {"year": "2026", "month": "april"})):
         try:
-            rr = get(base + path, params)
-            print(f"\nGUESS {path} -> {rr.status_code} len={len(rr.text)}", flush=True)
-            if rr.status_code == 200:
-                print(f"  JSON[:2500]: {json.dumps(rr.json())[:2500]}", flush=True)
+            r = get(base + "issuance-data-cp-cd", params)
+            print(f"\n=== issuance-data-cp-cd {label}: {r.status_code} len={len(r.text)}", flush=True)
+            if r.status_code == 200:
+                print(f"  JSON[:3000]: {json.dumps(r.json())[:3000]}", flush=True)
         except Exception as exc:
-            print(f"\nGUESS {path} -> ERROR {exc}", flush=True)
+            print(f"  ERROR {exc}", flush=True)
+
+    # the April 2026 CP file referenced in the page payload
+    url = "https://nsdl.com/nsdl/2026-07/Commercial_Papers_Issuance_in_the_month_of_April_2026.html"
+    try:
+        r = get(url)
+        print(f"\n=== CP file: {r.status_code} len={len(r.text)}", flush=True)
+        html = r.text
+        rows = re.findall(r"<tr[^>]*>(.*?)</tr>", html, re.DOTALL | re.IGNORECASE)
+        print(f"  rows: {len(rows)}", flush=True)
+        for row in rows[:6]:
+            cells = [re.sub(r"\s+", " ", re.sub(r"<[^>]+>", " ", c)).strip()
+                     for c in re.findall(r"<t[dh][^>]*>(.*?)</t[dh]>", row, re.DOTALL | re.IGNORECASE)]
+            print(f"  ROW: {cells}", flush=True)
+        for row in rows[-3:]:
+            cells = [re.sub(r"\s+", " ", re.sub(r"<[^>]+>", " ", c)).strip()
+                     for c in re.findall(r"<t[dh][^>]*>(.*?)</t[dh]>", row, re.DOTALL | re.IGNORECASE)]
+            print(f"  TAILROW: {cells}", flush=True)
+    except Exception as exc:
+        print(f"  CP file ERROR {exc}", flush=True)
 
 
 if __name__ == "__main__":
