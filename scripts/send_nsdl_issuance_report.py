@@ -19,6 +19,7 @@ from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 
 from fetch_nsdl_issuance import fetch_new_issuances
+from fetch_nsdl_cp import fetch_cp_issuances
 
 _REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -225,6 +226,78 @@ def _computed_analysis(issues, fy_total, quarters, prev_total=None, gsec=None) -
     return lines
 
 
+def _cp_section_html(cp, watchlist) -> str:
+    """Compact monthly CP summary: stats, tenor-bucket yields, top deals and
+    all watchlist issuers. cp = {"month","year","records"}."""
+    recs = (cp or {}).get("records") or []
+    if not recs:
+        return ""
+    month_label = f"{cp['month']} {cp['year']}".upper()
+    total = sum(r["amount_cr"] for r in recs)
+    with_yield = [r for r in recs if r.get("yield_pct")]
+
+    buckets = (("≤ 91d", 0, 91), ("92–182d", 92, 182), ("183–365d", 183, 366))
+    bucket_bits = []
+    for label, lo, hi in buckets:
+        g = [r for r in with_yield if r.get("tenor_days") and lo <= r["tenor_days"] <= hi]
+        if g:
+            w = sum(r["yield_pct"] * r["amount_cr"] for r in g) / sum(r["amount_cr"] for r in g)
+            bucket_bits.append(f"{label} {w:.2f}% ({len(g)})")
+    stats = (f"{len(recs)} CPs totalling ₹{_fmt_cr(total)} cr in {cp['month']} {cp['year']}."
+             + (" Weighted avg yield by tenor: " + " · ".join(bucket_bits) + "."
+                if bucket_bits else ""))
+
+    # top 10 by size, plus every watchlist issuer
+    by_size = sorted(recs, key=lambda r: -r["amount_cr"])
+    shown, seen_isins = [], set()
+    for r in by_size[:10]:
+        shown.append(r)
+        seen_isins.add(r["isin"])
+    wl_rows = [r for r in recs
+               if _watchlist_hit(r["issuer"], watchlist) and r["isin"] not in seen_isins]
+    shown += wl_rows
+
+    rows_html = ""
+    for r in shown:
+        hit = _watchlist_hit(r["issuer"], watchlist)
+        star = " ⭐" if hit else ""
+        row_bg = "#fff8e1" if hit else "#ffffff"
+        rows_html += f"""<tr style="background:{row_bg};">
+<td style="padding:6px 10px;border-bottom:1px solid #eee;font-weight:600;">{r['issuer'].title()}{star}</td>
+<td style="padding:6px 10px;border-bottom:1px solid #eee;text-align:right;">{_fmt_cr(r['amount_cr'])}</td>
+<td style="padding:6px 10px;border-bottom:1px solid #eee;text-align:center;">{f"{r['yield_pct']:.2f}%" if r.get('yield_pct') else '—'}</td>
+<td style="padding:6px 10px;border-bottom:1px solid #eee;text-align:center;">{r.get('tenor_days') or '—'}</td>
+<td style="padding:6px 10px;border-bottom:1px solid #eee;font-size:11px;">{r.get('ipa') or '—'}</td>
+</tr>"""
+
+    note = ""
+    if len(recs) > len(shown):
+        note = (f"<div style='margin-top:5px;font-family:Arial,sans-serif;font-size:10.5px;"
+                f"color:#888;'>Showing top 10 by size{' + watchlist issuers' if wl_rows else ''}; "
+                f"{len(recs) - len(shown)} more CPs in the month.</div>")
+
+    return f"""
+<tr><td style="padding:14px 20px 4px;">
+  <div style="font-size:13px;font-weight:700;color:#cc0000;border-bottom:2px solid #cc0000;padding-bottom:4px;">CP ISSUANCES — {month_label} (LATEST NSDL MONTHLY FILE)</div>
+  <div style="margin-top:6px;font-family:Arial,sans-serif;font-size:12.5px;color:#333;">{stats}</div>
+</td></tr>
+<tr><td style="padding:8px 20px;">
+<table width="100%" cellpadding="0" cellspacing="0" style="font-family:Arial,Helvetica,sans-serif;font-size:12px;border:1px solid #e5e5e5;">
+<tr style="background:#1a1a1a;color:#fff;">
+  <th style="padding:7px 10px;text-align:left;">Issuer</th>
+  <th style="padding:7px 10px;text-align:right;">₹ cr</th>
+  <th style="padding:7px 10px;">Yield</th>
+  <th style="padding:7px 10px;">Tenor (d)</th>
+  <th style="padding:7px 10px;text-align:left;">IPA</th>
+</tr>
+{rows_html}
+</table>
+{note}
+<div style='margin-top:4px;font-family:Arial,sans-serif;font-size:10px;color:#999;'>
+NSDL publishes CP issuance monthly with a ~2 month lag; this is the latest available month.</div>
+</td></tr>"""
+
+
 _CLAUDE_ERROR = {"msg": ""}
 
 
@@ -267,7 +340,7 @@ def _claude_commentary(issues, watchlist_hits) -> str:
 
 
 def build_email(issues, fy_total, quarters, watchlist, today,
-                prev_total=None, gsec=None) -> str:
+                prev_total=None, gsec=None, cp=None) -> str:
     date_str = today.strftime("%d %B %Y")
     watchlist_hits = []
     banded: dict[str, list] = {}
@@ -375,6 +448,7 @@ No fresh issuances reported on NSDL India Bond Info for this run.</td></tr>"""
   <div style="font-size:13px;font-weight:700;color:#cc0000;border-bottom:2px solid #cc0000;padding-bottom:4px;">MARKET SNAPSHOT</div>
   <ul style="margin:8px 0 0;padding-left:18px;font-family:Arial,sans-serif;font-size:13px;color:#333;">{analysis_html}</ul>
 </td></tr>
+{_cp_section_html(cp, watchlist)}
 {commentary_html}
 
 <tr><td style="padding:16px 20px;font-family:Arial,sans-serif;font-size:10px;color:#999;">
@@ -412,6 +486,11 @@ def main() -> None:
     today = datetime.date.today()
 
     print("[nsdl_issuance] Fetching NSDL new issuance data...")
+    try:
+        cp_data = fetch_cp_issuances(debug=debug)
+    except Exception as exc:
+        print(f"[nsdl_issuance] CP fetch failed: {exc}")
+        cp_data = None
     data = fetch_new_issuances(debug=debug)
     issues = data["issues"]
     print(f"[nsdl_issuance] {len(issues)} issuances fetched")
@@ -421,7 +500,8 @@ def main() -> None:
 
     watchlist = _load_watchlist()
     html = build_email(issues, data["fy_total"], data["quarters"], watchlist, today,
-                       prev_total=data.get("prev_total"), gsec=data.get("gsec"))
+                       prev_total=data.get("prev_total"), gsec=data.get("gsec"),
+                       cp=cp_data)
     subject = f"NSDL New Debt Issuances — {today.strftime('%d %b %Y')}"
     if not issues:
         subject += " (no fresh issues)"
