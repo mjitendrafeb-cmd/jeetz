@@ -303,51 +303,13 @@ def _cohort_matrix_html(records) -> str:
 </td></tr>"""
 
 
-def _is_financial(i: dict) -> bool:
-    blob = " ".join(str(i.get(k, "")) for k in ("issuer_nature", "ownership", "sector")).lower()
-    return any(k in blob for k in ("nbfc", "hfc", "bank", "financial", "finance"))
-
-
 def _computed_analysis(issues, fy_total, quarters, prev_total=None, gsec=None) -> list[str]:
     if not issues:
         return []
     lines = []
-    total = sum(i["issue_size_cr"] for i in issues)
-
-    # today's total with NBFC/financial vs corporate split
-    fin = [i for i in issues if _is_financial(i)]
-    corp = [i for i in issues if not _is_financial(i)]
-    split_bits = []
-    if fin:
-        split_bits.append(f"NBFC/financials ₹{_fmt_cr(sum(i['issue_size_cr'] for i in fin))} cr "
-                          f"({len(fin)})")
-    if corp:
-        split_bits.append(f"corporates/others ₹{_fmt_cr(sum(i['issue_size_cr'] for i in corp))} cr "
-                          f"({len(corp)})")
-    lines.append(f"{len(issues)} fresh issuances totalling ₹{_fmt_cr(total)} cr — "
-                 + ", ".join(split_bits) + ".")
-
-    # rating-band coupon averages, benchmarked to 10Y G-sec where available
-    with_coupon = [i for i in issues if i.get("coupon")]
-    band_groups: dict[str, list] = {}
-    for i in with_coupon:
-        band_groups.setdefault(_rating_band(i), []).append(i)
+    # per-deal coupons/spreads and band groupings live in the tables above —
+    # keep this section to context the tables can't show (curve, FY run-rate)
     curve = (gsec or {}).get("curve") or {}
-    band_bits = []
-    for band in _BANDS:
-        g = band_groups.get(band)
-        if g:
-            avg = sum(x["coupon"] * x["issue_size_cr"] for x in g) / \
-                sum(x["issue_size_cr"] for x in g)
-            bit = f"{band.split(' (')[0]} {avg:.2f}%"
-            spreads = [(_spread_bps(x, gsec), x["issue_size_cr"]) for x in g]
-            spreads = [(s[0], w) for s, w in spreads if s]
-            if spreads:
-                wavg = sum(s * w for s, w in spreads) / sum(w for _, w in spreads)
-                bit += f" ({wavg:+.0f} bps vs tenor-matched G-sec)"
-            band_bits.append(bit)
-    if band_bits:
-        lines.append("Weighted avg coupon: " + " · ".join(band_bits) + ".")
     if curve:
         pts = " · ".join(f"{t}Y {curve[t]:.2f}%" for t in sorted(curve))
         lines.append(f"G-sec curve: {pts} (source: {gsec.get('source', 'n/a')}). "
@@ -372,7 +334,14 @@ def _cp_section_html(cp, watchlist) -> str:
     recs = (cp or {}).get("records") or []
     if not recs:
         return ""
-    month_label = f"{cp['month']} {cp['year']}".upper()
+    # show only the latest issuance date available in the monthly file
+    dated = [r for r in recs if r.get("issuance_date")]
+    latest_date = max((r["issuance_date"] for r in dated), default=None)
+    if latest_date:
+        recs = [r for r in dated if r["issuance_date"] == latest_date]
+        month_label = latest_date.strftime("%d-%b-%Y").upper()
+    else:
+        month_label = f"{cp['month']} {cp['year']}".upper()
     total = sum(r["amount_cr"] for r in recs)
     with_yield = [r for r in recs if r.get("yield_pct")]
 
@@ -383,7 +352,9 @@ def _cp_section_html(cp, watchlist) -> str:
         if g:
             w = sum(r["yield_pct"] * r["amount_cr"] for r in g) / sum(r["amount_cr"] for r in g)
             bucket_bits.append(f"{label} {w:.2f}% ({len(g)})")
-    stats = (f"{len(recs)} CPs totalling ₹{_fmt_cr(total)} cr in {cp['month']} {cp['year']}."
+    when = latest_date.strftime("%d-%b-%Y") if latest_date else f"{cp['month']} {cp['year']}"
+    stats = (f"{len(recs)} CPs totalling ₹{_fmt_cr(total)} cr on {when} "
+             f"(latest date in NSDL's {cp['month']} {cp['year']} file)."
              + (" Weighted avg yield by tenor: " + " · ".join(bucket_bits) + "."
                 if bucket_bits else ""))
 
@@ -414,11 +385,11 @@ def _cp_section_html(cp, watchlist) -> str:
     if len(recs) > len(shown):
         note = (f"<div style='margin-top:5px;font-family:Arial,sans-serif;font-size:10.5px;"
                 f"color:#888;'>Showing top 10 by size{' + watchlist issuers' if wl_rows else ''}; "
-                f"{len(recs) - len(shown)} more CPs in the month.</div>")
+                f"{len(recs) - len(shown)} more CPs on this date.</div>")
 
     return f"""
 <tr><td style="padding:14px 20px 4px;">
-  <div style="font-size:13px;font-weight:700;color:#cc0000;border-bottom:2px solid #cc0000;padding-bottom:4px;">CP ISSUANCES — {month_label} (LATEST NSDL MONTHLY FILE)</div>
+  <div style="font-size:13px;font-weight:700;color:#cc0000;border-bottom:2px solid #cc0000;padding-bottom:4px;">CP ISSUANCES — {month_label} (LATEST DATE, NSDL MONTHLY FILE)</div>
   <div style="margin-top:6px;font-family:Arial,sans-serif;font-size:12.5px;color:#333;">{stats}</div>
 </td></tr>
 <tr><td style="padding:8px 20px;">
