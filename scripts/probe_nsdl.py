@@ -1,6 +1,5 @@
-"""Probe #23: (a) detailed-list CP files (fresher than monthly issuance?),
-(b) corporatebondissuance?year= for since-April backfill.
-Runs on GitHub Actions. Not used by reports.
+"""Probe #24: full detailed-list file listing; inspect the CP detailed-list
+file for issue dates/yields. Runs on GitHub Actions. Not used by reports.
 """
 
 import json
@@ -21,65 +20,46 @@ session.headers.update(H)
 signal.signal(signal.SIGALRM, lambda s, f: (_ for _ in ()).throw(TimeoutError()))
 
 
-def get(url, params=None, timeout=(10, 60)):
-    signal.alarm(90)
+def get(url, params=None):
+    signal.alarm(120)
     try:
-        return session.get(url, params=params, timeout=timeout)
+        return session.get(url, params=params, timeout=(10, 90))
     finally:
         signal.alarm(0)
 
 
 def main():
-    # (a) all datasets on the detailed-list page: find CP 'detailed list' files
-    r = get("https://nsdl.com/resources/data/detailed-list-debt-instruments")
-    html = r.text
-    print(f"page {r.status_code} len={len(html)}", flush=True)
-    for m in sorted(set(re.findall(r'\\\\"field_file\\\\":\\\\"([^"\\\\]+)\\\\"', html))):
-        print(f"  FILE: {m}", flush=True)
-    # dataset names with nearby titles
-    for ds in ("commercialDetailDataSet", "debtInstrumentDataSet", "certificateOfDepositDataSet",
-               "debtListInstrumentDataSet"):
-        i = html.find(ds)
-        print(f"\nDS {ds} at {i}", flush=True)
-    for m in re.finditer(r'Detailed[^"\\\\]{0,120}', html):
-        print(f"  TITLE: {m.group(0)[:150]}", flush=True)
+    r = get("https://nsdl.com/web/api/view/resources-data-sub-page/listing/detailed-list-debt-instruments")
+    items = r.json()
+    print(f"listing: {len(items)} items", flush=True)
+    for it in items:
+        print(f"  {it.get('title')!r} | file_name={it.get('file_name')!r} | "
+              f"{it.get('field_file')} | ext={it.get('extension')}", flush=True)
 
-    # other listing slugs
-    for slug in ("detailed-list-debt-instruments", "commercial-paper", "detailed-list-cp",
-                 "debt-instruments", "cp-detailed-list"):
-        try:
-            rr = get(f"https://nsdl.com/web/api/view/resources-data-sub-page/listing/{slug}")
-            body = rr.text[:600]
-            print(f"\nLISTING {slug} -> {rr.status_code} len={len(rr.text)} {body[:400]!r}", flush=True)
-        except Exception as exc:
-            print(f"\nLISTING {slug} -> ERROR {exc}", flush=True)
-
-    # (b) India Bond Info: corporate bond issuance by year — backfill candidate
-    prefix = "https://www.indiabondinfo.nsdl.com/bds-service/v1/public/bdsinfo"
-    session.headers["Referer"] = "https://www.indiabondinfo.nsdl.com/CBDServices/"
-    try:
-        rr = get(prefix + "/corporatebondissuancedropdown")
-        print(f"\ndropdown -> {rr.status_code} {rr.text[:500]!r}", flush=True)
-        years = []
-        try:
-            years = rr.json()
-        except Exception:
-            pass
-    except Exception as exc:
-        print(f"dropdown ERROR {exc}", flush=True)
-        years = []
-    candidates = []
-    for y in (years if isinstance(years, list) else []):
-        candidates.append(y if isinstance(y, str) else json.dumps(y))
-    candidates += ["2026-27", "2026", "FY2026-27"]
-    for y in candidates[:6]:
-        try:
-            rr = get(prefix + "/corporatebondissuance", {"year": y})
-            print(f"\nissuance year={y!r} -> {rr.status_code} len={len(rr.text)}", flush=True)
-            if rr.status_code == 200:
-                print(f"  JSON[:2500]: {json.dumps(rr.json())[:2500]}", flush=True)
-        except Exception as exc:
-            print(f"issuance year={y!r} ERROR {exc}", flush=True)
+    cp_items = [it for it in items if "commercial" in
+                (it.get("file_name", "") + it.get("title", "")).lower()]
+    for it in cp_items[:1]:
+        url = "https://nsdl.com" + it["field_file"]
+        print(f"\nFETCH {url}", flush=True)
+        rr = get(url)
+        print(f"  status={rr.status_code} len={len(rr.content)} "
+              f"type={rr.headers.get('content-type')}", flush=True)
+        body = rr.content[:200]
+        print(f"  first bytes: {body!r}", flush=True)
+        if b"<" in body[:10] or it["extension"] == "html":
+            rows = re.findall(rb"<tr[^>]*>(.*?)</tr>", rr.content, re.DOTALL | re.IGNORECASE)
+            print(f"  rows={len(rows)}", flush=True)
+            for row in rows[:5] + rows[-2:]:
+                cells = [re.sub(rb"\s+", b" ", re.sub(rb"<[^>]+>", b" ", c)).strip().decode("utf-8", "ignore")
+                         for c in re.findall(rb"<t[dh][^>]*>(.*?)</t[dh]>", row, re.DOTALL | re.IGNORECASE)]
+                print(f"  ROW: {cells[:14]}", flush=True)
+        elif it["extension"] in ("xls", "xlsx"):
+            # xls: peek text strings for header names
+            text = rr.content.decode("latin-1", "ignore")
+            for kw in ("Issue", "Yield", "Maturity", "Allot", "ISIN"):
+                idx = text.find(kw)
+                if idx >= 0:
+                    print(f"  XLS ctx[{kw}]: {text[idx:idx + 120]!r}", flush=True)
 
 
 if __name__ == "__main__":

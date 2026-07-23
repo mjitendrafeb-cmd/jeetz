@@ -185,8 +185,12 @@ def _segment(i: dict) -> str:
 
 
 _HISTORY_PATH = os.path.join(_REPO_ROOT, "data", "nsdl_issuance_history.json")
-_HISTORY_DAYS = 45
-_MATRIX_WINDOW_DAYS = 30
+
+
+def _fy_start(today=None) -> datetime.date:
+    today = today or datetime.date.today()
+    year = today.year if today.month >= 4 else today.year - 1
+    return datetime.date(year, 4, 1)
 
 
 def _update_history(issues, gsec) -> list[dict]:
@@ -213,7 +217,7 @@ def _update_history(issues, gsec) -> list[dict]:
             "spread_bps": sp[0] if sp else None,
             "ratings": i.get("ratings") or [],
         }
-    cutoff = (datetime.date.today() - datetime.timedelta(days=_HISTORY_DAYS)).isoformat()
+    cutoff = _fy_start().isoformat()
     records = sorted((r for r in hist.values() if r["allotment_date"] >= cutoff),
                      key=lambda r: r["allotment_date"], reverse=True)
     try:
@@ -225,11 +229,27 @@ def _update_history(issues, gsec) -> list[dict]:
     return records
 
 
+def _prev_issuance(i: dict, history) -> dict | None:
+    """Most recent earlier issuance by the same issuer from the rolling history."""
+    key = _norm(i.get("issuer") or "")
+    cur = i.get("allotment_date")
+    if not key or not cur:
+        return None
+    cur_iso = cur.isoformat()
+    for r in history or []:
+        if r.get("coupon") and _norm(r.get("issuer") or "") == key \
+                and (r["allotment_date"] < cur_iso or
+                     (r["allotment_date"] == cur_iso and r["isin"] != i.get("isin"))):
+            if r["allotment_date"] < cur_iso:
+                return r
+    return None
+
+
 def _cohort_matrix_html(records) -> str:
     """Borrowing-cost matrix over the trailing window: rating band rows ×
     issuer segment columns; each cell = weighted avg coupon, avg spread,
     amount and deal count."""
-    cutoff = (datetime.date.today() - datetime.timedelta(days=_MATRIX_WINDOW_DAYS)).isoformat()
+    cutoff = _fy_start().isoformat()
     window = [r for r in records
               if r["allotment_date"] >= cutoff and r.get("coupon")]
     if not window:
@@ -270,10 +290,10 @@ def _cohort_matrix_html(records) -> str:
 
     return f"""
 <tr><td style="padding:14px 20px 4px;">
-  <div style="font-size:13px;font-weight:700;color:#cc0000;border-bottom:2px solid #cc0000;padding-bottom:4px;">WHO BORROWS AT WHAT RATE — LAST {_MATRIX_WINDOW_DAYS} DAYS</div>
+  <div style="font-size:13px;font-weight:700;color:#cc0000;border-bottom:2px solid #cc0000;padding-bottom:4px;">WHO BORROWS AT WHAT RATE — SINCE {_fy_start().strftime('%b %Y').upper()}</div>
   <div style="margin-top:5px;font-family:Arial,sans-serif;font-size:11.5px;color:#666;">
-  Value-weighted avg coupon by rating band × issuer segment, with spread over tenor-matched G-sec
-  ({len(window)} rated deals tracked; matrix fills as daily history accumulates).</div>
+  Value-weighted avg coupon by rating band × issuer segment since {_fy_start().strftime('%d-%b-%Y')},
+  with spread over tenor-matched G-sec ({len(window)} rated deals tracked; fills as daily history accumulates).</div>
 </td></tr>
 <tr><td style="padding:8px 20px;">
 <table width="100%" cellpadding="0" cellspacing="0" style="font-family:Arial,Helvetica,sans-serif;font-size:12px;border:1px solid #e5e5e5;">
@@ -439,11 +459,10 @@ def _claude_commentary(issues, watchlist_hits) -> str:
             "You are a senior credit analyst at an Indian rating agency. Below are today's "
             "fresh corporate debt issuances from NSDL's primary-market data (amounts in ₹ crore).\n\n"
             f"{rows}\n\nWatchlist (rated-entity) issuers in today's batch: {wl}.\n\n"
-            "Write 3-5 crisp analyst bullets (plain text, each starting with '• ') on: who is "
-            "borrowing at better rates for comparable tenors and why that might be (rating, "
-            "ownership, sector); anything notable about tenor/size choices; and what a credit "
-            "analyst tracking NBFCs/HFCs should take away. Do not repeat the raw table. "
-            "If coupons are missing, infer only what the sizes/tenors/issuer mix supports."
+            "Write EXACTLY 3 bullets (plain text, each starting with '• '), each under 18 "
+            "words, numbers first. Cover: (1) sharpest pricing signal of the day, "
+            "(2) who pays the biggest premium and why, (3) one takeaway for an NBFC/HFC "
+            "credit analyst. No preamble, no repetition of the table."
         )
         client = anthropic.Anthropic(api_key=api_key)
         cfg_model = _load_config().get("model", "claude-sonnet-5")
@@ -463,6 +482,8 @@ def build_email(issues, fy_total, quarters, watchlist, today,
                 prev_total=None, gsec=None, cp=None, history=None) -> str:
     date_str = today.strftime("%d %B %Y")
     watchlist_hits = []
+    unrated = [i for i in issues if _rating_band(i) == _BANDS[-1]]
+    issues = [i for i in issues if _rating_band(i) != _BANDS[-1]]
     banded: dict[str, list] = {}
     for i in issues:
         banded.setdefault(_rating_band(i), []).append(i)
@@ -487,6 +508,11 @@ def build_email(issues, fy_total, quarters, watchlist, today,
             sp = _spread_bps(i, gsec)
             spread_html = (f"<div style='font-size:10px;color:#888;'>{sp[0]:+d} bps vs {sp[1]}Y G-sec</div>"
                            if sp else "")
+            prev = _prev_issuance(i, history)
+            if prev:
+                pd = datetime.date.fromisoformat(prev["allotment_date"]).strftime("%d-%b")
+                spread_html += (f"<div style='font-size:10px;color:#1a6b1a;'>prev {prev['coupon']:.2f}% "
+                                f"· {prev.get('tenure_years') or '?'}y · {pd}</div>")
             rows_html += f"""<tr style="background:{row_bg};">
 <td style="padding:7px 10px;border-bottom:1px solid #eee;font-weight:600;">{i['issuer'].title()}{star}</td>
 <td style="padding:7px 10px;border-bottom:1px solid #eee;font-family:monospace;font-size:11px;">{i['isin']}</td>
@@ -534,6 +560,15 @@ def build_email(issues, fy_total, quarters, watchlist, today,
         empty_html = """<tr><td colspan="6" style="padding:20px;text-align:center;color:#666;font-size:13px;">
 No fresh issuances reported on NSDL India Bond Info for this run.</td></tr>"""
     excluded_note = ""
+    if unrated:
+        un_total = sum(u["issue_size_cr"] for u in unrated)
+        un_names = ", ".join(u["issuer"].title() for u in unrated[:3])
+        if len(unrated) > 3:
+            un_names += f" +{len(unrated) - 3} more"
+        excluded_note = (f"<div style='margin-top:6px;font-family:Arial,sans-serif;font-size:11px;"
+                         f"color:#888;'>Not rated / rating unavailable (excluded from table): "
+                         f"{len(unrated)} issue{'s' if len(unrated) > 1 else ''} totalling "
+                         f"₹{_fmt_cr(un_total)} cr — {un_names}.</div>")
 
     return f"""<html><body style="margin:0;padding:0;background:#f0f0f0;font-family:Georgia,'Times New Roman',serif;">
 <div style="max-width:760px;margin:0 auto;background:#ffffff;">
