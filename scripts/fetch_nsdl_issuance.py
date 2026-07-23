@@ -183,7 +183,12 @@ def fetch_new_issuances(debug: bool = False) -> dict:
 
     raw = _get_json(session, f"{prefix}/public/bdsinfo/newbondissues")
     issues = []
+    seen_isins = set()
     for rec in raw or []:
+        # the feed occasionally repeats an ISIN
+        if rec.get("isin") in seen_isins:
+            continue
+        seen_isins.add(rec.get("isin"))
         allot = _parse_date(rec.get("allotmentDate", ""))
         mat = _parse_date(rec.get("maturityDate", ""))
         issue = {
