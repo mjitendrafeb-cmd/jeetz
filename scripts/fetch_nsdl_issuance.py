@@ -155,6 +155,11 @@ def _isin_details(session, prefix, isin, debug=False):
             detail["ownership"] = str(data["issuerTypeOwner"]).strip()
         if data.get("sector"):
             detail["sector"] = str(data["sector"]).strip()
+        if data.get("cin"):
+            detail["cin"] = str(data["cin"]).strip()
+            # Government-promoted companies carry GOI/SGC in the CIN
+            if "GOI" in detail["cin"].upper() and "ownership" not in detail:
+                detail["ownership"] = "PSU"
         if "coupon" not in detail:
             m = re.search(r"\b(\d{1,2}\.\d{1,4})\b", data.get("secType") or "")
             if m and 0 < float(m.group(1)) < 40:
