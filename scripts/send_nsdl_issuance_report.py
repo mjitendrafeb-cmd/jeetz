@@ -20,6 +20,7 @@ from email.mime.text import MIMEText
 
 from fetch_nsdl_issuance import fetch_new_issuances
 from fetch_nsdl_cp import fetch_cp_issuances
+from fetch_nsdl_debt_list import fetch_debt_list
 
 _REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -92,7 +93,7 @@ def _rating_str(i: dict) -> str:
 
 _RATING_TOKEN = re.compile(
     r"\b(AAA|AA\+|AA-|AA|A\+|A-|BBB\+|BBB-|BBB|BB\+|BB-|BB|B\+|B-|"
-    r"A1\+|A1|A2\+|A2|A3\+|A3|A4\+|A4|C|D|A)\b")
+    r"A1\+|A1|A2\+|A2|A3\+|A3|A4\+|A4|C|D|A)(?=[\s(/;)]|$)")
 
 _BANDS = ["AAA", "AA band (AA+/AA/AA-)", "A band (A+/A/A-)", "BBB band",
           "Below investment grade", "Short-term (A1+/A1/...)",
@@ -165,6 +166,18 @@ def _spread_bps(i: dict, gsec) -> tuple[int, int] | None:
 
 _SEGMENTS = ["PSU", "Bank/FI", "NBFC/HFC", "Corporate"]
 
+# name-based PSU detection for sources that don't carry ownership/CIN
+# (e.g. the entire-list debt instruments file)
+_PSU_NAME_RE = re.compile(
+    r"\b(power finance corporation|rec limited|rural electrification|"
+    r"indian railway finance|irfc|nabard|national bank for agriculture|"
+    r"small industries development bank|sidbi|housing and urban development|"
+    r"hudco|national housing bank|export.import bank|exim bank|ntpc|nhpc|"
+    r"power grid|grid corporation|steel authority|sail limited|gail|"
+    r"oil and natural gas|indian oil|bharat petroleum|hindustan petroleum|"
+    r"indian renewable energy|ireda|nuclear power corporation|sjvn|thdc|"
+    r"neepco|food corporation of india|national highways|nhai)\b")
+
 
 def _segment(i: dict) -> str:
     """Issuer cohort: PSU, Bank/FI, NBFC/HFC or Corporate — from ownership,
@@ -173,13 +186,15 @@ def _segment(i: dict) -> str:
     cin = (i.get("cin") or "").upper()
     nature = (i.get("issuer_nature") or "").strip().lower()
     name = (i.get("issuer") or "").lower()
-    if ("psu" in own and "non" not in own) or "GOI" in cin:
+    if ("psu" in own and "non" not in own) or "GOI" in cin \
+            or _PSU_NAME_RE.search(name):
         return "PSU"
     if "bank" in nature or re.search(r"\bbank\b", name):
         return "Bank/FI"
     if "nbfc" in nature or "hfc" in nature or "housing finance" in name \
             or "home finance" in name or re.search(r"\bfinance\b|\bfinserv\b|\bfincorp\b|"
-                                                   r"\bcapital\b|\bcredit\b", name):
+                                                   r"\bfincare\b|\bfinvest\b|\bmicrofinance\b|"
+                                                   r"\bleasing\b|\bcapital\b|\bcredit\b", name):
         return "NBFC/HFC"
     return "Corporate"
 
@@ -229,6 +244,31 @@ def _update_history(issues, gsec) -> list[dict]:
     return records
 
 
+def _debt_list_history(dl: dict, gsec) -> list[dict]:
+    """Convert entire-list records into history-format dicts (newest first)
+    so the cohort matrix and prev-issuance lookup can run off the full NSDL
+    file instead of the self-accumulated daily history."""
+    records = []
+    for r in (dl or {}).get("records") or []:
+        rec = {
+            "isin": r["isin"],
+            "issuer": r["issuer"],
+            "allotment_date": r["allotment_date"].isoformat(),
+            "amount_cr": r.get("amount_cr") or 0,
+            "coupon": r.get("coupon"),
+            "tenure_years": r.get("tenure_years"),
+            "ratings": [f"{r.get('rating_agency') or ''} {r['rating']}".strip()]
+            if r.get("rating") else [],
+        }
+        rec["band"] = _rating_band(rec)
+        rec["segment"] = _segment(rec)
+        sp = _spread_bps(rec, gsec)
+        rec["spread_bps"] = sp[0] if sp else None
+        records.append(rec)
+    records.sort(key=lambda r: r["allotment_date"], reverse=True)
+    return records
+
+
 def _prev_issuance(i: dict, history) -> dict | None:
     """Most recent earlier issuance by the same issuer from the rolling history."""
     key = _norm(i.get("issuer") or "")
@@ -245,13 +285,14 @@ def _prev_issuance(i: dict, history) -> dict | None:
     return None
 
 
-def _cohort_matrix_html(records) -> str:
-    """Borrowing-cost matrix over the trailing window: rating band rows ×
-    issuer segment columns; each cell = weighted avg coupon, avg spread,
-    amount and deal count."""
+def _cohort_matrix_html(records, source_note=None) -> str:
+    """Borrowing-cost matrix since FY start: rating band rows × issuer
+    segment columns; each cell = weighted avg coupon, avg spread, amount and
+    deal count. Rated deals only, per user preference."""
     cutoff = _fy_start().isoformat()
     window = [r for r in records
-              if r["allotment_date"] >= cutoff and r.get("coupon")]
+              if r["allotment_date"] >= cutoff and r.get("coupon")
+              and r.get("amount_cr") and r["band"] != _BANDS[6]]
     if not window:
         return ""
 
@@ -293,7 +334,7 @@ def _cohort_matrix_html(records) -> str:
   <div style="font-size:13px;font-weight:700;color:#cc0000;border-bottom:2px solid #cc0000;padding-bottom:4px;">WHO BORROWS AT WHAT RATE — SINCE {_fy_start().strftime('%b %Y').upper()}</div>
   <div style="margin-top:5px;font-family:Arial,sans-serif;font-size:11.5px;color:#666;">
   Value-weighted avg coupon by rating band × issuer segment since {_fy_start().strftime('%d-%b-%Y')},
-  with spread over tenor-matched G-sec ({len(window)} rated deals tracked; fills as daily history accumulates).</div>
+  with spread over tenor-matched G-sec ({len(window)} rated deals tracked{'; ' + source_note if source_note else ''}).</div>
 </td></tr>
 <tr><td style="padding:8px 20px;">
 <table width="100%" cellpadding="0" cellspacing="0" style="font-family:Arial,Helvetica,sans-serif;font-size:12px;border:1px solid #e5e5e5;">
@@ -450,7 +491,8 @@ def _claude_commentary(issues, watchlist_hits) -> str:
 
 
 def build_email(issues, fy_total, quarters, watchlist, today,
-                prev_total=None, gsec=None, cp=None, history=None) -> str:
+                prev_total=None, gsec=None, cp=None, history=None,
+                matrix_source=None) -> str:
     date_str = today.strftime("%d %B %Y")
     watchlist_hits = []
     unrated = [i for i in issues if _rating_band(i) == _BANDS[-1]]
@@ -574,7 +616,7 @@ No fresh issuances reported on NSDL India Bond Info for this run.</td></tr>"""
   <div style="font-size:13px;font-weight:700;color:#cc0000;border-bottom:2px solid #cc0000;padding-bottom:4px;">MARKET SNAPSHOT</div>
   <ul style="margin:8px 0 0;padding-left:18px;font-family:Arial,sans-serif;font-size:13px;color:#333;">{analysis_html}</ul>
 </td></tr>
-{_cohort_matrix_html(history or [])}
+{_cohort_matrix_html(history or [], source_note=matrix_source)}
 {_cp_section_html(cp, watchlist)}
 {commentary_html}
 
@@ -628,9 +670,26 @@ def main() -> None:
     watchlist = _load_watchlist()
     history = _update_history(issues, data.get("gsec"))
     print(f"[nsdl_issuance] history: {len(history)} records in trailing window")
+
+    # the entire-list file gives full since-April coverage for the matrix and
+    # years of prior deals for the prev-issuance lookup; the self-accumulated
+    # history file is the fallback when that fetch fails
+    matrix_source = None
+    try:
+        dl = fetch_debt_list(debug=debug)
+        dl_history = _debt_list_history(dl, data.get("gsec"))
+        if dl_history:
+            history = dl_history
+            matrix_source = (f"source: NSDL detailed list of debt instruments "
+                             f"as on {dl.get('as_on') or 'latest'}")
+            print(f"[nsdl_issuance] debt list: {len(dl_history)} records "
+                  f"as on {dl.get('as_on')}")
+    except Exception as exc:
+        print(f"[nsdl_issuance] debt list fetch failed (using daily history): {exc}")
+
     html = build_email(issues, data["fy_total"], data["quarters"], watchlist, today,
                        prev_total=data.get("prev_total"), gsec=data.get("gsec"),
-                       cp=cp_data, history=history)
+                       cp=cp_data, history=history, matrix_source=matrix_source)
     subject = f"NSDL New Debt Issuances — {today.strftime('%d %b %Y')}"
     if not issues:
         subject += " (no fresh issues)"
