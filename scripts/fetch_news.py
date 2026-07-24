@@ -523,9 +523,12 @@ def fetch_all_news(newsapi_key: str = "") -> tuple[str, dict]:
         if "days" in data:
             for d, keys in data["days"].items():
                 if d < today_str:
-                    seen_keys.update(keys)
+                    # Re-normalise on load: legacy keys included the summary
+                    # text after " — ", which _normalise_key strips — without
+                    # this the filter never matched and old items recurred.
+                    seen_keys.update(_normalise_key(k) for k in keys)
         elif data.get("date", "") < today_str:
-            seen_keys = set(data.get("keys", []))
+            seen_keys = {_normalise_key(k) for k in data.get("keys", [])}
     except Exception:
         pass
 
@@ -606,7 +609,7 @@ def fetch_all_news(newsapi_key: str = "") -> tuple[str, dict]:
     pre_dedup = len(unique)
     if seen_keys:
         unique = [item for item in unique if _normalise_key(item) not in seen_keys]
-        print(f"[fetch_news] After 5-day dedup filter: {len(unique)} items (was {pre_dedup})")
+        print(f"[fetch_news] After 30-day dedup filter: {len(unique)} items (was {pre_dedup})")
 
     summary["__total__"] = len(unique)
     summary["__pre_dedup__"] = pre_dedup
