@@ -344,26 +344,56 @@ def _cohort_matrix_html(records, source_note=None) -> str:
 </td></tr>"""
 
 
+def _fy_quarter(d: datetime.date) -> tuple[int, int]:
+    """(FY end-year, quarter no) for an Indian-FY quarter: Q1 = Apr-Jun."""
+    fy = d.year + 1 if d.month >= 4 else d.year
+    q = (d.month - 4) % 12 // 3 + 1
+    return fy, q
+
+
+def _quarter_start(fy: int, q: int) -> datetime.date:
+    month = 4 + (q - 1) * 3
+    if month > 12:
+        return datetime.date(fy, month - 12, 1)
+    return datetime.date(fy - 1, month, 1)
+
+
 def _spread_trend_html(records, today=None) -> str:
-    """Month-by-month trend of value-weighted spread over tenor-matched G-sec
-    since FY start, one row per rating band × issuer segment cohort (AAA PSU,
-    AAA NBFC/HFC, AA Corporate, ...). Spreads are computed against the current
-    G-sec curve (historical daily curves aren't available from the public
-    sources used)."""
+    """Quarter-by-quarter trend of value-weighted spread over tenor-matched
+    G-sec for the last year (4 trailing quarters + current quarter-to-date),
+    one row per rating band × issuer segment cohort (AAA PSU, AAA NBFC/HFC,
+    AA Corporate, ...). Spreads are computed against the current G-sec curve
+    (historical daily curves aren't available from the public sources used)."""
     today = today or datetime.date.today()
-    cutoff = _fy_start().isoformat()
+    cur_fy, cur_q = _fy_quarter(today)
+    quarters = []
+    fy, q = cur_fy, cur_q
+    for _ in range(5):
+        quarters.append((fy, q))
+        q -= 1
+        if q == 0:
+            fy, q = fy - 1, 4
+    quarters.reverse()
+    cutoff = _quarter_start(*quarters[0]).isoformat()
+
     window = [r for r in records
               if cutoff <= r["allotment_date"] <= today.isoformat()
               and r.get("spread_bps") is not None
               and r.get("amount_cr") and r["band"] != _BANDS[6]]
     if not window:
         return ""
-    months = sorted({r["allotment_date"][:7] for r in window})
-    if len(months) < 2:
-        return ""  # a single month is no trend — the matrix already covers it
+    by_q: dict[tuple[int, int], list] = {}
+    for r in window:
+        by_q.setdefault(_fy_quarter(datetime.date.fromisoformat(r["allotment_date"])),
+                        []).append(r)
+    quarters = [qk for qk in quarters if qk in by_q]
+    if len(quarters) < 2:
+        return ""  # a single quarter is no trend — the matrix already covers it
 
-    def month_label(m):
-        return datetime.date.fromisoformat(m + "-01").strftime("%b %y")
+    def q_label(qk):
+        fy, q = qk
+        lab = f"Q{q} FY{str(fy)[-2:]}"
+        return lab + " (QTD)" if qk == (cur_fy, cur_q) else lab
 
     rows_html = ""
     for band in _BANDS[:6]:
@@ -374,8 +404,9 @@ def _spread_trend_html(records, today=None) -> str:
             label = f"{band.split(' (')[0]} · {seg}"
             row = (f'<td style="padding:7px 10px;border-bottom:1px solid #eee;'
                    f'font-weight:700;white-space:nowrap;">{label}</td>')
-            for m in months:
-                g = [r for r in grp if r["allotment_date"][:7] == m]
+            for qk in quarters:
+                g = [r for r in by_q[qk]
+                     if r["band"] == band and r["segment"] == seg]
                 if not g:
                     row += ('<td style="padding:7px 10px;border-bottom:1px solid #eee;'
                             'text-align:center;color:#bbb;">—</td>')
@@ -388,13 +419,13 @@ def _spread_trend_html(records, today=None) -> str:
                         f"{len(g)} deal{'s' if len(g) > 1 else ''}</span></td>")
             rows_html += f"<tr>{row}</tr>"
 
-    header = "".join(f'<th style="padding:7px 10px;">{month_label(m)}</th>' for m in months)
+    header = "".join(f'<th style="padding:7px 10px;">{q_label(qk)}</th>' for qk in quarters)
     return f"""
 <tr><td style="padding:14px 20px 4px;">
-  <div style="font-size:13px;font-weight:700;color:#cc0000;border-bottom:2px solid #cc0000;padding-bottom:4px;">SPREAD TREND OVER G-SEC — MONTHLY (bps)</div>
+  <div style="font-size:13px;font-weight:700;color:#cc0000;border-bottom:2px solid #cc0000;padding-bottom:4px;">SPREAD TREND OVER G-SEC — QUARTERLY (bps)</div>
   <div style="margin-top:5px;font-family:Arial,sans-serif;font-size:11.5px;color:#666;">
-  Value-weighted avg spread of rated deals over tenor-matched G-sec, by month of allotment
-  since {_fy_start().strftime('%d-%b-%Y')}, per rating band × issuer segment cohort.
+  Value-weighted avg spread of rated deals over tenor-matched G-sec, last 4 quarters plus the
+  current quarter-to-date, per rating band × issuer segment cohort.
   Computed against the current G-sec curve.</div>
 </td></tr>
 <tr><td style="padding:8px 20px;">
