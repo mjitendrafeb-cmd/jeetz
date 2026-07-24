@@ -59,12 +59,13 @@ def _load_seen_headlines() -> set[str]:
 def _save_seen_headlines(news_text: str) -> None:
     """Persist normalised keys using 30-day rolling window."""
     import re as _re
+    from fetch_news import _normalise_key
     keys = []
     for line in news_text.splitlines():
         line = _re.sub(r"^\d+\.\s*", "", line)
-        line = _re.sub(r"^\[[^\]]+\]\s*", "", line)
-        line = _re.sub(r"^\[T\d\]", "", line)
-        key = line.lower().strip()[:120]
+        # Must produce the SAME key fetch_news filters with, or the
+        # dedup never matches and republished old items recur daily.
+        key = _normalise_key(line)
         if key:
             keys.append(key)
 
