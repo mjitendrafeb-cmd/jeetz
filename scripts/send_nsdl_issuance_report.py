@@ -289,8 +289,9 @@ def _cohort_matrix_html(records, source_note=None) -> str:
     segment columns; each cell = weighted avg coupon, avg spread, amount and
     deal count. Rated deals only, per user preference."""
     cutoff = _fy_start().isoformat()
+    today_iso = datetime.date.today().isoformat()
     window = [r for r in records
-              if r["allotment_date"] >= cutoff and r.get("coupon")
+              if cutoff <= r["allotment_date"] <= today_iso and r.get("coupon")
               and r.get("amount_cr") and r["band"] != _BANDS[6]]
     if not window:
         return ""
@@ -343,14 +344,17 @@ def _cohort_matrix_html(records, source_note=None) -> str:
 </td></tr>"""
 
 
-def _spread_trend_html(records) -> str:
+def _spread_trend_html(records, today=None) -> str:
     """Month-by-month trend of value-weighted spread over tenor-matched G-sec
-    since FY start — one row set by rating band, one by issuer segment.
-    Spreads are computed against the current G-sec curve (historical daily
-    curves aren't available from the public sources used)."""
+    since FY start, one row per rating band × issuer segment cohort (AAA PSU,
+    AAA NBFC/HFC, AA Corporate, ...). Spreads are computed against the current
+    G-sec curve (historical daily curves aren't available from the public
+    sources used)."""
+    today = today or datetime.date.today()
     cutoff = _fy_start().isoformat()
     window = [r for r in records
-              if r["allotment_date"] >= cutoff and r.get("spread_bps") is not None
+              if cutoff <= r["allotment_date"] <= today.isoformat()
+              and r.get("spread_bps") is not None
               and r.get("amount_cr") and r["band"] != _BANDS[6]]
     if not window:
         return ""
@@ -361,14 +365,15 @@ def _spread_trend_html(records) -> str:
     def month_label(m):
         return datetime.date.fromisoformat(m + "-01").strftime("%b %y")
 
-    def rows_for(row_keys, key_fn):
-        html = ""
-        for rk in row_keys:
-            grp = [r for r in window if key_fn(r) == rk]
+    rows_html = ""
+    for band in _BANDS[:6]:
+        for seg in _SEGMENTS:
+            grp = [r for r in window if r["band"] == band and r["segment"] == seg]
             if not grp:
                 continue
+            label = f"{band.split(' (')[0]} · {seg}"
             row = (f'<td style="padding:7px 10px;border-bottom:1px solid #eee;'
-                   f'font-weight:700;">{rk.split(" (")[0]}</td>')
+                   f'font-weight:700;white-space:nowrap;">{label}</td>')
             for m in months:
                 g = [r for r in grp if r["allotment_date"][:7] == m]
                 if not g:
@@ -381,29 +386,21 @@ def _spread_trend_html(records) -> str:
                         f'text-align:center;"><b>{sp:+.0f}</b>'
                         f"<br><span style='color:#888;font-size:10.5px;'>"
                         f"{len(g)} deal{'s' if len(g) > 1 else ''}</span></td>")
-            html += f"<tr>{row}</tr>"
-        return html
+            rows_html += f"<tr>{row}</tr>"
 
     header = "".join(f'<th style="padding:7px 10px;">{month_label(m)}</th>' for m in months)
-    band_rows = rows_for(_BANDS[:6], lambda r: r["band"])
-    seg_rows = rows_for(_SEGMENTS, lambda r: r["segment"])
-    divider = (f'<tr><td colspan="{len(months) + 1}" style="background:#f4f4f4;'
-               f'padding:5px 10px;font-weight:700;color:#555;font-size:11px;">'
-               f'BY ISSUER SEGMENT</td></tr>')
-
     return f"""
 <tr><td style="padding:14px 20px 4px;">
   <div style="font-size:13px;font-weight:700;color:#cc0000;border-bottom:2px solid #cc0000;padding-bottom:4px;">SPREAD TREND OVER G-SEC — MONTHLY (bps)</div>
   <div style="margin-top:5px;font-family:Arial,sans-serif;font-size:11.5px;color:#666;">
   Value-weighted avg spread of rated deals over tenor-matched G-sec, by month of allotment
-  since {_fy_start().strftime('%d-%b-%Y')}. Computed against the current G-sec curve.</div>
+  since {_fy_start().strftime('%d-%b-%Y')}, per rating band × issuer segment cohort.
+  Computed against the current G-sec curve.</div>
 </td></tr>
 <tr><td style="padding:8px 20px;">
 <table width="100%" cellpadding="0" cellspacing="0" style="font-family:Arial,Helvetica,sans-serif;font-size:12px;border:1px solid #e5e5e5;">
-<tr style="background:#1a1a1a;color:#fff;"><th style="padding:7px 10px;text-align:left;">Rating band</th>{header}</tr>
-{band_rows}
-{divider}
-{seg_rows}
+<tr style="background:#1a1a1a;color:#fff;"><th style="padding:7px 10px;text-align:left;">Cohort</th>{header}</tr>
+{rows_html}
 </table>
 </td></tr>"""
 

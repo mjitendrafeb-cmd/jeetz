@@ -112,11 +112,14 @@ def fetch_debt_list(debug: bool = False, min_allotment: datetime.date | None = N
 
     records = []
     total = 0
+    today = datetime.date.today()
     for row in reader:
         total += 1
         allot = _parse_date(cell(row, "DATE_OF_ALLOTMENT"))
         if not allot or (min_allotment and allot < min_allotment):
             continue
+        if allot > today:
+            continue  # data-entry errors: the file carries future-dated rows
         red = _parse_date(cell(row, "REDEMPTION"))
         coupon = _num(cell(row, "COUPON_RATE"))
         if coupon is not None and not 0 < coupon < 40:
