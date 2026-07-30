@@ -17,7 +17,8 @@ from email import encoders
 
 import anthropic
 
-from fetch_news import fetch_all_news
+from fetch_news import fetch_all_news, load_watchlist
+from send_team_news import _parse_item, _classify, _phrase
 
 
 def _msg_text(message) -> str:
@@ -282,6 +283,82 @@ OUTPUT RULES:
 # Claude API call
 # ---------------------------------------------------------------------------
 
+# ---------------------------------------------------------------------------
+# Fallback report — used when the Claude API call fails (e.g. credits
+# exhausted). Produces the SAME id="s1".."s5" / id="takeaways" markup
+# contract generate_report's real output uses, via plain rule-based
+# classification (reuses send_team_news.py's free classifier) — so
+# split_parts/build_attachment/build_email all work completely unchanged.
+# No credit implications or cross-source dedup (that needs the AI step),
+# but every fetched headline is still delivered instead of an empty report.
+# ---------------------------------------------------------------------------
+
+_FALLBACK_SECTIONS = [
+    ("s1", "sb1", "&#9733; S1 &mdash; MY RATED ENTITIES &amp; WATCHLIST"),
+    ("s2", "sb2", "S2 &mdash; NBFC, HFC, BROKING, FINTECH, FI SECTORS"),
+    ("s3", "sb3", "S3 &mdash; RBI, SEBI, NHB REGULATIONS"),
+    ("s4", "sb4", "S4 &mdash; BOND &amp; MONEY MARKETS"),
+    ("s5", "sb5", "S5 &mdash; MACROECONOMIC DEVELOPMENTS"),
+]
+
+
+def _fallback_item_card(it: dict, hero: bool = False) -> str:
+    cls = "art hero" if hero else "art"
+    link = f'<a class="rm" href="{it["url"]}" target="_blank">Read more &#8594;</a>' if it["url"] else ""
+    meta = " &bull; ".join(x for x in (it["source"], it["pub"]) if x)
+    return (f'<div class="{cls}"><p class="src">{meta}</p>'
+            f'<p class="hl">{it["title"]}</p>'
+            f'<p class="wh">{it["summary"] or "No summary available."}</p>{link}</div>')
+
+
+def _fallback_item_brief(it: dict) -> str:
+    link = f'<a href="{it["url"]}" target="_blank">&#8594;</a>' if it["url"] else ""
+    return f'<p class="ib">&#8226; {it["title"]} ({it["source"]}) {link}</p>'
+
+
+def build_fallback_report(news_text: str, today: datetime.date, error_msg: str = "") -> str:
+    watchlist = load_watchlist()
+    phrases = [_phrase(c) for c in watchlist]
+
+    items = [_parse_item(ln) for ln in news_text.splitlines() if ln.strip()]
+    by_section: dict[str, list[dict]] = {s: [] for s, _, _ in _FALLBACK_SECTIONS}
+    for it in items:
+        by_section[_classify(it, phrases).lower()].append(it)
+
+    parts = []
+    for sid, sbcls, title in _FALLBACK_SECTIONS:
+        parts.append(f'<div id="{sid}" data-section="banner" class="sb {sbcls}">{title}</div>')
+        sec_items = by_section[sid]
+        if not sec_items:
+            parts.append('<div class="empty">No items today.</div>')
+            continue
+        cards, brief = sec_items[:6], sec_items[6:20]
+        for i, it in enumerate(cards):
+            parts.append(_fallback_item_card(it, hero=(i == 0)))
+        if brief:
+            parts.append('<p class="ibh">In brief</p>')
+            parts.extend(_fallback_item_brief(it) for it in brief)
+
+    body = "\n".join(parts)
+
+    top5 = (by_section["s1"] + by_section["s2"] + by_section["s3"]
+            + by_section["s4"] + by_section["s5"])[:5]
+    takeaway_rows = "".join(
+        f'<tr><td style="padding:10px 16px;border-bottom:1px solid #333;color:#eee;'
+        f'font-size:12px;">{i+1}. {it["title"]} '
+        f'<span style="color:#888;font-size:10px;">&mdash; {it["source"]}</span></td></tr>'
+        for i, it in enumerate(top5)
+    ) or '<tr><td style="padding:10px 16px;color:#eee;">No items fetched today.</td></tr>'
+
+    part_c = f"""<table id="takeaways" width="100%" cellpadding="0" cellspacing="0" style="background:#1a1a1a;">
+<tr><td style="padding:8px 16px;font-size:9px;font-weight:800;letter-spacing:3px;text-transform:uppercase;color:#fff;">&#9679; TOP HEADLINES (AI ANALYSIS UNAVAILABLE)</td></tr>
+<tr><td style="padding:4px 16px 10px;font-size:11px;color:#f59e0b;">Anthropic API unavailable ({error_msg[:150] or 'unknown error'}) &mdash; this report was generated in free/fallback mode: headlines only, no credit-implication analysis, no cross-source deduplication. Top up API credits to restore the full AI report.</td></tr>
+{takeaway_rows}
+</table>"""
+
+    return body + "\n" + part_c
+
+
 def generate_report(news_text: str, today: datetime.date, api_key: str) -> str:
     day_str = today.strftime("%A")
     date_str = today.strftime("%d %B %Y")
@@ -314,11 +391,8 @@ def generate_report(news_text: str, today: datetime.date, api_key: str) -> str:
         return _msg_text(message)
     except Exception as exc:
         print(f"[generate_report] Claude API error: {exc}")
-        return f"""<table width="100%" cellpadding="0" cellspacing="0" style="background:#1a1a1a;">
-<tr><td style="padding:8px 16px;font-size:9px;font-weight:800;letter-spacing:3px;text-transform:uppercase;color:#fff;">&#9679; TOP 5 CREDIT TAKEAWAYS</td></tr></table>
-<table width="100%" cellpadding="0" cellspacing="0" style="border:1px solid #e5e5e5;border-top:none;">
-<tr><td style="padding:16px;font-size:13px;color:#cc0000;">Report generation failed: {str(exc)[:200]}</td></tr>
-</table>"""
+        print("[generate_report] Falling back to rule-based report (no AI, no credit implications)")
+        return build_fallback_report(news_text, today, str(exc))
 
 
 # ---------------------------------------------------------------------------
