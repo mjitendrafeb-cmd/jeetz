@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Team &amp; News Routing — Management</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#d4d4d4;font-family:'Inter',Arial,sans-serif;color:#1a1a1a;padding:16px 0 40px;min-height:100vh}
+.wrap{max-width:1180px;margin:0 auto;background:#fff;box-shadow:0 4px 20px rgba(0,0,0,.2)}
+.bar{background:#cc0000;height:5px}
+.mast{padding:14px 24px 10px;border-bottom:3px solid #1a1a1a;display:flex;align-items:flex-start;justify-content:space-between;gap:16px;flex-wrap:wrap}
+.mast h1{font-family:'Playfair Display',Georgia,serif;font-size:26px;font-weight:900;letter-spacing:-1px}
+.mast p{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:#999;margin-bottom:4px}
+.run-btn{background:#15803d;color:#fff;border:none;border-radius:3px;padding:10px 18px;font-size:11px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;cursor:pointer;align-self:center}
+.run-btn:hover{background:#166534}.run-btn:disabled{background:#aaa;cursor:not-allowed}
+nav{background:#1a1a1a;border-bottom:3px solid #cc0000;display:flex;flex-wrap:wrap}
+nav a{padding:9px 15px;font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#bbb;border-right:1px solid #333;text-decoration:none;cursor:pointer}
+nav a.active,nav a:hover{color:#fff;background:#333}
+.tab{display:none;padding:20px 24px}.tab.active{display:block}
+.token-bar{background:#fff8e1;border:1px solid #f59e0b;border-radius:4px;padding:10px 16px;margin:14px 24px 0;display:flex;align-items:center;gap:10px;flex-wrap:wrap;font-size:12px;font-weight:600}
+.token-bar.ok{background:#f0fdf4;border-color:#16a34a}
+.dot{width:9px;height:9px;border-radius:50%;background:#f59e0b;flex-shrink:0}.dot.ok{background:#16a34a}
+.btn{padding:8px 16px;font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;border:none;border-radius:3px;cursor:pointer}
+.btn-red{background:#cc0000;color:#fff}.btn-red:hover{background:#aa0000}
+.btn-grey{background:#e5e5e5;color:#555}.btn-grey:hover{background:#ccc}
+.btn-green{background:#15803d;color:#fff}.btn-green:hover{background:#166534}
+.ib{background:#f8f8f8;border-left:3px solid #cc0000;padding:10px 14px;font-size:12px;color:#555;margin-bottom:16px;line-height:1.6}
+table{width:100%;border-collapse:collapse;font-size:11px}
+th{background:#1a1a1a;color:#fff;padding:7px 6px;font-size:9px;letter-spacing:1px;text-transform:uppercase;text-align:left;position:sticky;top:0}
+th.grp{text-align:center;border-left:2px solid #444}
+td{padding:5px 4px;border-bottom:1px solid #eee;vertical-align:middle}
+td.grp{border-left:2px solid #f0f0f0}
+input[type=text],input[type=email]{width:100%;padding:6px 7px;font-size:11px;border:1px solid #ddd;border-radius:3px;font-family:inherit}
+input:focus{outline:none;border-color:#cc0000}
+input.entity{font-weight:700;min-width:190px}
+input.nm{min-width:80px}input.em{min-width:150px}
+input[type=checkbox]{width:16px;height:16px;accent-color:#15803d;cursor:pointer}
+.del{background:none;border:none;color:#cc0000;font-size:15px;cursor:pointer;padding:2px 6px}
+.del:hover{background:#fee}
+.savebar{display:flex;gap:10px;align-items:center;margin-top:16px;flex-wrap:wrap}
+#status{font-size:12px;font-weight:600}
+.ok{color:#15803d}.err{color:#cc0000}
+.legend{font-size:10px;color:#888;margin:6px 0 12px}
+.field{flex:1;min-width:260px;padding:8px 10px;font-size:12px;font-family:monospace;border:1px solid #ddd;border-radius:3px}
+.scroll{max-height:62vh;overflow:auto;border:1px solid #eee}
+.secchk{display:flex;gap:8px;align-items:center;justify-content:center}
+.secchk label{display:flex;flex-direction:column;align-items:center;font-size:8px;font-weight:700;color:#666;gap:2px;cursor:pointer}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="bar"></div>
+  <div class="mast">
+    <div>
+      <p>Credit Intelligence &mdash; Team Management</p>
+      <h1>Entities, People &amp; News Routing</h1>
+    </div>
+    <button class="run-btn" id="runBtn" onclick="runNow()">&#9993; Send Team News Now</button>
+  </div>
+  <div class="token-bar" id="tokenBar">
+    <span class="dot" id="tokenDot"></span>
+    <span id="tokenStatus">Viewing live data &mdash; set a token to save changes or send mails</span>
+  </div>
+  <nav>
+    <a class="active" onclick="showTab('ent',this)">&#127970; Entities &amp; Team</a>
+    <a onclick="showTab('share',this)">&#128228; Report Sharing (S1&ndash;S5)</a>
+    <a onclick="showTab('token',this)">&#128274; Token</a>
+  </nav>
+
+  <div class="tab active" id="tab-ent">
+    <div class="ib">
+      One row per <strong>entity</strong>. Assign a <strong>GH</strong> (Group Head), <strong>Analyst</strong> and <strong>RH</strong> with their email IDs.
+      Tick <strong>&#10003;</strong> = that person receives this entity's news; unticked = no mail for them.
+      Adding or deleting an entity here also updates the news-fetch watchlist automatically on save.
+    </div>
+    <div class="scroll">
+    <table id="entTable">
+      <thead><tr>
+        <th style="min-width:190px">Entity</th>
+        <th class="grp" colspan="3">GH &nbsp;(name / email / send?)</th>
+        <th class="grp" colspan="3">Analyst &nbsp;(name / email / send?)</th>
+        <th class="grp" colspan="3">RH &nbsp;(name / email / send?)</th>
+        <th></th>
+      </tr></thead>
+      <tbody id="entBody"></tbody>
+    </table>
+    </div>
+    <div class="savebar">
+      <button class="btn btn-grey" onclick="addEntity()">+ Add Entity</button>
+      <button class="btn btn-red" onclick="saveAll()">Save All Changes</button>
+      <span id="status"></span>
+    </div>
+  </div>
+
+  <div class="tab" id="tab-share">
+    <div class="ib">
+      Who receives the <strong>daily report sections</strong>: S1 Watchlist &middot; S2 NBFC/FI Sector &middot; S3 Regulations &middot; S4 Bond Markets &middot; S5 Macro.
+      Each enabled person gets one email containing only the sections ticked for them. This works <strong>without any AI/API credits</strong> (rule-based digest).
+    </div>
+    <div class="scroll">
+    <table>
+      <thead><tr>
+        <th style="min-width:110px">Name</th><th style="min-width:200px">Email</th><th>Send?</th>
+        <th style="text-align:center">Sections</th><th></th>
+      </tr></thead>
+      <tbody id="shareBody"></tbody>
+    </table>
+    </div>
+    <div class="savebar">
+      <button class="btn btn-grey" onclick="addSharer()">+ Add Person</button>
+      <button class="btn btn-red" onclick="saveAll()">Save All Changes</button>
+      <span id="status2"></span>
+    </div>
+  </div>
+
+  <div class="tab" id="tab-token">
+    <div class="ib"><strong>GitHub Personal Access Token</strong> &mdash; required to save changes and trigger mails. Stored only in your browser (localStorage), sent only to the GitHub API. Create one at github.com &rarr; Settings &rarr; Developer settings &rarr; Personal access tokens (needs <em>repo</em> + <em>workflow</em> scope).</div>
+    <div style="display:flex;gap:10px;flex-wrap:wrap">
+      <input class="field" id="tokenInput" type="password" placeholder="ghp_xxxxxxxxxxxxxxxx" />
+      <button class="btn btn-green" onclick="saveToken()">Save Token</button>
+      <button class="btn btn-grey" onclick="clearToken()">Clear</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const OWNER='mjitendrafeb-cmd', REPO='jeetz', BRANCH='main';
+const SECTIONS=['S1','S2','S3','S4','S5'];
+let team={entities:[],section_recipients:[],send_empty_mail:false};
+let sha=null, wlSha=null;
+
+function getToken(){return localStorage.getItem('gh_pat')||'';}
+function saveToken(){const t=document.getElementById('tokenInput').value.trim();if(t){localStorage.setItem('gh_pat',t);refreshTokenBar();alert('Token saved in this browser.');}}
+function clearToken(){localStorage.removeItem('gh_pat');refreshTokenBar();}
+function refreshTokenBar(){const ok=!!getToken();document.getElementById('tokenBar').className='token-bar'+(ok?' ok':'');document.getElementById('tokenDot').className='dot'+(ok?' ok':'');document.getElementById('tokenStatus').textContent=ok?'Token set — you can save changes and send mails':'Viewing live data — set a token (Token tab) to save changes or send mails';}
+
+function showTab(id,el){document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));document.querySelectorAll('nav a').forEach(a=>a.classList.remove('active'));document.getElementById('tab-'+id).classList.add('active');el.classList.add('active');}
+
+async function ghGet(path){
+  const r=await fetch(`https://api.github.com/repos/${OWNER}/${REPO}/contents/${path}?ref=${BRANCH}&_=${Date.now()}`,{headers:{Accept:'application/vnd.github+json'}});
+  if(!r.ok)throw new Error(path+': '+r.status);
+  const j=await r.json();
+  return {sha:j.sha,text:decodeURIComponent(escape(atob(j.content.replace(/\n/g,''))))};
+}
+async function ghPut(path,content,fileSha,msg){
+  const body={message:msg,branch:BRANCH,content:btoa(unescape(encodeURIComponent(content)))};
+  if(fileSha)body.sha=fileSha;
+  const r=await fetch(`https://api.github.com/repos/${OWNER}/${REPO}/contents/${path}`,{method:'PUT',headers:{Authorization:'Bearer '+getToken(),Accept:'application/vnd.github+json'},body:JSON.stringify(body)});
+  if(!r.ok){const e=await r.json().catch(()=>({}));throw new Error(path+': '+r.status+' '+(e.message||''));}
+  return (await r.json()).content.sha;
+}
+
+function roleCells(e,role){
+  const p=e[role];
+  return `<td class="grp"><input type="text" class="nm" value="${esc(p.name)}" onchange="team.entities[this.closest('tr').dataset.i]['${role}'].name=this.value"></td>
+  <td><input type="email" class="em" value="${esc(p.email)}" onchange="team.entities[this.closest('tr').dataset.i]['${role}'].email=this.value"></td>
+  <td style="text-align:center"><input type="checkbox" ${p.enabled?'checked':''} onchange="team.entities[this.closest('tr').dataset.i]['${role}'].enabled=this.checked"></td>`;
+}
+function esc(s){return (s||'').replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;');}
+
+function renderEntities(){
+  const tb=document.getElementById('entBody');
+  tb.innerHTML=team.entities.map((e,i)=>`<tr data-i="${i}">
+    <td><input type="text" class="entity" value="${esc(e.name)}" onchange="team.entities[this.closest('tr').dataset.i].name=this.value"></td>
+    ${roleCells(e,'gh')}${roleCells(e,'analyst')}${roleCells(e,'rh')}
+    <td><button class="del" title="Remove entity" onclick="team.entities.splice(this.closest('tr').dataset.i,1);renderEntities()">&#10006;</button></td>
+  </tr>`).join('');
+}
+function addEntity(){
+  team.entities.push({name:'',gh:{name:'',email:'',enabled:false},analyst:{name:'',email:'',enabled:false},rh:{name:'',email:'',enabled:false}});
+  renderEntities();
+  const rows=document.querySelectorAll('#entBody tr');rows[rows.length-1].scrollIntoView();rows[rows.length-1].querySelector('input').focus();
+}
+
+function renderShare(){
+  const tb=document.getElementById('shareBody');
+  tb.innerHTML=team.section_recipients.map((p,i)=>`<tr data-i="${i}">
+    <td><input type="text" value="${esc(p.name)}" onchange="team.section_recipients[this.closest('tr').dataset.i].name=this.value"></td>
+    <td><input type="email" value="${esc(p.email)}" onchange="team.section_recipients[this.closest('tr').dataset.i].email=this.value"></td>
+    <td style="text-align:center"><input type="checkbox" ${p.enabled?'checked':''} onchange="team.section_recipients[this.closest('tr').dataset.i].enabled=this.checked"></td>
+    <td><div class="secchk">${SECTIONS.map(s=>`<label>${s}<input type="checkbox" ${p.sections.includes(s)?'checked':''} onchange="toggleSec(this.closest('tr').dataset.i,'${s}',this.checked)"></label>`).join('')}</div></td>
+    <td><button class="del" onclick="team.section_recipients.splice(this.closest('tr').dataset.i,1);renderShare()">&#10006;</button></td>
+  </tr>`).join('');
+}
+function toggleSec(i,s,on){const arr=team.section_recipients[i].sections;const k=arr.indexOf(s);if(on&&k<0)arr.push(s);if(!on&&k>=0)arr.splice(k,1);}
+function addSharer(){team.section_recipients.push({name:'',email:'',enabled:true,sections:['S1']});renderShare();}
+
+async function load(){
+  try{
+    const t=await ghGet('team.json');sha=t.sha;team=JSON.parse(t.text);
+    try{const w=await ghGet('watchlist.txt');wlSha=w.sha;}catch(e){wlSha=null;}
+    renderEntities();renderShare();
+  }catch(e){document.getElementById('status').innerHTML='<span class="err">Load failed: '+e.message+'</span>';}
+}
+
+async function saveAll(){
+  if(!getToken()){alert('Set a GitHub token first (Token tab).');return;}
+  const s1=document.getElementById('status'),s2=document.getElementById('status2');
+  s1.innerHTML=s2.innerHTML='Saving…';
+  try{
+    team.entities=team.entities.filter(e=>e.name.trim());
+    sha=await ghPut('team.json',JSON.stringify(team,null,2),sha,'Update team & routing via management console');
+    const header='# ============================================================\n# COMPANY WATCHLIST — Daily Credit Intelligence Report\n# ============================================================\n# Managed by docs/team.html — edit entities there.\n# ============================================================\n\n';
+    const wl=header+team.entities.map(e=>e.name.trim()).join('\n')+'\n';
+    wlSha=await ghPut('watchlist.txt',wl,wlSha,'Sync watchlist from team console');
+    s1.innerHTML=s2.innerHTML='<span class="ok">&#10003; Saved — takes effect from the next run</span>';
+    renderEntities();
+  }catch(e){s1.innerHTML=s2.innerHTML='<span class="err">Save failed: '+e.message+'</span>';}
+}
+
+async function runNow(){
+  if(!getToken()){alert('Set a GitHub token first (Token tab).');return;}
+  const b=document.getElementById('runBtn');b.disabled=true;b.textContent='Triggering…';
+  try{
+    const r=await fetch(`https://api.github.com/repos/${OWNER}/${REPO}/actions/workflows/team_news.yml/dispatches`,{method:'POST',headers:{Authorization:'Bearer '+getToken(),Accept:'application/vnd.github+json'},body:JSON.stringify({ref:BRANCH})});
+    if(!r.ok)throw new Error('HTTP '+r.status);
+    b.textContent='✓ Triggered — mails in ~5-10 min';
+  }catch(e){b.textContent='Failed: '+e.message;b.disabled=false;return;}
+  setTimeout(()=>{b.textContent='✉ Send Team News Now';b.disabled=false;},15000);
+}
+
+document.getElementById('tokenInput').value=getToken();
+refreshTokenBar();load();
+</script>
+</body>
+</html>
