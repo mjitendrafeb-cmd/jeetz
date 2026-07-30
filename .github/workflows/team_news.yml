@@ -2,8 +2,18 @@ name: Team Portfolio News
 
 # Portfolio-routed watchlist news + rule-based S1-S5 digest.
 # NO Anthropic API usage — runs entirely on free sources.
-# Trigger from docs/team.html ("Send Team News Now") or the Actions tab.
+#
+# Scheduled in the SAME morning window as the daily report so both fetch
+# Google News at nearly the same time (consistency between the two mails).
+# GitHub cron runs hours late, so several staggered ticks + a gate that
+# holds until 07:35 IST and sends at most once per day. Manual dispatch
+# (console button / Actions tab) always sends immediately.
 on:
+  schedule:
+    - cron: '57 21 * * *'  # 03:27 IST nominal
+    - cron: '42 23 * * *'  # 05:12 IST
+    - cron: '27 1 * * *'   # 06:57 IST
+    - cron: '12 3 * * *'   # 08:42 IST
   workflow_dispatch:
 
 concurrency:
@@ -23,17 +33,67 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           fetch-depth: 0
 
+      - name: Decide whether to send
+        id: gate
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+        run: |
+          git fetch origin main --quiet && git checkout origin/main -- data/team_last_sent.json 2>/dev/null || true
+          python3 - <<'PY'
+          import os, json, datetime, subprocess
+
+          event = os.environ.get("EVENT_NAME", "")
+          IST = datetime.timezone(datetime.timedelta(hours=5, minutes=30))
+          now = datetime.datetime.now(IST)
+          today = now.date().isoformat()
+
+          def last_sent():
+              try:
+                  with open("data/team_last_sent.json", encoding="utf-8") as f:
+                      return json.load(f).get("date", "")
+              except Exception:
+                  return ""
+
+          if event == "workflow_dispatch":
+              send, why = True, "manual trigger — always send"
+          elif now.weekday() == 6:
+              send, why = False, "Sunday — no team mail"
+          elif last_sent() == today:
+              send, why = False, f"already sent today"
+          elif (now.hour, now.minute) < (7, 35):
+              import time as _t
+              target = now.replace(hour=7, minute=35, second=0, microsecond=0)
+              wait = (target - now).total_seconds()
+              print(f"holding {wait/60:.0f} min until 07:35 IST (now {now:%H:%M} IST)")
+              _t.sleep(max(0, wait))
+              subprocess.run(["git", "fetch", "origin", "main", "--quiet"], check=False)
+              subprocess.run(["git", "checkout", "origin/main", "--", "data/team_last_sent.json"], check=False)
+              if last_sent() == today:
+                  send, why = False, "another tick sent while holding"
+              else:
+                  send, why = True, "window reached after hold"
+          else:
+              send, why = True, f"window open ({now:%H:%M} IST), not yet sent"
+
+          print(("SEND" if send else "SKIP") + f" — {why}")
+          with open(os.environ["GITHUB_OUTPUT"], "a") as f:
+              f.write(f"send={'true' if send else 'false'}\n")
+          PY
+
       - name: Set up Python 3.11
+        if: steps.gate.outputs.send == 'true'
         uses: actions/setup-python@v5
         with:
           python-version: '3.11'
 
       - name: Install dependencies
+        if: steps.gate.outputs.send == 'true'
         run: |
           python -m pip install --upgrade pip
           if [ -f scripts/requirements.txt ]; then pip install -r scripts/requirements.txt; fi
 
       - name: Send team portfolio news
+        if: steps.gate.outputs.send == 'true'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GMAIL_USER: ${{ secrets.GMAIL_USER }}
@@ -41,4 +101,5 @@ jobs:
           TELEGRAM_API_ID: ${{ secrets.TELEGRAM_API_ID }}
           TELEGRAM_API_HASH: ${{ secrets.TELEGRAM_API_HASH }}
           TELEGRAM_SESSION: ${{ secrets.TELEGRAM_SESSION }}
+          TEAM_SCHEDULED: 'true'
         run: python scripts/send_team_news.py

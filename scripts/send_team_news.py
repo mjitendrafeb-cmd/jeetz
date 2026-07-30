@@ -255,6 +255,15 @@ def _send(to_addr: str, subject: str, html: str) -> None:
 # Main
 # ---------------------------------------------------------------------------
 
+def _mark_sent_today() -> None:
+    path = os.path.join(_REPO_ROOT, "data", "team_last_sent.json")
+    os.makedirs(os.path.dirname(path), exist_ok=True)
+    today = datetime.datetime.now(IST).date().isoformat()
+    with open(path, "w", encoding="utf-8") as f:
+        json.dump({"date": today}, f)
+    _git_push(path)
+
+
 def main() -> None:
     team = _load_team()
     rows = [r for r in team.get("rows", []) if r.get("company", "").strip()]
@@ -262,7 +271,11 @@ def main() -> None:
     date_str = now.strftime("%A, %d %B %Y")
 
     print("Fetching news (free sources, no AI)...")
-    news_text, _summary = fetch_all_news(os.environ.get("NEWSAPI_KEY", ""))
+    # apply_seen=False: do NOT inherit the daily Claude report's memory —
+    # otherwise items that report published are hidden from team mails
+    # forever even though the team mail never delivered them. The team
+    # mailer relies solely on its own team_seen.json.
+    news_text, _summary = fetch_all_news(os.environ.get("NEWSAPI_KEY", ""), apply_seen=False)
     items = [_parse_item(ln) for ln in news_text.splitlines() if ln.strip()]
 
     seen = _load_seen()
@@ -342,6 +355,7 @@ def main() -> None:
         _send(email, f"Credit News — {now:%d %b %Y}", html)
 
     _save_seen(items)
+    _mark_sent_today()
     print("Done.")
 
 

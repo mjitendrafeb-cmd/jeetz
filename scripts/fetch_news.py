@@ -502,7 +502,7 @@ def _normalise_key(item: str) -> str:
     return text.split(" — ")[0].lower().strip()[:120]
 
 
-def fetch_all_news(newsapi_key: str = "") -> tuple[str, dict]:
+def fetch_all_news(newsapi_key: str = "", apply_seen: bool = True) -> tuple[str, dict]:
     """Returns (news_text, source_summary) where source_summary maps source name → item count."""
     cfg = load_config()
     sources = cfg.get("sources", {})
@@ -607,6 +607,8 @@ def fetch_all_news(newsapi_key: str = "") -> tuple[str, dict]:
             break
 
     pre_dedup = len(unique)
+    if not apply_seen:
+        seen_keys = set()  # caller keeps its own memory (e.g. team mailer)
     if seen_keys:
         unique = [item for item in unique if _normalise_key(item) not in seen_keys]
         print(f"[fetch_news] After 30-day dedup filter: {len(unique)} items (was {pre_dedup})")
