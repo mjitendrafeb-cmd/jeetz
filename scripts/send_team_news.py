@@ -188,54 +188,148 @@ def _git_push(path: str) -> None:
 
 
 # ---------------------------------------------------------------------------
-# HTML rendering (plain, no AI)
+# HTML rendering (plain, no AI) -- table-based layout for email-client
+# compatibility (Outlook/Gmail), cream/navy palette.
 # ---------------------------------------------------------------------------
 
+_NAVY = "#132A46"
+_NAVY_SOFT = "#9AA9BC"
+_CREAM = "#EDEAE3"
+_RED = "#A32638"
+_GREEN = "#2E6B4F"
+_GREY = "#8A8578"
+_DIVIDER = "#ECE8E0"
+_MANAGE_URL = "https://mjitendrafeb-cmd.github.io/jeetz/team.html"
+
+# Matches "up ~34%", "profit up 36%", "falls 12.5%", "-74.4%", "surges 8%"
+_DELTA_RE = re.compile(
+    r"\b(up|rise[sd]?|surge[sd]?|jump[sd]?|grow[sn]?|gain[sed]*|higher)\b[^%\d]{0,25}(\d+\.?\d*)\s*%"
+    r"|(\d+\.?\d*)\s*%[^%]{0,15}\b(up|rise[sd]?|surge[sd]?|jump[sd]?|grow[sn]?|gain[sed]*|higher)\b"
+    r"|\b(down|falls?|fell|declin\w*|drop[sped]*|slid\w*|contract\w*|lower)\b[^%\d]{0,25}(\d+\.?\d*)\s*%"
+    r"|(\d+\.?\d*)\s*%[^%]{0,15}\b(down|falls?|fell|declin\w*|drop[sped]*|slid\w*|contract\w*|lower)\b",
+    re.IGNORECASE,
+)
+_NEG_WORDS = ("down", "fall", "fell", "declin", "drop", "slid", "contract", "lower")
+
+
+def _delta_badge(text: str) -> str:
+    """Extract an 'up 36%' / 'down 74.4%' pattern and render a coloured
+    up/down arrow badge, or '' if the item carries no percentage move."""
+    m = _DELTA_RE.search(text)
+    if not m:
+        return ""
+    groups = [g for g in m.groups() if g]
+    pct = next((g for g in groups if re.match(r"^\d+\.?\d*$", g)), None)
+    if not pct:
+        return ""
+    negative = any(w in m.group(0).lower() for w in _NEG_WORDS)
+    color = _RED if negative else _GREEN
+    arrow = "&#9660;" if negative else "&#9650;"
+    sign = "-" if negative else "+"
+    return (f' &middot; <span style="color:{color};font-weight:bold">'
+            f'{arrow} {sign}{pct}%</span>')
+
+
+def _item_polarity(it: dict) -> str:
+    text = f'{it["title"]} {it["summary"]}'
+    m = _DELTA_RE.search(text)
+    if not m:
+        return "neutral"
+    return "negative" if any(w in m.group(0).lower() for w in _NEG_WORDS) else "positive"
+
+
 def _item_html(it: dict) -> str:
-    link = (f'<a href="{it["url"]}" style="color:#1e3a8a;text-decoration:none">'
-            if it["url"] else "<span>")
-    close = "</a>" if it["url"] else "</span>"
-    meta = " \u00b7 ".join(x for x in (it["source"], it["pub"]) if x)
-    meta_html = (f' <span style="font-size:10px;color:#999;white-space:nowrap">'
-                 f'&mdash; {meta}</span>' if meta else "")
-    # Skip the summary when it just restates the headline (common on Google items)
-    summ = ""
-    s, t = it["summary"].strip(), it["title"].strip()
-    if s and not s.lower().startswith(t[:40].lower()) and t[:40].lower() not in s.lower():
-        summ = f'<div style="font-size:11px;color:#555;margin-top:1px">{s}</div>'
-    return (f'<div style="padding:4px 0 5px;border-bottom:1px solid #f2f2f2">'
-            f'{link}<strong style="font-size:13px">{it["title"]}</strong>{close}'
-            f'{meta_html}{summ}</div>')
+    href = it["url"] or "#"
+    meta = " &middot; ".join(x for x in (it["source"], it["pub"]) if x)
+    delta = _delta_badge(f'{it["title"]} {it["summary"]}')
+    meta_html = f'{meta}{delta}' if (meta or delta) else ""
+    return f"""<tr><td style="padding:10px 0;border-bottom:1px solid {_DIVIDER}">
+<a href="{href}" style="font-family:Georgia,'Times New Roman',serif;font-size:15px;line-height:21px;color:{_NAVY};font-weight:bold;text-decoration:none">{it["title"]}</a>
+<div style="font-family:Arial,Helvetica,sans-serif;font-size:11px;color:{_GREY};margin-top:3px">{meta_html}</div>
+</td></tr>"""
 
 
-def _sec_banner(title: str, color: str = "#cc0000") -> str:
-    """Section header — solid dark bar with a colored accent edge."""
-    return (f'<div style="margin-top:18px;background:#1a1a1a;color:#fff;font-size:11px;'
-            f'font-weight:bold;letter-spacing:2px;text-transform:uppercase;'
-            f'padding:6px 10px;border-left:4px solid {color}">{title}</div>')
+def _sec_banner(title: str, color: str = _RED) -> str:
+    """Section header -- full-width dark bar with a coloured accent edge."""
+    return f"""<tr><td style="padding:22px 0 0 0">
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0"><tr>
+<td style="background:{_NAVY};color:#fff;font-family:Arial,Helvetica,sans-serif;font-size:11px;font-weight:bold;letter-spacing:2px;text-transform:uppercase;padding:7px 12px;border-left:4px solid {color}">{title}</td>
+</tr></table></td></tr>"""
 
 
-def _company_banner(name: str) -> str:
-    """Company sub-header — small red label with a dotted underline (visually
-    distinct from the dark section bar)."""
-    return (f'<div style="margin-top:10px;font-size:10px;font-weight:bold;'
-            f'letter-spacing:1px;text-transform:uppercase;color:#cc0000;'
-            f'border-bottom:1px dotted #cc9999;padding-bottom:2px">{name}</div>')
+def _company_banner(name: str, items: list = None) -> str:
+    """Company sub-header -- small caps label with a coloured left border.
+    Green only when every dated move for this company is a positive
+    percentage move; red (brand default) otherwise."""
+    polarities = [_item_polarity(it) for it in (items or [])]
+    color = _GREEN if polarities and all(p == "positive" for p in polarities) and \
+        any(p != "neutral" for p in polarities) else _RED
+    return f"""<tr><td style="padding:18px 0 0 0">
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0"><tr>
+<td style="border-left:3px solid {color};padding-left:12px;font-family:Arial,Helvetica,sans-serif;font-size:11px;letter-spacing:1.2px;text-transform:uppercase;color:{color};font-weight:bold">{name}</td>
+</tr></table></td></tr>"""
 
 
-def _shell(title: str, inner: str, date_str: str) -> str:
-    manage = "https://mjitendrafeb-cmd.github.io/jeetz/team.html"
-    return f"""<html><body style="margin:0;background:#f0ece4;font-family:Georgia,serif">
-<div style="max-width:640px;margin:0 auto;background:#fdfaf5;padding:0 0 20px">
-<div style="background:#1a1a1a;color:#fff;padding:16px 24px;border-bottom:4px solid #cc0000">
-  <div style="font-size:10px;letter-spacing:2px;color:#bbb;text-transform:uppercase">{date_str}</div>
-  <div style="font-size:22px;font-weight:bold">{title}</div>
+def _shell(recipient_name: str, date_str: str, company_count: int, story_count: int,
+           inner_rows: str, preheader: str) -> str:
+    plural_c = "y" if company_count == 1 else "ies"
+    if story_count:
+        subtitle = (f"{company_count} compan{plural_c} &nbsp;&middot;&nbsp; "
+                    f"{story_count} stor{'y' if story_count == 1 else 'ies'} today")
+    else:
+        subtitle = f"{company_count} compan{plural_c} &nbsp;&middot;&nbsp; no new stories today"
+    return f"""<!DOCTYPE html>
+<html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark"><meta name="supported-color-schemes" content="light dark">
+<style>
+  body {{ margin:0; padding:0; background-color:{_CREAM}; }}
+  table {{ border-collapse:collapse; }}
+  a {{ text-decoration:none; }}
+  @media (max-width:620px) {{
+    .container {{ width:100% !important; }}
+    .stack-pad {{ padding-left:20px !important; padding-right:20px !important; }}
+  }}
+</style></head>
+<body style="margin:0;padding:0;background-color:{_CREAM};font-family:Georgia,'Times New Roman',serif">
+<div style="display:none;max-height:0;overflow:hidden;opacity:0;font-size:1px;line-height:1px;color:{_CREAM}">{preheader}</div>
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0"><tr>
+<td align="center" style="padding:32px 16px">
+<table role="presentation" class="container" width="600" cellpadding="0" cellspacing="0" border="0" style="width:600px;max-width:600px;background-color:#FFFFFF">
+
+<tr><td style="background-color:{_NAVY};padding:28px 32px" class="stack-pad">
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0"><tr>
+<td style="font-family:Arial,Helvetica,sans-serif;color:{_CREAM};font-size:12px;letter-spacing:2px;text-transform:uppercase">Credit Intelligence</td>
+<td align="right" style="font-family:Arial,Helvetica,sans-serif;color:{_NAVY_SOFT};font-size:12px">{date_str}</td>
+</tr></table>
+<div style="font-family:Georgia,'Times New Roman',serif;color:#FFFFFF;font-size:26px;line-height:32px;font-weight:bold;margin-top:14px">Watchlist Digest for {recipient_name}</div>
+<div style="font-family:Arial,Helvetica,sans-serif;color:{_NAVY_SOFT};font-size:13px;margin-top:6px">{subtitle}</div>
+</td></tr>
+
+<tr><td style="padding:28px 32px 8px 32px" class="stack-pad">
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
+{inner_rows}
+</table>
+</td></tr>
+
+<tr><td align="center" style="padding:28px 32px 8px 32px" class="stack-pad">
+<table role="presentation" cellpadding="0" cellspacing="0" border="0"><tr>
+<td bgcolor="{_NAVY}" style="border-radius:4px">
+<a href="{_MANAGE_URL}" style="display:block;padding:12px 28px;font-family:Arial,Helvetica,sans-serif;font-size:13px;color:#FFFFFF;font-weight:bold;letter-spacing:0.5px">Manage Watchlist &amp; Recipients</a>
+</td></tr></table>
+</td></tr>
+
+<tr><td style="padding:24px 32px 32px 32px;border-top:1px solid {_DIVIDER}" class="stack-pad">
+<div style="font-family:Arial,Helvetica,sans-serif;font-size:12px;color:{_GREY};line-height:18px">
+Auto-generated for your watchlist &middot; <a href="{_MANAGE_URL}" style="color:{_NAVY};text-decoration:underline">Manage companies &amp; recipients</a>
 </div>
-<div style="padding:8px 24px">{inner}</div>
-<div style="padding:14px 24px;border-top:1px solid #ddd;font-size:10px;color:#999">
-  Auto-generated · <a href="{manage}" style="color:#999">Manage companies &amp; recipients</a>
-</div></div></body></html>"""
+<div style="font-family:Arial,Helvetica,sans-serif;font-size:11px;color:#B0AA9C;line-height:16px;margin-top:14px">
+Credit Intelligence &mdash; internal research desk digest. Sources are aggregated from public RSS/news feeds; no AI analysis is applied to this mail.
+</div>
+</td></tr>
 
+</table>
+</td></tr></table>
+</body></html>"""
 
 def _send(to_addr: str, subject: str, html: str) -> None:
     user = os.environ["GMAIL_USER"]
@@ -324,8 +418,12 @@ def main() -> None:
         _save_seen(items)
         return
 
+    empty_row = ('<tr><td style="padding:14px 0;color:#B0AA9C;font-style:italic;'
+                 'font-family:Arial,Helvetica,sans-serif;font-size:12px">'
+                 '{msg}</td></tr>')
+
     for email, p in people.items():
-        blocks, total = [], 0
+        blocks, total, headlines = [], 0, []
 
         if "S1" in p["sections"]:
             s1_blocks = []
@@ -333,25 +431,28 @@ def main() -> None:
                 its = [it for it in items if comp in it["companies"]]
                 if its:
                     total += len(its)
-                    s1_blocks.append(_company_banner(comp) +
+                    headlines.extend(it["title"] for it in its)
+                    s1_blocks.append(_company_banner(comp, its) +
                                      "".join(_item_html(it) for it in its))
-            body = "".join(s1_blocks) or \
-                '<div style="padding:8px 0;color:#aaa;font-style:italic;font-size:12px">No fresh news on your companies today.</div>'
-            blocks.append(_sec_banner(SECTION_TITLES["S1"], "#cc0000") + body)
+            body = "".join(s1_blocks) or empty_row.format(msg="No fresh news on your companies today.")
+            blocks.append(_sec_banner(SECTION_TITLES["S1"], _RED) + body)
 
         for s in ("S2", "S3", "S4", "S5"):
             if s not in p["sections"]:
                 continue
             its = by_section[s][:15]
             total += len(its)
-            body = "".join(_item_html(it) for it in its) or \
-                '<div style="padding:8px 0;color:#aaa;font-style:italic;font-size:12px">No fresh items today.</div>'
-            blocks.append(_sec_banner(SECTION_TITLES[s], "#1e3a8a") + body)
+            body = "".join(_item_html(it) for it in its) or empty_row.format(msg="No fresh items today.")
+            blocks.append(_sec_banner(SECTION_TITLES[s], _NAVY) + body)
 
         if total == 0 and not team.get("send_empty_mail", False):
             print(f"[mail] skipping {email} — nothing new in their sections")
             continue
-        html = _shell(f"Credit News — {p['name']}", "".join(blocks), date_str)
+
+        preheader = (", ".join(headlines[:3])[:150] +
+                     ("..." if len(", ".join(headlines[:3])) > 150 else "")) if headlines \
+                    else f"Your watchlist digest for {now:%d %b %Y}."
+        html = _shell(p["name"], date_str, len(p["companies"]), total, "".join(blocks), preheader)
         _send(email, f"Credit News — {now:%d %b %Y}", html)
 
     _save_seen(items)
