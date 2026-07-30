@@ -9,7 +9,7 @@
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 body{background:#d4d4d4;font-family:'Inter',Arial,sans-serif;color:#1a1a1a;padding:16px 0 40px;min-height:100vh}
-.wrap{max-width:1180px;margin:0 auto;background:#fff;box-shadow:0 4px 20px rgba(0,0,0,.2)}
+.wrap{max-width:1500px;margin:0 auto;background:#fff;box-shadow:0 4px 20px rgba(0,0,0,.2)}
 .bar{background:#cc0000;height:5px}
 .mast{padding:14px 24px 10px;border-bottom:3px solid #1a1a1a;display:flex;align-items:flex-start;justify-content:space-between;gap:16px;flex-wrap:wrap}
 .mast h1{font-family:'Playfair Display',Georgia,serif;font-size:26px;font-weight:900;letter-spacing:-1px}
@@ -29,25 +29,22 @@ nav a.active,nav a:hover{color:#fff;background:#333}
 .btn-green{background:#15803d;color:#fff}.btn-green:hover{background:#166534}
 .ib{background:#f8f8f8;border-left:3px solid #cc0000;padding:10px 14px;font-size:12px;color:#555;margin-bottom:16px;line-height:1.6}
 table{width:100%;border-collapse:collapse;font-size:11px}
-th{background:#1a1a1a;color:#fff;padding:7px 6px;font-size:9px;letter-spacing:1px;text-transform:uppercase;text-align:left;position:sticky;top:0}
-th.grp{text-align:center;border-left:2px solid #444}
-td{padding:5px 4px;border-bottom:1px solid #eee;vertical-align:middle}
-td.grp{border-left:2px solid #f0f0f0}
+th{background:#1a1a1a;color:#fff;padding:7px 5px;font-size:8.5px;letter-spacing:.5px;text-transform:uppercase;text-align:left;position:sticky;top:0;white-space:nowrap}
+th.c,td.c{text-align:center}
+td{padding:4px 3px;border-bottom:1px solid #eee;vertical-align:middle}
 input[type=text],input[type=email]{width:100%;padding:6px 7px;font-size:11px;border:1px solid #ddd;border-radius:3px;font-family:inherit}
 input:focus{outline:none;border-color:#cc0000}
-input.entity{font-weight:700;min-width:190px}
-input.nm{min-width:80px}input.em{min-width:150px}
-input[type=checkbox]{width:16px;height:16px;accent-color:#15803d;cursor:pointer}
+input.company{font-weight:700;min-width:180px}
+input.nm{min-width:75px}input.em{min-width:140px}
+input[type=checkbox]{width:15px;height:15px;accent-color:#15803d;cursor:pointer}
 .del{background:none;border:none;color:#cc0000;font-size:15px;cursor:pointer;padding:2px 6px}
 .del:hover{background:#fee}
 .savebar{display:flex;gap:10px;align-items:center;margin-top:16px;flex-wrap:wrap}
 #status{font-size:12px;font-weight:600}
 .ok{color:#15803d}.err{color:#cc0000}
-.legend{font-size:10px;color:#888;margin:6px 0 12px}
+.legend{font-size:10px;color:#888;margin:8px 0 0}
 .field{flex:1;min-width:260px;padding:8px 10px;font-size:12px;font-family:monospace;border:1px solid #ddd;border-radius:3px}
-.scroll{max-height:62vh;overflow:auto;border:1px solid #eee}
-.secchk{display:flex;gap:8px;align-items:center;justify-content:center}
-.secchk label{display:flex;flex-direction:column;align-items:center;font-size:8px;font-weight:700;color:#666;gap:2px;cursor:pointer}
+.scroll{max-height:66vh;overflow:auto;border:1px solid #eee}
 </style>
 </head>
 <body>
@@ -65,63 +62,45 @@ input[type=checkbox]{width:16px;height:16px;accent-color:#15803d;cursor:pointer}
     <span id="tokenStatus">Viewing live data &mdash; set a token to save changes or send mails</span>
   </div>
   <nav>
-    <a class="active" onclick="showTab('ent',this)">&#127970; Entities &amp; Team</a>
-    <a onclick="showTab('share',this)">&#128228; Report Sharing (S1&ndash;S5)</a>
+    <a class="active" onclick="showTab('ent',this)">&#127970; Entities &amp; Routing</a>
     <a onclick="showTab('token',this)">&#128274; Token</a>
   </nav>
 
   <div class="tab active" id="tab-ent">
     <div class="ib">
-      One row per <strong>entity</strong>. Assign a <strong>GH</strong> (Group Head), <strong>Analyst</strong> and <strong>RH</strong> with their email IDs.
-      Tick <strong>&#10003;</strong> = that person receives this entity's news; unticked = no mail for them.
-      Adding or deleting an entity here also updates the news-fetch watchlist automatically on save.
+      One row per <strong>company</strong>: GH / Analyst / RH names &amp; emails, then
+      <strong>Send?</strong> ticks (only ticked people receive mails), then <strong>S1&ndash;S5</strong> ticks =
+      which report sections that row's enabled people receive.
+      <em>S1 = their own companies' news; S2 NBFC/FI &middot; S3 Regulations &middot; S4 Bond Markets &middot; S5 Macro.</em>
+      A person on multiple rows gets the union of ticked sections. Saving also updates the news-fetch watchlist. No API credits used.
     </div>
     <div class="scroll">
     <table id="entTable">
       <thead><tr>
-        <th style="min-width:190px">Entity</th>
-        <th class="grp" colspan="3">GH &nbsp;(name / email / send?)</th>
-        <th class="grp" colspan="3">Analyst &nbsp;(name / email / send?)</th>
-        <th class="grp" colspan="3">RH &nbsp;(name / email / send?)</th>
+        <th style="min-width:180px">Company</th>
+        <th>GH Name</th><th>Analyst Name</th><th>RH Name</th>
+        <th>GH Email</th><th>Analyst Email</th><th>RH Email</th>
+        <th class="c">Send GH</th><th class="c">Send Analyst</th><th class="c">Send RH</th>
+        <th class="c">S1</th><th class="c">S2</th><th class="c">S3</th><th class="c">S4</th><th class="c">S5</th>
         <th></th>
       </tr></thead>
       <tbody id="entBody"></tbody>
     </table>
     </div>
     <div class="savebar">
-      <button class="btn btn-grey" onclick="addEntity()">+ Add Entity</button>
+      <button class="btn btn-grey" onclick="addRow()">+ Add Company</button>
       <button class="btn btn-green" onclick="downloadExcel()">&#8681; Download Excel</button>
       <button class="btn btn-green" onclick="document.getElementById('xlUp').click()">&#8679; Upload Excel</button>
       <input type="file" id="xlUp" accept=".xlsx,.xls,.csv" style="display:none" onchange="uploadExcel(this)">
       <button class="btn btn-red" onclick="saveAll()">Save All Changes</button>
       <span id="status"></span>
     </div>
-    <div class="legend">Excel: download &rarr; edit in Excel (keep YES/NO in the Send columns) &rarr; upload &rarr; review on screen &rarr; <strong>Save All Changes</strong> to make it live.</div>
-  </div>
-
-  <div class="tab" id="tab-share">
-    <div class="ib">
-      Who receives the <strong>daily report sections</strong>: S1 Watchlist &middot; S2 NBFC/FI Sector &middot; S3 Regulations &middot; S4 Bond Markets &middot; S5 Macro.
-      Each enabled person gets one email containing only the sections ticked for them. This works <strong>without any AI/API credits</strong> (rule-based digest).
-    </div>
-    <div class="scroll">
-    <table>
-      <thead><tr>
-        <th style="min-width:110px">Name</th><th style="min-width:200px">Email</th><th>Send?</th>
-        <th style="text-align:center">Sections</th><th></th>
-      </tr></thead>
-      <tbody id="shareBody"></tbody>
-    </table>
-    </div>
-    <div class="savebar">
-      <button class="btn btn-grey" onclick="addSharer()">+ Add Person</button>
-      <button class="btn btn-red" onclick="saveAll()">Save All Changes</button>
-      <span id="status2"></span>
-    </div>
+    <div class="legend">Excel columns: company, gh_name, analyst_name, rh_name, gh_email, analyst_email, rh_email, send_gh (Y/N), send_analyst (Y/N), send_rh (Y/N), S1, S2, S3, S4, S5 (Y/N).
+    Download &rarr; edit in Excel &rarr; upload &rarr; review &rarr; <strong>Save All Changes</strong>.</div>
   </div>
 
   <div class="tab" id="tab-token">
-    <div class="ib"><strong>GitHub Personal Access Token</strong> &mdash; required to save changes and trigger mails. Stored only in your browser (localStorage), sent only to the GitHub API. Create one at github.com &rarr; Settings &rarr; Developer settings &rarr; Personal access tokens (needs <em>repo</em> + <em>workflow</em> scope).</div>
+    <div class="ib"><strong>GitHub Personal Access Token</strong> &mdash; required to save changes and trigger mails. Stored only in your browser (localStorage), sent only to the GitHub API. Create at github.com &rarr; Settings &rarr; Developer settings &rarr; Personal access tokens (needs <em>repo</em> + <em>workflow</em> scope).</div>
     <div style="display:flex;gap:10px;flex-wrap:wrap">
       <input class="field" id="tokenInput" type="password" placeholder="ghp_xxxxxxxxxxxxxxxx" />
       <button class="btn btn-green" onclick="saveToken()">Save Token</button>
@@ -132,15 +111,14 @@ input[type=checkbox]{width:16px;height:16px;accent-color:#15803d;cursor:pointer}
 
 <script>
 const OWNER='mjitendrafeb-cmd', REPO='jeetz', BRANCH='main';
-const SECTIONS=['S1','S2','S3','S4','S5'];
-let team={entities:[],section_recipients:[],send_empty_mail:false};
+const SECS=['S1','S2','S3','S4','S5'];
+let team={rows:[],send_empty_mail:false};
 let sha=null, wlSha=null;
 
 function getToken(){return localStorage.getItem('gh_pat')||'';}
 function saveToken(){const t=document.getElementById('tokenInput').value.trim();if(t){localStorage.setItem('gh_pat',t);refreshTokenBar();alert('Token saved in this browser.');}}
 function clearToken(){localStorage.removeItem('gh_pat');refreshTokenBar();}
 function refreshTokenBar(){const ok=!!getToken();document.getElementById('tokenBar').className='token-bar'+(ok?' ok':'');document.getElementById('tokenDot').className='dot'+(ok?' ok':'');document.getElementById('tokenStatus').textContent=ok?'Token set — you can save changes and send mails':'Viewing live data — set a token (Token tab) to save changes or send mails';}
-
 function showTab(id,el){document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));document.querySelectorAll('nav a').forEach(a=>a.classList.remove('active'));document.getElementById('tab-'+id).classList.add('active');el.classList.add('active');}
 
 async function ghGet(path){
@@ -156,63 +134,49 @@ async function ghPut(path,content,fileSha,msg){
   if(!r.ok){const e=await r.json().catch(()=>({}));throw new Error(path+': '+r.status+' '+(e.message||''));}
   return (await r.json()).content.sha;
 }
-
-function roleCells(e,role){
-  const p=e[role];
-  return `<td class="grp"><input type="text" class="nm" value="${esc(p.name)}" onchange="team.entities[this.closest('tr').dataset.i]['${role}'].name=this.value"></td>
-  <td><input type="email" class="em" value="${esc(p.email)}" onchange="team.entities[this.closest('tr').dataset.i]['${role}'].email=this.value"></td>
-  <td style="text-align:center"><input type="checkbox" ${p.enabled?'checked':''} onchange="team.entities[this.closest('tr').dataset.i]['${role}'].enabled=this.checked"></td>`;
-}
 function esc(s){return (s||'').replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;');}
 
-function renderEntities(){
-  const tb=document.getElementById('entBody');
-  tb.innerHTML=team.entities.map((e,i)=>`<tr data-i="${i}">
-    <td><input type="text" class="entity" value="${esc(e.name)}" onchange="team.entities[this.closest('tr').dataset.i].name=this.value"></td>
-    ${roleCells(e,'gh')}${roleCells(e,'analyst')}${roleCells(e,'rh')}
-    <td><button class="del" title="Remove entity" onclick="team.entities.splice(this.closest('tr').dataset.i,1);renderEntities()">&#10006;</button></td>
+function txt(i,field,cls){return `<td><input type="${field.includes('email')?'email':'text'}" class="${cls}" value="${esc(team.rows[i][field])}" onchange="team.rows[this.closest('tr').dataset.i]['${field}']=this.value"></td>`;}
+function chk(i,field){return `<td class="c"><input type="checkbox" ${team.rows[i][field]?'checked':''} onchange="team.rows[this.closest('tr').dataset.i]['${field}']=this.checked"></td>`;}
+function secChk(i,s){const on=team.rows[i].sections.includes(s);return `<td class="c"><input type="checkbox" ${on?'checked':''} onchange="toggleSec(this.closest('tr').dataset.i,'${s}',this.checked)"></td>`;}
+function toggleSec(i,s,on){const a=team.rows[i].sections;const k=a.indexOf(s);if(on&&k<0)a.push(s);if(!on&&k>=0)a.splice(k,1);}
+
+function render(){
+  document.getElementById('entBody').innerHTML=team.rows.map((r,i)=>`<tr data-i="${i}">
+    <td><input type="text" class="company" value="${esc(r.company)}" onchange="team.rows[this.closest('tr').dataset.i].company=this.value"></td>
+    ${txt(i,'gh_name','nm')}${txt(i,'analyst_name','nm')}${txt(i,'rh_name','nm')}
+    ${txt(i,'gh_email','em')}${txt(i,'analyst_email','em')}${txt(i,'rh_email','em')}
+    ${chk(i,'send_gh')}${chk(i,'send_analyst')}${chk(i,'send_rh')}
+    ${SECS.map(s=>secChk(i,s)).join('')}
+    <td><button class="del" title="Remove company" onclick="team.rows.splice(this.closest('tr').dataset.i,1);render()">&#10006;</button></td>
   </tr>`).join('');
 }
-function addEntity(){
-  team.entities.push({name:'',gh:{name:'',email:'',enabled:false},analyst:{name:'',email:'',enabled:false},rh:{name:'',email:'',enabled:false}});
-  renderEntities();
+function addRow(){
+  team.rows.push({company:'',gh_name:'',analyst_name:'',rh_name:'',gh_email:'',analyst_email:'',rh_email:'',send_gh:false,send_analyst:false,send_rh:false,sections:['S1']});
+  render();
   const rows=document.querySelectorAll('#entBody tr');rows[rows.length-1].scrollIntoView();rows[rows.length-1].querySelector('input').focus();
 }
-
-function renderShare(){
-  const tb=document.getElementById('shareBody');
-  tb.innerHTML=team.section_recipients.map((p,i)=>`<tr data-i="${i}">
-    <td><input type="text" value="${esc(p.name)}" onchange="team.section_recipients[this.closest('tr').dataset.i].name=this.value"></td>
-    <td><input type="email" value="${esc(p.email)}" onchange="team.section_recipients[this.closest('tr').dataset.i].email=this.value"></td>
-    <td style="text-align:center"><input type="checkbox" ${p.enabled?'checked':''} onchange="team.section_recipients[this.closest('tr').dataset.i].enabled=this.checked"></td>
-    <td><div class="secchk">${SECTIONS.map(s=>`<label>${s}<input type="checkbox" ${p.sections.includes(s)?'checked':''} onchange="toggleSec(this.closest('tr').dataset.i,'${s}',this.checked)"></label>`).join('')}</div></td>
-    <td><button class="del" onclick="team.section_recipients.splice(this.closest('tr').dataset.i,1);renderShare()">&#10006;</button></td>
-  </tr>`).join('');
-}
-function toggleSec(i,s,on){const arr=team.section_recipients[i].sections;const k=arr.indexOf(s);if(on&&k<0)arr.push(s);if(!on&&k>=0)arr.splice(k,1);}
-function addSharer(){team.section_recipients.push({name:'',email:'',enabled:true,sections:['S1']});renderShare();}
 
 async function load(){
   try{
     const t=await ghGet('team.json');sha=t.sha;team=JSON.parse(t.text);
+    if(!team.rows)team={rows:[],send_empty_mail:false};
     try{const w=await ghGet('watchlist.txt');wlSha=w.sha;}catch(e){wlSha=null;}
-    renderEntities();renderShare();
+    render();
   }catch(e){document.getElementById('status').innerHTML='<span class="err">Load failed: '+e.message+'</span>';}
 }
 
 async function saveAll(){
   if(!getToken()){alert('Set a GitHub token first (Token tab).');return;}
-  const s1=document.getElementById('status'),s2=document.getElementById('status2');
-  s1.innerHTML=s2.innerHTML='Saving…';
+  const s=document.getElementById('status');s.innerHTML='Saving…';
   try{
-    team.entities=team.entities.filter(e=>e.name.trim());
+    team.rows=team.rows.filter(r=>r.company.trim());
     sha=await ghPut('team.json',JSON.stringify(team,null,2),sha,'Update team & routing via management console');
-    const header='# ============================================================\n# COMPANY WATCHLIST — Daily Credit Intelligence Report\n# ============================================================\n# Managed by docs/team.html — edit entities there.\n# ============================================================\n\n';
-    const wl=header+team.entities.map(e=>e.name.trim()).join('\n')+'\n';
-    wlSha=await ghPut('watchlist.txt',wl,wlSha,'Sync watchlist from team console');
-    s1.innerHTML=s2.innerHTML='<span class="ok">&#10003; Saved — takes effect from the next run</span>';
-    renderEntities();
-  }catch(e){s1.innerHTML=s2.innerHTML='<span class="err">Save failed: '+e.message+'</span>';}
+    const header='# ============================================================\n# COMPANY WATCHLIST — Daily Credit Intelligence Report\n# ============================================================\n# Managed by docs/team.html — edit companies there.\n# ============================================================\n\n';
+    wlSha=await ghPut('watchlist.txt',header+team.rows.map(r=>r.company.trim()).join('\n')+'\n',wlSha,'Sync watchlist from team console');
+    s.innerHTML='<span class="ok">&#10003; Saved — takes effect from the next run</span>';
+    render();
+  }catch(e){s.innerHTML='<span class="err">Save failed: '+e.message+'</span>';}
 }
 
 async function runNow(){
@@ -227,29 +191,22 @@ async function runNow(){
 }
 
 /* ---------------- Excel download / upload ---------------- */
-const YN=v=>v?'YES':'NO';
+const YN=v=>v?'Y':'N';
 const isYes=v=>['yes','y','true','1'].includes(String(v||'').trim().toLowerCase());
+const COLS=['company','gh_name','analyst_name','rh_name','gh_email','analyst_email','rh_email','send_gh','send_analyst','send_rh','S1','S2','S3','S4','S5'];
 
 function downloadExcel(){
-  const entRows=team.entities.map(e=>({
-    'Entity':e.name,
-    'GH Name':e.gh.name,'GH Email':e.gh.email,'GH Send':YN(e.gh.enabled),
-    'Analyst Name':e.analyst.name,'Analyst Email':e.analyst.email,'Analyst Send':YN(e.analyst.enabled),
-    'RH Name':e.rh.name,'RH Email':e.rh.email,'RH Send':YN(e.rh.enabled),
-  }));
-  const shareRows=team.section_recipients.map(p=>({
-    'Name':p.name,'Email':p.email,'Send':YN(p.enabled),
-    'S1':YN(p.sections.includes('S1')),'S2':YN(p.sections.includes('S2')),
-    'S3':YN(p.sections.includes('S3')),'S4':YN(p.sections.includes('S4')),
-    'S5':YN(p.sections.includes('S5')),
+  const rows=team.rows.map(r=>({
+    company:r.company,gh_name:r.gh_name,analyst_name:r.analyst_name,rh_name:r.rh_name,
+    gh_email:r.gh_email,analyst_email:r.analyst_email,rh_email:r.rh_email,
+    send_gh:YN(r.send_gh),send_analyst:YN(r.send_analyst),send_rh:YN(r.send_rh),
+    S1:YN(r.sections.includes('S1')),S2:YN(r.sections.includes('S2')),S3:YN(r.sections.includes('S3')),
+    S4:YN(r.sections.includes('S4')),S5:YN(r.sections.includes('S5')),
   }));
   const wb=XLSX.utils.book_new();
-  const ws1=XLSX.utils.json_to_sheet(entRows);
-  ws1['!cols']=[{wch:42},{wch:14},{wch:28},{wch:8},{wch:14},{wch:28},{wch:12},{wch:14},{wch:28},{wch:8}];
-  XLSX.utils.book_append_sheet(wb,ws1,'Entities');
-  const ws2=XLSX.utils.json_to_sheet(shareRows);
-  ws2['!cols']=[{wch:16},{wch:30},{wch:7},{wch:5},{wch:5},{wch:5},{wch:5},{wch:5}];
-  XLSX.utils.book_append_sheet(wb,ws2,'Report Sharing');
+  const ws=XLSX.utils.json_to_sheet(rows,{header:COLS});
+  ws['!cols']=[{wch:42},{wch:14},{wch:14},{wch:14},{wch:26},{wch:26},{wch:26},{wch:8},{wch:12},{wch:8},{wch:4},{wch:4},{wch:4},{wch:4},{wch:4}];
+  XLSX.utils.book_append_sheet(wb,ws,'Team');
   XLSX.writeFile(wb,'team_management.xlsx');
 }
 
@@ -259,26 +216,19 @@ function uploadExcel(inp){
   reader.onload=ev=>{
     try{
       const wb=XLSX.read(ev.target.result,{type:'array'});
-      const entWs=wb.Sheets['Entities']||wb.Sheets[wb.SheetNames[0]];
-      const entRows=XLSX.utils.sheet_to_json(entWs,{defval:''});
-      const newEnts=entRows.filter(r=>String(r['Entity']||'').trim()).map(r=>({
-        name:String(r['Entity']).trim(),
-        gh:{name:String(r['GH Name']||'').trim(),email:String(r['GH Email']||'').trim(),enabled:isYes(r['GH Send'])},
-        analyst:{name:String(r['Analyst Name']||'').trim(),email:String(r['Analyst Email']||'').trim(),enabled:isYes(r['Analyst Send'])},
-        rh:{name:String(r['RH Name']||'').trim(),email:String(r['RH Email']||'').trim(),enabled:isYes(r['RH Send'])},
+      const ws=wb.Sheets[wb.SheetNames[0]];
+      const rows=XLSX.utils.sheet_to_json(ws,{defval:''});
+      const newRows=rows.filter(r=>String(r.company||'').trim()).map(r=>({
+        company:String(r.company).trim(),
+        gh_name:String(r.gh_name||'').trim(),analyst_name:String(r.analyst_name||'').trim(),rh_name:String(r.rh_name||'').trim(),
+        gh_email:String(r.gh_email||'').trim(),analyst_email:String(r.analyst_email||'').trim(),rh_email:String(r.rh_email||'').trim(),
+        send_gh:isYes(r.send_gh),send_analyst:isYes(r.send_analyst),send_rh:isYes(r.send_rh),
+        sections:SECS.filter(s=>isYes(r[s])),
       }));
-      if(!newEnts.length){alert('No entity rows found. Keep the same column headers as the downloaded file.');inp.value='';return;}
-      team.entities=newEnts;
-      const shWs=wb.Sheets['Report Sharing'];
-      if(shWs){
-        const shRows=XLSX.utils.sheet_to_json(shWs,{defval:''});
-        team.section_recipients=shRows.filter(r=>String(r['Email']||'').trim()).map(r=>({
-          name:String(r['Name']||'').trim(),email:String(r['Email']).trim(),enabled:isYes(r['Send']),
-          sections:['S1','S2','S3','S4','S5'].filter(s=>isYes(r[s])),
-        }));
-      }
-      renderEntities();renderShare();
-      document.getElementById('status').innerHTML='<span class="ok">&#10003; Excel loaded — '+newEnts.length+' entities. Review, then click <strong>Save All Changes</strong> to make it live.</span>';
+      if(!newRows.length){alert('No rows found. Keep the same column headers as the downloaded file (company, gh_name, ...).');inp.value='';return;}
+      team.rows=newRows;
+      render();
+      document.getElementById('status').innerHTML='<span class="ok">&#10003; Excel loaded — '+newRows.length+' companies. Review, then click <strong>Save All Changes</strong> to make it live.</span>';
     }catch(e){alert('Could not read file: '+e.message);}
     inp.value='';
   };
