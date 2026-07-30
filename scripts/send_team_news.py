@@ -1,16 +1,15 @@
 #!/usr/bin/env python3
 """
-send_team_news.py — Portfolio-routed watchlist news + rule-based S1-S5 digest.
+send_team_news.py — Per-person watchlist news + rule-based S1-S5 digest.
 
-Runs WITHOUT the Anthropic API (zero credits needed):
-  1. Fetches news via the existing free pipeline (Google News, NSE/BSE RSS,
-     RBI/SEBI RSS, scrapes, Telegram).
-  2. Entity routing: each entity's news goes to its GH / Analyst / RH —
-     only to people whose "enabled" flag is ticked in team.json.
-  3. Section digest: classifies items into S1-S5 by rules and emails each
-     enabled section-recipient only the sections ticked for them.
+Runs WITHOUT the Anthropic API (zero credits). Driven by team.json
+(managed at docs/team.html): one row per company with GH/Analyst/RH
+names, emails, send flags, and S1-S5 section flags.
 
-All routing is managed at docs/team.html (GitHub Pages console).
+Each enabled person receives ONE email:
+  S1 = news for the companies they are mapped to (only rows with S1 ticked)
+  S2-S5 = rule-classified sector/regulation/bond/macro sections, included
+          if ticked on any row where that person is enabled.
 """
 
 import os
@@ -25,13 +24,13 @@ from fetch_news import fetch_all_news
 
 _REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 _TEAM_PATH = os.path.join(_REPO_ROOT, "team.json")
-_SEEN_PATH = os.path.join(_REPO_ROOT, "data", "team_seen.json")  # separate from the
-# daily Claude report's memory so the two systems never suppress each other.
+_SEEN_PATH = os.path.join(_REPO_ROOT, "data", "team_seen.json")  # separate memory from
+# the daily Claude report so the two systems never suppress each other's items.
 
 IST = datetime.timezone(datetime.timedelta(hours=5, minutes=30))
 
 SECTION_TITLES = {
-    "S1": "S1 — Watchlist Entities",
+    "S1": "S1 — Your Watchlist Companies",
     "S2": "S2 — NBFC / FI Sector",
     "S3": "S3 — RBI, SEBI & Regulations",
     "S4": "S4 — Bond & Money Markets",
@@ -51,6 +50,10 @@ _S5_RE = re.compile(
 )
 _S3_SOURCES = ("rbi", "sebi", "nhb", "rbi-enforcement")
 
+ROLES = (("gh_name", "gh_email", "send_gh"),
+         ("analyst_name", "analyst_email", "send_analyst"),
+         ("rh_name", "rh_email", "send_rh"))
+
 
 def _load_team() -> dict:
     with open(_TEAM_PATH, encoding="utf-8") as f:
@@ -63,7 +66,6 @@ def _phrase(name: str) -> str:
 
 
 def _parse_item(raw: str) -> dict:
-    """Split 'N. [TAGS] source: title — summary | PUB:x | URL:y' into fields."""
     item = re.sub(r"^\d+\.\s*", "", raw)
     tags = re.findall(r"^\[([^\]]+)\]\s*", item)
     body = re.sub(r"^(\[[^\]]+\]\s*)+", "", item)
@@ -79,7 +81,6 @@ def _parse_item(raw: str) -> dict:
     source, _, rest = body.partition(": ")
     title, _, summary = rest.partition(" — ")
     return {
-        "raw": item,
         "tags": " ".join(tags),
         "source": source.strip(),
         "title": (title or rest).strip(),
@@ -89,9 +90,9 @@ def _parse_item(raw: str) -> dict:
     }
 
 
-def _classify(it: dict, entity_phrases: list[str]) -> str:
+def _classify(it: dict, company_phrases: list[str]) -> str:
     text = (it["tags"] + " " + it["source"] + " " + it["title"] + " " + it["summary"]).lower()
-    if "watchlist" in it["tags"].lower() or any(p and p in text for p in entity_phrases):
+    if "watchlist" in it["tags"].lower() or any(p and p in text for p in company_phrases):
         return "S1"
     if it["source"].lower().startswith(_S3_SOURCES) or "sebi" in it["source"].lower():
         return "S3"
@@ -102,11 +103,11 @@ def _classify(it: dict, entity_phrases: list[str]) -> str:
     return "S2"
 
 
-def _match_entities(it: dict, entities: list[dict]) -> list[str]:
+def _match_companies(it: dict, rows: list[dict]) -> list[str]:
     text = (it["tags"] + " " + it["title"] + " " + it["summary"]).lower()
     hits = []
-    for e in entities:
-        name = e["name"].strip()
+    for r in rows:
+        name = r["company"].strip()
         if not name:
             continue
         if name.lower() in text or (_phrase(name) and _phrase(name) in text):
@@ -174,7 +175,7 @@ def _git_push(path: str) -> None:
 
 
 # ---------------------------------------------------------------------------
-# HTML rendering (plain, inline styles, no AI)
+# HTML rendering (plain, no AI)
 # ---------------------------------------------------------------------------
 
 def _item_html(it: dict) -> str:
@@ -190,6 +191,12 @@ def _item_html(it: dict) -> str:
             f'letter-spacing:1px">{meta}</div>{summ}</div>')
 
 
+def _sec_banner(title: str, color: str = "#cc0000") -> str:
+    return (f'<div style="margin-top:18px;font-size:11px;font-weight:bold;letter-spacing:2px;'
+            f'text-transform:uppercase;color:{color};border-bottom:2px solid {color};'
+            f'padding-bottom:4px">{title}</div>')
+
+
 def _shell(title: str, inner: str, date_str: str) -> str:
     manage = "https://mjitendrafeb-cmd.github.io/jeetz/team.html"
     return f"""<html><body style="margin:0;background:#f0ece4;font-family:Georgia,serif">
@@ -200,7 +207,7 @@ def _shell(title: str, inner: str, date_str: str) -> str:
 </div>
 <div style="padding:8px 24px">{inner}</div>
 <div style="padding:14px 24px;border-top:1px solid #ddd;font-size:10px;color:#999">
-  Auto-generated · <a href="{manage}" style="color:#999">Manage entities &amp; recipients</a>
+  Auto-generated · <a href="{manage}" style="color:#999">Manage companies &amp; recipients</a>
 </div></div></body></html>"""
 
 
@@ -224,80 +231,80 @@ def _send(to_addr: str, subject: str, html: str) -> None:
 
 def main() -> None:
     team = _load_team()
-    entities = team.get("entities", [])
+    rows = [r for r in team.get("rows", []) if r.get("company", "").strip()]
     now = datetime.datetime.now(IST)
     date_str = now.strftime("%A, %d %B %Y")
 
     print("Fetching news (free sources, no AI)...")
-    news_text, summary = fetch_all_news(os.environ.get("NEWSAPI_KEY", ""))
-    raw_items = [ln for ln in news_text.splitlines() if ln.strip()]
-    items = [_parse_item(r) for r in raw_items]
+    news_text, _summary = fetch_all_news(os.environ.get("NEWSAPI_KEY", ""))
+    items = [_parse_item(ln) for ln in news_text.splitlines() if ln.strip()]
 
     seen = _load_seen()
     items = [it for it in items if _key(it) not in seen]
     print(f"{len(items)} items after team-mail dedup")
 
-    phrases = [_phrase(e["name"]) for e in entities if e["name"].strip()]
+    phrases = [_phrase(r["company"]) for r in rows]
     for it in items:
         it["section"] = _classify(it, phrases)
-        it["entities"] = _match_entities(it, entities)
+        it["companies"] = _match_companies(it, rows)
 
-    # ---- 1) Entity-routed mails (GH / Analyst / RH, enabled only) ----------
-    per_person: dict[str, dict] = {}
-    for e in entities:
-        ent_items = [it for it in items if e["name"] in it["entities"]]
-        if not ent_items:
-            continue
-        for role in ("gh", "analyst", "rh"):
-            p = e.get(role, {})
-            if p.get("enabled") and p.get("email", "").strip():
-                rec = per_person.setdefault(
-                    p["email"].strip(),
-                    {"name": p.get("name", "") or p["email"].split("@")[0], "ents": {}},
-                )
-                rec["ents"][e["name"]] = ent_items
-
-    for email, rec in per_person.items():
-        blocks = []
-        for ent, its in rec["ents"].items():
-            blocks.append(
-                f'<div style="margin-top:16px;font-size:11px;font-weight:bold;'
-                f'letter-spacing:2px;text-transform:uppercase;color:#cc0000;'
-                f'border-bottom:2px solid #cc0000;padding-bottom:4px">{ent}</div>'
-                + "".join(_item_html(it) for it in its)
-            )
-        html = _shell(f"Portfolio News — {rec['name']}", "".join(blocks), date_str)
-        _send(email, f"Portfolio News — {now:%d %b %Y}", html)
-
-    if not per_person:
-        print("[route] no entity news matched any enabled person today")
-
-    # ---- 2) Section digest mails (S1-S5, rule-based) -----------------------
     by_section: dict[str, list[dict]] = {s: [] for s in SECTION_TITLES}
     for it in items:
         by_section[it["section"]].append(it)
     print("Section counts:", {s: len(v) for s, v in by_section.items()})
 
-    for p in team.get("section_recipients", []):
-        if not (p.get("enabled") and p.get("email", "").strip()):
-            continue
-        wanted = [s for s in ("S1", "S2", "S3", "S4", "S5") if s in p.get("sections", [])]
+    # Build per-person profile: email -> {name, companies(for S1), sections}
+    people: dict[str, dict] = {}
+    for r in rows:
+        secs = r.get("sections", [])
+        for name_f, email_f, send_f in ROLES:
+            if not r.get(send_f):
+                continue
+            email = r.get(email_f, "").strip()
+            if not email:
+                continue
+            p = people.setdefault(email, {
+                "name": r.get(name_f, "").strip() or email.split("@")[0],
+                "companies": set(), "sections": set(),
+            })
+            p["sections"].update(secs)
+            if "S1" in secs:
+                p["companies"].add(r["company"])
+
+    if not people:
+        print("[route] nobody is enabled in team.json — no mails to send")
+        _save_seen(items)
+        return
+
+    for email, p in people.items():
         blocks, total = [], 0
-        for s in wanted:
+
+        if "S1" in p["sections"]:
+            s1_blocks = []
+            for comp in sorted(p["companies"]):
+                its = [it for it in items if comp in it["companies"]]
+                if its:
+                    total += len(its)
+                    s1_blocks.append(_sec_banner(comp) +
+                                     "".join(_item_html(it) for it in its))
+            body = "".join(s1_blocks) or \
+                '<div style="padding:8px 0;color:#aaa;font-style:italic;font-size:12px">No fresh news on your companies today.</div>'
+            blocks.append(_sec_banner(SECTION_TITLES["S1"], "#cc0000") + body)
+
+        for s in ("S2", "S3", "S4", "S5"):
+            if s not in p["sections"]:
+                continue
             its = by_section[s][:15]
             total += len(its)
             body = "".join(_item_html(it) for it in its) or \
                 '<div style="padding:8px 0;color:#aaa;font-style:italic;font-size:12px">No fresh items today.</div>'
-            blocks.append(
-                f'<div style="margin-top:16px;font-size:11px;font-weight:bold;'
-                f'letter-spacing:2px;text-transform:uppercase;color:#1e3a8a;'
-                f'border-bottom:2px solid #1e3a8a;padding-bottom:4px">{SECTION_TITLES[s]}</div>' + body
-            )
+            blocks.append(_sec_banner(SECTION_TITLES[s], "#1e3a8a") + body)
+
         if total == 0 and not team.get("send_empty_mail", False):
-            print(f"[digest] skipping {p['email']} — no items in their sections")
+            print(f"[mail] skipping {email} — nothing new in their sections")
             continue
-        html = _shell("Credit News Digest", "".join(blocks), date_str)
-        _send(p["email"].strip(), f"Credit News Digest — {now:%d %b %Y}", html)
+        html = _shell(f"Credit News — {p['name']}", "".join(blocks), date_str)
+        _send(email, f"Credit News — {now:%d %b %Y}", html)
 
     _save_seen(items)
     print("Done.")
