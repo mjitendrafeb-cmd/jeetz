@@ -76,10 +76,18 @@ jobs:
 
           last_sent = read_last_sent()
 
+          try:
+              with open("config.json", encoding="utf-8") as f:
+                  report_enabled = json.load(f).get("daily_report_enabled", True)
+          except Exception:
+              report_enabled = True
+
           if schedule == "30 10 * * 5":
               send, why = True, "Friday weekly digest cron"
           elif event == "workflow_dispatch" and force != "false":
               send, why = True, "manual trigger (force)"
+          elif event == "schedule" and not report_enabled:
+              send, why = False, "daily report disabled in config (console toggle)"
           elif now.weekday() == 6:
               send, why = False, "Sunday — no daily report"
           elif last_sent == today:

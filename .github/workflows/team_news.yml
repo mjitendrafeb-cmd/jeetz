@@ -54,8 +54,16 @@ jobs:
               except Exception:
                   return ""
 
+          try:
+              with open("team.json", encoding="utf-8") as f:
+                  team_enabled = json.load(f).get("scheduled_enabled", True)
+          except Exception:
+              team_enabled = True
+
           if event == "workflow_dispatch":
               send, why = True, "manual trigger — always send"
+          elif not team_enabled:
+              send, why = False, "team mail schedule disabled in console"
           elif now.weekday() == 6:
               send, why = False, "Sunday — no team mail"
           elif last_sent() == today:
