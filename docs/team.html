@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>Team &amp; News Routing — Management</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+<script src="https://cdn.sheetjs.com/xlsx-0.20.2/package/dist/xlsx.full.min.js"></script>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 body{background:#d4d4d4;font-family:'Inter',Arial,sans-serif;color:#1a1a1a;padding:16px 0 40px;min-height:100vh}
@@ -89,9 +90,13 @@ input[type=checkbox]{width:16px;height:16px;accent-color:#15803d;cursor:pointer}
     </div>
     <div class="savebar">
       <button class="btn btn-grey" onclick="addEntity()">+ Add Entity</button>
+      <button class="btn btn-green" onclick="downloadExcel()">&#8681; Download Excel</button>
+      <button class="btn btn-green" onclick="document.getElementById('xlUp').click()">&#8679; Upload Excel</button>
+      <input type="file" id="xlUp" accept=".xlsx,.xls,.csv" style="display:none" onchange="uploadExcel(this)">
       <button class="btn btn-red" onclick="saveAll()">Save All Changes</button>
       <span id="status"></span>
     </div>
+    <div class="legend">Excel: download &rarr; edit in Excel (keep YES/NO in the Send columns) &rarr; upload &rarr; review on screen &rarr; <strong>Save All Changes</strong> to make it live.</div>
   </div>
 
   <div class="tab" id="tab-share">
@@ -219,6 +224,65 @@ async function runNow(){
     b.textContent='✓ Triggered — mails in ~5-10 min';
   }catch(e){b.textContent='Failed: '+e.message;b.disabled=false;return;}
   setTimeout(()=>{b.textContent='✉ Send Team News Now';b.disabled=false;},15000);
+}
+
+/* ---------------- Excel download / upload ---------------- */
+const YN=v=>v?'YES':'NO';
+const isYes=v=>['yes','y','true','1'].includes(String(v||'').trim().toLowerCase());
+
+function downloadExcel(){
+  const entRows=team.entities.map(e=>({
+    'Entity':e.name,
+    'GH Name':e.gh.name,'GH Email':e.gh.email,'GH Send':YN(e.gh.enabled),
+    'Analyst Name':e.analyst.name,'Analyst Email':e.analyst.email,'Analyst Send':YN(e.analyst.enabled),
+    'RH Name':e.rh.name,'RH Email':e.rh.email,'RH Send':YN(e.rh.enabled),
+  }));
+  const shareRows=team.section_recipients.map(p=>({
+    'Name':p.name,'Email':p.email,'Send':YN(p.enabled),
+    'S1':YN(p.sections.includes('S1')),'S2':YN(p.sections.includes('S2')),
+    'S3':YN(p.sections.includes('S3')),'S4':YN(p.sections.includes('S4')),
+    'S5':YN(p.sections.includes('S5')),
+  }));
+  const wb=XLSX.utils.book_new();
+  const ws1=XLSX.utils.json_to_sheet(entRows);
+  ws1['!cols']=[{wch:42},{wch:14},{wch:28},{wch:8},{wch:14},{wch:28},{wch:12},{wch:14},{wch:28},{wch:8}];
+  XLSX.utils.book_append_sheet(wb,ws1,'Entities');
+  const ws2=XLSX.utils.json_to_sheet(shareRows);
+  ws2['!cols']=[{wch:16},{wch:30},{wch:7},{wch:5},{wch:5},{wch:5},{wch:5},{wch:5}];
+  XLSX.utils.book_append_sheet(wb,ws2,'Report Sharing');
+  XLSX.writeFile(wb,'team_management.xlsx');
+}
+
+function uploadExcel(inp){
+  const f=inp.files[0]; if(!f)return;
+  const reader=new FileReader();
+  reader.onload=ev=>{
+    try{
+      const wb=XLSX.read(ev.target.result,{type:'array'});
+      const entWs=wb.Sheets['Entities']||wb.Sheets[wb.SheetNames[0]];
+      const entRows=XLSX.utils.sheet_to_json(entWs,{defval:''});
+      const newEnts=entRows.filter(r=>String(r['Entity']||'').trim()).map(r=>({
+        name:String(r['Entity']).trim(),
+        gh:{name:String(r['GH Name']||'').trim(),email:String(r['GH Email']||'').trim(),enabled:isYes(r['GH Send'])},
+        analyst:{name:String(r['Analyst Name']||'').trim(),email:String(r['Analyst Email']||'').trim(),enabled:isYes(r['Analyst Send'])},
+        rh:{name:String(r['RH Name']||'').trim(),email:String(r['RH Email']||'').trim(),enabled:isYes(r['RH Send'])},
+      }));
+      if(!newEnts.length){alert('No entity rows found. Keep the same column headers as the downloaded file.');inp.value='';return;}
+      team.entities=newEnts;
+      const shWs=wb.Sheets['Report Sharing'];
+      if(shWs){
+        const shRows=XLSX.utils.sheet_to_json(shWs,{defval:''});
+        team.section_recipients=shRows.filter(r=>String(r['Email']||'').trim()).map(r=>({
+          name:String(r['Name']||'').trim(),email:String(r['Email']).trim(),enabled:isYes(r['Send']),
+          sections:['S1','S2','S3','S4','S5'].filter(s=>isYes(r[s])),
+        }));
+      }
+      renderEntities();renderShare();
+      document.getElementById('status').innerHTML='<span class="ok">&#10003; Excel loaded — '+newEnts.length+' entities. Review, then click <strong>Save All Changes</strong> to make it live.</span>';
+    }catch(e){alert('Could not read file: '+e.message);}
+    inp.value='';
+  };
+  reader.readAsArrayBuffer(f);
 }
 
 document.getElementById('tokenInput').value=getToken();
