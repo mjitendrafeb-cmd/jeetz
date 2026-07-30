@@ -30,7 +30,7 @@ _SEEN_PATH = os.path.join(_REPO_ROOT, "data", "team_seen.json")  # separate memo
 IST = datetime.timezone(datetime.timedelta(hours=5, minutes=30))
 
 SECTION_TITLES = {
-    "S1": "S1 — Your Watchlist Companies",
+    "S1": "Watchlist News",
     "S2": "S2 — NBFC / FI Sector",
     "S3": "S3 — RBI, SEBI & Regulations",
     "S4": "S4 — Bond & Money Markets",
@@ -195,19 +195,32 @@ def _item_html(it: dict) -> str:
     link = (f'<a href="{it["url"]}" style="color:#1e3a8a;text-decoration:none">'
             if it["url"] else "<span>")
     close = "</a>" if it["url"] else "</span>"
-    meta = " · ".join(x for x in (it["source"], it["pub"]) if x)
-    summ = (f'<div style="font-size:12px;color:#444;margin-top:2px">{it["summary"]}</div>'
-            if it["summary"] else "")
-    return (f'<div style="padding:9px 0;border-bottom:1px solid #eee">'
+    meta = " \u00b7 ".join(x for x in (it["source"], it["pub"]) if x)
+    meta_html = (f' <span style="font-size:10px;color:#999;white-space:nowrap">'
+                 f'&mdash; {meta}</span>' if meta else "")
+    # Skip the summary when it just restates the headline (common on Google items)
+    summ = ""
+    s, t = it["summary"].strip(), it["title"].strip()
+    if s and not s.lower().startswith(t[:40].lower()) and t[:40].lower() not in s.lower():
+        summ = f'<div style="font-size:11px;color:#555;margin-top:1px">{s}</div>'
+    return (f'<div style="padding:4px 0 5px;border-bottom:1px solid #f2f2f2">'
             f'{link}<strong style="font-size:13px">{it["title"]}</strong>{close}'
-            f'<div style="font-size:10px;color:#999;margin-top:2px;text-transform:uppercase;'
-            f'letter-spacing:1px">{meta}</div>{summ}</div>')
+            f'{meta_html}{summ}</div>')
 
 
 def _sec_banner(title: str, color: str = "#cc0000") -> str:
-    return (f'<div style="margin-top:18px;font-size:11px;font-weight:bold;letter-spacing:2px;'
-            f'text-transform:uppercase;color:{color};border-bottom:2px solid {color};'
-            f'padding-bottom:4px">{title}</div>')
+    """Section header — solid dark bar with a colored accent edge."""
+    return (f'<div style="margin-top:18px;background:#1a1a1a;color:#fff;font-size:11px;'
+            f'font-weight:bold;letter-spacing:2px;text-transform:uppercase;'
+            f'padding:6px 10px;border-left:4px solid {color}">{title}</div>')
+
+
+def _company_banner(name: str) -> str:
+    """Company sub-header — small red label with a dotted underline (visually
+    distinct from the dark section bar)."""
+    return (f'<div style="margin-top:10px;font-size:10px;font-weight:bold;'
+            f'letter-spacing:1px;text-transform:uppercase;color:#cc0000;'
+            f'border-bottom:1px dotted #cc9999;padding-bottom:2px">{name}</div>')
 
 
 def _shell(title: str, inner: str, date_str: str) -> str:
@@ -307,7 +320,7 @@ def main() -> None:
                 its = [it for it in items if comp in it["companies"]]
                 if its:
                     total += len(its)
-                    s1_blocks.append(_sec_banner(comp) +
+                    s1_blocks.append(_company_banner(comp) +
                                      "".join(_item_html(it) for it in its))
             body = "".join(s1_blocks) or \
                 '<div style="padding:8px 0;color:#aaa;font-style:italic;font-size:12px">No fresh news on your companies today.</div>'
