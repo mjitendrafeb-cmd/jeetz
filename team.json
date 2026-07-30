@@ -616,5 +616,6 @@
         "S1"
       ]
     }
-  ]
+  ],
+  "scheduled_enabled": true
 }

@@ -67,6 +67,17 @@ input[type=checkbox]{width:15px;height:15px;accent-color:#15803d;cursor:pointer}
   </nav>
 
   <div class="tab active" id="tab-ent">
+    <div style="display:flex;gap:24px;flex-wrap:wrap;background:#1a1a1a;padding:12px 16px;margin-bottom:16px;border-radius:4px;border-left:4px solid #cc0000">
+      <label style="display:flex;align-items:center;gap:8px;color:#fff;font-size:12px;font-weight:700;cursor:pointer">
+        <input type="checkbox" id="tglReport" onchange="cfgDailyEnabled=this.checked" style="width:17px;height:17px;accent-color:#cc0000">
+        7:30 Daily Report &mdash; "old is gold" (AI newspaper, needs API credits)
+      </label>
+      <label style="display:flex;align-items:center;gap:8px;color:#fff;font-size:12px;font-weight:700;cursor:pointer">
+        <input type="checkbox" id="tglTeam" onchange="team.scheduled_enabled=this.checked" style="width:17px;height:17px;accent-color:#15803d">
+        7:40 Team Mail (per-person watchlist, free)
+      </label>
+      <span style="color:#888;font-size:10px;align-self:center">Untick to stop that morning mail &mdash; then Save All Changes. Manual sends always work.</span>
+    </div>
     <div class="ib">
       One row per <strong>company</strong>: GH / Analyst / RH names &amp; emails, then
       <strong>Send?</strong> ticks (only ticked people receive mails), then <strong>S1&ndash;S5</strong> ticks =
@@ -113,7 +124,7 @@ input[type=checkbox]{width:15px;height:15px;accent-color:#15803d;cursor:pointer}
 const OWNER='mjitendrafeb-cmd', REPO='jeetz', BRANCH='main';
 const SECS=['S1','S2','S3','S4','S5'];
 let team={rows:[],send_empty_mail:false};
-let sha=null, wlSha=null;
+let sha=null, wlSha=null, cfgSha=null, cfgObj=null, cfgDailyEnabled=true;
 
 function getToken(){return localStorage.getItem('gh_pat')||'';}
 function saveToken(){const t=document.getElementById('tokenInput').value.trim();if(t){localStorage.setItem('gh_pat',t);refreshTokenBar();alert('Token saved in this browser.');}}
@@ -162,6 +173,11 @@ async function load(){
     const t=await ghGet('team.json');sha=t.sha;team=JSON.parse(t.text);
     if(!team.rows)team={rows:[],send_empty_mail:false};
     try{const w=await ghGet('watchlist.txt');wlSha=w.sha;}catch(e){wlSha=null;}
+    try{const c=await ghGet('config.json');cfgSha=c.sha;cfgObj=JSON.parse(c.text);
+        cfgDailyEnabled=cfgObj.daily_report_enabled!==false;}catch(e){cfgObj=null;}
+    if(team.scheduled_enabled===undefined)team.scheduled_enabled=true;
+    document.getElementById('tglReport').checked=cfgDailyEnabled;
+    document.getElementById('tglTeam').checked=team.scheduled_enabled!==false;
     render();
   }catch(e){document.getElementById('status').innerHTML='<span class="err">Load failed: '+e.message+'</span>';}
 }
@@ -174,6 +190,10 @@ async function saveAll(){
     sha=await ghPut('team.json',JSON.stringify(team,null,2),sha,'Update team & routing via management console');
     const header='# ============================================================\n# COMPANY WATCHLIST — Daily Credit Intelligence Report\n# ============================================================\n# Managed by docs/team.html — edit companies there.\n# ============================================================\n\n';
     wlSha=await ghPut('watchlist.txt',header+team.rows.map(r=>r.company.trim()).join('\n')+'\n',wlSha,'Sync watchlist from team console');
+    if(cfgObj && cfgObj.daily_report_enabled!==cfgDailyEnabled){
+      cfgObj.daily_report_enabled=cfgDailyEnabled;
+      cfgSha=await ghPut('config.json',JSON.stringify(cfgObj,null,2),cfgSha,'Toggle 7:30 daily report via console');
+    }
     s.innerHTML='<span class="ok">&#10003; Saved — takes effect from the next run</span>';
     render();
   }catch(e){s.innerHTML='<span class="err">Save failed: '+e.message+'</span>';}
