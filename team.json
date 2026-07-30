@@ -1,0 +1,757 @@
+{
+  "send_empty_mail": false,
+  "entities": [
+    {
+      "name": "Alpha Alternatives Financial Services Private Limited",
+      "gh": {
+        "name": "",
+        "email": "",
+        "enabled": false
+      },
+      "analyst": {
+        "name": "",
+        "email": "",
+        "enabled": false
+      },
+      "rh": {
+        "name": "",
+        "email": "",
+        "enabled": false
+      }
+    },
+    {
+      "name": "Ambit Finvest Private Limited",
+      "gh": {
+        "name": "",
+        "email": "",
+        "enabled": false
+      },
+      "analyst": {
+        "name": "",
+        "email": "",
+        "enabled": false
+      },
+      "rh": {
+        "name": "",
+        "email": "",
+        "enabled": false
+      }
+    },
+    {
+      "name": "Anand Rathi Share and Stock Brokers Limited",
+      "gh": {
+        "name": "",
+        "email": "",
+        "enabled": false
+      },
+      "analyst": {
+        "name": "",
+        "email": "",
+        "enabled": false
+      },
+      "rh": {
+        "name": "",
+        "email": "",
+        "enabled": false
+      }
+    },
+    {
+      "name": "Aseem Infrastructure Finance Limited",
+      "gh": {
+        "name": "",
+        "email": "",
+        "enabled": false
+      },
+      "analyst": {
+        "name": "",
+        "email": "",
+        "enabled": false
+      },
+      "rh": {
+        "name": "",
+        "email": "",
+        "enabled": false
+      }
+    },
+    {
+      "name": "Auxilo Finserve Private Limited",
+      "gh": {
+        "name": "",
+        "email": "",
+        "enabled": false
+      },
+      "analyst": {
+        "name": "",
+        "email": "",
+        "enabled": false
+      },
+      "rh": {
+        "name": "",
+        "email": "",
+        "enabled": false
+      }
+    },
+    {
+      "name": "Avanse Financial Services Limited",
+      "gh": {
+        "name": "",
+        "email": "",
+        "enabled": false
+      },
+      "analyst": {
+        "name": "",
+        "email": "",
+        "enabled": false
+      },
+      "rh": {
+        "name": "",
+        "email": "",
+        "enabled": false
+      }
+    },
+    {
+      "name": "Avendus Finance Private Limited",
+      "gh": {
+        "name": "",
+        "email": "",
+        "enabled": false
+      },
+      "analyst": {
+        "name": "",
+        "email": "",
+        "enabled": false
+      },
+      "rh": {
+        "name": "",
+        "email": "",
+        "enabled": false
+      }
+    },
+    {
+      "name": "Credila Financial Services Limited",
+      "gh": {
+        "name": "",
+        "email": "",
+        "enabled": false
+      },
+      "analyst": {
+        "name": "",
+        "email": "",
+        "enabled": false
+      },
+      "rh": {
+        "name": "",
+        "email": "",
+        "enabled": false
+      }
+    },
+    {
+      "name": "D. S. Integrated FinSec Private Limited",
+      "gh": {
+        "name": "",
+        "email": "",
+        "enabled": false
+      },
+      "analyst": {
+        "name": "",
+        "email": "",
+        "enabled": false
+      },
+      "rh": {
+        "name": "",
+        "email": "",
+        "enabled": false
+      }
+    },
+    {
+      "name": "Earlysalary Services Private Limited",
+      "gh": {
+        "name": "",
+        "email": "",
+        "enabled": false
+      },
+      "analyst": {
+        "name": "",
+        "email": "",
+        "enabled": false
+      },
+      "rh": {
+        "name": "",
+        "email": "",
+        "enabled": false
+      }
+    },
+    {
+      "name": "Fedbank Financial Services Limited",
+      "gh": {
+        "name": "",
+        "email": "",
+        "enabled": false
+      },
+      "analyst": {
+        "name": "",
+        "email": "",
+        "enabled": false
+      },
+      "rh": {
+        "name": "",
+        "email": "",
+        "enabled": false
+      }
+    },
+    {
+      "name": "Hiranandani Financial Services Private Limited",
+      "gh": {
+        "name": "",
+        "email": "",
+        "enabled": false
+      },
+      "analyst": {
+        "name": "",
+        "email": "",
+        "enabled": false
+      },
+      "rh": {
+        "name": "",
+        "email": "",
+        "enabled": false
+      }
+    },
+    {
+      "name": "Indostar Capital Finance Limited",
+      "gh": {
+        "name": "",
+        "email": "",
+        "enabled": false
+      },
+      "analyst": {
+        "name": "",
+        "email": "",
+        "enabled": false
+      },
+      "rh": {
+        "name": "",
+        "email": "",
+        "enabled": false
+      }
+    },
+    {
+      "name": "Infinity Fincorp Solutions Private Limited",
+      "gh": {
+        "name": "",
+        "email": "",
+        "enabled": false
+      },
+      "analyst": {
+        "name": "",
+        "email": "",
+        "enabled": false
+      },
+      "rh": {
+        "name": "",
+        "email": "",
+        "enabled": false
+      }
+    },
+    {
+      "name": "Integro Finserv Private Limited",
+      "gh": {
+        "name": "",
+        "email": "",
+        "enabled": false
+      },
+      "analyst": {
+        "name": "",
+        "email": "",
+        "enabled": false
+      },
+      "rh": {
+        "name": "",
+        "email": "",
+        "enabled": false
+      }
+    },
+    {
+      "name": "Kaleidofin Capital Private Limited",
+      "gh": {
+        "name": "",
+        "email": "",
+        "enabled": false
+      },
+      "analyst": {
+        "name": "",
+        "email": "",
+        "enabled": false
+      },
+      "rh": {
+        "name": "",
+        "email": "",
+        "enabled": false
+      }
+    },
+    {
+      "name": "Khushbu Auto Finance Limited",
+      "gh": {
+        "name": "",
+        "email": "",
+        "enabled": false
+      },
+      "analyst": {
+        "name": "",
+        "email": "",
+        "enabled": false
+      },
+      "rh": {
+        "name": "",
+        "email": "",
+        "enabled": false
+      }
+    },
+    {
+      "name": "KISETSU Saison Finance (INDIA) Private Limited",
+      "gh": {
+        "name": "",
+        "email": "",
+        "enabled": false
+      },
+      "analyst": {
+        "name": "",
+        "email": "",
+        "enabled": false
+      },
+      "rh": {
+        "name": "",
+        "email": "",
+        "enabled": false
+      }
+    },
+    {
+      "name": "Manba Finance Limited",
+      "gh": {
+        "name": "",
+        "email": "",
+        "enabled": false
+      },
+      "analyst": {
+        "name": "",
+        "email": "",
+        "enabled": false
+      },
+      "rh": {
+        "name": "",
+        "email": "",
+        "enabled": false
+      }
+    },
+    {
+      "name": "Mantra Capital Limited",
+      "gh": {
+        "name": "",
+        "email": "",
+        "enabled": false
+      },
+      "analyst": {
+        "name": "",
+        "email": "",
+        "enabled": false
+      },
+      "rh": {
+        "name": "",
+        "email": "",
+        "enabled": false
+      }
+    },
+    {
+      "name": "Micro Units Development and Refinance Agency Limited",
+      "gh": {
+        "name": "",
+        "email": "",
+        "enabled": false
+      },
+      "analyst": {
+        "name": "",
+        "email": "",
+        "enabled": false
+      },
+      "rh": {
+        "name": "",
+        "email": "",
+        "enabled": false
+      }
+    },
+    {
+      "name": "MINTIFI Finserve Private Limited",
+      "gh": {
+        "name": "",
+        "email": "",
+        "enabled": false
+      },
+      "analyst": {
+        "name": "",
+        "email": "",
+        "enabled": false
+      },
+      "rh": {
+        "name": "",
+        "email": "",
+        "enabled": false
+      }
+    },
+    {
+      "name": "NABFINS Limited",
+      "gh": {
+        "name": "",
+        "email": "",
+        "enabled": false
+      },
+      "analyst": {
+        "name": "",
+        "email": "",
+        "enabled": false
+      },
+      "rh": {
+        "name": "",
+        "email": "",
+        "enabled": false
+      }
+    },
+    {
+      "name": "NABKISAN Finance Limited",
+      "gh": {
+        "name": "",
+        "email": "",
+        "enabled": false
+      },
+      "analyst": {
+        "name": "",
+        "email": "",
+        "enabled": false
+      },
+      "rh": {
+        "name": "",
+        "email": "",
+        "enabled": false
+      }
+    },
+    {
+      "name": "Netzero Finance Private Limited",
+      "gh": {
+        "name": "",
+        "email": "",
+        "enabled": false
+      },
+      "analyst": {
+        "name": "",
+        "email": "",
+        "enabled": false
+      },
+      "rh": {
+        "name": "",
+        "email": "",
+        "enabled": false
+      }
+    },
+    {
+      "name": "NIIF Infrastructure Finance Limited",
+      "gh": {
+        "name": "",
+        "email": "",
+        "enabled": false
+      },
+      "analyst": {
+        "name": "",
+        "email": "",
+        "enabled": false
+      },
+      "rh": {
+        "name": "",
+        "email": "",
+        "enabled": false
+      }
+    },
+    {
+      "name": "Nisus Finance Services Co Limited",
+      "gh": {
+        "name": "",
+        "email": "",
+        "enabled": false
+      },
+      "analyst": {
+        "name": "",
+        "email": "",
+        "enabled": false
+      },
+      "rh": {
+        "name": "",
+        "email": "",
+        "enabled": false
+      }
+    },
+    {
+      "name": "Profectus Capital Private Limited",
+      "gh": {
+        "name": "",
+        "email": "",
+        "enabled": false
+      },
+      "analyst": {
+        "name": "",
+        "email": "",
+        "enabled": false
+      },
+      "rh": {
+        "name": "",
+        "email": "",
+        "enabled": false
+      }
+    },
+    {
+      "name": "Red Fort Capital Finance Company Private Limited",
+      "gh": {
+        "name": "",
+        "email": "",
+        "enabled": false
+      },
+      "analyst": {
+        "name": "",
+        "email": "",
+        "enabled": false
+      },
+      "rh": {
+        "name": "",
+        "email": "",
+        "enabled": false
+      }
+    },
+    {
+      "name": "Shriram Credit Company Limited",
+      "gh": {
+        "name": "",
+        "email": "",
+        "enabled": false
+      },
+      "analyst": {
+        "name": "",
+        "email": "",
+        "enabled": false
+      },
+      "rh": {
+        "name": "",
+        "email": "",
+        "enabled": false
+      }
+    },
+    {
+      "name": "Shriram Insight Share Brokers Limited",
+      "gh": {
+        "name": "",
+        "email": "",
+        "enabled": false
+      },
+      "analyst": {
+        "name": "",
+        "email": "",
+        "enabled": false
+      },
+      "rh": {
+        "name": "",
+        "email": "",
+        "enabled": false
+      }
+    },
+    {
+      "name": "Small Industries Development Bank of India",
+      "gh": {
+        "name": "",
+        "email": "",
+        "enabled": false
+      },
+      "analyst": {
+        "name": "",
+        "email": "",
+        "enabled": false
+      },
+      "rh": {
+        "name": "",
+        "email": "",
+        "enabled": false
+      }
+    },
+    {
+      "name": "SMFG India Credit Company Limited",
+      "gh": {
+        "name": "",
+        "email": "",
+        "enabled": false
+      },
+      "analyst": {
+        "name": "",
+        "email": "",
+        "enabled": false
+      },
+      "rh": {
+        "name": "",
+        "email": "",
+        "enabled": false
+      }
+    },
+    {
+      "name": "SMFG India Home Finance Company Limited",
+      "gh": {
+        "name": "",
+        "email": "",
+        "enabled": false
+      },
+      "analyst": {
+        "name": "",
+        "email": "",
+        "enabled": false
+      },
+      "rh": {
+        "name": "",
+        "email": "",
+        "enabled": false
+      }
+    },
+    {
+      "name": "Spark Institutional Equities Private Limited",
+      "gh": {
+        "name": "",
+        "email": "",
+        "enabled": false
+      },
+      "analyst": {
+        "name": "",
+        "email": "",
+        "enabled": false
+      },
+      "rh": {
+        "name": "",
+        "email": "",
+        "enabled": false
+      }
+    },
+    {
+      "name": "STCI Finance Limited",
+      "gh": {
+        "name": "",
+        "email": "",
+        "enabled": false
+      },
+      "analyst": {
+        "name": "",
+        "email": "",
+        "enabled": false
+      },
+      "rh": {
+        "name": "",
+        "email": "",
+        "enabled": false
+      }
+    },
+    {
+      "name": "Svakarma Finance Private Limited",
+      "gh": {
+        "name": "",
+        "email": "",
+        "enabled": false
+      },
+      "analyst": {
+        "name": "",
+        "email": "",
+        "enabled": false
+      },
+      "rh": {
+        "name": "",
+        "email": "",
+        "enabled": false
+      }
+    },
+    {
+      "name": "Svamaan Financial Services Private Limited",
+      "gh": {
+        "name": "",
+        "email": "",
+        "enabled": false
+      },
+      "analyst": {
+        "name": "",
+        "email": "",
+        "enabled": false
+      },
+      "rh": {
+        "name": "",
+        "email": "",
+        "enabled": false
+      }
+    },
+    {
+      "name": "Svatantra Micro Housing Finance Corporation Limited",
+      "gh": {
+        "name": "",
+        "email": "",
+        "enabled": false
+      },
+      "analyst": {
+        "name": "",
+        "email": "",
+        "enabled": false
+      },
+      "rh": {
+        "name": "",
+        "email": "",
+        "enabled": false
+      }
+    },
+    {
+      "name": "Svatantra Microfin Limited",
+      "gh": {
+        "name": "",
+        "email": "",
+        "enabled": false
+      },
+      "analyst": {
+        "name": "",
+        "email": "",
+        "enabled": false
+      },
+      "rh": {
+        "name": "",
+        "email": "",
+        "enabled": false
+      }
+    },
+    {
+      "name": "Way2Wealth Brokers Private Limited",
+      "gh": {
+        "name": "",
+        "email": "",
+        "enabled": false
+      },
+      "analyst": {
+        "name": "",
+        "email": "",
+        "enabled": false
+      },
+      "rh": {
+        "name": "",
+        "email": "",
+        "enabled": false
+      }
+    }
+  ],
+  "section_recipients": [
+    {
+      "name": "Jitendra",
+      "email": "jitendra.meghrajani@gmail.com",
+      "enabled": true,
+      "sections": [
+        "S1",
+        "S2",
+        "S3",
+        "S4",
+        "S5"
+      ]
+    }
+  ]
+}
