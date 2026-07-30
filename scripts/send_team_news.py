@@ -80,8 +80,14 @@ def _parse_item(raw: str) -> dict:
     body = body.split(" | ")[0]
     source, _, rest = body.partition(": ")
     title, _, summary = rest.partition(" — ")
+    wl_company = ""
+    for t in tags:
+        m2 = re.match(r"WATCHLIST\s*[—-]\s*(.+)", t)
+        if m2:
+            wl_company = m2.group(1).strip()
     return {
         "tags": " ".join(tags),
+        "wl_company": wl_company,
         "source": source.strip(),
         "title": (title or rest).strip(),
         "summary": summary.strip()[:220],
@@ -104,13 +110,20 @@ def _classify(it: dict, company_phrases: list[str]) -> str:
 
 
 def _match_companies(it: dict, rows: list[dict]) -> list[str]:
+    """Tag from the fetcher is authoritative (the item came from that
+    company's own query); text phrase match is only a fallback. Re-matching
+    by text alone silently dropped tagged items whose headline did not
+    repeat the company name."""
     text = (it["tags"] + " " + it["title"] + " " + it["summary"]).lower()
+    tag = it.get("wl_company", "").lower()
     hits = []
     for r in rows:
         name = r["company"].strip()
         if not name:
             continue
-        if name.lower() in text or (_phrase(name) and _phrase(name) in text):
+        n = name.lower()
+        if (tag and (tag == n or tag.startswith(n) or n.startswith(tag))) \
+                or n in text or (_phrase(name) and _phrase(name) in text):
             hits.append(name)
     return hits
 
@@ -247,6 +260,15 @@ def main() -> None:
     for it in items:
         it["section"] = _classify(it, phrases)
         it["companies"] = _match_companies(it, rows)
+
+    comp_counts: dict[str, int] = {}
+    for it in items:
+        for c in it["companies"]:
+            comp_counts[c] = comp_counts.get(c, 0) + 1
+        if it.get("wl_company") and not it["companies"]:
+            print(f"[WARN] watchlist-tagged item matched no row: "
+                  f"tag='{it['wl_company']}' title='{it['title'][:70]}'")
+    print("Per-company matches:", comp_counts or "none")
 
     by_section: dict[str, list[dict]] = {s: [] for s in SECTION_TITLES}
     for it in items:
