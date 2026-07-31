@@ -363,12 +363,8 @@ def generate_report(news_text: str, today: datetime.date, api_key: str) -> str:
     day_str = today.strftime("%A")
     date_str = today.strftime("%d %B %Y")
 
-    # Headroom for the wider per-company fetch (5 items/company). At ~400
-    # chars/item the pool now runs ~85-95k; a 100k ceiling would silently
-    # truncate the tail sources (web scraper, NSE/BSE RSS). Input tokens are
-    # the cheap side of the bill, so buy the margin rather than lose sources.
-    if len(news_text) > 150000:
-        news_text = news_text[:150000] + "\n[...truncated]"
+    if len(news_text) > 100000:
+        news_text = news_text[:100000] + "\n[...truncated]"
 
     prompt = _build_prompt(news_text, day_str, date_str)
 
