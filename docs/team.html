@@ -138,12 +138,38 @@ async function ghGet(path){
   const j=await r.json();
   return {sha:j.sha,text:decodeURIComponent(escape(atob(j.content.replace(/\n/g,''))))};
 }
-async function ghPut(path,content,fileSha,msg){
+async function ghPutOnce(path,content,fileSha,msg){
   const body={message:msg,branch:BRANCH,content:btoa(unescape(encodeURIComponent(content)))};
   if(fileSha)body.sha=fileSha;
   const r=await fetch(`https://api.github.com/repos/${OWNER}/${REPO}/contents/${path}`,{method:'PUT',headers:{Authorization:'Bearer '+getToken(),Accept:'application/vnd.github+json'},body:JSON.stringify(body)});
-  if(!r.ok){const e=await r.json().catch(()=>({}));throw new Error(path+': '+r.status+' '+(e.message||''));}
+  if(!r.ok){const e=await r.json().catch(()=>({}));const err=new Error(path+': '+r.status+' '+(e.message||''));err.status=r.status;throw err;}
   return (await r.json()).content.sha;
+}
+
+// A 409 means the file changed on GitHub since this page loaded it (another
+// save, or a deploy) — the sha we hold is stale. Re-read the file, and only
+// overwrite after telling the user what changed, so a concurrent edit is
+// never silently clobbered.
+async function ghPut(path,content,fileSha,msg){
+  try{
+    return await ghPutOnce(path,content,fileSha,msg);
+  }catch(e){
+    if(e.status!==409)throw e;
+    const cur=await ghGet(path);
+    let proceed=true;
+    if(path==='team.json'){
+      let n='?';
+      try{n=(JSON.parse(cur.text).rows||[]).length;}catch(_){}
+      proceed=confirm(
+        'team.json was changed on GitHub after this page loaded '+
+        '(the server copy now has '+n+' rows).\n\n'+
+        'OK  = overwrite with what you see on screen ('+team.rows.length+' rows)\n'+
+        'Cancel = keep the server version (reload the page to see it)'
+      );
+    }
+    if(!proceed)throw new Error('Save cancelled — reload the page to load the latest version.');
+    return await ghPutOnce(path,content,cur.sha,msg);
+  }
 }
 function esc(s){return (s||'').replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;');}
 
