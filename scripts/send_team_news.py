@@ -50,6 +50,25 @@ _S5_RE = re.compile(
 )
 _S3_SOURCES = ("rbi", "sebi", "nhb", "rbi-enforcement")
 
+# Mechanical version of the 7:30 report's AI SKIP rules (stock tips, target
+# price calls, awards, CSR, consumer product launches). Same intent, no AI.
+_TEAM_JUNK_RE = re.compile(
+    r"\b(buy|sell|hold|accumulate|reduce|add|neutral|not rated)\b[^.|]{0,70}\btarget\b"
+    r"|\bfor the target\b"
+    r"|\btarget (price|rs\.?)\b"
+    r"|\b(rated|maintains?|reiterates?|upgrades? to|downgrades? to) (buy|sell|hold|accumulate|reduce|neutral|overweight|underweight)\b"
+    r"|\bstock (pick|tip|recommendation)s?\b"
+    r"|\bbrokerage[s]? (say|view|pick)"
+    r"|\b(wins?|receives?|bags?|conferred) .{0,40}award\b|\bfelicitat"
+    r"|\bcsr (initiative|activity|spend)"
+    r"|\blaunch(es|ed)? .{0,30}\b(app|campaign|scheme|platform|card|savings account)\b",
+    re.IGNORECASE,
+)
+
+
+def _is_team_junk(it: dict) -> bool:
+    return bool(_TEAM_JUNK_RE.search(f'{it["title"]} {it["summary"]}'))
+
 ROLES = (("gh_name", "gh_email", "send_gh"),
          ("analyst_name", "analyst_email", "send_analyst"),
          ("rh_name", "rh_email", "send_rh"))
@@ -376,6 +395,13 @@ def main() -> None:
     items = [it for it in items if _key(it) not in seen]
     print(f"{len(items)} items after team-mail dedup")
 
+    pre_junk = len(items)
+    dropped = [it for it in items if _is_team_junk(it)]
+    items = [it for it in items if not _is_team_junk(it)]
+    for it in dropped[:10]:
+        print(f"[junk] dropped: {it['title'][:80]}")
+    print(f"{len(items)} items after junk filter (dropped {pre_junk - len(items)})")
+
     phrases = [_phrase(r["company"]) for r in rows]
     for it in items:
         it["section"] = _classify(it, phrases)
@@ -427,8 +453,11 @@ def main() -> None:
 
         if "S1" in p["sections"]:
             s1_blocks = []
-            for comp in sorted(p["companies"]):
-                its = [it for it in items if comp in it["companies"]]
+            shown: set[str] = set()  # one story = one card, even if it matches
+            for comp in sorted(p["companies"]):  # several of this person's companies
+                its = [it for it in items
+                       if comp in it["companies"] and _key(it) not in shown]
+                shown.update(_key(it) for it in its)
                 if its:
                     total += len(its)
                     headlines.extend(it["title"] for it in its)
