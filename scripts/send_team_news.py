@@ -128,7 +128,13 @@ _TEAM_JUNK_RE = re.compile(
     r"|\brevenue breakdown\b"
     r"|\b52[- ]week (high|low)\b"
     r"|\bsubscribe\b.{0,60}\bipo\b|\bipo\b.{0,60}\bsubscribe\b"
-    r"|\b(gmp|grey market premium)\b",
+    r"|\b(gmp|grey market premium)\b"
+    # Mutual-fund scheme/NAV pages — matched S4 on 'gilt' but carry no news
+    # ("Kotak Gilt Investment Regular-IDCW Quarterly - NAV, Reviews...").
+    r"|\bnav\b.{0,40}\b(review|asset allocation|scheme|portfolio)\b"
+    r"|\b(idcw|direct plan|regular plan)\b"
+    r"|\basset allocation\b.{0,30}\breview"
+    r"|\bfund (performance|returns?) (review|analysis)\b",
     re.IGNORECASE,
 )
 
@@ -214,6 +220,70 @@ def _mentions_company(body: str, name: str) -> bool:
     return len(matched) >= 2
 
 
+_URL_IN_TEXT_RE = re.compile(r"https?://\S+")
+_MD_RE = re.compile(r"[*_`]{1,3}")
+# A headline that is only a date ("Jul 29 2026", "29 July 2026") carries no
+# information — Telegram posts often open with a date line.
+_DATE_ONLY_RE = re.compile(
+    r"^\W*(?:\d{1,2}[\s./-]+\w{3,9}[\s./-]+\d{2,4}"
+    r"|\w{3,9}[\s./-]+\d{1,2},?[\s./-]+\d{2,4}"
+    r"|\d{1,2}[/-]\d{1,2}[/-]\d{2,4})\W*$",
+    re.IGNORECASE,
+)
+
+
+def _tidy_text(s: str) -> str:
+    """Strip inline URLs and markdown, collapse whitespace."""
+    s = _URL_IN_TEXT_RE.sub(" ", s)
+    s = _MD_RE.sub("", s)
+    return " ".join(s.split()).strip(" -–—:|·")
+
+
+def _first_sentence(s: str, limit: int = 130) -> str:
+    """Leading sentence/clause of a blob, capped for a headline."""
+    s = s.strip()
+    for sep in (". ", " | ", "? ", "! "):
+        idx = s.find(sep)
+        if 25 <= idx <= limit:
+            return s[:idx].strip()
+    return s[:limit].rstrip() + ("…" if len(s) > limit else "")
+
+
+# Boilerplate that trails Telegram forwards of news articles.
+_TG_TAIL_RE = re.compile(
+    r"\s*(\d+\s*min read|last updated|read more|click here|share this|"
+    r"subscribe|join (our )?channel|via @\S+|source\s*:.*)\s*$",
+    re.IGNORECASE,
+)
+_TG_LEAD_DATE_RE = re.compile(
+    r"^\W*(?:\d{1,2}[\s./-]+\w{3,9}[\s./-]+\d{2,4}"
+    r"|\w{3,9}[\s./-]+\d{1,2},?[\s./-]+\d{2,4})\W*",
+    re.IGNORECASE,
+)
+
+
+def _telegram_headline(body: str) -> str:
+    """Pull a real headline out of a raw Telegram message.
+
+    Channels mark the headline with *bold* markdown, and otherwise put it
+    before the article URL. Without this, _parse_item's ':'/'—' splits gave
+    a bare date ('Jul 29 2026') or a wall of rate-table numbers."""
+    bold = re.search(r"\*\*?([^*]{20,200})\*\*?", body)
+    if bold:
+        head = bold.group(1)
+    else:
+        u = _URL_IN_TEXT_RE.search(body)
+        head = body[:u.start()] if (u and u.start() > 20) else body
+    head = _tidy_text(head)
+    head = _TG_LEAD_DATE_RE.sub("", head)          # drop leading date line
+    for _ in range(3):                              # drop trailing boilerplate
+        new_head = _TG_TAIL_RE.sub("", head).strip(" -–—:|·,")
+        if new_head == head:
+            break
+        head = new_head
+    return _first_sentence(head) if head else ""
+
+
 def _parse_item(raw: str) -> dict:
     item = re.sub(r"^\d+\.\s*", "", raw)
     tags = re.findall(r"^\[([^\]]+)\]\s*", item)
@@ -226,9 +296,35 @@ def _parse_item(raw: str) -> dict:
     m = re.search(r"\|\s*PUB:([^|]+)", body)
     if m:
         pub = m.group(1).strip()
-    body = body.split(" | ")[0]
-    source, _, rest = body.partition(": ")
-    title, _, summary = rest.partition(" — ")
+    tag_str = " ".join(tags)
+    if "TELEGRAM" in tag_str.upper():
+        # Telegram arrives as a raw 500-char message dump with no
+        # "source: title — summary" structure, so the ':' / '—' splits below
+        # produced garbage headlines (a bare date, or a wall of text with the
+        # URL printed inline). Rebuild a clean headline + link instead.
+        ch = re.search(r"TELEGRAM[^@]*(@\S+)", tag_str)
+        source = ch.group(1) if ch else "Telegram"
+        if not url:
+            u = _URL_IN_TEXT_RE.search(body)
+            if u:
+                url = u.group(0).rstrip(").,;")
+        title = _telegram_headline(body)
+        clean = _tidy_text(body)
+        rest = clean[len(title):] if clean.startswith(title) else clean
+        summary = _TG_TAIL_RE.sub("", rest).strip(" -–—:|·,")[:180]
+        if not title:
+            title, summary = _first_sentence(clean), ""
+    else:
+        body = body.split(" | ")[0]
+        source, _, rest = body.partition(": ")
+        title, _, summary = rest.partition(" — ")
+        title, summary = _tidy_text(title), _tidy_text(summary)
+        # A date-only or stub headline is useless — promote from the summary.
+        if summary and (_DATE_ONLY_RE.match(title) or len(title) < 15):
+            title = _first_sentence(summary)
+            summary = ""
+        if len(title) > 150:
+            title = _first_sentence(title, 150)
     wl_company = ""
     for t in tags:
         m2 = re.match(r"WATCHLIST\s*[—-]\s*(.+)", t)
