@@ -458,7 +458,12 @@ def fetch_company_news() -> list[str]:
                 empty_streak = 0
             count = 0
             for entry in feed.entries:
-                if count >= 3:
+                # 5 slots per company: Google often ranks technical-chart noise
+                # above the real story, so a tight cap drops genuine results
+                # (this lost an Indostar Q1 item at rank 3). Costs no extra
+                # requests — same one query per company, we just keep more of
+                # its results. Downstream junk filters remove the noise.
+                if count >= 5:
                     break
                 if not _is_recent(entry, 48, assume=False):
                     continue

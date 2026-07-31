@@ -56,12 +56,22 @@ _TEAM_JUNK_RE = re.compile(
     r"\b(buy|sell|hold|accumulate|reduce|add|neutral|not rated)\b[^.|]{0,70}\btarget\b"
     r"|\bfor the target\b"
     r"|\btarget (price|rs\.?)\b"
-    r"|\b(rated|maintains?|reiterates?|upgrades? to|downgrades? to) (buy|sell|hold|accumulate|reduce|neutral|overweight|underweight)\b"
+    r"|\b(rated|maintains?|reiterates?|upgrades? to|downgrades? to) (strong )?(buy|sell|hold|accumulate|reduce|neutral|overweight|underweight)\b"
     r"|\bstock (pick|tip|recommendation)s?\b"
     r"|\bbrokerage[s]? (say|view|pick)"
     r"|\b(wins?|receives?|bags?|conferred) .{0,40}award\b|\bfelicitat"
     r"|\bcsr (initiative|activity|spend)"
-    r"|\blaunch(es|ed)? .{0,30}\b(app|campaign|scheme|platform|card|savings account)\b",
+    r"|\blaunch(es|ed)? .{0,30}\b(app|campaign|scheme|platform|card|savings account)\b"
+    # Technical-analysis / chart noise (MarketsMojo, TradingView and similar).
+    # Never credit-relevant, and it dominates Google's top slots for small caps.
+    r"|\b(golden|death) cross\b"
+    r"|\btechnical(s\b|\s+(signal|momentum|improvement|indicator|analysis|chart|outlook|strength|weakness))"
+    r"|\b(moving average|rsi|macd|bollinger|candlestick|support and resistance)\b"
+    # Stock-recommendation grade changes (NOT credit rating grades — those use
+    # AAA/AA/BBB etc, which deliberately do not appear in this word list).
+    r"|\b(upgraded|downgraded|upgrade[sd]?|downgrade[sd]?) to (strong )?(buy|sell|hold|accumulate|reduce|neutral|outperform|underperform)\b"
+    r"|\brevenue breakdown\b"
+    r"|\b52[- ]week (high|low)\b",
     re.IGNORECASE,
 )
 
