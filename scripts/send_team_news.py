@@ -37,18 +37,73 @@ SECTION_TITLES = {
     "S5": "S5 — Macro",
 }
 
+# Section routing mirrors the 7:30 report's prompt:
+#   S1 — [WATCHLIST — Company] items only
+#   S2 — NBFC, HFC, Banking, Broking, Fintech, MFI, rating agency actions
+#   S3 — RBI, SEBI, NHB regulatory circulars/orders (+ ALL penalties)
+#   S4 — Bonds, G-Sec, CP, Securitisation, FIMMDA, CCIL market items
+#   S5 — Macro: GDP, CPI, IIP, forex, fiscal deficit, US Fed, global
 _S4_RE = re.compile(
-    r"\b(bond[s]?|ncd[s]?|debenture|yield[s]?|g-sec|gsec|commercial paper|"
-    r"securitisation|securitization|fimmda|ccil|treasury|masala bond|"
-    r"certificate[s]? of deposit|repo auction|vrr|omo|state government securities)\b",
+    r"\b(bond[s]?|ncd[s]?|debenture[s]?|yield[s]?|g-sec|gsec|gilt[s]?|"
+    r"commercial paper|\bcp\b|securitisation|securitization|fimmda|ccil|"
+    r"treasury bill[s]?|t-bill[s]?|masala bond|certificate[s]? of deposit|"
+    r"repo auction|vrr|\bomo\b|state (development loan|government securities)|"
+    r"money market|debt market|coupon rate|private placement)\b",
     re.IGNORECASE,
 )
 _S5_RE = re.compile(
-    r"\b(gdp|inflation|cpi|wpi|iip|repo rate|monetary policy|mpc|fiscal deficit|"
-    r"current account|forex reserves|rupee|trade deficit|pmi|gst collection)\b",
+    r"\b(gdp|inflation|cpi|wpi|iip|core sector|repo rate|monetary policy|\bmpc\b|"
+    r"fiscal deficit|current account deficit|\bcad\b|forex reserves|foreign exchange reserves|"
+    r"rupee|trade deficit|\bpmi\b|gst collection|us fed|federal reserve|fomc|"
+    r"ecb|global growth|crude (oil )?price|industrial production|unemployment rate)\b",
     re.IGNORECASE,
 )
 _S3_SOURCES = ("rbi", "sebi", "nhb", "rbi-enforcement")
+# 7:30 rule: "Any RBI Imposes Monetary Penalty / SEBI Order / NHB Penalty or
+# enforcement action ALWAYS goes to S3 — never S2 — regardless of entity."
+_PENALTY_RE = re.compile(
+    r"\b(monetary penalty|imposes? (a )?penalt|penalis|penaliz|"
+    r"enforcement action|adjudication order|show cause notice|"
+    r"debarr|cease and desist|sebi order|compounding order)\w*",
+    re.IGNORECASE,
+)
+
+# Geography scope: this is an Indian credit desk (7:30 prompt: "Credit Rating
+# Intelligence Agent at CareEdge Ratings"). Local financial news from other
+# emerging markets leaks in through generic bond/market keywords — a Nigerian
+# bond story reached S4. Drop those unless the item also concerns India.
+# Major economies (US/UK/EU/China/Japan) are NOT listed: the 7:30 S5 explicitly
+# admits "US Fed, global" macro.
+_OUT_OF_SCOPE_GEO_RE = re.compile(
+    r"\b(nigeria|nigerian|kenya|kenyan|ghana|uganda|tanzania|zimbabwe|zambia|"
+    r"pakistan|bangladesh|sri lanka|nepal|myanmar|"
+    r"philippine|vietnam|indonesia|malaysia|thailand|"
+    r"brazil|argentin|colombia|mexico|peru|chile|"
+    r"turkey|turkish|egypt|morocco|south africa|naira|shilling|"
+    r"cedi|ringgit|baht|peso|rand)\w*",
+    re.IGNORECASE,
+)
+_INDIA_RE = re.compile(
+    r"\b(india|indian|bharat|rbi|sebi|irdai|nhb|nabard|sidbi|nse|bse|"
+    r"rupee|crore|lakh|nbfc|hfc|mumbai|delhi|bengaluru|chennai|kolkata|"
+    r"g-sec|gst|mpc|repo rate|dalal street|nifty|sensex)\w*",
+    re.IGNORECASE,
+)
+# Country-code TLDs of sources that publish other markets' local news
+# (e.g. streamlinefeed.co.ke). Not a blocklist of the outlet — a scope signal.
+_FOREIGN_TLD_RE = re.compile(
+    r"\.(ke|ng|gh|ug|tz|zw|pk|bd|lk|np|ph|vn|id|my|th|br|ar|mx|tr|eg|za)\b",
+    re.IGNORECASE,
+)
+
+
+def _is_out_of_scope(it: dict) -> bool:
+    """True when the story is another market's local news with no India angle."""
+    body = f'{it["title"]} {it["summary"]}'
+    if _INDIA_RE.search(body) or _INDIA_RE.search(it["source"]):
+        return False
+    return bool(_OUT_OF_SCOPE_GEO_RE.search(body)
+                or _FOREIGN_TLD_RE.search(it["source"]))
 
 # Mechanical version of the 7:30 report's AI SKIP rules (stock tips, target
 # price calls, awards, CSR, consumer product launches). Same intent, no AI.
@@ -194,6 +249,9 @@ def _classify(it: dict, company_phrases: list[str]) -> str:
     text = (it["tags"] + " " + it["source"] + " " + it["title"] + " " + it["summary"]).lower()
     if "watchlist" in it["tags"].lower() or any(p and p in text for p in company_phrases):
         return "S1"
+    # 7:30 rule: penalties/enforcement ALWAYS S3, never S2, whoever the entity.
+    if _PENALTY_RE.search(text):
+        return "S3"
     if it["source"].lower().startswith(_S3_SOURCES) or "sebi" in it["source"].lower():
         return "S3"
     if _S4_RE.search(text):
@@ -342,12 +400,17 @@ def _item_polarity(it: dict) -> str:
 
 
 def _item_html(it: dict) -> str:
-    href = it["url"] or "#"
     meta = " &middot; ".join(x for x in (it["source"], it["pub"]) if x)
     delta = _delta_badge(f'{it["title"]} {it["summary"]}')
     meta_html = f'{meta}{delta}' if (meta or delta) else ""
+    style = (f"font-family:Georgia,'Times New Roman',serif;font-size:15px;"
+             f"line-height:21px;color:{_NAVY};font-weight:bold;text-decoration:none")
+    # 7:30 LINKS rule: if an item has no URL, render it without any link —
+    # never emit href="#" (that produced dead headlines in S5).
+    headline = (f'<a href="{it["url"]}" style="{style}">{it["title"]}</a>'
+                if it["url"] else f'<span style="{style}">{it["title"]}</span>')
     return f"""<tr><td style="padding:10px 0;border-bottom:1px solid {_DIVIDER}">
-<a href="{href}" style="font-family:Georgia,'Times New Roman',serif;font-size:15px;line-height:21px;color:{_NAVY};font-weight:bold;text-decoration:none">{it["title"]}</a>
+{headline}
 <div style="font-family:Arial,Helvetica,sans-serif;font-size:11px;color:{_GREY};margin-top:3px">{meta_html}</div>
 </td></tr>"""
 
@@ -490,6 +553,13 @@ def main() -> None:
     for it in dropped[:10]:
         print(f"[junk] dropped: {it['title'][:80]}")
     print(f"{len(items)} items after junk filter (dropped {pre_junk - len(items)})")
+
+    pre_geo = len(items)
+    off = [it for it in items if _is_out_of_scope(it)]
+    items = [it for it in items if not _is_out_of_scope(it)]
+    for it in off[:10]:
+        print(f"[scope] dropped (not India): {it['title'][:75]}")
+    print(f"{len(items)} items after geography filter (dropped {pre_geo - len(items)})")
 
     phrases = [_phrase(r["company"]) for r in rows]
     for it in items:
