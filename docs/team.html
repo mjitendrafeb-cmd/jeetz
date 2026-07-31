@@ -83,7 +83,7 @@ input[type=checkbox]{width:15px;height:15px;accent-color:#15803d;cursor:pointer}
       <strong>Send?</strong> ticks (only ticked people receive mails), then <strong>S1&ndash;S5</strong> ticks =
       which report sections that row's enabled people receive.
       <em>S1 = their own companies' news; S2 NBFC/FI &middot; S3 Regulations &middot; S4 Bond Markets &middot; S5 Macro.</em>
-      A person on multiple rows gets the union of ticked sections. Saving also updates the news-fetch watchlist. No API credits used.
+      A person on multiple rows gets the union of ticked sections. This table drives only the 7:40 team mail — the 7:30 AI report's watchlist is separate (<code>watchlist.txt</code>) and is not touched here. No API credits used for this mail.
     </div>
     <div class="scroll">
     <table id="entTable">
@@ -124,7 +124,7 @@ input[type=checkbox]{width:15px;height:15px;accent-color:#15803d;cursor:pointer}
 const OWNER='mjitendrafeb-cmd', REPO='jeetz', BRANCH='main';
 const SECS=['S1','S2','S3','S4','S5'];
 let team={rows:[],send_empty_mail:false};
-let sha=null, wlSha=null, cfgSha=null, cfgObj=null, cfgDailyEnabled=true;
+let sha=null, cfgSha=null, cfgObj=null, cfgDailyEnabled=true;
 
 function getToken(){return localStorage.getItem('gh_pat')||'';}
 function saveToken(){const t=document.getElementById('tokenInput').value.trim();if(t){localStorage.setItem('gh_pat',t);refreshTokenBar();alert('Token saved in this browser.');}}
@@ -172,7 +172,6 @@ async function load(){
   try{
     const t=await ghGet('team.json');sha=t.sha;team=JSON.parse(t.text);
     if(!team.rows)team={rows:[],send_empty_mail:false};
-    try{const w=await ghGet('watchlist.txt');wlSha=w.sha;}catch(e){wlSha=null;}
     try{const c=await ghGet('config.json');cfgSha=c.sha;cfgObj=JSON.parse(c.text);
         cfgDailyEnabled=cfgObj.daily_report_enabled!==false;}catch(e){cfgObj=null;}
     if(team.scheduled_enabled===undefined)team.scheduled_enabled=true;
@@ -188,8 +187,9 @@ async function saveAll(){
   try{
     team.rows=team.rows.filter(r=>r.company.trim());
     sha=await ghPut('team.json',JSON.stringify(team,null,2),sha,'Update team & routing via management console');
-    const header='# ============================================================\n# COMPANY WATCHLIST — Daily Credit Intelligence Report\n# ============================================================\n# Managed by docs/team.html — edit companies there.\n# ============================================================\n\n';
-    wlSha=await ghPut('watchlist.txt',header+team.rows.map(r=>r.company.trim()).join('\n')+'\n',wlSha,'Sync watchlist from team console');
+    // NOTE: watchlist.txt is the 7:30 AI report's own list and is intentionally
+    // NOT written here — this console only manages the 7:40 team mail's
+    // team.json. Edit watchlist.txt directly on GitHub to change the 7:30 list.
     if(cfgObj && cfgObj.daily_report_enabled!==cfgDailyEnabled){
       cfgObj.daily_report_enabled=cfgDailyEnabled;
       cfgSha=await ghPut('config.json',JSON.stringify(cfgObj,null,2),cfgSha,'Toggle 7:30 daily report via console');
