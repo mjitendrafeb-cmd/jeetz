@@ -42,8 +42,8 @@
         "S1",
         "S2",
         "S3",
-        "S5",
-        "S4"
+        "S4",
+        "S5"
       ]
     },
     {
@@ -57,7 +57,9 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": []
+      "sections": [
+        "S4"
+      ]
     },
     {
       "company": "Karnataka State Financial Corporation",
@@ -70,7 +72,9 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": []
+      "sections": [
+        "S4"
+      ]
     },
     {
       "company": "Laxmi India Finance Limited",
@@ -83,7 +87,9 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": []
+      "sections": [
+        "S4"
+      ]
     },
     {
       "company": "Dar Credit & Capital Limited",
@@ -96,7 +102,9 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": []
+      "sections": [
+        "S4"
+      ]
     },
     {
       "company": "Religare Housing Development Finance Corporation Limited",
@@ -109,7 +117,9 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": []
+      "sections": [
+        "S4"
+      ]
     },
     {
       "company": "Supreme Housing Finance Limited",
@@ -122,7 +132,9 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": []
+      "sections": [
+        "S4"
+      ]
     },
     {
       "company": "Manba Finance Limited",
@@ -133,10 +145,10 @@
       "analyst_email": "pooja.biyani@careedge.in",
       "rh_email": "",
       "send_gh": true,
-      "send_analyst": true,
+      "send_analyst": false,
       "send_rh": false,
       "sections": [
-        "S1"
+        "S4"
       ]
     },
     {
@@ -151,7 +163,9 @@
       "send_analyst": true,
       "send_rh": false,
       "sections": [
-        "S1"
+        "S1",
+        "S4",
+        "S5"
       ]
     },
     {
@@ -165,7 +179,9 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": []
+      "sections": [
+        "S4"
+      ]
     },
     {
       "company": "KrazyBee Services Limited",
@@ -178,7 +194,9 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": []
+      "sections": [
+        "S4"
+      ]
     },
     {
       "company": "Karnataka Bank Limited",
@@ -191,7 +209,9 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": []
+      "sections": [
+        "S4"
+      ]
     },
     {
       "company": "Tourism Finance Corporation of India Limited",
@@ -204,7 +224,9 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": []
+      "sections": [
+        "S4"
+      ]
     },
     {
       "company": "Golden Legand Leasing and Finance Limited",
@@ -215,11 +237,9 @@
       "analyst_email": "krish.hablani@careedge.in",
       "rh_email": "",
       "send_gh": true,
-      "send_analyst": true,
+      "send_analyst": false,
       "send_rh": false,
-      "sections": [
-        "S1"
-      ]
+      "sections": []
     },
     {
       "company": "Nabkisan Finance limited",
@@ -230,11 +250,9 @@
       "analyst_email": "krish.hablani@careedge.in",
       "rh_email": "",
       "send_gh": true,
-      "send_analyst": true,
+      "send_analyst": false,
       "send_rh": false,
-      "sections": [
-        "S1"
-      ]
+      "sections": []
     },
     {
       "company": "Svamaan Financial Services Private Limited",
@@ -245,11 +263,9 @@
       "analyst_email": "pooja.biyani@careedge.in",
       "rh_email": "",
       "send_gh": true,
-      "send_analyst": true,
+      "send_analyst": false,
       "send_rh": false,
-      "sections": [
-        "S1"
-      ]
+      "sections": []
     },
     {
       "company": "Axis Securities Limited",
@@ -484,7 +500,9 @@
       "send_analyst": true,
       "send_rh": false,
       "sections": [
-        "S1"
+        "S1",
+        "S4",
+        "S5"
       ]
     },
     {
@@ -499,7 +517,9 @@
       "send_analyst": true,
       "send_rh": false,
       "sections": [
-        "S1"
+        "S1",
+        "S4",
+        "S5"
       ]
     },
     {
@@ -563,11 +583,9 @@
       "analyst_email": "pooja.biyani@careedge.in",
       "rh_email": "",
       "send_gh": true,
-      "send_analyst": true,
+      "send_analyst": false,
       "send_rh": false,
-      "sections": [
-        "S1"
-      ]
+      "sections": []
     },
     {
       "company": "Profectus Capital Private Limited",
@@ -578,11 +596,9 @@
       "analyst_email": "om.tupe@careedge.in",
       "rh_email": "",
       "send_gh": true,
-      "send_analyst": true,
+      "send_analyst": false,
       "send_rh": false,
-      "sections": [
-        "S1"
-      ]
+      "sections": []
     },
     {
       "company": "Indian Clearing Corporation Limited",
@@ -869,7 +885,9 @@
       "send_analyst": true,
       "send_rh": false,
       "sections": [
-        "S1"
+        "S1",
+        "S4",
+        "S5"
       ]
     },
     {
@@ -998,11 +1016,9 @@
       "analyst_email": "krish.hablani@careedge.in",
       "rh_email": "",
       "send_gh": true,
-      "send_analyst": true,
+      "send_analyst": false,
       "send_rh": false,
-      "sections": [
-        "S1"
-      ]
+      "sections": []
     },
     {
       "company": "Northern Arc Capital Limited",
@@ -1182,11 +1198,9 @@
       "analyst_email": "pooja.biyani@careedge.in",
       "rh_email": "",
       "send_gh": true,
-      "send_analyst": true,
+      "send_analyst": false,
       "send_rh": false,
-      "sections": [
-        "S1"
-      ]
+      "sections": []
     },
     {
       "company": "Crest Ventures Limited",
@@ -1561,11 +1575,9 @@
       "analyst_email": "pooja.biyani@careedge.in",
       "rh_email": "",
       "send_gh": true,
-      "send_analyst": true,
+      "send_analyst": false,
       "send_rh": false,
-      "sections": [
-        "S1"
-      ]
+      "sections": []
     },
     {
       "company": "Keshava Prabha Microfin Private Limited",
@@ -1631,7 +1643,9 @@
       "send_analyst": true,
       "send_rh": false,
       "sections": [
-        "S1"
+        "S1",
+        "S4",
+        "S5"
       ]
     },
     {
@@ -1646,7 +1660,9 @@
       "send_analyst": true,
       "send_rh": false,
       "sections": [
-        "S1"
+        "S1",
+        "S4",
+        "S5"
       ]
     },
     {
@@ -1671,11 +1687,9 @@
       "analyst_email": "pooja.biyani@careedge.in",
       "rh_email": "",
       "send_gh": true,
-      "send_analyst": true,
+      "send_analyst": false,
       "send_rh": false,
-      "sections": [
-        "S1"
-      ]
+      "sections": []
     },
     {
       "company": "Red Fort Capital Finance Company Private Limited",
@@ -1686,11 +1700,9 @@
       "analyst_email": "om.tupe@careedge.in",
       "rh_email": "",
       "send_gh": true,
-      "send_analyst": true,
+      "send_analyst": false,
       "send_rh": false,
-      "sections": [
-        "S1"
-      ]
+      "sections": []
     },
     {
       "company": "Yogakshemam Loans Limited",
@@ -1987,11 +1999,9 @@
       "analyst_email": "om.tupe@careedge.in",
       "rh_email": "",
       "send_gh": true,
-      "send_analyst": true,
+      "send_analyst": false,
       "send_rh": false,
-      "sections": [
-        "S1"
-      ]
+      "sections": []
     },
     {
       "company": "Spark Institutional Equities Private Limited",
@@ -2002,11 +2012,9 @@
       "analyst_email": "pooja.biyani@careedge.in",
       "rh_email": "",
       "send_gh": true,
-      "send_analyst": true,
+      "send_analyst": false,
       "send_rh": false,
-      "sections": [
-        "S1"
-      ]
+      "sections": []
     },
     {
       "company": "Avendus Finance Private Limited",
@@ -2017,11 +2025,9 @@
       "analyst_email": "pooja.biyani@careedge.in",
       "rh_email": "",
       "send_gh": true,
-      "send_analyst": true,
+      "send_analyst": false,
       "send_rh": false,
-      "sections": [
-        "S1"
-      ]
+      "sections": []
     },
     {
       "company": "Coimbatore Capital Limited",
@@ -2344,11 +2350,9 @@
       "analyst_email": "om.tupe@careedge.in",
       "rh_email": "",
       "send_gh": true,
-      "send_analyst": true,
+      "send_analyst": false,
       "send_rh": false,
-      "sections": [
-        "S1"
-      ]
+      "sections": []
     },
     {
       "company": "Khushbu Auto Finance Limited",
@@ -2359,11 +2363,9 @@
       "analyst_email": "om.tupe@careedge.in",
       "rh_email": "",
       "send_gh": true,
-      "send_analyst": true,
+      "send_analyst": false,
       "send_rh": false,
-      "sections": [
-        "S1"
-      ]
+      "sections": []
     },
     {
       "company": "Namra Finance Limited",
@@ -2712,11 +2714,9 @@
       "analyst_email": "krish.hablani@careedge.in",
       "rh_email": "",
       "send_gh": true,
-      "send_analyst": true,
+      "send_analyst": false,
       "send_rh": false,
-      "sections": [
-        "S1"
-      ]
+      "sections": []
     },
     {
       "company": "SK Finance Limited",
@@ -2779,11 +2779,9 @@
       "analyst_email": "krish.hablani@careedge.in",
       "rh_email": "",
       "send_gh": true,
-      "send_analyst": true,
+      "send_analyst": false,
       "send_rh": false,
-      "sections": [
-        "S1"
-      ]
+      "sections": []
     },
     {
       "company": "Bandhan Life Insurance Limited",
@@ -2807,11 +2805,9 @@
       "analyst_email": "pooja.biyani@careedge.in",
       "rh_email": "",
       "send_gh": true,
-      "send_analyst": true,
+      "send_analyst": false,
       "send_rh": false,
-      "sections": [
-        "S1"
-      ]
+      "sections": []
     },
     {
       "company": "Mirae Asset Investment Managers (India) Private Limited (CQR)",
@@ -2926,11 +2922,9 @@
       "analyst_email": "om.tupe@careedge.in",
       "rh_email": "",
       "send_gh": true,
-      "send_analyst": true,
+      "send_analyst": false,
       "send_rh": false,
-      "sections": [
-        "S1"
-      ]
+      "sections": []
     },
     {
       "company": "City Union Bank Limited",
@@ -3100,7 +3094,9 @@
       "send_analyst": true,
       "send_rh": false,
       "sections": [
-        "S1"
+        "S1",
+        "S4",
+        "S5"
       ]
     },
     {
@@ -3125,11 +3121,9 @@
       "analyst_email": "om.tupe@careedge.in",
       "rh_email": "",
       "send_gh": true,
-      "send_analyst": true,
+      "send_analyst": false,
       "send_rh": false,
-      "sections": [
-        "S1"
-      ]
+      "sections": []
     },
     {
       "company": "Magma General Insurance Limited",
@@ -3182,7 +3176,9 @@
       "send_analyst": true,
       "send_rh": false,
       "sections": [
-        "S1"
+        "S1",
+        "S4",
+        "S5"
       ]
     },
     {
@@ -3194,11 +3190,9 @@
       "analyst_email": "om.tupe@careedge.in",
       "rh_email": "",
       "send_gh": true,
-      "send_analyst": true,
+      "send_analyst": false,
       "send_rh": false,
-      "sections": [
-        "S1"
-      ]
+      "sections": []
     },
     {
       "company": "Jana Small Finance Bank Limited",
@@ -3495,11 +3489,9 @@
       "analyst_email": "om.tupe@careedge.in",
       "rh_email": "",
       "send_gh": true,
-      "send_analyst": true,
+      "send_analyst": false,
       "send_rh": false,
-      "sections": [
-        "S1"
-      ]
+      "sections": []
     },
     {
       "company": "Credila Financial Services Limited",
@@ -3510,11 +3502,9 @@
       "analyst_email": "pooja.biyani@careedge.in",
       "rh_email": "",
       "send_gh": true,
-      "send_analyst": true,
+      "send_analyst": false,
       "send_rh": false,
-      "sections": [
-        "S1"
-      ]
+      "sections": []
     },
     {
       "company": "Anand Rathi Share and Stock Brokers Limited",
@@ -3525,11 +3515,9 @@
       "analyst_email": "om.tupe@careedge.in",
       "rh_email": "",
       "send_gh": true,
-      "send_analyst": true,
+      "send_analyst": false,
       "send_rh": false,
-      "sections": [
-        "S1"
-      ]
+      "sections": []
     },
     {
       "company": "Star Health and Allied Insurance Company Limited",
@@ -3813,11 +3801,9 @@
       "analyst_email": "pooja.biyani@careedge.in",
       "rh_email": "",
       "send_gh": true,
-      "send_analyst": true,
+      "send_analyst": false,
       "send_rh": false,
-      "sections": [
-        "S1"
-      ]
+      "sections": []
     },
     {
       "company": "Emkay Global Financial Services Limited",
@@ -3828,11 +3814,9 @@
       "analyst_email": "om.tupe@careedge.in",
       "rh_email": "",
       "send_gh": true,
-      "send_analyst": true,
+      "send_analyst": false,
       "send_rh": false,
-      "sections": [
-        "S1"
-      ]
+      "sections": []
     },
     {
       "company": "Bandhan Mutual Fund",
@@ -3856,11 +3840,9 @@
       "analyst_email": "pooja.biyani@careedge.in",
       "rh_email": "",
       "send_gh": true,
-      "send_analyst": true,
+      "send_analyst": false,
       "send_rh": false,
-      "sections": [
-        "S1"
-      ]
+      "sections": []
     },
     {
       "company": "People Home Loans Limited",
@@ -4082,7 +4064,9 @@
       "send_analyst": true,
       "send_rh": false,
       "sections": [
-        "S1"
+        "S1",
+        "S4",
+        "S5"
       ]
     },
     {
@@ -4107,11 +4091,9 @@
       "analyst_email": "pooja.biyani@careedge.in",
       "rh_email": "",
       "send_gh": true,
-      "send_analyst": true,
+      "send_analyst": false,
       "send_rh": false,
-      "sections": [
-        "S1"
-      ]
+      "sections": []
     },
     {
       "company": "Small Industries Development Bank of India",
@@ -4125,7 +4107,9 @@
       "send_analyst": true,
       "send_rh": false,
       "sections": [
-        "S1"
+        "S1",
+        "S4",
+        "S5"
       ]
     },
     {
@@ -4270,7 +4254,9 @@
       "send_analyst": true,
       "send_rh": false,
       "sections": [
-        "S1"
+        "S1",
+        "S4",
+        "S5"
       ]
     },
     {
@@ -4282,11 +4268,9 @@
       "analyst_email": "om.tupe@careedge.in",
       "rh_email": "",
       "send_gh": true,
-      "send_analyst": true,
+      "send_analyst": false,
       "send_rh": false,
-      "sections": [
-        "S1"
-      ]
+      "sections": []
     },
     {
       "company": "IKF Finance Limited",
@@ -4466,11 +4450,9 @@
       "analyst_email": "om.tupe@careedge.in",
       "rh_email": "",
       "send_gh": true,
-      "send_analyst": true,
+      "send_analyst": false,
       "send_rh": false,
-      "sections": [
-        "S1"
-      ]
+      "sections": []
     },
     {
       "company": "Svakarma Finance Private Limited",
@@ -4481,11 +4463,9 @@
       "analyst_email": "om.tupe@careedge.in",
       "rh_email": "",
       "send_gh": true,
-      "send_analyst": true,
+      "send_analyst": false,
       "send_rh": false,
-      "sections": [
-        "S1"
-      ]
+      "sections": []
     },
     {
       "company": "Shriram Insight Share Brokers Limited",
@@ -4496,11 +4476,9 @@
       "analyst_email": "krish.hablani@careedge.in",
       "rh_email": "",
       "send_gh": true,
-      "send_analyst": true,
+      "send_analyst": false,
       "send_rh": false,
-      "sections": [
-        "S1"
-      ]
+      "sections": []
     },
     {
       "company": "Shriram Credit Company Limited",
@@ -4514,7 +4492,9 @@
       "send_analyst": true,
       "send_rh": false,
       "sections": [
-        "S1"
+        "S1",
+        "S4",
+        "S5"
       ]
     },
     {
@@ -4565,11 +4545,9 @@
       "analyst_email": "pooja.biyani@careedge.in",
       "rh_email": "",
       "send_gh": true,
-      "send_analyst": true,
+      "send_analyst": false,
       "send_rh": false,
-      "sections": [
-        "S1"
-      ]
+      "sections": []
     },
     {
       "company": "Indian Overseas Bank",
