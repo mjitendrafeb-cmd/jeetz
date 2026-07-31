@@ -425,7 +425,11 @@ def fetch_newsapi_news(api_key: str) -> list[str]:
         return []
 
 
-def fetch_company_news() -> list[str]:
+def fetch_company_news(per_company_cap: int = 3) -> list[str]:
+    """per_company_cap: how many stories to keep from each company's
+    Google News results. Default 3 = the 7:30 report's long-standing
+    behaviour (do not change). The 7:40 team mail passes a wider value
+    because it has its own mechanical junk filter to absorb the noise."""
     companies = load_watchlist()
     if not companies:
         return []
@@ -458,12 +462,11 @@ def fetch_company_news() -> list[str]:
                 empty_streak = 0
             count = 0
             for entry in feed.entries:
-                # 5 slots per company: Google often ranks technical-chart noise
-                # above the real story, so a tight cap drops genuine results
-                # (this lost an Indostar Q1 item at rank 3). Costs no extra
-                # requests — same one query per company, we just keep more of
-                # its results. Downstream junk filters remove the noise.
-                if count >= 5:
+                # Google often ranks technical-chart noise above the real
+                # story, so a tight cap can drop genuine results (this lost an
+                # Indostar Q1 item). A wider cap costs no extra requests —
+                # same one query per company, we just keep more of its results.
+                if count >= per_company_cap:
                     break
                 if not _is_recent(entry, 48, assume=False):
                     continue
@@ -507,7 +510,8 @@ def _normalise_key(item: str) -> str:
     return text.split(" — ")[0].lower().strip()[:120]
 
 
-def fetch_all_news(newsapi_key: str = "", apply_seen: bool = True) -> tuple[str, dict]:
+def fetch_all_news(newsapi_key: str = "", apply_seen: bool = True,
+                   per_company_cap: int = 3) -> tuple[str, dict]:
     """Returns (news_text, source_summary) where source_summary maps source name → item count."""
     cfg = load_config()
     sources = cfg.get("sources", {})
@@ -570,7 +574,7 @@ def fetch_all_news(newsapi_key: str = "", apply_seen: bool = True) -> tuple[str,
         _add("NewsAPI", fetch_newsapi_news(newsapi_key))
 
     if src_on("company_watchlist"):
-        _add("Watchlist (Google)", fetch_company_news())
+        _add("Watchlist (Google)", fetch_company_news(per_company_cap))
         try:
             from fetch_bse import fetch_bse_announcements, fetch_bse_financials
             watchlist = load_watchlist()

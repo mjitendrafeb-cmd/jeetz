@@ -398,7 +398,11 @@ def main() -> None:
     # otherwise items that report published are hidden from team mails
     # forever even though the team mail never delivered them. The team
     # mailer relies solely on its own team_seen.json.
-    news_text, _summary = fetch_all_news(os.environ.get("NEWSAPI_KEY", ""), apply_seen=False)
+    # per_company_cap=5: wider net than the 7:30 report's default of 3, because
+    # this mail has its own mechanical junk filter (_is_team_junk) to strip the
+    # technical-chart noise that Google often ranks above the real story.
+    news_text, _summary = fetch_all_news(os.environ.get("NEWSAPI_KEY", ""),
+                                         apply_seen=False, per_company_cap=5)
     items = [_parse_item(ln) for ln in news_text.splitlines() if ln.strip()]
 
     seen = _load_seen()
