@@ -458,7 +458,7 @@ def fetch_company_news() -> list[str]:
                 empty_streak = 0
             count = 0
             for entry in feed.entries:
-                if count >= 2:
+                if count >= 3:
                     break
                 if not _is_recent(entry, 48, assume=False):
                     continue
