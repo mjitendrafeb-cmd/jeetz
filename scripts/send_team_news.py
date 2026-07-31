@@ -71,7 +71,9 @@ _TEAM_JUNK_RE = re.compile(
     # AAA/AA/BBB etc, which deliberately do not appear in this word list).
     r"|\b(upgraded|downgraded|upgrade[sd]?|downgrade[sd]?) to (strong )?(buy|sell|hold|accumulate|reduce|neutral|outperform|underperform)\b"
     r"|\brevenue breakdown\b"
-    r"|\b52[- ]week (high|low)\b",
+    r"|\b52[- ]week (high|low)\b"
+    r"|\bsubscribe\b.{0,60}\bipo\b|\bipo\b.{0,60}\bsubscribe\b"
+    r"|\b(gmp|grey market premium)\b",
     re.IGNORECASE,
 )
 
@@ -89,9 +91,40 @@ def _load_team() -> dict:
         return json.load(f)
 
 
+_FILLER = {"of", "and", "the", "&", "for"}
+
+
 def _phrase(name: str) -> str:
+    """Contiguous prefix of the company name covering TWO significant words.
+    'Bank of Baroda' -> 'bank of baroda' (a bare 'bank of' matched every
+    bank headline — the BoB/BoI/BoM rows all 'matched' the same items).
+    'Small Industries Development Bank' -> 'small industries'.
+    'D. S. Integrated FinSec' -> 'd. s. integrated finsec' (initials are
+    not significant on their own)."""
     words = name.lower().split()
-    return " ".join(words[:2]) if len(words) >= 2 else (words[0] if words else "")
+    if not words:
+        return ""
+    sig = 0
+    for i, w in enumerate(words):
+        if len(w.strip(".")) >= 3 and w not in _FILLER:
+            sig += 1
+        if sig == 2:
+            return " ".join(words[:i + 1])
+    return " ".join(words)
+
+
+def _sig_words(name: str) -> list[str]:
+    """First two significant words of a company name (len>=3, no fillers,
+    no corporate suffixes) — used to sanity-check tag attribution."""
+    suffixes = {"private", "limited", "ltd", "pvt", "co", "company", "(india)", "india"}
+    out = []
+    for w in name.lower().split():
+        w2 = w.strip(".,()")
+        if len(w2) >= 3 and w2 not in _FILLER and w2 not in suffixes:
+            out.append(w2)
+        if len(out) == 2:
+            break
+    return out
 
 
 def _parse_item(raw: str) -> dict:
@@ -143,7 +176,7 @@ def _match_companies(it: dict, rows: list[dict]) -> list[str]:
     company's own query); text phrase match is only a fallback. Re-matching
     by text alone silently dropped tagged items whose headline did not
     repeat the company name."""
-    text = (it["tags"] + " " + it["title"] + " " + it["summary"]).lower()
+    body = (it["title"] + " " + it["summary"]).lower()
     tag = it.get("wl_company", "").lower()
     hits = []
     for r in rows:
@@ -151,8 +184,18 @@ def _match_companies(it: dict, rows: list[dict]) -> list[str]:
         if not name:
             continue
         n = name.lower()
-        if (tag and (tag == n or tag.startswith(n) or n.startswith(tag))) \
-                or n in text or (_phrase(name) and _phrase(name) in text):
+        tag_match = tag and (tag == n or tag.startswith(n) or n.startswith(tag))
+        if tag_match:
+            # Sanity: the story must actually mention the company. Google's
+            # per-company query sometimes returns unrelated stories (e.g. a
+            # Patanjali deal from 'D. S. Integrated's query because 'd.' is
+            # a substring of every 'Ltd.').
+            words = _sig_words(name)
+            if words and not any(w in body for w in words):
+                print(f"[WARN] tag '{name[:40]}' but story never mentions it: "
+                      f"'{it['title'][:60]}' — dropped from this company")
+                tag_match = False
+        if tag_match or n in body or (_phrase(name) and _phrase(name) in body):
             hits.append(name)
     return hits
 
