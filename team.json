@@ -266,12 +266,16 @@
       "analyst_name": "Punit N",
       "rh_name": "Priyesh",
       "gh_email": "jitendra.meghrajani@careedge.in",
-      "analyst_email": "pranjal.mulekar@careedge.in",
+      "analyst_email": "punit.nyati@careedge.in",
       "rh_email": "",
       "send_gh": false,
-      "send_analyst": false,
+      "send_analyst": true,
       "send_rh": false,
-      "sections": []
+      "sections": [
+        "S1",
+        "S4",
+        "S5"
+      ]
     },
     {
       "company": "IFCI Limited",
@@ -370,12 +374,16 @@
       "analyst_name": "Punit N",
       "rh_name": "Priyesh",
       "gh_email": "jitendra.meghrajani@careedge.in",
-      "analyst_email": "pranjal.mulekar@careedge.in",
+      "analyst_email": "punit.nyati@careedge.in",
       "rh_email": "",
       "send_gh": false,
-      "send_analyst": false,
+      "send_analyst": true,
       "send_rh": false,
-      "sections": []
+      "sections": [
+        "S1",
+        "S4",
+        "S5"
+      ]
     },
     {
       "company": "One Mobikwik",
@@ -504,12 +512,16 @@
       "analyst_name": "Punit N",
       "rh_name": "Priyesh",
       "gh_email": "jitendra.meghrajani@careedge.in",
-      "analyst_email": "pranjal.mulekar@careedge.in",
+      "analyst_email": "punit.nyati@careedge.in",
       "rh_email": "",
       "send_gh": false,
-      "send_analyst": false,
+      "send_analyst": true,
       "send_rh": false,
-      "sections": []
+      "sections": [
+        "S1",
+        "S4",
+        "S5"
+      ]
     },
     {
       "company": "Nivara Home Finance Limited",
@@ -716,12 +728,16 @@
       "analyst_name": "Punit N",
       "rh_name": "Priyesh",
       "gh_email": "jitendra.meghrajani@careedge.in",
-      "analyst_email": "pranjal.mulekar@careedge.in",
+      "analyst_email": "punit.nyati@careedge.in",
       "rh_email": "",
       "send_gh": false,
-      "send_analyst": false,
+      "send_analyst": true,
       "send_rh": false,
-      "sections": []
+      "sections": [
+        "S1",
+        "S4",
+        "S5"
+      ]
     },
     {
       "company": "SMIFS LIMITED",
@@ -1058,12 +1074,16 @@
       "analyst_name": "Punit N",
       "rh_name": "Priyesh",
       "gh_email": "jitendra.meghrajani@careedge.in",
-      "analyst_email": "pranjal.mulekar@careedge.in",
+      "analyst_email": "punit.nyati@careedge.in",
       "rh_email": "",
       "send_gh": false,
-      "send_analyst": false,
+      "send_analyst": true,
       "send_rh": false,
-      "sections": []
+      "sections": [
+        "S1",
+        "S4",
+        "S5"
+      ]
     },
     {
       "company": "Sammaan Finserve Limited",
@@ -1071,12 +1091,16 @@
       "analyst_name": "Punit N",
       "rh_name": "Priyesh",
       "gh_email": "jitendra.meghrajani@careedge.in",
-      "analyst_email": "pranjal.mulekar@careedge.in",
+      "analyst_email": "punit.nyati@careedge.in",
       "rh_email": "",
       "send_gh": false,
-      "send_analyst": false,
+      "send_analyst": true,
       "send_rh": false,
-      "sections": []
+      "sections": [
+        "S1",
+        "S4",
+        "S5"
+      ]
     },
     {
       "company": "Shubham Housing Development Finance Company Limited",
@@ -1608,12 +1632,16 @@
       "analyst_name": "Punit N",
       "rh_name": "Priyesh",
       "gh_email": "jitendra.meghrajani@careedge.in",
-      "analyst_email": "pranjal.mulekar@careedge.in",
+      "analyst_email": "punit.nyati@careedge.in",
       "rh_email": "",
       "send_gh": false,
-      "send_analyst": false,
+      "send_analyst": true,
       "send_rh": false,
-      "sections": []
+      "sections": [
+        "S1",
+        "S4",
+        "S5"
+      ]
     },
     {
       "company": "Svatantra Micro Housing Finance Corporation Limited",
@@ -1733,12 +1761,16 @@
       "analyst_name": "Punit N",
       "rh_name": "Priyesh",
       "gh_email": "jitendra.meghrajani@careedge.in",
-      "analyst_email": "pranjal.mulekar@careedge.in",
+      "analyst_email": "punit.nyati@careedge.in",
       "rh_email": "",
       "send_gh": false,
-      "send_analyst": false,
+      "send_analyst": true,
       "send_rh": false,
-      "sections": []
+      "sections": [
+        "S1",
+        "S4",
+        "S5"
+      ]
     },
     {
       "company": "LIC Housing Finance Limited",
@@ -2025,12 +2057,16 @@
       "analyst_name": "Punit N",
       "rh_name": "Priyesh",
       "gh_email": "jitendra.meghrajani@careedge.in",
-      "analyst_email": "pranjal.mulekar@careedge.in",
+      "analyst_email": "punit.nyati@careedge.in",
       "rh_email": "",
       "send_gh": false,
-      "send_analyst": false,
+      "send_analyst": true,
       "send_rh": false,
-      "sections": []
+      "sections": [
+        "S1",
+        "S4",
+        "S5"
+      ]
     },
     {
       "company": "Au Small Finance Bank Limited",
@@ -2787,12 +2823,16 @@
       "analyst_name": "Punit N",
       "rh_name": "Priyesh",
       "gh_email": "jitendra.meghrajani@careedge.in",
-      "analyst_email": "pranjal.mulekar@careedge.in",
+      "analyst_email": "punit.nyati@careedge.in",
       "rh_email": "",
       "send_gh": false,
-      "send_analyst": false,
+      "send_analyst": true,
       "send_rh": false,
-      "sections": []
+      "sections": [
+        "S1",
+        "S4",
+        "S5"
+      ]
     },
     {
       "company": "Infinity Fincorp Solutions Private Limited",
@@ -3105,12 +3145,16 @@
       "analyst_name": "Punit N",
       "rh_name": "Priyesh",
       "gh_email": "jitendra.meghrajani@careedge.in",
-      "analyst_email": "pranjal.mulekar@careedge.in",
+      "analyst_email": "punit.nyati@careedge.in",
       "rh_email": "",
       "send_gh": false,
-      "send_analyst": false,
+      "send_analyst": true,
       "send_rh": false,
-      "sections": []
+      "sections": [
+        "S1",
+        "S4",
+        "S5"
+      ]
     },
     {
       "company": "Integro Finserv Private Limited",
@@ -3864,12 +3908,16 @@
       "analyst_name": "Punit N",
       "rh_name": "Priyesh",
       "gh_email": "jitendra.meghrajani@careedge.in",
-      "analyst_email": "pranjal.mulekar@careedge.in",
+      "analyst_email": "punit.nyati@careedge.in",
       "rh_email": "",
       "send_gh": false,
-      "send_analyst": false,
+      "send_analyst": true,
       "send_rh": false,
-      "sections": []
+      "sections": [
+        "S1",
+        "S4",
+        "S5"
+      ]
     },
     {
       "company": "Equirus Securities Private Limited",
@@ -3903,12 +3951,16 @@
       "analyst_name": "Punit N",
       "rh_name": "Priyesh",
       "gh_email": "jitendra.meghrajani@careedge.in",
-      "analyst_email": "pranjal.mulekar@careedge.in",
+      "analyst_email": "punit.nyati@careedge.in",
       "rh_email": "",
       "send_gh": false,
-      "send_analyst": false,
+      "send_analyst": true,
       "send_rh": false,
-      "sections": []
+      "sections": [
+        "S1",
+        "S4",
+        "S5"
+      ]
     },
     {
       "company": "Narendra Finance",
