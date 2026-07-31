@@ -113,18 +113,50 @@ def _phrase(name: str) -> str:
     return " ".join(words)
 
 
+_SUFFIXES = {"private", "limited", "ltd", "pvt", "co", "company", "(india)", "india"}
+# Words too common in BFSI headlines to identify a company on their own —
+# 'small' alone must not attach an Equitas Small Finance story to SIDBI.
+_COMMON = {"small", "national", "india", "indian", "bank", "finance", "financial",
+           "capital", "home", "housing", "credit", "micro", "asset", "industries",
+           "development", "investment", "securities", "insurance", "mutual", "fund"}
+
+
 def _sig_words(name: str) -> list[str]:
     """First two significant words of a company name (len>=3, no fillers,
     no corporate suffixes) — used to sanity-check tag attribution."""
-    suffixes = {"private", "limited", "ltd", "pvt", "co", "company", "(india)", "india"}
     out = []
     for w in name.lower().split():
         w2 = w.strip(".,()")
-        if len(w2) >= 3 and w2 not in _FILLER and w2 not in suffixes:
+        if len(w2) >= 3 and w2 not in _FILLER and w2 not in _SUFFIXES:
             out.append(w2)
         if len(out) == 2:
             break
     return out
+
+
+def _acronym(name: str) -> str:
+    """SIDBI-style initialism from the name's non-filler words — real
+    headlines say 'SIDBI', not 'Small Industries Development Bank'."""
+    letters = [w[0] for w in name.lower().split()
+               if w.strip(".,()") and w not in _FILLER and not w.startswith("(")]
+    a = "".join(letters)
+    return a if len(a) >= 4 else ""
+
+
+def _mentions_company(body: str, name: str) -> bool:
+    """Does the story text actually refer to this company? True when it
+    contains the acronym (sidbi), any DISTINCTIVE name word (indostar,
+    baroda, equitas), or at least TWO common words ('small' + 'industries').
+    A single common word like 'small' is not enough — that attached
+    Equitas Small Finance stories to SIDBI."""
+    acro = _acronym(name)
+    if acro and re.search(r"\b" + re.escape(acro) + r"\b", body):
+        return True
+    words = _sig_words(name)
+    matched = [w for w in words if w in body]
+    if any(w not in _COMMON for w in matched):
+        return True
+    return len(matched) >= 2
 
 
 def _parse_item(raw: str) -> dict:
@@ -190,8 +222,7 @@ def _match_companies(it: dict, rows: list[dict]) -> list[str]:
             # per-company query sometimes returns unrelated stories (e.g. a
             # Patanjali deal from 'D. S. Integrated's query because 'd.' is
             # a substring of every 'Ltd.').
-            words = _sig_words(name)
-            if words and not any(w in body for w in words):
+            if _sig_words(name) and not _mentions_company(body, name):
                 print(f"[WARN] tag '{name[:40]}' but story never mentions it: "
                       f"'{it['title'][:60]}' — dropped from this company")
                 tag_match = False
@@ -370,10 +401,11 @@ def _shell(recipient_name: str, date_str: str, company_count: int, story_count: 
 
 <tr><td style="background-color:{_NAVY};padding:28px 32px" class="stack-pad">
 <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0"><tr>
-<td style="font-family:Arial,Helvetica,sans-serif;color:{_CREAM};font-size:12px;letter-spacing:2px;text-transform:uppercase">Credit Intelligence</td>
+<td style="font-family:Arial,Helvetica,sans-serif;color:{_CREAM};font-size:12px;letter-spacing:2px;text-transform:uppercase">Daily News</td>
 <td align="right" style="font-family:Arial,Helvetica,sans-serif;color:{_NAVY_SOFT};font-size:12px">{date_str}</td>
 </tr></table>
-<div style="font-family:Georgia,'Times New Roman',serif;color:#FFFFFF;font-size:26px;line-height:32px;font-weight:bold;margin-top:14px">Watchlist Digest for {recipient_name}</div>
+<div style="font-family:Georgia,'Times New Roman',serif;color:#FFFFFF;font-size:26px;line-height:32px;font-weight:bold;margin-top:14px">CareEdge Daily News</div>
+<div style="font-family:Arial,Helvetica,sans-serif;color:{_CREAM};font-size:14px;margin-top:4px">For {recipient_name}</div>
 <div style="font-family:Arial,Helvetica,sans-serif;color:{_NAVY_SOFT};font-size:13px;margin-top:6px">{subtitle}</div>
 </td></tr>
 
@@ -395,7 +427,7 @@ def _shell(recipient_name: str, date_str: str, company_count: int, story_count: 
 Auto-generated for your watchlist &middot; <a href="{_MANAGE_URL}" style="color:{_NAVY};text-decoration:underline">Manage companies &amp; recipients</a>
 </div>
 <div style="font-family:Arial,Helvetica,sans-serif;font-size:11px;color:#B0AA9C;line-height:16px;margin-top:14px">
-Credit Intelligence &mdash; internal research desk digest. Sources are aggregated from public RSS/news feeds; no AI analysis is applied to this mail.
+CareEdge Daily News &mdash; internal digest. Sources are aggregated from public RSS/news feeds; no AI analysis is applied to this mail.
 </div>
 </td></tr>
 
@@ -408,7 +440,7 @@ def _send(to_addr: str, subject: str, html: str) -> None:
     pw = os.environ["GMAIL_APP_PASSWORD"]
     msg = MIMEMultipart("alternative")
     msg["Subject"] = subject
-    msg["From"] = f"Credit Intelligence <{user}>"
+    msg["From"] = f"CareEdge Daily News <{user}>"
     msg["To"] = to_addr
     msg.attach(MIMEText(html, "html"))
     with smtplib.SMTP_SSL("smtp.gmail.com", 465) as s:
@@ -539,7 +571,7 @@ def main() -> None:
                      ("..." if len(", ".join(headlines[:3])) > 150 else "")) if headlines \
                     else f"Your watchlist digest for {now:%d %b %Y}."
         html = _shell(p["name"], date_str, len(p["companies"]), total, "".join(blocks), preheader)
-        _send(email, f"Credit News — {now:%d %b %Y}", html)
+        _send(email, f"CareEdge Daily News — {now:%d %b %Y}", html)
 
     _save_seen(items)
     _mark_sent_today()
