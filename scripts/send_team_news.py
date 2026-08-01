@@ -861,16 +861,16 @@ def main() -> None:
         for name_f, email_f, send_f in ROLES:
             if not r.get(send_f):
                 continue
-            email = r.get(email_f, "").strip()
-            if not email:
-                continue
-            p = people.setdefault(email, {
-                "name": r.get(name_f, "").strip() or email.split("@")[0],
-                "companies": set(), "sections": set(),
-            })
-            p["sections"].update(secs)
-            if "S1" in secs:
-                p["companies"].add(r["company"])
+            # A cell may hold several addresses ("a@x, b@x; c@x") — each
+            # address gets its own personalized mail.
+            for email in (e.strip() for e in re.split(r"[,;]", r.get(email_f, "")) if e.strip()):
+                p = people.setdefault(email, {
+                    "name": r.get(name_f, "").strip() or email.split("@")[0],
+                    "companies": set(), "sections": set(),
+                })
+                p["sections"].update(secs)
+                if "S1" in secs:
+                    p["companies"].add(r["company"])
 
     if not people:
         print("[route] nobody is enabled in team.json — no mails to send")
