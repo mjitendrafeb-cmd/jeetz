@@ -19,6 +19,8 @@ import datetime
 import smtplib
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
+from email.mime.base import MIMEBase
+from email import encoders
 
 from fetch_news import fetch_all_news
 
@@ -612,14 +614,172 @@ CareEdge Daily News &mdash; internal digest. Sources are aggregated from public 
 </td></tr></table>
 </body></html>"""
 
-def _send(to_addr: str, subject: str, html: str) -> None:
+# ---------------------------------------------------------------------------
+# Newspaper-format rendering — mirrors the 7:30 report's layout exactly by
+# reusing send_credit_report's build_attachment/build_email (lazily imported
+# to avoid a circular import), with per-person S1 and section subscriptions.
+# No AI: cards carry headline+summary; the AI's credit-implication sentence
+# and cross-source dedup are the only pieces that need API credits.
+# ---------------------------------------------------------------------------
+
+_NP_SECTIONS = [
+    ("s1", "sb1", "S1", "&#9733; S1 &mdash; MY RATED ENTITIES &amp; WATCHLIST"),
+    ("s2", "sb2", "S2", "S2 &mdash; NBFC, HFC, BROKING, FINTECH, FI SECTORS"),
+    ("s3", "sb3", "S3", "S3 &mdash; RBI, SEBI, NHB REGULATIONS"),
+    ("s4", "sb4", "S4", "S4 &mdash; BOND &amp; MONEY MARKETS"),
+    ("s5", "sb5", "S5", "S5 &mdash; MACROECONOMIC DEVELOPMENTS"),
+]
+
+_RATING_ACTION_RE = re.compile(
+    r"\b(upgrad\w*|downgrad\w*|rating watch|outlook (revised|negative|positive)|"
+    r"revises? outlook|defaults?\b|delays? (in )?(payment|repayment)|withdraws? rating)",
+    re.IGNORECASE,
+)
+
+
+def _story_score(it: dict) -> int:
+    """Rank stories for the Top-5 table the way the AI ranks its takeaways:
+    watchlist first, then penalties/rating actions, then regulatory."""
+    text = it["title"] + " " + it["summary"]
+    s = 0
+    if it.get("companies"):
+        s += 4
+    if _PENALTY_RE.search(text):
+        s += 3
+    if _RATING_ACTION_RE.search(text):
+        s += 3
+    if it.get("section") == "S3":
+        s += 2
+    if it.get("section") in ("S4", "S5"):
+        s += 1
+    if "[T1]" in it.get("tags", ""):
+        s += 1
+    return s
+
+
+def _np_card(it: dict, hero: bool = False, company: str = "") -> str:
+    cls = "art hero" if hero else "art"
+    bits = [b for b in (company.upper() if company else "", it["source"], it.get("pub", "")) if b]
+    link = (f'<a class="rm" href="{it["url"]}" target="_blank">Read more &#8594;</a>'
+            if it["url"] else "")
+    return (f'<div class="{cls}"><p class="src">{" &bull; ".join(bits)}</p>'
+            f'<p class="hl">{it["title"]}</p>'
+            f'<p class="wh">{it["summary"] or "No summary available."}</p>{link}</div>')
+
+
+def _np_brief(it: dict) -> str:
+    link = f'<a href="{it["url"]}" target="_blank">&#8594;</a>' if it["url"] else ""
+    return f'<p class="ib">&#8226; {it["title"]} ({it["source"]}) {link}</p>'
+
+
+def _np_partb(p: dict, items: list[dict], by_section: dict) -> tuple[str, int, list[dict]]:
+    """Per-person Part B in the 7:30 class markup. Returns (html, story_count,
+    the stories shown — used to pick the Top 5)."""
+    parts: list[str] = []
+    chosen: list[dict] = []
+    total = 0
+    for sid, sbcls, skey, title in _NP_SECTIONS:
+        parts.append(f'<div id="{sid}" data-section="banner" class="sb {sbcls}">{title}</div>')
+        if skey not in p["sections"]:
+            parts.append('<p class="empty">Not subscribed &mdash; enable this section in the console.</p>')
+            continue
+        if skey == "S1":
+            sec: list[tuple[str, dict]] = []
+            shown: set[str] = set()
+            for comp in sorted(p["companies"]):
+                for it in items:
+                    if comp in it["companies"] and _key(it) not in shown:
+                        shown.add(_key(it))
+                        sec.append((comp, it))
+            if not sec:
+                parts.append('<p class="empty">No news in this category today.</p>')
+                continue
+            total += len(sec)
+            chosen.extend(it for _, it in sec)
+            # 7:30 rule: every watchlist item is a full article — no cap.
+            for i, (comp, it) in enumerate(sec):
+                parts.append(_np_card(it, hero=(i == 0), company=comp))
+        else:
+            sec_items = by_section[skey][:20]
+            if not sec_items:
+                parts.append('<p class="empty">No news in this category today.</p>')
+                continue
+            total += len(sec_items)
+            chosen.extend(sec_items)
+            cards, brief = sec_items[:6], sec_items[6:]
+            parts.extend(_np_card(it) for it in cards)
+            if brief:
+                parts.append('<p class="ibh">In brief</p>')
+                parts.extend(_np_brief(it) for it in brief)
+    return "\n".join(parts), total, chosen
+
+
+def _np_partc(top5: list[dict], date_str: str) -> str:
+    """Top-5 table in the exact Part C markup the 7:30 email body uses."""
+    rows = ""
+    for i, it in enumerate(top5):
+        border = "border-bottom:1px solid #f0f0f0;" if i < len(top5) - 1 else ""
+        label = SECTION_TITLES.get(it.get("section", "S2"), "News").upper()
+        rows += (
+            f'<tr valign="top">'
+            f'<td style="padding:10px 8px 10px 16px;font-size:28px;font-weight:900;'
+            f'color:#cc0000;line-height:1;font-family:Georgia,serif;width:44px;">0{i + 1}</td>'
+            f'<td style="padding:10px 16px 10px 4px;{border}">'
+            f'<p style="margin:0 0 2px;font-size:9px;font-weight:800;letter-spacing:1px;'
+            f'text-transform:uppercase;color:#888;">{label} &bull; {it["source"]}</p>'
+            f'<p style="margin:0;font-size:12px;color:#1a1a1a;line-height:1.6;">{it["title"]}</p>'
+            f'</td></tr>'
+        )
+    if not rows:
+        rows = ('<tr><td style="padding:10px 16px;color:#1a1a1a;font-size:12px;">'
+                'No fresh items in your sections today.</td></tr>')
+    return (
+        f'<table id="takeaways" width="100%" cellpadding="0" cellspacing="0" style="background:#1a1a1a;">'
+        f'<tr><td style="padding:8px 16px;font-size:9px;font-weight:800;letter-spacing:3px;'
+        f'text-transform:uppercase;color:#fff;">&#9679; TOP 5 HEADLINES &mdash; {date_str}</td></tr>'
+        f'</table>'
+        f'<table width="100%" cellpadding="0" cellspacing="0" '
+        f'style="border:1px solid #e5e5e5;border-top:none;">{rows}</table>'
+    )
+
+
+def _np_rebrand(html: str) -> str:
+    """The 7:30 templates carry the 'Credit Intelligence News' masthead and
+    repo-edit links; this mail is branded CareEdge Daily News and managed
+    from the team console."""
+    html = html.replace("Credit Intelligence News", "CareEdge Daily News")
+    for stale in (
+        "https://github.com/mjitendrafeb-cmd/jeetz/edit/main/config.json",
+        "https://github.com/mjitendrafeb-cmd/jeetz/edit/main/watchlist.txt",
+    ):
+        html = html.replace(stale, _MANAGE_URL)
+    html = html.replace(
+        "https://github.com/mjitendrafeb-cmd/jeetz/actions/workflows/daily_credit_report.yml",
+        "https://github.com/mjitendrafeb-cmd/jeetz/actions/workflows/team_news.yml",
+    )
+    return html
+
+
+def _send(to_addr: str, subject: str, html: str,
+          attachment_html: str = "", attachment_name: str = "") -> None:
     user = os.environ["GMAIL_USER"]
     pw = os.environ["GMAIL_APP_PASSWORD"]
-    msg = MIMEMultipart("alternative")
+    if attachment_html:
+        msg = MIMEMultipart("mixed")
+        body = MIMEMultipart("alternative")
+        body.attach(MIMEText(html, "html"))
+        msg.attach(body)
+        part = MIMEBase("text", "html")
+        part.set_payload(attachment_html.encode("utf-8"))
+        encoders.encode_base64(part)
+        part.add_header("Content-Disposition", f'attachment; filename="{attachment_name}"')
+        msg.attach(part)
+    else:
+        msg = MIMEMultipart("alternative")
+        msg.attach(MIMEText(html, "html"))
     msg["Subject"] = subject
     msg["From"] = f"CareEdge Daily News <{user}>"
     msg["To"] = to_addr
-    msg.attach(MIMEText(html, "html"))
     with smtplib.SMTP_SSL("smtp.gmail.com", 465) as s:
         s.login(user, pw)
         s.sendmail(user, [to_addr], msg.as_string())
@@ -717,45 +877,26 @@ def main() -> None:
         _save_seen(items)
         return
 
-    empty_row = ('<tr><td style="padding:14px 0;color:#B0AA9C;font-style:italic;'
-                 'font-family:Arial,Helvetica,sans-serif;font-size:12px">'
-                 '{msg}</td></tr>')
+    # Lazy import: send_credit_report imports helpers from this module at its
+    # top level, so importing it here (after this module is fully loaded) is
+    # safe, while a module-level import would be circular.
+    import send_credit_report as _scr
 
+    today = now.date()
     for email, p in people.items():
-        blocks, total, headlines = [], 0, []
-
-        if "S1" in p["sections"]:
-            s1_blocks = []
-            shown: set[str] = set()  # one story = one card, even if it matches
-            for comp in sorted(p["companies"]):  # several of this person's companies
-                its = [it for it in items
-                       if comp in it["companies"] and _key(it) not in shown]
-                shown.update(_key(it) for it in its)
-                if its:
-                    total += len(its)
-                    headlines.extend(it["title"] for it in its)
-                    s1_blocks.append(_company_banner(comp, its) +
-                                     "".join(_item_html(it) for it in its))
-            body = "".join(s1_blocks) or empty_row.format(msg="No fresh news on your companies today.")
-            blocks.append(_sec_banner(SECTION_TITLES["S1"], _RED) + body)
-
-        for s in ("S2", "S3", "S4", "S5"):
-            if s not in p["sections"]:
-                continue
-            its = by_section[s][:15]
-            total += len(its)
-            body = "".join(_item_html(it) for it in its) or empty_row.format(msg="No fresh items today.")
-            blocks.append(_sec_banner(SECTION_TITLES[s], _NAVY) + body)
+        part_b, total, person_items = _np_partb(p, items, by_section)
 
         if total == 0 and not team.get("send_empty_mail", False):
             print(f"[mail] skipping {email} — nothing new in their sections")
             continue
 
-        preheader = (", ".join(headlines[:3])[:150] +
-                     ("..." if len(", ".join(headlines[:3])) > 150 else "")) if headlines \
-                    else f"Your watchlist digest for {now:%d %b %Y}."
-        html = _shell(p["name"], date_str, len(p["companies"]), total, "".join(blocks), preheader)
-        _send(email, f"CareEdge Daily News — {now:%d %b %Y}", html)
+        top5 = sorted(person_items, key=_story_score, reverse=True)[:5]
+        part_c = _np_partc(top5, now.strftime("%d %B %Y"))
+        body = _np_rebrand(_scr.build_email(part_c, today, _summary))
+        attachment = _np_rebrand(_scr.build_attachment(part_b, today))
+        _send(email, f"CareEdge Daily News — {now:%d %b %Y}", body,
+              attachment_html=attachment,
+              attachment_name=f"CareEdge_Daily_News_{today:%Y%m%d}.html")
 
     _save_seen(items)
     _mark_sent_today()
