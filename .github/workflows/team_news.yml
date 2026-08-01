@@ -111,3 +111,25 @@ jobs:
           TELEGRAM_SESSION: ${{ secrets.TELEGRAM_SESSION }}
           TEAM_SCHEDULED: 'true'
         run: python scripts/send_team_news.py
+
+      - name: Alert admin on failure
+        if: failure()
+        env:
+          GMAIL_USER: ${{ secrets.GMAIL_USER }}
+          GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+          WF_NAME: 7:40 Team Mail
+        run: |
+          python - <<'PYEOF'
+          import os, smtplib
+          from email.mime.text import MIMEText
+          user = os.environ["GMAIL_USER"]; pw = os.environ["GMAIL_APP_PASSWORD"]
+          wf = os.environ["WF_NAME"]; url = os.environ["RUN_URL"]
+          msg = MIMEText(f'<p><b>{wf} FAILED.</b></p><p>No mails may have gone out this morning.</p>'
+                         f'<p><a href="{url}">Open the run log</a></p>', "html")
+          msg["Subject"] = f"ALERT: {wf} workflow FAILED"
+          msg["From"] = user; msg["To"] = user
+          with smtplib.SMTP_SSL("smtp.gmail.com", 465) as s:
+              s.login(user, pw); s.sendmail(user, [user], msg.as_string())
+          print("failure alert sent")
+          PYEOF

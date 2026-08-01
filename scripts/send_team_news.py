@@ -637,6 +637,186 @@ _RATING_ACTION_RE = re.compile(
 )
 
 
+_ARCHIVE_URL = "https://mjitendrafeb-cmd.github.io/jeetz/archive/"
+
+
+def _parse_pub(pub: str, today: "datetime.date"):
+    """PUB dates arrive as '29 Jul' (no year). Assume current year; a date
+    that lands in the future means it was last year (year boundary)."""
+    try:
+        d = datetime.datetime.strptime(pub.strip(), "%d %b").date().replace(year=today.year)
+        if d > today + datetime.timedelta(days=1):
+            d = d.replace(year=today.year - 1)
+        return d
+    except Exception:
+        return None
+
+
+def _is_stale(it: dict, today: "datetime.date", max_age_days: int = 2) -> bool:
+    """7:30 recency rule, mechanical version: drop items whose PUB date shows
+    the story is older than 48h. Undated items are kept (conservative)."""
+    d = _parse_pub(it.get("pub", ""), today)
+    return d is not None and (today - d).days > max_age_days
+
+
+_TITLE_STOP = {"the", "a", "an", "of", "in", "on", "for", "to", "and", "at",
+               "as", "by", "with", "its", "is", "are", "from", "amid", "after"}
+
+
+def _title_toks(title: str) -> frozenset:
+    return frozenset(w for w in re.findall(r"[a-z0-9]+", title.lower())
+                     if w not in _TITLE_STOP and len(w) > 2)
+
+
+def _tier_rank(it: dict) -> int:
+    tags = it.get("tags", "")
+    return 0 if "T1" in tags else (1 if "T2" in tags else 2)
+
+
+def _dedup_cross_source(items: list[dict]) -> list[dict]:
+    """7:30 rule, mechanical version: same story from several sources keeps
+    ONE card (highest tier wins) with 'Also reported by: ...' under it.
+    Watchlist items tagged to different companies are never merged."""
+    kept: list[dict] = []
+    for it in items:
+        toks = _title_toks(it["title"])
+        it["also"] = it.get("also", [])
+        winner = None
+        for k in kept:
+            if len(toks) < 4 or len(k["_toks"]) < 4:
+                continue
+            inter = len(toks & k["_toks"])
+            if inter / min(len(toks), len(k["_toks"])) < 0.75:
+                continue
+            a, b = it.get("wl_company", ""), k.get("wl_company", "")
+            if a and b and a != b:
+                continue  # same headline, different watchlist company — keep both
+            winner = k
+            break
+        if winner is None:
+            it["_toks"] = toks
+            kept.append(it)
+        elif _tier_rank(it) < _tier_rank(winner):
+            # newcomer is higher-tier: it replaces the kept item in place
+            it["also"] = winner["also"] + [winner["source"]]
+            it["_toks"] = toks
+            kept[kept.index(winner)] = it
+        else:
+            if it["source"] not in winner["also"] and it["source"] != winner["source"]:
+                winner["also"].append(it["source"])
+    for k in kept:
+        k.pop("_toks", None)
+    return kept
+
+
+_UPGRADE_RE = re.compile(r"\bupgrad\w*|outlook (revised to )?(positive|stable)", re.IGNORECASE)
+_DOWNGRADE_RE = re.compile(r"\bdowngrad\w*|defaults?\b|outlook (revised to )?negative|"
+                           r"rating watch|delays? (in )?(payment|repayment)", re.IGNORECASE)
+
+
+def _rating_badge(it: dict) -> str:
+    """Small badge ahead of the headline for rating actions (credit desks
+    care about these first)."""
+    text = it["title"] + " " + it["summary"]
+    if not _RATING_ACTION_RE.search(text):
+        return ""
+    if _DOWNGRADE_RE.search(text):
+        return ('<span style="color:#cc0000;font-size:9px;font-weight:800;'
+                'letter-spacing:1px;">&#9660; RATING ACTION</span> ')
+    if _UPGRADE_RE.search(text):
+        return ('<span style="color:#15803d;font-size:9px;font-weight:800;'
+                'letter-spacing:1px;">&#9650; RATING ACTION</span> ')
+    return ('<span style="color:#b45309;font-size:9px;font-weight:800;'
+            'letter-spacing:1px;">&#9679; RATING ACTION</span> ')
+
+
+def _rating_first(sec_items: list[dict]) -> list[dict]:
+    return sorted(sec_items,
+                  key=lambda it: 0 if _RATING_ACTION_RE.search(it["title"] + " " + it["summary"]) else 1)
+
+
+_STATS_PATH = os.path.join(_REPO_ROOT, "data", "team_stats.json")
+
+
+def _append_stats(stats: dict) -> None:
+    try:
+        hist = []
+        if os.path.exists(_STATS_PATH):
+            with open(_STATS_PATH, encoding="utf-8") as f:
+                hist = json.load(f)
+        hist = (hist + [stats])[-30:]
+        os.makedirs(os.path.dirname(_STATS_PATH), exist_ok=True)
+        with open(_STATS_PATH, "w", encoding="utf-8") as f:
+            json.dump(hist, f, indent=1)
+        _git_push(_STATS_PATH)
+    except Exception as exc:
+        print(f"[stats] non-fatal: {exc}")
+
+
+def _send_weekly_stats(now: "datetime.datetime") -> None:
+    """Saturday: quality digest for the admin — per-source health, drop
+    counts, delivery/failure counts for the last 7 runs."""
+    try:
+        with open(_STATS_PATH, encoding="utf-8") as f:
+            hist = json.load(f)[-7:]
+    except Exception:
+        return
+    rows = ""
+    for s in hist:
+        srcs = s.get("source_summary", {})
+        dead = ", ".join(k for k, v in srcs.items() if v == 0) or "&mdash;"
+        failed_html = ""
+        if s.get("failed"):
+            failed_html = (', <b style="color:#cc0000">'
+                           f'{len(s["failed"])} failed</b>')
+        rows += (f'<tr><td style="padding:6px;border-bottom:1px solid #eee;">{s.get("date")}</td>'
+                 f'<td style="padding:6px;border-bottom:1px solid #eee;">{s.get("fetched", "?")}</td>'
+                 f'<td style="padding:6px;border-bottom:1px solid #eee;">junk {s.get("junk", 0)} &middot; '
+                 f'geo {s.get("geo", 0)} &middot; stale {s.get("stale", 0)} &middot; dup {s.get("dup", 0)}</td>'
+                 f'<td style="padding:6px;border-bottom:1px solid #eee;">{s.get("mails", 0)} sent{failed_html}</td>'
+                 f'<td style="padding:6px;border-bottom:1px solid #eee;color:#cc0000;font-size:11px;">'
+                 f'{dead}</td></tr>')
+    html = (f'<html><body style="font-family:Arial,sans-serif;font-size:13px;color:#222;">'
+            f'<h2 style="font-family:Georgia,serif;">CareEdge Daily News &mdash; weekly quality report</h2>'
+            f'<table cellspacing="0" style="border-collapse:collapse;width:100%;font-size:12px;">'
+            f'<tr style="background:#1a1a1a;color:#fff;"><th style="padding:6px;text-align:left;">Date</th>'
+            f'<th style="padding:6px;text-align:left;">Fetched</th><th style="padding:6px;text-align:left;">Dropped</th>'
+            f'<th style="padding:6px;text-align:left;">Mails</th><th style="padding:6px;text-align:left;">Sources with 0 items</th></tr>'
+            f'{rows}</table>'
+            f'<p style="color:#888;font-size:11px;">Auto-generated every Saturday. '
+            f'<a href="{_MANAGE_URL}">Console</a> &middot; <a href="{_ARCHIVE_URL}">Archive</a></p></body></html>')
+    admin = os.environ.get("GMAIL_USER", "")
+    if admin:
+        try:
+            _send(admin, f"CareEdge Daily News — weekly quality report ({now:%d %b %Y})", html)
+        except Exception as exc:
+            print(f"[stats] weekly mail failed: {exc}")
+
+
+def _write_archive(archive_html: str, today: "datetime.date") -> None:
+    """Publish today's master edition to docs/archive/ (GitHub Pages)."""
+    try:
+        adir = os.path.join(_REPO_ROOT, "docs", "archive")
+        os.makedirs(adir, exist_ok=True)
+        fname = f"{today.isoformat()}.html"
+        with open(os.path.join(adir, fname), "w", encoding="utf-8") as f:
+            f.write(archive_html)
+        editions = sorted((n for n in os.listdir(adir) if re.fullmatch(r"\d{4}-\d{2}-\d{2}\.html", n)),
+                          reverse=True)
+        links = "".join(f'<li style="margin:4px 0;"><a href="{n}" style="color:#1e3a8a;">'
+                        f'{n[:-5]}</a></li>' for n in editions[:90])
+        index = (f'<!DOCTYPE html><html><head><meta charset="utf-8"><title>CareEdge Daily News — Archive</title></head>'
+                 f'<body style="font-family:Georgia,serif;max-width:640px;margin:40px auto;color:#222;">'
+                 f'<h1 style="border-bottom:3px double #111;padding-bottom:8px;">CareEdge Daily News &mdash; Past Editions</h1>'
+                 f'<ul style="list-style:none;padding:0;font-size:15px;">{links}</ul></body></html>')
+        with open(os.path.join(adir, "index.html"), "w", encoding="utf-8") as f:
+            f.write(index)
+        _git_push(adir)
+        print(f"[archive] published docs/archive/{fname}")
+    except Exception as exc:
+        print(f"[archive] non-fatal: {exc}")
+
+
 def _story_score(it: dict) -> int:
     """Rank stories for the Top-5 table the way the AI ranks its takeaways:
     watchlist first, then penalties/rating actions, then regulatory."""
@@ -662,9 +842,11 @@ def _np_card(it: dict, hero: bool = False, company: str = "") -> str:
     bits = [b for b in (company.upper() if company else "", it["source"], it.get("pub", "")) if b]
     link = (f'<a class="rm" href="{it["url"]}" target="_blank">Read more &#8594;</a>'
             if it["url"] else "")
+    also = (f'<br><span class="also">Also reported by: {", ".join(it["also"])}</span>'
+            if it.get("also") else "")
     return (f'<div class="{cls}"><p class="src">{" &bull; ".join(bits)}</p>'
-            f'<p class="hl">{it["title"]}</p>'
-            f'<p class="wh">{it["summary"] or "No summary available."}</p>{link}</div>')
+            f'<p class="hl">{_rating_badge(it)}{it["title"]}</p>'
+            f'<p class="wh">{it["summary"] or "No summary available."}</p>{link}{also}</div>')
 
 
 def _np_brief(it: dict) -> str:
@@ -696,7 +878,9 @@ def _np_partb(p: dict, items: list[dict], by_section: dict) -> tuple[str, int, l
                 continue
             total += len(sec)
             chosen.extend(it for _, it in sec)
-            # 7:30 rule: every watchlist item is a full article — no cap.
+            # Rating actions lead; 7:30 rule: every watchlist item is a full
+            # article — no cap.
+            sec.sort(key=lambda ci: 0 if _RATING_ACTION_RE.search(ci[1]["title"] + " " + ci[1]["summary"]) else 1)
             for i, (comp, it) in enumerate(sec):
                 parts.append(_np_card(it, hero=(i == 0), company=comp))
         else:
@@ -706,6 +890,7 @@ def _np_partb(p: dict, items: list[dict], by_section: dict) -> tuple[str, int, l
                 continue
             total += len(sec_items)
             chosen.extend(sec_items)
+            sec_items = _rating_first(sec_items)
             cards, brief = sec_items[:6], sec_items[6:]
             parts.extend(_np_card(it) for it in cards)
             if brief:
@@ -757,6 +942,11 @@ def _np_rebrand(html: str) -> str:
         "https://github.com/mjitendrafeb-cmd/jeetz/actions/workflows/daily_credit_report.yml",
         "https://github.com/mjitendrafeb-cmd/jeetz/actions/workflows/team_news.yml",
     )
+    html = html.replace(
+        "Run report now</a>",
+        f'Run report now</a> &nbsp;&middot;&nbsp; <a href="{_ARCHIVE_URL}" '
+        f'style="color:#888;text-decoration:underline;">Past editions</a>',
+    )
     return html
 
 
@@ -805,6 +995,15 @@ def main() -> None:
     now = datetime.datetime.now(IST)
     date_str = now.strftime("%A, %d %B %Y")
 
+    # Scheduled runs respect the holiday calendar; manual dispatch always sends.
+    if os.environ.get("TEAM_SCHEDULED") == "true":
+        if team.get("skip_sundays", True) and now.strftime("%A") == "Sunday":
+            print("[skip] Sunday — no mail (skip_sundays enabled; manual runs still work)")
+            return
+        if now.date().isoformat() in team.get("holidays", []):
+            print(f"[skip] {now.date().isoformat()} is in the holiday list — no mail")
+            return
+
     print("Fetching news (free sources, no AI)...")
     # apply_seen=False: do NOT inherit the daily Claude report's memory —
     # otherwise items that report published are hidden from team mails
@@ -834,6 +1033,20 @@ def main() -> None:
     for it in off[:10]:
         print(f"[scope] dropped (not India): {it['title'][:75]}")
     print(f"{len(items)} items after geography filter (dropped {pre_geo - len(items)})")
+
+    today_d = now.date()
+    pre_stale = len(items)
+    stale = [it for it in items if _is_stale(it, today_d)]
+    items = [it for it in items if not _is_stale(it, today_d)]
+    for it in stale[:8]:
+        print(f"[stale] dropped (>48h old): [{it.get('pub')}] {it['title'][:70]}")
+    n_stale = pre_stale - len(items)
+    print(f"{len(items)} items after recency filter (dropped {n_stale})")
+
+    pre_dup = len(items)
+    items = _dedup_cross_source(items)
+    n_dup = pre_dup - len(items)
+    print(f"{len(items)} items after cross-source dedup (merged {n_dup})")
 
     phrases = [_phrase(r["company"]) for r in rows]
     for it in items:
@@ -883,6 +1096,7 @@ def main() -> None:
     import send_credit_report as _scr
 
     today = now.date()
+    sent_count, failed = 0, []
     for email, p in people.items():
         part_b, total, person_items = _np_partb(p, items, by_section)
 
@@ -894,9 +1108,46 @@ def main() -> None:
         part_c = _np_partc(top5, now.strftime("%d %B %Y"))
         body = _np_rebrand(_scr.build_email(part_c, today, _summary))
         attachment = _np_rebrand(_scr.build_attachment(part_b, today))
-        _send(email, f"CareEdge Daily News — {now:%d %b %Y}", body,
-              attachment_html=attachment,
-              attachment_name=f"CareEdge_Daily_News_{today:%Y%m%d}.html")
+        # One bad mailbox must not stop the rest of the team's mails.
+        try:
+            _send(email, f"CareEdge Daily News — {now:%d %b %Y}", body,
+                  attachment_html=attachment,
+                  attachment_name=f"CareEdge_Daily_News_{today:%Y%m%d}.html")
+            sent_count += 1
+        except Exception as exc:
+            print(f"[mail] FAILED for {email}: {exc}")
+            failed.append(email)
+
+    if failed:
+        print(f"[mail] {len(failed)} failed: {', '.join(failed)}")
+        admin = os.environ.get("GMAIL_USER", "")
+        if admin:
+            try:
+                _send(admin, "CareEdge Daily News — delivery failures",
+                      "<p>Delivery failed for:</p><ul>" +
+                      "".join(f"<li>{e}</li>" for e in failed) +
+                      f'</ul><p><a href="{_MANAGE_URL}">Check addresses in the console</a></p>')
+            except Exception:
+                pass
+
+    # Master edition (all companies, all sections) for the public archive.
+    master_p = {"sections": {"S1", "S2", "S3", "S4", "S5"},
+                "companies": {r["company"] for r in rows}}
+    m_partb, _m_total, _m_items = _np_partb(master_p, items, by_section)
+    _write_archive(_np_rebrand(_scr.build_attachment(m_partb, today)), today)
+
+    _append_stats({
+        "date": today.isoformat(),
+        "fetched": pre_junk,
+        "delivered_pool": len(items),
+        "junk": pre_junk - pre_geo, "geo": pre_geo - pre_stale,
+        "stale": n_stale, "dup": n_dup,
+        "sections": {s: len(v) for s, v in by_section.items()},
+        "mails": sent_count, "failed": failed,
+        "source_summary": {k: v for k, v in (_summary or {}).items() if not k.startswith("__")},
+    })
+    if now.strftime("%A") == "Saturday":
+        _send_weekly_stats(now)
 
     _save_seen(items)
     _mark_sent_today()
