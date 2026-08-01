@@ -1,0 +1,32 @@
+[
+ {
+  "date": "2026-08-01",
+  "fetched": 93,
+  "delivered_pool": 76,
+  "junk": 8,
+  "geo": 3,
+  "stale": 0,
+  "dup": 6,
+  "sections": {
+   "S1": 25,
+   "S2": 33,
+   "S3": 7,
+   "S4": 5,
+   "S5": 6
+  },
+  "mails": 5,
+  "failed": [],
+  "source_summary": {
+   "RBI RSS": 20,
+   "RBI Enforcement": 0,
+   "SEBI RSS": 20,
+   "Rating Agencies": 2,
+   "Google News": 22,
+   "Watchlist (Google)": 24,
+   "BSE Announcements": 0,
+   "BSE Financials": 0,
+   "Telegram": 25,
+   "Web Scraper": 54
+  }
+ }
+]
