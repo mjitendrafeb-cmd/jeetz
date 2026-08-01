@@ -55,9 +55,22 @@ _S5_RE = re.compile(
     r"\b(gdp|inflation|cpi|wpi|iip|core sector|repo rate|monetary policy|\bmpc\b|"
     r"fiscal deficit|current account deficit|\bcad\b|forex reserves|foreign exchange reserves|"
     r"rupee|trade deficit|\bpmi\b|gst collection|us fed|federal reserve|fomc|"
-    r"ecb|global growth|crude (oil )?price|industrial production|unemployment rate)\b",
+    r"ecb|global growth|crude (oil )?price|industrial production|unemployment rate|"
+    # Widened to close the gap with the 7:30 AI's S5 judgment — these are all
+    # topics the AI routes to Macro but the old list missed.
+    r"economic growth|growth (forecast|projection|estimate)|economic survey|"
+    r"rate (cut|hike)|union budget|capex cycle|monsoon|el nino|"
+    r"exports?|imports?|tariffs?|trade (war|deal|agreement)|"
+    r"imf|world bank|\badb\b|\boecd\b|sovereign (rating|bond)|"
+    r"dollar index|us treasur(y|ies)|brent|gold price|"
+    r"consumer price|wholesale price|per capita income|employment (data|rate)|"
+    r"bank of (japan|england)|\bboj\b|\bpboc\b)\b",
     re.IGNORECASE,
 )
+# Sources that only ever carry macro content — route straight to S5 even when
+# the headline dodges every keyword (mirrors the 7:30 AI, which knows an
+# RBI-DBIE / MOSPI release is macro from context, not keywords).
+_S5_SOURCES = ("rbi-dbie", "macro-release", "mospi", "pib")
 _S3_SOURCES = ("rbi", "sebi", "nhb", "rbi-enforcement")
 # 7:30 rule: "Any RBI Imposes Monetary Penalty / SEBI Order / NHB Penalty or
 # enforcement action ALWAYS goes to S3 — never S2 — regardless of entity."
@@ -348,7 +361,12 @@ def _classify(it: dict, company_phrases: list[str]) -> str:
     # 7:30 rule: penalties/enforcement ALWAYS S3, never S2, whoever the entity.
     if _PENALTY_RE.search(text):
         return "S3"
-    if it["source"].lower().startswith(_S3_SOURCES) or "sebi" in it["source"].lower():
+    src = it["source"].lower()
+    # Macro-only sources go to S5 before the generic "rbi*" S3 rule can grab
+    # them (RBI-DBIE is macro data, not regulation).
+    if src.startswith(_S5_SOURCES):
+        return "S5"
+    if src.startswith(_S3_SOURCES) or "sebi" in src:
         return "S3"
     if _S4_RE.search(text):
         return "S4"
