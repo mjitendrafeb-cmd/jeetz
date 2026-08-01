@@ -57,9 +57,7 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [
-        "S4"
-      ]
+      "sections": []
     },
     {
       "company": "Karnataka State Financial Corporation",
@@ -72,9 +70,7 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [
-        "S4"
-      ]
+      "sections": []
     },
     {
       "company": "Laxmi India Finance Limited",
@@ -87,9 +83,7 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [
-        "S4"
-      ]
+      "sections": []
     },
     {
       "company": "Dar Credit & Capital Limited",
@@ -102,9 +96,7 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [
-        "S4"
-      ]
+      "sections": []
     },
     {
       "company": "Religare Housing Development Finance Corporation Limited",
@@ -117,9 +109,7 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [
-        "S4"
-      ]
+      "sections": []
     },
     {
       "company": "Supreme Housing Finance Limited",
@@ -132,9 +122,7 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [
-        "S4"
-      ]
+      "sections": []
     },
     {
       "company": "Manba Finance Limited",
@@ -185,9 +173,7 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [
-        "S4"
-      ]
+      "sections": []
     },
     {
       "company": "KrazyBee Services Limited",
@@ -200,9 +186,7 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [
-        "S4"
-      ]
+      "sections": []
     },
     {
       "company": "Karnataka Bank Limited",
@@ -215,9 +199,7 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [
-        "S4"
-      ]
+      "sections": []
     },
     {
       "company": "Tourism Finance Corporation of India Limited",
@@ -230,9 +212,7 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [
-        "S4"
-      ]
+      "sections": []
     },
     {
       "company": "Golden Legand Leasing and Finance Limited",
