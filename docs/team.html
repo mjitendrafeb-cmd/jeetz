@@ -173,7 +173,7 @@ async function ghPut(path,content,fileSha,msg){
 }
 function esc(s){return (s||'').replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;');}
 
-function txt(i,field,cls){return `<td><input type="${field.includes('email')?'email':'text'}" class="${cls}" value="${esc(team.rows[i][field])}" onchange="team.rows[this.closest('tr').dataset.i]['${field}']=this.value"></td>`;}
+function txt(i,field,cls){const em=field.includes('email');return `<td><input type="${em?'email':'text'}"${em?' multiple title="One or more emails, comma-separated"':''} class="${cls}" value="${esc(team.rows[i][field])}" onchange="team.rows[this.closest('tr').dataset.i]['${field}']=this.value"></td>`;}
 function chk(i,field){return `<td class="c"><input type="checkbox" ${team.rows[i][field]?'checked':''} onchange="team.rows[this.closest('tr').dataset.i]['${field}']=this.checked"></td>`;}
 function secChk(i,s){const on=team.rows[i].sections.includes(s);return `<td class="c"><input type="checkbox" ${on?'checked':''} onchange="toggleSec(this.closest('tr').dataset.i,'${s}',this.checked)"></td>`;}
 function toggleSec(i,s,on){const a=team.rows[i].sections;const k=a.indexOf(s);if(on&&k<0)a.push(s);if(!on&&k>=0)a.splice(k,1);}
