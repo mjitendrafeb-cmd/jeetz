@@ -1,8 +1,8 @@
 {
   "model": "claude-sonnet-4-6",
-  "recipient": "jitendra.meghrajani@gmail.com",
+  "recipient": "jitendra.meghrajani@careedge.in",
   "recipients": [
-    "jitendra.meghrajani@gmail.com"
+    "jitendra.meghrajani@careedge.in"
   ],
   "sources": {
     "rbi_rss": true,
