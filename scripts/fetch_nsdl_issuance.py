@@ -122,6 +122,9 @@ def _isin_details(session, prefix, isin, debug=False):
         m = re.match(r"\s*(\d+(?:\.\d+)?)\s*%", desc)
         if m and 0 < float(m.group(1)) < 40:
             detail["coupon"] = float(m.group(1))
+        elif re.search(r"\bRESET RATE\b|\bFLOATING\b|\bFRN\b", desc.upper()):
+            detail["coupon_text"] = "FRN (reset rate)"
+            detail["frn"] = True
         if "UNRATED" in desc.upper():
             detail["rated"] = "Unrated"
         elif "RATED" in desc.upper():

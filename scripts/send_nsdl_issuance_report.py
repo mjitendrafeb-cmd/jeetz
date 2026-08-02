@@ -198,6 +198,130 @@ def _segment(i: dict) -> str:
     return "Corporate"
 
 
+_TENOR_BUCKETS = [(0, 1, "≤1y"), (1, 3, "1–3y"), (3, 5, "3–5y"),
+                  (5, 10, "5–10y"), (10, 1000, ">10y")]
+
+
+def _tenor_bucket(t) -> str | None:
+    if t is None:
+        return None
+    for lo, hi, label in _TENOR_BUCKETS:
+        if lo <= t < hi:
+            return label
+    return None
+
+
+def _peer_pricing(i: dict, history, gsec, days: int = 90):
+    """How a fresh deal priced vs its peer cohort: same rating band, issuer
+    segment and tenor bucket, allotted in the trailing `days`.
+    Returns (deal_spread_bps, peer_median_bps, n_peers) or None."""
+    sp = _spread_bps(i, gsec)
+    if not sp or not i.get("allotment_date"):
+        return None
+    band, seg = _rating_band(i), _segment(i)
+    tb = _tenor_bucket(i.get("tenure_years"))
+    if band == _BANDS[6] or not tb:
+        return None
+    lo = (i["allotment_date"] - datetime.timedelta(days=days)).isoformat()
+    hi = i["allotment_date"].isoformat()
+    peers = sorted(r["spread_bps"] for r in history or []
+                   if r.get("spread_bps") is not None and r.get("isin") != i.get("isin")
+                   and lo <= r["allotment_date"] <= hi
+                   and r["band"] == band and r["segment"] == seg
+                   and _tenor_bucket(r.get("tenure_years")) == tb)
+    if len(peers) < 3:
+        return None
+    n = len(peers)
+    median = peers[n // 2] if n % 2 else (peers[n // 2 - 1] + peers[n // 2]) / 2
+    return sp[0], median, n
+
+
+def _peer_verdict(i: dict, history, gsec):
+    """(delta_bps, text, color, n) vs peer median, or None."""
+    p = _peer_pricing(i, history, gsec)
+    if not p:
+        return None
+    d = p[0] - p[1]
+    if d <= -10:
+        return d, f"{-d:.0f} bps inside peers", "#1a6b1a", p[2]
+    if d >= 10:
+        return d, f"+{d:.0f} bps over peers", "#b30000", p[2]
+    return d, "in line with peers", "#666666", p[2]
+
+
+_GSEC_HISTORY_PATH = os.path.join(_REPO_ROOT, "data", "gsec_history.json")
+
+
+def _update_gsec_history(gsec, today) -> dict:
+    """Append today's G-sec curve to the daily snapshot file. Snapshots let
+    historical spreads use the curve of the deal's own date over time."""
+    try:
+        with open(_GSEC_HISTORY_PATH, encoding="utf-8") as f:
+            hist = json.load(f)
+    except Exception:
+        hist = {}
+    curve = (gsec or {}).get("curve") or {}
+    if curve:
+        hist[today.isoformat()] = {str(k): v for k, v in curve.items()}
+        try:
+            os.makedirs(os.path.dirname(_GSEC_HISTORY_PATH), exist_ok=True)
+            with open(_GSEC_HISTORY_PATH, "w", encoding="utf-8") as f:
+                json.dump(hist, f, indent=1, sort_keys=True)
+        except Exception as exc:
+            print(f"[nsdl_issuance] gsec history save failed: {exc}")
+    return hist
+
+
+def _make_curve_lookup(gsec_hist, fallback_curve):
+    """date_iso -> G-sec curve: nearest stored snapshot within 10 days, else
+    the fallback (current) curve."""
+    import bisect
+    dates = sorted(gsec_hist or {})
+    parsed = {d: {int(k): v for k, v in c.items()} for d, c in (gsec_hist or {}).items()}
+
+    def lookup(date_iso: str):
+        if dates:
+            pos = bisect.bisect_left(dates, date_iso)
+            best = None
+            target = datetime.date.fromisoformat(date_iso)
+            for j in (pos - 1, pos):
+                if 0 <= j < len(dates):
+                    delta = abs((datetime.date.fromisoformat(dates[j]) - target).days)
+                    if delta <= 10 and (best is None or delta < best[0]):
+                        best = (delta, dates[j])
+            if best:
+                return parsed[best[1]]
+        return fallback_curve
+    return lookup
+
+
+_ISSUER_META_PATH = os.path.join(_REPO_ROOT, "data", "issuer_meta.json")
+
+
+def _load_issuer_meta() -> dict:
+    try:
+        with open(_ISSUER_META_PATH, encoding="utf-8") as f:
+            return json.load(f)
+    except Exception:
+        return {}
+
+
+def _update_issuer_meta(meta: dict, issues, today) -> dict:
+    """Cache each issuer's segment from the rich per-ISIN feed (ownership,
+    nature, CIN) so entire-list rows can use it instead of name heuristics."""
+    for i in issues:
+        key = _norm(i.get("issuer") or "")
+        if key:
+            meta[key] = {"segment": _segment(i), "updated": today.isoformat()}
+    try:
+        os.makedirs(os.path.dirname(_ISSUER_META_PATH), exist_ok=True)
+        with open(_ISSUER_META_PATH, "w", encoding="utf-8") as f:
+            json.dump(meta, f, indent=1, sort_keys=True)
+    except Exception as exc:
+        print(f"[nsdl_issuance] issuer meta save failed: {exc}")
+    return meta
+
+
 _HISTORY_PATH = os.path.join(_REPO_ROOT, "data", "nsdl_issuance_history.json")
 
 
@@ -243,10 +367,16 @@ def _update_history(issues, gsec) -> list[dict]:
     return records
 
 
-def _debt_list_history(dl: dict, gsec) -> list[dict]:
+def _debt_list_history(dl: dict, gsec, issuer_meta=None, gsec_hist=None) -> list[dict]:
     """Convert entire-list records into history-format dicts (newest first)
     so the cohort matrix and prev-issuance lookup can run off the full NSDL
-    file instead of the self-accumulated daily history."""
+    file instead of the self-accumulated daily history. Segments come from
+    the issuer-meta cache where known (built from the rich per-ISIN feed);
+    spreads use the G-sec curve snapshot nearest each deal's allotment date
+    where one exists, else the current curve."""
+    fallback_curve = (gsec or {}).get("curve") or {}
+    curve_for = _make_curve_lookup(gsec_hist, fallback_curve)
+    issuer_meta = issuer_meta or {}
     records = []
     for r in (dl or {}).get("records") or []:
         rec = {
@@ -260,8 +390,9 @@ def _debt_list_history(dl: dict, gsec) -> list[dict]:
             if r.get("rating") else [],
         }
         rec["band"] = _rating_band(rec)
-        rec["segment"] = _segment(rec)
-        sp = _spread_bps(rec, gsec)
+        cached = issuer_meta.get(_norm(r["issuer"]))
+        rec["segment"] = (cached or {}).get("segment") or _segment(rec)
+        sp = _spread_bps(rec, {"curve": curve_for(rec["allotment_date"])})
         rec["spread_bps"] = sp[0] if sp else None
         records.append(rec)
     records.sort(key=lambda r: r["allotment_date"], reverse=True)
@@ -404,6 +535,7 @@ def _spread_trend_html(records, today=None) -> str:
             label = f"{band.split(' (')[0]} · {seg}"
             row = (f'<td style="padding:7px 10px;border-bottom:1px solid #eee;'
                    f'font-weight:700;white-space:nowrap;">{label}</td>')
+            prev_sp = None
             for qk in quarters:
                 g = [r for r in by_q[qk]
                      if r["band"] == band and r["segment"] == seg]
@@ -413,8 +545,14 @@ def _spread_trend_html(records, today=None) -> str:
                     continue
                 w = sum(x["amount_cr"] for x in g)
                 sp = sum(x["spread_bps"] * x["amount_cr"] for x in g) / w
+                arrow = ""
+                if prev_sp is not None and abs(sp - prev_sp) >= 5:
+                    up = sp > prev_sp
+                    arrow = (f" <span style='color:{'#b30000' if up else '#1a6b1a'};"
+                             f"font-size:10px;'>{'▲' if up else '▼'}{abs(sp - prev_sp):.0f}</span>")
+                prev_sp = sp
                 row += (f'<td style="padding:7px 10px;border-bottom:1px solid #eee;'
-                        f'text-align:center;"><b>{sp:+.0f}</b>'
+                        f'text-align:center;"><b>{sp:+.0f}</b>{arrow}'
                         f"<br><span style='color:#888;font-size:10.5px;'>"
                         f"{len(g)} deal{'s' if len(g) > 1 else ''}</span></td>")
             rows_html += f"<tr>{row}</tr>"
@@ -425,8 +563,9 @@ def _spread_trend_html(records, today=None) -> str:
   <div style="font-size:13px;font-weight:700;color:#cc0000;border-bottom:2px solid #cc0000;padding-bottom:4px;">SPREAD TREND OVER G-SEC — QUARTERLY (bps)</div>
   <div style="margin-top:5px;font-family:Arial,sans-serif;font-size:11.5px;color:#666;">
   Value-weighted avg spread of rated deals over tenor-matched G-sec, last 4 quarters plus the
-  current quarter-to-date, per rating band × issuer segment cohort.
-  Computed against the current G-sec curve.</div>
+  current quarter-to-date, per rating band × issuer segment cohort. ▲/▼ = change vs prior quarter.
+  Spreads use the stored G-sec curve nearest each deal's date where available (snapshots
+  accumulate daily), else the current curve.</div>
 </td></tr>
 <tr><td style="padding:8px 20px;">
 <table width="100%" cellpadding="0" cellspacing="0" style="font-family:Arial,Helvetica,sans-serif;font-size:12px;border:1px solid #e5e5e5;">
@@ -464,28 +603,33 @@ def _computed_analysis(issues, fy_total, quarters, prev_total=None, gsec=None) -
 _CLAUDE_ERROR = {"msg": ""}
 
 
-def _claude_commentary(issues, watchlist_hits) -> str:
+def _claude_commentary(issues, watchlist_hits, peer_notes=None) -> str:
     api_key = os.environ.get("ANTHROPIC_API_KEY", "")
     if not api_key or not issues:
         return ""
     try:
         import anthropic
+        peer_notes = peer_notes or {}
         rows = "\n".join(
             f"- {i['issuer']} | ISIN {i['isin']} | ₹{_fmt_cr(i['issue_size_cr'])} cr | "
             f"coupon {_coupon_str(i)} | allotted {_fmt_date(i['allotment_date'])} | "
             f"matures {_fmt_date(i['maturity_date'])} | tenor {i.get('tenure_years') or '?'}y | "
             f"type {_type_str(i)}"
+            + (f" | vs peers: {peer_notes[i['isin']]}" if i.get("isin") in peer_notes else "")
             for i in issues
         )
         wl = ", ".join(watchlist_hits) if watchlist_hits else "none"
         prompt = (
             "You are a senior credit analyst at an Indian rating agency. Below are today's "
-            "fresh corporate debt issuances from NSDL's primary-market data (amounts in ₹ crore).\n\n"
+            "fresh corporate debt issuances from NSDL's primary-market data (amounts in ₹ crore). "
+            "Where present, 'vs peers' compares the deal's G-sec spread to the median of "
+            "similar-rated, same-segment, same-tenor-bucket deals of the last 90 days.\n\n"
             f"{rows}\n\nWatchlist (rated-entity) issuers in today's batch: {wl}.\n\n"
             "Write EXACTLY 3 bullets (plain text, each starting with '• '), each under 18 "
-            "words, numbers first. Cover: (1) sharpest pricing signal of the day, "
-            "(2) who pays the biggest premium and why, (3) one takeaway for an NBFC/HFC "
-            "credit analyst. No preamble, no repetition of the table."
+            "words, numbers first. Cover: (1) sharpest relative-value signal of the day "
+            "(lean on the vs-peers numbers), (2) who pays the biggest premium and why, "
+            "(3) one takeaway for an NBFC/HFC credit analyst. No preamble, no repetition "
+            "of the table."
         )
         client = anthropic.Anthropic(api_key=api_key)
         cfg_model = _load_config().get("model", "claude-sonnet-5")
@@ -506,6 +650,7 @@ def build_email(issues, fy_total, quarters, watchlist, today,
                 matrix_source=None) -> str:
     date_str = today.strftime("%d %B %Y")
     watchlist_hits = []
+    peer_notes: dict[str, str] = {}
     unrated = [i for i in issues if _rating_band(i) == _BANDS[-1]]
     issues = [i for i in issues if _rating_band(i) != _BANDS[-1]]
     banded: dict[str, list] = {}
@@ -532,11 +677,25 @@ def build_email(issues, fy_total, quarters, watchlist, today,
             sp = _spread_bps(i, gsec)
             spread_html = (f"<div style='font-size:10px;color:#888;'>{sp[0]:+d} bps vs {sp[1]}Y G-sec</div>"
                            if sp else "")
+            verdict = _peer_verdict(i, history, gsec)
+            if verdict:
+                _, vtxt, vcol, vn = verdict
+                spread_html += (f"<div style='font-size:10px;color:{vcol};font-weight:700;'>"
+                                f"{vtxt} (n={vn})</div>")
+                peer_notes[i["isin"]] = f"{vtxt} ({vn} peers, 90d, same band/segment/tenor)"
             prev = _prev_issuance(i, history)
             if prev:
-                pd = datetime.date.fromisoformat(prev["allotment_date"]).strftime("%d-%b")
-                spread_html += (f"<div style='font-size:10px;color:#1a6b1a;'>prev {prev['coupon']:.2f}% "
-                                f"· {prev.get('tenure_years') or '?'}y · {pd}</div>")
+                pd = datetime.date.fromisoformat(prev["allotment_date"]).strftime("%d-%b-%y")
+                prev_line = (f"prev {prev['coupon']:.2f}% · "
+                             f"{prev.get('tenure_years') or '?'}y · {pd}")
+                if i.get("coupon"):
+                    d = (i["coupon"] - prev["coupon"]) * 100
+                    if abs(d) >= 5:
+                        prev_line += f" → {abs(d):.0f} bps {'costlier' if d > 0 else 'cheaper'}"
+                        tp, tc = prev.get("tenure_years"), i.get("tenure_years")
+                        if tp and tc and abs(tc - tp) >= 1:
+                            prev_line += f" on {'longer' if tc > tp else 'shorter'} tenor"
+                spread_html += f"<div style='font-size:10px;color:#1a6b1a;'>{prev_line}</div>"
             rows_html += f"""<tr style="background:{row_bg};">
 <td style="padding:7px 10px;border-bottom:1px solid #eee;font-weight:600;">{i['issuer'].title()}{star}</td>
 <td style="padding:7px 10px;border-bottom:1px solid #eee;font-family:monospace;font-size:11px;">{i['isin']}</td>
@@ -557,7 +716,7 @@ def build_email(issues, fy_total, quarters, watchlist, today,
     analysis_items = _computed_analysis(issues, fy_total, quarters, prev_total, gsec)
     analysis_html = "".join(f"<li style='padding:3px 0;'>{a}</li>" for a in analysis_items)
 
-    commentary = _claude_commentary(issues, watchlist_hits)
+    commentary = _claude_commentary(issues, watchlist_hits, peer_notes)
     commentary_html = ""
     if not commentary and _CLAUDE_ERROR["msg"]:
         commentary_html = f"""
@@ -646,17 +805,60 @@ shown where disclosed via the ISIN detail feed; “—” means not yet publishe
 </div></body></html>"""
 
 
-def send_email(subject: str, html_body: str, gmail_user: str, gmail_password: str) -> None:
+def _build_xlsx(history, today) -> bytes | None:
+    """All deals since FY start as an xlsx for offline pivoting; None if
+    openpyxl is unavailable or there is nothing to export."""
+    try:
+        import io
+        from openpyxl import Workbook
+    except ImportError:
+        print("[nsdl_issuance] openpyxl not installed — skipping xlsx attachment")
+        return None
+    cutoff = _fy_start().isoformat()
+    rows = [r for r in history or []
+            if cutoff <= r["allotment_date"] <= today.isoformat()]
+    if not rows:
+        return None
+    wb = Workbook()
+    ws = wb.active
+    ws.title = "Issuances FY"
+    ws.append(["ISIN", "Issuer", "Allotment", "Amount (₹ cr)", "Coupon %",
+               "Tenor (y)", "Tenor bucket", "Rating band", "Segment",
+               "Spread (bps)", "Ratings"])
+    for r in sorted(rows, key=lambda x: x["allotment_date"], reverse=True):
+        ws.append([r["isin"], r["issuer"].title(), r["allotment_date"],
+                   r.get("amount_cr"), r.get("coupon"), r.get("tenure_years"),
+                   _tenor_bucket(r.get("tenure_years")) or "",
+                   r["band"].split(" (")[0], r["segment"], r.get("spread_bps"),
+                   "; ".join(r.get("ratings") or [])])
+    ws.freeze_panes = "A2"
+    buf = io.BytesIO()
+    wb.save(buf)
+    return buf.getvalue()
+
+
+def send_email(subject: str, html_body: str, gmail_user: str, gmail_password: str,
+               attachment: tuple[bytes, str] | None = None) -> None:
     recipients = _recipients()
-    msg = MIMEMultipart("alternative")
+    msg = MIMEMultipart("mixed")
     msg["Subject"] = subject
     msg["From"] = gmail_user
     msg["To"] = ", ".join(recipients)
-    msg.attach(MIMEText(html_body, "html", "utf-8"))
+    alt = MIMEMultipart("alternative")
+    alt.attach(MIMEText(html_body, "html", "utf-8"))
+    msg.attach(alt)
+    if attachment:
+        from email.mime.application import MIMEApplication
+        part = MIMEApplication(
+            attachment[0],
+            _subtype="vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+        part.add_header("Content-Disposition", "attachment", filename=attachment[1])
+        msg.attach(part)
     with smtplib.SMTP_SSL("smtp.gmail.com", 465) as server:
         server.login(gmail_user, gmail_password)
         server.sendmail(gmail_user, recipients, msg.as_string())
-    print(f"[nsdl_issuance] Email sent to {', '.join(recipients)}")
+    print(f"[nsdl_issuance] Email sent to {', '.join(recipients)}"
+          + (" (with xlsx attachment)" if attachment else ""))
 
 
 def main() -> None:
@@ -674,32 +876,69 @@ def main() -> None:
               f"allot {_fmt_date(i['allotment_date'])} | tenor {i.get('tenure_years')}y")
 
     watchlist = _load_watchlist()
-    history = _update_history(issues, data.get("gsec"))
-    print(f"[nsdl_issuance] history: {len(history)} records in trailing window")
+    gsec = data.get("gsec")
+    gsec_hist = _update_gsec_history(gsec, today)
+    issuer_meta = _update_issuer_meta(_load_issuer_meta(), issues, today)
 
-    # the entire-list file gives full since-April coverage for the matrix and
-    # years of prior deals for the prev-issuance lookup; the self-accumulated
-    # history file is the fallback when that fetch fails
+    # the entire-list file gives full since-April coverage for the matrix,
+    # years of prior deals for the prev-issuance/peer lookups, and a second
+    # rating source for fresh ISINs the rating-actions feed missed; the
+    # self-accumulated history file is the fallback when that fetch fails
     matrix_source = None
+    dl = None
     try:
         dl = fetch_debt_list(debug=debug)
-        dl_history = _debt_list_history(dl, data.get("gsec"))
+    except Exception as exc:
+        print(f"[nsdl_issuance] debt list fetch failed (using daily history): {exc}")
+
+    if dl and dl.get("records"):
+        by_isin = {r["isin"]: r for r in dl["records"] if r.get("rating")}
+        by_issuer: dict[str, dict] = {}
+        for r in dl["records"]:
+            if r.get("rating"):
+                k = _norm(r["issuer"])
+                if k not in by_issuer or r["allotment_date"] > by_issuer[k]["allotment_date"]:
+                    by_issuer[k] = r
+        filled = 0
+        for i in issues:
+            if i.get("ratings"):
+                continue
+            src = by_isin.get(i["isin"])
+            if not src:
+                cand = by_issuer.get(_norm(i["issuer"]))
+                if cand and (today - cand["allotment_date"]).days <= 400:
+                    src = cand
+            if src:
+                i["ratings"] = [f"{src.get('rating_agency') or ''} {src['rating']}".strip()]
+                filled += 1
+        if filled:
+            print(f"[nsdl_issuance] ratings backfilled from debt list: {filled}")
+
+    history = _update_history(issues, gsec)
+    print(f"[nsdl_issuance] history: {len(history)} records in trailing window")
+
+    if dl and dl.get("records"):
+        dl_history = _debt_list_history(dl, gsec, issuer_meta=issuer_meta,
+                                        gsec_hist=gsec_hist)
         if dl_history:
             history = dl_history
             matrix_source = (f"source: NSDL detailed list of debt instruments "
                              f"as on {dl.get('as_on') or 'latest'}")
             print(f"[nsdl_issuance] debt list: {len(dl_history)} records "
                   f"as on {dl.get('as_on')}")
-    except Exception as exc:
-        print(f"[nsdl_issuance] debt list fetch failed (using daily history): {exc}")
 
     html = build_email(issues, data["fy_total"], data["quarters"], watchlist, today,
-                       prev_total=data.get("prev_total"), gsec=data.get("gsec"),
+                       prev_total=data.get("prev_total"), gsec=gsec,
                        history=history, matrix_source=matrix_source)
+    xlsx = _build_xlsx(history, today)
+    attachment = None
+    if xlsx:
+        fy = _fy_start().year + 1
+        attachment = (xlsx, f"nsdl_issuances_FY{str(fy)[-2:]}_{today.isoformat()}.xlsx")
     subject = f"NSDL New Debt Issuances — {today.strftime('%d %b %Y')}"
     if not issues:
         subject += " (no fresh issues)"
-    send_email(subject, html, gmail_user, gmail_password)
+    send_email(subject, html, gmail_user, gmail_password, attachment=attachment)
 
 
 if __name__ == "__main__":

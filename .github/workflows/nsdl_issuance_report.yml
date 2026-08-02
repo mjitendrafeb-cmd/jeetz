@@ -30,7 +30,7 @@ jobs:
           python-version: '3.11'
 
       - name: Install dependencies
-        run: pip install requests anthropic
+        run: pip install requests anthropic openpyxl
 
       - name: Send NSDL issuance report
         timeout-minutes: 15
@@ -41,13 +41,13 @@ jobs:
         run: python -u scripts/send_nsdl_issuance_report.py
         working-directory: ${{ github.workspace }}
 
-      - name: Commit issuance history
+      - name: Commit data snapshots
         run: |
           git config user.name "nsdl-issuance-bot"
           git config user.email "actions@github.com"
-          git add data/nsdl_issuance_history.json
+          git add data/
           if ! git diff --cached --quiet; then
-            git commit -m "Update NSDL issuance history [skip ci]"
+            git commit -m "Update NSDL data snapshots (history, G-sec curve, issuer meta) [skip ci]"
             git pull --rebase origin "${GITHUB_REF_NAME}" || true
-            git push origin "HEAD:${GITHUB_REF_NAME}" || echo "history push failed (non-fatal)"
+            git push origin "HEAD:${GITHUB_REF_NAME}" || echo "snapshot push failed (non-fatal)"
           fi
