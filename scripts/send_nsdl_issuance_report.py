@@ -3,10 +3,10 @@
 
 Pulls fresh primary-market debt issuances (tenure, amount, coupon where
 disclosed) from NSDL India Bond Info's public CBDServices API, flags watchlist
-entities, adds computed borrowing-cost analysis plus optional Claude
-commentary, and emails it to the recipients in config.json.
+entities, adds computed borrowing-cost and relative-value analysis (all
+rule-based, no AI API), and emails it to the recipients in config.json.
 
-Env: GMAIL_USER, GMAIL_APP_PASSWORD, optional ANTHROPIC_API_KEY,
+Env: GMAIL_USER, GMAIL_APP_PASSWORD,
      optional NSDL_DEBUG=true (dump raw per-ISIN JSON to logs).
 """
 
@@ -526,15 +526,18 @@ def _spread_trend_html(records, today=None) -> str:
         lab = f"Q{q} FY{str(fy)[-2:]}"
         return lab + " (QTD)" if qk == (cur_fy, cur_q) else lab
 
+    # grouped by issuer segment first (all NBFC rows, then banks, then
+    # corporates, then PSU), rating bands high-to-low within each group
+    seg_order = ["NBFC/HFC", "Bank/FI", "Corporate", "PSU"]
     rows_html = ""
-    for band in _BANDS[:6]:
-        for seg in _SEGMENTS:
+    for seg in seg_order:
+        seg_rows = ""
+        for band in _BANDS[:6]:
             grp = [r for r in window if r["band"] == band and r["segment"] == seg]
             if not grp:
                 continue
-            label = f"{band.split(' (')[0]} · {seg}"
             row = (f'<td style="padding:7px 10px;border-bottom:1px solid #eee;'
-                   f'font-weight:700;white-space:nowrap;">{label}</td>')
+                   f'font-weight:700;white-space:nowrap;">{band.split(" (")[0]}</td>')
             prev_sp = None
             for qk in quarters:
                 g = [r for r in by_q[qk]
@@ -555,7 +558,11 @@ def _spread_trend_html(records, today=None) -> str:
                         f'text-align:center;"><b>{sp:+.0f}</b>{arrow}'
                         f"<br><span style='color:#888;font-size:10.5px;'>"
                         f"{len(g)} deal{'s' if len(g) > 1 else ''}</span></td>")
-            rows_html += f"<tr>{row}</tr>"
+            seg_rows += f"<tr>{row}</tr>"
+        if seg_rows:
+            rows_html += (f'<tr><td colspan="{len(quarters) + 1}" style="background:#f4f4f4;'
+                          f'padding:5px 10px;font-weight:700;color:#555;font-size:11px;'
+                          f'letter-spacing:0.5px;">{seg.upper()}</td></tr>' + seg_rows)
 
     header = "".join(f'<th style="padding:7px 10px;">{q_label(qk)}</th>' for qk in quarters)
     return f"""
@@ -569,7 +576,7 @@ def _spread_trend_html(records, today=None) -> str:
 </td></tr>
 <tr><td style="padding:8px 20px;">
 <table width="100%" cellpadding="0" cellspacing="0" style="font-family:Arial,Helvetica,sans-serif;font-size:12px;border:1px solid #e5e5e5;">
-<tr style="background:#1a1a1a;color:#fff;"><th style="padding:7px 10px;text-align:left;">Cohort</th>{header}</tr>
+<tr style="background:#1a1a1a;color:#fff;"><th style="padding:7px 10px;text-align:left;">Rating band</th>{header}</tr>
 {rows_html}
 </table>
 </td></tr>"""
@@ -600,49 +607,46 @@ def _computed_analysis(issues, fy_total, quarters, prev_total=None, gsec=None) -
     return lines
 
 
-_CLAUDE_ERROR = {"msg": ""}
+def _computed_commentary(issues, watchlist_hits, history, gsec) -> list[str]:
+    """Rule-based analyst bullets — computed from today's pricing vs peer
+    cohorts, no AI/API involved."""
+    bullets = []
+    rated = [i for i in issues if i.get("coupon")]
+    if not rated:
+        return bullets
 
+    # 1) sharpest relative-value signal vs peer cohort
+    best = None
+    for i in rated:
+        v = _peer_verdict(i, history, gsec)
+        if v and (best is None or abs(v[0]) > abs(best[1][0])):
+            best = (i, v)
+    if best:
+        i, (_, vtxt, _, n) = best
+        band = _rating_band(i).split(" (")[0]
+        bullets.append(f"{i['issuer'].title()} {i['coupon']:.2f}% priced {vtxt} — "
+                       f"sharpest signal vs its {band} · {_segment(i)} cohort ({n} peers, 90d).")
 
-def _claude_commentary(issues, watchlist_hits, peer_notes=None) -> str:
-    api_key = os.environ.get("ANTHROPIC_API_KEY", "")
-    if not api_key or not issues:
-        return ""
-    try:
-        import anthropic
-        peer_notes = peer_notes or {}
-        rows = "\n".join(
-            f"- {i['issuer']} | ISIN {i['isin']} | ₹{_fmt_cr(i['issue_size_cr'])} cr | "
-            f"coupon {_coupon_str(i)} | allotted {_fmt_date(i['allotment_date'])} | "
-            f"matures {_fmt_date(i['maturity_date'])} | tenor {i.get('tenure_years') or '?'}y | "
-            f"type {_type_str(i)}"
-            + (f" | vs peers: {peer_notes[i['isin']]}" if i.get("isin") in peer_notes else "")
-            for i in issues
-        )
-        wl = ", ".join(watchlist_hits) if watchlist_hits else "none"
-        prompt = (
-            "You are a senior credit analyst at an Indian rating agency. Below are today's "
-            "fresh corporate debt issuances from NSDL's primary-market data (amounts in ₹ crore). "
-            "Where present, 'vs peers' compares the deal's G-sec spread to the median of "
-            "similar-rated, same-segment, same-tenor-bucket deals of the last 90 days.\n\n"
-            f"{rows}\n\nWatchlist (rated-entity) issuers in today's batch: {wl}.\n\n"
-            "Write EXACTLY 3 bullets (plain text, each starting with '• '), each under 18 "
-            "words, numbers first. Cover: (1) sharpest relative-value signal of the day "
-            "(lean on the vs-peers numbers), (2) who pays the biggest premium and why, "
-            "(3) one takeaway for an NBFC/HFC credit analyst. No preamble, no repetition "
-            "of the table."
-        )
-        client = anthropic.Anthropic(api_key=api_key)
-        cfg_model = _load_config().get("model", "claude-sonnet-5")
-        msg = client.messages.create(model=cfg_model, max_tokens=1000,
-                                     messages=[{"role": "user", "content": prompt}])
-        return "".join(b.text for b in msg.content if getattr(b, "type", "") == "text").strip()
-    except Exception as exc:
-        print(f"[nsdl_issuance] Claude commentary skipped: {exc}")
-        if "credit balance" in str(exc).lower():
-            _CLAUDE_ERROR["msg"] = ("AI commentary unavailable — the Anthropic API account "
-                                    "is out of credits (top up at console.anthropic.com → "
-                                    "Plans &amp; Billing).")
-        return ""
+    # 2) biggest premium payer of the day
+    with_sp = [(i, _spread_bps(i, gsec)) for i in rated]
+    with_sp = [(i, s) for i, s in with_sp if s]
+    if with_sp:
+        i, s = max(with_sp, key=lambda x: x[1][0])
+        bullets.append(f"Widest spread: {i['issuer'].title()} at +{s[0]} bps over {s[1]}Y G-sec "
+                       f"({i['coupon']:.2f}%, ₹{_fmt_cr(i['issue_size_cr'])} cr, "
+                       f"{i.get('tenure_years') or '?'}y).")
+
+    # 3) batch mix takeaway
+    total = sum(i["issue_size_cr"] for i in issues)
+    if total:
+        fin = sum(i["issue_size_cr"] for i in issues
+                  if _segment(i) in ("NBFC/HFC", "Bank/FI"))
+        line = (f"Financials took {fin / total * 100:.0f}% of today's ₹{_fmt_cr(total)} cr "
+                f"across {len(issues)} deal{'s' if len(issues) > 1 else ''}")
+        if watchlist_hits:
+            line += f"; watchlist active: {', '.join(sorted(set(watchlist_hits))[:3])}"
+        bullets.append(line + ".")
+    return bullets
 
 
 def build_email(issues, fy_total, quarters, watchlist, today,
@@ -650,7 +654,6 @@ def build_email(issues, fy_total, quarters, watchlist, today,
                 matrix_source=None) -> str:
     date_str = today.strftime("%d %B %Y")
     watchlist_hits = []
-    peer_notes: dict[str, str] = {}
     unrated = [i for i in issues if _rating_band(i) == _BANDS[-1]]
     issues = [i for i in issues if _rating_band(i) != _BANDS[-1]]
     banded: dict[str, list] = {}
@@ -682,7 +685,6 @@ def build_email(issues, fy_total, quarters, watchlist, today,
                 _, vtxt, vcol, vn = verdict
                 spread_html += (f"<div style='font-size:10px;color:{vcol};font-weight:700;'>"
                                 f"{vtxt} (n={vn})</div>")
-                peer_notes[i["isin"]] = f"{vtxt} ({vn} peers, 90d, same band/segment/tenor)"
             prev = _prev_issuance(i, history)
             if prev:
                 pd = datetime.date.fromisoformat(prev["allotment_date"]).strftime("%d-%b-%y")
@@ -716,21 +718,15 @@ def build_email(issues, fy_total, quarters, watchlist, today,
     analysis_items = _computed_analysis(issues, fy_total, quarters, prev_total, gsec)
     analysis_html = "".join(f"<li style='padding:3px 0;'>{a}</li>" for a in analysis_items)
 
-    commentary = _claude_commentary(issues, watchlist_hits, peer_notes)
+    commentary_items = _computed_commentary(issues, watchlist_hits, history, gsec)
     commentary_html = ""
-    if not commentary and _CLAUDE_ERROR["msg"]:
-        commentary_html = f"""
-<tr><td style="padding:10px 20px 0;">
-  <div style="font-family:Arial,sans-serif;font-size:11px;color:#a15c00;background:#fff3cd;
-              border:1px solid #ffe69c;border-radius:4px;padding:8px 10px;">{_CLAUDE_ERROR['msg']}</div>
-</td></tr>"""
-    if commentary:
-        bullets = "".join(f"<li style='padding:3px 0;'>{b.strip().lstrip('•').strip()}</li>"
-                          for b in commentary.split("\n") if b.strip())
+    if commentary_items:
+        bullets = "".join(f"<li style='padding:3px 0;'>{b}</li>" for b in commentary_items)
         commentary_html = f"""
 <tr><td style="padding:14px 20px 4px;">
   <div style="font-size:13px;font-weight:700;color:#cc0000;border-bottom:2px solid #cc0000;padding-bottom:4px;">ANALYST COMMENTARY</div>
-  <ul style="margin:8px 0 0;padding-left:18px;font-size:13px;color:#333;">{bullets}</ul>
+  <ul style="margin:8px 0 0;padding-left:18px;font-family:Arial,sans-serif;font-size:13px;color:#333;">{bullets}</ul>
+  <div style="margin-top:4px;font-family:Arial,sans-serif;font-size:10px;color:#999;">Auto-computed from today's pricing vs peer cohorts — no AI involved.</div>
 </td></tr>"""
 
     wl_note = ""

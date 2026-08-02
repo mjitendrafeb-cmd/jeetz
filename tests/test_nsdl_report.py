@@ -143,3 +143,25 @@ def test_prev_issuance_needs_earlier_deal():
              "allotment_date": datetime.date(2026, 7, 21), "coupon": 8.20}
     prev = rep._prev_issuance(fresh, hist)
     assert prev and prev["isin"] == "OLD1" and prev["coupon"] == 8.55
+
+
+def test_computed_commentary_rule_based():
+    base = datetime.date(2026, 7, 1)
+    dl = {"records": [
+        _dl_rec(f"P{k}", f"PEER {k} FINANCE LIMITED", base, 8.0 + k * 0.1, 100, "AA")
+        for k in range(5)
+    ]}
+    hist = rep._debt_list_history(dl, GSEC)
+    issues = [
+        {"isin": "NEW1", "issuer": "FRESH FINANCE LIMITED", "issue_size_cr": 200,
+         "allotment_date": datetime.date(2026, 7, 21), "tenure_years": 5.0,
+         "coupon": 7.90, "ratings": ["CRISIL AA"]},
+        {"isin": "NEW2", "issuer": "STEEL WORKS LIMITED", "issue_size_cr": 100,
+         "allotment_date": datetime.date(2026, 7, 21), "tenure_years": 3.0,
+         "coupon": 12.0, "ratings": ["ICRA BBB"]},
+    ]
+    bullets = rep._computed_commentary(issues, ["Fresh Finance"], hist, GSEC)
+    assert len(bullets) == 3
+    assert "inside peers" in bullets[0]                  # 7.90 vs 8.20 median
+    assert "Steel Works" in bullets[1] and "+574 bps" in bullets[1]
+    assert "67%" in bullets[2] and "Fresh Finance" in bullets[2]
