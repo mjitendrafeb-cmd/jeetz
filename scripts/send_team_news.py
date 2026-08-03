@@ -228,6 +228,18 @@ _FIN_RELEVANCE_RE = re.compile(
 )
 
 
+# Rating-agency press pages are scraped per-company ([RATING — ICRA] etc).
+# For a company on somebody's watchlist that's an S1 credit event; for any
+# other company it is noise about an unrelated issuer ("BEL-Thales Systems
+# Ltd", "Hira Electro Smelters Limited"), and it slipped past the relevance
+# gate purely because the agency's own name is a financial keyword.
+_CRA_TAG_RE = re.compile(r"\bRATING\s*[—–-]", re.IGNORECASE)
+
+
+def _is_cra_announcement(it: dict) -> bool:
+    return bool(_CRA_TAG_RE.search(it.get("tags", "")))
+
+
 def _is_fin_relevant(it: dict) -> bool:
     text = f'{it["tags"]} {it["source"]} {it["title"]} {it["summary"]}'
     return bool(_FIN_RELEVANCE_RE.search(text))
@@ -323,10 +335,40 @@ _DATE_ONLY_RE = re.compile(
 
 
 def _tidy_text(s: str) -> str:
-    """Strip inline URLs and markdown, collapse whitespace."""
+    """Decode HTML entities, strip inline URLs and markdown, collapse space.
+
+    Feeds carry entities (&nbsp;, &amp;, &#39;). They have to be decoded HERE,
+    at parse time, because the renderer escapes everything on the way out —
+    without this a raw '&nbsp;' survives escaping and shows up literally in
+    the card as '&nbsp;&nbsp;'."""
+    s = _html.unescape(str(s or ""))
     s = _URL_IN_TEXT_RE.sub(" ", s)
     s = _MD_RE.sub("", s)
     return " ".join(s.split()).strip(" -–—:|·")
+
+
+def _norm_key(s: str) -> str:
+    return re.sub(r"[^a-z0-9]+", "", (s or "").lower())
+
+
+def _dedupe_summary(title: str, summary: str, source: str) -> str:
+    """Google News RSS puts the headline in the description too
+    ('<headline>&nbsp;&nbsp;<source>'), so the card printed the same
+    sentence twice. Drop a summary that only repeats the title."""
+    if not summary:
+        return ""
+    nt, ns, nsrc = _norm_key(title), _norm_key(summary), _norm_key(source)
+    if not nt:
+        return summary
+    if ns == nt or ns in nt:
+        return ""
+    if ns.startswith(nt):
+        extra = ns[len(nt):]
+        # What's left is just the source name (or a scrap) — nothing to add.
+        if extra == nsrc or len(extra) < 25:
+            return ""
+        return summary[len(title):].strip(" -–—:|·,")
+    return summary
 
 
 def _first_sentence(s: str, limit: int = 130) -> str:
@@ -451,6 +493,7 @@ def _parse_item(raw: str) -> dict:
             summary = ""
         if len(title) > 150:
             title = _first_sentence(title, 150)
+        summary = _dedupe_summary(title, summary, source)
     wl_company = ""
     for t in tags:
         m2 = re.match(r"WATCHLIST\s*[—-]\s*(.+)", t)
@@ -473,6 +516,10 @@ def _classify(it: dict, company_phrases: list[str]) -> str | None:
     text = (it["tags"] + " " + it["source"] + " " + it["title"] + " " + it["summary"]).lower()
     if "watchlist" in it["tags"].lower() or any(p and p in text for p in company_phrases):
         return "S1"
+    # Reached here => not a watchlist company. A CRA press-page announcement
+    # about some unrelated issuer has no place in the sector sections.
+    if _is_cra_announcement(it):
+        return None
     # 7:30 rule: penalties/enforcement ALWAYS S3, never S2, whoever the entity.
     if _PENALTY_RE.search(text):
         return "S3"
@@ -856,6 +903,15 @@ def _title_toks(title: str) -> frozenset:
                      if w not in _TITLE_STOP and len(w) > 2)
 
 
+def _lead_tok(title: str) -> str:
+    """First significant word — the story's subject. Two headlines about
+    different issuers must never merge, however much boilerplate they share."""
+    for w in re.findall(r"[a-z0-9]+", (title or "").lower()):
+        if w not in _TITLE_STOP and len(w) > 2:
+            return w
+    return ""
+
+
 def _tier_rank(it: dict) -> int:
     tags = it.get("tags", "")
     return 0 if "T1" in tags else (1 if "T2" in tags else 2)
@@ -868,32 +924,48 @@ def _dedup_cross_source(items: list[dict]) -> list[dict]:
     kept: list[dict] = []
     for it in items:
         toks = _title_toks(it["title"])
+        lead = _lead_tok(it["title"])
+        nkey = _norm_key(it["title"])
         it["also"] = it.get("also", [])
         winner = None
         for k in kept:
-            if len(toks) < 4 or len(k["_toks"]) < 4:
-                continue
-            inter = len(toks & k["_toks"])
-            if inter / min(len(toks), len(k["_toks"])) < 0.75:
-                continue
             a, b = it.get("wl_company", ""), k.get("wl_company", "")
             if a and b and a != b:
                 continue  # same headline, different watchlist company — keep both
+            if nkey and nkey == k["_nkey"]:
+                winner = k          # byte-identical headline, always one card
+                break
+            if len(toks) < 4 or len(k["_toks"]) < 4:
+                continue
+            # A pure overlap ratio fails in both directions: three genuine
+            # paraphrases of the RBI MPC story scored 0.54-0.70 and stayed
+            # separate, while "HDFC Bank reports Q1 profit rise" vs "ICICI
+            # Bank reports Q1 profit rise" scored 0.80 and would have merged
+            # two different issuers. Require a real mass of shared words AND
+            # the same leading subject, then the ratio can be loosened.
+            inter = len(toks & k["_toks"])
+            if inter < 5:
+                continue
+            if inter / min(len(toks), len(k["_toks"])) < 0.55:
+                continue
+            if lead and k["_lead"] and lead != k["_lead"]:
+                continue
             winner = k
             break
         if winner is None:
-            it["_toks"] = toks
+            it["_toks"], it["_lead"], it["_nkey"] = toks, lead, nkey
             kept.append(it)
         elif _tier_rank(it) < _tier_rank(winner):
             # newcomer is higher-tier: it replaces the kept item in place
             it["also"] = winner["also"] + [winner["source"]]
-            it["_toks"] = toks
+            it["_toks"], it["_lead"], it["_nkey"] = toks, lead, nkey
             kept[kept.index(winner)] = it
         else:
             if it["source"] not in winner["also"] and it["source"] != winner["source"]:
                 winner["also"].append(it["source"])
     for k in kept:
-        k.pop("_toks", None)
+        for tmp in ("_toks", "_lead", "_nkey"):
+            k.pop(tmp, None)
     return kept
 
 
@@ -1041,10 +1113,12 @@ def _np_card(it: dict, hero: bool = False, company: str = "") -> str:
             if it["url"] else "")
     also = (f'<br><span class="also">Also reported by: '
             f'{_esc(", ".join(it["also"]))}</span>' if it.get("also") else "")
-    summary = _esc(it["summary"]) or "No summary available."
+    # No filler line when a feed gives no description — just omit it.
+    summary = _esc(it["summary"])
+    body = f'<p class="wh">{summary}</p>' if summary else ""
     return (f'<div class="{cls}"><p class="src">{" &bull; ".join(bits)}</p>'
             f'<p class="hl">{_rating_badge(it)}{_esc(it["title"])}</p>'
-            f'<p class="wh">{summary}</p>{link}{also}</div>')
+            f'{body}{link}{also}</div>')
 
 
 def _np_brief(it: dict) -> str:
