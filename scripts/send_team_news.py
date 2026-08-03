@@ -181,7 +181,13 @@ _CRYPTO_RE = re.compile(
 # Directory/dataset pages that are not news at all.
 _NOT_NEWS_RE = re.compile(
     r"\bnumber of employees\b|\b(company|employee|headcount) (profile|data|statistics)\b|"
-    r"\b(revenue|funding) (and|&) (employees|headcount)\b",
+    r"\b(revenue|funding) (and|&) (employees|headcount)\b"
+    # Recurring Telegram filler and explainer content -- never a credit event.
+    r"|\bipo corner\b"
+    r"|^what (is|are)\b.{0,60}\?"
+    r"|\bwhy .{0,40}\b(matter|matters) to investors\b"
+    r"|\b(summary|round[- ]?up|recap) of (financial |the )?markets?\b"
+    r"|\bhere'?s (what|how|why) you (need to know|should know)\b",
     re.IGNORECASE,
 )
 
@@ -368,6 +374,40 @@ def _telegram_headline(body: str) -> str:
     return _first_sentence(head) if head else ""
 
 
+# Only a SHORT leading segment is a source label. Fetchers emit several
+# shapes -- fetch_news uses "Source: Title — Summary", but the web scraper
+# emits a bare headline ("[WEB — livemint.com] <headline>") and Indian
+# headlines routinely end in ": Report" / ": SBI Research". Splitting on the
+# first ": " unconditionally put the headline in the source slot and a
+# fragment in the title ("Report (India's bank credit growth…)"), or left the
+# title empty entirely ("(How RBI leeway on bulk deposit pricing…)").
+_SOURCE_PREFIX_RE = re.compile(r"^([^:]{2,38}):\s+(\S.*)$", re.DOTALL)
+
+
+def _split_source(body: str) -> tuple[str, str]:
+    """Return (source, rest); ("", body) when the colon belongs to the headline."""
+    m = _SOURCE_PREFIX_RE.match(body)
+    if not m:
+        return "", body
+    cand, rest = m.group(1).strip(), m.group(2).strip()
+    # A real source label is a short name -- not a clause.
+    if len(cand.split()) > 5 or any(ch in cand for ch in "()?!;,"):
+        return "", body
+    return cand, rest
+
+
+def _source_from_tags(tags: list[str]) -> str:
+    """Fall back to the fetcher's own tag: [WEB — livemint.com] -> livemint.com."""
+    for t in tags:
+        m = re.match(r"(?:WEB|RATING|BSE|NSE|FINANCIALS)\s*[—–-]\s*(.+)", t.strip(), re.I)
+        if m:
+            return m.group(1).strip()
+    for t in tags:
+        if not re.match(r"^(T1|T2|WATCHLIST)\b", t.strip(), re.I):
+            return t.strip()
+    return ""
+
+
 def _parse_item(raw: str) -> dict:
     item = re.sub(r"^\d+\.\s*", "", raw)
     tags = re.findall(r"^\[([^\]]+)\]\s*", item)
@@ -400,9 +440,11 @@ def _parse_item(raw: str) -> dict:
             title, summary = _first_sentence(clean), ""
     else:
         body = body.split(" | ")[0]
-        source, _, rest = body.partition(": ")
+        source, rest = _split_source(body)
         title, _, summary = rest.partition(" — ")
         title, summary = _tidy_text(title), _tidy_text(summary)
+        if not source:
+            source = _source_from_tags(tags)
         # A date-only or stub headline is useless — promote from the summary.
         if summary and (_DATE_ONLY_RE.match(title) or len(title) < 15):
             title = _first_sentence(summary)
@@ -696,6 +738,10 @@ CareEdge Daily News &mdash; internal digest. Sources are aggregated from public 
 # No AI: cards carry headline+summary; the AI's credit-implication sentence
 # and cross-source dedup are the only pieces that need API credits.
 # ---------------------------------------------------------------------------
+
+# Full cards per section before the In-brief overflow valve kicks in. Set
+# well above normal daily volume (S2 peaks around 40) so In-brief is rare.
+_MAX_CARDS = 60
 
 _NP_SECTIONS = [
     ("s1", "sb1", "S1", "&#9733; S1 &mdash; MY RATED ENTITIES &amp; WATCHLIST"),
@@ -1037,16 +1083,23 @@ def _np_partb(p: dict, items: list[dict], by_section: dict) -> tuple[str, int, l
             for i, (comp, it) in enumerate(sec):
                 parts.append(_np_card(it, hero=(i == 0), company=comp))
         else:
-            sec_items = by_section[skey][:20]
+            sec_items = by_section[skey]
             if not sec_items:
                 parts.append('<p class="empty">No news in this category today.</p>')
                 continue
             total += len(sec_items)
             chosen.extend(sec_items)
+            # Every story gets the same full-card treatment. The old 6-card
+            # cut mirrored the 7:30 prompt, but there the AI *chooses* the six
+            # most credit-significant stories -- with no AI the cut was
+            # arbitrary, so genuinely material items (a CRISIL credit-ratio
+            # story) were demoted to one-liners purely by fetch order. The old
+            # [:20] slice also dropped everything past 20 outright.
             sec_items = _rating_first(sec_items)
-            cards, brief = sec_items[:6], sec_items[6:]
+            cards, brief = sec_items[:_MAX_CARDS], sec_items[_MAX_CARDS:]
             parts.extend(_np_card(it) for it in cards)
             if brief:
+                # Overflow only, so nothing is ever silently dropped.
                 parts.append('<p class="ibh">In brief</p>')
                 parts.extend(_np_brief(it) for it in brief)
     return "\n".join(parts), total, chosen
