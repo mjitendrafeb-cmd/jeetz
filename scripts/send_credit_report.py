@@ -323,7 +323,9 @@ def build_fallback_report(news_text: str, today: datetime.date, error_msg: str =
     items = [_parse_item(ln) for ln in news_text.splitlines() if ln.strip()]
     by_section: dict[str, list[dict]] = {s: [] for s, _, _ in _FALLBACK_SECTIONS}
     for it in items:
-        by_section[_classify(it, phrases).lower()].append(it)
+        section = _classify(it, phrases)
+        if section is not None:
+            by_section[section.lower()].append(it)
 
     parts = []
     for sid, sbcls, title in _FALLBACK_SECTIONS:
