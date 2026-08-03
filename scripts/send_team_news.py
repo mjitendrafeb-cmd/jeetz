@@ -15,6 +15,7 @@ Each enabled person receives ONE email:
 import os
 import re
 import json
+import html as _html
 import datetime
 import smtplib
 from email.mime.text import MIMEText
@@ -160,16 +161,38 @@ _TEAM_JUNK_RE = re.compile(
     re.IGNORECASE,
 )
 
-# Telegram/source channels dedicated entirely to stock tips and broker
-# research notes, not credit or company news — every item from them is noise
-# for this desk regardless of wording.
-_JUNK_SOURCES = ("@brokerage_report",)
+# Sources that never carry credit-relevant news for this desk, whatever the
+# headline says: dedicated stock-tip feeds, HR/headcount data scrapers
+# (reveliolabs "Auxilo Finserve Number of Employees 2026"), and crypto sites.
+_JUNK_SOURCE_RE = re.compile(
+    r"(@brokerage_report|reveliolabs|bitcoinworld|coindesk|cointelegraph|"
+    r"zippia|growjo|leadiq|craft\.co|owler|rocketreach)",
+    re.IGNORECASE,
+)
+# Crypto trading stories reach S1 through loose company-name matches (an
+# "…Supplies 40,000 ETH To Spark" item was tagged to Spark Institutional
+# Equities). Bare "crypto"/"blockchain" are deliberately NOT here — RBI/SEBI
+# crypto regulation is legitimate S3 news.
+_CRYPTO_RE = re.compile(
+    r"\b(bitcoin|ethereum|usdt|usdc|\bbtc\b|\beth\b|bitfinex|binance|"
+    r"altcoin|stablecoin|memecoin|defi protocol|crypto (exchange|wallet|token))\b",
+    re.IGNORECASE,
+)
+# Directory/dataset pages that are not news at all.
+_NOT_NEWS_RE = re.compile(
+    r"\bnumber of employees\b|\b(company|employee|headcount) (profile|data|statistics)\b|"
+    r"\b(revenue|funding) (and|&) (employees|headcount)\b",
+    re.IGNORECASE,
+)
 
 
 def _is_team_junk(it: dict) -> bool:
-    if it["source"].lower() in _JUNK_SOURCES:
+    if _JUNK_SOURCE_RE.search(it["source"]):
         return True
-    return bool(_TEAM_JUNK_RE.search(f'{it["title"]} {it["summary"]}'))
+    body = f'{it["title"]} {it["summary"]}'
+    if _CRYPTO_RE.search(body) or _NOT_NEWS_RE.search(body):
+        return True
+    return bool(_TEAM_JUNK_RE.search(body))
 
 
 # 7:30 rule, mechanical version: "INCLUDE only items affecting Rating
@@ -691,6 +714,73 @@ _RATING_ACTION_RE = re.compile(
 
 _ARCHIVE_URL = "https://mjitendrafeb-cmd.github.io/jeetz/archive/"
 
+# Google News RSS returns encoded redirect links
+# (news.google.com/rss/articles/CBMi...?oc=5). Those are NOT openable article
+# URLs — pasted into a browser they 404 or bounce, which is why every S1
+# "Read more" was dead. Resolve each one to the publisher's real URL; if that
+# fails, fall back to a Google News *search* link for the headline, which
+# always opens even though it costs the reader one extra click.
+_GNEWS_ARTICLE_RE = re.compile(r"^https?://news\.google\.com/rss/articles/", re.IGNORECASE)
+_BROWSER_UA = ("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
+               "(KHTML, like Gecko) Chrome/124.0 Safari/537.36")
+_GOOGLE_HOST_RE = re.compile(r"^https?://(news\.|www\.|accounts\.|policies\.|support\.)?google\.", re.IGNORECASE)
+
+
+def _gnews_search_url(title: str) -> str:
+    import urllib.parse
+    q = urllib.parse.quote((title or "")[:120])
+    return f"https://news.google.com/search?q={q}&hl=en-IN&gl=IN&ceid=IN:en"
+
+
+def _resolve_gnews_url(url: str, title: str) -> str:
+    """Return the publisher's article URL, or a Google News search link."""
+    try:
+        import requests
+        r = requests.get(url, timeout=8, allow_redirects=True,
+                         headers={"User-Agent": _BROWSER_UA})
+        final = r.url or ""
+        if final and not _GOOGLE_HOST_RE.match(final):
+            return final
+        body = r.text or ""
+        m = re.search(r'data-n-au="(https?://[^"]+)"', body)
+        if m and not _GOOGLE_HOST_RE.match(m.group(1)):
+            return _html.unescape(m.group(1))
+        for m in re.finditer(r'href="(https?://[^"]+)"', body):
+            cand = _html.unescape(m.group(1))
+            if not _GOOGLE_HOST_RE.match(cand) and "gstatic.com" not in cand:
+                return cand
+    except Exception as exc:
+        print(f"[links] resolve failed ({exc.__class__.__name__}) for {url[:60]}...")
+    return _gnews_search_url(title)
+
+
+def _resolve_gnews_links(items: list[dict]) -> None:
+    """Rewrite every Google News redirect URL in place, concurrently."""
+    title_by_url: dict[str, str] = {}
+    for it in items:
+        u = it.get("url", "")
+        if u and _GNEWS_ARTICLE_RE.match(u) and u not in title_by_url:
+            title_by_url[u] = it.get("title", "")
+    if not title_by_url:
+        return
+    import concurrent.futures
+    resolved: dict[str, str] = {}
+    with concurrent.futures.ThreadPoolExecutor(max_workers=8) as ex:
+        futures = {ex.submit(_resolve_gnews_url, u, t): u
+                   for u, t in title_by_url.items()}
+        for fut in concurrent.futures.as_completed(futures):
+            u = futures[fut]
+            try:
+                resolved[u] = fut.result()
+            except Exception:
+                resolved[u] = _gnews_search_url(title_by_url[u])
+    for it in items:
+        if it.get("url") in resolved:
+            it["url"] = resolved[it["url"]]
+    direct = sum(1 for v in resolved.values() if "news.google.com/search" not in v)
+    print(f"[links] {direct}/{len(resolved)} Google News links resolved to the "
+          f"publisher's page ({len(resolved) - direct} fell back to a search link)")
+
 
 def _parse_pub(pub: str, today: "datetime.date"):
     """PUB dates arrive as '29 Jul' (no year). Assume current year; a date
@@ -889,21 +979,32 @@ def _story_score(it: dict) -> int:
     return s
 
 
+def _esc(s: str) -> str:
+    """Everything below is scraped text — Google News summaries in particular
+    arrive as raw HTML fragments ('<a href="…'), which previously went into
+    the card unescaped and shredded the markup (a truncated tag swallowed the
+    real Read-more link). Escape every interpolated value."""
+    return _html.escape(str(s or ""), quote=True)
+
+
 def _np_card(it: dict, hero: bool = False, company: str = "") -> str:
     cls = "art hero" if hero else "art"
-    bits = [b for b in (company.upper() if company else "", it["source"], it.get("pub", "")) if b]
-    link = (f'<a class="rm" href="{it["url"]}" target="_blank">Read more &#8594;</a>'
+    bits = [_esc(b) for b in (company.upper() if company else "",
+                              it["source"], it.get("pub", "")) if b]
+    link = (f'<a class="rm" href="{_esc(it["url"])}" target="_blank">Read more &#8594;</a>'
             if it["url"] else "")
-    also = (f'<br><span class="also">Also reported by: {", ".join(it["also"])}</span>'
-            if it.get("also") else "")
+    also = (f'<br><span class="also">Also reported by: '
+            f'{_esc(", ".join(it["also"]))}</span>' if it.get("also") else "")
+    summary = _esc(it["summary"]) or "No summary available."
     return (f'<div class="{cls}"><p class="src">{" &bull; ".join(bits)}</p>'
-            f'<p class="hl">{_rating_badge(it)}{it["title"]}</p>'
-            f'<p class="wh">{it["summary"] or "No summary available."}</p>{link}{also}</div>')
+            f'<p class="hl">{_rating_badge(it)}{_esc(it["title"])}</p>'
+            f'<p class="wh">{summary}</p>{link}{also}</div>')
 
 
 def _np_brief(it: dict) -> str:
-    link = f'<a href="{it["url"]}" target="_blank">&#8594;</a>' if it["url"] else ""
-    return f'<p class="ib">&#8226; {it["title"]} ({it["source"]}) {link}</p>'
+    link = (f'<a href="{_esc(it["url"])}" target="_blank">&#8594;</a>'
+            if it["url"] else "")
+    return f'<p class="ib">&#8226; {_esc(it["title"])} ({_esc(it["source"])}) {link}</p>'
 
 
 def _np_partb(p: dict, items: list[dict], by_section: dict) -> tuple[str, int, list[dict]]:
@@ -963,8 +1064,8 @@ def _np_partc(top5: list[dict], date_str: str) -> str:
             f'color:#cc0000;line-height:1;font-family:Georgia,serif;width:44px;">0{i + 1}</td>'
             f'<td style="padding:10px 16px 10px 4px;{border}">'
             f'<p style="margin:0 0 2px;font-size:9px;font-weight:800;letter-spacing:1px;'
-            f'text-transform:uppercase;color:#888;">{label} &bull; {it["source"]}</p>'
-            f'<p style="margin:0;font-size:12px;color:#1a1a1a;line-height:1.6;">{it["title"]}</p>'
+            f'text-transform:uppercase;color:#888;">{label} &bull; {_esc(it["source"])}</p>'
+            f'<p style="margin:0;font-size:12px;color:#1a1a1a;line-height:1.6;">{_esc(it["title"])}</p>'
             f'</td></tr>'
         )
     if not rows:
@@ -1111,6 +1212,10 @@ def main() -> None:
     for it in offtopic[:8]:
         print(f"[offtopic] dropped (no financial-sector signal): {it['title'][:75]}")
     print(f"{len(items)} items after relevance filter (dropped {pre_offtopic - len(items)})")
+
+    # Only the surviving pool needs real links — resolve after all filtering
+    # so we never spend requests on items nobody will receive.
+    _resolve_gnews_links(items)
 
     comp_counts: dict[str, int] = {}
     for it in items:
