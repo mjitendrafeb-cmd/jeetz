@@ -22,10 +22,16 @@
       "gh_email": "Akansha.Jain@careedge.in",
       "analyst_email": "Anushka.Bothra@careedge.in",
       "rh_email": "",
-      "send_gh": false,
+      "send_gh": true,
       "send_analyst": false,
       "send_rh": false,
-      "sections": []
+      "sections": [
+        "S1",
+        "S2",
+        "S3",
+        "S4",
+        "S5"
+      ]
     },
     {
       "company": "MINTIFI Finserve Private Limited",
@@ -170,10 +176,16 @@
       "gh_email": "Akansha.Jain@careedge.in",
       "analyst_email": "Hareesh.H@careedge.in",
       "rh_email": "",
-      "send_gh": false,
+      "send_gh": true,
       "send_analyst": false,
       "send_rh": false,
-      "sections": []
+      "sections": [
+        "S1",
+        "S2",
+        "S3",
+        "S4",
+        "S5"
+      ]
     },
     {
       "company": "KrazyBee Services Limited",
@@ -383,10 +395,16 @@
       "gh_email": "Akansha.Jain@careedge.in",
       "analyst_email": "Anushka.Bothra@careedge.in",
       "rh_email": "",
-      "send_gh": false,
+      "send_gh": true,
       "send_analyst": false,
       "send_rh": false,
-      "sections": []
+      "sections": [
+        "S1",
+        "S2",
+        "S3",
+        "S4",
+        "S5"
+      ]
     },
     {
       "company": "Religare Broking Limited",
@@ -461,10 +479,16 @@
       "gh_email": "Akansha.Jain@careedge.in",
       "analyst_email": "Pranav.Viswanathan@careedge.in",
       "rh_email": "",
-      "send_gh": false,
+      "send_gh": true,
       "send_analyst": false,
       "send_rh": false,
-      "sections": []
+      "sections": [
+        "S1",
+        "S2",
+        "S3",
+        "S4",
+        "S5"
+      ]
     },
     {
       "company": "Gajet Financial Services Private Limited",
@@ -474,10 +498,16 @@
       "gh_email": "Akansha.Jain@careedge.in",
       "analyst_email": "Pranav.Viswanathan@careedge.in",
       "rh_email": "",
-      "send_gh": false,
+      "send_gh": true,
       "send_analyst": false,
       "send_rh": false,
-      "sections": []
+      "sections": [
+        "S1",
+        "S2",
+        "S3",
+        "S4",
+        "S5"
+      ]
     },
     {
       "company": "IDBI Bank Limited",
@@ -577,10 +607,16 @@
       "gh_email": "Akansha.Jain@careedge.in",
       "analyst_email": "Anushka.Bothra@careedge.in",
       "rh_email": "",
-      "send_gh": false,
+      "send_gh": true,
       "send_analyst": false,
       "send_rh": false,
-      "sections": []
+      "sections": [
+        "S1",
+        "S2",
+        "S3",
+        "S4",
+        "S5"
+      ]
     },
     {
       "company": "Nisus Finance Services Co Limited",
@@ -628,10 +664,16 @@
       "gh_email": "Akansha.Jain@careedge.in",
       "analyst_email": "Pulkit.Jain@careedge.in",
       "rh_email": "",
-      "send_gh": false,
+      "send_gh": true,
       "send_analyst": false,
       "send_rh": false,
-      "sections": []
+      "sections": [
+        "S1",
+        "S2",
+        "S3",
+        "S4",
+        "S5"
+      ]
     },
     {
       "company": "NSE IFSC Clearing Corporation Limited",
@@ -641,10 +683,16 @@
       "gh_email": "Akansha.Jain@careedge.in",
       "analyst_email": "Pulkit.Jain@careedge.in",
       "rh_email": "",
-      "send_gh": false,
+      "send_gh": true,
       "send_analyst": false,
       "send_rh": false,
-      "sections": []
+      "sections": [
+        "S1",
+        "S2",
+        "S3",
+        "S4",
+        "S5"
+      ]
     },
     {
       "company": "Repco Home Finance Limited",
@@ -654,10 +702,16 @@
       "gh_email": "Akansha.Jain@careedge.in",
       "analyst_email": "Hareesh.H@careedge.in",
       "rh_email": "",
-      "send_gh": false,
+      "send_gh": true,
       "send_analyst": false,
       "send_rh": false,
-      "sections": []
+      "sections": [
+        "S1",
+        "S2",
+        "S3",
+        "S4",
+        "S5"
+      ]
     },
     {
       "company": "Jharkhand Rajya Gramin Bank",
@@ -888,10 +942,16 @@
       "gh_email": "Akansha.Jain@careedge.in",
       "analyst_email": "Pranav.Viswanathan@careedge.in",
       "rh_email": "",
-      "send_gh": false,
+      "send_gh": true,
       "send_analyst": false,
       "send_rh": false,
-      "sections": []
+      "sections": [
+        "S1",
+        "S2",
+        "S3",
+        "S4",
+        "S5"
+      ]
     },
     {
       "company": "Alpha Alternatives Financial Services Private Limited",
@@ -920,10 +980,16 @@
       "gh_email": "Akansha.Jain@careedge.in",
       "analyst_email": "Anushka.Bothra@careedge.in",
       "rh_email": "",
-      "send_gh": false,
+      "send_gh": true,
       "send_analyst": false,
       "send_rh": false,
-      "sections": []
+      "sections": [
+        "S1",
+        "S2",
+        "S3",
+        "S4",
+        "S5"
+      ]
     },
     {
       "company": "National Bank For Financing Infrastructure And Development",
@@ -1147,10 +1213,16 @@
       "gh_email": "Akansha.Jain@careedge.in",
       "analyst_email": "Pranav.Viswanathan@careedge.in",
       "rh_email": "",
-      "send_gh": false,
+      "send_gh": true,
       "send_analyst": false,
       "send_rh": false,
-      "sections": []
+      "sections": [
+        "S1",
+        "S2",
+        "S3",
+        "S4",
+        "S5"
+      ]
     },
     {
       "company": "Hinduja Leyland Finance Limited",
@@ -1160,10 +1232,16 @@
       "gh_email": "Akansha.Jain@careedge.in",
       "analyst_email": "Hareesh.H@careedge.in",
       "rh_email": "",
-      "send_gh": false,
+      "send_gh": true,
       "send_analyst": false,
       "send_rh": false,
-      "sections": []
+      "sections": [
+        "S1",
+        "S2",
+        "S3",
+        "S4",
+        "S5"
+      ]
     },
     {
       "company": "L&T Finance Limited (formerly known as L&T Finance Holdings Limited)",
@@ -1244,10 +1322,16 @@
       "gh_email": "Akansha.Jain@careedge.in",
       "analyst_email": "Anushka.Bothra@careedge.in",
       "rh_email": "",
-      "send_gh": false,
+      "send_gh": true,
       "send_analyst": false,
       "send_rh": false,
-      "sections": []
+      "sections": [
+        "S1",
+        "S2",
+        "S3",
+        "S4",
+        "S5"
+      ]
     },
     {
       "company": "IDBI Capital Markets & Securities Limited",
@@ -1283,10 +1367,16 @@
       "gh_email": "Akansha.Jain@careedge.in",
       "analyst_email": "Pulkit.Jain@careedge.in",
       "rh_email": "",
-      "send_gh": false,
+      "send_gh": true,
       "send_analyst": false,
       "send_rh": false,
-      "sections": []
+      "sections": [
+        "S1",
+        "S2",
+        "S3",
+        "S4",
+        "S5"
+      ]
     },
     {
       "company": "Share India Fincap Private Limited",
@@ -1627,10 +1717,16 @@
       "gh_email": "Akansha.Jain@careedge.in",
       "analyst_email": "Pranav.Viswanathan@careedge.in",
       "rh_email": "",
-      "send_gh": false,
+      "send_gh": true,
       "send_analyst": false,
       "send_rh": false,
-      "sections": []
+      "sections": [
+        "S1",
+        "S2",
+        "S3",
+        "S4",
+        "S5"
+      ]
     },
     {
       "company": "Cars24 Financial Services Private Limited",
@@ -1717,10 +1813,16 @@
       "gh_email": "Akansha.Jain@careedge.in",
       "analyst_email": "Hareesh.H@careedge.in",
       "rh_email": "",
-      "send_gh": false,
+      "send_gh": true,
       "send_analyst": false,
       "send_rh": false,
-      "sections": []
+      "sections": [
+        "S1",
+        "S2",
+        "S3",
+        "S4",
+        "S5"
+      ]
     },
     {
       "company": "Aseem Infrastructure Finance Limited",
@@ -1768,10 +1870,16 @@
       "gh_email": "Akansha.Jain@careedge.in",
       "analyst_email": "Pranav.Viswanathan@careedge.in",
       "rh_email": "",
-      "send_gh": false,
+      "send_gh": true,
       "send_analyst": false,
       "send_rh": false,
-      "sections": []
+      "sections": [
+        "S1",
+        "S2",
+        "S3",
+        "S4",
+        "S5"
+      ]
     },
     {
       "company": "The Puducherry Public Servants Co-op. Credit Society Ltd P-52",
@@ -1794,10 +1902,16 @@
       "gh_email": "Akansha.Jain@careedge.in",
       "analyst_email": "Pulkit.Jain@careedge.in",
       "rh_email": "",
-      "send_gh": false,
+      "send_gh": true,
       "send_analyst": false,
       "send_rh": false,
-      "sections": []
+      "sections": [
+        "S1",
+        "S2",
+        "S3",
+        "S4",
+        "S5"
+      ]
     },
     {
       "company": "Manipal Cigna Health Insurance Company Limited",
@@ -1833,10 +1947,16 @@
       "gh_email": "Akansha.Jain@careedge.in",
       "analyst_email": "Pulkit.Jain@careedge.in",
       "rh_email": "",
-      "send_gh": false,
+      "send_gh": true,
       "send_analyst": false,
       "send_rh": false,
-      "sections": []
+      "sections": [
+        "S1",
+        "S2",
+        "S3",
+        "S4",
+        "S5"
+      ]
     },
     {
       "company": "ECL Finance Limited",
@@ -1846,10 +1966,16 @@
       "gh_email": "Akansha.Jain@careedge.in",
       "analyst_email": "Pulkit.Jain@careedge.in",
       "rh_email": "",
-      "send_gh": false,
+      "send_gh": true,
       "send_analyst": false,
       "send_rh": false,
-      "sections": []
+      "sections": [
+        "S1",
+        "S2",
+        "S3",
+        "S4",
+        "S5"
+      ]
     },
     {
       "company": "Edel Finance Company Limited",
@@ -1859,10 +1985,16 @@
       "gh_email": "Akansha.Jain@careedge.in",
       "analyst_email": "Anushka.Bothra@careedge.in",
       "rh_email": "",
-      "send_gh": false,
+      "send_gh": true,
       "send_analyst": false,
       "send_rh": false,
-      "sections": []
+      "sections": [
+        "S1",
+        "S2",
+        "S3",
+        "S4",
+        "S5"
+      ]
     },
     {
       "company": "Edelweiss Asset Reconstruction Company Limited",
@@ -1872,10 +2004,16 @@
       "gh_email": "Akansha.Jain@careedge.in",
       "analyst_email": "Anushka.Bothra@careedge.in",
       "rh_email": "",
-      "send_gh": false,
+      "send_gh": true,
       "send_analyst": false,
       "send_rh": false,
-      "sections": []
+      "sections": [
+        "S1",
+        "S2",
+        "S3",
+        "S4",
+        "S5"
+      ]
     },
     {
       "company": "Edelweiss Financial Services Limited",
@@ -1885,10 +2023,16 @@
       "gh_email": "Akansha.Jain@careedge.in",
       "analyst_email": "Anushka.Bothra@careedge.in",
       "rh_email": "",
-      "send_gh": false,
+      "send_gh": true,
       "send_analyst": false,
       "send_rh": false,
-      "sections": []
+      "sections": [
+        "S1",
+        "S2",
+        "S3",
+        "S4",
+        "S5"
+      ]
     },
     {
       "company": "Nido Home Finance Limited",
@@ -1898,10 +2042,16 @@
       "gh_email": "Akansha.Jain@careedge.in",
       "analyst_email": "Anushka.Bothra@careedge.in",
       "rh_email": "",
-      "send_gh": false,
+      "send_gh": true,
       "send_analyst": false,
       "send_rh": false,
-      "sections": []
+      "sections": [
+        "S1",
+        "S2",
+        "S3",
+        "S4",
+        "S5"
+      ]
     },
     {
       "company": "Svasti Microfinance Private Limited",
@@ -1924,10 +2074,16 @@
       "gh_email": "Akansha.Jain@careedge.in",
       "analyst_email": "Hareesh.H@careedge.in",
       "rh_email": "",
-      "send_gh": false,
+      "send_gh": true,
       "send_analyst": false,
       "send_rh": false,
-      "sections": []
+      "sections": [
+        "S1",
+        "S2",
+        "S3",
+        "S4",
+        "S5"
+      ]
     },
     {
       "company": "TVS Holdings Limited",
@@ -1937,10 +2093,16 @@
       "gh_email": "Akansha.Jain@careedge.in",
       "analyst_email": "Hareesh.H@careedge.in",
       "rh_email": "",
-      "send_gh": false,
+      "send_gh": true,
       "send_analyst": false,
       "send_rh": false,
-      "sections": []
+      "sections": [
+        "S1",
+        "S2",
+        "S3",
+        "S4",
+        "S5"
+      ]
     },
     {
       "company": "TVS Credit Services Limited",
@@ -1950,10 +2112,16 @@
       "gh_email": "Akansha.Jain@careedge.in",
       "analyst_email": "Hareesh.H@careedge.in",
       "rh_email": "",
-      "send_gh": false,
+      "send_gh": true,
       "send_analyst": false,
       "send_rh": false,
-      "sections": []
+      "sections": [
+        "S1",
+        "S2",
+        "S3",
+        "S4",
+        "S5"
+      ]
     },
     {
       "company": "Salem Erode Investments Limited",
@@ -1963,10 +2131,16 @@
       "gh_email": "Akansha.Jain@careedge.in",
       "analyst_email": "Hareesh.H@careedge.in",
       "rh_email": "",
-      "send_gh": false,
+      "send_gh": true,
       "send_analyst": false,
       "send_rh": false,
-      "sections": []
+      "sections": [
+        "S1",
+        "S2",
+        "S3",
+        "S4",
+        "S5"
+      ]
     },
     {
       "company": "Grow Money Capital Private Limited",
@@ -2137,10 +2311,16 @@
       "gh_email": "Akansha.Jain@careedge.in",
       "analyst_email": "Pulkit.Jain@careedge.in",
       "rh_email": "",
-      "send_gh": false,
+      "send_gh": true,
       "send_analyst": false,
       "send_rh": false,
-      "sections": []
+      "sections": [
+        "S1",
+        "S2",
+        "S3",
+        "S4",
+        "S5"
+      ]
     },
     {
       "company": "Godrej Housing Finance Limited",
@@ -2150,10 +2330,16 @@
       "gh_email": "Akansha.Jain@careedge.in",
       "analyst_email": "Pulkit.Jain@careedge.in",
       "rh_email": "",
-      "send_gh": false,
+      "send_gh": true,
       "send_analyst": false,
       "send_rh": false,
-      "sections": []
+      "sections": [
+        "S1",
+        "S2",
+        "S3",
+        "S4",
+        "S5"
+      ]
     },
     {
       "company": "North Eastern Development Finance Corporation Limited",
@@ -2215,10 +2401,16 @@
       "gh_email": "Akansha.Jain@careedge.in",
       "analyst_email": "Pranav.Viswanathan@careedge.in",
       "rh_email": "",
-      "send_gh": false,
+      "send_gh": true,
       "send_analyst": false,
       "send_rh": false,
-      "sections": []
+      "sections": [
+        "S1",
+        "S2",
+        "S3",
+        "S4",
+        "S5"
+      ]
     },
     {
       "company": "Madhya Pradesh Financial Corporation",
@@ -2306,10 +2498,16 @@
       "gh_email": "Akansha.Jain@careedge.in",
       "analyst_email": "Anushka.Bothra@careedge.in",
       "rh_email": "",
-      "send_gh": false,
+      "send_gh": true,
       "send_analyst": false,
       "send_rh": false,
-      "sections": []
+      "sections": [
+        "S1",
+        "S2",
+        "S3",
+        "S4",
+        "S5"
+      ]
     },
     {
       "company": "Darashaw and Company Private Limited",
@@ -2513,10 +2711,16 @@
       "gh_email": "Akansha.Jain@careedge.in",
       "analyst_email": "Hareesh.H@careedge.in",
       "rh_email": "",
-      "send_gh": false,
+      "send_gh": true,
       "send_analyst": false,
       "send_rh": false,
-      "sections": []
+      "sections": [
+        "S1",
+        "S2",
+        "S3",
+        "S4",
+        "S5"
+      ]
     },
     {
       "company": "Navi Finserv Limited",
@@ -2578,10 +2782,16 @@
       "gh_email": "Akansha.Jain@careedge.in",
       "analyst_email": "Anushka.Bothra@careedge.in",
       "rh_email": "",
-      "send_gh": false,
+      "send_gh": true,
       "send_analyst": false,
       "send_rh": false,
-      "sections": []
+      "sections": [
+        "S1",
+        "S2",
+        "S3",
+        "S4",
+        "S5"
+      ]
     },
     {
       "company": "Muthoot Mcred Limited",
@@ -2669,10 +2879,16 @@
       "gh_email": "Akansha.Jain@careedge.in",
       "analyst_email": "Hareesh.H@careedge.in",
       "rh_email": "",
-      "send_gh": false,
+      "send_gh": true,
       "send_analyst": false,
       "send_rh": false,
-      "sections": []
+      "sections": [
+        "S1",
+        "S2",
+        "S3",
+        "S4",
+        "S5"
+      ]
     },
     {
       "company": "Asirvad Micro Finance Limited",
@@ -2934,10 +3150,16 @@
       "gh_email": "Akansha.Jain@careedge.in",
       "analyst_email": "Pranav.Viswanathan@careedge.in",
       "rh_email": "",
-      "send_gh": false,
+      "send_gh": true,
       "send_analyst": false,
       "send_rh": false,
-      "sections": []
+      "sections": [
+        "S1",
+        "S2",
+        "S3",
+        "S4",
+        "S5"
+      ]
     },
     {
       "company": "Raise Fintech Ventures Private Limited",
@@ -2960,10 +3182,16 @@
       "gh_email": "Akansha.Jain@careedge.in",
       "analyst_email": "Anushka.Bothra@careedge.in",
       "rh_email": "",
-      "send_gh": false,
+      "send_gh": true,
       "send_analyst": false,
       "send_rh": false,
-      "sections": []
+      "sections": [
+        "S1",
+        "S2",
+        "S3",
+        "S4",
+        "S5"
+      ]
     },
     {
       "company": "Multi Commodity Exchange Clearing Corporation Limited",
@@ -2973,10 +3201,16 @@
       "gh_email": "Akansha.Jain@careedge.in",
       "analyst_email": "Pulkit.Jain@careedge.in",
       "rh_email": "",
-      "send_gh": false,
+      "send_gh": true,
       "send_analyst": false,
       "send_rh": false,
-      "sections": []
+      "sections": [
+        "S1",
+        "S2",
+        "S3",
+        "S4",
+        "S5"
+      ]
     },
     {
       "company": "Bizloan Private Limited",
@@ -3070,10 +3304,16 @@
       "gh_email": "Akansha.Jain@careedge.in",
       "analyst_email": "Pranav.Viswanathan@careedge.in",
       "rh_email": "",
-      "send_gh": false,
+      "send_gh": true,
       "send_analyst": false,
       "send_rh": false,
-      "sections": []
+      "sections": [
+        "S1",
+        "S2",
+        "S3",
+        "S4",
+        "S5"
+      ]
     },
     {
       "company": "NTC Finance Private Limited",
@@ -3083,10 +3323,16 @@
       "gh_email": "Akansha.Jain@careedge.in",
       "analyst_email": "Hareesh.H@careedge.in",
       "rh_email": "",
-      "send_gh": false,
+      "send_gh": true,
       "send_analyst": false,
       "send_rh": false,
-      "sections": []
+      "sections": [
+        "S1",
+        "S2",
+        "S3",
+        "S4",
+        "S5"
+      ]
     },
     {
       "company": "INFINA Finance Private Limited",
@@ -3135,10 +3381,16 @@
       "gh_email": "Akansha.Jain@careedge.in",
       "analyst_email": "Pulkit.Jain@careedge.in",
       "rh_email": "",
-      "send_gh": false,
+      "send_gh": true,
       "send_analyst": false,
       "send_rh": false,
-      "sections": []
+      "sections": [
+        "S1",
+        "S2",
+        "S3",
+        "S4",
+        "S5"
+      ]
     },
     {
       "company": "Punjab Infrastructure Development Board",
@@ -3341,10 +3593,16 @@
       "gh_email": "Akansha.Jain@careedge.in",
       "analyst_email": "Hareesh.H@careedge.in",
       "rh_email": "",
-      "send_gh": false,
+      "send_gh": true,
       "send_analyst": false,
       "send_rh": false,
-      "sections": []
+      "sections": [
+        "S1",
+        "S2",
+        "S3",
+        "S4",
+        "S5"
+      ]
     },
     {
       "company": "Canara HSBC Life Insurance Company Limited",
@@ -3367,10 +3625,16 @@
       "gh_email": "Akansha.Jain@careedge.in",
       "analyst_email": "Pranav.Viswanathan@careedge.in",
       "rh_email": "",
-      "send_gh": false,
+      "send_gh": true,
       "send_analyst": false,
       "send_rh": false,
-      "sections": []
+      "sections": [
+        "S1",
+        "S2",
+        "S3",
+        "S4",
+        "S5"
+      ]
     },
     {
       "company": "Kanakadurga Finance Limited",
@@ -3419,10 +3683,16 @@
       "gh_email": "Akansha.Jain@careedge.in",
       "analyst_email": "Hareesh.H@careedge.in",
       "rh_email": "",
-      "send_gh": false,
+      "send_gh": true,
       "send_analyst": false,
       "send_rh": false,
-      "sections": []
+      "sections": [
+        "S1",
+        "S2",
+        "S3",
+        "S4",
+        "S5"
+      ]
     },
     {
       "company": "Aphelion Finance Private Limited",
@@ -3866,10 +4136,16 @@
       "gh_email": "Akansha.Jain@careedge.in",
       "analyst_email": "Anushka.Bothra@careedge.in",
       "rh_email": "",
-      "send_gh": false,
+      "send_gh": true,
       "send_analyst": false,
       "send_rh": false,
-      "sections": []
+      "sections": [
+        "S1",
+        "S2",
+        "S3",
+        "S4",
+        "S5"
+      ]
     },
     {
       "company": "Tata Mutual Fund",
@@ -4092,10 +4368,16 @@
       "gh_email": "Akansha.Jain@careedge.in",
       "analyst_email": "Anushka.Bothra@careedge.in",
       "rh_email": "",
-      "send_gh": false,
+      "send_gh": true,
       "send_analyst": false,
       "send_rh": false,
-      "sections": []
+      "sections": [
+        "S1",
+        "S2",
+        "S3",
+        "S4",
+        "S5"
+      ]
     },
     {
       "company": "Nuvama Wealth Management Limited",
@@ -4157,10 +4439,16 @@
       "gh_email": "Akansha.Jain@careedge.in",
       "analyst_email": "Anushka.Bothra@careedge.in",
       "rh_email": "",
-      "send_gh": false,
+      "send_gh": true,
       "send_analyst": false,
       "send_rh": false,
-      "sections": []
+      "sections": [
+        "S1",
+        "S2",
+        "S3",
+        "S4",
+        "S5"
+      ]
     },
     {
       "company": "Vastu Housing Finance Corporation Limited",
@@ -4170,10 +4458,16 @@
       "gh_email": "Akansha.Jain@careedge.in",
       "analyst_email": "Anushka.Bothra@careedge.in",
       "rh_email": "",
-      "send_gh": false,
+      "send_gh": true,
       "send_analyst": false,
       "send_rh": false,
-      "sections": []
+      "sections": [
+        "S1",
+        "S2",
+        "S3",
+        "S4",
+        "S5"
+      ]
     },
     {
       "company": "Mirae Asset Investment Managers (India) Private Limited (BLR)",
@@ -4460,10 +4754,16 @@
       "gh_email": "Akansha.Jain@careedge.in",
       "analyst_email": "Hareesh.H@careedge.in",
       "rh_email": "",
-      "send_gh": false,
+      "send_gh": true,
       "send_analyst": false,
       "send_rh": false,
-      "sections": []
+      "sections": [
+        "S1",
+        "S2",
+        "S3",
+        "S4",
+        "S5"
+      ]
     },
     {
       "company": "IKF Home Finance Limited",
@@ -4473,10 +4773,16 @@
       "gh_email": "Akansha.Jain@careedge.in",
       "analyst_email": "Pranav.Viswanathan@careedge.in",
       "rh_email": "",
-      "send_gh": false,
+      "send_gh": true,
       "send_analyst": false,
       "send_rh": false,
-      "sections": []
+      "sections": [
+        "S1",
+        "S2",
+        "S3",
+        "S4",
+        "S5"
+      ]
     },
     {
       "company": "Aadhar Housing Finance Limited",
@@ -4486,10 +4792,16 @@
       "gh_email": "Akansha.Jain@careedge.in",
       "analyst_email": "Pulkit.Jain@careedge.in",
       "rh_email": "",
-      "send_gh": false,
+      "send_gh": true,
       "send_analyst": false,
       "send_rh": false,
-      "sections": []
+      "sections": [
+        "S1",
+        "S2",
+        "S3",
+        "S4",
+        "S5"
+      ]
     },
     {
       "company": "Aptus Finance India Private Limited",
@@ -4499,10 +4811,16 @@
       "gh_email": "Akansha.Jain@careedge.in",
       "analyst_email": "Hareesh.H@careedge.in",
       "rh_email": "",
-      "send_gh": false,
+      "send_gh": true,
       "send_analyst": false,
       "send_rh": false,
-      "sections": []
+      "sections": [
+        "S1",
+        "S2",
+        "S3",
+        "S4",
+        "S5"
+      ]
     },
     {
       "company": "Aptus Value Housing Finance India Limited",
@@ -4512,10 +4830,16 @@
       "gh_email": "Akansha.Jain@careedge.in",
       "analyst_email": "Hareesh.H@careedge.in",
       "rh_email": "",
-      "send_gh": false,
+      "send_gh": true,
       "send_analyst": false,
       "send_rh": false,
-      "sections": []
+      "sections": [
+        "S1",
+        "S2",
+        "S3",
+        "S4",
+        "S5"
+      ]
     },
     {
       "company": "Indian Railway Finance",
@@ -4538,10 +4862,16 @@
       "gh_email": "Akansha.Jain@careedge.in",
       "analyst_email": "Pranav.Viswanathan@careedge.in",
       "rh_email": "",
-      "send_gh": false,
+      "send_gh": true,
       "send_analyst": false,
       "send_rh": false,
-      "sections": []
+      "sections": [
+        "S1",
+        "S2",
+        "S3",
+        "S4",
+        "S5"
+      ]
     },
     {
       "company": "Veritas Finance Limited",
@@ -4551,10 +4881,16 @@
       "gh_email": "Akansha.Jain@careedge.in",
       "analyst_email": "Pranav.Viswanathan@careedge.in",
       "rh_email": "",
-      "send_gh": false,
+      "send_gh": true,
       "send_analyst": false,
       "send_rh": false,
-      "sections": []
+      "sections": [
+        "S1",
+        "S2",
+        "S3",
+        "S4",
+        "S5"
+      ]
     },
     {
       "company": "Five-Star Business Finance Limited",
@@ -4564,10 +4900,16 @@
       "gh_email": "Akansha.Jain@careedge.in",
       "analyst_email": "Hareesh.H@careedge.in",
       "rh_email": "",
-      "send_gh": false,
+      "send_gh": true,
       "send_analyst": false,
       "send_rh": false,
-      "sections": []
+      "sections": [
+        "S1",
+        "S2",
+        "S3",
+        "S4",
+        "S5"
+      ]
     },
     {
       "company": "Piramal Finance Limited (erstwhile Piramal Capital & Housing Finance Limited)",
