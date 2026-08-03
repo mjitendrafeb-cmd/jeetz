@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>CareEdge Daily News — 03 August 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=PT+Serif:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+  @page { size: A4; margin: 1.2cm 1.4cm; }
+  @page :first { margin-top: 0.5cm; }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:#f0ece4;font-family:'PT Serif',Georgia,serif;color:#111;font-size:11px}
+  .newspaper{max-width:960px;margin:20px auto}
+
+  /* ── PAGE UNITS ── */
+  .news-page{background:#fdfaf5;box-shadow:0 2px 24px rgba(0,0,0,.18);margin-bottom:28px;padding-bottom:20px;break-before:page;page-break-before:always}
+  .front-page{break-before:auto;page-break-before:auto}
+
+  /* ── MASTHEAD (front page only) ── */
+  .mast-top{display:flex;justify-content:space-between;align-items:flex-end;padding:14px 28px 6px;border-bottom:1px solid #aaa}
+  .mast-left{font-size:8.5px;letter-spacing:1.5px;text-transform:uppercase;color:#555;line-height:1.8}
+  .mast-right{font-size:8.5px;text-align:right;color:#555;line-height:1.8}
+  .mast-center{text-align:center;padding:4px 28px 0}
+  .mast-name{font-family:'Playfair Display',Georgia,serif;font-size:58px;font-weight:900;line-height:1;letter-spacing:-2px;color:#111}
+  .mast-rule{border:none;border-top:3px double #111;margin:6px 0 0}
+  .mast-sub{display:flex;justify-content:space-between;align-items:center;padding:5px 28px;border-bottom:3px solid #111;font-size:8.5px;letter-spacing:1px;text-transform:uppercase;color:#555}
+  .mast-sub .red{color:#cc0000;font-weight:700;border:1px solid #cc0000;padding:1px 6px}
+
+  /* ── NAV BAR ── */
+  .navbar{display:flex;border-bottom:2px solid #cc0000;background:#111}
+  .navbar a{flex:1;text-align:center;padding:7px 4px;font-size:8px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#ccc;text-decoration:none;border-right:1px solid #333}
+  .navbar a:first-child{color:#fff}
+  .navbar a:last-child{border-right:none}
+
+  /* ── INNER PAGE HEADER ── */
+  .page-header{display:flex;justify-content:space-between;align-items:center;padding:8px 28px;border-bottom:3px solid #111;border-top:4px solid #cc0000}
+  .page-header .ph-meta{font-size:8px;letter-spacing:1px;text-transform:uppercase;color:#777}
+  .page-header .ph-title{font-family:'Playfair Display',Georgia,serif;font-size:14px;font-weight:700;color:#111}
+  .page-header .ph-num{font-size:26px;font-weight:900;font-family:'Playfair Display',Georgia,serif;color:#cc0000;line-height:1}
+
+  /* ── COLUMNS ── */
+  .columns{padding:0 28px 8px;column-count:3;column-gap:22px;column-rule:1px solid #ccc;min-height:80px}
+
+  /* Section banners span all columns */
+  [data-section="banner"]{column-span:all;margin:20px -28px 0;padding:5px 28px;border-top:3px solid;border-bottom:1px solid}
+
+  /* ── COMPACT ARTICLE CLASSES (model emits these; styles live here) ── */
+  .sb{font-size:9px;font-weight:800;letter-spacing:3px;text-transform:uppercase;padding-top:6px;padding-bottom:6px}
+  .sb1{color:#cc0000;border-color:#cc0000}
+  .sb2{color:#b45309;border-color:#b45309}
+  .sb3{color:#1e3a8a;border-color:#1e3a8a}
+  .sb4{color:#15803d;border-color:#15803d}
+  .sb5{color:#6d28d9;border-color:#6d28d9}
+  .art{break-inside:avoid;padding:12px 0;border-bottom:1px solid #ddd}
+  .art .src{margin:0 0 3px;font-size:8px;font-weight:800;text-transform:uppercase;letter-spacing:1.5px;color:#999}
+  .art .hl{margin:0 0 6px;font-size:14px;font-weight:700;font-family:Georgia,serif;line-height:1.25;color:#111}
+  .art .wh{margin:0 0 5px;font-size:10.5px;color:#333;line-height:1.55}
+  .art .ci{margin:0 0 6px;font-size:10px;color:#444;line-height:1.5;border-left:3px solid #cc0000;padding-left:7px;font-style:italic}
+  .art .rm{font-size:9px;color:#888;text-decoration:none;font-weight:600}
+  .art .also{font-size:10px;color:#999}
+  .art.hero{padding:12px 0 14px;border-bottom:2px solid #cc0000;margin-bottom:4px}
+  .art.hero .src{color:#cc0000}
+  .art.hero .hl{font-size:18px;font-weight:800;line-height:1.2}
+  .art.hero .wh{font-size:11px;color:#222;line-height:1.7}
+  .art.hero .ci{font-size:10.5px;line-height:1.65;padding-left:8px}
+  .art.hero .rm{color:#cc0000;font-weight:700}
+  .ibh{margin:14px 0 4px;font-size:8px;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:#999}
+  .ib{margin:0 0 4px;font-size:9.5px;color:#555;line-height:1.5}
+  .ib a{color:#999;font-size:8.5px;text-decoration:none}
+  .empty{padding:10px 0;font-size:10px;color:#aaa;font-style:italic}
+
+  /* ── PAGE FOOTER ── */
+  .page-foot{display:flex;justify-content:space-between;border-top:1px solid #bbb;margin:8px 28px 0;padding-top:6px;font-size:8px;color:#888;letter-spacing:1px;text-transform:uppercase}
+
+  @media print {
+    body{background:#fff}
+    .news-page{box-shadow:none;margin-bottom:0}
+  }
+</style>
+</head>
+<body>
+<div class="newspaper">
+
+<div class="news-page front-page" id="pg1">
+  <div class="mast-top">
+    <div class="mast-left">MONDAY, 03 AUGUST 2026<br>Vol. 2026 · Internal Use Only</div>
+    <div class="mast-right">Credit &amp; Markets Intelligence</div>
+  </div>
+  <div class="mast-center">
+    <div class="mast-name">CareEdge Daily News</div>
+    <hr class="mast-rule">
+  </div>
+  <div class="mast-sub">
+    <span>S1 Watchlist &middot; S2 NBFC/FI &middot; S3 Regs &middot; S4 Markets &middot; S5 Macro</span>
+    <span class="red">&#128274; CONFIDENTIAL</span>
+  </div>
+  <nav class="navbar">
+    <a href="#pg1">&#9733; Watchlist</a>
+    <a href="#pg2">NBFC &amp; FI</a>
+    <a href="#pg3">Regulations</a>
+    <a href="#pg4">Markets</a>
+    <a href="#pg5">Macro</a>
+  </nav>
+  <div class="columns"><div id="s1" data-section="banner" class="sb sb1">&#9733; S1 &mdash; MY RATED ENTITIES &amp; WATCHLIST</div>
+<div class="art hero"><p class="src">ANAND RATHI SHARE AND STOCK BROKERS LIMITED &bull; NDTV Profit</p><p class="hl">TCS, Anand Rathi Wealth Among Firms To Announce Q1 Results Today</p><p class="wh"><a href="</p><a class="rm" href="https://news.google.com/rss/articles/CBMirwFBVV95cUxQbmVVMnc1Sy05a1JKejRieFQxQUZUV0ZMcGtfTmMwb3JkOWxRWFJ6czMtMTFZT05ZYWUzdEdwSTV2U3Jwb2FvV1NqYmdEU29NcGVjNktCU3o5VDFxV2xLWGltZWZ5em1rQ2tNNFJ2a0FOMER1QWk3TDNhNGhiSzJidU9qbTlnc0l5cGFFQjdrYmNzT19ZNDN0SVlBRFROcU9uU3FMcFRQUUZyVENwT2dz0gG3AUFVX3lxTE1zMlNBRFNDZWpBWERkNndtc1o3TjVWSF9oQWgzaS0zWjhkRjhRVlhVNTZKNFU5eXROc2RxX05Hbi1kNF84amFFbTBLOTY3MVNQVXBTNUR4bWZzaFNTeS1vQWhSV3puSW5VTG91U2RINGhFMWc5c0JaakRjMktReTZ0eXM1UVh6U3U0QnFrQWlqdlVpR0dqSmJIVEJmMkJBNE92dElWbFoyeE9MRV9qeHM5cDJuVGIwYw?oc=5" target="_blank">Read more &#8594;</a></div>
+<div class="art"><p class="src">ANAND RATHI SHARE AND STOCK BROKERS LIMITED &bull; Upstox</p><p class="hl">Q1 Results: Tata Elxsi, LTTS, Jindal Saw, Anand Rathi Share, Den Networks, Benares Hotels, others to post earnings on July 14</p><p class="wh"><a href="</p><a class="rm" href="https://news.google.com/rss/articles/CBMiiwJBVV95cUxNeW8xUlc0Y21hSWxYTU40Mml1eURrU3JubzhPWGc3U0R0bm1MZkZNLWEwOW1ILXpYQ3JuY2JjR2M3a2JnUjRsMW5jV21EYmpkWXdVcEM0cGxWSnViYzdiQkUtRkZadEwyTVV6eS1UV00tQXVKU3dRcmFGNVdDRFhJN3FNdkhDSXktVThUdk85NXcxN2o1aHY1cUUybWc5SXhwbVpIUUstVHpfMW1ZN0dPalU3UGU3U1ZyNHMtVGd1eWpkY25oNHdkelNxckhfbFBsRTQ3V0xKMkNTR21MMm1DalNSNDBUQTBVSDVTZ1VCTUVoUGVid1BZaWFkSnBPczZFSUlpUm9KTFg0SXM?oc=5" target="_blank">Read more &#8594;</a></div>
+<div class="art"><p class="src">ASEEM INFRASTRUCTURE FINANCE LIMITED &bull; livemint.com</p><p class="hl">TPG, GIC and ICICI Bank acquire Aseem Infrastructure Finance for ₹5,000 crore</p><p class="wh"><a href="</p><a class="rm" href="https://news.google.com/rss/articles/CBMiygFBVV95cUxQeWxzTDFLWUhoOFVLMXFmb0hlOXdjY1E1QkdXTjdwQXdfN0pvVGxNcDJhMl9yZEdwZG1nYzRMOUVIbWtId1FVMHVyMTlaaGNoNURMRzgzel9vWDYtSnBRVlU3WHZDZVFiODBNd0tvdUxtNkRYelBNbXg3bTFiTGZEYjR4UVQwQkFWYlIweExqT0wwX2kxWGlBeV9GOC1RTGFMSjFQaGVTc0VfRTNzRkh2djlrY1RKRl9kWFRJaEIyUDBkNEZqUkJLZEpB0gHPAUFVX3lxTE1mbzFWTE5YektOR3lINE1sY3BmeHpEeUt3dkF2Z1RDeWhhQ2dSZzZSQkoyeDNLUURsdFoyRFRvMG56cGRhQ2FpQ3Q0clFEVmxQTFpnQTBPTElYazgwYWl0QlhwY1N5UGlRcjBTbGVfSk15RG9UR0ZHTnpDVXhtTm9fWGd5cGdEa3djTFR3M1lxN0JRRnliazd1NWlsb2NWcmdiYnZXdm4tejVjR2tsRmpJdGwzWk9qOUZxZ1FOVVlNdHd5Z1A2dXI0dlVSQmRHVQ?oc=5" target="_blank">Read more &#8594;</a></div>
+<div class="art"><p class="src">AUXILO FINSERVE PRIVATE LIMITED &bull; reveliolabs.com</p><p class="hl">Auxilo Finserve Number of Employees 2026</p><p class="wh">No summary available.</p><a class="rm" href="https://news.google.com/rss/articles/CBMicEFVX3lxTFBsM2NhaVg5d09JWjdYMXdieUFScTE3Tk9MZ3EzMjVrUG9RUUpnUGItLVBvR3I5NTUteHVVbk5ZaWNlN1JBMGdyLXU3MkJ5c0oxU1gydUtoR1Jyd0o1c0NNMVdHYldDRzlBajhwYUJybW0?oc=5" target="_blank">Read more &#8594;</a></div>
+<div class="art"><p class="src">AVANSE FINANCIAL SERVICES LIMITED &bull; reveliolabs.com</p><p class="hl">Avanse Financial Services Number of Employees 2026</p><p class="wh">No summary available.</p><a class="rm" href="https://news.google.com/rss/articles/CBMifkFVX3lxTE94LWtHTlgzTldkY2o0RGZTazV4NzlIQU4zWjF5THdlcG9IbEpJWTlKcGdkNC1jaGliTVlPWW1vSDZkZmJaampNSDFiXzNudDE1Vk1DeGZLcnJOYmlUWHU3WTNGaWpkMGdIRmtrZW9yMjdBN3BjcWtJcHhZbTZ0dw?oc=5" target="_blank">Read more &#8594;</a></div>
+<div class="art"><p class="src">BAJAJ FINANCE LIMITED &bull; Business Today</p><p class="hl">Bajaj Finance shares at Rs 815 or Rs 1,300? CLSA, JPMorgan, Macquarie - highest and lowest targets</p><p class="wh"><a href="</p><a class="rm" href="https://news.google.com/rss/articles/CBMi8gFBVV95cUxQUmhnMFFiZU5WM2c5TW5aVDF0bnF5MDd4UXVJZERTZklBeldocDU5NHpaRG5MUGdzX29IRnVnNW1HWXV0WHhfNW5tWndjbDR0UTZXMFhuQ2F3d3N3d0tvSFlTY1B1M0labXF6TElDenlVN25MM2FuWVlKM1J0MHF4a19jcmMzU1B0MmY2M2tZZER6amF3djRYRFlndkF2bFVyVVJDUHpySUJvSkxtY0hVTDgxaEdHa2hldy1oVUNKVDlRcEVuMksySjNNb1JTVkg5NmNtQzI4Z1gtT1FMRG45aWl5WWtfb2N3SzJtUS1aS1lhUdIB9wFBVV95cUxOcFFmc2c3M3puMWRRdl9TbjQ1S1ZBbGZXcGdNMmRTalJpMUV0QUxObWh6Q0RnM2NrLU1FbVpnekFyaUpvRHhIalRzUmZWR1BTdUtYeDNTZzJtOTZ3VlhaTW1ITFZjV3o2aXRxY3NxVjNQUFZPT0RpOUZMdENsN1JmTmt2UmNETXRHTVJrbXVOdWd4aG9UaU8zaWhNdG9vVEtsLWd3dUROeGRpUjkyMGZ5c3ViaDJJczlRQ3ZLYkZlREVlRFJpQWRkVmJtRXZNTW1oSFZPaDhwdnFLSWI3elRvRDVFR2ljcDFIY045X2FrYkxDZXNpWUk4?oc=5" target="_blank">Read more &#8594;</a></div>
+<div class="art"><p class="src">CENTRAL BANK OF INDIA &bull; fintechbiznews.com &bull; 02 Aug</p><p class="hl">Penalty On UBI (Rs95 lakh), BoI (Rs58 lakh), Central Bank (Rs63 Lakh)</p><p class="wh">Penalty On UBI (Rs95 lakh), BoI (Rs58 lakh), Central Bank (Rs63 Lakh) &nbsp;&nbsp; fintechbiznews.com</p><a class="rm" href="https://news.google.com/rss/articles/CBMirAFBVV95cUxPbEdZVkdZVVIwY0pkOWJibjN6aEt5R1BLVTZGQUNkSkwzNXFqbEFtMG1DV2RCYzQtenN4SmV6cnBoT21Ta1JvYVFGRWJRTWdCSUplbmk4clMwLUVOc090RlltYnp4b3lpQkc0UTl5ZkVOc2h0NGFyck9sS2o2bmNCU3dUWXVIVzBNQzRwOWZ2eHNJYUJVbmZKS1d2Q3UtdmViNGhzRFNIaTFYZ0ww?oc=5" target="_blank">Read more &#8594;</a></div>
+<div class="art"><p class="src">ESAF SMALL FINANCE BANK LIMITED &bull; scanx.trade &bull; 01 Aug</p><p class="hl">ESAF Small Finance Bank publishes Q1FY27 results in newspapers</p><p class="wh">ESAF Small Finance Bank publishes Q1FY27 results in newspapers &nbsp;&nbsp; scanx.trade</p><a class="rm" href="https://news.google.com/rss/articles/CBMixgFBVV95cUxPUk5YeDlON3JqZXlTZ0M0OFl6UW8xVERqYzAzRS1mWndZM3hCNG84TnFWQmM3cFdjVkd5dG9BM2U1bVNwSy04T3FBdmIxTVgwU0F1ZUhmcWJmT0NUM092M20tRklub1hUNzR2WjdHVV8wY3RocTBIM1Y0TmFjUng0aFJBZ0JKVDhBU2VNbXBQbmIzbm1pSUpVR3dEbWdJSjJ0VU9KV0JGMGFIb2k0Q1lnY0hVZUtHcWNtTGppTTBVelZPbTFwX1E?oc=5" target="_blank">Read more &#8594;</a></div>
+<div class="art"><p class="src">FEDBANK FINANCIAL SERVICES LIMITED &bull; scanx.trade</p><p class="hl">Fedbank Financial Q1FY27 PAT rises 52.5% on robust asset quality</p><p class="wh"><a href="</p><a class="rm" href="https://news.google.com/rss/articles/CBMivAFBVV95cUxNeGdyZllCbkpfMUh4aGk5NTY5TWgyM0pORERaZkh5Nm9obEJkLVNCLUJuVFVLTmJ3YWJOSFNhaTNrZEJIQXBlUFk5OGJYN21KSDNwR2xZTzQ1WWcwS1k0amVBX2FYVmYwamI0akVaVWtOeWJ5Zng5MEVxcjFMWXFVOEJyV00zZ2pfbEo4dW1OeW80SmlpQXlZNHNmbXFDc0EyeVNGZHpiTUdoVmF6ejhnLVpfTFBNOXRRNUI1QQ?oc=5" target="_blank">Read more &#8594;</a></div>
+<div class="art"><p class="src">JAMMU & KASHMIR BANK LIMITED &bull; @livemint</p><p class="hl">Why Jammu & Kashmir Is Increasingly Seeing Intense Flash Flooding & Cloudburst Incidents What is currently unfolding across the Ja…</p><p class="wh">Why Jammu & Kashmir Is Increasingly Seeing Intense Flash Flooding & Cloudburst Incidents What is currently unfolding across the Jammu and Kashmir is no longer a rare mountain calam</p><a class="rm" href="https://www.youtube.com/watch?v=CNBPBm0rcVs" target="_blank">Read more &#8594;</a></div>
+<div class="art"><p class="src">KOTAK MAHINDRA MUTUAL FUND &bull; Upstox</p><p class="hl">Upcoming Q1 results this week: HCL Tech, RIL, Jio Fin, Wipro, Kotak Mahindra Bank, ITC Hotels and more</p><p class="wh"><a href="</p><a class="rm" href="https://news.google.com/rss/articles/CBMi7gFBVV95cUxQRzk1aEpvSkFWRjVZQ3VTRFRJRVFCcnNmX0VDX3VOeElNZHg2NGkyZmo1WUs1S1gyU3FBWTNmZ09XMFUtQ2VSRDE4Z24xa1dEQVFZbjNRUEtZblZybGNZU2ZQc2EtajZOVHRLakhaOXZTcDQteEFwdzRiRm5zWWRCX3BVQnYzVXRBdGZBTTN4bTQtMDFmUVlYVFp3b3VSQmhxcUpxa0NNSUZucjRKNHVBUnZsSVJYOUc5emZrQ3RzeHFGcmktNEI0d1dqYU1IZzB3c1RxY2ROZHREc0E0czFiUEsxdjQ3Y3F3aTctWmxn?oc=5" target="_blank">Read more &#8594;</a></div>
+<div class="art"><p class="src">RELIANCE CAPITAL LIMITED &bull; @livemint</p><p class="hl">The Central Bureau of Investigation (CBI) has filed an FIR against Reliance Capital Limited (RCL) and its former chairman Anil D A…</p><p class="wh">The Central Bureau of Investigation (CBI) has filed an FIR against Reliance Capital Limited (RCL) and its former chairman Anil D Ambani in connection with an alleged loss of ₹1,816</p><a class="rm" href="https://www.livemint.com/companies/news/cbi-books-anil-ambani-reliance-capital-for-causing-epfo-loss-of-over-1-800-heres-what-happened-1178565434" target="_blank">Read more &#8594;</a></div>
+<div class="art"><p class="src">SALEM ERODE INVESTMENTS LIMITED &bull; Bond Markets</p><p class="hl">Salem Erode Investments allots ₹3.69 cr NCDs to ICL Fincorp</p><p class="wh">No summary available.</p><a class="rm" href="https://news.google.com/rss/articles/CBMitgFBVV95cUxPaHA0R0lVc2JYelZXUzNuV3U0dHBlLXdXRnlGQWEyaUlhZFYtenpRTWg5LWxURWg0ODJQeXBvaTF3X2xDZENGdlRTX1FpTnNHNzNoNjFqYVRzYzhCY2puN0Y2bHhhNjRKbFpzYVZ3bnQwczhxWUlkTkJMVEdPRnNVYnZZOFV5dUlxbjVwcGtYbHBLeVVPSWZkSHlxTXNLUEY5S1B0VWRlNndZQ3BzMXYwTmVvQ3Iydw?oc=5" target="_blank">Read more &#8594;</a></div>
+<div class="art"><p class="src">SPARK INSTITUTIONAL EQUITIES PRIVATE LIMITED &bull; bitcoinworld.co.in &bull; 02 Aug</p><p class="hl">Abraxas Capital Moves $61.2M USDT To Bitfinex, Supplies 40,000 ETH To Spark</p><p class="wh">Abraxas Capital Moves $61.2M USDT To Bitfinex, Supplies 40,000 ETH To Spark &nbsp;&nbsp; bitcoinworld.co.in</p><a class="rm" href="https://news.google.com/rss/articles/CBMidkFVX3lxTFBFY3lGa3I4VHlpZ19jYktyMTBORWItSmNLaGVXV3JKaTJLVGRiMTB3SzRtZHRpME1FcHFkaXNBUUp3UjJBbi1mTDVWTGxVTWZlN2lJYkxVY21Gb0xQYUJWU3A0bk5PTGtuSFVrbkxxN3BicmZmRWc?oc=5" target="_blank">Read more &#8594;</a></div>
+<div class="art"><p class="src">STAR HEALTH AND ALLIED INSURANCE COMPANY LIMITED &bull; Exclusive</p><p class="hl">Star Health raises premiums 8–9% over last 4–5 months, shifts to annual price hikes, says CFO Nilesh Kambli</p><p class="wh">No summary available.</p><a class="rm" href="https://bfsi.economictimes.indiatimes.com/articles/star-healths-premium-hikes-cfo-nilesh-kambli-discusses-shift-to-annual-pricing/132813689?utm_source=top_story&utm_medium=homepage" target="_blank">Read more &#8594;</a></div></div>
+  <div class="page-foot">
+    <span>CareEdge Daily News &mdash; 03 August 2026</span>
+    <span>Page 1 of 5</span>
+    <span>&#128274; Confidential</span>
+  </div>
+</div>
+<div class="news-page" id="pg2">
+  <div class="page-header">
+    <div class="ph-meta">03 August 2026 &bull; Internal Use Only</div>
+    <div class="ph-title">NBFC, HFC, Broking, Fintech &amp; FI</div>
+    <div class="ph-num">2</div>
+  </div>
+  <div class="columns"><div id="s2" data-section="banner" class="sb sb2">S2 &mdash; NBFC, HFC, BROKING, FINTECH, FI SECTORS</div>
+<div class="art"><p class="src">@brokerage_report</p><p class="hl"><span style="color:#15803d;font-size:9px;font-weight:800;letter-spacing:1px;">&#9650; RATING ACTION</span> Nomura upgrades ITC to BUY 🚀 📈 TP raised to ₹340 vs ₹300 Key takeaways: -Worst seems behind; risk-reward now favourable -Cigarette…</p><p class="wh">Nomura upgrades ITC to BUY 🚀 📈 TP raised to ₹340 vs ₹300 Key takeaways: -Worst seems behind; risk-reward now favourable -Cigarette volume decline of 5% YoY in Q1FY27 was far better</p></div>
+<div class="art"><p class="src">News On AIR &bull; 02 Aug</p><p class="hl">RBI postpones implementation of new rules on capital market exposure by 3 months</p><p class="wh">RBI postpones implementation of new rules on capital market exposure by 3 months &nbsp;&nbsp; News On AIR</p><a class="rm" href="https://news.google.com/rss/articles/CBMiqgFBVV95cUxOZDdpZW5ESjlDSllRenlRaVdPRVpQTXdwOWxwZXN5YXR0T0ZMUUVtT1JRR0hxWTRtdlJNbUpJTXNtRnVIcnRIaW1TYWdmYWliUXFKUUNoTEZYeE1mRjNlZjJOMmFmM3pBRlp1LWNlTG5EVjVNVUtmRThkWGZxOHV2YXYxZU9uWVdGdDZ3NEQzM0NCbzBLY2xFWk40ZzQxTUk2YllTQ0p5TUlGQQ?oc=5" target="_blank">Read more &#8594;</a></div>
+<div class="art"><p class="src">gulfnews.com &bull; 02 Aug</p><p class="hl">India's RBI tightens rules on bank deposit interest rates</p><p class="wh">India's RBI tightens rules on bank deposit interest rates &nbsp;&nbsp; gulfnews.com</p><a class="rm" href="https://news.google.com/rss/articles/CBMivAFBVV95cUxNMkRIemFaQ2huanFWV1NXS3J2MGVhb3VCX21qTEM2ejE5dUk1ZFYtb3FSVWVXdE1XcDJVNDdhTEMxa1hVY0hwS1puOU5FZzFVQW5YajZNNjZVTzBTSUNLNDliWEo3VHZHVkpneEthTk9JeWRsdEphNDR3alQydDRfajlfNV9nalNUNU9fc3NNUzNmYkpMbVgzaW1sOFpiMXMtU2t4dUk4WmFHM3hldW9hVVZ1ZEprUGdvci04TtIBvAFBVV95cUxNMkRIemFaQ2huanFWV1NXS3J2MGVhb3VCX21qTEM2ejE5dUk1ZFYtb3FSVWVXdE1XcDJVNDdhTEMxa1hVY0hwS1puOU5FZzFVQW5YajZNNjZVTzBTSUNLNDliWEo3VHZHVkpneEthTk9JeWRsdEphNDR3alQydDRfajlfNV9nalNUNU9fc3NNUzNmYkpMbVgzaW1sOFpiMXMtU2t4dUk4WmFHM3hldW9hVVZ1ZEprUGdvci04Tg?oc=5" target="_blank">Read more &#8594;</a></div>
+<div class="art"><p class="src">The Times of India &bull; 02 Aug</p><p class="hl">New stock market timings from August 3: What has changed?</p><p class="wh">New stock market timings from August 3: What has changed? &nbsp;&nbsp; The Times of India</p><a class="rm" href="https://news.google.com/rss/articles/CBMi2AFBVV95cUxQVFBfSjBaT0F2X1NDZXpLYlZRTXVzNnR6NW45WENSdks2SzVTRHE1TnV5WHVDLUViSEo2UjNFc0VlWTRYazhtNWFON3JmeWhQMnA1eW1weWtqMHcyN2FFVy1pUWJvc2l2UmVuY09STEFPa3NKd0toTDE2QmM1aHlKUXJ0dTRnbGQzSWFUeTVlckdZUlpxTDFsbERKSm5OSVU0RmJNMjllaGVOTWJWMFBUM1d5NEkyR2xkM3l5LS1FZGRWbmhXUE1UdlpPTE41aGVZVGxsWEI3djTSAd4BQVVfeXFMUG5saXBPeEhfd2xiekk4eHpSb0lmaXRtMmJJb2RaLVlwMkJNUWlDM011S01TaXZFbjhMS1hZZmNpSnhNQjZoNEt1c3NxbGp6MG1ubk5lSFl6djRoODdIRlZ5VExQOGQ3LVBRMEhCVXdZeVJfa2owa2RvQWFKNDU3U3J1ZHc4Y1U1UUxXb2VPV1Y4UlRkSWFLRWlnZnd5ZWlqendsbkZDNmVfanJod2hmekNSdVJteGsyckQ5Qm9obGRmVzhiVFlfSEtaeWhSRUc1MkYtQjF3MWQzMENhUm9n?oc=5" target="_blank">Read more &#8594;</a></div>
+<div class="art"><p class="src">National Herald &bull; 02 Aug</p><p class="hl">Healthy banks ≠ healthy household finances</p><p class="wh">Healthy banks ≠ healthy household finances &nbsp;&nbsp; National Herald</p><a class="rm" href="https://news.google.com/rss/articles/CBMi0gFBVV95cUxOYmUyamZlaGxSZjItc3gyaXBJTjRkOXRaaVV0OFlRNDhyajBoMUp5VU1hMll4cXRNdTE1c0dPVW9sVG1fYzdERW1SRGNZOFJPMnY4OW1YbGpEalFCWW5PSkxyQld1SExuUm8xdURvdnZDS3NiQzQxUzF6bTVGMlRwbTZhTnJEVjQyM0VoM3lId29oTU1LNjBBZ0dUTndHb0RIQkNJQmRPVWNnNlFPeGFlNGFDeTRTcmxvSTNwNmY3T25IQkRSQ3VsaVJJT2FCdWNWblHSAdIBQVVfeXFMTmJlMmpmZWhsUmYyLXN4MmlwSU40ZDl0WmlVdDhZUTQ4cmowaDFKeVVNYTJZeHF0TXUxNXNHT1VvbFRtX2M3REVtUkRjWThSTzJ2ODltWGxqRGpRQlluT0pMckJXdUhMblJvMXVEb3Z2Q0tzYkM0MVMxem01RjJUcG02YU5yRFY0MjNFaDN5SHdvaE1NSzYwQWdHVE53R29ESEJDSUJkT1VjZzZRT3hhZTRhQ3k0U3Jsb0kzcDZmN09uSEJEUkN1bGlSSU9hQnVjVm5R?oc=5" target="_blank">Read more &#8594;</a></div>
+<div class="art"><p class="src">livemint.com &bull; 01 Aug</p><p class="hl">Banks receive $36.7 billion under FCNR deposits</p><p class="wh">Banks receive $36.7 billion under FCNR deposits &nbsp;&nbsp; livemint.com</p><a class="rm" href="https://news.google.com/rss/articles/CBMivAFBVV95cUxPT0V4bUNxSGVTdXdGSXpGQjNqV0gwVzVJWWVTMGVSOS1xOVM2bUtqQVFYUWtnUWF0X3BKdzJwWmtOcXcwc1BXZElhZUNUeVU2TVBreWVOaXd4cjJTaFlwdjBTVjNFWWxPTFhJTWdXYk5oRzY1UmZCNTMyeGFLYW5sbFdyeUZQUnktTWRiWU9LbmRWTHFKT20wVWl5WjA0aXhtQTlIWTZzNG91Q09LSHVNaTlXazREdURUZXRHTdIBwgFBVV95cUxOWGEyRXlnS0VDYXNRSExGVGRMVldlVmlTcU0yVm5RU05pOHBWSkxSME1vS29CNHE4dWs5TzJXWnFBbmpRamdLQ1ZZdlYzY3ZYaW9YaDVnRUlyTHNFX2NwZkt1eGJtTVVEYzQ0ZmZTRllLaktOcm1Rd1RvWWFuay11dnFpbWhET1l3SEpoQllCcWZETWhZNmJaVkhfcHB3VXBIa0hMd3d5MHhRREVQU0VkcDBnaU1ZQmZLWWNIX0s4ZFpzdw?oc=5" target="_blank">Read more &#8594;</a></div>
+<p class="ibh">In brief</p>
+<p class="ib">&#8226; Lohia Corp Yearly Results, Financial summary, Lohia Corp Yearly Earnings (The Economic Times) <a href="https://news.google.com/rss/articles/CBMid0FVX3lxTE9LUGNZQzZiMFY4M2tkemZZQlhwb2prZzFyQW9QMHdFckJUZzdkQnlMZW1vTVRScGhJemNHdHN3OWdRZTdNdFdJa0JJSlRaRl9wN0owLU1FRkZlQ0E0MG5vWWRSaExpRzRPNlZaRXg2bl9Pdm85YWw0?oc=5" target="_blank">&#8594;</a></p>
+<p class="ib">&#8226; Top Q1 Results Next Week (August 3–8, 2026): SBI, Bharti Airtel, ONGC, Hero MotoCorp, Titan, Nykaa among key companies to announce earnings (Business Upturn) <a href="https://news.google.com/rss/articles/CBMiowJBVV95cUxNZlhPbFh2b1VCSlZiZmtyNElodlhWd0xKby1IallodVp6V294b01uSGdGRE9GVXpmdDRZbVVqRXVQQmtkVHBfdW45YzZWWDc5NmZBVWtsdXBqNUtjUUZFQjhENTFyNzl1Y0o5QTl1aVhRUlg1MkkxMW5FWjBTbkplcTQ1NTktbHBLcmZDaTVYZ29pNUoycWk2QTJaRF9oRE41eTlYYVAxeTlsZmh2MjhFUEFlMnZJRGtocTVydEVtQUdUVjRwVnN4dlUwSVBtYVQxSFhXSnB5NF84emJ4c3hJRjAyZ0RBZTRKVC02blgzWjJRcy1yTm1VRGdITFQ5VF9RWXJrT2FCcjVBQUNxWjVNRl9wTmJvY3lHVGhvZlJuaEdZbXc?oc=5" target="_blank">&#8594;</a></p>
+<p class="ib">&#8226; Jamshedpur FC had announced on July 31 that it would withdraw from the Indian Super League from the 2026-27 season onwards (@livemint) <a href="https://www.livemint.com/sports/football-news/sunil-chhetris-emotional-public-appeal-to-tata-group-to-reconsider-jamshedpur-fcs-shutdown-is-a-punch-to-the-gut-11785668613305.html" target="_blank">&#8594;</a></p>
+<p class="ib">&#8226; A Surat-based RTI activist, Amit Tiwari, has sought an investigation into the finances of Bhagwanrao Dipke, the father of Cockroac… (@livemint) <a href="https://www.livemint.com/news/india/rti-activist-questions-funding-of-abhijeet-dipkes-us-education-cites-fathers-60-000-65-000-monthly-salary-11785662432649.html" target="_blank">&#8594;</a></p>
+<p class="ib">&#8226; #LongStoryUnlocked | For 1,100 days, the farmers of Ekanapuram in Tamil Nadu stood ground against a proposed greenfield airport me… (@livemint) <a href="https://www.livemint.com/s/1c4qrGj" target="_blank">&#8594;</a></p>
+<p class="ib">&#8226; US President Donald Trump says he has cancelled a planned strike on Iran, subject to a rapid deal that includes reopening the Stra… (@livemint) <a href="https://www.livemint.com/news/us-news/for-future-benefit-of-world-trump-cancels-planned-iran-strike-subject-to-rapid-deal-11785638736696.html" target="_blank">&#8594;</a></p>
+<p class="ib">&#8226; #MintLongStory | In the midst of rainfall deficits, shrinking rivers and dry winters, the Union Territory has been battered by clo… (@livemint) <a href="https://www.livemint.com/news/why-cloudbursts-are-increasing-jammu-kashmir-11785410149825.html" target="_blank">&#8594;</a></p>
+<p class="ib">&#8226; Hyundai Motor India | Motilal Oswal View (@brokerage_report) </p>
+<p class="ib">&#8226; ABB India | Jefferies View (@brokerage_report) </p>
+<p class="ib">&#8226; India Incs credit profile holds its ground, testing times ahead amid global headwinds (Investment Guru) <a href="https://news.google.com/rss/articles/CBMizwFBVV95cUxQaFNLeEFnRGtYMVJfcGc4dElwbF9YcW1XTXF6UmZNcmhteWpIRzMxeUJ0dXIyTXVDY2tGZWlZdXQzZVR0Qkd3d085UlpiallkcUVoX2VndTkzSWE2b1Z6eV9ldjA2MHBTT0ducmM5ZFhjRlhtaUcxU3I2a1ZzcTRvWWdqcHcxTW1OV1hkdzVWeUM3WUpxSDlacmZxMFd3dWZvcHp1YTNSd0Vzb3BGRWJURC1oYTJUYVZxVEdMRlBEUXRHOFBkT0NZNk5JUXNjRms?oc=5" target="_blank">&#8594;</a></p>
+<p class="ib">&#8226;  (Banks propose 'Yes-No' prompt for high-risk UPI transfers to curb digital payment frauds) <a href="https://bfsi.economictimes.indiatimes.com/articles/banks-introduce-yes-no-prompt-to-combat-high-risk-upi-fraud/132816462?utm_source=latest_news&utm_medium=homepage" target="_blank">&#8594;</a></p>
+<p class="ib">&#8226; MD Ashok Chandra (PNB processing 90% of digital gold loans through ULI, sees wider lending opportunity) <a href="https://bfsi.economictimes.indiatimes.com/articles/pnbs-ashok-chandra-sees-major-growth-opportunities-with-digital-gold-loans-and-co-lending/132809230?utm_source=latest_news&utm_medium=homepage" target="_blank">&#8594;</a></p></div>
+  <div class="page-foot">
+    <span>CareEdge Daily News &mdash; 03 August 2026</span>
+    <span>Page 2 of 5</span>
+    <span>&#128274; Confidential</span>
+  </div>
+</div>
+<div class="news-page" id="pg3">
+  <div class="page-header">
+    <div class="ph-meta">03 August 2026 &bull; Internal Use Only</div>
+    <div class="ph-title">RBI, SEBI, NHB Regulations</div>
+    <div class="ph-num">3</div>
+  </div>
+  <div class="columns"><div id="s3" data-section="banner" class="sb sb3">S3 &mdash; RBI, SEBI, NHB REGULATIONS</div>
+<div class="art"><p class="src">livemint.com &bull; 02 Aug</p><p class="hl">Sebi order against Zee likely to delay planned ₹3,143-crore fundraise</p><p class="wh">Sebi order against Zee likely to delay planned ₹3,143-crore fundraise &nbsp;&nbsp; livemint.com</p><a class="rm" href="https://news.google.com/rss/articles/CBMivAFBVV95cUxNdlQtNEhJRnphWnAtWm55WnZQU3IxWjVsYmEzNFZ4VEYyMThqSXdVaG1OeDE3NExlZ0kxZzBXd01JdVhEQUs5ZjFiY1UzS3pJdGMzeG5pUmp3NC01NFViRmp5MFBKRklsejhra2NGSDh1WVJpR1B5TTY4QnlWV0I3aEt6RXBEZzRROEplVGVTaWdYNlIwMDJ5b0tjWUtMdGgzb2pTY1NuT1poN1JSN25TX3o5Z0djMDdtVEFTbNIBvAFBVV95cUxNdlQtNEhJRnphWnAtWm55WnZQU3IxWjVsYmEzNFZ4VEYyMThqSXdVaG1OeDE3NExlZ0kxZzBXd01JdVhEQUs5ZjFiY1UzS3pJdGMzeG5pUmp3NC01NFViRmp5MFBKRklsejhra2NGSDh1WVJpR1B5TTY4QnlWV0I3aEt6RXBEZzRROEplVGVTaWdYNlIwMDJ5b0tjWUtMdGgzb2pTY1NuT1poN1JSN25TX3o5Z0djMDdtVEFTbA?oc=5" target="_blank">Read more &#8594;</a></div></div>
+  <div class="page-foot">
+    <span>CareEdge Daily News &mdash; 03 August 2026</span>
+    <span>Page 3 of 5</span>
+    <span>&#128274; Confidential</span>
+  </div>
+</div>
+<div class="news-page" id="pg4">
+  <div class="page-header">
+    <div class="ph-meta">03 August 2026 &bull; Internal Use Only</div>
+    <div class="ph-title">Bond &amp; Money Markets</div>
+    <div class="ph-num">4</div>
+  </div>
+  <div class="columns"><div id="s4" data-section="banner" class="sb sb4">S4 &mdash; BOND &amp; MONEY MARKETS</div>
+<div class="art"><p class="src">ANI News &bull; 01 Aug</p><p class="hl">Global macro friction, operational checks behind Bloomberg G-Sec delay; won't impact India's long-term debt story: Raamdeo Agrawal</p><p class="wh">Global macro friction, operational checks behind Bloomberg G-Sec delay; won't impact India's long-term debt story: Raamdeo Agrawal &nbsp;&nbsp; ANI News</p><a class="rm" href="https://news.google.com/rss/articles/CBMihwJBVV95cUxNUDRsc1psNnNrWWVXVHZhby1waDRDTzF6dXQyc0RlRTRjLWkxQWZ2WmtPQXNMMGl5T2NBMXpSc0FmNC1ZT0JjbXFNMlNoZV9OT2FjNGtTeE9aNFJDLV9xRkhlclI3VEpHVHFyNDdHZVlKV3dNOWxSNVBNZDBqaktkQTd6dm1rZ04teUx2cFZ4ZDM2ZUtSNTg5alZCOXFHYWg0dEpMcEo2V3JXQmcxRDd5Z3FySnIzaDJkRXdSMzZRdnduVU8zMGNYdDl1Rlc2Q0NqYllUbkg3QjdBRXFCeDI4OUFvRlB1VUpJNFRRVTFVcDFWRkJrOHpXR2lFQlgtdHJFWUF2RkFVTQ?oc=5" target="_blank">Read more &#8594;</a></div>
+<div class="art"><p class="src">freefincal</p><p class="hl">Why are PPF and Sukanya Samriddhi interest rates still so high?!</p><p class="wh">Why are PPF and Sukanya Samriddhi interest rates still so high?! &nbsp;&nbsp; freefincal</p><a class="rm" href="https://news.google.com/rss/articles/CBMie0FVX3lxTE4yMlQ2WmJwRGxiN0NOVXlQU3I1M01RcXVNclIycFdpc1l6MXZlTEU1bEZMWDBQb2lFYWtMSTN2Qm03dnc2V2FvRzVUZnhZdjluS0JlcE5wd2VMTmg5UTBWZnVuVDU1eS1XT1hpVjJMLXZuaW0zV1dMZGtvQQ?oc=5" target="_blank">Read more &#8594;</a></div>
+<div class="art"><p class="src">Bond Markets</p><p class="hl">Veefin Solutions approves ₹50 crore secured NCD issuance</p><p class="wh">No summary available.</p><a class="rm" href="https://news.google.com/rss/articles/CBMitwFBVV95cUxNdWlMSlVyRG1OMEotVmJldWxmV3BHZGNLNGZYNF9KZ2x2bTRSVUIwUHR0U0pQdXIyWWF2M2w0SU9hbEROQnltSUJNQXZxQUtMRWo2V09BWndTMWZ0S1Q3ZGprX1F5R0FiUTJaZUE5OHVfR09La0s1SE9ZTkUxYWU4cHloZWI0bUh6Q2VROTFYXzRZeG1NTUd6VE92ZFpadVF3SlNhYzdpdlpVNEZSNUwxZlBIM0cxU2M?oc=5" target="_blank">Read more &#8594;</a></div></div>
+  <div class="page-foot">
+    <span>CareEdge Daily News &mdash; 03 August 2026</span>
+    <span>Page 4 of 5</span>
+    <span>&#128274; Confidential</span>
+  </div>
+</div>
+<div class="news-page" id="pg5">
+  <div class="page-header">
+    <div class="ph-meta">03 August 2026 &bull; Internal Use Only</div>
+    <div class="ph-title">Macroeconomic Developments</div>
+    <div class="ph-num">5</div>
+  </div>
+  <div class="columns"><div id="s5" data-section="banner" class="sb sb5">S5 &mdash; MACROECONOMIC DEVELOPMENTS</div>
+<div class="art"><p class="src">ANI News &bull; 01 Aug</p><p class="hl">RBI likely to hold repo rate at 5.25%, market to focus on policy guidance: Nuvama</p><p class="wh">RBI likely to hold repo rate at 5.25%, market to focus on policy guidance: Nuvama &nbsp;&nbsp; ANI News</p><a class="rm" href="https://news.google.com/rss/articles/CBMixwFBVV95cUxQNU5OQVlQXzlSR3NPY20ybDRqMlhyV0JkNklFUGJnVTMtNUplc25tOWU2Rmp6d1ZVZE4tbko4NGRJLUJoSjRYcFc1OVloaGIzQVRramh2OVg1U2M1cDVVZlFRdjdpMjloci1Wa0ExTlRuTG9QaGN0b2xxNnpWUXhxOHp4eWlrTmwtelNLVDhjZ28zV093bUp3aFgzNnR1TXpIbFBsemZPS3hkUWxkNE83Mk80cUktOHZodXl2U0hLbEJ2c3J0WkQ4?oc=5" target="_blank">Read more &#8594;</a></div>
+<div class="art"><p class="src">Free Press Journal &bull; 02 Aug</p><p class="hl">RBI MPC Meeting Begins August 3, Repo Rate Likely To Stay At 5.25% As Focus Shifts To Liquidity Management</p><p class="wh">RBI MPC Meeting Begins August 3, Repo Rate Likely To Stay At 5.25% As Focus Shifts To Liquidity Management &nbsp;&nbsp; Free Press Journal</p><a class="rm" href="https://news.google.com/rss/articles/CBMi4gFBVV95cUxOWW55OC1HcW5hd0lUX1Nnc1FkMzVmVDBZaUhBWDl3d3RBS2hmblRaenhZUGpBUWRLRXpQNXB5QnJacDQwcnZ6UEFDUkZwN1pReGNLel9LV3puRTR2bW9TSVF6dURPVnV5N3NwNWF6ajM5N2htVXY5N0FUemNrOUgtcVFRRjdwMkd1LVk1RWd6dzhXQ1RyWHhjd19YdlBsQjEzekkwLTBZdGdRYTJzZ3o2T3JtdmhnVUpWc202eC1tUmRiUEVHbEJLXzlJaUxfTVVmb3BVR0M4bGhNdEtDWGRwTXB30gHiAUFVX3lxTE5Zbnk4LUdxbmF3SVRfU2dzUWQzNWZUMFlpSEFYOXd3dEFLaGZuVFp6eFlQakFRZEtFelA1cHlCclpwNDBydnpQQUNSRnA3WlF4Y0t6X0tXem5FNHZtb1NJUXp1RE9WdXk3c3A1YXpqMzk3aG1Vdjk3QVR6Y2s5SC1xUVFGN3AyR3UtWTVFZ3p3OFdDVHJYeGN3X1h2UGxCMTN6STAtMFl0Z1FhMnNnejZPcm12aGdVSlZzbTZ4LW1SZGJQRUdsQktfOUlpTF9NVWZvcFVHQzhsaE10S0NYZHBNcHc?oc=5" target="_blank">Read more &#8594;</a></div>
+<div class="art"><p class="src">The Tribune &bull; 01 Aug</p><p class="hl">Interest rates to remain range-bound amid global inflation pressures: Motilal Oswals Ashish Shanker</p><p class="wh">Interest rates to remain range-bound amid global inflation pressures: Motilal Oswals Ashish Shanker &nbsp;&nbsp; The Tribune</p><a class="rm" href="https://news.google.com/rss/articles/CBMi3gFBVV95cUxPb29vMk9hX3dGd0hhRGZZZzdxd1d0Q3pkY3dtMHhCWmFiRlI3QzduRzJKWkI0THhXQzU5M0hFNlN5VkRVckt6X0o5TWY5NXFlWDhZbHFpT0pCc1NwbHg0ZG9fa0tVZkdDbnFUYjVOT2RveVVkOGFlazN5Y0txcVRmQmg4cGlXQ1lFNlFHeEdpVXFsaGJjNXFPaG01SFVVcHU3SU1QNnF5QWYxTHhURkVKZ0tNX1dJOFE4c3JfWGpXS3pVQTZQaFRGUklxMjZOLUFrUXdZd1Nfd3JLWGRpaFHSAd4BQVVfeXFMT29vbzJPYV93RndIYURmWWc3cXdXdEN6ZGN3bTB4QlphYkZSN0M3bkcySlpCNEx4V0M1OTNIRTZTeVZEVXJLel9KOU1mOTVxZVg4WWxxaU9KQnNTcGx4NGRvX2tLVWZHQ25xVGI1Tk9kb3lVZDhhZWszeWNLcXFUZkJoOHBpV0NZRTZRR3hHaVVxbGhiYzVxT2htNUhVVXB1N0lNUDZxeUFmMUx4VEZFSmdLTV9XSThROHNyX1hqV0t6VUE2UGhURlJJcTI2Ti1Ba1F3WXdTX3dyS1hkaWhR?oc=5" target="_blank">Read more &#8594;</a></div></div>
+  <div class="page-foot">
+    <span>CareEdge Daily News &mdash; 03 August 2026</span>
+    <span>Page 5 of 5</span>
+    <span>&#128274; Confidential</span>
+  </div>
+</div>
+</div>
+</body>
+</html>
