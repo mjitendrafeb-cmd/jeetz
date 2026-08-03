@@ -700,7 +700,10 @@ def send_email(subject: str, html_body: str, gmail_user: str, gmail_password: st
     recipients = _get_recipients()
     msg = MIMEMultipart("mixed")
     msg["Subject"] = subject
-    msg["From"] = gmail_user
+    # A bare From address (no display name) from a low-reputation sender is a
+    # common spam signal at corporate mail gateways -- the 7:40 mail (which
+    # never had this problem) always sends "Display Name <addr>". Match it.
+    msg["From"] = f"Credit Intelligence News <{gmail_user}>"
     msg["To"] = ", ".join(recipients)
 
     body_part = MIMEMultipart("alternative")
@@ -934,7 +937,7 @@ def main() -> None:
             recipients = _get_recipients()
             msg = MIMEText(fail_body, "plain", "utf-8")
             msg["Subject"] = fail_subject
-            msg["From"] = gmail_user
+            msg["From"] = f"Credit Intelligence News <{gmail_user}>"
             msg["To"] = ", ".join(recipients)
             with smtplib.SMTP_SSL("smtp.gmail.com", 465) as server:
                 server.login(gmail_user, gmail_password)
