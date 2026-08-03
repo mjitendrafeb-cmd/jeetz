@@ -149,13 +149,59 @@ _TEAM_JUNK_RE = re.compile(
     r"|\bnav\b.{0,40}\b(review|asset allocation|scheme|portfolio)\b"
     r"|\b(idcw|direct plan|regular plan)\b"
     r"|\basset allocation\b.{0,30}\breview"
-    r"|\bfund (performance|returns?) (review|analysis)\b",
+    r"|\bfund (performance|returns?) (review|analysis)\b"
+    # Broker research notes titled "<Company> | <Broker> View" slip past the
+    # "target price" pattern above when the price/rating isn't in the title.
+    r"|\b(motilal oswal|anand rathi|icici securities|hdfc securities|kotak securities|"
+    r"nuvama|jm financial|prabhudas lilladher|sharekhan|axis securities|emkay|"
+    r"nirmal bang|geojit|angel one|5paisa|iifl|yes securities|edelweiss|"
+    r"choice broking|ventura securities|jefferies|morgan stanley|goldman sachs|"
+    r"citi\b|jp morgan|bernstein|cirtl)\b.{0,20}\bview\b",
+    re.IGNORECASE,
+)
+
+# Telegram/source channels dedicated entirely to stock tips and broker
+# research notes, not credit or company news — every item from them is noise
+# for this desk regardless of wording.
+_JUNK_SOURCES = ("@brokerage_report",)
+
+
+def _is_team_junk(it: dict) -> bool:
+    if it["source"].lower() in _JUNK_SOURCES:
+        return True
+    return bool(_TEAM_JUNK_RE.search(f'{it["title"]} {it["summary"]}'))
+
+
+# 7:30 rule, mechanical version: "INCLUDE only items affecting Rating
+# outlook / Liquidity / Funding / Asset quality / Capitalisation /
+# Governance" and "SKIP: ... Generic business news". Section regexes (S1
+# tag, S3 penalty/source, S4 bonds, S5 macro) are all positive matches on
+# financial content already; the one gap was the S2 catch-all -- anything
+# that matched NOTHING fell into S2 by default with no relevance check at
+# all, so general news (geopolitics, sports, human-interest, brokerage
+# "View" notes that dodge the junk regex) leaked through. This gate requires
+# an actual financial-sector signal before anything lands in the S2 default.
+_FIN_RELEVANCE_RE = re.compile(
+    r"\b(nbfc|hfc|housing finance|non-?banking financial|\bbank(s|ing)?\b|"
+    r"microfinance|\bmfi\b|fintech|broking|stock broker|insuranc\w*|irdai|"
+    r"mutual fund|\bamc\b|asset management|\bnpa\b|non-performing|loan[s]?\b|"
+    r"lending|credit (rating|profile|quality|growth)|deposit[s]?\b|"
+    r"capital adequacy|\bcar\b ratio|provisioning|disbursement|\baum\b|"
+    r"assets under management|securitisation|securitization|crisil|icra|"
+    r"careedge|india ratings|rbi|sebi|\bnhb\b|payment bank|small finance bank|"
+    r"cooperative bank|co-operative bank|chit fund|gold loan|vehicle loan|"
+    r"personal loan|consumer durable|financial (services|institution)|"
+    r"rating (agency|action|upgrad\w*|downgrad\w*|outlook)|"
+    r"q[1-4]\s?(fy)?\d*\s?(results|profit|earnings|net profit)|"
+    r"net interest margin|\bnim\b|gross npa|net npa|dividend|"
+    r"stake sale|acqui(re|sition)|merger|ipo\b|listing|shares?\b)\b",
     re.IGNORECASE,
 )
 
 
-def _is_team_junk(it: dict) -> bool:
-    return bool(_TEAM_JUNK_RE.search(f'{it["title"]} {it["summary"]}'))
+def _is_fin_relevant(it: dict) -> bool:
+    text = f'{it["tags"]} {it["source"]} {it["title"]} {it["summary"]}'
+    return bool(_FIN_RELEVANCE_RE.search(text))
 
 ROLES = (("gh_name", "gh_email", "send_gh"),
          ("analyst_name", "analyst_email", "send_analyst"),
@@ -356,7 +402,9 @@ def _parse_item(raw: str) -> dict:
     }
 
 
-def _classify(it: dict, company_phrases: list[str]) -> str:
+def _classify(it: dict, company_phrases: list[str]) -> str | None:
+    """Returns None when the story has no financial-sector relevance at all
+    (general news that shouldn't appear anywhere in the digest)."""
     text = (it["tags"] + " " + it["source"] + " " + it["title"] + " " + it["summary"]).lower()
     if "watchlist" in it["tags"].lower() or any(p and p in text for p in company_phrases):
         return "S1"
@@ -374,7 +422,11 @@ def _classify(it: dict, company_phrases: list[str]) -> str:
         return "S4"
     if _S5_RE.search(text):
         return "S5"
-    return "S2"
+    # Nothing matched a section-specific signal -- only fall into the S2
+    # default if the story is actually about the financial sector. Otherwise
+    # this is general news (geopolitics, sports, human-interest) that the
+    # 7:30 AI's relevance judgment would never have included either.
+    return "S2" if _is_fin_relevant(it) else None
 
 
 def _match_companies(it: dict, rows: list[dict]) -> list[str]:
@@ -1052,6 +1104,13 @@ def main() -> None:
     for it in items:
         it["section"] = _classify(it, phrases)
         it["companies"] = _match_companies(it, rows)
+
+    pre_offtopic = len(items)
+    offtopic = [it for it in items if it["section"] is None]
+    items = [it for it in items if it["section"] is not None]
+    for it in offtopic[:8]:
+        print(f"[offtopic] dropped (no financial-sector signal): {it['title'][:75]}")
+    print(f"{len(items)} items after relevance filter (dropped {pre_offtopic - len(items)})")
 
     comp_counts: dict[str, int] = {}
     for it in items:
