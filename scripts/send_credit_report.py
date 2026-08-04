@@ -899,12 +899,12 @@ def main() -> None:
                 msg = _s.get_final_message()
             weekly_html = _msg_text(msg)
             email_html = build_weekly_email(weekly_html, today)
-            subject = f"Weekly Credit Intelligence Digest — Week ending {date_str}"
+            subject = f"Credit Intelligence News (AI Weekly) — Week ending {date_str}"
             print("Sending weekly digest...")
             send_email(subject, email_html, gmail_user, gmail_password)
             return
 
-        subject = f"Credit Intelligence News — {today.strftime('%d %B %Y')}"
+        subject = f"Credit Intelligence News (AI Report) — {today.strftime('%d %B %Y')}"
 
         print("Calling Claude API...")
         full_html = generate_report(news_text, today, anthropic_api_key)
