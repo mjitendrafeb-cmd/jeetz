@@ -148,5 +148,35 @@
    "Telegram": 33,
    "Web Scraper": 57
   }
+ },
+ {
+  "date": "2026-08-04",
+  "fetched": 137,
+  "delivered_pool": 96,
+  "junk": 12,
+  "geo": 0,
+  "stale": 0,
+  "dup": 8,
+  "sections": {
+   "S1": 27,
+   "S2": 29,
+   "S3": 5,
+   "S4": 15,
+   "S5": 20
+  },
+  "mails": 6,
+  "failed": [],
+  "source_summary": {
+   "RBI RSS": 20,
+   "RBI Enforcement": 0,
+   "SEBI RSS": 20,
+   "Rating Agencies": 2,
+   "Google News": 22,
+   "Watchlist (Google)": 20,
+   "BSE Announcements": 0,
+   "BSE Financials": 0,
+   "Telegram": 26,
+   "Web Scraper": 99
+  }
  }
 ]
