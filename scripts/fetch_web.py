@@ -670,57 +670,65 @@ def fetch_custom_url(url: str) -> list[str]:
 # returning 0 so nothing rots silently.
 # ---------------------------------------------------------------------------
 
+def _gnews_site_feed(query: str) -> str:
+    """A Google News RSS search scoped to a site (or topic) — used as the
+    LAST candidate for every source below. This isn't a guess: Google News
+    RSS is the one path already proven reliable in this codebase (link
+    resolution hit 40/40 in the 2026-08-04 run), so a source whose own feed
+    URL is wrong, moved, or bot-blocked still gets real coverage instead of
+    silently contributing nothing."""
+    return (f"https://news.google.com/rss/search?q={requests.utils.quote(query + ' when:2d')}"
+            f"&hl=en-IN&gl=IN&ceid=IN:en")
+
+
 _EXTRA_RSS_FEEDS = [
     # (label, tier, cap, [candidate urls])
     # ── Tier 1: regulators, tribunals, official statistics ──────────────
-    ("IBBI", "T1", 8, [
-        "https://ibbi.gov.in/rss.xml",
-        "https://ibbi.gov.in/en/rss",
-        "https://www.ibbi.gov.in/rss.xml",
-    ]),
+    # None of these bodies confirms a public RSS feed, and the 2026-08-04
+    # run showed IBBI/IRDAI/MOSPI/NCLT/CCI all returning nothing from every
+    # direct-URL guess. Go straight to the proven Google News path instead
+    # of stacking more unverifiable .gov.in guesses.
+    ("IBBI", "T1", 8, [_gnews_site_feed("site:ibbi.gov.in OR insolvency IBBI CIRP order India")]),
     ("NHB", "T1", 6, [
         "https://nhb.org.in/rss.xml",
         "https://nhb.org.in/feed/",
-        "https://www.nhb.org.in/rss.xml",
+        _gnews_site_feed("National Housing Bank NHB India notification"),
     ]),
-    ("IRDAI", "T1", 6, [
-        "https://irdai.gov.in/rss.xml",
-        "https://irdai.gov.in/web/guest/rss",
-        "https://www.irdai.gov.in/rss.xml",
-    ]),
-    ("MOSPI", "T1", 6, [
-        "https://mospi.gov.in/rss.xml",
-        "https://www.mospi.gov.in/rss.xml",
-        "https://mospi.gov.in/web/mospi/rss",
-    ]),
+    ("IRDAI", "T1", 6, [_gnews_site_feed("IRDAI insurance regulator India circular OR notification")]),
+    ("MOSPI", "T1", 6, [_gnews_site_feed("MOSPI India GDP CPI IIP data release")]),
     ("PIB", "T1", 10, [
         "https://pib.gov.in/RssMain.aspx?ModId=6&Lang=1&Regid=3",
         "https://www.pib.gov.in/RssMain.aspx?ModId=6&Lang=1&Regid=3",
         "https://pib.gov.in/rss/lreleng.xml",
+        _gnews_site_feed("PIB Ministry of Finance India press release"),
     ]),
-    ("NCLT", "T1", 6, [
-        "https://nclt.gov.in/rss.xml",
-        "https://www.nclt.gov.in/rss.xml",
-    ]),
+    ("NCLT", "T1", 6, [_gnews_site_feed("NCLT India tribunal order insolvency company")]),
     # Labelled with a suffix so the S3 source rule cannot also swallow CCIL,
-    # which is a bond-market (S4) source.
-    ("CCI-India", "T1", 5, [
-        "https://www.cci.gov.in/rss.xml",
-        "https://cci.gov.in/rss.xml",
-    ]),
+    # which is a bond-market (S4) source. cci.gov.in's own TLS cert failed
+    # verification in testing (not a wrong URL, an SSL_CERTIFICATE issue on
+    # their end) -- weakening TLS verification to work around that is not an
+    # acceptable trade, so this source is Google-News-only.
+    ("CCI-India", "T1", 5, [_gnews_site_feed("Competition Commission of India CCI order merger approval")]),
 
     # ── Tier 2: financial press ─────────────────────────────────────────
+    # Every direct RSS guess for these returned nothing in testing -- could
+    # be a wrong path or bot-blocking (Cloudflare etc). One more plausible
+    # direct guess each, then the Google News fallback so the source is
+    # never truly at zero.
     ("Business Standard", "T2", 12, [
         "https://www.business-standard.com/rss/finance-103.rss",
-        "https://www.business-standard.com/rss/companies-101.rss",
-        "https://www.business-standard.com/rss/home_page_top_stories.rss",
+        "https://www.business-standard.com/rss/latest.rss",
+        "https://www.business-standard.com/rss/economy-policy-102.rss",
+        _gnews_site_feed("site:business-standard.com banking finance NBFC"),
     ]),
     ("Business Standard Markets", "T2", 8, [
         "https://www.business-standard.com/rss/markets-106.rss",
+        _gnews_site_feed("site:business-standard.com markets bonds"),
     ]),
     ("Financial Express", "T2", 10, [
         "https://www.financialexpress.com/business/banking-finance/feed/",
         "https://www.financialexpress.com/feed/",
+        _gnews_site_feed("site:financialexpress.com banking finance NBFC"),
     ]),
     ("Economic Times Banking", "T2", 12, [
         "https://economictimes.indiatimes.com/industry/banking/finance/rssfeeds/13358259.cms",
@@ -732,13 +740,18 @@ _EXTRA_RSS_FEEDS = [
     ("Livemint Money", "T2", 10, [
         "https://www.livemint.com/rss/money",
         "https://www.livemint.com/rss/markets",
+        "https://www.livemint.com/static/rss/money.xml",
+        _gnews_site_feed("site:livemint.com banking finance NBFC"),
     ]),
     ("Livemint Companies", "T2", 8, [
         "https://www.livemint.com/rss/companies",
+        _gnews_site_feed("site:livemint.com companies results"),
     ]),
     ("Moneycontrol", "T2", 10, [
         "https://www.moneycontrol.com/rss/business.xml",
         "https://www.moneycontrol.com/rss/latestnews.xml",
+        "https://www.moneycontrol.com/rss/economy.xml",
+        _gnews_site_feed("site:moneycontrol.com banking finance NBFC"),
     ]),
     ("Hindu BusinessLine", "T2", 10, [
         "https://www.thehindubusinessline.com/money-and-banking/feeder/default.rss",
@@ -747,6 +760,7 @@ _EXTRA_RSS_FEEDS = [
     ("Business Today", "T2", 8, [
         "https://www.businesstoday.in/rssfeeds/?id=225",
         "https://www.businesstoday.in/rssfeeds/?id=home",
+        _gnews_site_feed("site:businesstoday.in banking finance NBFC"),
     ]),
     ("NDTV Profit", "T2", 8, [
         "https://feeds.feedburner.com/ndtvprofit-latest",
@@ -755,14 +769,27 @@ _EXTRA_RSS_FEEDS = [
     ("CNBC-TV18", "T2", 8, [
         "https://www.cnbctv18.com/commonfeeds/v1/cne/rss/business.xml",
         "https://www.cnbctv18.com/rss/business.xml",
+        _gnews_site_feed("site:cnbctv18.com banking finance NBFC"),
     ]),
 
     # ── Tier 4: fintech / NBFC funding trade press ──────────────────────
     # A funding round IS a liquidity event for an unlisted NBFC, and these
-    # outlets break those before the mainstream press picks them up.
-    ("Entrackr", "T2", 6, ["https://entrackr.com/feed/"]),
-    ("Inc42", "T2", 6, ["https://inc42.com/feed/"]),
-    ("Medianama", "T2", 5, ["https://www.medianama.com/feed/"]),
+    # outlets break those before the mainstream press picks them up. Plain
+    # /feed/ (WordPress default) returned nothing for all three in testing,
+    # which reads as bot-blocking rather than a wrong URL -- Google News
+    # fallback added rather than guessing more WordPress paths.
+    ("Entrackr", "T2", 6, [
+        "https://entrackr.com/feed/",
+        _gnews_site_feed("site:entrackr.com NBFC fintech funding"),
+    ]),
+    ("Inc42", "T2", 6, [
+        "https://inc42.com/feed/",
+        _gnews_site_feed("site:inc42.com NBFC fintech funding round"),
+    ]),
+    ("Medianama", "T2", 5, [
+        "https://www.medianama.com/feed/",
+        _gnews_site_feed("site:medianama.com fintech NBFC RBI"),
+    ]),
 ]
 
 
