@@ -135,8 +135,34 @@ def _is_non_english(item: str) -> bool:
     return hits / letters > 0.15
 
 
+# Individual-company share-price moves. S2-S5 are the industry / sector /
+# economy sections — an entity's intraday move belongs in none of them, and
+# the 7:30 prompt already lists this under SKIP ("intraday moves, top
+# gainers/losers"). The existing _SKIP_PATTERNS only caught index-level moves
+# (Sensex/Nifty), so company-level ones walked straight through:
+#   "Godfrey Phillips shares jump 7% as Samir Modi seeks peace with mother"
+#   "Zydus Wellness Share Price Falls Over 3% After Q1 Net Profit Declines"
+# Deliberately requires a shares/stock token NEAR a move verb, so "raises Rs
+# 500 crore via share sale" and "RBI allows banks to issue shares" survive.
+_STOCK_MOVE_RE = re.compile(
+    r"\b(shares?|stock|share price|scrip|m-?cap)\b[^.|]{0,40}?\b"
+    r"(jump|rall(y|ies|ied)|surg|soar|zoom|spike|climb|gain|rise|rises|risen|"
+    r"advanc|drop|fall|fell|slip|slid|declin|tank|plunge|crash|slump|tumbl|"
+    r"sink|sank|dip)\w*"
+    r"|\b(jump|rall(y|ies)|surg|soar|zoom|spike|climb|gain|drop|fall|slip|"
+    r"declin|tank|plunge|crash|slump|tumbl)\w*\b[^.|]{0,25}\b(shares?|stock|share price)\b"
+    r"|\bsell[- ]?off\b"
+    r"|\bshares?\s+(up|down)\s+\d"
+    r"|\b(hits?|touch\w*|scal\w*)\s+(52[- ]week|record|all[- ]time|lifetime)\s+(high|low)\b",
+    re.IGNORECASE,
+)
+
+
 def _is_market_ticker(title: str, summary: str = "") -> bool:
-    return bool(_SKIP_PATTERNS.search(title) or _SKIP_PATTERNS.search(summary))
+    # Stock-move framing is tested on the HEADLINE only — a summary that
+    # mentions a share move in passing should not condemn a real story.
+    return bool(_SKIP_PATTERNS.search(title) or _SKIP_PATTERNS.search(summary)
+                or _STOCK_MOVE_RE.search(title))
 
 
 def _fmt(source: str, title: str, summary: str, url: str = "", body: str = "", pub_date: str = "") -> str:
