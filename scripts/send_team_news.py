@@ -99,7 +99,9 @@ _OUT_OF_SCOPE_GEO_RE = re.compile(
     r"philippine|vietnam|indonesia|malaysia|thailand|"
     r"brazil|argentin|colombia|mexico|peru|chile|"
     r"turkey|turkish|egypt|morocco|south africa|naira|shilling|"
-    r"cedi|ringgit|baht|peso|rand)\w*",
+    r"cedi|ringgit|baht|peso|rand)\w*"
+    r"|\b(fmdq|nasd\s+otc|ngx\s+(exchange|group))\b"
+    r"|\bN\d[\d,.]*\s?(bn|billion|trn|trillion)\b",
     re.IGNORECASE,
 )
 _INDIA_RE = re.compile(
@@ -210,7 +212,29 @@ _TEAM_STOCK_MOVE_RE = re.compile(
 )
 
 
+_SUPPRESS_PATH = os.path.join(_REPO_ROOT, "suppress.json")
+
+
+def _load_suppressions() -> list[str]:
+    """(J) Reader feedback loop. Lowercased substrings; any item whose title
+    contains one is dropped. Populated from the 'not relevant' links in the
+    mail, so recurring noise is killed by the reader instead of waiting for
+    someone to hand-write another regex."""
+    try:
+        with open(_SUPPRESS_PATH, encoding="utf-8") as f:
+            data = json.load(f)
+        return [str(x).strip().lower() for x in data.get("patterns", []) if str(x).strip()]
+    except Exception:
+        return []
+
+
+_SUPPRESSIONS = _load_suppressions()
+
+
 def _is_team_junk(it: dict) -> bool:
+    t = (it.get("title") or "").lower()
+    if any(pat in t for pat in _SUPPRESSIONS):
+        return True
     if _JUNK_SOURCE_RE.search(it["source"]):
         return True
     if _TEAM_STOCK_MOVE_RE.search(it["title"]):
@@ -1189,6 +1213,29 @@ def _send_weekly_stats(now: "datetime.datetime") -> None:
                  f'<td style="padding:6px;border-bottom:1px solid #eee;">{s.get("mails", 0)} sent{failed_html}</td>'
                  f'<td style="padding:6px;border-bottom:1px solid #eee;color:#cc0000;font-size:11px;">'
                  f'{dead}</td></tr>')
+    # (I) What the filters THREW AWAY — the only way to catch an over-tuned
+    # gate, since a false negative never appears in the report itself.
+    fn_rows = ""
+    for entry in reversed(hist):
+        ds = entry.get("dropped_samples") or {}
+        for kind in ("relevance", "junk"):
+            for t in (ds.get(kind) or [])[:8]:
+                fn_rows += (f'<tr><td style="padding:4px 6px;border-bottom:1px solid #f0f0f0;'
+                            f'font-size:11px;color:#888;white-space:nowrap;">{entry.get("date")}'
+                            f' &middot; {kind}</td>'
+                            f'<td style="padding:4px 6px;border-bottom:1px solid #f0f0f0;'
+                            f'font-size:11px;color:#222;">{_esc(t)}</td></tr>')
+        if len(fn_rows) > 12000:
+            break
+    fn_block = (
+        f'<h3 style="font-family:Georgia,serif;margin-top:26px;">Dropped by the filters '
+        f'&mdash; review for false negatives</h3>'
+        f'<p style="font-size:11px;color:#777;margin:0 0 8px;">If anything here belongs in '
+        f'the report, the relevance gate or junk filter is too tight. If anything here is '
+        f'noise you keep seeing, add it to <code>suppress.json</code>.</p>'
+        f'<table cellspacing="0" style="border-collapse:collapse;width:100%;">{fn_rows}</table>'
+    ) if fn_rows else ""
+
     html = (f'<html><body style="font-family:Arial,sans-serif;font-size:13px;color:#222;">'
             f'<h2 style="font-family:Georgia,serif;">CareEdge Daily News &mdash; weekly quality report</h2>'
             f'<table cellspacing="0" style="border-collapse:collapse;width:100%;font-size:12px;">'
@@ -1196,6 +1243,7 @@ def _send_weekly_stats(now: "datetime.datetime") -> None:
             f'<th style="padding:6px;text-align:left;">Fetched</th><th style="padding:6px;text-align:left;">Dropped</th>'
             f'<th style="padding:6px;text-align:left;">Mails</th><th style="padding:6px;text-align:left;">Sources with 0 items</th></tr>'
             f'{rows}</table>'
+            f'{fn_block}'
             f'<p style="color:#888;font-size:11px;">Auto-generated every Saturday. '
             f'<a href="{_MANAGE_URL}">Console</a> &middot; <a href="{_ARCHIVE_URL}">Archive</a></p></body></html>')
     admin = os.environ.get("GMAIL_USER", "")
@@ -1270,6 +1318,7 @@ def _np_card(it: dict, hero: bool = False, company: str = "") -> str:
                               it["source"], it.get("pub", "")) if b]
     link = (f'<a class="rm" href="{_esc(it["url"])}" target="_blank">Read more &#8594;</a>'
             if it["url"] else "")
+    fb = _feedback_link(it)
     also = (f'<br><span class="also">Also reported by: '
             f'{_esc(", ".join(it["also"]))}</span>' if it.get("also") else "")
     # No filler line when a feed gives no description — just omit it.
@@ -1277,7 +1326,22 @@ def _np_card(it: dict, hero: bool = False, company: str = "") -> str:
     body = f'<p class="wh">{summary}</p>' if summary else ""
     return (f'<div class="{cls}"><p class="src">{" &bull; ".join(bits)}{_undated_note(it)}</p>'
             f'<p class="hl">{_event_badge(it)}{_esc(it["title"])}</p>'
-            f'{body}{link}{also}</div>')
+            f'{body}{link}{fb}{also}</div>')
+
+
+def _feedback_link(it: dict) -> str:
+    """(J) One click to flag an item as irrelevant. A mailto keeps this
+    working with no server, no endpoint and no auth — the reply lands in the
+    admin mailbox with the exact title, which goes straight into
+    suppress.json."""
+    import urllib.parse
+    admin = os.environ.get("GMAIL_USER", "")
+    if not admin:
+        return ""
+    subj = urllib.parse.quote(f"[not relevant] {it.get('title','')[:120]}")
+    return (f'<a href="mailto:{admin}?subject={subj}" '
+            f'style="font-size:8px;color:#c9c4b8;text-decoration:none;'
+            f'margin-left:8px;">not relevant?</a>')
 
 
 def _company_header(name: str, its: list[dict]) -> str:
@@ -1575,6 +1639,14 @@ def main() -> None:
     items = [it for it in items if it["section"] is not None]
     for it in offtopic[:8]:
         print(f"[offtopic] dropped (no financial-sector signal): {it['title'][:75]}")
+    # (I) False negatives are invisible by definition — the report cannot
+    # show what it wrongly threw away. Keep the titles so the weekly review
+    # can catch an over-tuned filter (a REIT funding story and an SDL
+    # re-issue were both being discarded before this existed).
+    dropped_samples = {
+        "relevance": [it["title"][:110] for it in offtopic[:20]],
+        "junk": [it["title"][:110] for it in dropped[:20]],
+    }
     print(f"{len(items)} items after relevance filter (dropped {pre_offtopic - len(items)})")
 
     # Only the surviving pool needs real links — resolve after all filtering
@@ -1692,6 +1764,7 @@ def main() -> None:
         "sections": {s: len(v) for s, v in by_section.items()},
         "mails": sent_count, "failed": failed,
         "source_summary": {k: v for k, v in (_summary or {}).items() if not k.startswith("__")},
+        "dropped_samples": dropped_samples,
     })
     if now.strftime("%A") == "Saturday":
         _send_weekly_stats(now)

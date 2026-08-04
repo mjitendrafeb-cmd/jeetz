@@ -1,0 +1,30 @@
+name: Classifier regression tests
+
+# (H) Runs the golden set on every push that touches the classifier or its
+# inputs. Each case is a real miscategorisation that was reported once —
+# this is what stops a fix for one item silently breaking another, which is
+# exactly how a bare `shares?` in the relevance gate let every stock-price
+# story through.
+on:
+  push:
+    paths:
+      - 'scripts/fetch_news.py'
+      - 'scripts/send_team_news.py'
+      - 'tests/**'
+  pull_request:
+    paths:
+      - 'scripts/fetch_news.py'
+      - 'scripts/send_team_news.py'
+      - 'tests/**'
+  workflow_dispatch:
+
+jobs:
+  golden:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Run classifier golden set
+        run: python3 tests/run_golden.py
