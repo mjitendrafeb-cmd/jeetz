@@ -861,6 +861,24 @@ _GNEWS_ARTICLE_RE = re.compile(r"^https?://news\.google\.com/rss/articles/", re.
 _BROWSER_UA = ("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
                "(KHTML, like Gecko) Chrome/124.0 Safari/537.36")
 _GOOGLE_HOST_RE = re.compile(r"^https?://(news\.|www\.|accounts\.|policies\.|support\.)?google\.", re.IGNORECASE)
+# Google's article page links the publisher's FAVICON before the article, on
+# googleusercontent.com — which is not a "google.com" host, so the old
+# fallback returned it and 36 of one edition's 40 "Read more" links pointed at
+# a 16px image (including a CRISIL rating-action story). Asset hosts and
+# image/sizing URLs must be rejected explicitly.
+_ASSET_HOST_RE = re.compile(
+    r"^https?://[^/]*\b(googleusercontent|gstatic|ggpht|googleapis|"
+    r"googletagmanager|doubleclick)\.com", re.IGNORECASE)
+_ASSET_PATH_RE = re.compile(
+    r"\.(jpe?g|png|gif|webp|svg|ico|css|js|woff2?)(\?|$)"
+    r"|[=/][ws]\d{2,4}(-[a-z0-9-]*)?$", re.IGNORECASE)
+
+
+def _is_article_url(u: str) -> bool:
+    """A real article link — not a Google page, an asset host, or an image."""
+    if not u or _GOOGLE_HOST_RE.match(u) or _ASSET_HOST_RE.match(u):
+        return False
+    return not _ASSET_PATH_RE.search(u)
 
 
 def _gnews_search_url(title: str) -> str:
@@ -876,15 +894,15 @@ def _resolve_gnews_url(url: str, title: str) -> str:
         r = requests.get(url, timeout=8, allow_redirects=True,
                          headers={"User-Agent": _BROWSER_UA})
         final = r.url or ""
-        if final and not _GOOGLE_HOST_RE.match(final):
+        if _is_article_url(final):
             return final
         body = r.text or ""
         m = re.search(r'data-n-au="(https?://[^"]+)"', body)
-        if m and not _GOOGLE_HOST_RE.match(m.group(1)):
+        if m and _is_article_url(_html.unescape(m.group(1))):
             return _html.unescape(m.group(1))
         for m in re.finditer(r'href="(https?://[^"]+)"', body):
             cand = _html.unescape(m.group(1))
-            if not _GOOGLE_HOST_RE.match(cand) and "gstatic.com" not in cand:
+            if _is_article_url(cand):
                 return cand
     except Exception as exc:
         print(f"[links] resolve failed ({exc.__class__.__name__}) for {url[:60]}...")
@@ -914,7 +932,7 @@ def _resolve_gnews_links(items: list[dict]) -> None:
     for it in items:
         if it.get("url") in resolved:
             it["url"] = resolved[it["url"]]
-    direct = sum(1 for v in resolved.values() if "news.google.com/search" not in v)
+    direct = sum(1 for v in resolved.values() if _is_article_url(v))
     print(f"[links] {direct}/{len(resolved)} Google News links resolved to the "
           f"publisher's page ({len(resolved) - direct} fell back to a search link)")
 
