@@ -15,6 +15,15 @@ on:
     - cron: '27 1 * * *'   # 06:57 IST
     - cron: '12 3 * * *'   # 08:42 IST
   workflow_dispatch:
+    inputs:
+      test_email:
+        description: 'One-off test: restrict this run to a single recipient email (blank = normal full send)'
+        required: false
+        type: string
+      test_sections:
+        description: 'One-off test: comma-separated sections to send (e.g. S1) — only used if test_email is set (blank = that person''s normal sections)'
+        required: false
+        type: string
 
 concurrency:
   group: team-news
@@ -110,6 +119,8 @@ jobs:
           TELEGRAM_API_HASH: ${{ secrets.TELEGRAM_API_HASH }}
           TELEGRAM_SESSION: ${{ secrets.TELEGRAM_SESSION }}
           TEAM_SCHEDULED: 'true'
+          TEST_EMAIL: ${{ inputs.test_email }}
+          TEST_SECTIONS: ${{ inputs.test_sections }}
         run: python scripts/send_team_news.py
 
       - name: Alert admin on failure

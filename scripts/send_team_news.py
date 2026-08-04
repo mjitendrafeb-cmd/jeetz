@@ -1403,15 +1403,35 @@ def main() -> None:
     print("Section counts:", {s: len(v) for s, v in by_section.items()})
 
     # Build per-person profile: email -> {name, companies(for S1), sections}
+    # One-off manual test: restrict to a single recipient and/or section set
+    # WITHOUT touching team.json (which would affect all 7 GHs). Set via
+    # workflow_dispatch inputs -> TEST_EMAIL / TEST_SECTIONS env vars. Never
+    # set on a scheduled run, so normal mornings are completely unaffected.
+    test_email = os.environ.get("TEST_EMAIL", "").strip().lower()
+    test_sections_env = os.environ.get("TEST_SECTIONS", "").strip()
+    test_sections = {s.strip().upper() for s in test_sections_env.split(",") if s.strip()} or None
+    if test_email:
+        print(f"[test] restricting this run to {test_email}"
+              f"{' / sections ' + ','.join(sorted(test_sections)) if test_sections else ''}")
+
     people: dict[str, dict] = {}
     for r in rows:
-        secs = r.get("sections", [])
+        secs = set(r.get("sections", []))
+        if test_sections is not None:
+            secs = secs & test_sections
         for name_f, email_f, send_f in ROLES:
-            if not r.get(send_f):
+            # In test mode, match by email regardless of the row's Send tick
+            # — a manual test should not depend on that row happening to be
+            # enabled. Normal runs keep the send_f gate exactly as before.
+            if not test_email and not r.get(send_f):
                 continue
             # A cell may hold several addresses ("a@x, b@x; c@x") — each
             # address gets its own personalized mail.
             for email in (e.strip() for e in re.split(r"[,;]", r.get(email_f, "")) if e.strip()):
+                if test_email and email.strip().lower() != test_email:
+                    continue
+                if not secs:
+                    continue
                 p = people.setdefault(email, {
                     "name": r.get(name_f, "").strip() or email.split("@")[0],
                     "companies": set(), "sections": set(),
@@ -1484,8 +1504,14 @@ def main() -> None:
     if now.strftime("%A") == "Saturday":
         _send_weekly_stats(now)
 
-    _save_seen(items)
-    _mark_sent_today()
+    if test_email:
+        # A one-off test must not mark today as sent (that would block
+        # tomorrow's real scheduled run) or teach the shared seen-memory
+        # about items other GHs haven't received yet.
+        print("[test] skipping seen-memory save and sent-today marker")
+    else:
+        _save_seen(items)
+        _mark_sent_today()
     print("Done.")
 
 
