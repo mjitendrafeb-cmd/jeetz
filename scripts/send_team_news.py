@@ -1280,6 +1280,23 @@ def _np_card(it: dict, hero: bool = False, company: str = "") -> str:
             f'{body}{link}{also}</div>')
 
 
+def _company_header(name: str, its: list[dict]) -> str:
+    """Entity sub-header inside S1. Styled inline rather than with a class,
+    because the newspaper stylesheet lives in send_credit_report.py and the
+    7:30 report is not to be modified."""
+    n = len(its)
+    top = max(_materiality(i) for i in its)
+    # Flag the entity itself when it carries something that needs action.
+    flag = ('<span style="color:#b91c1c;font-weight:800;"> &#9679; ACTION</span>'
+            if top >= 8 else "")
+    return (f'<p style="margin:14px 0 5px;font-size:10px;font-weight:800;'
+            f'letter-spacing:1.2px;text-transform:uppercase;color:#111;'
+            f'border-bottom:1px solid #bbb;padding-bottom:3px;'
+            f'break-inside:avoid;">{_esc(name)}{flag}'
+            f'<span style="color:#999;font-weight:600;"> &middot; {n} item'
+            f'{"s" if n != 1 else ""}</span></p>')
+
+
 def _np_brief(it: dict) -> str:
     link = (f'<a href="{_esc(it["url"])}" target="_blank">&#8594;</a>'
             if it["url"] else "")
@@ -1298,23 +1315,40 @@ def _np_partb(p: dict, items: list[dict], by_section: dict) -> tuple[str, int, l
             parts.append('<p class="empty">Not subscribed &mdash; enable this section in the console.</p>')
             continue
         if skey == "S1":
-            sec: list[tuple[str, dict]] = []
+            # (F) Group by entity. A GH scanning 39 items wants "Shriram
+            # Finance: 5 items" together, not five cards interleaved with
+            # other names. A story matching two of their companies is still
+            # shown once, under the first — hence the `shown` guard.
+            by_company: dict[str, list[dict]] = {}
             shown: set[str] = set()
             for comp in sorted(p["companies"]):
                 for it in items:
                     if comp in it["companies"] and _key(it) not in shown:
                         shown.add(_key(it))
-                        sec.append((comp, it))
-            if not sec:
-                parts.append('<p class="empty">No news in this category today.</p>')
+                        by_company.setdefault(comp, []).append(it)
+            if not by_company:
+                # (C) "Nothing happened" is a real, useful answer — say it
+                # plainly rather than leaving an empty-looking section.
+                parts.append(
+                    f'<p class="empty">No material developments across your '
+                    f'{len(p["companies"])} entities today.</p>')
                 continue
-            total += len(sec)
-            chosen.extend(it for _, it in sec)
-            # Rating actions lead; 7:30 rule: every watchlist item is a full
-            # article — no cap.
-            sec.sort(key=lambda ci: (-_materiality(ci[1]), _is_undated(ci[1])))
-            for i, (comp, it) in enumerate(sec):
-                parts.append(_np_card(it, hero=(i == 0), company=comp))
+            n_items = sum(len(v) for v in by_company.values())
+            total += n_items
+            for v in by_company.values():
+                chosen.extend(v)
+            # Entities with the most material news first; within an entity,
+            # most material first, and an undated item never leads.
+            for v in by_company.values():
+                v.sort(key=lambda it: (-_materiality(it), _is_undated(it)))
+            order = sorted(by_company.items(),
+                           key=lambda kv: -max(_materiality(i) for i in kv[1]))
+            lead = True
+            for comp, its in order:
+                parts.append(_company_header(comp, its))
+                for it in its:
+                    parts.append(_np_card(it, hero=lead))
+                    lead = False
         else:
             sec_items = by_section[skey]
             if not sec_items:
@@ -1344,33 +1378,71 @@ def _np_partb(p: dict, items: list[dict], by_section: dict) -> tuple[str, int, l
     return "\n".join(parts), total, chosen
 
 
-def _np_partc(top5: list[dict], date_str: str) -> str:
-    """Top-5 table in the exact Part C markup the 7:30 email body uses."""
+def _band_rows(band: list[dict], accent: str) -> str:
     rows = ""
-    for i, it in enumerate(top5):
-        border = "border-bottom:1px solid #f0f0f0;" if i < len(top5) - 1 else ""
-        label = SECTION_TITLES.get(it.get("section", "S2"), "News").upper()
+    for i, it in enumerate(band):
+        border = "border-bottom:1px solid #f0f0f0;" if i < len(band) - 1 else ""
+        _k, label, _sc, _c = _event_of(it)
+        tag = f'{label} &bull; ' if label else ""
+        who = ", ".join(it.get("companies") or [])[:60]
+        who = f'{_esc(who)} &bull; ' if who else ""
         rows += (
             f'<tr valign="top">'
-            f'<td style="padding:10px 8px 10px 16px;font-size:28px;font-weight:900;'
-            f'color:#cc0000;line-height:1;font-family:Georgia,serif;width:44px;">0{i + 1}</td>'
-            f'<td style="padding:10px 16px 10px 4px;{border}">'
+            f'<td style="padding:9px 0 9px 16px;width:6px;">'
+            f'<div style="width:3px;height:100%;min-height:22px;background:{accent};"></div></td>'
+            f'<td style="padding:9px 16px 9px 10px;{border}">'
             f'<p style="margin:0 0 2px;font-size:9px;font-weight:800;letter-spacing:1px;'
-            f'text-transform:uppercase;color:#888;">{label} &bull; {_esc(it["source"])}</p>'
-            f'<p style="margin:0;font-size:12px;color:#1a1a1a;line-height:1.6;">{_esc(it["title"])}</p>'
-            f'</td></tr>'
+            f'text-transform:uppercase;color:#888;">{who}{tag}{_esc(it["source"])}'
+            f'{" &middot; date unconfirmed" if _is_undated(it) else ""}</p>'
+            f'<p style="margin:0;font-size:12px;color:#1a1a1a;line-height:1.55;">'
+            f'{_esc(it["title"])}</p></td></tr>'
         )
-    if not rows:
-        rows = ('<tr><td style="padding:10px 16px;color:#1a1a1a;font-size:12px;">'
-                'No fresh items in your sections today.</td></tr>')
-    return (
+    return rows
+
+
+def _np_partc(items_for_person: list[dict], date_str: str) -> str:
+    """(E) The email body is a decision surface, not a news list.
+
+    Five equally-weighted headlines told the reader nothing about what to do
+    first. Three bands do: what needs action on their own names, what to
+    watch on their own names, and the sector/macro context behind it.
+    'Nothing needs action' is stated explicitly — an analyst can act on that,
+    whereas an empty-looking list just reads as a broken report.
+    """
+    mine = [i for i in items_for_person if i.get("companies")]
+    other = [i for i in items_for_person if not i.get("companies")]
+    rank = lambda xs: sorted(xs, key=lambda i: (-_materiality(i), _is_undated(i)))
+
+    action = rank([i for i in mine if _materiality(i) >= 8])[:6]
+    watch = rank([i for i in mine if 3 <= _materiality(i) < 8])[:5]
+    context = rank(other)[:4]
+
+    def band(title, rows, accent, empty_msg=""):
+        if not rows and not empty_msg:
+            return ""
+        body = rows or (f'<tr><td colspan="2" style="padding:10px 16px;font-size:12px;'
+                        f'color:#555;">{empty_msg}</td></tr>')
+        return (
+            f'<table width="100%" cellpadding="0" cellspacing="0" style="background:{accent};">'
+            f'<tr><td style="padding:7px 16px;font-size:9px;font-weight:800;letter-spacing:3px;'
+            f'text-transform:uppercase;color:#fff;">{title}</td></tr></table>'
+            f'<table width="100%" cellpadding="0" cellspacing="0" '
+            f'style="border:1px solid #e5e5e5;border-top:none;">{body}</table>'
+        )
+
+    n_act = len(action)
+    out = (
         f'<table id="takeaways" width="100%" cellpadding="0" cellspacing="0" style="background:#1a1a1a;">'
         f'<tr><td style="padding:8px 16px;font-size:9px;font-weight:800;letter-spacing:3px;'
-        f'text-transform:uppercase;color:#fff;">&#9679; TOP 5 HEADLINES &mdash; {date_str}</td></tr>'
+        f'text-transform:uppercase;color:#fff;">&#9679; YOUR BRIEFING &mdash; {date_str}</td></tr>'
         f'</table>'
-        f'<table width="100%" cellpadding="0" cellspacing="0" '
-        f'style="border:1px solid #e5e5e5;border-top:none;">{rows}</table>'
     )
+    out += band(f"Action needed &mdash; {n_act}" if n_act else "Action needed",
+                _band_rows(action, "#b91c1c"), "#b91c1c",
+                empty_msg="No rating actions, defaults or regulatory orders on your entities today.")
+    out += band("Watch", _band_rows(watch, "#b45309"), "#b45309")
+    out += band("Context", _band_rows(context, "#1e3a8a"), "#1e3a8a")
+    return out
 
 
 def _np_rebrand(html: str) -> str:
@@ -1580,8 +1652,7 @@ def main() -> None:
             print(f"[mail] skipping {email} — nothing new in their sections")
             continue
 
-        top5 = sorted(person_items, key=_story_score, reverse=True)[:5]
-        part_c = _np_partc(top5, now.strftime("%d %B %Y"))
+        part_c = _np_partc(person_items, now.strftime("%d %B %Y"))
         body = _np_rebrand(_scr.build_email(part_c, today, _summary))
         attachment = _np_rebrand(_scr.build_attachment(part_b, today))
         # One bad mailbox must not stop the rest of the team's mails.
