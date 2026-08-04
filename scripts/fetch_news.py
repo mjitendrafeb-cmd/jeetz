@@ -83,6 +83,58 @@ _SKIP_PATTERNS = re.compile(
 )
 
 
+# ---------------------------------------------------------------------------
+# Language filter — English-only desk
+# ---------------------------------------------------------------------------
+# Script blocks for the Indian languages that actually show up in these feeds,
+# plus Arabic (Urdu). Matching on script is far more reliable than word lists:
+# a headline in Devanagari is unambiguous, whereas transliterated Hindi in
+# Latin script is rare in these sources.
+_INDIC_SCRIPT_RE = re.compile(
+    "["
+    "\u0900-\u097F"   # Devanagari  — Hindi, Marathi, Nepali
+    "\u0980-\u09FF"   # Bengali / Assamese
+    "\u0A00-\u0A7F"   # Gurmukhi    — Punjabi
+    "\u0A80-\u0AFF"   # Gujarati
+    "\u0B00-\u0B7F"   # Odia
+    "\u0B80-\u0BFF"   # Tamil
+    "\u0C00-\u0C7F"   # Telugu
+    "\u0C80-\u0CFF"   # Kannada
+    "\u0D00-\u0D7F"   # Malayalam
+    "\u0D80-\u0DFF"   # Sinhala
+    "\u0600-\u06FF"   # Arabic      — Urdu
+    "]"
+)
+
+# Regional-language mastheads. Their copy is occasionally syndicated in Latin
+# script, so the script test alone would miss them.
+_REGIONAL_DOMAIN_RE = re.compile(
+    r"(navbharattimes|maharashtratimes|amarujala|jagran|bhaskar|livehindustan|"
+    r"patrika|lokmat|loksatta|abplive\.com/hindi|aajtak|zeenews\.india\.com/hindi|"
+    r"hindi\.|/hindi/|marathi\.|/marathi/|tamil\.|/tamil/|telugu\.|/telugu/|"
+    r"kannada\.|/kannada/|malayalam\.|/malayalam/|bangla\.|/bangla/|gujarati\.|"
+    r"/gujarati/|eenadu|sakshi\.com|dinamalar|dinakaran|mathrubhumi|manoramaonline|"
+    r"anandabazar|prabhatkhabar|divyabhaskar|sandesh\.com|gujaratsamachar)",
+    re.IGNORECASE,
+)
+
+
+def _is_non_english(item: str) -> bool:
+    """True when a fetched line is regional-language content."""
+    if _REGIONAL_DOMAIN_RE.search(item):
+        return True
+    # Ignore the URL when script-testing: percent-encoding never carries
+    # Indic characters, but a slug might, and that is not the headline.
+    text = re.sub(r"\|\s*URL:\S+", " ", item)
+    hits = len(_INDIC_SCRIPT_RE.findall(text))
+    if not hits:
+        return False
+    letters = sum(1 for c in text if c.isalpha()) or 1
+    # A stray glyph in an otherwise English headline (a rupee-adjacent
+    # transliteration, a quoted name) should not condemn the item.
+    return hits / letters > 0.15
+
+
 def _is_market_ticker(title: str, summary: str = "") -> bool:
     return bool(_SKIP_PATTERNS.search(title) or _SKIP_PATTERNS.search(summary))
 
@@ -601,6 +653,15 @@ def fetch_all_news(newsapi_key: str = "", apply_seen: bool = True,
         except Exception as exc:
             summary["Web Scraper"] = 0
             print(f"[fetch_news] Web scraper error: {exc}")
+
+    # Drop non-English items before anything else looks at them. Google News
+    # India and several aggregator feeds mix in Hindi/Marathi/Tamil/Bengali
+    # copy, which this desk does not read. Applied here, at the one point
+    # every fetcher converges, so both the 7:30 and 7:40 mails are covered.
+    pre_lang = len(all_items)
+    all_items = [i for i in all_items if not _is_non_english(i)]
+    if pre_lang != len(all_items):
+        print(f"[fetch_news] Dropped {pre_lang - len(all_items)} non-English/regional items")
 
     # Deduplicate within this batch
     dedup_seen: set[str] = set()
