@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>CareEdge Daily News — 05 August 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=PT+Serif:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+  @page { size: A4; margin: 1.2cm 1.4cm; }
+  @page :first { margin-top: 0.5cm; }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:#f0ece4;font-family:'PT Serif',Georgia,serif;color:#111;font-size:11px}
+  .newspaper{max-width:960px;margin:20px auto}
+
+  /* ── PAGE UNITS ── */
+  .news-page{background:#fdfaf5;box-shadow:0 2px 24px rgba(0,0,0,.18);margin-bottom:28px;padding-bottom:20px;break-before:page;page-break-before:always}
+  .front-page{break-before:auto;page-break-before:auto}
+
+  /* ── MASTHEAD (front page only) ── */
+  .mast-top{display:flex;justify-content:space-between;align-items:flex-end;padding:14px 28px 6px;border-bottom:1px solid #aaa}
+  .mast-left{font-size:8.5px;letter-spacing:1.5px;text-transform:uppercase;color:#555;line-height:1.8}
+  .mast-right{font-size:8.5px;text-align:right;color:#555;line-height:1.8}
+  .mast-center{text-align:center;padding:4px 28px 0}
+  .mast-name{font-family:'Playfair Display',Georgia,serif;font-size:58px;font-weight:900;line-height:1;letter-spacing:-2px;color:#111}
+  .mast-rule{border:none;border-top:3px double #111;margin:6px 0 0}
+  .mast-sub{display:flex;justify-content:space-between;align-items:center;padding:5px 28px;border-bottom:3px solid #111;font-size:8.5px;letter-spacing:1px;text-transform:uppercase;color:#555}
+  .mast-sub .red{color:#cc0000;font-weight:700;border:1px solid #cc0000;padding:1px 6px}
+
+  /* ── NAV BAR ── */
+  .navbar{display:flex;border-bottom:2px solid #cc0000;background:#111}
+  .navbar a{flex:1;text-align:center;padding:7px 4px;font-size:8px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#ccc;text-decoration:none;border-right:1px solid #333}
+  .navbar a:first-child{color:#fff}
+  .navbar a:last-child{border-right:none}
+
+  /* ── INNER PAGE HEADER ── */
+  .page-header{display:flex;justify-content:space-between;align-items:center;padding:8px 28px;border-bottom:3px solid #111;border-top:4px solid #cc0000}
+  .page-header .ph-meta{font-size:8px;letter-spacing:1px;text-transform:uppercase;color:#777}
+  .page-header .ph-title{font-family:'Playfair Display',Georgia,serif;font-size:14px;font-weight:700;color:#111}
+  .page-header .ph-num{font-size:26px;font-weight:900;font-family:'Playfair Display',Georgia,serif;color:#cc0000;line-height:1}
+
+  /* ── COLUMNS ── */
+  .columns{padding:0 28px 8px;column-count:3;column-gap:22px;column-rule:1px solid #ccc;min-height:80px}
+
+  /* Section banners span all columns */
+  [data-section="banner"]{column-span:all;margin:20px -28px 0;padding:5px 28px;border-top:3px solid;border-bottom:1px solid}
+
+  /* ── COMPACT ARTICLE CLASSES (model emits these; styles live here) ── */
+  .sb{font-size:9px;font-weight:800;letter-spacing:3px;text-transform:uppercase;padding-top:6px;padding-bottom:6px}
+  .sb1{color:#cc0000;border-color:#cc0000}
+  .sb2{color:#b45309;border-color:#b45309}
+  .sb3{color:#1e3a8a;border-color:#1e3a8a}
+  .sb4{color:#15803d;border-color:#15803d}
+  .sb5{color:#6d28d9;border-color:#6d28d9}
+  .art{break-inside:avoid;padding:12px 0;border-bottom:1px solid #ddd}
+  .art .src{margin:0 0 3px;font-size:8px;font-weight:800;text-transform:uppercase;letter-spacing:1.5px;color:#999}
+  .art .hl{margin:0 0 6px;font-size:14px;font-weight:700;font-family:Georgia,serif;line-height:1.25;color:#111}
+  .art .wh{margin:0 0 5px;font-size:10.5px;color:#333;line-height:1.55}
+  .art .ci{margin:0 0 6px;font-size:10px;color:#444;line-height:1.5;border-left:3px solid #cc0000;padding-left:7px;font-style:italic}
+  .art .rm{font-size:9px;color:#888;text-decoration:none;font-weight:600}
+  .art .also{font-size:10px;color:#999}
+  .art.hero{padding:12px 0 14px;border-bottom:2px solid #cc0000;margin-bottom:4px}
+  .art.hero .src{color:#cc0000}
+  .art.hero .hl{font-size:18px;font-weight:800;line-height:1.2}
+  .art.hero .wh{font-size:11px;color:#222;line-height:1.7}
+  .art.hero .ci{font-size:10.5px;line-height:1.65;padding-left:8px}
+  .art.hero .rm{color:#cc0000;font-weight:700}
+  .ibh{margin:14px 0 4px;font-size:8px;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:#999}
+  .ib{margin:0 0 4px;font-size:9.5px;color:#555;line-height:1.5}
+  .ib a{color:#999;font-size:8.5px;text-decoration:none}
+  .empty{padding:10px 0;font-size:10px;color:#aaa;font-style:italic}
+
+  /* ── PAGE FOOTER ── */
+  .page-foot{display:flex;justify-content:space-between;border-top:1px solid #bbb;margin:8px 28px 0;padding-top:6px;font-size:8px;color:#888;letter-spacing:1px;text-transform:uppercase}
+
+  @media print {
+    body{background:#fff}
+    .news-page{box-shadow:none;margin-bottom:0}
+  }
+</style>
+</head>
+<body>
+<div class="newspaper">
+
+<div class="news-page front-page" id="pg1">
+  <div class="mast-top">
+    <div class="mast-left">WEDNESDAY, 05 AUGUST 2026<br>Vol. 2026 · Internal Use Only</div>
+    <div class="mast-right">Credit &amp; Markets Intelligence</div>
+  </div>
+  <div class="mast-center">
+    <div class="mast-name">CareEdge Daily News</div>
+    <hr class="mast-rule">
+  </div>
+  <div class="mast-sub">
+    <span>S1 Watchlist &middot; S2 NBFC/FI &middot; S3 Regs &middot; S4 Markets &middot; S5 Macro</span>
+    <span class="red">&#128274; CONFIDENTIAL</span>
+  </div>
+  <nav class="navbar">
+    <a href="#pg1">&#9733; Watchlist</a>
+    <a href="#pg2">NBFC &amp; FI</a>
+    <a href="#pg3">Regulations</a>
+    <a href="#pg4">Markets</a>
+    <a href="#pg5">Macro</a>
+  </nav>
+  <div class="columns"><div id="s1" data-section="banner" class="sb sb1">&#9733; S1 &mdash; MY RATED ENTITIES &amp; WATCHLIST</div>
+<div class="art hero"><p class="src">BANK OF INDIA &bull; whalesbook.com &bull; 04 Aug</p><p class="hl"><span style="color:#15803d;font-size:9px;font-weight:800;letter-spacing:1px;">&#9650; RATING ACTION</span> Central Bank of India&#x27;s Ratings Upgraded by CRISIL to AA+/Stable</p><a class="rm" href="https://lh3.googleusercontent.com/-DR60l-K8vnyi99NZovm9HlXyZwQ85GMDxiwJWzoasZYCUrPuUM_P_4Rb7ei03j-0nRs0c4F=w16" target="_blank">Read more &#8594;</a></div>
+<div class="art"><p class="src">ADITYA BIRLA SUN LIFE MUTUAL FUND &bull; Economic Times Banking &bull; 04 Aug</p><p class="hl">Need to encourage young adults to buy health cover, says Aditya Birla Health Insurance CEO</p><p class="wh">For those under thirty-five, acquiring health insurance is vital for managing risks and financial burdens. Despite representing a substantial part of India&#x27;s population, young adul</p><a class="rm" href="https://economictimes.indiatimes.com/industry/banking/finance/insure/need-to-encourage-young-adults-to-buy-health-cover-says-aditya-birla-health-insurance-ceo/articleshow/132865667.cms" target="_blank">Read more &#8594;</a></div>
+<div class="art"><p class="src">ADITYA BIRLA SUN LIFE MUTUAL FUND &bull; Hindu BusinessLine &bull; 04 Aug</p><p class="hl">Aditya Birla Health Insurance hopeful of increasing market shares in both retail and group segments</p><p class="wh">The company is planning to have tie-ups with more digital platforms to reach out to more young customers, Aditya Birla Health Insurance CEO Mayank Bathwal said</p><a class="rm" href="https://www.thehindubusinessline.com/money-and-banking/aditya-birla-health-insurance-hopeful-of-increasing-market-shares-in-both-retail-and-group-segments/article71306091.ece" target="_blank">Read more &#8594;</a></div>
+<div class="art"><p class="src">ALPHA ALTERNATIVES FINANCIAL SERVICES PRIVATE LIMITED &bull; The Economic Times &bull; 04 Aug</p><p class="hl">ET Alpha Wealth Summit 2.0: Top investment voices. One stage. Market-defining ideas</p><a class="rm" href="https://lh3.googleusercontent.com/-DR60l-K8vnyi99NZovm9HlXyZwQ85GMDxiwJWzoasZYCUrPuUM_P_4Rb7ei03j-0nRs0c4F=w16" target="_blank">Read more &#8594;</a></div>
+<div class="art"><p class="src">ALPHA ALTERNATIVES FINANCIAL SERVICES PRIVATE LIMITED &bull; economictimes.indiatimes.com &bull; 04 Aug</p><p class="hl">Alpha Alternatives buys 4 road assets worth Rs 7,500 crore</p><a class="rm" href="https://lh3.googleusercontent.com/-DR60l-K8vnyi99NZovm9HlXyZwQ85GMDxiwJWzoasZYCUrPuUM_P_4Rb7ei03j-0nRs0c4F=w16" target="_blank">Read more &#8594;</a><br><span class="also">Also reported by: The Economic Times</span></div>
+<div class="art"><p class="src">ANAND RATHI SHARE AND STOCK BROKERS LIMITED &bull; The Economic Times &bull; 03 Aug</p><p class="hl">Stocks in focus: Delta Corp, Anand Rathi, Care ratings, HCL Tech, Axis Bank, NMDC and more</p><a class="rm" href="https://lh3.googleusercontent.com/-DR60l-K8vnyi99NZovm9HlXyZwQ85GMDxiwJWzoasZYCUrPuUM_P_4Rb7ei03j-0nRs0c4F=w16" target="_blank">Read more &#8594;</a></div>
+<div class="art"><p class="src">ANAND RATHI SHARE AND STOCK BROKERS LIMITED &bull; topnews.in &bull; 04 Aug</p><p class="hl">Karnataka Bank Share Price Could Reach Rs 364: Anand Rathi Research</p><a class="rm" href="https://lh3.googleusercontent.com/-DR60l-K8vnyi99NZovm9HlXyZwQ85GMDxiwJWzoasZYCUrPuUM_P_4Rb7ei03j-0nRs0c4F=w16" target="_blank">Read more &#8594;</a></div>
+<div class="art"><p class="src">AVANSE FINANCIAL SERVICES LIMITED &bull; Inc42 &bull; 03 Aug</p><p class="hl">Edtech NBFC Avanse’s Q1 FY27 Profit Jumps 31% YoY To ₹154.3 Cr</p><a class="rm" href="https://lh3.googleusercontent.com/-DR60l-K8vnyi99NZovm9HlXyZwQ85GMDxiwJWzoasZYCUrPuUM_P_4Rb7ei03j-0nRs0c4F=w16" target="_blank">Read more &#8594;</a></div>
+<div class="art"><p class="src">AVENDUS FINANCE PRIVATE LIMITED &bull; scanx.trade &bull; 04 Aug</p><p class="hl">Newgen Software Technologies to engage investors at Avendus Spark INDX-Asia 2026</p><a class="rm" href="https://lh3.googleusercontent.com/-DR60l-K8vnyi99NZovm9HlXyZwQ85GMDxiwJWzoasZYCUrPuUM_P_4Rb7ei03j-0nRs0c4F=w16" target="_blank">Read more &#8594;</a></div>
+<div class="art"><p class="src">AXIS BANK LIMITED &bull; livemint.com &bull; 04 Aug</p><p class="hl">SBI, HDFC Bank, to ICICI Bank, Axis Bank: Bank stocks fall ahead of RBI monetary policy decision tomorrow</p><a class="rm" href="https://lh3.googleusercontent.com/-DR60l-K8vnyi99NZovm9HlXyZwQ85GMDxiwJWzoasZYCUrPuUM_P_4Rb7ei03j-0nRs0c4F=w16" target="_blank">Read more &#8594;</a></div>
+<div class="art"><p class="src">BANK OF INDIA &bull; RBI</p><p class="hl">Directions under Section 35A read with Section 56 of the Banking Regulation Act, 1949 – The Pusad Urban Co-operative Bank Ltd., Pusad, Dist</p><p class="wh">The Reserve Bank of India issued Directions under Section 35A read with Section 56 of the Banking Regulation Act, 1949 to The Pusad Urban Co-operative Bank Ltd., Pusad, Dist. Yavatmal, Maharashtra vid [BODY: Press Releas</p><a class="rm" href="https://www.rbi.org.in/scripts/BS_PressReleaseDisplay.aspx?prid=63285" target="_blank">Read more &#8594;</a><br><span class="also">Also reported by: @bank_nbfc_fintech</span></div>
+<div class="art"><p class="src">BANK OF INDIA &bull; RBI</p><p class="hl">Processing of Applications Received Under the Citizen’s Charter - Status as on July 31, 2026</p><p class="wh">A summary of the performance under the Citizen’s Charter of the Reserve Bank of India (RBI) during the month of July 2026 is given below – Description No. of Applications A Applications pe [BODY: Press Releases</p><a class="rm" href="https://www.rbi.org.in/scripts/BS_PressReleaseDisplay.aspx?prid=63280" target="_blank">Read more &#8594;</a></div>
+<div class="art"><p class="src">BANK OF INDIA &bull; RBI</p><p class="hl">RBI appoints Smt. Monisha Chakraborty as new Executive Director</p><p class="wh">The Reserve Bank of India (RBI) has appointed Smt. Monisha Chakraborty as Executive Director (ED) with effect from August 3, 2026. Prior to being promoted as ED, Smt. Monisha Chakraborty was serving a [BODY: Press Releas</p><a class="rm" href="https://www.rbi.org.in/scripts/BS_PressReleaseDisplay.aspx?prid=63279" target="_blank">Read more &#8594;</a></div>
+<div class="art"><p class="src">BANK OF INDIA &bull; Economic Times Banking &bull; 03 Aug</p><p class="hl">SBI, HSBC lead FCNR(B) deposit mobilisation</p><p class="wh">Foreign currency deposits have significantly increased following a Reserve Bank of India swap facility. State Bank of India and HSBC are leading banks in this deposit mobilization</p><a class="rm" href="https://economictimes.indiatimes.com/industry/banking/finance/banking/sbi-hsbc-lead-fcnrb-deposit-mobilisation/articleshow/132840942.cms" target="_blank">Read more &#8594;</a></div>
+<div class="art"><p class="src">ESAF SMALL FINANCE BANK LIMITED &bull; scanx.trade &bull; 03 Aug</p><p class="hl">ESAF Small Finance Bank turns profitable in Q1FY27, reports ₹80 crore PAT</p><a class="rm" href="https://lh3.googleusercontent.com/-DR60l-K8vnyi99NZovm9HlXyZwQ85GMDxiwJWzoasZYCUrPuUM_P_4Rb7ei03j-0nRs0c4F=w16" target="_blank">Read more &#8594;</a></div>
+<div class="art"><p class="src">ESAF SMALL FINANCE BANK LIMITED &bull; Hindu BusinessLine &bull; 04 Aug</p><p class="hl">ESAF Small Finance Bank eyes ₹1 lakh cr total biz of by 2030</p><p class="wh">Bank chief outlines universal bank plans</p><a class="rm" href="https://www.thehindubusinessline.com/money-and-banking/esaf-small-finance-bank-eyes-1-lakh-cr-total-biz-of-by-2030/article71306149.ece" target="_blank">Read more &#8594;</a></div>
+<div class="art"><p class="src">EDELWEISS ASSET MANAGEMENT LIMITED &bull; NSE Circular</p><p class="hl">Listing of units issued by Edelweiss Asset Management Limited (Edelweiss BSE Top 10 Bank ETF &amp; Edelweiss BSE LargeMid (60:40) Stable Dividend 50 ETF)</p><a class="rm" href="https://nsearchives.nseindia.com/content/circulars/CML75571.pdf" target="_blank">Read more &#8594;</a></div>
+<div class="art"><p class="src">ICICI BANK LIMITED &bull; economictimes.indiatimes.com &bull; 04 Aug</p><p class="hl">ICICI Bank Share Price Today, ICICI Bank Stock Price Live NSE/BSE Updates</p><a class="rm" href="https://lh3.googleusercontent.com/-DR60l-K8vnyi99NZovm9HlXyZwQ85GMDxiwJWzoasZYCUrPuUM_P_4Rb7ei03j-0nRs0c4F=w16" target="_blank">Read more &#8594;</a></div>
+<div class="art"><p class="src">ICICI SECURITIES PRIMARY DEALERSHIP LIMITED &bull; RBI-DBIE</p><p class="hl">RBI policy: MPC likely to hold rates in August; watch for hawkish signals, says ICICI Securities PD</p><a class="rm" href="https://lh3.googleusercontent.com/-DR60l-K8vnyi99NZovm9HlXyZwQ85GMDxiwJWzoasZYCUrPuUM_P_4Rb7ei03j-0nRs0c4F=w16" target="_blank">Read more &#8594;</a></div>
+<div class="art"><p class="src">INDIAN BANK &bull; Economic Times Banking &bull; 04 Aug</p><p class="hl">Indian banks&#x27; new hunt for diaspora dollars pumps up loans markets</p><p class="wh">Indian banks are raising significant dollar funds offshore to boost foreign currency deposits. Global banks are actively arranging these dollar bond and loan deals for Indian lende</p><a class="rm" href="https://economictimes.indiatimes.com/industry/banking/finance/banking/indian-banks-new-hunt-for-diaspora-dollars-pumps-up-loans-markets-hdfc-standard-chartered-usd-rupee-offshore-funds-rbi/articleshow/132845870.cms" target="_blank">Read more &#8594;</a></div>
+<div class="art"><p class="src">INDOSTAR CAPITAL FINANCE LIMITED &bull; Moneycontrol.com &bull; 04 Aug</p><p class="hl">Indostar Capita Consolidated June 2026 Net Sales at Rs 363.87 crore, up 5.93% Y-o-Y</p><a class="rm" href="https://lh3.googleusercontent.com/-DR60l-K8vnyi99NZovm9HlXyZwQ85GMDxiwJWzoasZYCUrPuUM_P_4Rb7ei03j-0nRs0c4F=w16" target="_blank">Read more &#8594;</a></div>
+<div class="art"><p class="src">MADHYA PRADESH FINANCIAL CORPORATION &bull; @bank_nbfc_fintech</p><p class="hl">Percentage Weighted Average Yield (%) 7.6967 7.7010 7.7022 7.3264 Total Allotment Amount 300 500 500 1000 KERALA SGS 2033 KERALA S…</p><p class="wh">Percentage Weighted Average Yield (%) 7.6967 7.7010 7.7022 7.3264 Total Allotment Amount 300 500 500 1000 KERALA SGS 2033 KERALA SGS 2039 MADHYA PRADESH SGS 2044 MADHYA PRADESH SGS</p></div>
+<div class="art"><p class="src">ONE MOBIKWIK &bull; scanx.trade &bull; 03 Aug</p><p class="hl">One MobiKwik Systems releases Q1FY27 investor presentation and earnings call details</p><a class="rm" href="https://lh3.googleusercontent.com/-DR60l-K8vnyi99NZovm9HlXyZwQ85GMDxiwJWzoasZYCUrPuUM_P_4Rb7ei03j-0nRs0c4F=w16" target="_blank">Read more &#8594;</a></div>
+<div class="art"><p class="src">RED FORT CAPITAL FINANCE COMPANY PRIVATE LIMITED &bull; indiagazette.com &bull; 04 Aug</p><p class="hl">Red Fort blast case: NIA Court extends Judicial custody of Dr Shaheen, others till August 12</p><a class="rm" href="https://lh3.googleusercontent.com/-DR60l-K8vnyi99NZovm9HlXyZwQ85GMDxiwJWzoasZYCUrPuUM_P_4Rb7ei03j-0nRs0c4F=w16" target="_blank">Read more &#8594;</a></div>
+<div class="art"><p class="src">RED FORT CAPITAL FINANCE COMPANY PRIVATE LIMITED &bull; economictimes.indiatimes.com &bull; 03 Aug</p><p class="hl">Red Fort, mayor&#x27;s office and multiple schools receive bomb threats</p><a class="rm" href="https://lh3.googleusercontent.com/-DR60l-K8vnyi99NZovm9HlXyZwQ85GMDxiwJWzoasZYCUrPuUM_P_4Rb7ei03j-0nRs0c4F=w16" target="_blank">Read more &#8594;</a></div>
+<div class="art"><p class="src">SHRIRAM CREDIT COMPANY LIMITED &bull; BFSI News &bull; 04 Aug</p><p class="hl">Shriram Finance to borrow Rs 20,000 Cr in Q2 FY27 as AAA rating lowers funding costs by 50-60 bps</p><a class="rm" href="https://lh3.googleusercontent.com/-DR60l-K8vnyi99NZovm9HlXyZwQ85GMDxiwJWzoasZYCUrPuUM_P_4Rb7ei03j-0nRs0c4F=w16" target="_blank">Read more &#8594;</a></div>
+<div class="art"><p class="src">SHRIRAM CREDIT COMPANY LIMITED &bull; NDTV Profit &bull; 04 Aug</p><p class="hl">Q1 Results Today: Bharti Airtel, ONGC, Nykaa, Pidilite Industries, Marico, Shriram Finance Among 100+ Companies Reporting Earnings</p><a class="rm" href="https://lh3.googleusercontent.com/-DR60l-K8vnyi99NZovm9HlXyZwQ85GMDxiwJWzoasZYCUrPuUM_P_4Rb7ei03j-0nRs0c4F=w16" target="_blank">Read more &#8594;</a></div>
+<div class="art"><p class="src">SHRIRAM CREDIT COMPANY LIMITED &bull; Goodreturns &bull; 03 Aug</p><p class="hl">CCI approval: MUFG to acquire 20% stake in Shriram Finance in USD 4.4 billion deal</p><a class="rm" href="https://lh3.googleusercontent.com/-DR60l-K8vnyi99NZovm9HlXyZwQ85GMDxiwJWzoasZYCUrPuUM_P_4Rb7ei03j-0nRs0c4F=w16" target="_blank">Read more &#8594;</a></div>
+<div class="art"><p class="src">SHRIRAM FINANCE LIMITED &bull; NSE Circular</p><p class="hl">Suspension of trading in Non-Convertible Debentures - Shriram Finance Limited</p><a class="rm" href="https://nsearchives.nseindia.com/content/circulars/CML75556.pdf" target="_blank">Read more &#8594;</a></div>
+<div class="art"><p class="src">SHRIRAM FINANCE LIMITED &bull; BSE Notice</p><p class="hl">Update Regarding debt securities of Shriram Finance Limited</p><a class="rm" href="https://www.bseindia.com/downloads/UploadDocs/Notices/20260804-3/20260804-3.pdf" target="_blank">Read more &#8594;</a></div>
+<div class="art"><p class="src">SPARK INSTITUTIONAL EQUITIES PRIVATE LIMITED &bull; whalesbook.com &bull; 04 Aug</p><p class="hl">Spark Capital Backs Private Banks Despite Margin Pressure</p><a class="rm" href="https://lh3.googleusercontent.com/-DR60l-K8vnyi99NZovm9HlXyZwQ85GMDxiwJWzoasZYCUrPuUM_P_4Rb7ei03j-0nRs0c4F=w16" target="_blank">Read more &#8594;</a></div>
+<div class="art"><p class="src">SPARK INSTITUTIONAL EQUITIES PRIVATE LIMITED &bull; Social News XYZ &bull; 04 Aug</p><p class="hl">NSE-BSE price gaps spark social media debate over new closing mechanism</p><a class="rm" href="https://lh3.googleusercontent.com/-DR60l-K8vnyi99NZovm9HlXyZwQ85GMDxiwJWzoasZYCUrPuUM_P_4Rb7ei03j-0nRs0c4F=w16" target="_blank">Read more &#8594;</a></div>
+<div class="art"><p class="src">TATA CAPITAL LIMITED &bull; ICRA</p><p class="hl">Tata Capital Housing Finance Limited</p><a class="rm" href="https://www.icra.in/Rating/RatingDetails?CompanyId=15410&amp;CompanyName=Tata%20Capital%20Housing%20Finance%20Limited" target="_blank">Read more &#8594;</a></div>
+<div class="art"><p class="src">TATA CAPITAL LIMITED &bull; ICRA</p><p class="hl">Tata Capital Limited</p><a class="rm" href="https://www.icra.in/Rating/RatingDetails?CompanyId=23666&amp;CompanyName=Tata%20Capital%20Limited" target="_blank">Read more &#8594;</a></div>
+<div class="art"><p class="src">YES BANK LIMITED &bull; Free Press Journal &bull; 03 Aug</p><p class="hl">HDIL Promoter Rakesh Wadhawan Moves EOW, Alleges Illegal Assignment Of ₹600-Crore Yes Bank Loan To Suraksha</p><a class="rm" href="https://lh3.googleusercontent.com/-DR60l-K8vnyi99NZovm9HlXyZwQ85GMDxiwJWzoasZYCUrPuUM_P_4Rb7ei03j-0nRs0c4F=w16" target="_blank">Read more &#8594;</a></div></div>
+  <div class="page-foot">
+    <span>CareEdge Daily News &mdash; 05 August 2026</span>
+    <span>Page 1 of 5</span>
+    <span>&#128274; Confidential</span>
+  </div>
+</div>
+<div class="news-page" id="pg2">
+  <div class="page-header">
+    <div class="ph-meta">05 August 2026 &bull; Internal Use Only</div>
+    <div class="ph-title">NBFC, HFC, Broking, Fintech &amp; FI</div>
+    <div class="ph-num">2</div>
+  </div>
+  <div class="columns"><div id="s2" data-section="banner" class="sb sb2">S2 &mdash; NBFC, HFC, BROKING, FINTECH, FI SECTORS</div>
+<div class="art"><p class="src">CRISIL</p><p class="hl">Crisil ESG Ratings &amp; Analytics</p><a class="rm" href="https://www.crisilesg.com/" target="_blank">Read more &#8594;</a></div>
+<div class="art"><p class="src">India Today &bull; 04 Aug</p><p class="hl">RBI&#x27;s new FD rules for small finance banks: 3 big changes from October 1</p><a class="rm" href="https://lh3.googleusercontent.com/-DR60l-K8vnyi99NZovm9HlXyZwQ85GMDxiwJWzoasZYCUrPuUM_P_4Rb7ei03j-0nRs0c4F=w16" target="_blank">Read more &#8594;</a></div>
+<div class="art"><p class="src">IndiaIPO &bull; 04 Aug</p><p class="hl">Airtel Q1 results: Revenue and net profit likely to see double digit growth on higher ARPU, subscriber addition</p><a class="rm" href="https://lh3.googleusercontent.com/-DR60l-K8vnyi99NZovm9HlXyZwQ85GMDxiwJWzoasZYCUrPuUM_P_4Rb7ei03j-0nRs0c4F=w16" target="_blank">Read more &#8594;</a></div>
+<div class="art"><p class="src">@bank_nbfc_fintech</p><p class="hl">Reserve Position@ Date Amount G</p><p class="wh">. Cash Reserves Position of Scheduled Commercial Banks (i) Cash balances with RBI as on August 03, 2026 8,57,397.82 (ii) Average daily cash reserve requirement for the fortnight en</p></div>
+<div class="art"><p class="src">@livemint</p><p class="hl">The Supreme Court proposed a pilot project under which fuel would be supplied only to vehicles with valid insurance to curb the gr…</p><p class="wh">The Supreme Court proposed a pilot project under which fuel would be supplied only to vehicles with valid insurance to curb the growing number of uninsured vehicles and ensure time</p><a class="rm" href="https://www.livemint.com/news/india/no-insurance-no-fuel-supreme-court-seeks-centres-plan-to-stop-fuel-sales-to-uninsured-vehicles-11785859600697.html" target="_blank">Read more &#8594;</a></div>
+<div class="art"><p class="src">NSE Circular</p><p class="hl">Listing of Equity Shares of Manipal Health Enterprises Limited (IPO)</p><a class="rm" href="https://nsearchives.nseindia.com/content/circulars/CML75569.zip" target="_blank">Read more &#8594;</a></div>
+<div class="art"><p class="src">Economic Times Banking &bull; 04 Aug</p><p class="hl">Unexercised ESOP buyback gains taxable as LTCG, not salary income: ITAT</p><p class="wh">The Income Tax Appellate Tribunal determined that employee stock options are not considered part of salary perks until they are exercised. Any gains from the repurchase of options,</p><a class="rm" href="https://economictimes.indiatimes.com/industry/banking/finance/unexercised-esop-buyback-gains-taxable-as-ltcg-not-salary-income-itat/articleshow/132868870.cms" target="_blank">Read more &#8594;</a></div>
+<div class="art"><p class="src">Economic Times Banking &bull; 04 Aug</p><p class="hl">Policybazaar concludes sixth season of Jeeto Apna Ghar rewards programme</p><p class="wh">Policybazaar celebrated its Jeeto Apna Ghar program&#x27;s sixth season for sales teams. This initiative now includes services teams, recognizing customer journey excellence. Over fifty</p><a class="rm" href="https://economictimes.indiatimes.com/industry/banking/finance/insure/policybazaar-concludes-sixth-season-of-jeeto-apna-ghar-rewards-programme/articleshow/132861746.cms" target="_blank">Read more &#8594;</a></div>
+<div class="art"><p class="src">Economic Times Banking &bull; 04 Aug</p><p class="hl">HSBC India profit rises 4% to $965 million in H1 2026, corporate and institutional banking drives growth</p><p class="wh">HSBC India&#x27;s profit before tax rose four percent in the first half of 2026. Higher revenue from corporate and institutional banking fueled this significant profit increase. The ban</p><a class="rm" href="https://economictimes.indiatimes.com/industry/banking/finance/banking/hsbc-india-profit-rises-4-to-965-million-in-h1-2026-corporate-and-institutional-banking-drives-growth/articleshow/132859484.cms" target="_blank">Read more &#8594;</a></div>
+<div class="art"><p class="src">Economic Times Banking &bull; 04 Aug</p><p class="hl">India paves way for return of merchant fees on digital payments</p><p class="wh">India has laid the legal groundwork to reintroduce merchant fees on UPI payments through proposed amendments to the Payment and Settlement Systems Act. While no decision has been t</p><a class="rm" href="https://economictimes.indiatimes.com/industry/banking/finance/india-paves-way-for-return-of-merchant-fees-on-digital-payments/articleshow/132858335.cms" target="_blank">Read more &#8594;</a></div>
+<div class="art"><p class="src">Economic Times Banking &bull; 04 Aug</p><p class="hl">Lack of proper training in credit monitoring among reasons for frauds: CVC to banks</p><p class="wh">The Central Vigilance Commission has advised banks on training to prevent frauds. Lack of proper credit appraisal and monitoring is identified as a key reason for these issues. Ban</p><a class="rm" href="https://economictimes.indiatimes.com/industry/banking/finance/banking/lack-of-proper-training-in-credit-monitoring-among-reasons-for-frauds-cvc-to-banks/articleshow/132857462.cms" target="_blank">Read more &#8594;</a></div>
+<div class="art"><p class="src">Economic Times Banking &bull; 03 Aug</p><p class="hl">Payment Bill rekindles MDR hopes for large-value UPI</p><p class="wh">Proposed amendments to the Payment and Settlement Systems Act may bring back merchant discount rates. This move could help banks and fintech firms recover technology and infrastruc</p><a class="rm" href="https://economictimes.indiatimes.com/industry/banking/finance/banking/government-proposes-mdr-reintroduction-for-upi-transactions-a-boost-for-banks-and-fintech-firms/articleshow/132841062.cms" target="_blank">Read more &#8594;</a></div>
+<div class="art"><p class="src">Economic Times Banking &bull; 03 Aug</p><p class="hl">Govt introduces bill to modernise bank records law</p><p class="wh">Finance Minister Nirmala Sitharaman introduced the Bankers&#x27; Books Evidence Bill, 2026 in Lok Sabha. This proposed legislation aims to update evidence rules for modern digital banki</p><a class="rm" href="https://economictimes.indiatimes.com/industry/banking/finance/banking/govt-introduces-bill-to-modernise-bank-records-law/articleshow/132840894.cms" target="_blank">Read more &#8594;</a></div>
+<div class="art"><p class="src">Economic Times Banking &bull; 03 Aug</p><p class="hl">Credit to tech infrastructure sector doubles in two years</p><p class="wh">Bank loans for India&#x27;s technology infrastructure sector have doubled in two years. This growth reflects India&#x27;s position as a global hub for data centers. Loans to IT services and</p><a class="rm" href="https://economictimes.indiatimes.com/industry/banking/finance/banking/credit-to-tech-infrastructure-sector-doubles-in-two-years/articleshow/132840795.cms" target="_blank">Read more &#8594;</a></div>
+<div class="art"><p class="src">Economic Times Banking &bull; 03 Aug</p><p class="hl">Satin Creditcare Network board approves promoter&#x27;s equity infusion</p><p class="wh">The promoter will infuse Rs 100 crore, taking its holding to 38.32% from 36.17%, people aware said. The company board approved the allotment of 38.5 lakh fully convertible warrants</p><a class="rm" href="https://economictimes.indiatimes.com/industry/banking/finance/satin-creditcare-network-board-approves-promoters-equity-infusion/articleshow/132836577.cms" target="_blank">Read more &#8594;</a></div>
+<div class="art"><p class="src">Hindu BusinessLine &bull; 04 Aug</p><p class="hl">IRDAI tells insurers to mobilise resources for speedy settlement of Assam flood claims</p><p class="wh">The insurers have been advised to communicate the nomination of a Senior Executive to the Chief Secretary immediately</p><a class="rm" href="https://www.thehindubusinessline.com/money-and-banking/irdai-tells-insurers-to-mobilise-resources-for-speedy-settlement-of-assam-flood-claims/article71306472.ece" target="_blank">Read more &#8594;</a></div>
+<div class="art"><p class="src">Hindu BusinessLine &bull; 04 Aug</p><p class="hl">Q1 Results Highlights: ONGC, BSE, Bharti Airtel, Bharti Hexacom, Pidilite, Graphite, Alembic, Wonderla Holidays Q1 PAT rise, Marico posts mixed Q1, Go…</p><p class="wh">Q1 Results Today, 4th August 2026 Highlights: Follow businessline for more</p><a class="rm" href="https://www.thehindubusinessline.com/markets/q1-results-today-live-updates-bharti-airtel-ongc-pidilite-nykaa-marico-nhpc-mcx-godrej-properties-zydus-alembic-rites-kalyan-jewellers-uno-minda-tata-invest-united-breweries-results-04-august-2026/article71300717.ece" target="_blank">Read more &#8594;</a></div>
+<div class="art"><p class="src">Hindu BusinessLine &bull; 04 Aug</p><p class="hl">Ionic Wealth rolls out AI tool for personalised investment portfolio analysis</p><p class="wh">The feature syncs an investor’s data from Mutual Fund Central with Ionic’s internal market, macroeconomic, and asset class knowledge</p><a class="rm" href="https://www.thehindubusinessline.com/money-and-banking/ionic-wealth-rolls-out-ai-tool-for-personalised-mutual-fund-portfolio-analysis/article71305235.ece" target="_blank">Read more &#8594;</a></div>
+<div class="art"><p class="src">Hindu BusinessLine &bull; 04 Aug</p><p class="hl">UGRO Capital’s GROx platform disburses ₹1,853 crore in Q1FY27, crosses 3.4 lakh active customers</p><p class="wh">GROx AUM reached ₹3,003 crore on June 30, 2026, a 32% increase from ₹2,280 crore in March 2026 and nearly four times higher than five quarters ago</p><a class="rm" href="https://www.thehindubusinessline.com/money-and-banking/ugro-capitals-grox-platform-disburses-1853-crore-in-q1fy27-crosses-34-lakh-active-customers/article71305459.ece" target="_blank">Read more &#8594;</a></div>
+<div class="art"><p class="src">Hindu BusinessLine &bull; 04 Aug</p><p class="hl">SC extends mandatory third-party insurance to four years for new cars, six years for two-wheelers</p><p class="wh">The direction extends the existing mandatory insurance period by one year for both categories of vehicles</p><a class="rm" href="https://www.thehindubusinessline.com/money-and-banking/sc-extends-mandatory-third-party-insurance-to-four-years-for-new-cars-six-years-for-two-wheelers/article71306096.ece" target="_blank">Read more &#8594;</a></div>
+<div class="art"><p class="src">NDTV Profit &bull; 04 Aug</p><p class="hl">SpaceX Shares Rocket 8% As Wall Street Eyes Turnaround In First Earnings Post Listing</p><p class="wh">Short interest has also climbed sharply over the past month, reflecting growing bearish bets against the company.</p><a class="rm" href="https://www.ndtvprofit.com/markets/spacex-shares-rocket-8-as-wall-street-eyes-turnaround-in-first-earnings-post-listing-11866333#publisher=newsstand" target="_blank">Read more &#8594;</a></div>
+<div class="art"><p class="src">NDTV Profit &bull; 04 Aug</p><p class="hl">Q1 Results Updates: ONGC Profit More Than Doubles, MCX Margins Contract, NHPC Revenue Rises 19%</p><p class="wh">Q1 Results Live Updates: Market participants are keeping a close watch on major companies such as Bharti Airtel, ONGC and others</p><a class="rm" href="https://www.ndtvprofit.com/markets/q1-results-live-updates-bharti-airtel-ongc-nykaa-marico-pidilite-industries-earnings-in-focus-today-august-4-11862380#publisher=newsstand" target="_blank">Read more &#8594;</a></div>
+<div class="art"><p class="src">NDTV Profit &bull; 04 Aug</p><p class="hl">P&amp;G Shares React As CEO Confirms $3.8 Billion Plan To Acquire Supplements Maker Thorne</p><p class="wh">P&amp;G&#x27;s $3.8 billion Thorne deal strengthens its position in the fast-growing supplements market.</p><a class="rm" href="https://www.ndtvprofit.com/markets/p-g-shares-react-as-ceo-confirms-3-8-billion-plan-to-acquire-supplements-maker-thorne-11866162#publisher=newsstand" target="_blank">Read more &#8594;</a></div>
+<div class="art"><p class="src">bfsi.economictimes.indiatimes.com</p><p class="hl">Future will belong to platforms, not traditional banks or NBFCs: JFS Chairman KV Kamath</p><a class="rm" href="https://bfsi.economictimes.indiatimes.com/articles/future-will-belong-to-platforms-not-traditional-banks-or-nbfcs-jfs-chairman-kv-kamath/132857576?utm_source=top_story&amp;utm_medium=homepage" target="_blank">Read more &#8594;</a></div>
+<div class="art"><p class="src">bfsi.economictimes.indiatimes.com</p><p class="hl">Jio Financial Services Chairman K V Kamath said the financial services industry is undergoing a fundamental transformation where technology led platfo…</p></div></div>
+  <div class="page-foot">
+    <span>CareEdge Daily News &mdash; 05 August 2026</span>
+    <span>Page 2 of 5</span>
+    <span>&#128274; Confidential</span>
+  </div>
+</div>
+<div class="news-page" id="pg3">
+  <div class="page-header">
+    <div class="ph-meta">05 August 2026 &bull; Internal Use Only</div>
+    <div class="ph-title">RBI, SEBI, NHB Regulations</div>
+    <div class="ph-num">3</div>
+  </div>
+  <div class="columns"><div id="s3" data-section="banner" class="sb sb3">S3 &mdash; RBI, SEBI, NHB REGULATIONS</div>
+<div class="art"><p class="src">RBI</p><p class="hl">Result of Yield/Price Based Auction of State Government Securities</p><p class="wh">Sr. No State/UT Amount to be raised (₹ Crore) Amount Accepted (₹ Crore) Cut off Price (₹)/ Yield (%) Tenor (Year) 1. Assam 1000 930.030 99.79/7.5897 Re-issue of 7.56% Assam SGS 203 [BODY: Press Releases</p><a class="rm" href="https://www.rbi.org.in/scripts/BS_PressReleaseDisplay.aspx?prid=63283" target="_blank">Read more &#8594;</a><br><span class="also">Also reported by: @bank_nbfc_fintech</span></div>
+<div class="art"><p class="src">RBI</p><p class="hl">Money Market Operations as on August 3, 2026</p><p class="wh">(Amount in ₹ crore, Rate in Per cent) MONEY MARKETS @ --&gt; Money Markets @ Volume (One Leg) Weighted Average Rate Range A. Overnight Segment (I+II+III+IV) 6,56,420.66 4.96 2.50-5.40 &amp; [BODY: Press Releases</p><a class="rm" href="https://www.rbi.org.in/scripts/BS_PressReleaseDisplay.aspx?prid=63281" target="_blank">Read more &#8594;</a></div>
+<div class="art"><p class="src">RBI</p><p class="hl">Auction of Government of India Dated Securities</p><p class="wh">Government of India (GoI) has announced the sale (re-issue) of two dated securities for a notified amount of ₹32,000 crore as per the following details: Sr No Security Date of Repayment Notified [BODY: Press Releases</p><a class="rm" href="https://www.rbi.org.in/scripts/BS_PressReleaseDisplay.aspx?prid=63278" target="_blank">Read more &#8594;</a></div>
+<div class="art"><p class="src">SEBI</p><p class="hl">Order in the matter of certain Research Analysts</p><a class="rm" href="https://www.sebi.gov.in/enforcement/orders/aug-2026/order-in-the-matter-of-certain-research-analysts_103350.html" target="_blank">Read more &#8594;</a></div>
+<div class="art"><p class="src">SEBI</p><p class="hl">Remittance Order dated 04.08.2026 issued against Vinet Rajkumar Chopda HUF (PAN: AAFHV9878Q) in RC No. 9157 of 2026</p><a class="rm" href="https://www.sebi.gov.in/enforcement/recovery-proceedings/aug-2026/remittance-order-dated-04-08-2026-issued-against-vinet-rajkumar-chopda-huf-pan-aafhv9878q-in-rc-no-9157-of-2026_103338.html" target="_blank">Read more &#8594;</a></div>
+<div class="art"><p class="src">SEBI</p><p class="hl">Settlement Order in the matter of violation of Pro-rata continuing interest by Modulus Alternatives Investment Managers Limited</p><a class="rm" href="https://www.sebi.gov.in/enforcement/orders/aug-2026/settlement-order-in-the-matter-of-violation-of-pro-rata-continuing-interest-by-modulus-alternatives-investment-managers-limited_103348.html" target="_blank">Read more &#8594;</a></div>
+<div class="art"><p class="src">SEBI</p><p class="hl">Notice of Demand dated August 03,2026 in Recovery Certificate No. 9275 of 2026 issued in the matter of Kunnamkulam Paper Mills Limited.</p><a class="rm" href="https://www.sebi.gov.in/enforcement/recovery-proceedings/aug-2026/notice-of-demand-dated-august-03-2026-in-recovery-certificate-no-9275-of-2026-issued-in-the-matter-of-kunnamkulam-paper-mills-limited-_103327.html" target="_blank">Read more &#8594;</a></div>
+<div class="art"><p class="src">SEBI</p><p class="hl">General remittance order dated 03.08.2026 in Recovery certificate no</p><p class="wh">. 9149 of 2026 issued against Akshat Incorporation (PAN: ABAFA1594L) in the matter of ISO at BSE [BODY: SEBI</p><a class="rm" href="https://www.sebi.gov.in/enforcement/recovery-proceedings/aug-2026/general-remittance-order-dated-03-08-2026-in-recovery-certificate-no-9149-of-2026-issued-against-akshat-incorporation-pan-abafa1594l-in-the-matter-of-iso-at-bse_103324.html" target="_blank">Read more &#8594;</a></div>
+<div class="art"><p class="src">SEBI</p><p class="hl">Exemption Order in the matter of Muthoot Microfin Limited</p><a class="rm" href="https://www.sebi.gov.in/https://www.sebi.gov.in/sebi_data/attachdocs/jul-2026/exemption_order_mumil1.pdf" target="_blank">Read more &#8594;</a></div>
+<div class="art"><p class="src">SEBI</p><p class="hl">Prohibitory Order-RC No. 8710 of 2025 issued against Venkatachari Suresh in the matter of Securekloud Technologies Ltd</p><a class="rm" href="https://www.sebi.gov.in/enforcement/recovery-proceedings/aug-2026/prohibitory-order-rc-no-8710-of-2025-issued-against-venkatachari-suresh-in-the-matter-of-securekloud-technologies-ltd_103320.html" target="_blank">Read more &#8594;</a></div>
+<div class="art"><p class="src">SEBI</p><p class="hl">Shri Prasanta Mahapatra takes charge as Executive Director, SEBI</p><a class="rm" href="https://www.sebi.gov.in/media-and-notifications/press-releases/aug-2026/shri-prasanta-mahapatra-takes-charge-as-executive-director-sebi_103316.html" target="_blank">Read more &#8594;</a></div>
+<div class="art"><p class="src">SEBI</p><p class="hl">Extension of timeline for enrolment with PaRRVA as specified in SEBI Circular No. HO/38/14/(4)2026-MIRSD-POD/I/10557/2026 dated April 29, 2026</p><a class="rm" href="https://www.sebi.gov.in/legal/circulars/aug-2026/extension-of-timeline-for-enrolment-with-parrva-as-specified-in-sebi-circular-no-ho-38-14-4-2026-mirsd-pod-i-10557-2026-dated-april-29-2026_103314.html" target="_blank">Read more &#8594;</a></div>
+<div class="art"><p class="src">SEBI</p><p class="hl">Appeal No. 6961 of 2026 filed by Sabbani Maruthi</p><a class="rm" href="https://www.sebi.gov.in/enforcement/orders/aug-2026/appeal-no-6961-of-2026-filed-by-sabbani-maruthi_103312.html" target="_blank">Read more &#8594;</a></div>
+<div class="art"><p class="src">SEBI</p><p class="hl">Adjudication Order in the matter of Decillion Finance Limited</p><a class="rm" href="https://www.sebi.gov.in/enforcement/orders/aug-2026/adjudication-order-in-the-matter-of-decillion-finance-limited_103309.html" target="_blank">Read more &#8594;</a></div>
+<div class="art"><p class="src">SEBI</p><p class="hl">Notice of Demand under Recovery certificate no</p><p class="wh">. 9273 of 2026 dated July 31, 2026 issued to Manjulaben Parmar (PAN: DKYPP5235B) in the matter of trading activities of certain entities in the scrip of D [BODY: SEBI</p><a class="rm" href="https://www.sebi.gov.in/enforcement/recovery-proceedings/jul-2026/notice-of-demand-under-recovery-certificate-no-9273-of-2026-dated-july-31-2026-issued-to-manjulaben-parmar-pan-dkypp5235b-in-the-matter-of-trading-activities-of-certain-entities-in-the-scrip-of-d-_103307.html" target="_blank">Read more &#8594;</a></div>
+<div class="art"><p class="src">SEBI</p><p class="hl">SEBI Order for compliance - General Remittance Order under Recovery Certificate No</p><p class="wh">. 9145 of 2026 against Dinesh Manwani HUF (PAN-AAHHD9073R) in the matter of Trading in Illiquid Stock Options on BSE [BODY: SEBI</p><a class="rm" href="https://www.sebi.gov.in/enforcement/recovery-proceedings/jul-2026/sebi-order-for-compliance-general-remittance-order-under-recovery-certificate-no-9145-of-2026-against-dinesh-manwani-huf-pan-aahhd9073r-in-the-matter-of-trading-in-illiquid-stock-options-on-bse_103306.html" target="_blank">Read more &#8594;</a></div>
+<div class="art"><p class="src">Cyril Amarchand Mangaldas &bull; 04 Aug</p><p class="hl">SEBI’s Proposed Overhaul of the PMS Regulatory Framework</p><a class="rm" href="https://lh3.googleusercontent.com/-DR60l-K8vnyi99NZovm9HlXyZwQ85GMDxiwJWzoasZYCUrPuUM_P_4Rb7ei03j-0nRs0c4F=w16" target="_blank">Read more &#8594;</a><br><span class="also">Also reported by: Bond Markets</span></div>
+<div class="art"><p class="src">Moneycontrol.com &bull; 04 Aug</p><p class="hl">SEBI proposes framework to allow REITs, listed InvITs to raise foreign capital through depository receipts</p><a class="rm" href="https://lh3.googleusercontent.com/-DR60l-K8vnyi99NZovm9HlXyZwQ85GMDxiwJWzoasZYCUrPuUM_P_4Rb7ei03j-0nRs0c4F=w16" target="_blank">Read more &#8594;</a><br><span class="also">Also reported by: Economic Times Bonds</span></div></div>
+  <div class="page-foot">
+    <span>CareEdge Daily News &mdash; 05 August 2026</span>
+    <span>Page 3 of 5</span>
+    <span>&#128274; Confidential</span>
+  </div>
+</div>
+<div class="news-page" id="pg4">
+  <div class="page-header">
+    <div class="ph-meta">05 August 2026 &bull; Internal Use Only</div>
+    <div class="ph-title">Bond &amp; Money Markets</div>
+    <div class="ph-num">4</div>
+  </div>
+  <div class="columns"><div id="s4" data-section="banner" class="sb sb4">S4 &mdash; BOND &amp; MONEY MARKETS</div>
+<div class="art"><p class="src">The Economic Times &bull; 04 Aug</p><p class="hl">India bonds rise on position building ahead of RBI policy</p><a class="rm" href="https://lh3.googleusercontent.com/-DR60l-K8vnyi99NZovm9HlXyZwQ85GMDxiwJWzoasZYCUrPuUM_P_4Rb7ei03j-0nRs0c4F=w16" target="_blank">Read more &#8594;</a></div>
+<div class="art"><p class="src">Moneycontrol.com &bull; 04 Aug</p><p class="hl">Indian bonds open flat at 6.83%, all eyes on RBI policy meeting</p><a class="rm" href="https://lh3.googleusercontent.com/-DR60l-K8vnyi99NZovm9HlXyZwQ85GMDxiwJWzoasZYCUrPuUM_P_4Rb7ei03j-0nRs0c4F=w16" target="_blank">Read more &#8594;</a></div>
+<div class="art"><p class="src">whalesbook.com &bull; 04 Aug</p><p class="hl">Titan Company Ltd Affirmed &#x27;AAA&#x27; Rating, Boosts CP Limit to ₹7,500 Cr</p><a class="rm" href="https://lh3.googleusercontent.com/-DR60l-K8vnyi99NZovm9HlXyZwQ85GMDxiwJWzoasZYCUrPuUM_P_4Rb7ei03j-0nRs0c4F=w16" target="_blank">Read more &#8594;</a></div>
+<div class="art"><p class="src">@bank_nbfc_fintech</p><p class="hl">State Government Securities - Full Auction Result</p><p class="wh">The result of the auction of State Government Securities held on August 04, 2026, is as under: (Amount in ₹ Crore) ASSAM SGS 2036 BIHAR SGS 2035 BIHAR SGS 2051 CHHATTISGARH SGS 203</p><a class="rm" href="https://www.rbi.org.in/scripts/BS_PressReleaseDisplay.aspx?prid=63284" target="_blank">Read more &#8594;</a></div>
+<div class="art"><p class="src">BSE Notice</p><p class="hl">Part Redemption of Debentures of Companies</p><a class="rm" href="https://www.bseindia.com/downloads/UploadDocs/Notices/20260804-16/20260804-16.pdf" target="_blank">Read more &#8594;</a></div>
+<div class="art"><p class="src">BSE Notice</p><p class="hl">Suspension of Trading In Commercial Paper</p><a class="rm" href="https://www.bseindia.com/downloads/UploadDocs/Notices/20260804-7/20260804-7.pdf" target="_blank">Read more &#8594;</a></div>
+<div class="art"><p class="src">BSE Notice</p><p class="hl">Part Redemption of Debentures of UGRO CAPITAL LIMITED</p><a class="rm" href="https://www.bseindia.com/downloads/UploadDocs/Notices/20260804-5/20260804-5.pdf" target="_blank">Read more &#8594;</a></div>
+<div class="art"><p class="src">Bond Markets</p><p class="hl">Dev Accelerator Ltd Allots Non-Convertible Debentures Worth Rs. 100 Crores on Private Placement Basis</p><a class="rm" href="https://lh3.googleusercontent.com/-DR60l-K8vnyi99NZovm9HlXyZwQ85GMDxiwJWzoasZYCUrPuUM_P_4Rb7ei03j-0nRs0c4F=w16" target="_blank">Read more &#8594;</a></div>
+<div class="art"><p class="src">Bond Markets</p><p class="hl">Regency Fincorp secures BSE approval for NCD listing on debt segment</p><a class="rm" href="https://lh3.googleusercontent.com/-DR60l-K8vnyi99NZovm9HlXyZwQ85GMDxiwJWzoasZYCUrPuUM_P_4Rb7ei03j-0nRs0c4F=w16" target="_blank">Read more &#8594;</a></div>
+<div class="art"><p class="src">Bond Markets</p><p class="hl">Firm Commits ₦4.5bn to Soybean Processing Plant in Ogun</p><a class="rm" href="https://lh3.googleusercontent.com/-DR60l-K8vnyi99NZovm9HlXyZwQ85GMDxiwJWzoasZYCUrPuUM_P_4Rb7ei03j-0nRs0c4F=w16" target="_blank">Read more &#8594;</a></div>
+<div class="art"><p class="src">Economic Times Bonds &bull; 04 Aug</p><p class="hl">These 7 banking stocks have an upside potential of up to 25% in 1 year, according to analysts</p><p class="wh">Let us assume FPI buying continues. That last month was not a one-off, but the start of a trend. If so, then sooner or later this money will flow into banking stocks. Why? Because</p><a class="rm" href="https://economictimes.indiatimes.com/markets/stocks/news/these-7-banking-stocks-have-an-upside-potential-of-up-to-25-in-1-year-according-to-analysts/articleshow/132868184.cms" target="_blank">Read more &#8594;</a></div>
+<div class="art"><p class="src">Economic Times Bonds &bull; 04 Aug</p><p class="hl">Ahead of Market: 10 things that will decide stock market action on Wednesday</p><p class="wh">Indian markets ended lower as weekly expiry and volatility from the new Closing Auction Session unsettled traders. Analysts cited forced retail square-offs, while investors tracked</p><a class="rm" href="https://economictimes.indiatimes.com/markets/stocks/news/ahead-of-market-10-things-that-will-decide-stock-market-action-on-wednesday/articleshow/132866391.cms" target="_blank">Read more &#8594;</a></div>
+<div class="art"><p class="src">Economic Times Bonds &bull; 04 Aug</p><p class="hl">Worst of FPI equity selling may be over for India: Report</p><p class="wh">The wave of selling from foreign portfolio investors in Indian equities may have reached its end. The resilience of domestic economic fundamentals, accompanied by improving investo</p><a class="rm" href="https://economictimes.indiatimes.com/markets/stocks/news/worst-of-fpi-equity-selling-may-be-over-for-india-report/articleshow/132864956.cms" target="_blank">Read more &#8594;</a></div>
+<div class="art"><p class="src">Economic Times Bonds &bull; 04 Aug</p><p class="hl">Traders on edge! Why Nifty jumped 150 points in final minutes again</p><p class="wh">Nifty rebounded nearly 150 points during Tuesday’s closing auction after spending most of the session in the red, highlighting the impact of the new Closing Auction Session. Analys</p><a class="rm" href="https://economictimes.indiatimes.com/markets/stocks/news/traders-on-edge-why-nifty-jumped-150-points-in-final-minutes-again/articleshow/132862330.cms" target="_blank">Read more &#8594;</a></div>
+<div class="art"><p class="src">Economic Times Bonds &bull; 04 Aug</p><p class="hl">Market wrap: RIL, Hindalco, Trent among top gainers and losers on Nifty and Sensex on Tuesday</p><p class="wh">Indian equity benchmarks ended lower, snapping a four-session winning streak amid expiry-day volatility and the new closing auction system. Sensex fell 210 points and Nifty lost 15</p><a class="rm" href="https://economictimes.indiatimes.com/markets/stocks/news/market-wrap-ril-hindalco-trent-among-top-gainers-and-losers-on-nifty-and-sensex-on-tuesday/articleshow/132861901.cms" target="_blank">Read more &#8594;</a></div></div>
+  <div class="page-foot">
+    <span>CareEdge Daily News &mdash; 05 August 2026</span>
+    <span>Page 4 of 5</span>
+    <span>&#128274; Confidential</span>
+  </div>
+</div>
+<div class="news-page" id="pg5">
+  <div class="page-header">
+    <div class="ph-meta">05 August 2026 &bull; Internal Use Only</div>
+    <div class="ph-title">Macroeconomic Developments</div>
+    <div class="ph-num">5</div>
+  </div>
+  <div class="columns"><div id="s5" data-section="banner" class="sb sb5">S5 &mdash; MACROECONOMIC DEVELOPMENTS</div>
+<div class="art"><p class="src">Realty Plus Magazine &bull; 04 Aug</p><p class="hl">RBI Monetary Policy: Realty Leaders Expect Repo Rate to Stay at 5.25%</p><a class="rm" href="https://lh3.googleusercontent.com/-DR60l-K8vnyi99NZovm9HlXyZwQ85GMDxiwJWzoasZYCUrPuUM_P_4Rb7ei03j-0nRs0c4F=w16" target="_blank">Read more &#8594;</a></div>
+<div class="art"><p class="src">NDTV Profit &bull; 03 Aug</p><p class="hl">RBI MPC Meeting August 2026: Date, Time, Expectations, Where To Watch Governor Sanjay Malhotra&#x27;s Speech Live</p><a class="rm" href="https://lh3.googleusercontent.com/-DR60l-K8vnyi99NZovm9HlXyZwQ85GMDxiwJWzoasZYCUrPuUM_P_4Rb7ei03j-0nRs0c4F=w16" target="_blank">Read more &#8594;</a></div>
+<div class="art"><p class="src">RBI-DBIE</p><p class="hl">Debt fund managers maintain duration bets ahead of August MPC, expect RBI to hold rates</p><a class="rm" href="https://lh3.googleusercontent.com/-DR60l-K8vnyi99NZovm9HlXyZwQ85GMDxiwJWzoasZYCUrPuUM_P_4Rb7ei03j-0nRs0c4F=w16" target="_blank">Read more &#8594;</a></div>
+<div class="art"><p class="src">Macro-Release</p><p class="hl">Modernization of National Sample Surveys through adoption of digital platforms such as Computer Assisted Personal Interview (CAPI) integrated with e-…</p><a class="rm" href="https://lh3.googleusercontent.com/-DR60l-K8vnyi99NZovm9HlXyZwQ85GMDxiwJWzoasZYCUrPuUM_P_4Rb7ei03j-0nRs0c4F=w16" target="_blank">Read more &#8594;</a></div>
+<div class="art"><p class="src">Macro-Release</p><p class="hl">Govt modernises National Sample Surveys with digital platforms, AI-enabled chatbot</p><a class="rm" href="https://lh3.googleusercontent.com/-DR60l-K8vnyi99NZovm9HlXyZwQ85GMDxiwJWzoasZYCUrPuUM_P_4Rb7ei03j-0nRs0c4F=w16" target="_blank">Read more &#8594;</a></div>
+<div class="art"><p class="src">Hindu BusinessLine &bull; 04 Aug</p><p class="hl">RBI seen holding rates as inflation risk stay in focus</p><p class="wh">The committee is also likely to retain a neutral stance, with inflation remaining within the RBI’s 2%-6% tolerance band and Malhotra signalling policymakers would act only if price</p><a class="rm" href="https://www.thehindubusinessline.com/money-and-banking/rbi-seen-holding-rates-as-inflation-risk-stay-in-focus/article71304250.ece" target="_blank">Read more &#8594;</a></div>
+<div class="art"><p class="src">NDTV Profit &bull; 04 Aug</p><p class="hl">A Sea Of 22 Million: Pilgrims Mark Arbaeen In Karbala Despite US-Iran War Fears</p><p class="wh">The pilgrimage comes at a challenging time for Iraq&#x27;s economy following the war and the closure of the Strait of Hormuz, which has disrupted the country&#x27;s oil exports.</p><a class="rm" href="https://www.ndtvprofit.com/world/a-sea-of-22-million-pilgrims-mark-arbaeen-in-karbala-despite-us-iran-war-fears-11866196#publisher=newsstand" target="_blank">Read more &#8594;</a></div></div>
+  <div class="page-foot">
+    <span>CareEdge Daily News &mdash; 05 August 2026</span>
+    <span>Page 5 of 5</span>
+    <span>&#128274; Confidential</span>
+  </div>
+</div>
+</div>
+</body>
+</html>
