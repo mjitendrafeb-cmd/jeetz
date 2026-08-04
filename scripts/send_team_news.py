@@ -195,8 +195,25 @@ _NOT_NEWS_RE = re.compile(
 )
 
 
+# Same rule as fetch_news._STOCK_MOVE_RE, kept here because the team mailer
+# also sees items that did not come through that path.
+_TEAM_STOCK_MOVE_RE = re.compile(
+    r"\b(shares?|stock|share price|scrip|m-?cap)\b[^.|]{0,40}?\b"
+    r"(jump|rall(y|ies|ied)|surg|soar|zoom|spike|climb|gain|rise|rises|risen|"
+    r"advanc|drop|fall|fell|slip|slid|declin|tank|plunge|crash|slump|tumbl|"
+    r"sink|sank|dip)\w*"
+    r"|\b(jump|rall(y|ies)|surg|soar|zoom|spike|climb|gain|drop|fall|slip|"
+    r"declin|tank|plunge|crash|slump|tumbl)\w*\b[^.|]{0,25}\b(shares?|stock|share price)\b"
+    r"|\bsell[- ]?off\b"
+    r"|\bshares?\s+(up|down)\s+\d",
+    re.IGNORECASE,
+)
+
+
 def _is_team_junk(it: dict) -> bool:
     if _JUNK_SOURCE_RE.search(it["source"]):
+        return True
+    if _TEAM_STOCK_MOVE_RE.search(it["title"]):
         return True
     body = f'{it["title"]} {it["summary"]}'
     if _CRYPTO_RE.search(body) or _NOT_NEWS_RE.search(body):
@@ -226,7 +243,7 @@ _FIN_RELEVANCE_RE = re.compile(
     r"rating (agency|action|upgrad\w*|downgrad\w*|outlook)|"
     r"q[1-4]\s?(fy)?\d*\s?(results|profit|earnings|net profit)|"
     r"net interest margin|\bnim\b|gross npa|net npa|dividend|"
-    r"stake sale|acqui(re|sition)|merger|ipo\b|listing|shares?\b|"
+    r"stake sale|acqui(re|sition)|merger|ipo\b|listing|share (sale|issue|allotment)|"
     r"raises?\s+(rs\.?\s?)?[\d.]+\s*(crore|cr\b|million|billion|mn\b|bn\b)|"
     r"funding round|series [a-f]\b|fund ?rais(e|ing))\b",
     re.IGNORECASE,
@@ -239,6 +256,20 @@ _FIN_RELEVANCE_RE = re.compile(
 # Ltd", "Hira Electro Smelters Limited"), and it slipped past the relevance
 # gate purely because the agency's own name is a financial keyword.
 _CRA_TAG_RE = re.compile(r"\bRATING\s*[—–-]", re.IGNORECASE)
+
+# A regulator's DECISION is S3 whoever reports it. The source-based S3 rule
+# only fires when the item came from the regulator's own feed, so the same
+# decision written up by ET or Mint fell through to S2. Matches action verbs
+# only — a story that merely cites RBI data ("RBI data shows credit growth
+# at 18.6%") is sector news, not regulation. Checked AFTER the S4/S5 keyword
+# tests so monetary policy still reads as macro.
+_REG_ACTION_RE = re.compile(
+    r"\b(rbi|sebi|irdai|nhb|pfrda|ibbi|nclt)\b[^.|]{0,45}?\b"
+    r"(allow|permit|direct|mandat|tighten|eas(e|es|ing)|relax|issu|notif|amend|"
+    r"propos|approv|bars?\b|banned|bans\b|cap(s|ped)?\b|prescrib|introduc|"
+    r"extend|defer|withdraw|revis|norms?\b|guidelines?\b|circular)\w*",
+    re.IGNORECASE,
+)
 
 
 def _is_cra_announcement(it: dict) -> bool:
@@ -536,9 +567,17 @@ def _classify(it: dict, company_phrases: list[str]) -> str | None:
     if src.startswith(_S3_SOURCES) or "sebi" in src:
         return "S3"
     if _S4_RE.search(text):
+        # A regulator's circular ABOUT debentures/CP is regulation (S3), not
+        # bond-market news (S4) — "SEBI tightens disclosure norms for debenture
+        # trustees" is S3. Macro still wins, so an RBI growth-forecast revision
+        # stays in S5 rather than being read as a regulatory action.
+        if _REG_ACTION_RE.search(text) and not _S5_RE.search(text):
+            return "S3"
         return "S4"
     if _S5_RE.search(text):
         return "S5"
+    if _REG_ACTION_RE.search(text):
+        return "S3"
     # Nothing matched a section-specific signal -- only fall into the S2
     # default if the story is actually about the financial sector. Otherwise
     # this is general news (geopolitics, sports, human-interest) that the
