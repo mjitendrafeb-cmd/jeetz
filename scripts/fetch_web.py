@@ -655,6 +655,181 @@ def fetch_custom_url(url: str) -> list[str]:
     return items
 
 
+# ---------------------------------------------------------------------------
+# EXTRA RSS FEEDS — regulators, financial press, sector trade press
+#
+# Why RSS and not the HTML scraper: the custom-URL scraper depends on a site's
+# markup, so business-standard.com and financialexpress.com have been failing
+# on every run ("Could not fetch") and contributing nothing. RSS is stable,
+# survives bot protection, and carries a publication date — which also lets
+# the 48h recency filter work on press items for the first time.
+#
+# Each source lists CANDIDATE urls tried in order. Feeds move and get retired,
+# so a dead url falls through to the next instead of killing the source. Every
+# feed logs its own item count; the Saturday quality report lists any source
+# returning 0 so nothing rots silently.
+# ---------------------------------------------------------------------------
+
+_EXTRA_RSS_FEEDS = [
+    # (label, tier, cap, [candidate urls])
+    # ── Tier 1: regulators, tribunals, official statistics ──────────────
+    ("IBBI", "T1", 8, [
+        "https://ibbi.gov.in/rss.xml",
+        "https://ibbi.gov.in/en/rss",
+        "https://www.ibbi.gov.in/rss.xml",
+    ]),
+    ("NHB", "T1", 6, [
+        "https://nhb.org.in/rss.xml",
+        "https://nhb.org.in/feed/",
+        "https://www.nhb.org.in/rss.xml",
+    ]),
+    ("IRDAI", "T1", 6, [
+        "https://irdai.gov.in/rss.xml",
+        "https://irdai.gov.in/web/guest/rss",
+        "https://www.irdai.gov.in/rss.xml",
+    ]),
+    ("MOSPI", "T1", 6, [
+        "https://mospi.gov.in/rss.xml",
+        "https://www.mospi.gov.in/rss.xml",
+        "https://mospi.gov.in/web/mospi/rss",
+    ]),
+    ("PIB", "T1", 10, [
+        "https://pib.gov.in/RssMain.aspx?ModId=6&Lang=1&Regid=3",
+        "https://www.pib.gov.in/RssMain.aspx?ModId=6&Lang=1&Regid=3",
+        "https://pib.gov.in/rss/lreleng.xml",
+    ]),
+    ("NCLT", "T1", 6, [
+        "https://nclt.gov.in/rss.xml",
+        "https://www.nclt.gov.in/rss.xml",
+    ]),
+    # Labelled with a suffix so the S3 source rule cannot also swallow CCIL,
+    # which is a bond-market (S4) source.
+    ("CCI-India", "T1", 5, [
+        "https://www.cci.gov.in/rss.xml",
+        "https://cci.gov.in/rss.xml",
+    ]),
+
+    # ── Tier 2: financial press ─────────────────────────────────────────
+    ("Business Standard", "T2", 12, [
+        "https://www.business-standard.com/rss/finance-103.rss",
+        "https://www.business-standard.com/rss/companies-101.rss",
+        "https://www.business-standard.com/rss/home_page_top_stories.rss",
+    ]),
+    ("Business Standard Markets", "T2", 8, [
+        "https://www.business-standard.com/rss/markets-106.rss",
+    ]),
+    ("Financial Express", "T2", 10, [
+        "https://www.financialexpress.com/business/banking-finance/feed/",
+        "https://www.financialexpress.com/feed/",
+    ]),
+    ("Economic Times Banking", "T2", 12, [
+        "https://economictimes.indiatimes.com/industry/banking/finance/rssfeeds/13358259.cms",
+        "https://economictimes.indiatimes.com/industry/banking/finance/banking/rssfeeds/13358319.cms",
+    ]),
+    ("Economic Times Bonds", "T2", 8, [
+        "https://economictimes.indiatimes.com/markets/bonds/rssfeeds/2146843.cms",
+    ]),
+    ("Livemint Money", "T2", 10, [
+        "https://www.livemint.com/rss/money",
+        "https://www.livemint.com/rss/markets",
+    ]),
+    ("Livemint Companies", "T2", 8, [
+        "https://www.livemint.com/rss/companies",
+    ]),
+    ("Moneycontrol", "T2", 10, [
+        "https://www.moneycontrol.com/rss/business.xml",
+        "https://www.moneycontrol.com/rss/latestnews.xml",
+    ]),
+    ("Hindu BusinessLine", "T2", 10, [
+        "https://www.thehindubusinessline.com/money-and-banking/feeder/default.rss",
+        "https://www.thehindubusinessline.com/feeder/default.rss",
+    ]),
+    ("Business Today", "T2", 8, [
+        "https://www.businesstoday.in/rssfeeds/?id=225",
+        "https://www.businesstoday.in/rssfeeds/?id=home",
+    ]),
+    ("NDTV Profit", "T2", 8, [
+        "https://feeds.feedburner.com/ndtvprofit-latest",
+        "https://www.ndtvprofit.com/feed",
+    ]),
+    ("CNBC-TV18", "T2", 8, [
+        "https://www.cnbctv18.com/commonfeeds/v1/cne/rss/business.xml",
+        "https://www.cnbctv18.com/rss/business.xml",
+    ]),
+
+    # ── Tier 4: fintech / NBFC funding trade press ──────────────────────
+    # A funding round IS a liquidity event for an unlisted NBFC, and these
+    # outlets break those before the mainstream press picks them up.
+    ("Entrackr", "T2", 6, ["https://entrackr.com/feed/"]),
+    ("Inc42", "T2", 6, ["https://inc42.com/feed/"]),
+    ("Medianama", "T2", 5, ["https://www.medianama.com/feed/"]),
+]
+
+
+def _feed_entries(url: str):
+    """Fetch through the shared session (real browser headers) rather than
+    letting feedparser do its own bare request, which gets 403'd."""
+    try:
+        r = _get(url)
+        if not r:
+            return []
+        parsed = feedparser.parse(r.content)
+        return parsed.entries or []
+    except Exception:
+        return []
+
+
+def _entry_pub(entry) -> tuple[str, bool]:
+    """Return (formatted date, is_recent_48h). Undated entries are kept."""
+    pub = entry.get("published_parsed") or entry.get("updated_parsed")
+    if not pub:
+        return "", True
+    try:
+        age = time.time() - time.mktime(pub)
+        return time.strftime("%d %b", pub), age <= 48 * 3600
+    except Exception:
+        return "", True
+
+
+def fetch_extra_rss() -> list[str]:
+    items: list[str] = []
+    dead: list[str] = []
+    for label, tier, cap, urls in _EXTRA_RSS_FEEDS:
+        entries = []
+        for u in urls:
+            entries = _feed_entries(u)
+            if entries:
+                break
+        if not entries:
+            dead.append(label)
+            print(f"[fetch_web] RSS {label}: no data (tried {len(urls)} url(s))")
+            continue
+
+        kept = 0
+        for e in entries:
+            if kept >= cap:
+                break
+            title = _clean(e.get("title", "")).strip()
+            if len(title) < 20:
+                continue
+            pub_str, recent = _entry_pub(e)
+            if not recent:
+                continue
+            summary = _clean(e.get("summary", e.get("description", ""))).strip()
+            link = e.get("link", "")
+            date_part = f" | PUB:{pub_str}" if pub_str else ""
+            link_part = f" | URL:{link}" if link else ""
+            items.append(
+                f"[{tier}]{label}: {title} — {summary[:180]}{date_part}{link_part}"
+            )
+            kept += 1
+        print(f"[fetch_web] RSS {label}: {kept} items")
+    if dead:
+        print(f"[fetch_web] RSS feeds returning nothing: {', '.join(dead)}")
+    print(f"[fetch_web] Extra RSS total: {len(items)} items")
+    return items
+
+
 def fetch_custom_urls(urls: list[str]) -> list[str]:
     """Fetch all custom URLs with a 1s gap between requests."""
     all_items: list[str] = []
@@ -1054,6 +1229,11 @@ def fetch_all_web(sources: dict | None = None, custom_urls: list[str] | None = N
         print("[fetch_web] Fetching macro releases...")
         all_items.extend(fetch_macro_releases())
 
+    if on("extra_rss"):
+        print("[fetch_web] Fetching extra RSS feeds (regulators, press, trade)...")
+        all_items.extend(fetch_extra_rss())
+
+    # Kept as a fallback: the scrapers still cover sites with no usable feed.
     if custom_urls:
         print(f"[fetch_web] Fetching {len(custom_urls)} custom URL(s)...")
         all_items.extend(fetch_custom_urls(custom_urls))

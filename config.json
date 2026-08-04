@@ -36,7 +36,8 @@
     "bond_issuances": true,
     "mca_charges": true,
     "nsdl_defaults": true,
-    "macro_releases": true
+    "macro_releases": true,
+    "extra_rss": true
   },
   "telegram_channels": [
     "@bank_nbfc_fintech",

@@ -74,7 +74,10 @@ _S5_RE = re.compile(
 # the headline dodges every keyword (mirrors the 7:30 AI, which knows an
 # RBI-DBIE / MOSPI release is macro from context, not keywords).
 _S5_SOURCES = ("rbi-dbie", "macro-release", "mospi", "pib")
-_S3_SOURCES = ("rbi", "sebi", "nhb", "rbi-enforcement")
+# "cci-india" (not bare "cci") so the prefix test cannot also swallow CCIL,
+# which is a bond-market source and belongs in S4.
+_S3_SOURCES = ("rbi", "sebi", "nhb", "irdai", "ibbi", "nclt",
+               "cci-india", "pfrda", "rbi-enforcement")
 # 7:30 rule: "Any RBI Imposes Monetary Penalty / SEBI Order / NHB Penalty or
 # enforcement action ALWAYS goes to S3 — never S2 — regardless of entity."
 _PENALTY_RE = re.compile(
@@ -223,7 +226,9 @@ _FIN_RELEVANCE_RE = re.compile(
     r"rating (agency|action|upgrad\w*|downgrad\w*|outlook)|"
     r"q[1-4]\s?(fy)?\d*\s?(results|profit|earnings|net profit)|"
     r"net interest margin|\bnim\b|gross npa|net npa|dividend|"
-    r"stake sale|acqui(re|sition)|merger|ipo\b|listing|shares?\b)\b",
+    r"stake sale|acqui(re|sition)|merger|ipo\b|listing|shares?\b|"
+    r"raises?\s+(rs\.?\s?)?[\d.]+\s*(crore|cr\b|million|billion|mn\b|bn\b)|"
+    r"funding round|series [a-f]\b|fund ?rais(e|ing))\b",
     re.IGNORECASE,
 )
 
