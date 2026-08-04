@@ -1,0 +1,18 @@
+{
+  "_README": [
+    "Optional manual search aliases: company name -> extra search terms.",
+    "Acronyms are derived automatically for names of 4+ significant words",
+    "(SIDBI, MUDRA, NABARD fall out with no entry here), so only add a name",
+    "when the automatic rules cannot produce it: a compressed brand name, a",
+    "ticker, or a former name the press still uses.",
+    "Keys must match the company text in team.json exactly (case-insensitive)."
+  ],
+  "Pinelabs": ["Pine Labs"],
+  "Small Industries Development Bank of India": ["SIDBI"],
+  "Micro Units Development and Refinance Agency Limited": ["MUDRA"],
+  "National Bank For Financing Infrastructure And Development": ["NaBFID"],
+  "National Housing Bank": ["NHB"],
+  "India Infrastructure Finance Company Limited": ["IIFCL"],
+  "General Insurance Corporation of India": ["GIC Re"],
+  "The South Indian Bank Limited": ["South Indian Bank"]
+}

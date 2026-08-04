@@ -409,6 +409,7 @@ def _parse_gnews(url: str, label: str):
 def fetch_google_news() -> list[str]:
     items = []
     seen_titles: set[str] = set()
+    alias_map = _load_aliases()
 
     for (tag, query) in _GOOGLE_QUERIES:
         try:
@@ -503,6 +504,97 @@ def fetch_newsapi_news(api_key: str) -> list[str]:
         return []
 
 
+# ---------------------------------------------------------------------------
+# Entity naming — query construction and verification
+# ---------------------------------------------------------------------------
+# The old query was the first TWO words of the company name, unquoted:
+#   "Small Industries Development Bank of India" -> "Small Industries"
+#   "Micro Units Development and Refinance Agency" -> "Micro Units"
+#   "Bank of India" / "Bank of Baroda" / "Bank of Maharashtra" -> "Bank of"
+# Measured on the live 370-entity list: 30 entities shared a query with at
+# least one other entity, and ~9 queried a common English phrase. That is the
+# root cause of the recurring mis-attribution warnings — SIDBI collecting
+# "small business" stories, MUDRA collecting "micro-businesses". The guard in
+# the team mailer then discarded them, so the entity burned a request and got
+# NO coverage at all.
+#
+# Now: quote the full core name (so "Bank of India" cannot match Baroda) and
+# OR in an auto-derived acronym, which handles exactly the worst cases —
+# SIDBI and MUDRA fall out of the initials with no manual data entry.
+
+_LEGAL_SUFFIX_RE = re.compile(
+    r"\b(limited|ltd|private|pvt|public|company|co|corporation|corp|"
+    r"incorporated|inc|llp|plc)\b\.?", re.IGNORECASE)
+_PAREN_CODE_RE = re.compile(r"\([^)]*\)")          # "(BLR)", "(CQR)"
+_TRAILING_CODE_RE = re.compile(r"\s*[-–]\s*[A-Za-z]{1,4}\s*$")   # "- MA"
+_NAME_STOP = {"of", "and", "the", "for", "&", "in"}
+
+
+def _core_name(company: str) -> str:
+    """Strip legal suffixes and branch codes: the searchable core."""
+    s = _PAREN_CODE_RE.sub(" ", company or "")
+    s = _TRAILING_CODE_RE.sub("", s)
+    s = _LEGAL_SUFFIX_RE.sub(" ", s)
+    s = " ".join(s.split()).strip(" ,.-")
+    # Never strip a name down to nothing ("India Limited" -> "India").
+    return s or " ".join((company or "").split()[:3])
+
+
+def _name_acronym(core: str) -> str:
+    """SIDBI / MUDRA / NABARD style initialism. Only for names long enough
+    that the acronym is meaningful — a 2-word name's initials are noise."""
+    words = [w for w in core.split() if w.lower() not in _NAME_STOP and w[:1].isalpha()]
+    return "".join(w[0].upper() for w in words) if len(words) >= 4 else ""
+
+
+def _load_aliases() -> dict:
+    """Optional manual overrides: aliases.json maps company -> [alias, ...].
+    Auto-acronyms cover most cases; this is for names the rules cannot
+    derive (Pinelabs -> "Pine Labs", tickers, former names)."""
+    base = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    try:
+        with open(os.path.join(base, "aliases.json"), encoding="utf-8") as f:
+            data = json.load(f)
+        return {k.strip().lower(): [str(a) for a in v if str(a).strip()]
+                for k, v in data.items()}
+    except Exception:
+        return {}
+
+
+def _company_query(company: str, aliases: list[str]) -> str:
+    """Quoted phrase OR acronym OR aliases — precision over recall."""
+    core = _core_name(company)
+    parts = [f'"{core}"']
+    ac = _name_acronym(core)
+    if ac:
+        parts.append(ac)
+    for a in aliases:
+        a = a.strip()
+        if a:
+            parts.append(f'"{a}"' if " " in a else a)
+    return " OR ".join(parts)
+
+
+def _story_mentions_entity(company: str, aliases: list[str], text: str) -> bool:
+    """Verify the story actually concerns this entity. Replaces the old
+    first-word test, which passed anything starting with 'Small', 'Bank',
+    'National'..."""
+    t = (text or "").lower()
+    core = _core_name(company)
+    if core and core.lower() in t:
+        return True
+    ac = _name_acronym(core)
+    if ac and re.search(rf"\b{re.escape(ac)}\b", text or "", re.IGNORECASE):
+        return True
+    for a in aliases:
+        if a.strip() and a.strip().lower() in t:
+            return True
+    # Distinctive multi-word fallback: every significant word present.
+    sig = [w.lower() for w in core.split()
+           if len(w) > 3 and w.lower() not in _NAME_STOP]
+    return len(sig) >= 2 and all(w in t for w in sig[:3])
+
+
 def fetch_company_news(per_company_cap: int = 3) -> list[str]:
     """per_company_cap: how many stories to keep from each company's
     Google News results. Default 3 = the 7:30 report's long-standing
@@ -522,13 +614,13 @@ def fetch_company_news(per_company_cap: int = 3) -> list[str]:
     empty_streak = 0
     for company in companies:
         try:
-            short_name = " ".join(company.split()[:2])
-            query = f"{short_name} India finance"
+            aliases = alias_map.get(company.strip().lower(), [])
+            query = _company_query(company, aliases)
             url = (
                 f"https://news.google.com/rss/search"
                 f"?q={requests.utils.quote(query + ' when:2d')}&hl=en-IN&gl=IN&ceid=IN:en"
             )
-            feed = _parse_gnews(url, short_name)
+            feed = _parse_gnews(url, _core_name(company))
             # Google throttles rapid-fire requests by returning empty feeds.
             # If many queries come back empty in a row, back off harder.
             if not feed.entries:
@@ -554,8 +646,8 @@ def fetch_company_news(per_company_cap: int = 3) -> list[str]:
                 summary = _clean(entry.get("summary", entry.get("description", ""))).strip()
                 if _is_market_ticker(raw_title, summary):
                     continue
-                first_word = company.lower().split()[0]
-                if first_word not in (raw_title + " " + summary).lower():
+                if not _story_mentions_entity(company, aliases,
+                                              raw_title + " " + summary):
                     continue
                 seen_titles.add(raw_title)
                 source = "Google News"
