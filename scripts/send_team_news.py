@@ -848,6 +848,75 @@ _RATING_ACTION_RE = re.compile(
     re.IGNORECASE,
 )
 
+# ---------------------------------------------------------------------------
+# (B)+(G) Event taxonomy and materiality
+# ---------------------------------------------------------------------------
+# Previously every surviving item was weighted the same and ordered by fetch
+# order, so a branch opening sat above a downgrade. A credit desk needs
+# prioritisation, not just filtration. Each item is classified into an event
+# type; the type carries a materiality score that drives S1/S2-S5 ordering,
+# the Top-5 selection, and whether an item earns a full card at all.
+_EVENTS = [
+    # (key, label, score, colour, regex)
+    ("DEFAULT", "DEFAULT", 10, "#b91c1c", re.compile(
+        r"\b(defaults?\b|defaulted|payment delay|delays? in (payment|repayment|servicing)|"
+        r"missed (payment|interest|coupon)|invocation of (pledge|guarantee)|"
+        r"insolvency|\bcirp\b|nclt admits?|liquidation|wilful defaulter|"
+        r"\bsma-?[012]\b|debt restructur)", re.IGNORECASE)),
+    ("RATING", "RATING", 9, "#15803d", re.compile(
+        r"\b(upgrad\w*|downgrad\w*|rating watch|credit watch|placed on watch|"
+        r"outlook (revised|negative|positive|stable)|revises? outlook|"
+        r"reaffirm\w*|withdraws? rating|assigns? [^.|]{0,25}rating)", re.IGNORECASE)),
+    ("REGULATORY", "REGULATORY", 8, "#b45309", re.compile(
+        r"\b(monetary penalty|imposes? (a )?penalt|penalis|penaliz|enforcement action|"
+        r"adjudication order|show cause notice|debarr|cease and desist|sebi order|"
+        r"compounding order|licence (cancel|revok)|registration cancel)", re.IGNORECASE)),
+    ("MANAGEMENT", "MANAGEMENT", 7, "#7c3aed", re.compile(
+        r"\b((ceo|cfo|md|managing director|chairman|auditor|director)[^.|]{0,30}"
+        r"(resign|steps? down|quits?|exits?|appoint|elevat)|"
+        r"(resign|steps? down|quits?)[^.|]{0,25}(ceo|cfo|md|chairman|auditor)|"
+        r"auditor (resign|change)|board (approves|appoints))", re.IGNORECASE)),
+    ("FUNDING", "FUNDING", 6, "#1e3a8a", re.compile(
+        r"\b(raises?\s+(rs\.?\s?)?[\d.,]+\s*(crore|cr\b|million|billion)|"
+        r"fund ?rais\w*|funding round|series [a-f]\b|\bqip\b|rights issue|"
+        r"preferential allotment|capital infusion|tier[- ]?(i|ii|1|2) bonds?|"
+        r"issues? (ncds?|debentures?|bonds?)|capital raise)", re.IGNORECASE)),
+    ("M&A", "M&amp;A", 6, "#0f766e", re.compile(
+        r"\b(acqui(re|res|red|sition)|merger|amalgamat\w*|stake (sale|buy|purchase|acquisition)|"
+        r"divest\w*|takeover|open offer|slump sale)", re.IGNORECASE)),
+    ("RESULTS", "RESULTS", 4, "#525252", re.compile(
+        r"\b(q[1-4]\s?(fy)?\d*|quarterly|net profit|\bpat\b|\bnii\b|"
+        r"net interest income|earnings|results?\b|gross npa|net npa)", re.IGNORECASE)),
+]
+
+
+def _event_of(it: dict) -> tuple[str, str, int, str]:
+    """(key, label, score, colour). Highest-materiality match wins."""
+    text = f'{it.get("title","")} {it.get("summary","")}'
+    for key, label, score, colour, rx in _EVENTS:
+        if rx.search(text):
+            return key, label, score, colour
+    return "OTHER", "", 1, "#9ca3af"
+
+
+def _materiality(it: dict) -> int:
+    """Event score plus context: a watchlist name and a primary source both
+    raise how much the item deserves the reader's attention."""
+    _, _, score, _ = _event_of(it)
+    if it.get("companies"):
+        score += 2
+    if "T1" in (it.get("tags") or ""):
+        score += 1
+    return score
+
+
+# (D) Recency: rating-agency press pages and the custom scraper carry no
+# date, and the 7:30 prompt warns those "often surface months-old actions".
+# Undated items are kept — a CRISIL action matters even undated — but they
+# never lead a section, and they say so on the card.
+def _is_undated(it: dict) -> bool:
+    return not (it.get("pub") or "").strip()
+
 
 _ARCHIVE_URL = "https://mjitendrafeb-cmd.github.io/jeetz/archive/"
 
@@ -1036,6 +1105,27 @@ _DOWNGRADE_RE = re.compile(r"\bdowngrad\w*|defaults?\b|outlook (revised to )?neg
                            r"rating watch|delays? (in )?(payment|repayment)", re.IGNORECASE)
 
 
+def _event_badge(it: dict) -> str:
+    """(G) A one-word event tag makes a long section scannable in seconds."""
+    key, label, _score, colour = _event_of(it)
+    if not label:
+        return ""
+    # Direction matters for a rating action — up and down are not the same news.
+    if key == "RATING":
+        text = f'{it.get("title","")} {it.get("summary","")}'
+        if _DOWNGRADE_RE.search(text):
+            colour, label = "#b91c1c", "&#9660; RATING"
+        elif _UPGRADE_RE.search(text):
+            colour, label = "#15803d", "&#9650; RATING"
+    return (f'<span style="color:{colour};font-size:9px;font-weight:800;'
+            f'letter-spacing:1px;">{label}</span> ')
+
+
+def _undated_note(it: dict) -> str:
+    return ('<span style="color:#b0aa9c;font-size:9px;"> &middot; date unconfirmed</span>'
+            if _is_undated(it) else "")
+
+
 def _rating_badge(it: dict) -> str:
     """Small badge ahead of the headline for rating actions (credit desks
     care about these first)."""
@@ -1053,8 +1143,9 @@ def _rating_badge(it: dict) -> str:
 
 
 def _rating_first(sec_items: list[dict]) -> list[dict]:
-    return sorted(sec_items,
-                  key=lambda it: 0 if _RATING_ACTION_RE.search(it["title"] + " " + it["summary"]) else 1)
+    """Most material first; an undated item never outranks a dated one of the
+    same materiality, and never leads."""
+    return sorted(sec_items, key=lambda it: (-_materiality(it), _is_undated(it)))
 
 
 _STATS_PATH = os.path.join(_REPO_ROOT, "data", "team_stats.json")
@@ -1140,6 +1231,12 @@ def _write_archive(archive_html: str, today: "datetime.date") -> None:
 
 
 def _story_score(it: dict) -> int:
+    """Retained name; now delegates to the shared materiality score so the
+    email's Top-5 and the newspaper's ordering can never disagree."""
+    return _materiality(it)
+
+
+def _legacy_story_score(it: dict) -> int:
     """Rank stories for the Top-5 table the way the AI ranks its takeaways:
     watchlist first, then penalties/rating actions, then regulatory."""
     text = it["title"] + " " + it["summary"]
@@ -1178,8 +1275,8 @@ def _np_card(it: dict, hero: bool = False, company: str = "") -> str:
     # No filler line when a feed gives no description — just omit it.
     summary = _esc(it["summary"])
     body = f'<p class="wh">{summary}</p>' if summary else ""
-    return (f'<div class="{cls}"><p class="src">{" &bull; ".join(bits)}</p>'
-            f'<p class="hl">{_rating_badge(it)}{_esc(it["title"])}</p>'
+    return (f'<div class="{cls}"><p class="src">{" &bull; ".join(bits)}{_undated_note(it)}</p>'
+            f'<p class="hl">{_event_badge(it)}{_esc(it["title"])}</p>'
             f'{body}{link}{also}</div>')
 
 
@@ -1215,7 +1312,7 @@ def _np_partb(p: dict, items: list[dict], by_section: dict) -> tuple[str, int, l
             chosen.extend(it for _, it in sec)
             # Rating actions lead; 7:30 rule: every watchlist item is a full
             # article — no cap.
-            sec.sort(key=lambda ci: 0 if _RATING_ACTION_RE.search(ci[1]["title"] + " " + ci[1]["summary"]) else 1)
+            sec.sort(key=lambda ci: (-_materiality(ci[1]), _is_undated(ci[1])))
             for i, (comp, it) in enumerate(sec):
                 parts.append(_np_card(it, hero=(i == 0), company=comp))
         else:
@@ -1232,7 +1329,13 @@ def _np_partb(p: dict, items: list[dict], by_section: dict) -> tuple[str, int, l
             # story) were demoted to one-liners purely by fetch order. The old
             # [:20] slice also dropped everything past 20 outright.
             sec_items = _rating_first(sec_items)
-            cards, brief = sec_items[:_MAX_CARDS], sec_items[_MAX_CARDS:]
+            # An item with no recognisable credit event earns a one-liner,
+            # not a card — this is the "may not be material, pass by" case,
+            # and it is a judgement we can defend, unlike the old cut at
+            # whatever position 6 happened to be.
+            material = [it for it in sec_items if _materiality(it) > 1]
+            routine = [it for it in sec_items if _materiality(it) <= 1]
+            cards, brief = material[:_MAX_CARDS], material[_MAX_CARDS:] + routine
             parts.extend(_np_card(it) for it in cards)
             if brief:
                 # Overflow only, so nothing is ever silently dropped.
