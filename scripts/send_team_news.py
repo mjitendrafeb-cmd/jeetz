@@ -71,6 +71,7 @@ _S5_RE = re.compile(
     r"imf|world bank|\badb\b|\boecd\b|sovereign (rating|bond)|"
     r"dollar index|us treasur(y|ies)|brent|gold price|"
     r"consumer price|wholesale price|per capita income|employment (data|rate)|"
+    r"credit ratio|upgrade[- ]to[- ]downgrade ratio|india inc\b|corporate india\b|"
     r"bank of (japan|england)|\bboj\b|\bpboc\b)\b",
     re.IGNORECASE,
 )
@@ -310,7 +311,6 @@ _FI_SIGNAL_RE = re.compile(
     r"insurer|insuranc\w*|irdai|mutual fund|\bamc\b|asset management|"
     r"asset reconstruction|\barc\b|debenture trustee|chit fund|"
     r"small finance bank|payments? bank|cooperative bank|co-operative bank|"
-    r"crisil|icra|careedge|care ratings|india ratings|rating agency|"
     r"\brbi\b|\bsebi\b|\bnhb\b|nabard|sidbi|pfrda|\bibbi\b|"
     r"financial (services|institution)|finance (company|limited|ltd)|\bfinance\b|"
     r"lender[s]?|\bnpa\b|non-performing|gross npa|net npa|"
@@ -345,7 +345,6 @@ _FI_CORE_RE = re.compile(
     r"microfinance|\bmfi\b|fintech|broking|brokerage|insurer|insuranc\w*|irdai|"
     r"mutual fund|\bamc\b|asset management|asset reconstruction|"
     r"small finance bank|payments? bank|cooperative bank|co-operative bank|"
-    r"crisil|icra|careedge|care ratings|india ratings|rating agency|"
     r"\brbi\b|\bsebi\b|\bnhb\b|nabard|sidbi|pfrda|\bibbi\b|"
     r"financial (services|institution))\b",
     re.IGNORECASE,
