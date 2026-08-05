@@ -182,9 +182,9 @@
     },
     {
       "title": "India Inc credit ratio declines in H2FY26, outlook stable but cautious: Crisil",
-      "expect": "S2",
-      "why": "rating-agency SECTOR study must survive the CRA-announcement drop",
-      "expect_team": "S2"
+      "expect": "S5",
+      "why": "economy-wide credit study is MACRO, not one sector's news — and must survive the rating-agency name being removed from the S2 gate",
+      "expect_team": "S3"
     },
     {
       "title": "India's bank credit growth remains robust at 18.6% in June 2026",
@@ -283,6 +283,18 @@
       "expect": "S2",
       "why": "funding story with a real FI signal",
       "expect_team": "S2"
+    },
+    {
+      "title": "CRISIL upgrades Shree Cement to AA+/Stable",
+      "expect": null,
+      "expect_team": null,
+      "why": "rating action on a non-BFSI, non-watchlist issuer — an agency name must not make it sector news"
+    },
+    {
+      "title": "NBFC asset quality to improve in FY27, says CRISIL",
+      "expect": "S2",
+      "expect_team": "S2",
+      "why": "qualifies on 'nbfc', not on the agency name"
     }
   ]
 }
