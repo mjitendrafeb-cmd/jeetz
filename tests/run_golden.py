@@ -57,17 +57,20 @@ def verdict(stn, stock_move, non_english, case):
     """Run one item through the same order the live pipeline uses."""
     raw = f'[{case.get("tags","")}]{case.get("source","ET")}: {case["title"]}'
     if non_english(raw):
-        return None
+        return None, None
     if stock_move.search(case["title"]):
-        return None
+        return None, None
     it = {
         "title": case["title"], "summary": case.get("summary", ""),
         "tags": case.get("tags", ""), "source": case.get("source", "ET"),
         "url": "", "pub": "05 Aug", "wl_company": "", "companies": [],
     }
     if stn._is_out_of_scope(it) or stn._is_team_junk(it):
-        return None
-    return stn._classify(it, [])
+        return None, None
+    # Both taxonomies are checked: _classify() (five sections) is still
+    # imported by send_credit_report.py for the 7:30 fallback report, while
+    # _classify_team() (three sections) drives the 7:40 mail.
+    return stn._classify(it, []), stn._classify_team(it, [])
 
 
 def main() -> int:
@@ -78,23 +81,23 @@ def main() -> int:
 
     failures = []
     for c in cases:
-        got = verdict(stn, stock_move, non_english, c)
-        if got != c["expect"]:
-            failures.append((c, got))
+        got, got_team = verdict(stn, stock_move, non_english, c)
+        if got != c["expect"] or got_team != c.get("expect_team"):
+            failures.append((c, got, got_team))
 
-    width = max(len(str(c["expect"])) for c in cases)
     for c in cases:
-        got = verdict(stn, stock_move, non_english, c)
-        mark = "ok  " if got == c["expect"] else "FAIL"
-        print(f"{mark} want={str(c['expect']):>{width}}  got={str(got):>{width}}  "
-              f"{c['title'][:62]}")
+        got, got_team = verdict(stn, stock_move, non_english, c)
+        good = got == c["expect"] and got_team == c.get("expect_team")
+        print(f"{'ok  ' if good else 'FAIL'} 7:30={str(got):>4}  "
+              f"7:40={str(got_team):>4}  {c['title'][:58]}")
 
     print(f"\n{len(cases) - len(failures)}/{len(cases)} passed")
     if failures:
         print("\nREGRESSIONS:")
-        for c, got in failures:
+        for c, got, got_team in failures:
             print(f"  - {c['title'][:70]}")
-            print(f"      expected {c['expect']}, got {got}")
+            print(f"      7:30 expected {c['expect']}, got {got}")
+            print(f"      7:40 expected {c.get('expect_team')}, got {got_team}")
             print(f"      why this case exists: {c['why']}")
         return 1
     return 0
