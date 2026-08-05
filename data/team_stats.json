@@ -208,5 +208,75 @@
    "Telegram": 28,
    "Web Scraper": 110
   }
+ },
+ {
+  "date": "2026-08-05",
+  "fetched": 133,
+  "delivered_pool": 88,
+  "junk": 14,
+  "geo": 0,
+  "stale": 0,
+  "dup": 10,
+  "sections": {
+   "S1": 12,
+   "S2": 19,
+   "S3": 31,
+   "S4": 18,
+   "S5": 8
+  },
+  "mails": 6,
+  "failed": [],
+  "source_summary": {
+   "RBI RSS": 20,
+   "RBI Enforcement": 0,
+   "SEBI RSS": 20,
+   "Rating Agencies": 2,
+   "Google News": 23,
+   "Watchlist (Google)": 0,
+   "BSE Announcements": 0,
+   "BSE Financials": 0,
+   "Telegram": 28,
+   "Web Scraper": 196
+  },
+  "dropped_samples": {
+   "relevance": [
+    "Franklin India Short Term Fund NFO Opens August 5",
+    "EIP and OceanSound-backed Convey acquires government and utility software Selectron",
+    "Nordic Capital to carve out BWXT\u2019s medical business in $800m transaction",
+    "BV Investments backs workforce compliance service provider Thomas & Company",
+    "Naval shipbuilding attracts private equity; Sheridan acquires Carolina Components; KKR to take Integer Holding",
+    "US-Iran War LIVE: Pete Hegseth rejects media reports claiming US missile defence stockpiles 'dangerously low'",
+    "#MintMarkets | Stock market closing timings changed: What it means for index funds, ETFs and arbitrage fund in",
+    "\u2734\ufe0f Who answers if data collected by the police & authorities gets to non state actors\u2753 \u2734\ufe0f Was there data abuse",
+    "The deadline for the voter list clean-up exercise, the Special Intensive Revision (SIR), in the national capit",
+    "A consumer court in Kerala has directed Air India to pay \u20b91.36 lakh in compensation to a man who was stranded ",
+    "The FSSAI has banned three Old Monk rum variants for using artificial flavours instead of proper ageing method",
+    "2yr resistance breakout in smallcap index",
+    "Muthoot Finance crashes 14% post Q1; analysts flag margin pressure - Business Standard",
+    "Bharti Airtel Q1 preview: Analysts see 15% revenue growth; ARPU may rise 2% - Business Standard",
+    "Stocks to watch today: Maruti Suzuki, ITC, ZEEL, Voda Idea, auto stocks - Business Standard",
+    "Ajinkya Kawale - Business Standard",
+    "Hubtown Q1 PAT slides 69% YoY to Rs 25 crore - Business Standard",
+    "Madhusudan Kela\u2019s 2 turnaround bets: Which one looks stronger? - financialexpress.com",
+    "Page 221 of ANI : Latest News, Exclusive News Stories, Current Affairs, Events by ANI - financialexpress.com",
+    "Nifty closes 150 points higher from 3:15 pm CAS closing level, Sensex closes down 200 points - financialexpres"
+   ],
+   "junk": [
+    "Scheme for writing books originally in Hindi on Economics/Banking/Financial subjects- Year 2025-26",
+    "MORGAN STANLEY ON INDIA STRATEGY Key Takeaways: India has the ingredients to sustain its recent outperformance",
+    "JEFFERIES ON PIDILITE Recommendation: Hold Target Price: \u20b91,610 Q1 beat driven primarily by margin expansion P",
+    "Axis Securities sees 15% UPSIDE in Aarti Industries Ltd- Temporary Volume Headwinds, Structural Growth Intact;",
+    "PL Capital sees 11% UPSIDE in Shree Cement- Strong volumes, but higher fuel costs impacted Q1",
+    "Axis Securities sees 5% UPSIDE in Shree Cement Limited- Robust Volume Growth; Maintain HOLD",
+    "Axis Securities sees 24% UPSIDE in Aptus Value Housing Finance India Ltd.- Looking Through the Temporary AQ We",
+    "ICICI Securities sees 14% UPSIDE in ITC- The bar just moved higher",
+    "JM Financial sees 13% UPSIDE in ITC- Mixed bag; all eyes on Cigarette EBIT recovery",
+    "What is repo rate? Here's why the RBI's August 5 decision is crucial",
+    "Domestic investors absorb $58 bn FII selloff, emerge as biggest mkt owners - Business Standard",
+    "Kotak Bond - Short Term Fund - Regular (IDCW) - Business Standard",
+    "Oil rebounds after selloff as talks to end US-Iran war remain uncertain - Business Standard",
+    "Stock Radar: Concord Biotech stock showing signs of rebound after falling over 20% from highs; time to buy?"
+   ]
+  }
  }
 ]
