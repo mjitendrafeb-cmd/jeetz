@@ -32,12 +32,14 @@ _SEEN_PATH = os.path.join(_REPO_ROOT, "data", "team_seen.json")  # separate memo
 
 IST = datetime.timezone(datetime.timedelta(hours=5, minutes=30))
 
+# The 7:40 mail uses THREE sections. _classify() further down still returns
+# the old five, untouched, because send_credit_report.py imports it for the
+# 7:30 fallback report — which must not change. _classify_team() maps the
+# five onto these three.
 SECTION_TITLES = {
     "S1": "Watchlist News",
-    "S2": "S2 — NBFC / FI Sector",
-    "S3": "S3 — RBI, SEBI & Regulations",
-    "S4": "S4 — Bond & Money Markets",
-    "S5": "S5 — Macro",
+    "S2": "S2 — Sector & Regulation",
+    "S3": "S3 — Macroeconomic & Markets",
 }
 
 # Section routing mirrors the 7:30 report's prompt:
@@ -665,6 +667,39 @@ def _classify(it: dict, company_phrases: list[str]) -> str | None:
     return "S2" if _is_fin_relevant(it) else None
 
 
+# Old S3 (regulatory circulars) folds into the sector view — a rule about
+# NBFC provisioning is sector news. Old S4 (bond/money markets) joins old S5
+# under macroeconomic, as requested.
+_TEAM_SECTION_MAP = {"S1": "S1", "S2": "S2", "S3": "S2", "S4": "S3", "S5": "S3"}
+
+
+def _kw_hit(text: str, words) -> bool:
+    return any(w and w in text for w in words)
+
+
+def _classify_team(it: dict, company_phrases: list[str],
+                   sector_kw=(), macro_kw=()) -> str | None:
+    """Three-section routing for the 7:40 mail.
+
+    Runs the existing five-section classifier first so every drop rule
+    (junk, geography, relevance, CRA announcements) still applies exactly as
+    tested, then maps the result. Console-supplied keywords override the
+    mapping for anything that is not a watchlist hit, so the desk can steer
+    borderline topics without a code change.
+    """
+    base = _classify(it, company_phrases)
+    if base is None:
+        return None
+    if base == "S1":
+        return "S1"
+    text = f'{it["tags"]} {it["source"]} {it["title"]} {it["summary"]}'.lower()
+    if _kw_hit(text, macro_kw):
+        return "S3"
+    if _kw_hit(text, sector_kw):
+        return "S2"
+    return _TEAM_SECTION_MAP.get(base)
+
+
 def _match_companies(it: dict, rows: list[dict]) -> list[str]:
     """Tag from the fetcher is authoritative (the item came from that
     company's own query); text phrase match is only a fallback. Re-matching
@@ -916,10 +951,14 @@ _MAX_CARDS = 60
 
 _NP_SECTIONS = [
     ("s1", "sb1", "S1", "&#9733; S1 &mdash; MY RATED ENTITIES &amp; WATCHLIST"),
-    ("s2", "sb2", "S2", "S2 &mdash; NBFC, HFC, BROKING, FINTECH, FI SECTORS"),
-    ("s3", "sb3", "S3", "S3 &mdash; RBI, SEBI, NHB REGULATIONS"),
-    ("s4", "sb4", "S4", "S4 &mdash; BOND &amp; MONEY MARKETS"),
-    ("s5", "sb5", "S5", "S5 &mdash; MACROECONOMIC DEVELOPMENTS"),
+    ("s2", "sb2", "S2", "S2 &mdash; SECTOR &amp; REGULATION"),
+    ("s3", "sb3", "S3", "S3 &mdash; MACROECONOMIC &amp; MARKETS"),
+]
+
+_NP_PAGES = [
+    ("s1", "&#9733; My Rated Entities &amp; Watchlist", "1"),
+    ("s2", "Sector &amp; Regulation", "2"),
+    ("s3", "Macroeconomic &amp; Markets", "3"),
 ]
 
 _RATING_ACTION_RE = re.compile(
@@ -1534,6 +1573,129 @@ def _np_partc(top5: list[dict], date_str: str) -> str:
     )
 
 
+def _np_build_attachment(part_b_html: str, today) -> str:
+    """Three-page newspaper.
+
+    send_credit_report.build_attachment() is hardcoded to five pages with an
+    S4/S5 nav, and that file is not to be modified — so the team mail builds
+    its own. Same visual language, three sections.
+    """
+    date_str = today.strftime("%d %B %Y")
+    dow_full = today.strftime("%A, %d %B %Y").upper()
+    edition = f"Vol. {today.year} &middot; Internal Use Only"
+
+    # Split the rendered part B on the section-banner ids.
+    buckets = {sid: "" for sid, _, _ in _NP_PAGES}
+    positions = {}
+    for sid, _, _ in _NP_PAGES:
+        m = re.search(rf'<[^>]+\bid=["\']({sid})["\'][^>]*>', part_b_html)
+        if m:
+            positions[sid] = m.start()
+    ordered = sorted(positions.items(), key=lambda x: x[1])
+    for i, (sid, start) in enumerate(ordered):
+        end = ordered[i + 1][1] if i + 1 < len(ordered) else len(part_b_html)
+        buckets[sid] = part_b_html[start:end].strip()
+    empty = ('<p style="padding:20px 0;font-size:11px;color:#aaa;'
+             'font-style:italic;">No news in this category today.</p>')
+
+    nav = "".join(
+        f'<a href="#pg{n}">{t}</a>' for _sid, t, n in _NP_PAGES)
+
+    pages = ""
+    for sid, title, pnum in _NP_PAGES:
+        content = buckets.get(sid) or empty
+        if pnum == "1":
+            pages += f"""
+<div class="news-page front-page" id="pg1">
+  <div class="mast-top">
+    <div class="mast-left">{dow_full}<br>{edition}</div>
+    <div class="mast-right">Credit &amp; Markets Intelligence</div>
+  </div>
+  <div class="mast-center">
+    <div class="mast-name">CareEdge Daily News</div>
+    <hr class="mast-rule">
+  </div>
+  <div class="mast-sub">
+    <span>S1 Watchlist &middot; S2 Sector &middot; S3 Macro</span>
+    <span class="red">&#128274; CONFIDENTIAL</span>
+  </div>
+  <nav class="navbar">{nav}</nav>
+  <div class="columns">{content}</div>
+  <div class="page-foot">
+    <span>CareEdge Daily News &mdash; {date_str}</span>
+    <span>Page 1 of 3</span><span>&#128274; Confidential</span>
+  </div>
+</div>"""
+        else:
+            pages += f"""
+<div class="news-page" id="pg{pnum}">
+  <div class="page-header">
+    <div class="ph-meta">{date_str} &bull; Internal Use Only</div>
+    <div class="ph-title">{title}</div>
+    <div class="ph-num">{pnum}</div>
+  </div>
+  <div class="columns">{content}</div>
+  <div class="page-foot">
+    <span>CareEdge Daily News &mdash; {date_str}</span>
+    <span>Page {pnum} of 3</span><span>&#128274; Confidential</span>
+  </div>
+</div>"""
+
+    return f"""<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8">
+<title>CareEdge Daily News — {date_str}</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=PT+Serif:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+  @page {{ size: A4; margin: 1.2cm 1.4cm; }}
+  @page :first {{ margin-top: 0.5cm; }}
+  *{{box-sizing:border-box;margin:0;padding:0}}
+  body{{background:#f0ece4;font-family:'PT Serif',Georgia,serif;color:#111;font-size:11px}}
+  .newspaper{{max-width:960px;margin:20px auto}}
+  .news-page{{background:#fdfaf5;box-shadow:0 2px 24px rgba(0,0,0,.18);margin-bottom:28px;padding-bottom:20px;break-before:page;page-break-before:always}}
+  .front-page{{break-before:auto;page-break-before:auto}}
+  .mast-top{{display:flex;justify-content:space-between;align-items:flex-end;padding:14px 28px 6px;border-bottom:1px solid #aaa}}
+  .mast-left{{font-size:8.5px;letter-spacing:1.5px;text-transform:uppercase;color:#555;line-height:1.8}}
+  .mast-right{{font-size:8.5px;text-align:right;color:#555;line-height:1.8}}
+  .mast-center{{text-align:center;padding:4px 28px 0}}
+  .mast-name{{font-family:'Playfair Display',Georgia,serif;font-size:52px;font-weight:900;line-height:1;letter-spacing:-2px;color:#111}}
+  .mast-rule{{border:none;border-top:3px double #111;margin:6px 0 0}}
+  .mast-sub{{display:flex;justify-content:space-between;align-items:center;padding:5px 28px;border-bottom:3px solid #111;font-size:8.5px;letter-spacing:1px;text-transform:uppercase;color:#555}}
+  .mast-sub .red{{color:#cc0000;font-weight:700;border:1px solid #cc0000;padding:1px 6px}}
+  .navbar{{display:flex;border-bottom:2px solid #cc0000;background:#111}}
+  .navbar a{{flex:1;text-align:center;padding:7px 4px;font-size:8px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#ccc;text-decoration:none;border-right:1px solid #333}}
+  .navbar a:first-child{{color:#fff}}
+  .navbar a:last-child{{border-right:none}}
+  .page-header{{display:flex;justify-content:space-between;align-items:center;padding:8px 28px;border-bottom:3px solid #111;border-top:4px solid #cc0000}}
+  .page-header .ph-meta{{font-size:8px;letter-spacing:1px;text-transform:uppercase;color:#777}}
+  .page-header .ph-title{{font-family:'Playfair Display',Georgia,serif;font-size:14px;font-weight:700;color:#111}}
+  .page-header .ph-num{{font-size:26px;font-weight:900;font-family:'Playfair Display',Georgia,serif;color:#cc0000;line-height:1}}
+  .columns{{padding:0 28px 8px;column-count:3;column-gap:22px;column-rule:1px solid #ccc;min-height:80px}}
+  [data-section="banner"]{{column-span:all;margin:20px -28px 0;padding:5px 28px;border-top:3px solid;border-bottom:1px solid}}
+  .sb{{font-size:9px;font-weight:800;letter-spacing:3px;text-transform:uppercase;padding-top:6px;padding-bottom:6px}}
+  .sb1{{color:#cc0000;border-color:#cc0000}}
+  .sb2{{color:#b45309;border-color:#b45309}}
+  .sb3{{color:#1e3a8a;border-color:#1e3a8a}}
+  .art{{break-inside:avoid;padding:12px 0;border-bottom:1px solid #ddd}}
+  .art .src{{margin:0 0 3px;font-size:8px;font-weight:800;text-transform:uppercase;letter-spacing:1.5px;color:#999}}
+  .art .hl{{margin:0 0 6px;font-size:14px;font-weight:700;font-family:Georgia,serif;line-height:1.25;color:#111}}
+  .art .wh{{margin:0 0 5px;font-size:10.5px;color:#333;line-height:1.55}}
+  .art .rm{{font-size:9px;color:#888;text-decoration:none;font-weight:600}}
+  .art .also{{font-size:10px;color:#999}}
+  .art.hero{{padding:12px 0 14px;border-bottom:2px solid #cc0000;margin-bottom:4px}}
+  .art.hero .src{{color:#cc0000}}
+  .art.hero .hl{{font-size:18px;font-weight:800;line-height:1.2}}
+  .art.hero .wh{{font-size:11px;color:#222;line-height:1.7}}
+  .art.hero .rm{{color:#cc0000;font-weight:700}}
+  .ibh{{margin:14px 0 4px;font-size:8px;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:#999}}
+  .ib{{margin:0 0 4px;font-size:9.5px;color:#555;line-height:1.5}}
+  .ib a{{color:#999;font-size:8.5px;text-decoration:none}}
+  .empty{{padding:10px 0;font-size:10px;color:#aaa;font-style:italic}}
+  .page-foot{{display:flex;justify-content:space-between;border-top:1px solid #bbb;margin:8px 28px 0;padding-top:6px;font-size:8px;color:#888;letter-spacing:1px;text-transform:uppercase}}
+  @media print {{ body{{background:#fff}} .news-page{{box-shadow:none;margin-bottom:0}} }}
+</style></head>
+<body><div class="newspaper">{pages}</div></body></html>"""
+
+
 def _np_rebrand(html: str) -> str:
     """The 7:30 templates carry the 'Credit Intelligence News' masthead and
     repo-edit links; this mail is branded CareEdge Daily News and managed
@@ -1548,6 +1710,9 @@ def _np_rebrand(html: str) -> str:
         "https://github.com/mjitendrafeb-cmd/jeetz/actions/workflows/daily_credit_report.yml",
         "https://github.com/mjitendrafeb-cmd/jeetz/actions/workflows/team_news.yml",
     )
+    html = html.replace(
+        "S1 Watchlist \u00b7 S2 NBFC/FI \u00b7 S3 Regulations \u00b7 S4 Markets \u00b7 S5 Macro",
+        "S1 Watchlist \u00b7 S2 Sector &amp; Regulation \u00b7 S3 Macroeconomic &amp; Markets")
     html = html.replace(
         "Run report now</a>",
         f'Run report now</a> &nbsp;&middot;&nbsp; <a href="{_ARCHIVE_URL}" '
@@ -1655,8 +1820,12 @@ def main() -> None:
     print(f"{len(items)} items after cross-source dedup (merged {n_dup})")
 
     phrases = [_phrase(r["company"]) for r in rows]
+    sector_kw = [str(k).strip().lower() for k in team.get("sector_keywords", []) if str(k).strip()]
+    macro_kw = [str(k).strip().lower() for k in team.get("macro_keywords", []) if str(k).strip()]
+    if sector_kw or macro_kw:
+        print(f"[keywords] sector={len(sector_kw)} macro={len(macro_kw)} (from team.json)")
     for it in items:
-        it["section"] = _classify(it, phrases)
+        it["section"] = _classify_team(it, phrases, sector_kw, macro_kw)
         it["companies"] = _match_companies(it, rows)
 
     pre_offtopic = len(items)
@@ -1706,7 +1875,8 @@ def main() -> None:
 
     people: dict[str, dict] = {}
     for r in rows:
-        secs = set(r.get("sections", []))
+        # Legacy rows still tick S4/S5; both now live in S3.
+        secs = {_TEAM_SECTION_MAP.get(x, x) for x in r.get("sections", [])}
         if test_sections is not None:
             secs = secs & test_sections
         for name_f, email_f, send_f in ROLES:
@@ -1752,7 +1922,7 @@ def main() -> None:
         top5 = sorted(person_items, key=_story_score, reverse=True)[:5]
         part_c = _np_partc(top5, now.strftime("%d %B %Y"))
         body = _np_rebrand(_scr.build_email(part_c, today, _summary))
-        attachment = _np_rebrand(_scr.build_attachment(part_b, today))
+        attachment = _np_rebrand(_np_build_attachment(part_b, today))
         # One bad mailbox must not stop the rest of the team's mails.
         try:
             _send(email, f"CareEdge Daily News — {now:%d %b %Y}", body,
@@ -1776,10 +1946,10 @@ def main() -> None:
                 pass
 
     # Master edition (all companies, all sections) for the public archive.
-    master_p = {"sections": {"S1", "S2", "S3", "S4", "S5"},
+    master_p = {"sections": {"S1", "S2", "S3"},
                 "companies": {r["company"] for r in rows}}
     m_partb, _m_total, _m_items = _np_partb(master_p, items, by_section)
-    _write_archive(_np_rebrand(_scr.build_attachment(m_partb, today)), today)
+    _write_archive(_np_rebrand(_np_build_attachment(m_partb, today)), today)
 
     _append_stats({
         "date": today.isoformat(),

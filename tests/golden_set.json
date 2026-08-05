@@ -9,233 +9,280 @@
     "what breaks if the case is deleted.",
     "",
     "Add a case every time a miscategorisation is reported. Without this the",
-    "only feedback loop is someone spotting it in their inbox."
+    "only feedback loop is someone spotting it in their inbox.",
+    "",
+    "expect      = section from _classify() -- the FIVE-section taxonomy the 7:30 fallback report still uses.",
+    "expect_team = section from _classify_team() -- the THREE-section taxonomy the 7:40 mail uses (old S3 folds into S2; old S4+S5 become S3)."
   ],
   "cases": [
     {
       "title": "Godfrey Phillips shares jump 7% as Samir Modi seeks peace with mother Bina Modi",
       "expect": null,
-      "why": "individual-company share move, non-financial issuer"
+      "why": "individual-company share move, non-financial issuer",
+      "expect_team": null
     },
     {
       "title": "Epack Prefab Technologies shares rally 10% after Q1 revenue jumps 24%",
       "expect": null,
-      "why": "share move; 'Q1' must not rescue it"
+      "why": "share move; 'Q1' must not rescue it",
+      "expect_team": null
     },
     {
       "title": "Dabur shares drop 3% after FSSAI bars FMCG major from selling products with '100%' guarantee claims",
       "expect": null,
-      "why": "share move; FMCG regulator is not a financial regulator"
+      "why": "share move; FMCG regulator is not a financial regulator",
+      "expect_team": null
     },
     {
       "title": "Thangamayil share selloff continues: Stock drops 5% despite Rs 344 crore sales",
       "expect": null,
-      "why": "selloff wording"
+      "why": "selloff wording",
+      "expect_team": null
     },
     {
       "title": "Zydus Wellness Share Price Falls Over 3% After Q1 Net Profit Declines",
       "expect": null,
-      "why": "'Share Price Falls' — the one that survived the first fix"
+      "why": "'Share Price Falls' — the one that survived the first fix",
+      "expect_team": null
     },
     {
       "title": "Auxilo Finserve Number of Employees 2026",
       "source": "reveliolabs.com",
       "expect": null,
-      "why": "HR headcount scraper page, not news"
+      "why": "HR headcount scraper page, not news",
+      "expect_team": null
     },
     {
       "title": "Abraxas Capital Moves $61.2M USDT To Bitfinex, Supplies 40,000 ETH To Spark",
       "source": "bitcoinworld.co.in",
       "expect": null,
-      "why": "crypto; reached S1 via a loose 'Spark' name match"
+      "why": "crypto; reached S1 via a loose 'Spark' name match",
+      "expect_team": null
     },
     {
       "title": "IPO Corner: Juniper Green Energy Limited",
       "expect": null,
-      "why": "recurring IPO filler"
+      "why": "recurring IPO filler",
+      "expect_team": null
     },
     {
       "title": "What Is ICRA? Why Its Credit Ratings Matter To Investors",
       "expect": null,
-      "why": "explainer"
+      "why": "explainer",
+      "expect_team": null
     },
     {
       "title": "Summary of financial markets from last week: Indian equities outperformed",
       "expect": null,
-      "why": "weekly market recap"
+      "why": "weekly market recap",
+      "expect_team": null
     },
     {
       "title": "Buy Indostar Capital Finance; target of Rs 310: Motilal Oswal",
       "expect": null,
-      "why": "broker target-price call"
+      "why": "broker target-price call",
+      "expect_team": null
     },
     {
       "title": "Golden Cross Forms in Manba Finance Ltd",
       "expect": null,
-      "why": "technical-analysis noise"
+      "why": "technical-analysis noise",
+      "expect_team": null
     },
     {
       "title": "Hyundai Motor India | Motilal Oswal View",
       "expect": null,
-      "why": "broker note dodging the target-price pattern"
+      "why": "broker note dodging the target-price pattern",
+      "expect_team": null
     },
     {
       "title": "HillCrest quotes N11.73bn Commercial Paper on FMDQ Exchange",
       "expect": null,
-      "why": "Nigerian market, no India angle"
+      "why": "Nigerian market, no India angle",
+      "expect_team": null
     },
     {
       "title": "बैंक ऋण वृद्धि जून में 18.6 प्रतिशत रही",
       "expect": null,
-      "why": "Hindi copy"
+      "why": "Hindi copy",
+      "expect_team": null
     },
     {
       "title": "RBI imposes monetary penalty of Rs 2 crore on ABC Bank",
       "expect": "S3",
-      "why": "penalties are ALWAYS S3, never S2"
+      "why": "penalties are ALWAYS S3, never S2",
+      "expect_team": "S2"
     },
     {
       "title": "SEBI tightens disclosure norms for debenture trustees",
       "expect": "S3",
-      "why": "regulator circular ABOUT debentures is S3, not S4"
+      "why": "regulator circular ABOUT debentures is S3, not S4",
+      "expect_team": "S2"
     },
     {
       "title": "RBI allows banks to issue shares to foreign portfolio investors",
       "expect": "S3",
-      "why": "regulator decision reported by press still routes to S3"
+      "why": "regulator decision reported by press still routes to S3",
+      "expect_team": "S2"
     },
     {
       "title": "RBI issues revised norms for commercial paper issuance",
       "expect": "S3",
-      "why": "same, with an S4 keyword present"
+      "why": "same, with an S4 keyword present",
+      "expect_team": "S2"
     },
     {
       "title": "RBI announces surprise rate cut of 25 bps",
       "expect": "S5",
-      "why": "monetary policy is macro, must outrank the regulator-action rule"
+      "why": "monetary policy is macro, must outrank the regulator-action rule",
+      "expect_team": "S3"
     },
     {
       "title": "RBI revises GDP growth forecast to 7 percent",
       "expect": "S5",
-      "why": "'revises' must not drag a macro story into S3"
+      "why": "'revises' must not drag a macro story into S3",
+      "expect_team": "S3"
     },
     {
       "title": "India's economic growth seen at 6.8% this fiscal, says economic survey",
       "expect": "S5",
-      "why": "widened macro vocabulary"
+      "why": "widened macro vocabulary",
+      "expect_team": "S3"
     },
     {
       "title": "IMF raises India growth forecast to 7%",
       "expect": "S5",
-      "why": "IMF is macro"
+      "why": "IMF is macro",
+      "expect_team": "S3"
     },
     {
       "title": "Monsoon deficit may hit rural demand, say economists",
       "expect": "S5",
-      "why": "macro with no classic keyword"
+      "why": "macro with no classic keyword",
+      "expect_team": "S3"
     },
     {
       "title": "Latest data release on money supply and reserves",
       "source": "RBI-DBIE",
       "expect": "S5",
-      "why": "macro-only source must not be caught by the generic rbi->S3 rule"
+      "why": "macro-only source must not be caught by the generic rbi->S3 rule",
+      "expect_team": "S3"
     },
     {
       "title": "Corporate bond yields harden ahead of the weekly G-sec auction",
       "expect": "S4",
-      "why": "genuine bond-market item"
+      "why": "genuine bond-market item",
+      "expect_team": "S3"
     },
     {
       "title": "TPG, GIC and ICICI Bank acquire Aseem Infrastructure Finance for Rs 5,000 crore",
       "expect": "S2",
-      "why": "entity-specific but materially sector news"
+      "why": "entity-specific but materially sector news",
+      "expect_team": "S2"
     },
     {
       "title": "India Inc credit ratio declines in H2FY26, outlook stable but cautious: Crisil",
       "expect": "S2",
-      "why": "rating-agency SECTOR study must survive the CRA-announcement drop"
+      "why": "rating-agency SECTOR study must survive the CRA-announcement drop",
+      "expect_team": "S2"
     },
     {
       "title": "India's bank credit growth remains robust at 18.6% in June 2026",
       "expect": "S2",
-      "why": "sector data"
+      "why": "sector data",
+      "expect_team": "S2"
     },
     {
       "title": "RBI data shows bank credit growth at 18.6% in June",
       "expect": "S2",
-      "why": "citing RBI data is not a regulatory action"
+      "why": "citing RBI data is not a regulatory action",
+      "expect_team": "S2"
     },
     {
       "title": "Bank of India raises Rs 500 crore via share sale to institutional investors",
       "expect": "S2",
-      "why": "'share sale' must survive the share-move filter"
+      "why": "'share sale' must survive the share-move filter",
+      "expect_team": "S2"
     },
     {
       "title": "Bajaj Finance Q1 net profit rises 20% on strong loan growth",
       "expect": "S2",
-      "why": "financial-issuer results"
+      "why": "financial-issuer results",
+      "expect_team": "S2"
     },
     {
       "title": "BEL-Thales Systems Ltd",
       "tags": "RATING — ICRA",
       "expect": null,
-      "why": "CRA press page for a non-watchlist, non-financial issuer"
+      "why": "CRA press page for a non-watchlist, non-financial issuer",
+      "expect_team": null
     },
     {
       "title": "Indostar reports Q1 results",
       "tags": "WATCHLIST — Indostar Capital Finance Limited",
       "expect": "S1",
-      "why": "watchlist tag wins over everything"
+      "why": "watchlist tag wins over everything",
+      "expect_team": "S1"
     },
     {
       "title": "Bharti Airtel raises Rs 5,000 crore via non-convertible debentures",
       "expect": "S4",
-      "why": "telecom issuer; NCD keyword makes it bond-market, never NBFC/FI sector"
+      "why": "telecom issuer; NCD keyword makes it bond-market, never NBFC/FI sector",
+      "expect_team": "S3"
     },
     {
       "title": "Airtel reports 12% rise in Q1 net profit on tariff hikes",
       "expect": null,
-      "why": "reported Airtel leak: telecom results are not NBFC/FI sector news"
+      "why": "reported Airtel leak: telecom results are not NBFC/FI sector news",
+      "expect_team": null
     },
     {
       "title": "Aircel lenders approve resolution plan after prolonged insolvency",
       "expect": null,
-      "why": "reported Aircel leak: telecom subject, 'lenders' alone is not an FI signal"
+      "why": "reported Aircel leak: telecom subject, 'lenders' alone is not an FI signal",
+      "expect_team": null
     },
     {
       "title": "EPL media rights deal valued at Rs 12,000 crore",
       "expect": null,
-      "why": "reported EPL leak: sport, whatever finance vocabulary it carries"
+      "why": "reported EPL leak: sport, whatever finance vocabulary it carries",
+      "expect_team": null
     },
     {
       "title": "IPL franchise valuations surge as investors line up",
       "expect": null,
-      "why": "sport/business crossover must not reach S2"
+      "why": "sport/business crossover must not reach S2",
+      "expect_team": null
     },
     {
       "title": "Airtel Payments Bank launches savings product for rural customers",
       "expect": "S2",
-      "why": "telecom PARENT but the subject is a payments bank - a genuine FI"
+      "why": "telecom PARENT but the subject is a payments bank - a genuine FI",
+      "expect_team": "S2"
     },
     {
       "title": "Maruti Suzuki Q1 profit rises on higher passenger vehicle sales",
       "expect": null,
-      "why": "auto results"
+      "why": "auto results",
+      "expect_team": null
     },
     {
       "title": "Sun Pharma completes acquisition of a US drug maker",
       "expect": null,
-      "why": "pharma M&A - 'acquisition' alone must not qualify"
+      "why": "pharma M&A - 'acquisition' alone must not qualify",
+      "expect_team": null
     },
     {
       "title": "Muthoot Finance reports 18% growth in gold loan AUM",
       "expect": "S2",
-      "why": "genuine NBFC results must still pass the tightened gate"
+      "why": "genuine NBFC results must still pass the tightened gate",
+      "expect_team": "S2"
     },
     {
       "title": "Fintech startup raises $50 million to expand its NBFC lending arm",
       "expect": "S2",
-      "why": "funding story with a real FI signal"
+      "why": "funding story with a real FI signal",
+      "expect_team": "S2"
     }
   ]
 }

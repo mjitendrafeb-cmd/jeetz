@@ -93,8 +93,32 @@ input[type=checkbox]{width:15px;height:15px;accent-color:#15803d;cursor:pointer}
       One row per <strong>company</strong>: GH / Analyst / RH names &amp; emails, then
       <strong>Send?</strong> ticks (only ticked people receive mails), then <strong>S1&ndash;S5</strong> ticks =
       which report sections that row's enabled people receive.
-      <em>S1 = their own companies' news; S2 NBFC/FI &middot; S3 Regulations &middot; S4 Bond Markets &middot; S5 Macro.</em>
-      A person on multiple rows gets the union of ticked sections. <strong>7:30 AI report:</strong> its watchlist is auto-built each morning from every row whose <strong>GH Name contains "Jitendra"</strong> &mdash; edit GH Name here to add/remove companies from that report. <strong>7:40 Team Mail:</strong> uses this whole table with the Send/S1&ndash;S5 ticks, for everyone. No API credits used for the 7:40 mail.
+      <em>S1 = their own companies' news &middot; S2 = sector &amp; regulation &middot; S3 = macroeconomic &amp; markets.</em>
+      A person on multiple rows gets the union of ticked sections. <strong>7:30 AI report:</strong> its watchlist is auto-built each morning from every row whose <strong>GH Name contains "Jitendra"</strong> &mdash; edit GH Name here to add/remove companies from that report. <strong>7:40 Team Mail:</strong> uses this whole table with the Send/S1&ndash;S3 ticks, for everyone. <strong>S1</strong> = that row's company &middot; <strong>S2</strong> = sector &amp; regulation &middot; <strong>S3</strong> = macroeconomic &amp; markets. No API credits used for the 7:40 mail.
+    </div>
+    <div style="display:flex;gap:18px;flex-wrap:wrap;background:#faf8f4;border:1px solid #e2ddd2;padding:12px 14px;margin-bottom:14px;border-radius:4px">
+      <div style="flex:1;min-width:290px">
+        <label style="display:block;font-size:11px;font-weight:700;color:#b45309;margin-bottom:4px">
+          S2 &mdash; Sector keywords</label>
+        <textarea id="txtSectorKw" rows="2" placeholder="nbfc, broking, housing finance, microfinance"
+          title="Comma-separated. A story matching any of these goes to S2."
+          onchange="team.sector_keywords=this.value.split(',').map(function(x){return x.trim()}).filter(Boolean)"
+          style="width:100%;padding:6px 7px;font-size:11px;border:1px solid #ddd;border-radius:3px;font-family:inherit"></textarea>
+        <div style="font-size:10px;color:#999;margin-top:3px">The sector your entities sit in &mdash; NBFC, broking, HFC.</div>
+      </div>
+      <div style="flex:1;min-width:290px">
+        <label style="display:block;font-size:11px;font-weight:700;color:#1e3a8a;margin-bottom:4px">
+          S3 &mdash; Macroeconomic keywords</label>
+        <textarea id="txtMacroKw" rows="2" placeholder="gdp, inflation, repo rate, bond yield, g-sec"
+          title="Comma-separated. A story matching any of these goes to S3."
+          onchange="team.macro_keywords=this.value.split(',').map(function(x){return x.trim()}).filter(Boolean)"
+          style="width:100%;padding:6px 7px;font-size:11px;border:1px solid #ddd;border-radius:3px;font-family:inherit"></textarea>
+        <div style="font-size:10px;color:#999;margin-top:3px">Economy and markets &mdash; bonds and money markets now live here too.</div>
+      </div>
+      <div style="flex-basis:100%;font-size:10px;color:#888">
+        Checked before the built-in rules, so a keyword wins. Matching is a plain
+        case-insensitive substring test &mdash; keep terms specific.
+      </div>
     </div>
     <div class="scroll">
     <table id="entTable">
@@ -103,7 +127,7 @@ input[type=checkbox]{width:15px;height:15px;accent-color:#15803d;cursor:pointer}
         <th>GH Name</th><th>Analyst Name</th><th>RH Name</th>
         <th>GH Email</th><th>Analyst Email</th><th>RH Email</th>
         <th class="c">Send GH</th><th class="c">Send Analyst</th><th class="c">Send RH</th>
-        <th class="c">S1</th><th class="c">S2</th><th class="c">S3</th><th class="c">S4</th><th class="c">S5</th>
+        <th class="c" title="Entity: news on this row's company">S1</th><th class="c" title="Sector &amp; regulation">S2</th><th class="c" title="Macroeconomic &amp; markets">S3</th>
         <th></th>
       </tr></thead>
       <tbody id="entBody"></tbody>
@@ -133,7 +157,9 @@ input[type=checkbox]{width:15px;height:15px;accent-color:#15803d;cursor:pointer}
 
 <script>
 const OWNER='mjitendrafeb-cmd', REPO='jeetz', BRANCH='main';
-const SECS=['S1','S2','S3','S4','S5'];
+const SECS=['S1','S2','S3'];  // S1 entity | S2 sector | S3 macro
+// Legacy rows ticked S4/S5; both now live in S3.
+const SEC_MIGRATE={S1:'S1',S2:'S2',S3:'S2',S4:'S3',S5:'S3'};
 let team={rows:[],send_empty_mail:false};
 let sha=null, cfgSha=null, cfgObj=null, cfgDailyEnabled=true;
 
@@ -212,6 +238,13 @@ async function load(){
     try{const c=await ghGet('config.json');cfgSha=c.sha;cfgObj=JSON.parse(c.text);
         cfgDailyEnabled=cfgObj.daily_report_enabled!==false;}catch(e){cfgObj=null;}
     if(team.scheduled_enabled===undefined)team.scheduled_enabled=true;
+    // Fold any legacy S4/S5 ticks onto S3 so old rows keep working.
+    team.rows.forEach(function(r){r.sections=Array.from(new Set((r.sections||[])
+      .map(function(x){return SEC_MIGRATE[x]||x;})));});
+    if(!Array.isArray(team.sector_keywords))team.sector_keywords=[];
+    if(!Array.isArray(team.macro_keywords))team.macro_keywords=[];
+    document.getElementById('txtSectorKw').value=team.sector_keywords.join(', ');
+    document.getElementById('txtMacroKw').value=team.macro_keywords.join(', ');
     if(team.skip_sundays===undefined)team.skip_sundays=true;
     if(!Array.isArray(team.holidays))team.holidays=[];
     document.getElementById('tglSunday').checked=team.skip_sundays!==false;
@@ -254,7 +287,7 @@ async function runNow(){
 /* ---------------- Excel download / upload ---------------- */
 const YN=v=>v?'Y':'N';
 const isYes=v=>['yes','y','true','1'].includes(String(v||'').trim().toLowerCase());
-const COLS=['company','gh_name','analyst_name','rh_name','gh_email','analyst_email','rh_email','send_gh','send_analyst','send_rh','S1','S2','S3','S4','S5'];
+const COLS=['company','gh_name','analyst_name','rh_name','gh_email','analyst_email','rh_email','send_gh','send_analyst','send_rh','S1','S2','S3'];
 
 function downloadExcel(){
   const rows=team.rows.map(r=>({
@@ -262,7 +295,6 @@ function downloadExcel(){
     gh_email:r.gh_email,analyst_email:r.analyst_email,rh_email:r.rh_email,
     send_gh:YN(r.send_gh),send_analyst:YN(r.send_analyst),send_rh:YN(r.send_rh),
     S1:YN(r.sections.includes('S1')),S2:YN(r.sections.includes('S2')),S3:YN(r.sections.includes('S3')),
-    S4:YN(r.sections.includes('S4')),S5:YN(r.sections.includes('S5')),
   }));
   const wb=XLSX.utils.book_new();
   const ws=XLSX.utils.json_to_sheet(rows,{header:COLS});
