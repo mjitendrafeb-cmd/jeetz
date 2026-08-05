@@ -63,7 +63,9 @@ _S5_RE = re.compile(
     # topics the AI routes to Macro but the old list missed.
     r"economic growth|growth (forecast|projection|estimate)|economic survey|"
     r"rate (cut|hike)|union budget|capex cycle|monsoon|el nino|"
-    r"exports?|imports?|tariffs?|trade (war|deal|agreement)|"
+    r"exports?|imports?|trade (war|deal|agreement)|"
+    r"(trade|import|export|customs|reciprocal|retaliatory) tariffs?|"
+    r"tariffs? on (imports?|exports?|goods|steel|aluminium|chips?)|"
     r"imf|world bank|\badb\b|\boecd\b|sovereign (rating|bond)|"
     r"dollar index|us treasur(y|ies)|brent|gold price|"
     r"consumer price|wholesale price|per capita income|employment (data|rate)|"
@@ -254,32 +256,17 @@ def _is_team_junk(it: dict) -> bool:
 # all, so general news (geopolitics, sports, human-interest, brokerage
 # "View" notes that dodge the junk regex) leaked through. This gate requires
 # an actual financial-sector signal before anything lands in the S2 default.
-_FIN_RELEVANCE_RE = re.compile(
-    r"\b(nbfc|hfc|housing finance|non-?banking financial|\bbank(s|ing)?\b|"
-    r"microfinance|\bmfi\b|fintech|broking|stock broker|insuranc\w*|irdai|"
-    r"mutual fund|\bamc\b|asset management|\bnpa\b|non-performing|loan[s]?\b|"
-    r"lending|credit (rating|profile|quality|growth)|deposit[s]?\b|"
-    r"capital adequacy|\bcar\b ratio|provisioning|disbursement|\baum\b|"
-    r"assets under management|securitisation|securitization|crisil|icra|"
-    r"careedge|india ratings|rbi|sebi|\bnhb\b|payment bank|small finance bank|"
-    r"cooperative bank|co-operative bank|chit fund|gold loan|vehicle loan|"
-    r"personal loan|consumer durable|financial (services|institution)|"
-    r"rating (agency|action|upgrad\w*|downgrad\w*|outlook)|"
-    r"q[1-4]\s?(fy)?\d*\s?(results|profit|earnings|net profit)|"
-    r"net interest margin|\bnim\b|gross npa|net npa|dividend|"
-    r"stake sale|acqui(re|sition)|merger|ipo\b|listing|share (sale|issue|allotment)|"
-    r"raises?\s+(rs\.?\s?)?[\d.]+\s*(crore|cr\b|million|billion|mn\b|bn\b)|"
-    r"funding round|series [a-f]\b|fund ?rais(e|ing))\b",
-    re.IGNORECASE,
-)
-
-
 # Rating-agency press pages are scraped per-company ([RATING — ICRA] etc).
 # For a company on somebody's watchlist that's an S1 credit event; for any
 # other company it is noise about an unrelated issuer ("BEL-Thales Systems
 # Ltd", "Hira Electro Smelters Limited"), and it slipped past the relevance
 # gate purely because the agency's own name is a financial keyword.
 _CRA_TAG_RE = re.compile(r"\bRATING\s*[—–-]", re.IGNORECASE)
+
+
+def _is_cra_announcement(it: dict) -> bool:
+    return bool(_CRA_TAG_RE.search(it.get("tags", "")))
+
 
 # A regulator's DECISION is S3 whoever reports it. The source-based S3 rule
 # only fires when the item came from the regulator's own feed, so the same
@@ -296,13 +283,82 @@ _REG_ACTION_RE = re.compile(
 )
 
 
-def _is_cra_announcement(it: dict) -> bool:
-    return bool(_CRA_TAG_RE.search(it.get("tags", "")))
+# S2-S5 are the industry / sector / economy sections. The old gate was one
+# flat OR-list that included generic money words — loan, dividend, merger,
+# "raises Rs X crore", "Q1 results" — so ANY company mentioning them passed.
+# That is how Bharti Airtel, Aircel and an EPL story reached the NBFC/FI
+# section: they are ordinary corporate or sports stories that happen to
+# contain finance vocabulary. Three tiers now, instead of one list.
+
+# Tier 0 — never this desk's business, whatever finance words appear.
+_NEVER_RELEVANT_RE = re.compile(
+    r"\b(premier league|\bepl\b|football|soccer|cricket|\bipl\b|world cup|fifa|"
+    r"olympic|tournament|match (report|preview|day)|wicket|goalkeeper|transfer window|"
+    r"box office|bollywood|tollywood|film|movie|web series|streaming (show|series)|"
+    r"celebrity|actor|actress|singer|award (show|night)|reality show)\b",
+    re.IGNORECASE,
+)
+
+# Tier 1 — a financial-sector signal. REQUIRED for anything to land in S2.
+# Deliberately excludes bare corporate-action words: an acquisition or a
+# Q1 result is only S2 news when the subject is a financial institution.
+_FI_SIGNAL_RE = re.compile(
+    r"\b(nbfc|hfc|housing finance|non-?banking financial|bank(s|ing)?|"
+    r"microfinance|\bmfi\b|fintech|broking|brokerage|stock broker|"
+    r"insurer|insuranc\w*|irdai|mutual fund|\bamc\b|asset management|"
+    r"asset reconstruction|\barc\b|debenture trustee|chit fund|"
+    r"small finance bank|payments? bank|cooperative bank|co-operative bank|"
+    r"crisil|icra|careedge|care ratings|india ratings|rating agency|"
+    r"\brbi\b|\bsebi\b|\bnhb\b|nabard|sidbi|pfrda|\bibbi\b|"
+    r"financial (services|institution)|finance (company|limited|ltd)|\bfinance\b|"
+    r"lender[s]?|\bnpa\b|non-performing|gross npa|net npa|"
+    r"credit (rating|profile|quality|growth|cost)|capital adequacy|provisioning|"
+    r"disbursement|\baum\b|assets under management|securitisation|securitization|"
+    r"net interest margin|\bnim\b|gold loan|vehicle loan|personal loan|"
+    r"microcredit|priority sector)\b",
+    re.IGNORECASE,
+)
+
+# Tier 2 — subjects from other sectors. Their stories routinely contain
+# finance vocabulary ("Airtel repays loan", "Aircel lenders"), so a mere
+# Tier-1 hit is not enough: they need a CORE financial-institution word.
+# This keeps "Airtel Payments Bank" (genuinely an FI) while dropping
+# "Airtel raises debt".
+_NON_FI_SUBJECT_RE = re.compile(
+    r"\b(airtel|aircel|vodafone idea|reliance jio|\bjio\b|bsnl|mtnl|"
+    r"telecom|spectrum|\b[45]g\b|\barpu\b|subscriber (base|addition)|"
+    r"maruti|tata motors|hyundai|two-?wheeler|passenger vehicle|\bauto sales\b|"
+    r"pharma\w*|drug ?maker|vaccine|\bapi maker\b|"
+    r"cement|steel (plant|mill)|mining|"
+    r"airline|aviation|indigo|spicejet|"
+    r"fmcg|consumer goods|beverage|apparel|retail chain|"
+    r"real estate developer|realty firm)\b",
+    re.IGNORECASE,
+)
+
+# The strict subset: an actual financial institution or regulator, not just
+# finance vocabulary. "lender" and "loan" deliberately absent.
+_FI_CORE_RE = re.compile(
+    r"\b(nbfc|hfc|housing finance|non-?banking financial|bank(s|ing)?|"
+    r"microfinance|\bmfi\b|fintech|broking|brokerage|insurer|insuranc\w*|irdai|"
+    r"mutual fund|\bamc\b|asset management|asset reconstruction|"
+    r"small finance bank|payments? bank|cooperative bank|co-operative bank|"
+    r"crisil|icra|careedge|care ratings|india ratings|rating agency|"
+    r"\brbi\b|\bsebi\b|\bnhb\b|nabard|sidbi|pfrda|\bibbi\b|"
+    r"financial (services|institution))\b",
+    re.IGNORECASE,
+)
 
 
 def _is_fin_relevant(it: dict) -> bool:
     text = f'{it["tags"]} {it["source"]} {it["title"]} {it["summary"]}'
-    return bool(_FIN_RELEVANCE_RE.search(text))
+    if _NEVER_RELEVANT_RE.search(text):
+        return False
+    if not _FI_SIGNAL_RE.search(text):
+        return False
+    if _NON_FI_SUBJECT_RE.search(text) and not _FI_CORE_RE.search(text):
+        return False
+    return True
 
 ROLES = (("gh_name", "gh_email", "send_gh"),
          ("analyst_name", "analyst_email", "send_analyst"),
@@ -1130,7 +1186,8 @@ _DOWNGRADE_RE = re.compile(r"\bdowngrad\w*|defaults?\b|outlook (revised to )?neg
 
 
 def _event_badge(it: dict) -> str:
-    """(G) A one-word event tag makes a long section scannable in seconds."""
+    """Event tags were removed from the card at the reader's request. Kept as
+    a function (unused in rendering) because _event_of still drives ordering."""
     key, label, _score, colour = _event_of(it)
     if not label:
         return ""
@@ -1325,7 +1382,7 @@ def _np_card(it: dict, hero: bool = False, company: str = "") -> str:
     summary = _esc(it["summary"])
     body = f'<p class="wh">{summary}</p>' if summary else ""
     return (f'<div class="{cls}"><p class="src">{" &bull; ".join(bits)}{_undated_note(it)}</p>'
-            f'<p class="hl">{_event_badge(it)}{_esc(it["title"])}</p>'
+            f'<p class="hl">{_esc(it["title"])}</p>'
             f'{body}{link}{fb}{also}</div>')
 
 
@@ -1442,71 +1499,39 @@ def _np_partb(p: dict, items: list[dict], by_section: dict) -> tuple[str, int, l
     return "\n".join(parts), total, chosen
 
 
-def _band_rows(band: list[dict], accent: str) -> str:
+def _np_partc(top5: list[dict], date_str: str) -> str:
+    """Top-5 table in the exact Part C markup the 7:30 email body uses.
+
+    (The three-band Action/Watch/Context layout was tried and removed at the
+    reader's request — this is the original single ranked list. Ordering
+    still comes from the shared materiality score, so the most material item
+    is number 01.)
+    """
     rows = ""
-    for i, it in enumerate(band):
-        border = "border-bottom:1px solid #f0f0f0;" if i < len(band) - 1 else ""
-        _k, label, _sc, _c = _event_of(it)
-        tag = f'{label} &bull; ' if label else ""
-        who = ", ".join(it.get("companies") or [])[:60]
-        who = f'{_esc(who)} &bull; ' if who else ""
+    for i, it in enumerate(top5):
+        border = "border-bottom:1px solid #f0f0f0;" if i < len(top5) - 1 else ""
+        label = SECTION_TITLES.get(it.get("section", "S2"), "News").upper()
         rows += (
             f'<tr valign="top">'
-            f'<td style="padding:9px 0 9px 16px;width:6px;">'
-            f'<div style="width:3px;height:100%;min-height:22px;background:{accent};"></div></td>'
-            f'<td style="padding:9px 16px 9px 10px;{border}">'
+            f'<td style="padding:10px 8px 10px 16px;font-size:28px;font-weight:900;'
+            f'color:#cc0000;line-height:1;font-family:Georgia,serif;width:44px;">0{i + 1}</td>'
+            f'<td style="padding:10px 16px 10px 4px;{border}">'
             f'<p style="margin:0 0 2px;font-size:9px;font-weight:800;letter-spacing:1px;'
-            f'text-transform:uppercase;color:#888;">{who}{tag}{_esc(it["source"])}'
-            f'{" &middot; date unconfirmed" if _is_undated(it) else ""}</p>'
-            f'<p style="margin:0;font-size:12px;color:#1a1a1a;line-height:1.55;">'
-            f'{_esc(it["title"])}</p></td></tr>'
+            f'text-transform:uppercase;color:#888;">{label} &bull; {_esc(it["source"])}</p>'
+            f'<p style="margin:0;font-size:12px;color:#1a1a1a;line-height:1.6;">{_esc(it["title"])}</p>'
+            f'</td></tr>'
         )
-    return rows
-
-
-def _np_partc(items_for_person: list[dict], date_str: str) -> str:
-    """(E) The email body is a decision surface, not a news list.
-
-    Five equally-weighted headlines told the reader nothing about what to do
-    first. Three bands do: what needs action on their own names, what to
-    watch on their own names, and the sector/macro context behind it.
-    'Nothing needs action' is stated explicitly — an analyst can act on that,
-    whereas an empty-looking list just reads as a broken report.
-    """
-    mine = [i for i in items_for_person if i.get("companies")]
-    other = [i for i in items_for_person if not i.get("companies")]
-    rank = lambda xs: sorted(xs, key=lambda i: (-_materiality(i), _is_undated(i)))
-
-    action = rank([i for i in mine if _materiality(i) >= 8])[:6]
-    watch = rank([i for i in mine if 3 <= _materiality(i) < 8])[:5]
-    context = rank(other)[:4]
-
-    def band(title, rows, accent, empty_msg=""):
-        if not rows and not empty_msg:
-            return ""
-        body = rows or (f'<tr><td colspan="2" style="padding:10px 16px;font-size:12px;'
-                        f'color:#555;">{empty_msg}</td></tr>')
-        return (
-            f'<table width="100%" cellpadding="0" cellspacing="0" style="background:{accent};">'
-            f'<tr><td style="padding:7px 16px;font-size:9px;font-weight:800;letter-spacing:3px;'
-            f'text-transform:uppercase;color:#fff;">{title}</td></tr></table>'
-            f'<table width="100%" cellpadding="0" cellspacing="0" '
-            f'style="border:1px solid #e5e5e5;border-top:none;">{body}</table>'
-        )
-
-    n_act = len(action)
-    out = (
+    if not rows:
+        rows = ('<tr><td style="padding:10px 16px;color:#1a1a1a;font-size:12px;">'
+                'No fresh items in your sections today.</td></tr>')
+    return (
         f'<table id="takeaways" width="100%" cellpadding="0" cellspacing="0" style="background:#1a1a1a;">'
         f'<tr><td style="padding:8px 16px;font-size:9px;font-weight:800;letter-spacing:3px;'
-        f'text-transform:uppercase;color:#fff;">&#9679; YOUR BRIEFING &mdash; {date_str}</td></tr>'
+        f'text-transform:uppercase;color:#fff;">&#9679; TOP 5 HEADLINES &mdash; {date_str}</td></tr>'
         f'</table>'
+        f'<table width="100%" cellpadding="0" cellspacing="0" '
+        f'style="border:1px solid #e5e5e5;border-top:none;">{rows}</table>'
     )
-    out += band(f"Action needed &mdash; {n_act}" if n_act else "Action needed",
-                _band_rows(action, "#b91c1c"), "#b91c1c",
-                empty_msg="No rating actions, defaults or regulatory orders on your entities today.")
-    out += band("Watch", _band_rows(watch, "#b45309"), "#b45309")
-    out += band("Context", _band_rows(context, "#1e3a8a"), "#1e3a8a")
-    return out
 
 
 def _np_rebrand(html: str) -> str:
@@ -1724,7 +1749,8 @@ def main() -> None:
             print(f"[mail] skipping {email} — nothing new in their sections")
             continue
 
-        part_c = _np_partc(person_items, now.strftime("%d %B %Y"))
+        top5 = sorted(person_items, key=_story_score, reverse=True)[:5]
+        part_c = _np_partc(top5, now.strftime("%d %B %Y"))
         body = _np_rebrand(_scr.build_email(part_c, today, _summary))
         attachment = _np_rebrand(_scr.build_attachment(part_b, today))
         # One bad mailbox must not stop the rest of the team's mails.
