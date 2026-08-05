@@ -671,14 +671,54 @@ def _classify(it: dict, company_phrases: list[str]) -> str | None:
 # NBFC provisioning is sector news. Old S4 (bond/money markets) joins old S5
 # under macroeconomic, as requested.
 _TEAM_SECTION_MAP = {"S1": "S1", "S2": "S2", "S3": "S2", "S4": "S3", "S5": "S3"}
+# Row-tick migration is a DIFFERENT mapping: rows were already converted to
+# the new scheme, so only the legacy S4/S5 ticks still need folding.
+_ROW_SECTION_MIGRATE = {"S4": "S3", "S5": "S3"}
 
 
 def _kw_hit(text: str, words) -> bool:
     return any(w and w in text for w in words)
 
 
+# S2 is the sector the entity operates in. Today every entity is BFSI, so a
+# single shared S2 is indistinguishable from correct — but the moment a
+# second sector exists, a GH covering it would otherwise receive BFSI news.
+# Each entity therefore carries a sector, each sector carries its own
+# keywords, and a person's S2 is the union of their entities' sectors —
+# exactly the way S1 already works for companies.
+_DEFAULT_SECTOR = "BFSI"
+
+
+def _load_sectors(team: dict) -> dict:
+    """{sector name: [keywords]}. Accepts the older flat sector_keywords
+    list and folds it into the default sector, so an un-migrated team.json
+    keeps working."""
+    raw = team.get("sectors")
+    if isinstance(raw, dict) and raw:
+        out = {}
+        for name, kws in raw.items():
+            name = str(name).strip() or _DEFAULT_SECTOR
+            out[name] = [str(w).strip().lower() for w in (kws or []) if str(w).strip()]
+        return out
+    legacy = team.get("sector_keywords") or []
+    return {_DEFAULT_SECTOR: [str(w).strip().lower() for w in legacy if str(w).strip()]}
+
+
+def _row_sector(r: dict) -> str:
+    return (r.get("sector") or "").strip() or _DEFAULT_SECTOR
+
+
+def _item_sectors(it: dict, sectors: dict) -> set:
+    """Which sectors a story belongs to. An item the built-in rules routed to
+    S2 without matching any sector keyword is generic financial-sector news,
+    so it falls to the default sector rather than reaching nobody."""
+    text = f'{it["tags"]} {it["source"]} {it["title"]} {it["summary"]}'.lower()
+    hits = {name for name, kws in (sectors or {}).items() if _kw_hit(text, kws)}
+    return hits or {_DEFAULT_SECTOR}
+
+
 def _classify_team(it: dict, company_phrases: list[str],
-                   sector_kw=(), macro_kw=()) -> str | None:
+                   sectors=None, macro_kw=()) -> str | None:
     """Three-section routing for the 7:40 mail.
 
     Runs the existing five-section classifier first so every drop rule
@@ -688,15 +728,25 @@ def _classify_team(it: dict, company_phrases: list[str],
     borderline topics without a code change.
     """
     base = _classify(it, company_phrases)
-    if base is None:
-        return None
     if base == "S1":
         return "S1"
     text = f'{it["tags"]} {it["source"]} {it["title"]} {it["summary"]}'.lower()
+    # Sport, entertainment and stray CRA press pages are never rescued by a
+    # keyword — those drops are absolute.
+    if _NEVER_RELEVANT_RE.search(text) or _is_cra_announcement(it):
+        return None
     if _kw_hit(text, macro_kw):
         return "S3"
-    if _kw_hit(text, sector_kw):
+    # A sector's keywords define what is relevant FOR THAT SECTOR. Checked
+    # before deferring to `base`, because the built-in relevance gate is
+    # BFSI-specific: it requires a bank/NBFC/RBI signal, so genuine news for
+    # any other sector ("Road EPC order inflows surge as NHAI awards HAM
+    # projects") would otherwise be discarded as having no financial signal
+    # before the sector logic ever saw it.
+    if sectors and any(_kw_hit(text, kws) for kws in sectors.values()):
         return "S2"
+    if base is None:
+        return None
     return _TEAM_SECTION_MAP.get(base)
 
 
@@ -1511,6 +1561,10 @@ def _np_partb(p: dict, items: list[dict], by_section: dict) -> tuple[str, int, l
                     lead = False
         else:
             sec_items = by_section[skey]
+            if skey == "S2" and p.get("sectors"):
+                # A GH sees the sector(s) their own entities sit in.
+                sec_items = [it for it in sec_items
+                             if (it.get("sectors") or {_DEFAULT_SECTOR}) & p["sectors"]]
             if not sec_items:
                 parts.append('<p class="empty">No news in this category today.</p>')
                 continue
@@ -1820,12 +1874,14 @@ def main() -> None:
     print(f"{len(items)} items after cross-source dedup (merged {n_dup})")
 
     phrases = [_phrase(r["company"]) for r in rows]
-    sector_kw = [str(k).strip().lower() for k in team.get("sector_keywords", []) if str(k).strip()]
+    sectors = _load_sectors(team)
     macro_kw = [str(k).strip().lower() for k in team.get("macro_keywords", []) if str(k).strip()]
-    if sector_kw or macro_kw:
-        print(f"[keywords] sector={len(sector_kw)} macro={len(macro_kw)} (from team.json)")
+    print(f"[sectors] {', '.join(f'{n}({len(k)}kw)' for n, k in sectors.items()) or 'none'}"
+          f" | macro={len(macro_kw)}kw")
     for it in items:
-        it["section"] = _classify_team(it, phrases, sector_kw, macro_kw)
+        it["section"] = _classify_team(it, phrases, sectors, macro_kw)
+        if it["section"] == "S2":
+            it["sectors"] = _item_sectors(it, sectors)
         it["companies"] = _match_companies(it, rows)
 
     pre_offtopic = len(items)
@@ -1875,8 +1931,11 @@ def main() -> None:
 
     people: dict[str, dict] = {}
     for r in rows:
-        # Legacy rows still tick S4/S5; both now live in S3.
-        secs = {_TEAM_SECTION_MAP.get(x, x) for x in r.get("sections", [])}
+        # Legacy rows tick S4/S5; both now live in S3. Deliberately NOT
+        # _TEAM_SECTION_MAP — that maps classifier output, where "S3" still
+        # means the old regulation bucket. Re-mapping row ticks with it would
+        # rewrite a new-scheme S3 (macro) subscription to S2 on every load.
+        secs = {_ROW_SECTION_MIGRATE.get(x, x) for x in r.get("sections", [])}
         if test_sections is not None:
             secs = secs & test_sections
         for name_f, email_f, send_f in ROLES:
@@ -1894,9 +1953,10 @@ def main() -> None:
                     continue
                 p = people.setdefault(email, {
                     "name": r.get(name_f, "").strip() or email.split("@")[0],
-                    "companies": set(), "sections": set(),
+                    "companies": set(), "sections": set(), "sectors": set(),
                 })
                 p["sections"].update(secs)
+                p["sectors"].add(_row_sector(r))
                 if "S1" in secs:
                     p["companies"].add(r["company"])
 
@@ -1947,7 +2007,8 @@ def main() -> None:
 
     # Master edition (all companies, all sections) for the public archive.
     master_p = {"sections": {"S1", "S2", "S3"},
-                "companies": {r["company"] for r in rows}}
+                "companies": {r["company"] for r in rows},
+                "sectors": set(sectors) | {_row_sector(r) for r in rows}}
     m_partb, _m_total, _m_items = _np_partb(master_p, items, by_section)
     _write_archive(_np_rebrand(_np_build_attachment(m_partb, today)), today)
 

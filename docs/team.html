@@ -97,14 +97,12 @@ input[type=checkbox]{width:15px;height:15px;accent-color:#15803d;cursor:pointer}
       A person on multiple rows gets the union of ticked sections. <strong>7:30 AI report:</strong> its watchlist is auto-built each morning from every row whose <strong>GH Name contains "Jitendra"</strong> &mdash; edit GH Name here to add/remove companies from that report. <strong>7:40 Team Mail:</strong> uses this whole table with the Send/S1&ndash;S3 ticks, for everyone. <strong>S1</strong> = that row's company &middot; <strong>S2</strong> = sector &amp; regulation &middot; <strong>S3</strong> = macroeconomic &amp; markets. No API credits used for the 7:40 mail.
     </div>
     <div style="display:flex;gap:18px;flex-wrap:wrap;background:#faf8f4;border:1px solid #e2ddd2;padding:12px 14px;margin-bottom:14px;border-radius:4px">
-      <div style="flex:1;min-width:290px">
+      <div style="flex:1;min-width:330px">
         <label style="display:block;font-size:11px;font-weight:700;color:#b45309;margin-bottom:4px">
-          S2 &mdash; Sector keywords</label>
-        <textarea id="txtSectorKw" rows="2" placeholder="nbfc, broking, housing finance, microfinance"
-          title="Comma-separated. A story matching any of these goes to S2."
-          onchange="team.sector_keywords=this.value.split(',').map(function(x){return x.trim()}).filter(Boolean)"
-          style="width:100%;padding:6px 7px;font-size:11px;border:1px solid #ddd;border-radius:3px;font-family:inherit"></textarea>
-        <div style="font-size:10px;color:#999;margin-top:3px">The sector your entities sit in &mdash; NBFC, broking, HFC.</div>
+          S2 &mdash; Sectors &amp; their keywords</label>
+        <div id="sectorRows"></div>
+        <button onclick="addSector()" style="margin-top:6px;padding:4px 9px;font-size:11px;background:#fff;border:1px solid #b45309;color:#b45309;border-radius:3px;cursor:pointer">+ Add sector</button>
+        <div style="font-size:10px;color:#999;margin-top:4px">Each entity's Sector column decides which of these its people receive.</div>
       </div>
       <div style="flex:1;min-width:290px">
         <label style="display:block;font-size:11px;font-weight:700;color:#1e3a8a;margin-bottom:4px">
@@ -120,6 +118,7 @@ input[type=checkbox]{width:15px;height:15px;accent-color:#15803d;cursor:pointer}
         case-insensitive substring test &mdash; keep terms specific.
       </div>
     </div>
+    <datalist id="sectorList"></datalist>
     <div class="scroll">
     <table id="entTable">
       <thead><tr>
@@ -127,7 +126,7 @@ input[type=checkbox]{width:15px;height:15px;accent-color:#15803d;cursor:pointer}
         <th>GH Name</th><th>Analyst Name</th><th>RH Name</th>
         <th>GH Email</th><th>Analyst Email</th><th>RH Email</th>
         <th class="c">Send GH</th><th class="c">Send Analyst</th><th class="c">Send RH</th>
-        <th class="c" title="Entity: news on this row's company">S1</th><th class="c" title="Sector &amp; regulation">S2</th><th class="c" title="Macroeconomic &amp; markets">S3</th>
+        <th title="Which sector this entity operates in — drives which S2 news its people get">Sector</th><th class="c" title="Entity: news on this row's company">S1</th><th class="c" title="Sector &amp; regulation">S2</th><th class="c" title="Macroeconomic &amp; markets">S3</th>
         <th></th>
       </tr></thead>
       <tbody id="entBody"></tbody>
@@ -159,7 +158,7 @@ input[type=checkbox]{width:15px;height:15px;accent-color:#15803d;cursor:pointer}
 const OWNER='mjitendrafeb-cmd', REPO='jeetz', BRANCH='main';
 const SECS=['S1','S2','S3'];  // S1 entity | S2 sector | S3 macro
 // Legacy rows ticked S4/S5; both now live in S3.
-const SEC_MIGRATE={S1:'S1',S2:'S2',S3:'S2',S4:'S3',S5:'S3'};
+const SEC_MIGRATE={S4:'S3',S5:'S3'};  // only legacy ticks; S1-S3 are already the new scheme
 let team={rows:[],send_empty_mail:false};
 let sha=null, cfgSha=null, cfgObj=null, cfgDailyEnabled=true;
 
@@ -221,12 +220,56 @@ function render(){
     ${txt(i,'gh_name','nm')}${txt(i,'analyst_name','nm')}${txt(i,'rh_name','nm')}
     ${txt(i,'gh_email','em')}${txt(i,'analyst_email','em')}${txt(i,'rh_email','em')}
     ${chk(i,'send_gh')}${chk(i,'send_analyst')}${chk(i,'send_rh')}
+    <td><input list="sectorList" value="${esc(team.rows[i].sector||'BFSI')}"
+      onchange="team.rows[this.closest('tr').dataset.i].sector=this.value.trim()||'BFSI'"
+      style="width:100%;padding:6px 7px;font-size:11px;border:1px solid #ddd;border-radius:3px;font-family:inherit"></td>
     ${SECS.map(s=>secChk(i,s)).join('')}
     <td><button class="del" title="Remove company" onclick="team.rows.splice(this.closest('tr').dataset.i,1);render()">&#10006;</button></td>
   </tr>`).join('');
 }
+function renderSectors(){
+  var names=Object.keys(team.sectors);
+  document.getElementById('sectorRows').innerHTML=names.map(function(n,idx){
+    return '<div style="display:flex;gap:6px;margin-bottom:5px;align-items:flex-start">'+
+      '<input value="'+esc(n)+'" onchange="renameSector('+idx+',this.value)" '+
+        'style="width:120px;padding:5px 6px;font-size:11px;border:1px solid #ddd;border-radius:3px;font-family:inherit" placeholder="Sector">'+
+      '<textarea rows="2" onchange="setSectorKw('+idx+',this.value)" placeholder="nbfc, broking, housing finance" '+
+        'style="flex:1;padding:5px 6px;font-size:11px;border:1px solid #ddd;border-radius:3px;font-family:inherit">'+
+        esc((team.sectors[n]||[]).join(', '))+'</textarea>'+
+      (names.length>1?'<button onclick="delSector('+idx+')" title="Remove sector" style="padding:4px 7px;font-size:11px;background:#fff;border:1px solid #ddd;border-radius:3px;cursor:pointer">&times;</button>':'')+
+      '</div>';
+  }).join('');
+  document.getElementById('sectorList').innerHTML=names.map(function(n){return '<option value="'+esc(n)+'">';}).join('');
+}
+function renameSector(idx,val){
+  var names=Object.keys(team.sectors),old=names[idx];val=(val||'').trim()||old;
+  if(val===old)return;
+  var out={};names.forEach(function(n){out[n===old?val:n]=team.sectors[n];});
+  team.sectors=out;
+  // keep entity rows pointing at the renamed sector
+  team.rows.forEach(function(r){if((r.sector||'')===old)r.sector=val;});
+  renderSectors();renderTable();
+}
+function setSectorKw(idx,val){
+  var n=Object.keys(team.sectors)[idx];
+  team.sectors[n]=val.split(',').map(function(x){return x.trim();}).filter(Boolean);
+}
+function delSector(idx){
+  var names=Object.keys(team.sectors),n=names[idx];
+  var used=team.rows.filter(function(r){return (r.sector||'BFSI')===n;}).length;
+  if(used&&!confirm(n+' is assigned to '+used+' entit'+(used===1?'y':'ies')+
+     '. They will fall back to the first remaining sector. Remove anyway?'))return;
+  delete team.sectors[n];
+  var fallback=Object.keys(team.sectors)[0]||'BFSI';
+  team.rows.forEach(function(r){if((r.sector||'')===n)r.sector=fallback;});
+  renderSectors();renderTable();
+}
+function addSector(){
+  var n='New Sector',i=2;while(team.sectors[n]){n='New Sector '+(i++);}
+  team.sectors[n]=[];renderSectors();
+}
 function addRow(){
-  team.rows.push({company:'',gh_name:'',analyst_name:'',rh_name:'',gh_email:'',analyst_email:'',rh_email:'',send_gh:false,send_analyst:false,send_rh:false,sections:['S1']});
+  team.rows.push({company:'',gh_name:'',analyst_name:'',rh_name:'',gh_email:'',analyst_email:'',rh_email:'',send_gh:false,send_analyst:false,send_rh:false,sector:'BFSI',sections:['S1']});
   render();
   const rows=document.querySelectorAll('#entBody tr');rows[rows.length-1].scrollIntoView();rows[rows.length-1].querySelector('input').focus();
 }
@@ -244,7 +287,12 @@ async function load(){
     if(!Array.isArray(team.sector_keywords))team.sector_keywords=[];
     if(!Array.isArray(team.macro_keywords))team.macro_keywords=[];
     document.getElementById('txtSectorKw').value=team.sector_keywords.join(', ');
+    if(!team.sectors||typeof team.sectors!=='object'||Array.isArray(team.sectors)){
+      team.sectors={BFSI:(team.sector_keywords||[])};delete team.sector_keywords;}
+    if(!Object.keys(team.sectors).length)team.sectors={BFSI:[]};
+    team.rows.forEach(function(r){if(!r.sector)r.sector='BFSI';});
     document.getElementById('txtMacroKw').value=team.macro_keywords.join(', ');
+    renderSectors();
     if(team.skip_sundays===undefined)team.skip_sundays=true;
     if(!Array.isArray(team.holidays))team.holidays=[];
     document.getElementById('tglSunday').checked=team.skip_sundays!==false;
@@ -287,13 +335,14 @@ async function runNow(){
 /* ---------------- Excel download / upload ---------------- */
 const YN=v=>v?'Y':'N';
 const isYes=v=>['yes','y','true','1'].includes(String(v||'').trim().toLowerCase());
-const COLS=['company','gh_name','analyst_name','rh_name','gh_email','analyst_email','rh_email','send_gh','send_analyst','send_rh','S1','S2','S3'];
+const COLS=['company','gh_name','analyst_name','rh_name','gh_email','analyst_email','rh_email','send_gh','send_analyst','send_rh','sector','S1','S2','S3'];
 
 function downloadExcel(){
   const rows=team.rows.map(r=>({
     company:r.company,gh_name:r.gh_name,analyst_name:r.analyst_name,rh_name:r.rh_name,
     gh_email:r.gh_email,analyst_email:r.analyst_email,rh_email:r.rh_email,
     send_gh:YN(r.send_gh),send_analyst:YN(r.send_analyst),send_rh:YN(r.send_rh),
+    sector:r.sector||'BFSI',
     S1:YN(r.sections.includes('S1')),S2:YN(r.sections.includes('S2')),S3:YN(r.sections.includes('S3')),
   }));
   const wb=XLSX.utils.book_new();
@@ -316,6 +365,7 @@ function uploadExcel(inp){
         gh_name:String(r.gh_name||'').trim(),analyst_name:String(r.analyst_name||'').trim(),rh_name:String(r.rh_name||'').trim(),
         gh_email:String(r.gh_email||'').trim(),analyst_email:String(r.analyst_email||'').trim(),rh_email:String(r.rh_email||'').trim(),
         send_gh:isYes(r.send_gh),send_analyst:isYes(r.send_analyst),send_rh:isYes(r.send_rh),
+        sector:(r.sector||'BFSI').toString().trim()||'BFSI',
         sections:SECS.filter(s=>isYes(r[s])),
       }));
       if(!newRows.length){alert('No rows found. Keep the same column headers as the downloaded file (company, gh_name, ...).');inp.value='';return;}
