@@ -12,8 +12,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "Belstar Microfinance Limited",
@@ -26,12 +26,12 @@
       "send_gh": true,
       "send_analyst": false,
       "send_rh": false,
+      "sector": "BFSI",
       "sections": [
         "S1",
         "S2",
         "S3"
-      ],
-      "sector": "BFSI"
+      ]
     },
     {
       "company": "MINTIFI Finserve Private Limited",
@@ -44,12 +44,12 @@
       "send_gh": true,
       "send_analyst": false,
       "send_rh": false,
+      "sector": "BFSI",
       "sections": [
         "S1",
         "S2",
         "S3"
-      ],
-      "sector": "BFSI"
+      ]
     },
     {
       "company": "Kissandhan Agri Financial Serviced Limited",
@@ -62,8 +62,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "Karnataka State Financial Corporation",
@@ -76,8 +76,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "Laxmi India Finance Limited",
@@ -90,8 +90,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "Dar Credit & Capital Limited",
@@ -104,8 +104,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "Religare Housing Development Finance Corporation Limited",
@@ -118,8 +118,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "Supreme Housing Finance Limited",
@@ -132,8 +132,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "Manba Finance Limited",
@@ -146,12 +146,12 @@
       "send_gh": true,
       "send_analyst": false,
       "send_rh": false,
+      "sector": "BFSI",
       "sections": [
         "S1",
         "S2",
         "S3"
-      ],
-      "sector": "BFSI"
+      ]
     },
     {
       "company": "CFM ARC",
@@ -164,12 +164,12 @@
       "send_gh": true,
       "send_analyst": false,
       "send_rh": false,
+      "sector": "BFSI",
       "sections": [
         "S1",
         "S2",
         "S3"
-      ],
-      "sector": "BFSI"
+      ]
     },
     {
       "company": "GrowXCD Finance Private Limited",
@@ -182,12 +182,12 @@
       "send_gh": true,
       "send_analyst": false,
       "send_rh": false,
+      "sector": "BFSI",
       "sections": [
         "S1",
         "S2",
         "S3"
-      ],
-      "sector": "BFSI"
+      ]
     },
     {
       "company": "KrazyBee Services Limited",
@@ -200,8 +200,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "Karnataka Bank Limited",
@@ -214,8 +214,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "Tourism Finance Corporation of India Limited",
@@ -228,8 +228,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "Golden Legand Leasing and Finance Limited",
@@ -242,12 +242,12 @@
       "send_gh": true,
       "send_analyst": false,
       "send_rh": false,
+      "sector": "BFSI",
       "sections": [
         "S1",
         "S2",
         "S3"
-      ],
-      "sector": "BFSI"
+      ]
     },
     {
       "company": "Nabkisan Finance limited",
@@ -260,12 +260,12 @@
       "send_gh": true,
       "send_analyst": false,
       "send_rh": false,
+      "sector": "BFSI",
       "sections": [
         "S1",
         "S2",
         "S3"
-      ],
-      "sector": "BFSI"
+      ]
     },
     {
       "company": "Svamaan Financial Services Private Limited",
@@ -278,12 +278,12 @@
       "send_gh": true,
       "send_analyst": false,
       "send_rh": false,
+      "sector": "BFSI",
       "sections": [
         "S1",
         "S2",
         "S3"
-      ],
-      "sector": "BFSI"
+      ]
     },
     {
       "company": "Axis Securities Limited",
@@ -296,8 +296,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "Ashika Stock Services Limited",
@@ -310,8 +310,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "IFCI Limited",
@@ -324,8 +324,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "Bank of Baroda",
@@ -338,8 +338,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "Punjab and Sind Bank",
@@ -352,8 +352,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "Nexome Capital Markets Limited",
@@ -366,8 +366,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "Wonder Home Finance Limited",
@@ -380,8 +380,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "SBM Bank (INDIA) Limited",
@@ -394,8 +394,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "Home First Finance Company India Limited",
@@ -408,12 +408,12 @@
       "send_gh": true,
       "send_analyst": false,
       "send_rh": false,
+      "sector": "BFSI",
       "sections": [
         "S1",
         "S2",
         "S3"
-      ],
-      "sector": "BFSI"
+      ]
     },
     {
       "company": "Religare Broking Limited",
@@ -426,8 +426,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "One Mobikwik",
@@ -440,8 +440,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "Pinelabs",
@@ -454,8 +454,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "Religare Enterprises",
@@ -468,8 +468,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "Finova Capital Private Limited",
@@ -482,8 +482,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "KLM Axiva Finvest Limited",
@@ -496,12 +496,12 @@
       "send_gh": true,
       "send_analyst": false,
       "send_rh": false,
+      "sector": "BFSI",
       "sections": [
         "S1",
         "S2",
         "S3"
-      ],
-      "sector": "BFSI"
+      ]
     },
     {
       "company": "Gajet Financial Services Private Limited",
@@ -514,12 +514,12 @@
       "send_gh": true,
       "send_analyst": false,
       "send_rh": false,
+      "sector": "BFSI",
       "sections": [
         "S1",
         "S2",
         "S3"
-      ],
-      "sector": "BFSI"
+      ]
     },
     {
       "company": "IDBI Bank Limited",
@@ -532,8 +532,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "SMFG India Credit Company Limited",
@@ -546,12 +546,12 @@
       "send_gh": true,
       "send_analyst": false,
       "send_rh": false,
+      "sector": "BFSI",
       "sections": [
         "S1",
         "S2",
         "S3"
-      ],
-      "sector": "BFSI"
+      ]
     },
     {
       "company": "SMFG India Home Finance Company Limited",
@@ -564,12 +564,12 @@
       "send_gh": true,
       "send_analyst": false,
       "send_rh": false,
+      "sector": "BFSI",
       "sections": [
         "S1",
         "S2",
         "S3"
-      ],
-      "sector": "BFSI"
+      ]
     },
     {
       "company": "NIPUN PROJECTS & FINANCE PRIVATE LIMITED",
@@ -582,8 +582,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "Nivara Home Finance Limited",
@@ -596,8 +596,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "Pahal Financial Services Private Limited",
@@ -610,8 +610,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "Sitara Housing Finance Limited",
@@ -624,12 +624,12 @@
       "send_gh": true,
       "send_analyst": false,
       "send_rh": false,
+      "sector": "BFSI",
       "sections": [
         "S1",
         "S2",
         "S3"
-      ],
-      "sector": "BFSI"
+      ]
     },
     {
       "company": "Nisus Finance Services Co Limited",
@@ -642,12 +642,12 @@
       "send_gh": true,
       "send_analyst": false,
       "send_rh": false,
+      "sector": "BFSI",
       "sections": [
         "S1",
         "S2",
         "S3"
-      ],
-      "sector": "BFSI"
+      ]
     },
     {
       "company": "Profectus Capital Private Limited",
@@ -660,12 +660,12 @@
       "send_gh": true,
       "send_analyst": false,
       "send_rh": false,
+      "sector": "BFSI",
       "sections": [
         "S1",
         "S2",
         "S3"
-      ],
-      "sector": "BFSI"
+      ]
     },
     {
       "company": "Indian Clearing Corporation Limited",
@@ -678,12 +678,12 @@
       "send_gh": true,
       "send_analyst": false,
       "send_rh": false,
+      "sector": "BFSI",
       "sections": [
         "S1",
         "S2",
         "S3"
-      ],
-      "sector": "BFSI"
+      ]
     },
     {
       "company": "NSE IFSC Clearing Corporation Limited",
@@ -696,12 +696,12 @@
       "send_gh": true,
       "send_analyst": false,
       "send_rh": false,
+      "sector": "BFSI",
       "sections": [
         "S1",
         "S2",
         "S3"
-      ],
-      "sector": "BFSI"
+      ]
     },
     {
       "company": "Repco Home Finance Limited",
@@ -714,12 +714,12 @@
       "send_gh": true,
       "send_analyst": false,
       "send_rh": false,
+      "sector": "BFSI",
       "sections": [
         "S1",
         "S2",
         "S3"
-      ],
-      "sector": "BFSI"
+      ]
     },
     {
       "company": "Jharkhand Rajya Gramin Bank",
@@ -732,8 +732,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "Bharti Axa Life Insurance Company Limited",
@@ -746,8 +746,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "MS Fincap Private Limited",
@@ -760,8 +760,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "Jammu & Kashmir Bank Limited",
@@ -774,8 +774,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "HDFC Life Insurance Company Limited",
@@ -788,8 +788,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "ESAF Small Finance Bank Limited",
@@ -802,8 +802,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "Goenka Business and Finance Limited",
@@ -816,8 +816,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "Sarala Development & Microfinance Private Limited",
@@ -830,8 +830,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "SMIFS LIMITED",
@@ -844,8 +844,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "Cyqure India Private Limited",
@@ -858,8 +858,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "Reliance Capital Limited",
@@ -872,8 +872,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "Maanaveeya Development & Finance Private Limited",
@@ -886,8 +886,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "360 One Alternates Asset Management Limited",
@@ -900,8 +900,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "360 One Distribution Services Limited",
@@ -914,8 +914,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "360 One Prime Limited",
@@ -928,8 +928,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "360 One Wam Limited",
@@ -942,8 +942,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "HDFC Securities Limited",
@@ -956,8 +956,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "Shrinithi Capital Private Limited",
@@ -970,12 +970,12 @@
       "send_gh": true,
       "send_analyst": false,
       "send_rh": false,
+      "sector": "BFSI",
       "sections": [
         "S1",
         "S2",
         "S3"
-      ],
-      "sector": "BFSI"
+      ]
     },
     {
       "company": "Alpha Alternatives Financial Services Private Limited",
@@ -988,12 +988,12 @@
       "send_gh": true,
       "send_analyst": false,
       "send_rh": false,
+      "sector": "BFSI",
       "sections": [
         "S1",
         "S2",
         "S3"
-      ],
-      "sector": "BFSI"
+      ]
     },
     {
       "company": "Agrim Housing Finance Private Limited",
@@ -1006,12 +1006,12 @@
       "send_gh": true,
       "send_analyst": false,
       "send_rh": false,
+      "sector": "BFSI",
       "sections": [
         "S1",
         "S2",
         "S3"
-      ],
-      "sector": "BFSI"
+      ]
     },
     {
       "company": "National Bank For Financing Infrastructure And Development",
@@ -1024,8 +1024,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "Decent Securities Limited",
@@ -1038,8 +1038,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "Geojit Credits Private Limited",
@@ -1052,8 +1052,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "Geojit Financial Services Limited",
@@ -1066,8 +1066,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "Geojit Investment",
@@ -1080,8 +1080,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "Comfort Fincap Limited",
@@ -1094,8 +1094,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "Equitas Small Finance Bank Limited",
@@ -1108,8 +1108,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "IndusInd General Insurance Company Limited",
@@ -1122,8 +1122,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "NABFINS Limited",
@@ -1136,12 +1136,12 @@
       "send_gh": true,
       "send_analyst": false,
       "send_rh": false,
+      "sector": "BFSI",
       "sections": [
         "S1",
         "S2",
         "S3"
-      ],
-      "sector": "BFSI"
+      ]
     },
     {
       "company": "Northern Arc Capital Limited",
@@ -1154,8 +1154,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "Baid Finserv Limited",
@@ -1168,8 +1168,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "Star Union Dai-ichi Life Insurance Company Limited",
@@ -1182,8 +1182,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "Kusalava Finance Limited",
@@ -1196,8 +1196,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "Sammaan Capital Limited",
@@ -1210,8 +1210,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "Sammaan Finserve Limited",
@@ -1224,8 +1224,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "Shubham Housing Development Finance Company Limited",
@@ -1238,8 +1238,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "Hinduja Housing Finance Limited",
@@ -1252,12 +1252,12 @@
       "send_gh": true,
       "send_analyst": false,
       "send_rh": false,
+      "sector": "BFSI",
       "sections": [
         "S1",
         "S2",
         "S3"
-      ],
-      "sector": "BFSI"
+      ]
     },
     {
       "company": "Hinduja Leyland Finance Limited",
@@ -1270,12 +1270,12 @@
       "send_gh": true,
       "send_analyst": false,
       "send_rh": false,
+      "sector": "BFSI",
       "sections": [
         "S1",
         "S2",
         "S3"
-      ],
-      "sector": "BFSI"
+      ]
     },
     {
       "company": "L&T Finance Limited (formerly known as L&T Finance Holdings Limited)",
@@ -1288,8 +1288,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "Light Microfinance Private Limited",
@@ -1302,8 +1302,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "National Housing Bank",
@@ -1316,8 +1316,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "SBFC Finance Limited",
@@ -1330,8 +1330,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "Earlysalary Services Private Limited",
@@ -1344,12 +1344,12 @@
       "send_gh": true,
       "send_analyst": false,
       "send_rh": false,
+      "sector": "BFSI",
       "sections": [
         "S1",
         "S2",
         "S3"
-      ],
-      "sector": "BFSI"
+      ]
     },
     {
       "company": "Crest Ventures Limited",
@@ -1362,12 +1362,12 @@
       "send_gh": true,
       "send_analyst": false,
       "send_rh": false,
+      "sector": "BFSI",
       "sections": [
         "S1",
         "S2",
         "S3"
-      ],
-      "sector": "BFSI"
+      ]
     },
     {
       "company": "IDBI Capital Markets & Securities Limited",
@@ -1380,8 +1380,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "Axis Bank Limited",
@@ -1394,8 +1394,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "Muthoot Homefin (India) Limited",
@@ -1408,12 +1408,12 @@
       "send_gh": true,
       "send_analyst": false,
       "send_rh": false,
+      "sector": "BFSI",
       "sections": [
         "S1",
         "S2",
         "S3"
-      ],
-      "sector": "BFSI"
+      ]
     },
     {
       "company": "Share India Fincap Private Limited",
@@ -1426,8 +1426,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "Share India Securities Limited",
@@ -1440,8 +1440,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "Poonawalla Fincorp Limited",
@@ -1454,8 +1454,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "Power Finance Corporation Limited",
@@ -1468,8 +1468,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "REC Limited",
@@ -1482,8 +1482,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "IDFC First Bank",
@@ -1496,8 +1496,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "Federal Bank Limited",
@@ -1510,8 +1510,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "HDB Financial Services Limited",
@@ -1524,8 +1524,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "Union Bank of India",
@@ -1538,8 +1538,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "State Bank of India",
@@ -1552,8 +1552,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "Arya Fin-Trade Services (India) Private Limited",
@@ -1566,8 +1566,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "Asthana Rural Development & Services Private Limited",
@@ -1580,8 +1580,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "Aavas Financiers Limited",
@@ -1594,8 +1594,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "Auriolus Finvest",
@@ -1608,8 +1608,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "Canara Bank",
@@ -1622,8 +1622,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "Central Bank of India",
@@ -1636,8 +1636,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "Bank of India",
@@ -1650,8 +1650,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "Truhome Finance Limited",
@@ -1664,8 +1664,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "ART Housing Finance India Limited",
@@ -1678,8 +1678,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "ICICI Bank Limited",
@@ -1692,8 +1692,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "Bandhan Mutual Fund (BLR)",
@@ -1706,8 +1706,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "Aditya Birla Sun Life Mutual Fund",
@@ -1720,8 +1720,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "Finnable Credit Private Limited",
@@ -1734,8 +1734,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "Midland Microfin Limited",
@@ -1748,8 +1748,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "Fedbank Financial Services Limited",
@@ -1762,12 +1762,12 @@
       "send_gh": true,
       "send_analyst": false,
       "send_rh": false,
+      "sector": "BFSI",
       "sections": [
         "S1",
         "S2",
         "S3"
-      ],
-      "sector": "BFSI"
+      ]
     },
     {
       "company": "Keshava Prabha Microfin Private Limited",
@@ -1780,12 +1780,12 @@
       "send_gh": true,
       "send_analyst": false,
       "send_rh": false,
+      "sector": "BFSI",
       "sections": [
         "S1",
         "S2",
         "S3"
-      ],
-      "sector": "BFSI"
+      ]
     },
     {
       "company": "Cars24 Financial Services Private Limited",
@@ -1798,8 +1798,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "Flat White Capital Private Limited",
@@ -1812,8 +1812,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "Setia Auto Finance Private Limited",
@@ -1826,8 +1826,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "Svatantra Micro Housing Finance Corporation Limited",
@@ -1840,12 +1840,12 @@
       "send_gh": true,
       "send_analyst": false,
       "send_rh": false,
+      "sector": "BFSI",
       "sections": [
         "S1",
         "S2",
         "S3"
-      ],
-      "sector": "BFSI"
+      ]
     },
     {
       "company": "Svatantra Microfin Limited",
@@ -1858,12 +1858,12 @@
       "send_gh": true,
       "send_analyst": false,
       "send_rh": false,
+      "sector": "BFSI",
       "sections": [
         "S1",
         "S2",
         "S3"
-      ],
-      "sector": "BFSI"
+      ]
     },
     {
       "company": "RAR Fincare Limited",
@@ -1876,12 +1876,12 @@
       "send_gh": true,
       "send_analyst": false,
       "send_rh": false,
+      "sector": "BFSI",
       "sections": [
         "S1",
         "S2",
         "S3"
-      ],
-      "sector": "BFSI"
+      ]
     },
     {
       "company": "Aseem Infrastructure Finance Limited",
@@ -1894,12 +1894,12 @@
       "send_gh": true,
       "send_analyst": false,
       "send_rh": false,
+      "sector": "BFSI",
       "sections": [
         "S1",
         "S2",
         "S3"
-      ],
-      "sector": "BFSI"
+      ]
     },
     {
       "company": "Red Fort Capital Finance Company Private Limited",
@@ -1912,12 +1912,12 @@
       "send_gh": true,
       "send_analyst": false,
       "send_rh": false,
+      "sector": "BFSI",
       "sections": [
         "S1",
         "S2",
         "S3"
-      ],
-      "sector": "BFSI"
+      ]
     },
     {
       "company": "Yogakshemam Loans Limited",
@@ -1930,12 +1930,12 @@
       "send_gh": true,
       "send_analyst": false,
       "send_rh": false,
+      "sector": "BFSI",
       "sections": [
         "S1",
         "S2",
         "S3"
-      ],
-      "sector": "BFSI"
+      ]
     },
     {
       "company": "The Puducherry Public Servants Co-op. Credit Society Ltd P-52",
@@ -1948,8 +1948,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "Star Housing Finance Limited",
@@ -1962,12 +1962,12 @@
       "send_gh": true,
       "send_analyst": false,
       "send_rh": false,
+      "sector": "BFSI",
       "sections": [
         "S1",
         "S2",
         "S3"
-      ],
-      "sector": "BFSI"
+      ]
     },
     {
       "company": "Manipal Cigna Health Insurance Company Limited",
@@ -1980,8 +1980,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "LIC Housing Finance Limited",
@@ -1994,8 +1994,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "ECAP EQUITIES LIMITED (formerly known as EDEL LAND LIMITED)",
@@ -2008,12 +2008,12 @@
       "send_gh": true,
       "send_analyst": false,
       "send_rh": false,
+      "sector": "BFSI",
       "sections": [
         "S1",
         "S2",
         "S3"
-      ],
-      "sector": "BFSI"
+      ]
     },
     {
       "company": "ECL Finance Limited",
@@ -2026,12 +2026,12 @@
       "send_gh": true,
       "send_analyst": false,
       "send_rh": false,
+      "sector": "BFSI",
       "sections": [
         "S1",
         "S2",
         "S3"
-      ],
-      "sector": "BFSI"
+      ]
     },
     {
       "company": "Edel Finance Company Limited",
@@ -2044,12 +2044,12 @@
       "send_gh": true,
       "send_analyst": false,
       "send_rh": false,
+      "sector": "BFSI",
       "sections": [
         "S1",
         "S2",
         "S3"
-      ],
-      "sector": "BFSI"
+      ]
     },
     {
       "company": "Edelweiss Asset Reconstruction Company Limited",
@@ -2062,12 +2062,12 @@
       "send_gh": true,
       "send_analyst": false,
       "send_rh": false,
+      "sector": "BFSI",
       "sections": [
         "S1",
         "S2",
         "S3"
-      ],
-      "sector": "BFSI"
+      ]
     },
     {
       "company": "Edelweiss Financial Services Limited",
@@ -2080,12 +2080,12 @@
       "send_gh": true,
       "send_analyst": false,
       "send_rh": false,
+      "sector": "BFSI",
       "sections": [
         "S1",
         "S2",
         "S3"
-      ],
-      "sector": "BFSI"
+      ]
     },
     {
       "company": "Nido Home Finance Limited",
@@ -2098,12 +2098,12 @@
       "send_gh": true,
       "send_analyst": false,
       "send_rh": false,
+      "sector": "BFSI",
       "sections": [
         "S1",
         "S2",
         "S3"
-      ],
-      "sector": "BFSI"
+      ]
     },
     {
       "company": "Svasti Microfinance Private Limited",
@@ -2116,8 +2116,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "Home Credit India Finance Private Limited",
@@ -2130,12 +2130,12 @@
       "send_gh": true,
       "send_analyst": false,
       "send_rh": false,
+      "sector": "BFSI",
       "sections": [
         "S1",
         "S2",
         "S3"
-      ],
-      "sector": "BFSI"
+      ]
     },
     {
       "company": "TVS Holdings Limited",
@@ -2148,12 +2148,12 @@
       "send_gh": true,
       "send_analyst": false,
       "send_rh": false,
+      "sector": "BFSI",
       "sections": [
         "S1",
         "S2",
         "S3"
-      ],
-      "sector": "BFSI"
+      ]
     },
     {
       "company": "TVS Credit Services Limited",
@@ -2166,12 +2166,12 @@
       "send_gh": true,
       "send_analyst": false,
       "send_rh": false,
+      "sector": "BFSI",
       "sections": [
         "S1",
         "S2",
         "S3"
-      ],
-      "sector": "BFSI"
+      ]
     },
     {
       "company": "Salem Erode Investments Limited",
@@ -2184,12 +2184,12 @@
       "send_gh": true,
       "send_analyst": false,
       "send_rh": false,
+      "sector": "BFSI",
       "sections": [
         "S1",
         "S2",
         "S3"
-      ],
-      "sector": "BFSI"
+      ]
     },
     {
       "company": "Grow Money Capital Private Limited",
@@ -2202,8 +2202,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "India Mortgage Guarantee Corporation Private Limited",
@@ -2216,8 +2216,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "Utkarsh Small Finance Bank Limited",
@@ -2230,8 +2230,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "Oxyzo Finance",
@@ -2244,8 +2244,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "Can Fin Homes Limited",
@@ -2258,8 +2258,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "Hero Fincorp Limited",
@@ -2272,8 +2272,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "STCI Finance Limited",
@@ -2286,12 +2286,12 @@
       "send_gh": true,
       "send_analyst": false,
       "send_rh": false,
+      "sector": "BFSI",
       "sections": [
         "S1",
         "S2",
         "S3"
-      ],
-      "sector": "BFSI"
+      ]
     },
     {
       "company": "Spark Institutional Equities Private Limited",
@@ -2304,12 +2304,12 @@
       "send_gh": true,
       "send_analyst": false,
       "send_rh": false,
+      "sector": "BFSI",
       "sections": [
         "S1",
         "S2",
         "S3"
-      ],
-      "sector": "BFSI"
+      ]
     },
     {
       "company": "Avendus Finance Private Limited",
@@ -2322,12 +2322,12 @@
       "send_gh": true,
       "send_analyst": false,
       "send_rh": false,
+      "sector": "BFSI",
       "sections": [
         "S1",
         "S2",
         "S3"
-      ],
-      "sector": "BFSI"
+      ]
     },
     {
       "company": "Coimbatore Capital Limited",
@@ -2340,8 +2340,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "Au Small Finance Bank Limited",
@@ -2354,8 +2354,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "Godrej Finance Limited",
@@ -2368,12 +2368,12 @@
       "send_gh": true,
       "send_analyst": false,
       "send_rh": false,
+      "sector": "BFSI",
       "sections": [
         "S1",
         "S2",
         "S3"
-      ],
-      "sector": "BFSI"
+      ]
     },
     {
       "company": "Godrej Housing Finance Limited",
@@ -2386,12 +2386,12 @@
       "send_gh": true,
       "send_analyst": false,
       "send_rh": false,
+      "sector": "BFSI",
       "sections": [
         "S1",
         "S2",
         "S3"
-      ],
-      "sector": "BFSI"
+      ]
     },
     {
       "company": "North Eastern Development Finance Corporation Limited",
@@ -2404,8 +2404,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "Punjab National Bank",
@@ -2418,8 +2418,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "Indresh Financial",
@@ -2432,8 +2432,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "Axis Finance Limited",
@@ -2446,8 +2446,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "Savery Transport Finance Limited",
@@ -2460,12 +2460,12 @@
       "send_gh": true,
       "send_analyst": false,
       "send_rh": false,
+      "sector": "BFSI",
       "sections": [
         "S1",
         "S2",
         "S3"
-      ],
-      "sector": "BFSI"
+      ]
     },
     {
       "company": "Madhya Pradesh Financial Corporation",
@@ -2478,8 +2478,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "Union Mutual Fund (BLR)",
@@ -2492,8 +2492,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "Ambium Finserve Limited",
@@ -2506,8 +2506,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "Taru Agencies and Investment Private Limited",
@@ -2520,8 +2520,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "Mas Financial Services Limited",
@@ -2534,8 +2534,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "MAS Rural Housing and Mortgage Finance Limited",
@@ -2548,8 +2548,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "Tata Capital Limited",
@@ -2562,12 +2562,12 @@
       "send_gh": true,
       "send_analyst": false,
       "send_rh": false,
+      "sector": "BFSI",
       "sections": [
         "S1",
         "S2",
         "S3"
-      ],
-      "sector": "BFSI"
+      ]
     },
     {
       "company": "Darashaw and Company Private Limited",
@@ -2580,8 +2580,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "ICICI Prudential Mutual Fund - BLR",
@@ -2594,8 +2594,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "Arohan Financial Services Limited",
@@ -2608,8 +2608,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "Akme Fintrade (India) Limited",
@@ -2622,8 +2622,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "Aryadhan Financial Solutions Private Limited",
@@ -2636,8 +2636,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "Bahadur Chand Investments Private Limited",
@@ -2650,8 +2650,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "Indian Bank",
@@ -2664,8 +2664,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "The Kalupur Commercial Co-Operative Bank Limited",
@@ -2678,8 +2678,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "Hiranandani Financial Services Private Limited",
@@ -2692,12 +2692,12 @@
       "send_gh": true,
       "send_analyst": false,
       "send_rh": false,
+      "sector": "BFSI",
       "sections": [
         "S1",
         "S2",
         "S3"
-      ],
-      "sector": "BFSI"
+      ]
     },
     {
       "company": "Khushbu Auto Finance Limited",
@@ -2710,12 +2710,12 @@
       "send_gh": true,
       "send_analyst": false,
       "send_rh": false,
+      "sector": "BFSI",
       "sections": [
         "S1",
         "S2",
         "S3"
-      ],
-      "sector": "BFSI"
+      ]
     },
     {
       "company": "Namra Finance Limited",
@@ -2728,8 +2728,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "Arman Financial Services Limited",
@@ -2742,8 +2742,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "The Karur Vysya Bank Limited",
@@ -2756,8 +2756,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "ICICI Securities Primary Dealership Limited",
@@ -2770,8 +2770,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "Best Finance Corporation Limited",
@@ -2784,12 +2784,12 @@
       "send_gh": true,
       "send_analyst": false,
       "send_rh": false,
+      "sector": "BFSI",
       "sections": [
         "S1",
         "S2",
         "S3"
-      ],
-      "sector": "BFSI"
+      ]
     },
     {
       "company": "Navi Finserv Limited",
@@ -2802,8 +2802,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "Amrit Malwa Capital Limited",
@@ -2816,8 +2816,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "Capital Trust Limited",
@@ -2830,8 +2830,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "GIC-Bhutan Reinsurance Company Limited",
@@ -2844,8 +2844,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "Shriram Finance Limited",
@@ -2858,12 +2858,12 @@
       "send_gh": true,
       "send_analyst": false,
       "send_rh": false,
+      "sector": "BFSI",
       "sections": [
         "S1",
         "S2",
         "S3"
-      ],
-      "sector": "BFSI"
+      ]
     },
     {
       "company": "Muthoot Mcred Limited",
@@ -2876,8 +2876,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "IL&FS Financial Services Limited",
@@ -2890,8 +2890,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "Infrastructure Leasing & Financial Services Limited",
@@ -2904,8 +2904,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "The Gujarat State Co Operative Bank Limited",
@@ -2918,8 +2918,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "SBI Mutual Fund - BLR",
@@ -2932,8 +2932,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "HDFC Bank Limited",
@@ -2946,8 +2946,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "Cholamandalam Investment And Finance Company Limited",
@@ -2960,12 +2960,12 @@
       "send_gh": true,
       "send_analyst": false,
       "send_rh": false,
+      "sector": "BFSI",
       "sections": [
         "S1",
         "S2",
         "S3"
-      ],
-      "sector": "BFSI"
+      ]
     },
     {
       "company": "Asirvad Micro Finance Limited",
@@ -2978,8 +2978,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "IL&FS Securities Services Limited",
@@ -2992,8 +2992,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "Manappuram Finance Limited",
@@ -3006,8 +3006,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "Manappuram Home Finance Limited",
@@ -3020,8 +3020,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "Viksit Capital Private Limited",
@@ -3034,8 +3034,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "Annapurna Finance Private Limited",
@@ -3048,8 +3048,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "General Insurance Corporation of India",
@@ -3062,8 +3062,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "CLIX Capital Services Private Limited",
@@ -3076,8 +3076,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "Meet Finance Private Limited",
@@ -3090,8 +3090,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "Way2Wealth Brokers Private Limited",
@@ -3104,12 +3104,12 @@
       "send_gh": true,
       "send_analyst": false,
       "send_rh": false,
+      "sector": "BFSI",
       "sections": [
         "S1",
         "S2",
         "S3"
-      ],
-      "sector": "BFSI"
+      ]
     },
     {
       "company": "SK Finance Limited",
@@ -3122,8 +3122,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "Axis Max Life Insurance Limited",
@@ -3136,8 +3136,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "Roha Housing Finance Private Limited",
@@ -3150,8 +3150,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "UCO Bank",
@@ -3164,8 +3164,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "Auxilo Finserve Private Limited",
@@ -3178,12 +3178,12 @@
       "send_gh": true,
       "send_analyst": false,
       "send_rh": false,
+      "sector": "BFSI",
       "sections": [
         "S1",
         "S2",
         "S3"
-      ],
-      "sector": "BFSI"
+      ]
     },
     {
       "company": "Bandhan Life Insurance Limited",
@@ -3196,8 +3196,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "Infinity Fincorp Solutions Private Limited",
@@ -3210,12 +3210,12 @@
       "send_gh": true,
       "send_analyst": false,
       "send_rh": false,
+      "sector": "BFSI",
       "sections": [
         "S1",
         "S2",
         "S3"
-      ],
-      "sector": "BFSI"
+      ]
     },
     {
       "company": "Mirae Asset Investment Managers (India) Private Limited (CQR)",
@@ -3228,8 +3228,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "Gosree Finance Limited",
@@ -3242,12 +3242,12 @@
       "send_gh": true,
       "send_analyst": false,
       "send_rh": false,
+      "sector": "BFSI",
       "sections": [
         "S1",
         "S2",
         "S3"
-      ],
-      "sector": "BFSI"
+      ]
     },
     {
       "company": "Raise Fintech Ventures Private Limited",
@@ -3260,8 +3260,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "The Clearing Corporation of India Limited",
@@ -3274,12 +3274,12 @@
       "send_gh": true,
       "send_analyst": false,
       "send_rh": false,
+      "sector": "BFSI",
       "sections": [
         "S1",
         "S2",
         "S3"
-      ],
-      "sector": "BFSI"
+      ]
     },
     {
       "company": "Multi Commodity Exchange Clearing Corporation Limited",
@@ -3292,12 +3292,12 @@
       "send_gh": true,
       "send_analyst": false,
       "send_rh": false,
+      "sector": "BFSI",
       "sections": [
         "S1",
         "S2",
         "S3"
-      ],
-      "sector": "BFSI"
+      ]
     },
     {
       "company": "Bizloan Private Limited",
@@ -3310,8 +3310,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "CSA Investments Private Limited",
@@ -3324,8 +3324,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "Housing and Urban Development Corporation Limited",
@@ -3338,8 +3338,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "Mantra Capital Limited",
@@ -3352,12 +3352,12 @@
       "send_gh": true,
       "send_analyst": false,
       "send_rh": false,
+      "sector": "BFSI",
       "sections": [
         "S1",
         "S2",
         "S3"
-      ],
-      "sector": "BFSI"
+      ]
     },
     {
       "company": "City Union Bank Limited",
@@ -3370,8 +3370,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "Pantomath Capital Advisors Private Limited",
@@ -3384,8 +3384,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "Aham Housing Finance Limited",
@@ -3398,12 +3398,12 @@
       "send_gh": true,
       "send_analyst": false,
       "send_rh": false,
+      "sector": "BFSI",
       "sections": [
         "S1",
         "S2",
         "S3"
-      ],
-      "sector": "BFSI"
+      ]
     },
     {
       "company": "NTC Finance Private Limited",
@@ -3416,12 +3416,12 @@
       "send_gh": true,
       "send_analyst": false,
       "send_rh": false,
+      "sector": "BFSI",
       "sections": [
         "S1",
         "S2",
         "S3"
-      ],
-      "sector": "BFSI"
+      ]
     },
     {
       "company": "INFINA Finance Private Limited",
@@ -3434,8 +3434,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "Magalir Micro Capital Private Limited",
@@ -3448,8 +3448,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "Kamal Autofinance Private Limited",
@@ -3462,8 +3462,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "Finkurve Financial Services Limited",
@@ -3476,12 +3476,12 @@
       "send_gh": true,
       "send_analyst": false,
       "send_rh": false,
+      "sector": "BFSI",
       "sections": [
         "S1",
         "S2",
         "S3"
-      ],
-      "sector": "BFSI"
+      ]
     },
     {
       "company": "Punjab Infrastructure Development Board",
@@ -3494,8 +3494,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "Sagarmala Finance Corporation Limited",
@@ -3508,8 +3508,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "Capital Small Finance Bank Limited",
@@ -3522,8 +3522,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "Invesco Asset Management (India) Private Limited (BLR)",
@@ -3536,8 +3536,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "Micro Units Development and Refinance Agency Limited",
@@ -3550,12 +3550,12 @@
       "send_gh": true,
       "send_analyst": false,
       "send_rh": false,
+      "sector": "BFSI",
       "sections": [
         "S1",
         "S2",
         "S3"
-      ],
-      "sector": "BFSI"
+      ]
     },
     {
       "company": "Ceejay Finance Limited",
@@ -3568,8 +3568,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "Integro Finserv Private Limited",
@@ -3582,12 +3582,12 @@
       "send_gh": true,
       "send_analyst": false,
       "send_rh": false,
+      "sector": "BFSI",
       "sections": [
         "S1",
         "S2",
         "S3"
-      ],
-      "sector": "BFSI"
+      ]
     },
     {
       "company": "Magma General Insurance Limited",
@@ -3600,8 +3600,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "Grihum Housing Finance Limited",
@@ -3614,8 +3614,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "National Minorities Development & Finance Corporation",
@@ -3628,8 +3628,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "Netzero Finance Private Limited",
@@ -3642,12 +3642,12 @@
       "send_gh": true,
       "send_analyst": false,
       "send_rh": false,
+      "sector": "BFSI",
       "sections": [
         "S1",
         "S2",
         "S3"
-      ],
-      "sector": "BFSI"
+      ]
     },
     {
       "company": "Kaleidofin Capital Private Limited",
@@ -3660,12 +3660,12 @@
       "send_gh": true,
       "send_analyst": false,
       "send_rh": false,
+      "sector": "BFSI",
       "sections": [
         "S1",
         "S2",
         "S3"
-      ],
-      "sector": "BFSI"
+      ]
     },
     {
       "company": "Jana Small Finance Bank Limited",
@@ -3678,8 +3678,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "Orocorp Technologies Private Limited",
@@ -3692,12 +3692,12 @@
       "send_gh": true,
       "send_analyst": false,
       "send_rh": false,
+      "sector": "BFSI",
       "sections": [
         "S1",
         "S2",
         "S3"
-      ],
-      "sector": "BFSI"
+      ]
     },
     {
       "company": "Canara HSBC Life Insurance Company Limited",
@@ -3710,8 +3710,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "Jewel Rock Hire Purchase and Leasing Private Limited",
@@ -3724,12 +3724,12 @@
       "send_gh": true,
       "send_analyst": false,
       "send_rh": false,
+      "sector": "BFSI",
       "sections": [
         "S1",
         "S2",
         "S3"
-      ],
-      "sector": "BFSI"
+      ]
     },
     {
       "company": "Kanakadurga Finance Limited",
@@ -3742,8 +3742,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "Samaaru Finance Private Limited",
@@ -3756,8 +3756,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "SBI Payment Services Private Limited",
@@ -3770,8 +3770,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "Venkateswara Financiers Hyderabad Private Limited",
@@ -3784,12 +3784,12 @@
       "send_gh": true,
       "send_analyst": false,
       "send_rh": false,
+      "sector": "BFSI",
       "sections": [
         "S1",
         "S2",
         "S3"
-      ],
-      "sector": "BFSI"
+      ]
     },
     {
       "company": "Aphelion Finance Private Limited",
@@ -3802,8 +3802,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "Universal Sompo General Insurance Company Limited",
@@ -3816,8 +3816,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "Trust Investment Advisors Private Limited",
@@ -3830,8 +3830,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "The National Small Industries Corporation Limited",
@@ -3844,8 +3844,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "Chinmay Finlease Limited",
@@ -3858,8 +3858,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "Indusind Bank Limited",
@@ -3872,8 +3872,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "Dandona Finance Limited",
@@ -3886,8 +3886,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "Fusion Finance Limited",
@@ -3900,8 +3900,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "India Infrastructure Finance Company Limited",
@@ -3914,8 +3914,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "Billionbrains Garage Ventures Limited",
@@ -3928,8 +3928,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "Groww Creditserv Technology Private Limited",
@@ -3942,8 +3942,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "Tamilnadu Industrial Development Corporation Limited",
@@ -3956,8 +3956,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "PPFAS Mutual Fund",
@@ -3970,8 +3970,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "Manappuram Asset Finance Limited",
@@ -3984,8 +3984,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "D. S. Integrated FinSec Private Limited",
@@ -3998,12 +3998,12 @@
       "send_gh": true,
       "send_analyst": false,
       "send_rh": false,
+      "sector": "BFSI",
       "sections": [
         "S1",
         "S2",
         "S3"
-      ],
-      "sector": "BFSI"
+      ]
     },
     {
       "company": "Credila Financial Services Limited",
@@ -4016,12 +4016,12 @@
       "send_gh": true,
       "send_analyst": false,
       "send_rh": false,
+      "sector": "BFSI",
       "sections": [
         "S1",
         "S2",
         "S3"
-      ],
-      "sector": "BFSI"
+      ]
     },
     {
       "company": "Anand Rathi Share and Stock Brokers Limited",
@@ -4034,12 +4034,12 @@
       "send_gh": true,
       "send_analyst": false,
       "send_rh": false,
+      "sector": "BFSI",
       "sections": [
         "S1",
         "S2",
         "S3"
-      ],
-      "sector": "BFSI"
+      ]
     },
     {
       "company": "Star Health and Allied Insurance Company Limited",
@@ -4052,8 +4052,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "Akara Capital Advisors Private Limited",
@@ -4066,8 +4066,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "Maben Nidhi Limited",
@@ -4080,8 +4080,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "RNFI Service Limited",
@@ -4094,8 +4094,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "Ujjivan Small Finance Bank Limited",
@@ -4108,8 +4108,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "Dvara Kshetriya Gramin Financial Services Private Limited",
@@ -4122,8 +4122,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "SBERBANK Branch in India",
@@ -4136,8 +4136,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "Angel One Limited",
@@ -4150,8 +4150,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "Bajaj Life Insurance Limited",
@@ -4164,8 +4164,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "CRSP CAPITAL PRIVATE LIMITED",
@@ -4178,8 +4178,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "Bajaj Auto Credit Limited",
@@ -4192,8 +4192,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "Indiafirst Life Insurance Company Limited",
@@ -4206,8 +4206,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "Bajaj Finance Limited",
@@ -4220,8 +4220,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "Hari and Company Investments Madras Limited",
@@ -4234,8 +4234,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "Navi Limited",
@@ -4248,8 +4248,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "Tata Capital Limited- MA",
@@ -4262,12 +4262,12 @@
       "send_gh": true,
       "send_analyst": false,
       "send_rh": false,
+      "sector": "BFSI",
       "sections": [
         "S1",
         "S2",
         "S3"
-      ],
-      "sector": "BFSI"
+      ]
     },
     {
       "company": "Tata Mutual Fund",
@@ -4280,8 +4280,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "PNB Housing",
@@ -4294,8 +4294,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "HDFC Mutual Fund",
@@ -4308,8 +4308,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "Invesco Asset Management (India) Private Limited",
@@ -4322,8 +4322,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "Nippon Life India Asset Management Limited",
@@ -4336,8 +4336,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "Trustedge",
@@ -4350,12 +4350,12 @@
       "send_gh": true,
       "send_analyst": false,
       "send_rh": false,
+      "sector": "BFSI",
       "sections": [
         "S1",
         "S2",
         "S3"
-      ],
-      "sector": "BFSI"
+      ]
     },
     {
       "company": "Emkay Global Financial Services Limited",
@@ -4368,12 +4368,12 @@
       "send_gh": true,
       "send_analyst": false,
       "send_rh": false,
+      "sector": "BFSI",
       "sections": [
         "S1",
         "S2",
         "S3"
-      ],
-      "sector": "BFSI"
+      ]
     },
     {
       "company": "Bandhan Mutual Fund",
@@ -4386,8 +4386,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "Team India Guaranty Limited",
@@ -4400,12 +4400,12 @@
       "send_gh": true,
       "send_analyst": false,
       "send_rh": false,
+      "sector": "BFSI",
       "sections": [
         "S1",
         "S2",
         "S3"
-      ],
-      "sector": "BFSI"
+      ]
     },
     {
       "company": "People Home Loans Limited",
@@ -4418,8 +4418,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "Equirus Securities Private Limited",
@@ -4432,8 +4432,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "ICICI Home Finance Company Limited",
@@ -4446,8 +4446,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "Centrum Housing Finance Limited",
@@ -4460,8 +4460,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "Narendra Finance",
@@ -4474,8 +4474,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "Royal Sundaram General Insurance Co. Limited",
@@ -4488,8 +4488,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "Altum Credo Home Finance Private Limited",
@@ -4502,12 +4502,12 @@
       "send_gh": true,
       "send_analyst": false,
       "send_rh": false,
+      "sector": "BFSI",
       "sections": [
         "S1",
         "S2",
         "S3"
-      ],
-      "sector": "BFSI"
+      ]
     },
     {
       "company": "Nuvama Wealth Management Limited",
@@ -4520,8 +4520,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "Nuvama Clearing Services Limited",
@@ -4534,8 +4534,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "Nuvama Wealth And Investment Limited",
@@ -4548,8 +4548,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "Nuvama Wealth Finance Limited",
@@ -4562,8 +4562,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "Vastu Finserve India Private limited",
@@ -4576,12 +4576,12 @@
       "send_gh": true,
       "send_analyst": false,
       "send_rh": false,
+      "sector": "BFSI",
       "sections": [
         "S1",
         "S2",
         "S3"
-      ],
-      "sector": "BFSI"
+      ]
     },
     {
       "company": "Vastu Housing Finance Corporation Limited",
@@ -4594,12 +4594,12 @@
       "send_gh": true,
       "send_analyst": false,
       "send_rh": false,
+      "sector": "BFSI",
       "sections": [
         "S1",
         "S2",
         "S3"
-      ],
-      "sector": "BFSI"
+      ]
     },
     {
       "company": "Mirae Asset Investment Managers (India) Private Limited (BLR)",
@@ -4612,8 +4612,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "A. K. Capital Finance Limited",
@@ -4626,8 +4626,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "A. K. Capital Services Limited",
@@ -4640,8 +4640,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "Avanse Financial Services Limited",
@@ -4654,12 +4654,12 @@
       "send_gh": true,
       "send_analyst": false,
       "send_rh": false,
+      "sector": "BFSI",
       "sections": [
         "S1",
         "S2",
         "S3"
-      ],
-      "sector": "BFSI"
+      ]
     },
     {
       "company": "Bank of Maharashtra",
@@ -4672,8 +4672,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "NIIF Infrastructure Finance Limited",
@@ -4686,12 +4686,12 @@
       "send_gh": true,
       "send_analyst": false,
       "send_rh": false,
+      "sector": "BFSI",
       "sections": [
         "S1",
         "S2",
         "S3"
-      ],
-      "sector": "BFSI"
+      ]
     },
     {
       "company": "Small Industries Development Bank of India",
@@ -4704,12 +4704,12 @@
       "send_gh": true,
       "send_analyst": false,
       "send_rh": false,
+      "sector": "BFSI",
       "sections": [
         "S1",
         "S2",
         "S3"
-      ],
-      "sector": "BFSI"
+      ]
     },
     {
       "company": "Spandana Sphoorty Financial Limited",
@@ -4722,8 +4722,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "Yes Securities (INDIA) Limited",
@@ -4736,8 +4736,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "Kogta Financial (india) Limited",
@@ -4750,8 +4750,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "Yes Bank Limited",
@@ -4764,8 +4764,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "Jio Credit Limited",
@@ -4778,8 +4778,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "Jio Leasing Services Limited",
@@ -4792,8 +4792,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "Vistaar Financial Services Private Limited",
@@ -4806,8 +4806,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "DCB Bank",
@@ -4820,8 +4820,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "Mahindra And Mahindra Financial Services Limited",
@@ -4834,8 +4834,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "Mahindra Rural Housing Finance Limited",
@@ -4848,8 +4848,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "KISETSU Saison Finance (INDIA) Private Limited",
@@ -4862,12 +4862,12 @@
       "send_gh": true,
       "send_analyst": false,
       "send_rh": false,
+      "sector": "BFSI",
       "sections": [
         "S1",
         "S2",
         "S3"
-      ],
-      "sector": "BFSI"
+      ]
     },
     {
       "company": "Indostar Capital Finance Limited",
@@ -4880,12 +4880,12 @@
       "send_gh": true,
       "send_analyst": false,
       "send_rh": false,
+      "sector": "BFSI",
       "sections": [
         "S1",
         "S2",
         "S3"
-      ],
-      "sector": "BFSI"
+      ]
     },
     {
       "company": "IKF Finance Limited",
@@ -4898,12 +4898,12 @@
       "send_gh": true,
       "send_analyst": false,
       "send_rh": false,
+      "sector": "BFSI",
       "sections": [
         "S1",
         "S2",
         "S3"
-      ],
-      "sector": "BFSI"
+      ]
     },
     {
       "company": "IKF Home Finance Limited",
@@ -4916,12 +4916,12 @@
       "send_gh": true,
       "send_analyst": false,
       "send_rh": false,
+      "sector": "BFSI",
       "sections": [
         "S1",
         "S2",
         "S3"
-      ],
-      "sector": "BFSI"
+      ]
     },
     {
       "company": "Aadhar Housing Finance Limited",
@@ -4934,12 +4934,12 @@
       "send_gh": true,
       "send_analyst": false,
       "send_rh": false,
+      "sector": "BFSI",
       "sections": [
         "S1",
         "S2",
         "S3"
-      ],
-      "sector": "BFSI"
+      ]
     },
     {
       "company": "Aptus Finance India Private Limited",
@@ -4952,12 +4952,12 @@
       "send_gh": true,
       "send_analyst": false,
       "send_rh": false,
+      "sector": "BFSI",
       "sections": [
         "S1",
         "S2",
         "S3"
-      ],
-      "sector": "BFSI"
+      ]
     },
     {
       "company": "Aptus Value Housing Finance India Limited",
@@ -4970,12 +4970,12 @@
       "send_gh": true,
       "send_analyst": false,
       "send_rh": false,
+      "sector": "BFSI",
       "sections": [
         "S1",
         "S2",
         "S3"
-      ],
-      "sector": "BFSI"
+      ]
     },
     {
       "company": "Indian Railway Finance",
@@ -4988,8 +4988,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "Mahaveer Finance India Limited",
@@ -5002,12 +5002,12 @@
       "send_gh": true,
       "send_analyst": false,
       "send_rh": false,
+      "sector": "BFSI",
       "sections": [
         "S1",
         "S2",
         "S3"
-      ],
-      "sector": "BFSI"
+      ]
     },
     {
       "company": "Veritas Finance Limited",
@@ -5020,12 +5020,12 @@
       "send_gh": true,
       "send_analyst": false,
       "send_rh": false,
+      "sector": "BFSI",
       "sections": [
         "S1",
         "S2",
         "S3"
-      ],
-      "sector": "BFSI"
+      ]
     },
     {
       "company": "Five-Star Business Finance Limited",
@@ -5038,12 +5038,12 @@
       "send_gh": true,
       "send_analyst": false,
       "send_rh": false,
+      "sector": "BFSI",
       "sections": [
         "S1",
         "S2",
         "S3"
-      ],
-      "sector": "BFSI"
+      ]
     },
     {
       "company": "Piramal Finance Limited (erstwhile Piramal Capital & Housing Finance Limited)",
@@ -5056,8 +5056,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "RBL Bank Limited",
@@ -5070,8 +5070,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "5Paisa Capital Limited",
@@ -5084,8 +5084,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "SG Finserve Limited",
@@ -5098,8 +5098,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "Abhiyan Capital (India) Private Limited",
@@ -5112,12 +5112,12 @@
       "send_gh": true,
       "send_analyst": false,
       "send_rh": false,
+      "sector": "BFSI",
       "sections": [
         "S1",
         "S2",
         "S3"
-      ],
-      "sector": "BFSI"
+      ]
     },
     {
       "company": "Svakarma Finance Private Limited",
@@ -5130,12 +5130,12 @@
       "send_gh": true,
       "send_analyst": false,
       "send_rh": false,
+      "sector": "BFSI",
       "sections": [
         "S1",
         "S2",
         "S3"
-      ],
-      "sector": "BFSI"
+      ]
     },
     {
       "company": "Shriram Insight Share Brokers Limited",
@@ -5148,12 +5148,12 @@
       "send_gh": true,
       "send_analyst": false,
       "send_rh": false,
+      "sector": "BFSI",
       "sections": [
         "S1",
         "S2",
         "S3"
-      ],
-      "sector": "BFSI"
+      ]
     },
     {
       "company": "Shriram Credit Company Limited",
@@ -5166,12 +5166,12 @@
       "send_gh": true,
       "send_analyst": false,
       "send_rh": false,
+      "sector": "BFSI",
       "sections": [
         "S1",
         "S2",
         "S3"
-      ],
-      "sector": "BFSI"
+      ]
     },
     {
       "company": "The South Indian Bank Limited",
@@ -5184,8 +5184,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "Edelweiss Asset Management Limited",
@@ -5198,8 +5198,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "Mahindra Manulife Investment Management Private Limited",
@@ -5212,8 +5212,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "Ambit Finvest Private Limited",
@@ -5226,12 +5226,12 @@
       "send_gh": true,
       "send_analyst": false,
       "send_rh": false,
+      "sector": "BFSI",
       "sections": [
         "S1",
         "S2",
         "S3"
-      ],
-      "sector": "BFSI"
+      ]
     },
     {
       "company": "Indian Overseas Bank",
@@ -5244,8 +5244,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "India Shelter Finance",
@@ -5258,8 +5258,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "Indian Renewable Energy Development Agency Limited (IREDA)",
@@ -5272,8 +5272,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "S V Creditline Limited",
@@ -5286,8 +5286,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "Save Microfinance Private Limited",
@@ -5300,8 +5300,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "Save Solutions Private Limited",
@@ -5314,8 +5314,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "Solfin Sustainable Finance Private Limited",
@@ -5328,8 +5328,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "Ummeed Housing Finance Private Limited",
@@ -5342,8 +5342,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "Niva Bupa Health Insurance Company Limited",
@@ -5356,8 +5356,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "Axis Mutual Fund",
@@ -5370,8 +5370,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "Jio BlackRock Asset Management Private Limited",
@@ -5384,8 +5384,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "LIC Mutual Fund",
@@ -5398,8 +5398,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "Union Mutual Fund",
@@ -5412,8 +5412,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "ICICI Prudential Mutual Fund",
@@ -5426,8 +5426,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "Bajaj Finserv Asset Management Limited",
@@ -5440,8 +5440,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "Baroda BNP Paribas Mutual Fund",
@@ -5454,8 +5454,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "Canara Robeco Mutual Fund",
@@ -5468,8 +5468,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "SBI Funds Management Limited",
@@ -5482,8 +5482,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "Indo Thai Securities Ltd",
@@ -5496,8 +5496,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "Arvesta Financial Services Private Limited",
@@ -5510,8 +5510,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "Kotak Mahindra Mutual Fund",
@@ -5524,8 +5524,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "Sundaram Asset Management Company Limited",
@@ -5538,8 +5538,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "UTI Asset Management Company Limited",
@@ -5552,8 +5552,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "Systamatix Corporate Services Limited",
@@ -5566,8 +5566,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "Vivriti Capital Limited",
@@ -5580,8 +5580,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     },
     {
       "company": "Bhansali",
@@ -5594,8 +5594,8 @@
       "send_gh": false,
       "send_analyst": false,
       "send_rh": false,
-      "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "sections": []
     }
   ],
   "scheduled_enabled": true,
@@ -5628,5 +5628,6 @@
       "small finance bank"
     ],
     "Infrastructure": []
-  }
+  },
+  "sector_keywords": []
 }
