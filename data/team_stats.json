@@ -278,5 +278,69 @@
     "Stock Radar: Concord Biotech stock showing signs of rebound after falling over 20% from highs; time to buy?"
    ]
   }
+ },
+ {
+  "date": "2026-08-06",
+  "fetched": 142,
+  "delivered_pool": 96,
+  "junk": 10,
+  "geo": 1,
+  "stale": 0,
+  "dup": 7,
+  "sections": {
+   "S1": 21,
+   "S2": 52,
+   "S3": 23
+  },
+  "mails": 6,
+  "failed": [],
+  "source_summary": {
+   "RBI RSS": 20,
+   "RBI Enforcement": 0,
+   "SEBI RSS": 20,
+   "Rating Agencies": 2,
+   "Google News": 25,
+   "Watchlist (Google)": 0,
+   "BSE Announcements": 0,
+   "BSE Financials": 0,
+   "Telegram": 28,
+   "Web Scraper": 195
+  },
+  "dropped_samples": {
+   "relevance": [
+    "India's markets regulator unlikely to immediately review new stock closing auction, source says",
+    "Marine Electricals Yearly Results, Financial summary, Marine Electricals Yearly Earnings",
+    "Global Market Today: Asian stocks drop as AI rally pauses, oil dips",
+    "US-Iran War Live Updates: Donald Trump\u2019s Hormuz deal would give Iran control of inbound traffic in the Strait",
+    "According to the survey, one in two Indians said they had watched multiple fake videos in the last 12 months, ",
+    "Maharashtra has enforced a one-year ban on the production, storage, and distribution of analogue or non-dairy ",
+    "The EPFO is expected to launch E-PRAAPTI by the end of August to help members recover money lying in old or in",
+    "Visa's latest round of artificial intelligence-fuelled layoffs, affecting nearly 2,600 employees, has extended",
+    "Hester Biosciences Ltd.\u2019s Consolidated Net Profit up 459%",
+    "Country\u2019s Outstanding Debt Crosses Rs 200 Lakh Crore",
+    "Global Headwinds Intensify - Can India Inc Stay the Course? by CareEdge Ratings",
+    "Manoj Vaibhav Gems 'N' Jewellers Limited",
+    "India Ratings downgrades Dhampur Sugar\u2019s long-term credit rating to IND A+",
+    "Listing of further issue of GVP Infotech Limited",
+    "Listing of further issue of Adani Enterprises Limited",
+    "Listing of Equity Shares of Juniper Green Energy Limited (IPO)",
+    "Traders welcome India\u2019s bond e-trading evolution as regulator shows teeth",
+    "Molbio eyes overseas growth after OptraScan secures USFDA clearance - Business Standard",
+    "Business Standard News Notification: Latest Breaking Notification News Updates and Headlines on Business Stand",
+    "Edelweiss' EAAA adds Pune office park to commercial realty portfolio - Business Standard"
+   ],
+   "junk": [
+    "UBS on BSE Neutral, TP Rs 4500 Revenue broadly in line, earnings aided by stronger investment income Healthy o",
+    "Jefferies on BSE Hold, TP Rs 3520",
+    "JPM on BSE Neutral, TP Rs 4090 Revenues of Rs15.66bn (+63% YoY/flat QoQ), as sharp YoY step-up in equity deriv",
+    "HSBC India Strategy India offers diversification and stability AI rotation outflows largely done With 80%+ of ",
+    "Emkay remains bullish on Stovekraft",
+    "GS on Pidilite Buy, TP Rs 1700 Consol revenue grew 21.3% YoY (2% ahead of est), while consolidated EBITDA grew",
+    "Jefferies on FSN E Com Buy, TP Rs 400 Strong beat across metrics - revenue growth remained strong, margin rose",
+    "Stock Stats | Stock info | Infographics",
+    "Kotak Bond - Short Term Fund - Regular (IDCW-W) - Business Standard",
+    "Stock Radar: Hindalco stock forms double bottom pattern after falling over 14% from highs; time to buy?"
+   ]
+  }
  }
 ]
