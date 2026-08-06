@@ -207,8 +207,8 @@
     {
       "title": "Bajaj Finance Q1 net profit rises 20% on strong loan growth",
       "expect": "S2",
-      "why": "financial-issuer results",
-      "expect_team": "S2"
+      "why": "one company's results are entity news in the 3-section scheme — S1 if tracked, dropped otherwise",
+      "expect_team": null
     },
     {
       "title": "BEL-Thales Systems Ltd",
@@ -227,8 +227,8 @@
     {
       "title": "Bharti Airtel raises Rs 5,000 crore via non-convertible debentures",
       "expect": "S4",
-      "why": "telecom issuer; NCD keyword makes it bond-market, never NBFC/FI sector",
-      "expect_team": "S3"
+      "why": "single issuer's NCD raise is entity news — S1 if tracked, dropped otherwise; never macro",
+      "expect_team": null
     },
     {
       "title": "Airtel reports 12% rise in Q1 net profit on tariff hikes",
@@ -326,6 +326,54 @@
       "expect": "S2",
       "expect_team": "S2",
       "why": "genuine regulator direction must survive the tribunal/broker additions"
+    },
+    {
+      "title": "Suraj Estate Developers board meets Aug 10 for Rs 165 cr NCD plan",
+      "expect": "S4",
+      "expect_team": null,
+      "why": "reported S3 leak: one issuer's board meeting on an NCD plan is entity news, not macro"
+    },
+    {
+      "title": "Veefin Solutions allots Rs 20 crore NCDs at 15% coupon rate",
+      "expect": "S4",
+      "expect_team": null,
+      "why": "reported S3 leak: single-issuer NCD allotment"
+    },
+    {
+      "title": "Muthoot Microfin allots Rs 35 crore Commercial Paper at 9.4% yield",
+      "expect": "S4",
+      "expect_team": null,
+      "why": "reported S3 leak: 'commercial paper' is a macro keyword but a single allotment is entity news"
+    },
+    {
+      "title": "Afcons Infrastructure redeems Rs 50 crore commercial paper on maturity",
+      "expect": "S4",
+      "expect_team": null,
+      "why": "reported S3 leak: single-issuer CP redemption"
+    },
+    {
+      "title": "PB Fintech Q1 Results: Net Profit Surges 92% YoY to Rs 163 Crore",
+      "expect": "S2",
+      "expect_team": null,
+      "why": "reported S2 leak: one company's quarterly results are entity news, not sector news"
+    },
+    {
+      "title": "Release order for Recovery Certificate No. 1969 of 2019-Kontala Krishnaveni in the matter of Covidh Technologies Ltd",
+      "expect": null,
+      "expect_team": null,
+      "why": "reported S2 leak: recovery-officer procedural notice"
+    },
+    {
+      "title": "Notice(s) of Attachment dated August 05, 2026 issued under RC No. 1969 of 2019",
+      "expect": null,
+      "expect_team": null,
+      "why": "reported S2 leak: attachment notice, procedural"
+    },
+    {
+      "title": "NBFCs' NCD issuance rose 40% in the first half of FY27",
+      "expect": "S4",
+      "expect_team": "S3",
+      "why": "collective/sector-wide debt-market story must survive the entity-story rule"
     }
   ]
 }

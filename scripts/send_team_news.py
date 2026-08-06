@@ -191,7 +191,14 @@ _TRIBUNAL_LISTING_RE = re.compile(
     r"misc(ellaneous)? application|company petition|writ petition)"
     r"\s*(\(\w+\)\s*)?no\.?\s*\d+\s*(of|/)\s*\d{2,4}\b"
     r"|\border in the matter of\b"
-    r"|\bcause list\b",
+    r"|\bcause list\b"
+    # SEBI/recovery-officer procedural notices ("Release order for Recovery
+    # Certificate No. 1969 of 2019...", "Notice(s) of Attachment dated...").
+    r"|\brecovery certificate\b"
+    r"|\bnotice\(?s\)? of attachment\b"
+    r"|\brc no\.?\s*\d+\b"
+    r"|\brelease order for\b"
+    r"|\battachment (order|notice)\b",
     re.IGNORECASE,
 )
 
@@ -743,6 +750,35 @@ def _item_sectors(it: dict, sectors: dict) -> set:
     return hits or {_DEFAULT_SECTOR}
 
 
+# A single issuer's own event — its NCD/CP allotment or redemption, its
+# board meeting on a fund raise, its quarterly results — is that ENTITY's
+# news, not the sector's and certainly not macro. It belongs in S1 for
+# whoever tracks the entity and nowhere for everyone else. Without this,
+# "Muthoot Microfin allots Rs 35 crore CP at 9.4%" reached every reader's
+# S3 because "commercial paper" is a bond-market/macro keyword.
+_ENTITY_STORY_RE = re.compile(
+    r"\b(allots?|allotted|redeems?|redeemed|prepays?|raises?|to raise)\b"
+    r"[^.|]{0,60}\b(ncds?|debentures?|commercial papers?|bonds?)\b"
+    r"|\b(ncds?|debentures?|commercial papers?|bonds?)\b[^.|]{0,50}"
+    r"\b(allotment|redemption|maturity|coupon|issue (price|opens?|closes?))\b"
+    r"|\bboard (meets?|meeting|to (meet|consider)|approves?)\b[^.|]{0,60}"
+    r"\b(ncds?|debentures?|commercial papers?|bonds?|fund ?rais\w*|\bqip\b|rights issue)\b"
+    r"|\bcoupon (rate|of)\b"
+    r"|\bq[1-4]\s*(fy\s?\d+\s*)?results?\b"
+    r"|\bnet profit (surges?|jumps?|rises?|falls?|declines?|drops?|up|down|grows?)\b",
+    re.IGNORECASE,
+)
+# ...unless the story is about the sector as a whole ("NBFCs' NCD issuance
+# hits record", "banks' Q1 results preview") — plural/collective subjects
+# keep their S2/S3 routing.
+_SECTOR_WIDE_RE = re.compile(
+    r"\b(banks|nbfcs|hfcs|mfis|lenders|insurers|brokerages|mutual funds|"
+    r"microfinance (institutions|sector)|sector|industry|india inc|issuers|"
+    r"companies|corporates)\b",
+    re.IGNORECASE,
+)
+
+
 def _classify_team(it: dict, company_phrases: list[str],
                    sectors=None, macro_kw=()) -> str | None:
     """Three-section routing for the 7:40 mail.
@@ -761,6 +797,12 @@ def _classify_team(it: dict, company_phrases: list[str],
     # keyword — those drops are absolute.
     if _NEVER_RELEVANT_RE.search(text) or _is_cra_announcement(it):
         return None
+    # Entity-specific stories never reach S2/S3 — checked BEFORE the keyword
+    # rules, because instrument words ("commercial paper", "NCD") are also
+    # bond-market/macro keywords and were pulling single-issuer allotments
+    # into every reader's S3.
+    if _ENTITY_STORY_RE.search(text) and not _SECTOR_WIDE_RE.search(text):
+        return "S1" if it.get("companies") else None
     if _kw_hit(text, macro_kw):
         return "S3"
     # A sector's keywords define what is relevant FOR THAT SECTOR. Checked
@@ -1914,10 +1956,12 @@ def main() -> None:
     print(f"[sectors] {', '.join(f'{n}({len(k)}kw)' for n, k in sectors.items()) or 'none'}"
           f" | macro={len(macro_kw)}kw")
     for it in items:
+        # Companies first: _classify_team routes an entity-specific story to
+        # S1 when someone tracks the entity, and drops it otherwise.
+        it["companies"] = _match_companies(it, rows)
         it["section"] = _classify_team(it, phrases, sectors, macro_kw)
         if it["section"] == "S2":
             it["sectors"] = _item_sectors(it, sectors)
-        it["companies"] = _match_companies(it, rows)
 
     pre_offtopic = len(items)
     offtopic = [it for it in items if it["section"] is None]
