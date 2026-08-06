@@ -248,7 +248,13 @@ _NOT_NEWS_RE = re.compile(
     r"|^what (is|are)\b.{0,60}\?"
     r"|\bwhy .{0,40}\b(matter|matters) to investors\b"
     r"|\b(summary|round[- ]?up|recap) of (financial |the )?markets?\b"
-    r"|\bhere'?s (what|how|why) you (need to know|should know)\b",
+    r"|\bhere'?s (what|how|why) you (need to know|should know)\b"
+    # RBI daily money-market operations table scraped as text ("1. Fixed
+    # Rate 2. Variable Rate& (a) Repo Operation (b) Reverse Repo Operation
+    # 3. MSF# ..."): a data table, not a story.
+    r"|\b1\.\s*fixed rate\b.{0,30}\bvariable rate\b"
+    r"|\b\(a\)\s*repo operation\b"
+    r"|\b(repo|reverse repo) operation\b.{0,60}\bmsf\b",
     re.IGNORECASE,
 )
 
@@ -290,6 +296,10 @@ _SUPPRESSIONS = _load_suppressions()
 def _is_team_junk(it: dict) -> bool:
     t = (it.get("title") or "").lower()
     if any(pat in t for pat in _SUPPRESSIONS):
+        return True
+    # A Google News SEARCH page is a query, not an article — one slipped
+    # into S2 as "Licensing Urban Cooperative Banks" with a /search?q= link.
+    if "news.google.com/search" in (it.get("url") or ""):
         return True
     if _JUNK_SOURCE_RE.search(it["source"]):
         return True
