@@ -464,6 +464,18 @@
       "expect": "S2",
       "expect_team": "S2",
       "why": "regulator appointment is not a corporate-officer appointment — must survive the appointment pattern"
+    },
+    {
+      "title": "1. Fixed Rate 2. Variable Rate& (a) Repo Operation (b) Reverse Repo Operation 3. MSF# Wed, 05/08/2026 1 Thu, 06/08/2026 171.00 5.50 4. SDF",
+      "expect": null,
+      "expect_team": null,
+      "why": "reported S3 leak: RBI daily money-market operations table scraped as text — data, not news"
+    },
+    {
+      "title": "RBI conducts variable rate repo auction to inject liquidity",
+      "expect": "S4",
+      "expect_team": "S3",
+      "why": "a real money-market operations STORY must survive the table-scrape drop"
     }
   ]
 }
