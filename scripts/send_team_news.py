@@ -160,6 +160,17 @@ _TEAM_JUNK_RE = re.compile(
     # ("Kotak Gilt Investment Regular-IDCW Quarterly - NAV, Reviews...").
     r"|\bnav\b.{0,40}\b(review|asset allocation|scheme|portfolio)\b"
     r"|\b(idcw|direct plan|regular plan)\b"
+    # Scheme-page variants ("Kotak Bond - Short Term Fund - Regular (G)")
+    # and exchange listing notices for fund units/ETFs.
+    r"|\b(regular|direct)\s*\(\s*(g|idcw|growth)\s*\)"
+    r"|\blisting of (units|equity shares|securities)\b"
+    # IPO debut / listing-pop stories and the investor-advice questions
+    # that ride on them ("makes a strong debut with 22% premium. Should
+    # investors book profits or stay invested?").
+    r"|\bdebut with .{0,20}premium\b"
+    r"|\blists? at .{0,15}premium\b"
+    r"|\bshould investors? (book|buy|sell|stay|exit|subscribe)\b"
+    r"|\bbook profits\b|\bstay invested\b"
     r"|\basset allocation\b.{0,30}\breview"
     r"|\bfund (performance|returns?) (review|analysis)\b"
     # Broker research notes titled "<Company> | <Broker> View" slip past the
@@ -204,7 +215,10 @@ _TRIBUNAL_LISTING_RE = re.compile(
     # SEBI settlement/adjudication orders naming an individual or one
     # company ("Settlement Order in respect of Mr. X in the matter of Y").
     r"|\bsettlement order\b"
-    r"|\b(adjudication order|order) in respect of\b",
+    r"|\b(adjudication order|order) in respect of\b"
+    # "General Remittance Order dated August 05, 2026 issued under RC No,"
+    r"|\bremittance order\b"
+    r"|\bissued under rc no\b",
     re.IGNORECASE,
 )
 
@@ -779,7 +793,20 @@ _ENTITY_STORY_RE = re.compile(
     r"buys? (a )?(majority |minority |controlling )?stake)\b"
     r"|\b(partners? with|ties? up with|tie-?up with|joins? hands with|"
     r"collaborates? with|signs? (an? )?(mou|pact|agreement) with)\b"
-    r"|\bshare buy-?back\b|\bbuy-?back of (shares|equity)\b",
+    r"|\bshare buy-?back\b|\bbuy-?back of (shares|equity)\b"
+    # Board/management appointments at one company. The role list is
+    # corporate officers only, so "RBI appoints deputy governor" (regulator
+    # news) is untouched.
+    r"|\bappoints?\b[^.|]{0,50}\bas (an? )?(independent |non-executive |executive )?"
+    r"(director|chairman|chairperson|ceo|cfo|coo|cio|md\b|managing director|president)"
+    # One creditor's insolvency claim against one company.
+    r"|\bnclt (admits?|approves?|rejects?|dismisses?)\b"
+    # One lender's loan/project-finance deal with one borrower.
+    r"|\b(extends?|sanctions?|disburses?)\b[^.|]{0,50}"
+    r"\b(project finance|term loan|credit (line|facility))\b"
+    # One company's regulatory classification ("Tata Sons remains an
+    # 'upper-layer NBFC'"); the plural guard keeps list-wide stories.
+    r"|\bupper[- ]layer nbfc\b",
     re.IGNORECASE,
 )
 # ...unless the story is about the sector as a whole ("NBFCs' NCD issuance
