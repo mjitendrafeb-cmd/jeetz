@@ -1952,11 +1952,14 @@ def main() -> None:
     # otherwise items that report published are hidden from team mails
     # forever even though the team mail never delivered them. The team
     # mailer relies solely on its own team_seen.json.
-    # per_company_cap=5: wider net than the 7:30 report's default of 3, because
-    # this mail has its own mechanical junk filter (_is_team_junk) to strip the
-    # technical-chart noise that Google often ranks above the real story.
+    # per_company_cap=25: effectively uncapped for S1 — Google rarely returns
+    # more than ~20 fresh results for one entity's query, and the old cap of 5
+    # let Google's ranking (which often puts chart noise and scheme pages on
+    # top) crowd out genuine stories (a Kissht IPO item, SIDBI branch
+    # expansion). The junk filter and cross-source dedup absorb the extra
+    # volume; the 7:30 report keeps its own default of 3, untouched.
     news_text, _summary = fetch_all_news(os.environ.get("NEWSAPI_KEY", ""),
-                                         apply_seen=False, per_company_cap=5)
+                                         apply_seen=False, per_company_cap=25)
     items = [_parse_item(ln) for ln in news_text.splitlines() if ln.strip()]
 
     seen = _load_seen()
