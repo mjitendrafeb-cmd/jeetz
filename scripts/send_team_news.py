@@ -859,6 +859,157 @@ def _classify_team(it: dict, company_phrases: list[str],
     return _TEAM_SECTION_MAP.get(base)
 
 
+# ---------------------------------------------------------------------------
+# AI classification (Claude Sonnet 5, high effort)
+# ---------------------------------------------------------------------------
+# The mechanical rules above stay in place as a pre-filter — sport/crypto/
+# geography/stock-move/junk/procedural-listing drops are unambiguous and
+# free, and the golden set locks in every previously reported leak. What
+# kept needing a new regex every round was a genuine JUDGEMENT call: is this
+# story about ONE entity, a whole SECTOR, or the MACRO economy? That is
+# exactly the kind of call a model is better at than an ever-growing
+# pattern list, so it now makes the final S1/S2/S3/drop decision for
+# whatever survives the mechanical pre-filter. If the API is unavailable or
+# a batch errors, that batch silently falls back to _classify_team so a
+# quota outage never blocks the mail.
+_AI_MODEL = "claude-sonnet-5"
+_AI_BATCH_SIZE = 40
+
+
+def _ai_msg_text(message) -> str:
+    """Join text blocks, skipping thinking blocks newer models emit first.
+    A local copy, not an import from send_credit_report.py — that module
+    imports FROM this file, so the dependency only ever runs one way."""
+    return "".join(b.text for b in message.content if getattr(b, "type", "") == "text")
+
+
+def _ai_batch_prompt(batch: list[dict], sectors: dict, macro_kw: list[str]) -> str:
+    sector_lines = "\n".join(
+        f"  - {name}: {', '.join(kws) if kws else '(no keywords yet — judge by subject matter)'}"
+        for name, kws in sectors.items()
+    ) or "  (none configured)"
+    macro_line = ", ".join(macro_kw) if macro_kw else "(none configured — judge by subject matter)"
+    items_block = "\n".join(
+        f'{i}. TITLE: {it["title"]}\n'
+        f'   SOURCE: {it["source"]}\n'
+        f'   SUMMARY: {(it.get("summary") or "")[:220]}\n'
+        f'   MATCHED_WATCHLIST_ENTITIES: {", ".join(it.get("companies") or []) or "(none)"}'
+        for i, it in enumerate(batch)
+    )
+    return f"""You are the classifier for an internal credit-desk news digest with exactly three sections:
+
+S1 — WATCHLIST ENTITY NEWS. A story about ONE specific company/entity: its
+own results, its own debt issuance/redemption, its own rating action, its
+own board appointment, its own M&A/partnership/buyback, an insolvency or
+tribunal matter naming it, etc. Only valid when the item's
+MATCHED_WATCHLIST_ENTITIES is non-empty — classify as S1 only for an item
+that already has a matched entity; if a story is clearly single-entity but
+MATCHED_WATCHLIST_ENTITIES is empty, the entity isn't tracked — output DROP.
+
+S2 — SECTOR NEWS. A story about a SECTOR or the industry as a whole, not
+one company: regulatory circulars/directions covering an industry, sector
+credit-growth or asset-quality data, industry-wide trends, consolidation
+across a sector. Pick the single best-matching sector from this list using
+its keywords as a guide (a story can qualify for a sector even without a
+literal keyword hit, if it is clearly about that sector's business):
+{sector_lines}
+
+S3 — MACROECONOMIC & MARKETS NEWS. Economy-wide: GDP, inflation, monetary
+policy, fiscal policy, forex reserves, bond/G-sec markets in aggregate, IMF/
+World Bank/economic-survey commentary. Guide keywords: {macro_line}
+
+DROP — anything that is none of the above, or is not real news: stock-price
+moves, broker buy/sell/target-price calls or forecasts ("X sees..."),
+technical-analysis/chart noise, IPO listing-pop commentary, mutual-fund
+scheme/NAV pages, tribunal cause-list or recovery-officer procedural
+notices, sport/entertainment, HR/headcount scraper pages, crypto, or a
+story naming a rating agency where the agency's own name is the only
+finance signal (a rating action on an untracked, non-financial-sector
+issuer is DROP; the same action on a tracked entity or a genuine
+BFSI/financial issuer is not).
+
+Rules:
+- A story about ONE company is S1 (if tracked) or DROP (if not) — NEVER S2,
+  even if the company operates in a sector, and even if it happens to
+  mention sector-wide vocabulary.
+- A rating-agency name (CRISIL, ICRA, CareEdge, India Ratings) is not by
+  itself a sector signal — judge the actual subject.
+- When genuinely uncertain between two sections, prefer the more specific
+  one (S1 over S2, S2 over S3) if a legitimate case exists; otherwise DROP
+  rather than guess.
+
+Items to classify (0-indexed):
+{items_block}
+
+Respond with ONLY a JSON array, one object per item in the same order, no
+markdown fences, no commentary:
+[{{"i": 0, "section": "S1"}}, {{"i": 1, "section": null}}, ...]
+section must be exactly "S1", "S2", "S3", or null (for DROP)."""
+
+
+def _ai_classify_batch(batch: list[dict], client, sectors: dict,
+                        macro_kw: list[str]) -> dict[int, str] | None:
+    """Returns {index: section_or_None} for this batch, or None on any
+    failure (caller falls back to the mechanical classifier for the whole
+    batch — a partial/malformed AI response is treated as a full failure
+    rather than guessed at)."""
+    try:
+        msg = client.messages.create(
+            model=_AI_MODEL,
+            max_tokens=4000,
+            output_config={"effort": "high"},
+            messages=[{"role": "user", "content": _ai_batch_prompt(batch, sectors, macro_kw)}],
+        )
+        text = _ai_msg_text(msg).strip()
+        text = re.sub(r"^```(json)?|```$", "", text.strip(), flags=re.MULTILINE).strip()
+        parsed = json.loads(text)
+        out = {}
+        for row in parsed:
+            i, sec = row.get("i"), row.get("section")
+            if not isinstance(i, int) or i not in range(len(batch)):
+                continue
+            out[i] = sec if sec in ("S1", "S2", "S3") else None
+        if len(out) != len(batch):
+            return None  # incomplete response — don't trust a partial batch
+        return out
+    except Exception as exc:
+        print(f"[ai_classify] batch of {len(batch)} failed, falling back to rules: {exc}")
+        return None
+
+
+def _classify_items_ai(items: list[dict], company_phrases: list[str], sectors: dict,
+                        macro_kw: list[str]) -> None:
+    """Sets it['section'] on every item, in place. AI-first with a
+    per-batch mechanical fallback so an API outage degrades, not blocks."""
+    api_key = os.environ.get("ANTHROPIC_API_KEY", "")
+    client = None
+    if api_key:
+        try:
+            import anthropic
+            client = anthropic.Anthropic(api_key=api_key)
+        except Exception as exc:
+            print(f"[ai_classify] anthropic client unavailable, using rules only: {exc}")
+    if client is None:
+        for it in items:
+            it["section"] = _classify_team(it, company_phrases, sectors, macro_kw)
+        return
+
+    n_ai, n_fallback = 0, 0
+    for start in range(0, len(items), _AI_BATCH_SIZE):
+        batch = items[start:start + _AI_BATCH_SIZE]
+        result = _ai_classify_batch(batch, client, sectors, macro_kw)
+        if result is None:
+            n_fallback += len(batch)
+            for it in batch:
+                it["section"] = _classify_team(it, company_phrases, sectors, macro_kw)
+        else:
+            n_ai += len(batch)
+            for i, it in enumerate(batch):
+                it["section"] = result[i]
+    print(f"[ai_classify] {n_ai} items classified by {_AI_MODEL}, "
+          f"{n_fallback} fell back to mechanical rules")
+
+
 # A short bank name is a substring of longer institution names — a plain
 # `"bank of india" in body` attached every Reserve Bank of India story to
 # the Bank of India watchlist row. A match is rejected when the name is
@@ -1947,7 +2098,7 @@ def main() -> None:
             print(f"[skip] {now.date().isoformat()} is in the holiday list — no mail")
             return
 
-    print("Fetching news (free sources, no AI)...")
+    print("Fetching news (free sources)...")
     # apply_seen=False: do NOT inherit the daily Claude report's memory —
     # otherwise items that report published are hidden from team mails
     # forever even though the team mail never delivered them. The team
@@ -1999,11 +2150,13 @@ def main() -> None:
     macro_kw = [str(k).strip().lower() for k in team.get("macro_keywords", []) if str(k).strip()]
     print(f"[sectors] {', '.join(f'{n}({len(k)}kw)' for n, k in sectors.items()) or 'none'}"
           f" | macro={len(macro_kw)}kw")
+    # Companies first: both the AI classifier and its mechanical fallback
+    # need to know which watchlist entities an item already matched, to
+    # decide S1-vs-drop for anything single-entity.
     for it in items:
-        # Companies first: _classify_team routes an entity-specific story to
-        # S1 when someone tracks the entity, and drops it otherwise.
         it["companies"] = _match_companies(it, rows)
-        it["section"] = _classify_team(it, phrases, sectors, macro_kw)
+    _classify_items_ai(items, phrases, sectors, macro_kw)
+    for it in items:
         if it["section"] == "S2":
             it["sectors"] = _item_sectors(it, sectors)
 
