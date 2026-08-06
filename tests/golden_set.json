@@ -295,6 +295,37 @@
       "expect": "S2",
       "expect_team": "S2",
       "why": "qualifies on 'nbfc', not on the agency name"
+    },
+    {
+      "title": "Buy, Sell or Hold: Citi recommends 'Sell' on United Breweries; Goldman Sachs maintains 'Buy' on Metro Brands",
+      "expect": null,
+      "expect_team": null,
+      "why": "reported S3 leak: broker stock calls with quoted ratings dodged the maintains/recommends pattern"
+    },
+    {
+      "title": "Motilal Oswal sees private banks delivering 18-20% earnings growth in FY27",
+      "expect": null,
+      "expect_team": null,
+      "why": "reported S2 leak: broker-house sector forecast is research opinion, not sector news"
+    },
+    {
+      "title": "Appeal No. 6967 of 2026 filed by Jatin against the order of NCLT Mumbai",
+      "source": "NCLAT",
+      "expect": null,
+      "expect_team": null,
+      "why": "reported S2 leak: tribunal cause-list entry, procedural noise"
+    },
+    {
+      "title": "Company Appeal (AT) No. 142 of 2026 in the matter of ABC Textiles",
+      "expect": null,
+      "expect_team": null,
+      "why": "tribunal case-number variant with bracketed bench code"
+    },
+    {
+      "title": "RBI asks banks to strengthen cyber security frameworks",
+      "expect": "S2",
+      "expect_team": "S2",
+      "why": "genuine regulator direction must survive the tribunal/broker additions"
     }
   ]
 }
