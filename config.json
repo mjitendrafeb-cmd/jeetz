@@ -1,5 +1,5 @@
 {
-  "model": "claude-sonnet-4-6",
+  "model": "claude-sonnet-5",
   "recipient": "Jitendra.Meghrajani@gmail.com",
   "recipients": [
     "Jitendra.Meghrajani@gmail.com"
@@ -55,5 +55,5 @@
     "Bond and Money Markets",
     "Macroeconomic Developments"
   ],
-  "daily_report_enabled": false
+  "daily_report_enabled": true
 }

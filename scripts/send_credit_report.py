@@ -380,7 +380,7 @@ def generate_report(news_text: str, today: datetime.date, api_key: str) -> str:
             # Haiku has no effort param; use an explicit thinking budget instead.
             extra["thinking"] = {"type": "enabled", "budget_tokens": 8000}
         else:
-            extra["output_config"] = {"effort": "medium"}
+            extra["output_config"] = {"effort": "high"}
         with client.messages.stream(
             model=model,
             max_tokens=64000,
@@ -894,8 +894,12 @@ def main() -> None:
             prompt = _build_weekly_prompt(news_text, day_str, date_str)
             client = anthropic.Anthropic(api_key=anthropic_api_key)
             _model = _load_config().get("model", "claude-sonnet-5")
+            _extra = {}
+            if not _model.startswith("claude-haiku"):
+                _extra["output_config"] = {"effort": "high"}
             with client.messages.stream(model=_model, max_tokens=24000,
-                                        messages=[{"role": "user", "content": prompt}]) as _s:
+                                        messages=[{"role": "user", "content": prompt}],
+                                        **_extra) as _s:
                 msg = _s.get_final_message()
             weekly_html = _msg_text(msg)
             email_html = build_weekly_email(weekly_html, today)
