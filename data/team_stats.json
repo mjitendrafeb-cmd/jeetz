@@ -342,5 +342,74 @@
     "Stock Radar: Hindalco stock forms double bottom pattern after falling over 14% from highs; time to buy?"
    ]
   }
+ },
+ {
+  "date": "2026-08-06",
+  "fetched": 145,
+  "delivered_pool": 90,
+  "junk": 15,
+  "geo": 1,
+  "stale": 0,
+  "dup": 7,
+  "sections": {
+   "S1": 15,
+   "S2": 54,
+   "S3": 21
+  },
+  "mails": 35,
+  "failed": [],
+  "source_summary": {
+   "RBI RSS": 20,
+   "RBI Enforcement": 0,
+   "SEBI RSS": 20,
+   "Rating Agencies": 2,
+   "Google News": 23,
+   "Watchlist (Google)": 0,
+   "BSE Announcements": 0,
+   "BSE Financials": 0,
+   "Telegram": 27,
+   "Web Scraper": 197
+  },
+  "dropped_samples": {
+   "relevance": [
+    "Will retail investors bear the brunt of a shift in India\u2019s stock market formula for end-of-day price discovery",
+    "Inventurus Knowledge Solutions Q1 Results: Earnings call scheduled for Aug 6",
+    "Rajnandini Metal Nine Monthly Results, Nine Monthly Earnings for Rajnandini Metal",
+    "The Food Safety and Standards Authority of India (FSSAI) has initiated action against several popular liquor b",
+    "#WATCH | Group Captain Shubhanshu Shukla, the Indian astronaut who travelled to the International Space Statio",
+    "Bangladesh condemned India's allowance of exiled leader Sheikh Hasina to engage with the media, calling it an ",
+    "US-Iran War Live Updates: Donald Trump\u2019s Hormuz deal would give Iran control of inbound traffic in the Strait",
+    "According to the survey, one in two Indians said they had watched multiple fake videos in the last 12 months, ",
+    "Maharashtra has enforced a one-year ban on the production, storage, and distribution of analogue or non-dairy ",
+    "The EPFO is expected to launch E-PRAAPTI by the end of August to help members recover money lying in old or in",
+    "Global Headwinds Intensify - Can India Inc Stay the Course? by CareEdge Ratings",
+    "Crisil Ratings downgrades ratings of Maithan Alloys to 'AA-' with 'stable' outlook",
+    "Manoj Vaibhav Gems 'N' Jewellers Limited",
+    "India Ratings downgrades Dhampur Sugar\u2019s long-term credit rating to IND A+",
+    "Listing of further issue of GVP Infotech Limited",
+    "Listing of further issue of Adani Enterprises Limited",
+    "Listing of Equity Shares of Juniper Green Energy Limited (IPO)",
+    "#MFSummitWithMC",
+    "Traders welcome India\u2019s bond e-trading evolution as regulator shows teeth",
+    "Latest News: Top News, Breaking News, LIVE News Headlines from India & World - Business Standard"
+   ],
+   "junk": [
+    "Brokerage View | Key Ratings Update (06 Aug 2026)",
+    "HAL : GOLDMAN SACHS UPGRADED HAL TO BUY",
+    "DLF \u2013 DOUBLE DOWNGRADE BofA on DLF Downgrade to Underperform from Buy; Cut TP to Rs 695 from Rs 800 Value over",
+    "Nuvama on JTL BUY rating, raises TP to \u20b9121 vs \u20b9109 Company aims to utilise expanded capacities & increase the",
+    "GOLDMAN SACHS ON METRO BRANDS Maintained its 'BUY' rating on Metro Brands with a target price of \u20b91,240",
+    "SWAN DEFENCE: CO. WINS EXPORT ORDER FROM SVITZER TO BUILD FOUR ADVANCED TRANSVERSE 3200 TUGS. ORDER VALUES BET",
+    "The Ministry of Railways has simplified the licensing framework for container train operators, introducing a s",
+    "GS on Cohance Buy, TP Rs 500",
+    "Kotak Bond - Short Term Fund - Regular (IDCW-W) - Business Standard",
+    "Sterlite Tech shares gain 4% on Rs 1,760 crore international order win",
+    "HAL shares jump over 6%, extend gains for second straight session. What did its annual report reveal?",
+    "F&O Radar: Call Ratio Spread strategy for Dixon this week",
+    "Neuland Laboratories shares jump over 6% after 975% YoY surge in Q1 profit",
+    "Navin Fluorine shares surge 8% after Q1 profit more than doubles. Should you buy, sell or hold?",
+    "PB Fintech shares gain 2% after Q1 results. Why Morgan Stanley, Nomura see up to 25% downside"
+   ]
+  }
  }
 ]
