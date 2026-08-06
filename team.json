@@ -46,7 +46,7 @@
       "analyst_email": "pranjal.mulekar@careedge.in",
       "rh_email": "",
       "send_gh": true,
-      "send_analyst": true,
+      "send_analyst": false,
       "send_rh": false,
       "sector": "BFSI",
       "sections": [
@@ -172,7 +172,7 @@
       "analyst_email": "pooja.biyani@careedge.in",
       "rh_email": "",
       "send_gh": true,
-      "send_analyst": true,
+      "send_analyst": false,
       "send_rh": false,
       "sector": "BFSI",
       "sections": [
@@ -190,7 +190,7 @@
       "analyst_email": "pranjal.mulekar@careedge.in",
       "rh_email": "",
       "send_gh": true,
-      "send_analyst": true,
+      "send_analyst": false,
       "send_rh": false,
       "sector": "BFSI",
       "sections": [
@@ -280,7 +280,7 @@
       "analyst_email": "krish.hablani@careedge.in",
       "rh_email": "",
       "send_gh": true,
-      "send_analyst": true,
+      "send_analyst": false,
       "send_rh": false,
       "sector": "BFSI",
       "sections": [
@@ -298,7 +298,7 @@
       "analyst_email": "krish.hablani@careedge.in",
       "rh_email": "",
       "send_gh": true,
-      "send_analyst": true,
+      "send_analyst": false,
       "send_rh": false,
       "sector": "BFSI",
       "sections": [
@@ -316,7 +316,7 @@
       "analyst_email": "pooja.biyani@careedge.in",
       "rh_email": "",
       "send_gh": true,
-      "send_analyst": true,
+      "send_analyst": false,
       "send_rh": false,
       "sector": "BFSI",
       "sections": [
@@ -640,7 +640,7 @@
       "analyst_email": "pranjal.mulekar@careedge.in",
       "rh_email": "",
       "send_gh": true,
-      "send_analyst": true,
+      "send_analyst": false,
       "send_rh": false,
       "sector": "BFSI",
       "sections": [
@@ -658,7 +658,7 @@
       "analyst_email": "pranjal.mulekar@careedge.in",
       "rh_email": "",
       "send_gh": true,
-      "send_analyst": true,
+      "send_analyst": false,
       "send_rh": false,
       "sector": "BFSI",
       "sections": [
@@ -748,7 +748,7 @@
       "analyst_email": "pooja.biyani@careedge.in",
       "rh_email": "",
       "send_gh": true,
-      "send_analyst": true,
+      "send_analyst": false,
       "send_rh": false,
       "sector": "BFSI",
       "sections": [
@@ -766,7 +766,7 @@
       "analyst_email": "om.tupe@careedge.in",
       "rh_email": "",
       "send_gh": true,
-      "send_analyst": true,
+      "send_analyst": false,
       "send_rh": false,
       "sector": "BFSI",
       "sections": [
@@ -1162,7 +1162,7 @@
       "analyst_email": "pranjal.mulekar@careedge.in",
       "rh_email": "",
       "send_gh": true,
-      "send_analyst": true,
+      "send_analyst": false,
       "send_rh": false,
       "sector": "BFSI",
       "sections": [
@@ -1342,7 +1342,7 @@
       "analyst_email": "krish.hablani@careedge.in",
       "rh_email": "",
       "send_gh": true,
-      "send_analyst": true,
+      "send_analyst": false,
       "send_rh": false,
       "sector": "BFSI",
       "sections": [
@@ -1594,7 +1594,7 @@
       "analyst_email": "pooja.biyani@careedge.in",
       "rh_email": "",
       "send_gh": true,
-      "send_analyst": true,
+      "send_analyst": false,
       "send_rh": false,
       "sector": "BFSI",
       "sections": [
@@ -2116,7 +2116,7 @@
       "analyst_email": "pooja.biyani@careedge.in",
       "rh_email": "",
       "send_gh": true,
-      "send_analyst": true,
+      "send_analyst": false,
       "send_rh": false,
       "sector": "BFSI",
       "sections": [
@@ -2206,7 +2206,7 @@
       "analyst_email": "pranjal.mulekar@careedge.in",
       "rh_email": "",
       "send_gh": true,
-      "send_analyst": true,
+      "send_analyst": false,
       "send_rh": false,
       "sector": "BFSI",
       "sections": [
@@ -2224,7 +2224,7 @@
       "analyst_email": "pranjal.mulekar@careedge.in",
       "rh_email": "",
       "send_gh": true,
-      "send_analyst": true,
+      "send_analyst": false,
       "send_rh": false,
       "sector": "BFSI",
       "sections": [
@@ -2260,7 +2260,7 @@
       "analyst_email": "pooja.biyani@careedge.in",
       "rh_email": "",
       "send_gh": true,
-      "send_analyst": true,
+      "send_analyst": false,
       "send_rh": false,
       "sector": "BFSI",
       "sections": [
@@ -2278,7 +2278,7 @@
       "analyst_email": "om.tupe@careedge.in",
       "rh_email": "",
       "send_gh": true,
-      "send_analyst": true,
+      "send_analyst": false,
       "send_rh": false,
       "sector": "BFSI",
       "sections": [
@@ -2692,7 +2692,7 @@
       "analyst_email": "om.tupe@careedge.in",
       "rh_email": "",
       "send_gh": true,
-      "send_analyst": true,
+      "send_analyst": false,
       "send_rh": false,
       "sector": "BFSI",
       "sections": [
@@ -2710,7 +2710,7 @@
       "analyst_email": "pooja.biyani@careedge.in",
       "rh_email": "",
       "send_gh": true,
-      "send_analyst": true,
+      "send_analyst": false,
       "send_rh": false,
       "sector": "BFSI",
       "sections": [
@@ -2728,7 +2728,7 @@
       "analyst_email": "pooja.biyani@careedge.in",
       "rh_email": "",
       "send_gh": true,
-      "send_analyst": true,
+      "send_analyst": false,
       "send_rh": false,
       "sector": "BFSI",
       "sections": [
@@ -3178,7 +3178,7 @@
       "analyst_email": "om.tupe@careedge.in",
       "rh_email": "",
       "send_gh": true,
-      "send_analyst": true,
+      "send_analyst": false,
       "send_rh": false,
       "sector": "BFSI",
       "sections": [
@@ -3196,7 +3196,7 @@
       "analyst_email": "om.tupe@careedge.in",
       "rh_email": "",
       "send_gh": true,
-      "send_analyst": true,
+      "send_analyst": false,
       "send_rh": false,
       "sector": "BFSI",
       "sections": [
@@ -3682,7 +3682,7 @@
       "analyst_email": "krish.hablani@careedge.in",
       "rh_email": "",
       "send_gh": true,
-      "send_analyst": true,
+      "send_analyst": false,
       "send_rh": false,
       "sector": "BFSI",
       "sections": [
@@ -3772,7 +3772,7 @@
       "analyst_email": "krish.hablani@careedge.in",
       "rh_email": "",
       "send_gh": true,
-      "send_analyst": true,
+      "send_analyst": false,
       "send_rh": false,
       "sector": "BFSI",
       "sections": [
@@ -3808,7 +3808,7 @@
       "analyst_email": "pooja.biyani@careedge.in",
       "rh_email": "",
       "send_gh": true,
-      "send_analyst": true,
+      "send_analyst": false,
       "send_rh": false,
       "sector": "BFSI",
       "sections": [
@@ -3970,7 +3970,7 @@
       "analyst_email": "om.tupe@careedge.in",
       "rh_email": "",
       "send_gh": true,
-      "send_analyst": true,
+      "send_analyst": false,
       "send_rh": false,
       "sector": "BFSI",
       "sections": [
@@ -4204,7 +4204,7 @@
       "analyst_email": "pranjal.mulekar@careedge.in",
       "rh_email": "",
       "send_gh": true,
-      "send_analyst": true,
+      "send_analyst": false,
       "send_rh": false,
       "sector": "BFSI",
       "sections": [
@@ -4240,7 +4240,7 @@
       "analyst_email": "om.tupe@careedge.in",
       "rh_email": "",
       "send_gh": true,
-      "send_analyst": true,
+      "send_analyst": false,
       "send_rh": false,
       "sector": "BFSI",
       "sections": [
@@ -4312,7 +4312,7 @@
       "analyst_email": "pranjal.mulekar@careedge.in",
       "rh_email": "",
       "send_gh": true,
-      "send_analyst": true,
+      "send_analyst": false,
       "send_rh": false,
       "sector": "BFSI",
       "sections": [
@@ -4330,7 +4330,7 @@
       "analyst_email": "om.tupe@careedge.in",
       "rh_email": "",
       "send_gh": true,
-      "send_analyst": true,
+      "send_analyst": false,
       "send_rh": false,
       "sector": "BFSI",
       "sections": [
@@ -4744,7 +4744,7 @@
       "analyst_email": "om.tupe@careedge.in",
       "rh_email": "",
       "send_gh": true,
-      "send_analyst": true,
+      "send_analyst": false,
       "send_rh": false,
       "sector": "BFSI",
       "sections": [
@@ -4762,7 +4762,7 @@
       "analyst_email": "pooja.biyani@careedge.in",
       "rh_email": "",
       "send_gh": true,
-      "send_analyst": true,
+      "send_analyst": false,
       "send_rh": false,
       "sector": "BFSI",
       "sections": [
@@ -4780,7 +4780,7 @@
       "analyst_email": "om.tupe@careedge.in",
       "rh_email": "",
       "send_gh": true,
-      "send_analyst": true,
+      "send_analyst": false,
       "send_rh": false,
       "sector": "BFSI",
       "sections": [
@@ -5176,7 +5176,7 @@
       "analyst_email": "pooja.biyani@careedge.in",
       "rh_email": "",
       "send_gh": true,
-      "send_analyst": true,
+      "send_analyst": false,
       "send_rh": false,
       "sector": "BFSI",
       "sections": [
@@ -5194,7 +5194,7 @@
       "analyst_email": "om.tupe@careedge.in",
       "rh_email": "",
       "send_gh": true,
-      "send_analyst": true,
+      "send_analyst": false,
       "send_rh": false,
       "sector": "BFSI",
       "sections": [
@@ -5230,7 +5230,7 @@
       "analyst_email": "pooja.biyani@careedge.in",
       "rh_email": "",
       "send_gh": true,
-      "send_analyst": true,
+      "send_analyst": false,
       "send_rh": false,
       "sector": "BFSI",
       "sections": [
@@ -5536,7 +5536,7 @@
       "analyst_email": "pranjal.mulekar@careedge.in",
       "rh_email": "",
       "send_gh": true,
-      "send_analyst": true,
+      "send_analyst": false,
       "send_rh": false,
       "sector": "BFSI",
       "sections": [
@@ -5572,7 +5572,7 @@
       "analyst_email": "pooja.biyani@careedge.in",
       "rh_email": "",
       "send_gh": true,
-      "send_analyst": true,
+      "send_analyst": false,
       "send_rh": false,
       "sector": "BFSI",
       "sections": [
@@ -5590,7 +5590,7 @@
       "analyst_email": "pranjal.mulekar@careedge.in",
       "rh_email": "",
       "send_gh": true,
-      "send_analyst": true,
+      "send_analyst": false,
       "send_rh": false,
       "sector": "BFSI",
       "sections": [
@@ -5788,7 +5788,7 @@
       "analyst_email": "pranjal.mulekar@careedge.in",
       "rh_email": "",
       "send_gh": true,
-      "send_analyst": true,
+      "send_analyst": false,
       "send_rh": false,
       "sector": "BFSI",
       "sections": [
@@ -5806,7 +5806,7 @@
       "analyst_email": "om.tupe@careedge.in",
       "rh_email": "",
       "send_gh": true,
-      "send_analyst": true,
+      "send_analyst": false,
       "send_rh": false,
       "sector": "BFSI",
       "sections": [
@@ -6058,7 +6058,7 @@
       "analyst_email": "om.tupe@careedge.in",
       "rh_email": "",
       "send_gh": true,
-      "send_analyst": true,
+      "send_analyst": false,
       "send_rh": false,
       "sector": "BFSI",
       "sections": [
@@ -6076,7 +6076,7 @@
       "analyst_email": "om.tupe@careedge.in",
       "rh_email": "",
       "send_gh": true,
-      "send_analyst": true,
+      "send_analyst": false,
       "send_rh": false,
       "sector": "BFSI",
       "sections": [
@@ -6094,7 +6094,7 @@
       "analyst_email": "krish.hablani@careedge.in",
       "rh_email": "",
       "send_gh": true,
-      "send_analyst": true,
+      "send_analyst": false,
       "send_rh": false,
       "sector": "BFSI",
       "sections": [
@@ -6112,7 +6112,7 @@
       "analyst_email": "pranjal.mulekar@careedge.in",
       "rh_email": "",
       "send_gh": true,
-      "send_analyst": true,
+      "send_analyst": false,
       "send_rh": false,
       "sector": "BFSI",
       "sections": [
@@ -6184,7 +6184,7 @@
       "analyst_email": "pooja.biyani@careedge.in",
       "rh_email": "",
       "send_gh": true,
-      "send_analyst": true,
+      "send_analyst": false,
       "send_rh": false,
       "sector": "BFSI",
       "sections": [
