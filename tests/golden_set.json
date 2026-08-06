@@ -177,8 +177,8 @@
     {
       "title": "TPG, GIC and ICICI Bank acquire Aseem Infrastructure Finance for Rs 5,000 crore",
       "expect": "S2",
-      "why": "entity-specific but materially sector news",
-      "expect_team": "S2"
+      "why": "an acquisition of one company is entity news in the 3-section scheme — S1 if any party is tracked, dropped otherwise",
+      "expect_team": null
     },
     {
       "title": "India Inc credit ratio declines in H2FY26, outlook stable but cautious: Crisil",
@@ -374,6 +374,42 @@
       "expect": "S4",
       "expect_team": "S3",
       "why": "collective/sector-wide debt-market story must survive the entity-story rule"
+    },
+    {
+      "title": "Can Tips Music's Rs 44 crore share buyback boost its share price? Here's what JM Financial says",
+      "expect": null,
+      "expect_team": null,
+      "why": "reported S2 leak: broker commentary on one company's buyback"
+    },
+    {
+      "title": "Settlement Order in respect of Mr. Raghav Raj Kanoria in the matter of India Power Corporation Limited",
+      "expect": null,
+      "expect_team": null,
+      "why": "reported S2 leak: SEBI settlement order naming an individual — procedural"
+    },
+    {
+      "title": "Veritas to acquire environmental consultant Trinity Consultants from Oak Hill",
+      "expect": null,
+      "expect_team": null,
+      "why": "reported S2 leak: foreign single-company M&A, no watchlist party"
+    },
+    {
+      "title": "IIFL Capital partners with Flytxt to leverage Agentic AI for AUM growth",
+      "expect": "S2",
+      "expect_team": null,
+      "why": "reported S2 leak: one company's partnership PR is entity news"
+    },
+    {
+      "title": "KKR-backed FGS scoops up government affairs firm Rich Feuer Anderson",
+      "expect": null,
+      "expect_team": null,
+      "why": "reported S2 leak: foreign PE deal"
+    },
+    {
+      "title": "Mergers among small finance banks likely as RBI eases norms, say analysts",
+      "expect": "S3",
+      "expect_team": "S2",
+      "why": "sector-wide consolidation story must survive the M&A entity pattern via the collective guard"
     }
   ]
 }

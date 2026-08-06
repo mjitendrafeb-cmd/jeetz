@@ -178,7 +178,9 @@ _TEAM_JUNK_RE = re.compile(
     r"nirmal bang|geojit|angel one|5paisa|iifl securities|yes securities|"
     r"jefferies|morgan stanley|goldman sachs|citi\b|jp morgan|bernstein|clsa|"
     r"macquarie|\bubs\b|\bhsbc\b|bofa|nomura)\b"
-    r"[^.|]{0,60}\b(sees?|expects?|estimates?|forecasts?|projects?|pegs?)\b",
+    r"[^.|]{0,60}\b(sees?|expects?|estimates?|forecasts?|projects?|pegs?|says?)\b"
+    # "Can X's buyback boost its share price? Here's what <broker> says"
+    r"|\bhere'?s what\b[^.|]{0,40}\b(says?|think|expects?)\b",
     re.IGNORECASE,
 )
 
@@ -198,7 +200,11 @@ _TRIBUNAL_LISTING_RE = re.compile(
     r"|\bnotice\(?s\)? of attachment\b"
     r"|\brc no\.?\s*\d+\b"
     r"|\brelease order for\b"
-    r"|\battachment (order|notice)\b",
+    r"|\battachment (order|notice)\b"
+    # SEBI settlement/adjudication orders naming an individual or one
+    # company ("Settlement Order in respect of Mr. X in the matter of Y").
+    r"|\bsettlement order\b"
+    r"|\b(adjudication order|order) in respect of\b",
     re.IGNORECASE,
 )
 
@@ -765,7 +771,15 @@ _ENTITY_STORY_RE = re.compile(
     r"\b(ncds?|debentures?|commercial papers?|bonds?|fund ?rais\w*|\bqip\b|rights issue)\b"
     r"|\bcoupon (rate|of)\b"
     r"|\bq[1-4]\s*(fy\s?\d+\s*)?results?\b"
-    r"|\bnet profit (surges?|jumps?|rises?|falls?|declines?|drops?|up|down|grows?)\b",
+    r"|\bnet profit (surges?|jumps?|rises?|falls?|declines?|drops?|up|down|grows?)\b"
+    # One company's corporate actions — M&A, partnerships, buybacks — are
+    # equally entity-level ("Veritas to acquire Trinity Consultants",
+    # "IIFL Capital partners with Flytxt", "Tips Music's share buyback").
+    r"|\b(acquires?|to acquire|acquisition of|scoops? up|takes? over|merges? with|"
+    r"buys? (a )?(majority |minority |controlling )?stake)\b"
+    r"|\b(partners? with|ties? up with|tie-?up with|joins? hands with|"
+    r"collaborates? with|signs? (an? )?(mou|pact|agreement) with)\b"
+    r"|\bshare buy-?back\b|\bbuy-?back of (shares|equity)\b",
     re.IGNORECASE,
 )
 # ...unless the story is about the sector as a whole ("NBFCs' NCD issuance
