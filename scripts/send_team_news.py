@@ -137,7 +137,8 @@ _TEAM_JUNK_RE = re.compile(
     r"\b(buy|sell|hold|accumulate|reduce|add|neutral|not rated)\b[^.|]{0,70}\btarget\b"
     r"|\bfor the target\b"
     r"|\btarget (price|rs\.?)\b"
-    r"|\b(rated|maintains?|reiterates?|upgrades? to|downgrades? to) (strong )?(buy|sell|hold|accumulate|reduce|neutral|overweight|underweight)\b"
+    r"|\b(rated|maintains?|reiterates?|recommends?|upgrades? to|downgrades? to) ['‘“\"]?(strong )?(buy|sell|hold|accumulate|reduce|neutral|overweight|underweight)\b"
+    r"|\bbuy,? sell or hold\b"
     r"|\bstock (pick|tip|recommendation)s?\b"
     r"|\bbrokerage[s]? (say|view|pick)"
     r"|\b(wins?|receives?|bags?|conferred) .{0,40}award\b|\bfelicitat"
@@ -167,7 +168,30 @@ _TEAM_JUNK_RE = re.compile(
     r"nuvama|jm financial|prabhudas lilladher|sharekhan|axis securities|emkay|"
     r"nirmal bang|geojit|angel one|5paisa|iifl|yes securities|edelweiss|"
     r"choice broking|ventura securities|jefferies|morgan stanley|goldman sachs|"
-    r"citi\b|jp morgan|bernstein|cirtl)\b.{0,20}\bview\b",
+    r"citi\b|jp morgan|bernstein|cirtl)\b.{0,20}\bview\b"
+    # Broker-house forecasts and calls are research opinion, not sector news
+    # ("Motilal Oswal sees private banks delivering 18-20% earnings growth").
+    # Regulator/economist forecasts (RBI, IMF, economic survey) stay — the
+    # list here is brokerages and sell-side desks only.
+    r"|\b(motilal oswal|anand rathi|icici securities|hdfc securities|kotak securities|"
+    r"nuvama|jm financial|prabhudas lilladher|sharekhan|axis securities|emkay|"
+    r"nirmal bang|geojit|angel one|5paisa|iifl securities|yes securities|"
+    r"jefferies|morgan stanley|goldman sachs|citi\b|jp morgan|bernstein|clsa|"
+    r"macquarie|\bubs\b|\bhsbc\b|bofa|nomura)\b"
+    r"[^.|]{0,60}\b(sees?|expects?|estimates?|forecasts?|projects?|pegs?)\b",
+    re.IGNORECASE,
+)
+
+# Tribunal cause-list / case-number entries ("Appeal No. 6967 of 2026 filed
+# by Jatin...") are procedural listings, not news. When they concern a
+# watchlist entity the entity's own tagged feed carries the story — the bare
+# listing is dropped for everyone else.
+_TRIBUNAL_LISTING_RE = re.compile(
+    r"\b(appeal|petition|application|company appeal|interlocutory application|"
+    r"misc(ellaneous)? application|company petition|writ petition)"
+    r"\s*(\(\w+\)\s*)?no\.?\s*\d+\s*(of|/)\s*\d{2,4}\b"
+    r"|\border in the matter of\b"
+    r"|\bcause list\b",
     re.IGNORECASE,
 )
 
@@ -246,6 +270,9 @@ def _is_team_junk(it: dict) -> bool:
         return True
     body = f'{it["title"]} {it["summary"]}'
     if _CRYPTO_RE.search(body) or _NOT_NEWS_RE.search(body):
+        return True
+    if (_TRIBUNAL_LISTING_RE.search(body)
+            and "WATCHLIST" not in (it.get("tags") or "")):
         return True
     return bool(_TEAM_JUNK_RE.search(body))
 
@@ -749,6 +776,32 @@ def _classify_team(it: dict, company_phrases: list[str],
     return _TEAM_SECTION_MAP.get(base)
 
 
+# A short bank name is a substring of longer institution names — a plain
+# `"bank of india" in body` attached every Reserve Bank of India story to
+# the Bank of India watchlist row. A match is rejected when the name is
+# really the tail of one of these longer names, and when it sits inside a
+# larger word.
+_NAME_PREFIX_BLOCK_RE = re.compile(
+    r"(?:\breserve|\bstate|\bcentral|\bunion|\bfederal|\bexim|"
+    r"export[- ]import|\bworld|\bpunjab national)\s+$",
+    re.IGNORECASE,
+)
+
+
+def _contains_name(body: str, phrase: str) -> bool:
+    if not phrase:
+        return False
+    for m in re.finditer(re.escape(phrase), body):
+        if m.start() and (body[m.start() - 1].isalnum()):
+            continue
+        if m.end() < len(body) and body[m.end()].isalnum():
+            continue
+        if _NAME_PREFIX_BLOCK_RE.search(body[:m.start()]):
+            continue
+        return True
+    return False
+
+
 def _match_companies(it: dict, rows: list[dict]) -> list[str]:
     """Tag from the fetcher is authoritative (the item came from that
     company's own query); text phrase match is only a fallback. Re-matching
@@ -772,7 +825,7 @@ def _match_companies(it: dict, rows: list[dict]) -> list[str]:
                 print(f"[WARN] tag '{name[:40]}' but story never mentions it: "
                       f"'{it['title'][:60]}' — dropped from this company")
                 tag_match = False
-        if tag_match or n in body or (_phrase(name) and _phrase(name) in body):
+        if tag_match or _contains_name(body, n) or _contains_name(body, _phrase(name)):
             hits.append(name)
     return hits
 
@@ -993,10 +1046,6 @@ CareEdge Daily News &mdash; internal digest. Sources are aggregated from public 
 # No AI: cards carry headline+summary; the AI's credit-implication sentence
 # and cross-source dedup are the only pieces that need API credits.
 # ---------------------------------------------------------------------------
-
-# Full cards per section before the In-brief overflow valve kicks in. Set
-# well above normal daily volume (S2 peaks around 40) so In-brief is rare.
-_MAX_CARDS = 60
 
 _NP_SECTIONS = [
     ("s1", "sb1", "S1", "&#9733; S1 &mdash; MY RATED ENTITIES &amp; WATCHLIST"),
@@ -1506,12 +1555,6 @@ def _company_header(name: str, its: list[dict]) -> str:
             f'{"s" if n != 1 else ""}</span></p>')
 
 
-def _np_brief(it: dict) -> str:
-    link = (f'<a href="{_esc(it["url"])}" target="_blank">&#8594;</a>'
-            if it["url"] else "")
-    return f'<p class="ib">&#8226; {_esc(it["title"])} ({_esc(it["source"])}) {link}</p>'
-
-
 def _np_partb(p: dict, items: list[dict], by_section: dict) -> tuple[str, int, list[dict]]:
     """Per-person Part B in the 7:30 class markup. Returns (html, story_count,
     the stories shown — used to pick the Top 5)."""
@@ -1576,18 +1619,11 @@ def _np_partb(p: dict, items: list[dict], by_section: dict) -> tuple[str, int, l
             # story) were demoted to one-liners purely by fetch order. The old
             # [:20] slice also dropped everything past 20 outright.
             sec_items = _rating_first(sec_items)
-            # An item with no recognisable credit event earns a one-liner,
-            # not a card — this is the "may not be material, pass by" case,
-            # and it is a judgement we can defend, unlike the old cut at
-            # whatever position 6 happened to be.
-            material = [it for it in sec_items if _materiality(it) > 1]
-            routine = [it for it in sec_items if _materiality(it) <= 1]
-            cards, brief = material[:_MAX_CARDS], material[_MAX_CARDS:] + routine
-            parts.extend(_np_card(it) for it in cards)
-            if brief:
-                # Overflow only, so nothing is ever silently dropped.
-                parts.append('<p class="ibh">In brief</p>')
-                parts.extend(_np_brief(it) for it in brief)
+            # Every item gets a full card. The "In brief" one-liner band was
+            # removed at the reader's request — with only three sections there
+            # is room, and a bullet with no summary read as a second-class
+            # story rather than a space saver.
+            parts.extend(_np_card(it) for it in sec_items)
     return "\n".join(parts), total, chosen
 
 
