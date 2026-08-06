@@ -485,5 +485,79 @@
     "Swan Defence shares rise 3% after securing order from Denmark\u2019s Svitzer"
    ]
   }
+ },
+ {
+  "date": "2026-08-06",
+  "fetched": 107,
+  "delivered_pool": 52,
+  "junk": 28,
+  "geo": 0,
+  "stale": 0,
+  "dup": 4,
+  "sections": {
+   "S1": 17,
+   "S2": 27,
+   "S3": 8
+  },
+  "mails": 1,
+  "failed": [],
+  "source_summary": {
+   "RBI RSS": 20,
+   "RBI Enforcement": 0,
+   "SEBI RSS": 20,
+   "Rating Agencies": 2,
+   "Google News": 0,
+   "Watchlist (Google)": 0,
+   "BSE Announcements": 0,
+   "BSE Financials": 0,
+   "Telegram": 30,
+   "Web Scraper": 75
+  },
+  "dropped_samples": {
+   "relevance": [
+    "\u2018Don't bow down to PM\u2019: Arvind Kejriwal says Meta restricted his Facebook account; access now restored Arvind ",
+    "The Food Safety and Standards Authority of India (FSSAI) has initiated action against several popular liquor b",
+    "#WATCH | Group Captain Shubhanshu Shukla, the Indian astronaut who travelled to the International Space Statio",
+    "Bangladesh condemned India's allowance of exiled leader Sheikh Hasina to engage with the media, calling it an ",
+    "US-Iran War Live Updates: Donald Trump\u2019s Hormuz deal would give Iran control of inbound traffic in the Strait",
+    "According to the survey, one in two Indians said they had watched multiple fake videos in the last 12 months, ",
+    "Maharashtra has enforced a one-year ban on the production, storage, and distribution of analogue or non-dairy ",
+    "Manoj Vaibhav Gems 'N' Jewellers Limited",
+    "Listing of further issue of GVP Infotech Limited",
+    "Listing of further issue of Adani Enterprises Limited",
+    "Listing of Equity Shares of Juniper Green Energy Limited (IPO)",
+    "Q1 Results Today Highlights: Godrej Agrovet posts mixed Q1; Whirlpool PAT falls 34%, Berger Paints, Biocon, Sh",
+    "Shiprocket IPO Size Cut To Rs 1,617.5 Crore; Price Band Set At Rs 9297",
+    "Amruta Fadnavis Signs With Warner Music India For End-To-End Musical Collaborations",
+    "'I Am 62, I Believe I Am Victim': What Tarun Tejpal Told Court As State Seeks Maximum Punishment",
+    "'No Response To Emails': Arvind Kejriwal Claims Instagram Account Restricted In India",
+    "Bharti Hexacom, Happy Forgings, Ventive Hospitality Q1 Review: Check Motilal Oswal's Latest Ratings, Target Pr",
+    "The Odyssey Box Office Collection Day 20: Christopher Nolan Film Records Minor Dip In India, Check Earnings",
+    "Ex-Tehelka Editor Tarun Tejpal Convicted In 2013 Rape Case, Bombay HC Sets Aside Trial Court Verdict",
+    "Govt raised Rs 31,552 crore via LIC OFS; shares trade lower"
+   ],
+   "junk": [
+    "Appeal No. 6970 of 2026 filed by Parthasarathi",
+    "Appeal No. 6969 of 2026 filed by Kamal Kumar Agrawal",
+    "Appeal No. 6968 of 2026 filed by Sailesh Choraria",
+    "Appeal No. 6967 of 2026 filed by Jatin",
+    "Appeal No. 6966 of 2026 filed by Sarju Devi",
+    "Appeal No. 6965 of 2026 filed by Sunil Kumar",
+    "Appeal No. 6964 of 2026 filed by Ravi Prakashkumar Shah",
+    "Appeal No. 6962 of 2026 filed by Tammineni Sriharsha",
+    "Release order for Recovery Certificate No. 1969 of 2019-Kontala Krishnaveni in the matter of Covidh Technologi",
+    "Completion of Recovery Certificate No. 1969 of 2019-Kontala Krishnaveni in the matter of Covidh Technologies L",
+    "Notice(s) of Attachment dated August 05, 2026 issued under RC No",
+    "Brokerage View | Key Ratings Update (06 Aug 2026)",
+    "HAL : GOLDMAN SACHS UPGRADED HAL TO BUY",
+    "DLF \u2013 DOUBLE DOWNGRADE BofA on DLF Downgrade to Underperform from Buy; Cut TP to Rs 695 from Rs 800 Value over",
+    "Nuvama on JTL BUY rating, raises TP to \u20b9121 vs \u20b9109 Company aims to utilise expanded capacities & increase the",
+    "GOLDMAN SACHS ON METRO BRANDS Maintained its 'BUY' rating on Metro Brands with a target price of \u20b91,240",
+    "SWAN DEFENCE: CO. WINS EXPORT ORDER FROM SVITZER TO BUILD FOUR ADVANCED TRANSVERSE 3200 TUGS. ORDER VALUES BET",
+    "The Ministry of Railways has simplified the licensing framework for container train operators, introducing a s",
+    "GS on Cohance Buy, TP Rs 500",
+    "Allcargo Logistics shares rally 15% after Q1 profit jumps 258% YoY to Rs 31 crore"
+   ]
+  }
  }
 ]
