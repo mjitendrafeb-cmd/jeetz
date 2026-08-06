@@ -410,6 +410,60 @@
       "expect": "S3",
       "expect_team": "S2",
       "why": "sector-wide consolidation story must survive the M&A entity pattern via the collective guard"
+    },
+    {
+      "title": "NCLT Admits PNB's Rs 294.65 Crore Claim Against TV Vision, Holds OTS Proposals Extend Limitation Period",
+      "expect": null,
+      "expect_team": null,
+      "why": "reported S2 leak: one creditor's insolvency claim against one company is entity news"
+    },
+    {
+      "title": "Pune E-Stock Broking appoints Viral Patel as independent director",
+      "expect": "S2",
+      "expect_team": null,
+      "why": "reported S2 leak: one company's board appointment"
+    },
+    {
+      "title": "Tata Sons remains an 'upper-layer NBFC', RBI says deregistration pending",
+      "expect": "S2",
+      "expect_team": null,
+      "why": "reported S2 leak: one company's regulatory classification is entity news"
+    },
+    {
+      "title": "General Remittance Order dated August 05, 2026 issued under RC No",
+      "expect": null,
+      "expect_team": null,
+      "why": "reported S2 leak: recovery-officer remittance order, procedural"
+    },
+    {
+      "title": "Listing of units issued by Motilal Oswal Asset Management Company Limited (Motilal Oswal Nifty Metal ETF and Motilal Oswal Nifty Oil & Gas ETF)",
+      "expect": null,
+      "expect_team": null,
+      "why": "reported S2 leak: exchange listing notice for fund units"
+    },
+    {
+      "title": "OB Extends Rs 75 Crore Project Finance to Assotech World Avenue 07, Signaling Continued Institutional Confidence",
+      "expect": "S2",
+      "expect_team": null,
+      "why": "reported S2 leak: one lender's project-finance deal with one borrower"
+    },
+    {
+      "title": "Kotak Bond - Short Term Fund - Regular (G)",
+      "expect": null,
+      "expect_team": null,
+      "why": "reported S2 leak: mutual-fund scheme page, not news"
+    },
+    {
+      "title": "MV Electrosystems makes a strong debut with 22% premium. Should investors book profits or stay invested?",
+      "expect": null,
+      "expect_team": null,
+      "why": "reported S2 leak: IPO listing-pop story with investor advice"
+    },
+    {
+      "title": "RBI appoints new deputy governor to oversee regulation",
+      "expect": "S2",
+      "expect_team": "S2",
+      "why": "regulator appointment is not a corporate-officer appointment — must survive the appointment pattern"
     }
   ]
 }
