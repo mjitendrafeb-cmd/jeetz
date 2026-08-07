@@ -476,6 +476,18 @@
       "expect": "S4",
       "expect_team": "S3",
       "why": "a real money-market operations STORY must survive the table-scrape drop"
+    },
+    {
+      "title": "RBI imposes monetary penalty on Kedarnath Urban Co-operative Bank Ltd., Latur",
+      "expect": "S3",
+      "expect_team": "S2",
+      "why": "AI classifier wrongly dropped this as single-entity — a regulator's enforcement action is sector news even when it names one institution"
+    },
+    {
+      "title": "Directions under Section 35A read with Section 56 of the Banking Regulation Act, 1949",
+      "expect": "S2",
+      "expect_team": "S2",
+      "why": "AI classifier wrongly dropped this — an RBI direction under a named statute is supervisory news for the whole desk"
     }
   ]
 }
