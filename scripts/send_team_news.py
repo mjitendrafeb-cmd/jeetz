@@ -1000,6 +1000,125 @@ def _ai_classify_batch(batch: list[dict], client, sectors: dict,
         return None
 
 
+_REVIEW_BATCH_SIZE = 30
+
+
+def _ai_review_batch(batch: list[dict], client) -> dict | None:
+    """{index: 'keep'|'wrong_entity'|dup_index}. None on any failure."""
+    lines = []
+    for i, it in enumerate(batch):
+        ent = ", ".join(it.get("companies") or []) or "(none)"
+        lines.append(f'{i}. [{it.get("section")}] TITLE: {it["title"]}\n'
+                     f'   TAGGED_ENTITY: {ent}\n'
+                     f'   SOURCE: {it["source"]}')
+    prompt = f"""Review these credit-desk news items for two specific faults.
+
+1. WRONG ENTITY — the item is filed under TAGGED_ENTITY but the story is
+   not actually about that entity. This happens when a short name is a
+   substring of a longer one (a Reserve Bank of India story filed under
+   "Bank of India"), or when a search returned an unrelated company. Being
+   *related* is not wrong; only flag it when the story genuinely is not
+   about the tagged entity. Items with TAGGED_ENTITY "(none)" cannot be
+   wrong_entity.
+
+2. DUPLICATE — the item reports the SAME underlying event as an earlier
+   item in this list, just reworded or from another outlet. Two different
+   events at the same company are NOT duplicates. Two different companies
+   are never duplicates. Point to the LOWEST index of that event.
+
+Items:
+{chr(10).join(lines)}
+
+Respond with ONLY a JSON array, one object per item, same order, no
+markdown fences:
+[{{"i":0,"v":"keep"}},{{"i":1,"v":"wrong_entity"}},{{"i":2,"v":"dup","of":0}}]
+Use "keep" whenever you are unsure — keeping a borderline item is much
+better than hiding a real one."""
+    try:
+        msg = client.messages.create(
+            model=_AI_MODEL, max_tokens=3000,
+            output_config={"effort": "high"},
+            messages=[{"role": "user", "content": prompt}])
+        text = re.sub(r"^```(json)?|```$", "", _ai_msg_text(msg).strip(),
+                      flags=re.MULTILINE).strip()
+        parsed = json.loads(text)
+        out = {}
+        for row in parsed:
+            i, v = row.get("i"), row.get("v")
+            if not isinstance(i, int) or i not in range(len(batch)):
+                continue
+            if v == "wrong_entity":
+                out[i] = "wrong_entity"
+            elif v == "dup":
+                of = row.get("of")
+                out[i] = of if isinstance(of, int) and 0 <= of < i else "keep"
+            else:
+                out[i] = "keep"
+        return out if len(out) == len(batch) else None
+    except Exception as exc:
+        print(f"[ai_review] batch failed, keeping all {len(batch)}: {exc}")
+        return None
+
+
+def _ai_review_items(items: list[dict]) -> list[dict]:
+    """Second AI pass: drop wrong entity matches and near-duplicate stories.
+
+    Routing is deliberately NOT decided here — S1 pinning already settled
+    that. This pass only removes items that are demonstrably wrong or
+    redundant, and it fails open: any error, malformed answer, or
+    uncertainty keeps the item. It also refuses to empty a section, so a
+    bad answer can never wipe out somebody's S1.
+    """
+    api_key = os.environ.get("ANTHROPIC_API_KEY", "")
+    if not api_key or not items:
+        return items
+    try:
+        import anthropic
+        client = anthropic.Anthropic(api_key=api_key)
+    except Exception:
+        return items
+
+    drop_wrong, drop_dup = set(), set()
+    for start in range(0, len(items), _REVIEW_BATCH_SIZE):
+        batch = items[start:start + _REVIEW_BATCH_SIZE]
+        verdicts = _ai_review_batch(batch, client)
+        if not verdicts:
+            continue
+        for i, v in verdicts.items():
+            it = batch[i]
+            if v == "wrong_entity":
+                drop_wrong.add(id(it))
+            elif isinstance(v, int):
+                keeper = batch[v]
+                if keeper.get("section") == it.get("section"):
+                    drop_dup.add(id(it))
+                    src = it.get("source", "")
+                    if src and src not in keeper.setdefault("also", []) \
+                            and src != keeper.get("source"):
+                        keeper["also"].append(src)
+
+    doomed = drop_wrong | drop_dup
+    if not doomed:
+        print("[ai_review] nothing flagged")
+        return items
+    kept = [it for it in items if id(it) not in doomed]
+    # A section must never be emptied by this pass — if the model flagged
+    # everything in one, that is far likelier to be a bad answer than a
+    # genuinely empty section, so leave that section untouched.
+    for sec in {it.get("section") for it in items}:
+        before = [it for it in items if it.get("section") == sec]
+        after = [it for it in kept if it.get("section") == sec]
+        if before and not after:
+            print(f"[ai_review] refusing to empty {sec} — keeping all {len(before)}")
+            kept.extend(before)
+    for it in items:
+        if id(it) in drop_wrong:
+            print(f"[ai_review] wrong entity match: {it['title'][:70]}")
+    print(f"[ai_review] dropped {len(drop_wrong)} wrong matches, "
+          f"{len(drop_dup)} duplicates; {len(kept)} items remain")
+    return kept
+
+
 def _classify_items_ai(items: list[dict], company_phrases: list[str], sectors: dict,
                         macro_kw: list[str]) -> None:
     """Sets it['section'] on every item, in place. AI-first with a
@@ -1493,9 +1612,67 @@ def _decode_gnews_id(url: str) -> str:
     return ""
 
 
+_BATCH_ENDPOINT = "https://news.google.com/_/DotsSplashUi/data/batchexecute"
+
+
+def _resolve_via_batchexecute(url: str) -> str:
+    """Ask Google itself to translate the article id into the publisher URL.
+
+    Newer article ids are opaque — the publisher URL is no longer embedded
+    in the base64, which is why the offline decoder resolved 0 of 33 links
+    in a live run. Google's own splash endpoint still translates them: the
+    article page carries a signature and timestamp, and posting those back
+    returns the real URL. Any failure returns "" so the caller falls
+    through to the existing fallbacks and links are never worse than now.
+    """
+    m = _GNEWS_ARTICLE_RE.match(url or "")
+    if not m:
+        return ""
+    art_id = url[m.end():].split("?")[0].split("/")[0]
+    if not art_id:
+        return ""
+    try:
+        import requests
+        page = requests.get(f"https://news.google.com/rss/articles/{art_id}",
+                            headers={"User-Agent": _BROWSER_UA}, timeout=10)
+        body = page.text or ""
+        sg = re.search(r'data-n-a-sg="([^"]+)"', body)
+        ts = re.search(r'data-n-a-ts="([^"]+)"', body)
+        if not (sg and ts):
+            return ""
+        inner = json.dumps([
+            "garturlreq",
+            [["X", "X", ["X", "X"], None, None, 1, 1, "US:en", None, 1,
+              None, None, None, None, None, 0, 1],
+             "X", "X", 1, [1, 1, 1], 1, 1, None, 0, 0, None, 0],
+            art_id, int(ts.group(1)), sg.group(1),
+        ], separators=(",", ":"))
+        freq = json.dumps([[["Fbv4je", inner, None, "generic"]]],
+                          separators=(",", ":"))
+        resp = requests.post(
+            _BATCH_ENDPOINT, data={"f.req": freq}, timeout=10,
+            headers={"User-Agent": _BROWSER_UA,
+                     "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8"})
+        text = resp.text or ""
+        # Response is ")]}'" then JSON lines; the payload holds ["garturlres","<url>"]
+        hit = re.search(r'\[\\"garturlres\\",\\"(https?://[^\\"]+)', text)
+        if not hit:
+            hit = re.search(r'"garturlres","(https?://[^"]+)"', text)
+        if hit:
+            cand = hit.group(1).replace("\\/", "/").replace("\\u003d", "=") \
+                               .replace("\\u0026", "&")
+            return cand if _is_article_url(cand) else ""
+    except Exception as exc:
+        print(f"[links] batchexecute failed ({exc.__class__.__name__}) for {art_id[:28]}...")
+    return ""
+
+
 def _resolve_gnews_url(url: str, title: str) -> str:
     """Return the publisher's article URL, or a Google News search link."""
     decoded = _decode_gnews_id(url)
+    if decoded:
+        return decoded
+    decoded = _resolve_via_batchexecute(url)
     if decoded:
         return decoded
     try:
@@ -1515,7 +1692,10 @@ def _resolve_gnews_url(url: str, title: str) -> str:
                 return cand
     except Exception as exc:
         print(f"[links] resolve failed ({exc.__class__.__name__}) for {url[:60]}...")
-    return _gnews_search_url(title)
+    # Last resort: hand back Google's own redirect rather than a search
+    # page. A real browser follows it to the article, whereas the search
+    # link always cost the reader a click and an extra guess.
+    return url if _GNEWS_ARTICLE_RE.match(url or "") else _gnews_search_url(title)
 
 
 def _resolve_gnews_links(items: list[dict]) -> None:
@@ -2252,6 +2432,9 @@ def main() -> None:
     pre_offtopic = len(items)
     offtopic = [it for it in items if it["section"] is None]
     items = [it for it in items if it["section"] is not None]
+    # Second AI pass on the survivors: catch entity matches that are wrong
+    # and stories that repeat one already in the list. Fails open.
+    items = _ai_review_items(items)
     for it in offtopic[:8]:
         print(f"[offtopic] dropped (no financial-sector signal): {it['title'][:75]}")
     # (I) False negatives are invisible by definition — the report cannot
