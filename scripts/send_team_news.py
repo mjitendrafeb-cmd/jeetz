@@ -979,7 +979,7 @@ def _ai_classify_batch(batch: list[dict], client, sectors: dict,
     try:
         msg = client.messages.create(
             model=_AI_MODEL,
-            max_tokens=4000,
+            max_tokens=8000,
             output_config={"effort": "high"},
             messages=[{"role": "user", "content": _ai_batch_prompt(batch, sectors, macro_kw)}],
         )
@@ -1000,7 +1000,7 @@ def _ai_classify_batch(batch: list[dict], client, sectors: dict,
         return None
 
 
-_REVIEW_BATCH_SIZE = 30
+_REVIEW_BATCH_SIZE = 20
 
 
 def _ai_review_batch(batch: list[dict], client) -> dict | None:
@@ -1035,9 +1035,12 @@ markdown fences:
 Use "keep" whenever you are unsure — keeping a borderline item is much
 better than hiding a real one."""
     try:
+        # max_tokens must cover thinking tokens too — at 3000 with high
+        # effort two live batches burned the budget reasoning and returned
+        # no text at all ("Expecting value: line 1 column 1").
         msg = client.messages.create(
-            model=_AI_MODEL, max_tokens=3000,
-            output_config={"effort": "high"},
+            model=_AI_MODEL, max_tokens=8000,
+            output_config={"effort": "medium"},
             messages=[{"role": "user", "content": prompt}])
         text = re.sub(r"^```(json)?|```$", "", _ai_msg_text(msg).strip(),
                       flags=re.MULTILINE).strip()
@@ -2386,7 +2389,7 @@ def main() -> None:
     print(f"[watchlist] querying {len(wl_companies)} entities from team.json")
     news_text, _summary = fetch_all_news(os.environ.get("NEWSAPI_KEY", ""),
                                          apply_seen=False, per_company_cap=25,
-                                         companies=wl_companies)
+                                         companies=wl_companies, max_items=1500)
     # The per-source counts were computed and then thrown away, so a source
     # collapsing to zero (as the watchlist fetch did for three days) was
     # invisible in the log.

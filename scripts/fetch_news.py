@@ -732,7 +732,8 @@ def _normalise_key(item: str) -> str:
 
 
 def fetch_all_news(newsapi_key: str = "", apply_seen: bool = True,
-                   per_company_cap: int = 3, companies=None) -> tuple[str, dict]:
+                   per_company_cap: int = 3, companies=None,
+                   max_items: int = 200) -> tuple[str, dict]:
     """Returns (news_text, source_summary) where source_summary maps source name → item count."""
     cfg = load_config()
     sources = cfg.get("sources", {})
@@ -842,7 +843,15 @@ def fetch_all_news(newsapi_key: str = "", apply_seen: bool = True,
         if key not in dedup_seen:
             dedup_seen.add(key)
             unique.append(item)
-        if len(unique) >= 200:
+        # Hard ceiling on the batch. 200 is the 7:30 report's long-standing
+        # value, sized for its AI prompt. It silently became the binding
+        # constraint for 7:40 once the watchlist actually queried 370
+        # entities: 657 watchlist items arrived, the cap cut them at 132,
+        # and Telegram + the web scraper (200+ items, the S2/S3 sources)
+        # were pushed out entirely. The team mail passes a much higher one.
+        if len(unique) >= max_items:
+            print(f"[fetch_news] item cap {max_items} reached — "
+                  f"{len(all_items) - len(unique)} later items not considered")
             break
 
     pre_dedup = len(unique)
