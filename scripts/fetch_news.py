@@ -610,6 +610,11 @@ def fetch_company_news(per_company_cap: int = 3) -> list[str]:
     # EVERY company's query died with a NameError before it was ever sent —
     # the whole per-entity watchlist fetch silently returned nothing.
     alias_map = _load_aliases()
+    # Where watchlist results actually go. Without this the loop was a black
+    # box: a company whose feed had entries logged nothing at all, so an
+    # over-strict filter looked identical to Google returning no news.
+    _stats = {"entries": 0, "cos_with_entries": 0, "drop_old": 0,
+              "drop_dup": 0, "drop_ticker": 0, "drop_name": 0}
 
     # Query EVERY company (no global early-break) so a long watchlist isn't
     # starved — with 340 names the old `len(items) >= 60` cap stopped after
@@ -635,6 +640,9 @@ def fetch_company_news(per_company_cap: int = 3) -> list[str]:
             else:
                 empty_streak = 0
             count = 0
+            _stats["entries"] += len(feed.entries)
+            if feed.entries:
+                _stats["cos_with_entries"] += 1
             for entry in feed.entries:
                 # Google often ranks technical-chart noise above the real
                 # story, so a tight cap can drop genuine results (this lost an
@@ -643,15 +651,22 @@ def fetch_company_news(per_company_cap: int = 3) -> list[str]:
                 if count >= per_company_cap:
                     break
                 if not _is_recent(entry, 48, assume=False):
+                    _stats["drop_old"] += 1
                     continue
                 raw_title = _clean(entry.get("title", "")).strip()
                 if not raw_title or raw_title in seen_titles:
+                    _stats["drop_dup"] += 1
                     continue
                 summary = _clean(entry.get("summary", entry.get("description", ""))).strip()
                 if _is_market_ticker(raw_title, summary):
+                    _stats["drop_ticker"] += 1
                     continue
                 if not _story_mentions_entity(company, aliases,
                                               raw_title + " " + summary):
+                    _stats["drop_name"] += 1
+                    if _stats["drop_name"] <= 12:
+                        print(f"[watchlist] name-check rejected for '{company[:34]}': "
+                              f"{raw_title[:76]}")
                     continue
                 seen_titles.add(raw_title)
                 source = "Google News"
@@ -675,6 +690,11 @@ def fetch_company_news(per_company_cap: int = 3) -> list[str]:
         except Exception as exc:
             print(f"[fetch_news] Company news error for '{company}': {exc}")
 
+    print(f"[watchlist] {len(companies)} companies queried, "
+          f"{_stats['cos_with_entries']} returned results, "
+          f"{_stats['entries']} raw entries -> {len(items)} kept | dropped: "
+          f"old={_stats['drop_old']} dup={_stats['drop_dup']} "
+          f"ticker={_stats['drop_ticker']} name-check={_stats['drop_name']}")
     return items
 
 
