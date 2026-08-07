@@ -2380,7 +2380,13 @@ def main() -> None:
     # volume; the 7:30 report keeps its own default of 3, untouched.
     news_text, _summary = fetch_all_news(os.environ.get("NEWSAPI_KEY", ""),
                                          apply_seen=False, per_company_cap=25)
+    # The per-source counts were computed and then thrown away, so a source
+    # collapsing to zero (as the watchlist fetch did for three days) was
+    # invisible in the log.
+    print("[sources] " + ", ".join(f"{k}={v}" for k, v in sorted((_summary or {}).items())))
     items = [_parse_item(ln) for ln in news_text.splitlines() if ln.strip()]
+    print(f"[sources] {len(items)} parsed items, "
+          f"{sum(1 for it in items if it.get('wl_company'))} carry a WATCHLIST tag")
 
     seen = _load_seen()
     items = [it for it in items if _key(it) not in seen]
