@@ -2215,10 +2215,23 @@ def _np_partb(p: dict, items: list[dict], by_section: dict) -> tuple[str, int, l
                            key=lambda kv: -max(_materiality(i) for i in kv[1]))
             lead = True
             for comp, its in order:
-                parts.append(_company_header(comp, its))
+                # The header and its cards are separate sibling elements in
+                # the printed HTML; break-inside:avoid on each individually
+                # (already on the header, and on every .art card) stops a
+                # column from splitting a single element, but nothing
+                # stopped the multi-column layout from breaking BETWEEN
+                # them — landing a header at the bottom of one column and
+                # its cards, unlabelled, at the top of the next (reported:
+                # "Religare Broking Limited" header separated from its own
+                # two cards). Wrapping the whole entity group in one
+                # break-inside:avoid block keeps the header glued to every
+                # card it introduces.
+                group = [_company_header(comp, its)]
                 for it in its:
-                    parts.append(_np_card(it, hero=lead))
+                    group.append(_np_card(it, hero=lead))
                     lead = False
+                parts.append(f'<div style="break-inside:avoid;-webkit-column-break-inside:avoid;">'
+                             f'{"".join(group)}</div>')
         else:
             sec_items = by_section[skey]
             if skey == "S2" and p.get("sectors"):
