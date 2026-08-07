@@ -2168,12 +2168,15 @@ def _np_partc(top5: list[dict], date_str: str) -> str:
     )
 
 
-def _np_build_attachment(part_b_html: str, today) -> str:
+def _np_build_attachment(part_b_html: str, today, for_name: str = "") -> str:
     """Three-page newspaper.
 
     send_credit_report.build_attachment() is hardcoded to five pages with an
     S4/S5 nav, and that file is not to be modified — so the team mail builds
     its own. Same visual language, three sections.
+
+    for_name puts the recipient on the masthead — every edition is
+    personalised to that reader's entities, so it should say whose it is.
     """
     date_str = today.strftime("%d %B %Y")
     dow_full = today.strftime("%A, %d %B %Y").upper()
@@ -2208,6 +2211,7 @@ def _np_build_attachment(part_b_html: str, today) -> str:
   </div>
   <div class="mast-center">
     <div class="mast-name">CareEdge Daily News</div>
+    {f'<div style="font-family:Georgia,serif;font-size:12px;letter-spacing:1px;color:#555;margin-top:2px;">Prepared for {_esc(for_name)}</div>' if for_name else ''}
     <hr class="mast-rule">
   </div>
   <div class="mast-sub">
@@ -2546,10 +2550,14 @@ def main() -> None:
         top5 = sorted(person_items, key=_story_score, reverse=True)[:5]
         part_c = _np_partc(top5, now.strftime("%d %B %Y"))
         body = _np_rebrand(_scr.build_email(part_c, today, _summary))
-        attachment = _np_rebrand(_np_build_attachment(part_b, today))
+        who = (p.get("name") or "").strip()
+        attachment = _np_rebrand(_np_build_attachment(part_b, today, who))
+        # Each edition is built from that reader's own entities, so name it.
+        subject = (f"CareEdge Daily News — {who} — {now:%d %b %Y}" if who
+                   else f"CareEdge Daily News — {now:%d %b %Y}")
         # One bad mailbox must not stop the rest of the team's mails.
         try:
-            _send(email, f"CareEdge Daily News — {now:%d %b %Y}", body,
+            _send(email, subject, body,
                   attachment_html=attachment,
                   attachment_name=f"CareEdge_Daily_News_{today:%Y%m%d}.html")
             sent_count += 1
