@@ -1344,8 +1344,17 @@ def _save_pool(pool: dict) -> None:
 
 
 def _git_push(path: str) -> None:
+    """Commit and push a single state file, with retry.
+
+    This is what persists team_last_sent.json — the ONLY guard against a
+    duplicate send to the whole team. A single pull-rebase-then-push attempt
+    raced against any other push to main in that window (another tick, a
+    manual deploy) failed with no retry, and 7:30's identical pattern is
+    confirmed to have caused it to send its report 4 times on 07 Aug. Retries
+    with a fresh fetch+rebase each attempt so it converges once main is
+    quiet, instead of silently dropping the marker on the first collision."""
+    import subprocess
     try:
-        import subprocess
         token = os.environ.get("GITHUB_TOKEN", "")
         if token:
             subprocess.run(["git", "remote", "set-url", "origin",
@@ -1358,11 +1367,31 @@ def _git_push(path: str) -> None:
         subprocess.run(["git", "add", path], cwd=_REPO_ROOT, capture_output=True)
         r = subprocess.run(["git", "commit", "-m", "chore: update team news memory"],
                            cwd=_REPO_ROOT, capture_output=True)
-        if r.returncode == 0:
-            subprocess.run(["git", "pull", "--rebase", "origin", "main"], cwd=_REPO_ROOT, capture_output=True)
-            subprocess.run(["git", "push", "origin", "HEAD:main"], cwd=_REPO_ROOT, capture_output=True)
+        if r.returncode != 0:
+            return  # nothing changed, nothing to push
     except Exception as exc:
-        print(f"[git] non-fatal: {exc}")
+        print(f"[git] commit failed (non-fatal): {exc}")
+        return
+
+    import time as _time
+    attempts = 5
+    for attempt in range(1, attempts + 1):
+        subprocess.run(["git", "fetch", "origin", "main"], cwd=_REPO_ROOT, capture_output=True)
+        rebase = subprocess.run(["git", "rebase", "origin/main"], cwd=_REPO_ROOT, capture_output=True)
+        if rebase.returncode != 0:
+            subprocess.run(["git", "rebase", "--abort"], cwd=_REPO_ROOT, capture_output=True)
+            print(f"[git] rebase conflict on attempt {attempt}/{attempts} for {path}")
+            _time.sleep(2 * attempt)
+            continue
+        push = subprocess.run(["git", "push", "origin", "HEAD:main"], cwd=_REPO_ROOT, capture_output=True)
+        if push.returncode == 0:
+            if attempt > 1:
+                print(f"[git] push succeeded on attempt {attempt}/{attempts} for {path}")
+            return
+        print(f"[git] push attempt {attempt}/{attempts} failed for {path} "
+              f"({push.stderr.decode(errors='replace').strip()[:200]})")
+        _time.sleep(2 * attempt)
+    print(f"[git] push failed after {attempts} attempts (non-fatal): {path}")
 
 
 # ---------------------------------------------------------------------------
