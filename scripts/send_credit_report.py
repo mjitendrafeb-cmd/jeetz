@@ -94,9 +94,20 @@ def _save_seen_headlines(news_text: str) -> None:
 
 
 def _git_commit_push(paths: list[str], message: str) -> bool:
-    """Commit the given paths and push to main. Returns True if a commit was pushed."""
+    """Commit the given paths and push to main. Returns True if a commit was pushed.
+
+    _mark_sent_today's write through this function is the ONLY guard against
+    a duplicate paid report: if the push is lost, the next scheduled tick
+    reads a stale last_sent.json, sees "not sent today", and regenerates and
+    re-emails the whole report. A single pull-rebase-then-push attempt raced
+    against ANY other push to main in that window (another tick, a manual
+    deploy) and silently dropped the marker with no retry -- which is
+    exactly what happened on 07 Aug: 3 of 4 scheduled ticks that morning hit
+    a non-fast-forward push failure and the report went out 4 times. Retries
+    with a fresh fetch+rebase each attempt, since the whole point is to pick
+    up whatever else landed on main since the last attempt."""
+    import subprocess
     try:
-        import subprocess
         token = os.environ.get("GITHUB_TOKEN", "")
         if token:
             subprocess.run(
@@ -114,14 +125,30 @@ def _git_commit_push(paths: list[str], message: str) -> bool:
         if result.returncode != 0:
             print(f"[git] Nothing to commit for: {message}")
             return False
-        subprocess.run(["git", "pull", "--rebase", "origin", "main"],
-                       cwd=_REPO_ROOT, capture_output=True)
-        subprocess.run(["git", "push", "origin", "HEAD:main"],
-                       cwd=_REPO_ROOT, check=True, capture_output=True)
-        return True
     except Exception as exc:
-        print(f"[git] Push failed (non-fatal): {exc}")
+        print(f"[git] Commit failed (non-fatal): {exc}")
         return False
+
+    import time as _time
+    attempts = 5
+    for attempt in range(1, attempts + 1):
+        subprocess.run(["git", "fetch", "origin", "main"], cwd=_REPO_ROOT, capture_output=True)
+        rebase = subprocess.run(["git", "rebase", "origin/main"], cwd=_REPO_ROOT, capture_output=True)
+        if rebase.returncode != 0:
+            subprocess.run(["git", "rebase", "--abort"], cwd=_REPO_ROOT, capture_output=True)
+            print(f"[git] Rebase conflict on attempt {attempt}/{attempts} for: {message}")
+            _time.sleep(2 * attempt)
+            continue
+        push = subprocess.run(["git", "push", "origin", "HEAD:main"], cwd=_REPO_ROOT, capture_output=True)
+        if push.returncode == 0:
+            if attempt > 1:
+                print(f"[git] Push succeeded on attempt {attempt}/{attempts} for: {message}")
+            return True
+        print(f"[git] Push attempt {attempt}/{attempts} failed for: {message} "
+              f"({push.stderr.decode(errors='replace').strip()[:200]})")
+        _time.sleep(2 * attempt)
+    print(f"[git] Push failed after {attempts} attempts (non-fatal): {message}")
+    return False
 
 
 def _mark_sent_today() -> None:
