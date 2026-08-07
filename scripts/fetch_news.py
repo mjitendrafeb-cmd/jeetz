@@ -843,13 +843,14 @@ def fetch_all_news(newsapi_key: str = "", apply_seen: bool = True,
         if key not in dedup_seen:
             dedup_seen.add(key)
             unique.append(item)
-        # Hard ceiling on the batch. 200 is the 7:30 report's long-standing
-        # value, sized for its AI prompt. It silently became the binding
-        # constraint for 7:40 once the watchlist actually queried 370
-        # entities: 657 watchlist items arrived, the cap cut them at 132,
-        # and Telegram + the web scraper (200+ items, the S2/S3 sources)
-        # were pushed out entirely. The team mail passes a much higher one.
-        if len(unique) >= max_items:
+        # 200 is the 7:30 report's long-standing ceiling, sized for its AI
+        # prompt. The 7:40 mail passes None: its volume is spread across
+        # ~60 recipients who each see only their own entities, so a global
+        # count limits nobody's inbox — it just deletes news. And because
+        # the entity list is alphabetical, a binding cap would drop the
+        # same alphabetically-last entities every day, silently. Recency
+        # (48h) and relevance are the real filters.
+        if max_items is not None and len(unique) >= max_items:
             print(f"[fetch_news] item cap {max_items} reached — "
                   f"{len(all_items) - len(unique)} later items not considered")
             break
