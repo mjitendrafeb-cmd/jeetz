@@ -919,7 +919,18 @@ MATCHED_WATCHLIST_ENTITIES is empty, the entity isn't tracked — output DROP.
 S2 — SECTOR NEWS. A story about a SECTOR or the industry as a whole, not
 one company: regulatory circulars/directions covering an industry, sector
 credit-growth or asset-quality data, industry-wide trends, consolidation
-across a sector. Pick the single best-matching sector from this list using
+across a sector.
+
+  IMPORTANT — a REGULATOR'S OWN ACTION is always S2, even when it names a
+  single institution. An RBI/SEBI/IRDAI/NHB penalty, licence cancellation,
+  business restriction, or a direction issued under a named statute (e.g.
+  "RBI imposes monetary penalty on <one co-operative bank>", "Directions
+  under Section 35A of the Banking Regulation Act") is supervisory news the
+  whole desk needs — it signals the regulator's posture. Do NOT drop these
+  as single-entity stories. (If the named institution is also on the
+  watchlist, S1 wins.)
+
+Pick the single best-matching sector from this list using
 its keywords as a guide (a story can qualify for a sector even without a
 literal keyword hit, if it is clearly about that sector's business):
 {sector_lines}
@@ -939,9 +950,11 @@ issuer is DROP; the same action on a tracked entity or a genuine
 BFSI/financial issuer is not).
 
 Rules:
-- A story about ONE company is S1 (if tracked) or DROP (if not) — NEVER S2,
-  even if the company operates in a sector, and even if it happens to
-  mention sector-wide vocabulary.
+- A story about ONE company's OWN commercial activity (results, debt
+  issue, M&A, partnership, buyback, appointment) is S1 (if tracked) or
+  DROP (if not) — NEVER S2, even if the company operates in a sector, and
+  even if it happens to mention sector-wide vocabulary. This does NOT
+  apply to regulator enforcement/directions, which stay S2 per above.
 - A rating-agency name (CRISIL, ICRA, CareEdge, India Ratings) is not by
   itself a sector signal — judge the actual subject.
 - When genuinely uncertain between two sections, prefer the more specific
@@ -1417,8 +1430,60 @@ def _gnews_search_url(title: str) -> str:
     return f"https://news.google.com/search?q={q}&hl=en-IN&gl=IN&ceid=IN:en"
 
 
+_PRINTABLE_URL_RE = re.compile(r'^[\x21-\x7e]+$')
+
+
+def _decode_gnews_id(url: str) -> str:
+    """Publisher URL decoded straight out of the Google News article id.
+
+    Google serves the redirect page via JavaScript now, so fetching it
+    resolves nothing (an edition logged 0/24 resolved, and every reader got
+    a search link instead of the article). The common 'CBMi...' id is
+    base64url of a protobuf blob that carries the publisher URL as a
+    length-prefixed string, so it can be read offline with no request at
+    all. Returns "" when the id is a format this cannot read, and the
+    caller falls through to the network attempt exactly as before.
+    """
+    m = _GNEWS_ARTICLE_RE.match(url or "")
+    if not m:
+        return ""
+    seg = url[m.end():].split("?")[0].split("/")[0]
+    if len(seg) < 16:
+        return ""
+    import base64
+    for pad in range(4):
+        try:
+            raw = base64.urlsafe_b64decode(seg + "=" * pad)
+        except Exception:
+            continue
+        hit = re.search(rb'https?://', raw)
+        if not hit:
+            continue
+        start = hit.start()
+        if start == 0:
+            break
+        # The varint length sits immediately before the string; using it
+        # stops the next protobuf field's bytes leaking onto the URL.
+        i = start - 1
+        vb = [raw[i]]
+        while i - 1 >= 0 and raw[i - 1] & 0x80:
+            i -= 1
+            vb.insert(0, raw[i])
+        n = sum((b & 0x7f) << (7 * k) for k, b in enumerate(vb))
+        cand = ""
+        if 10 <= n <= len(raw) - start:
+            cand = raw[start:start + n].decode("utf-8", "ignore")
+        if not (cand and _PRINTABLE_URL_RE.match(cand)):
+            cand = re.split(rb'[^\x21-\x7e]', raw[start:])[0].decode("utf-8", "ignore")
+        return cand if cand and _is_article_url(cand) else ""
+    return ""
+
+
 def _resolve_gnews_url(url: str, title: str) -> str:
     """Return the publisher's article URL, or a Google News search link."""
+    decoded = _decode_gnews_id(url)
+    if decoded:
+        return decoded
     try:
         import requests
         r = requests.get(url, timeout=8, allow_redirects=True,

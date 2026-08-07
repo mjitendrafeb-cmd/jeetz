@@ -606,6 +606,10 @@ def fetch_company_news(per_company_cap: int = 3) -> list[str]:
 
     items = []
     seen_titles: set[str] = set()
+    # Was read from a name that only exists inside fetch_google_news(), so
+    # EVERY company's query died with a NameError before it was ever sent —
+    # the whole per-entity watchlist fetch silently returned nothing.
+    alias_map = _load_aliases()
 
     # Query EVERY company (no global early-break) so a long watchlist isn't
     # starved — with 340 names the old `len(items) >= 60` cap stopped after
