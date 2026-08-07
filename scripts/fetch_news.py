@@ -528,6 +528,15 @@ _LEGAL_SUFFIX_RE = re.compile(
 _PAREN_CODE_RE = re.compile(r"\([^)]*\)")          # "(BLR)", "(CQR)"
 _TRAILING_CODE_RE = re.compile(r"\s*[-–]\s*[A-Za-z]{1,4}\s*$")   # "- MA"
 _NAME_STOP = {"of", "and", "the", "for", "&", "in"}
+# Words too common in BFSI names to identify a firm on their own — a lone
+# hit on one of these is not evidence the story is about that entity.
+_GENERIC_NAME_WORD = {
+    "finance", "financial", "services", "capital", "housing", "credit",
+    "investment", "investments", "securities", "insurance", "banking",
+    "national", "india", "indian", "industries", "development", "holdings",
+    "enterprises", "solutions", "resources", "ventures", "partners",
+    "management", "asset", "assets", "microfin", "microfinance", "general",
+}
 
 
 def _core_name(company: str) -> str:
@@ -589,18 +598,36 @@ def _story_mentions_entity(company: str, aliases: list[str], text: str) -> bool:
     for a in aliases:
         if a.strip() and a.strip().lower() in t:
             return True
-    # Distinctive multi-word fallback: every significant word present.
+    # Requiring the first THREE significant words all be present rejected
+    # genuine stories: "Anand Rathi seeks higher borrowing limits" failed
+    # for 'Anand Rathi Share and Stock Brokers' because the headline has no
+    # "share". Match on the first two significant words instead, which is
+    # how the mailer's own _mentions_company already works.
     sig = [w.lower() for w in core.split()
            if len(w) > 3 and w.lower() not in _NAME_STOP]
-    return len(sig) >= 2 and all(w in t for w in sig[:3])
+    if not sig:
+        return False
+    matched = [w for w in sig[:2] if w in t]
+    if len(matched) >= 2:
+        return True
+    # A lone word only counts when it is long enough to identify the firm on
+    # its own — "indostar" or "profectus" do, "tata" does not (it would pull
+    # in every other Tata company's news).
+    return bool(matched and len(matched[0]) >= 7 and matched[0] not in _GENERIC_NAME_WORD)
 
 
-def fetch_company_news(per_company_cap: int = 3) -> list[str]:
+def fetch_company_news(per_company_cap: int = 3, companies=None) -> list[str]:
     """per_company_cap: how many stories to keep from each company's
     Google News results. Default 3 = the 7:30 report's long-standing
     behaviour (do not change). The 7:40 team mail passes a wider value
-    because it has its own mechanical junk filter to absorb the noise."""
-    companies = load_watchlist()
+    because it has its own mechanical junk filter to absorb the noise.
+
+    companies: which entities to query. Defaults to watchlist.txt, which is
+    the 7:30 report's own 41-name list. The 7:40 mail passes its 370
+    team.json entities instead — those are managed in the web console and
+    were NEVER being queried, so 332 of the desk's entities could not
+    produce S1 news at all however much was published about them."""
+    companies = companies or load_watchlist()
     if not companies:
         return []
 
@@ -705,7 +732,7 @@ def _normalise_key(item: str) -> str:
 
 
 def fetch_all_news(newsapi_key: str = "", apply_seen: bool = True,
-                   per_company_cap: int = 3) -> tuple[str, dict]:
+                   per_company_cap: int = 3, companies=None) -> tuple[str, dict]:
     """Returns (news_text, source_summary) where source_summary maps source name → item count."""
     cfg = load_config()
     sources = cfg.get("sources", {})
@@ -768,7 +795,7 @@ def fetch_all_news(newsapi_key: str = "", apply_seen: bool = True,
         _add("NewsAPI", fetch_newsapi_news(newsapi_key))
 
     if src_on("company_watchlist"):
-        _add("Watchlist (Google)", fetch_company_news(per_company_cap))
+        _add("Watchlist (Google)", fetch_company_news(per_company_cap, companies))
         try:
             from fetch_bse import fetch_bse_announcements, fetch_bse_financials
             watchlist = load_watchlist()

@@ -2378,8 +2378,15 @@ def main() -> None:
     # top) crowd out genuine stories (a Kissht IPO item, SIDBI branch
     # expansion). The junk filter and cross-source dedup absorb the extra
     # volume; the 7:30 report keeps its own default of 3, untouched.
+    # Query the console's entities, not watchlist.txt. That file holds the
+    # 7:30 report's own 41 names, and it was the ONLY thing the per-entity
+    # Google search ever ran on — so 332 of the desk's 370 entities could
+    # not produce S1 news no matter what was published about them.
+    wl_companies = sorted({r["company"].strip() for r in rows if r.get("company", "").strip()})
+    print(f"[watchlist] querying {len(wl_companies)} entities from team.json")
     news_text, _summary = fetch_all_news(os.environ.get("NEWSAPI_KEY", ""),
-                                         apply_seen=False, per_company_cap=25)
+                                         apply_seen=False, per_company_cap=25,
+                                         companies=wl_companies)
     # The per-source counts were computed and then thrown away, so a source
     # collapsing to zero (as the watchlist fetch did for three days) was
     # invisible in the log.
