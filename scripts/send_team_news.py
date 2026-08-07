@@ -1260,6 +1260,73 @@ def _save_seen(items: list[dict]) -> None:
     _git_push(_SEEN_PATH)
 
 
+# ---------------------------------------------------------------------------
+# Fetched-news pool
+# ---------------------------------------------------------------------------
+# Every run used to search Google live and keep only what that one search
+# returned. Google serves a different subset each time — two runs ten minutes
+# apart gave SIDBI 5 items and then 4 — so anything a run happened to miss was
+# gone for good, and a throttled run could wipe an entity's coverage for the
+# day. The pool makes coverage cumulative instead: each run merges what it
+# fetched into a store, and the mail is built from everything collected in the
+# retention window. Recency is still decided by the item's own PUB date via
+# _is_stale; this window only governs how long a fetched line is remembered.
+_POOL_PATH = os.path.join(_REPO_ROOT, "data", "news_pool.json")
+_POOL_HOURS = 72
+
+
+def _pool_key(line: str) -> str:
+    """Stable identity for a raw fetched line, ignoring the tier tag."""
+    text = re.sub(r"^\[T\d\]", "", line.strip())
+    return _norm_key(text)[:160]
+
+
+def _load_pool() -> dict:
+    try:
+        with open(_POOL_PATH, encoding="utf-8") as f:
+            data = json.load(f)
+        return data.get("items", {}) or {}
+    except Exception:
+        return {}
+
+
+def _merge_pool(fresh_lines: list[str]) -> tuple[list[str], dict, int]:
+    """Fold this run's lines into the stored pool and drop anything past the
+    retention window. Returns (all lines, pool to save, how many are new)."""
+    pool = _load_pool()
+    now = datetime.datetime.now(datetime.timezone.utc)
+    cutoff = now - datetime.timedelta(hours=_POOL_HOURS)
+    kept: dict = {}
+    for key, rec in pool.items():
+        try:
+            seen = datetime.datetime.fromisoformat(rec.get("first_seen", ""))
+        except Exception:
+            continue
+        if seen.tzinfo is None:
+            seen = seen.replace(tzinfo=datetime.timezone.utc)
+        if seen >= cutoff and rec.get("line"):
+            kept[key] = rec
+    carried = len(kept)
+    stamp = now.isoformat()
+    for line in fresh_lines:
+        key = _pool_key(line)
+        if not key:
+            continue
+        if key not in kept:
+            kept[key] = {"line": line, "first_seen": stamp}
+    new = len(kept) - carried
+    print(f"[pool] {len(fresh_lines)} fetched, {new} new, {carried} carried over "
+          f"from the last {_POOL_HOURS}h -> {len(kept)} candidate items")
+    return [rec["line"] for rec in kept.values()], kept, new
+
+
+def _save_pool(pool: dict) -> None:
+    os.makedirs(os.path.dirname(_POOL_PATH), exist_ok=True)
+    with open(_POOL_PATH, "w", encoding="utf-8") as f:
+        json.dump({"items": pool}, f, ensure_ascii=False)
+    _git_push(_POOL_PATH)
+
+
 def _git_push(path: str) -> None:
     try:
         import subprocess
@@ -2398,7 +2465,11 @@ def main() -> None:
     # collapsing to zero (as the watchlist fetch did for three days) was
     # invisible in the log.
     print("[sources] " + ", ".join(f"{k}={v}" for k, v in sorted((_summary or {}).items())))
-    items = [_parse_item(ln) for ln in news_text.splitlines() if ln.strip()]
+    # Merge into the persistent pool so a run that Google under-serves does
+    # not lose the day's coverage — see _merge_pool.
+    fresh_lines = [ln for ln in news_text.splitlines() if ln.strip()]
+    pooled_lines, pool_to_save, _new = _merge_pool(fresh_lines)
+    items = [_parse_item(ln) for ln in pooled_lines]
     print(f"[sources] {len(items)} parsed items, "
           f"{sum(1 for it in items if it.get('wl_company'))} carry a WATCHLIST tag")
 
@@ -2601,10 +2672,18 @@ def main() -> None:
     if test_email:
         # A one-off test must not mark today as sent (that would block
         # tomorrow's real scheduled run) or teach the shared seen-memory
-        # about items other GHs haven't received yet.
-        print("[test] skipping seen-memory save and sent-today marker")
+        # about items other GHs haven't received yet. The pool is skipped
+        # too, so a test leaves no trace at all.
+        print("[test] skipping seen-memory save, pool save and sent-today marker")
     else:
         _save_seen(items)
+        # Saved even though the mail is out: tomorrow's run inherits today's
+        # fetched lines, so coverage accumulates rather than depending on
+        # whatever a single Google search happened to return.
+        try:
+            _save_pool(pool_to_save)
+        except Exception as exc:
+            print(f"[pool] save failed (non-fatal): {exc}")
         _mark_sent_today()
     print("Done.")
 
