@@ -1081,9 +1081,25 @@ def _ai_review_items(items: list[dict]) -> list[dict]:
     except Exception:
         return items
 
+    # Batches are fixed 20-item slices of `items`, which arrives in raw
+    # fetch order (source by source) — NOT grouped by topic. Two "Tata Sons
+    # remains an upper-layer NBFC" paraphrases from different outlets can
+    # land 40+ items apart purely because of which source returned first,
+    # so they were never in the same batch and the model never got the
+    # chance to compare them (reported: repeated upper-layer-NBFC stories
+    # surviving in S2). Sorting within each section by a topic key first —
+    # same section, same lead subject word, shared significant tokens —
+    # clusters near-duplicates next to each other before slicing, so a
+    # 20-item batch is far more likely to actually contain the pair.
+    def _topic_key(it):
+        toks = _title_toks(it["title"])
+        return (it.get("section") or "", _lead_tok(it["title"]), tuple(sorted(toks)))
+
+    ordered = sorted(items, key=_topic_key)
+
     drop_wrong, drop_dup = set(), set()
-    for start in range(0, len(items), _REVIEW_BATCH_SIZE):
-        batch = items[start:start + _REVIEW_BATCH_SIZE]
+    for start in range(0, len(ordered), _REVIEW_BATCH_SIZE):
+        batch = ordered[start:start + _REVIEW_BATCH_SIZE]
         verdicts = _ai_review_batch(batch, client)
         if not verdicts:
             continue
