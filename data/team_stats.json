@@ -1077,5 +1077,79 @@
     "Broad-Based Technical Strength Lifts AU Small Finance Bank Ltd to 52-Week High of Rs 1092.15"
    ]
   }
+ },
+ {
+  "date": "2026-08-07",
+  "fetched": 838,
+  "delivered_pool": 292,
+  "junk": 104,
+  "geo": 3,
+  "stale": 0,
+  "dup": 134,
+  "sections": {
+   "S1": 244,
+   "S2": 30,
+   "S3": 18
+  },
+  "mails": 1,
+  "failed": [],
+  "source_summary": {
+   "RBI RSS": 20,
+   "RBI Enforcement": 0,
+   "SEBI RSS": 20,
+   "Rating Agencies": 2,
+   "Google News": 26,
+   "Watchlist (Google)": 655,
+   "BSE Announcements": 0,
+   "BSE Financials": 0,
+   "Telegram": 32,
+   "Web Scraper": 198
+  },
+  "dropped_samples": {
+   "relevance": [
+    "Premature redemption under Sovereign Gold Bond (SGB) Scheme - Redemption Price for premature redemption of SGB",
+    "Release Order - Certificate No",
+    "Karnataka HC defers hearing on RBI Governance Directions to August 14",
+    "Online Banking Fraud: What Security Is Available To Affected Customers?",
+    "SBI Q1 Result Preview: What To Expect From The PSU Banking Giant On NIM, Profit, Credit Growth, NPAs, More",
+    "Inventurus Knowledge Solutions Q1 Results: Earnings call scheduled for Aug 6",
+    "OB Extends \u20b975 Crore Project Finance to Assotech World Avenue 07, Signaling Continued Institutional...",
+    "Stocks in news: LIC, Trent, AWL Agri Business, SBI, Titan",
+    "Three strategic takeaways from PB Fintech Q1 FY27 earnings call",
+    "PB Fintech Q1 Results: Earnings call recording uploaded for review",
+    "Pune E-Stock Broking appoints Viral Patel as independent director",
+    "Muthoot Microfin allots \u20b935 crore Commercial Paper at 9.4% yield",
+    "Afcons Infrastructure redeems \u20b950 crore commercial paper on maturity",
+    "Korean Brokerages Boost Short-Term Borrowing Limits to Build Cash Buffers",
+    "Ards FC announce new reserves team management",
+    "New season beckons for Ards as giants Glenavon target strong start",
+    "Could an Ards councillor become the next North Down UUP Stormont candidate?",
+    "Enjoy The New Punjabi Music Video For 'Romantic Amli' By Vadda Grewal",
+    "Bright Horizons Family Solutions Inc. (BFAM) stock price, news, quote and history",
+    "Bright Horizons Family Solutions Inc. $BFAM Shares Sold by Lazard Asset Management LLC"
+   ],
+   "junk": [
+    "Release order for RC No. 4397 of 2021-Kesava Mallikarjuna Prasad Chivukula in the matter of CAT Technologies L",
+    "Completion of Recovery Certificate No. 4397 of 2021-Kesava Mallikarjuna Prasad Chivukula in the matter of CAT ",
+    "Release order for RC No. 4396 of 2021-Dhaduvai Venkatram in the matter of CAT Technologies Ltd.",
+    "Completion of Recovery Certificate No. 4396 of 2021-Dhaduvai Venkatram in the matter of CAT Technologies Ltd.",
+    "Completion of Recovery Certificate No",
+    "Settlement Order in respect of Mr. Raghav Raj Kanoria in the matter of India Power Corporation Limited",
+    "Appeal No. 6970 of 2026 filed by Parthasarathi",
+    "Appeal No. 6969 of 2026 filed by Kamal Kumar Agrawal",
+    "Appeal No. 6968 of 2026 filed by Sailesh Choraria",
+    "Appeal No. 6967 of 2026 filed by Jatin",
+    "Appeal No. 6966 of 2026 filed by Sarju Devi",
+    "Appeal No. 6965 of 2026 filed by Sunil Kumar",
+    "Appeal No. 6964 of 2026 filed by Ravi Prakashkumar Shah",
+    "Appeal No. 6962 of 2026 filed by Tammineni Sriharsha",
+    "Release order for Recovery Certificate No. 1969 of 2019-Kontala Krishnaveni in the matter of Covidh Technologi",
+    "Completion of Recovery Certificate No. 1969 of 2019-Kontala Krishnaveni in the matter of Covidh Technologies L",
+    "Notice(s) of Attachment dated August 05, 2026 issued under RC No",
+    "Motilal Oswal sees private banks delivering 18-20% earnings growth in FY27",
+    "Aadhar Housing Finance Ltd Technical Momentum Shifts Amid Mixed Market Returns",
+    "Broad-Based Technical Strength Lifts AU Small Finance Bank Ltd to 52-Week High of Rs 1092.15"
+   ]
+  }
  }
 ]
