@@ -584,20 +584,58 @@ def _company_query(company: str, aliases: list[str]) -> str:
     return " OR ".join(parts)
 
 
+# A short entity name is a substring of longer, unrelated names — "Bank of
+# India" matches inside "Reserve Bank of India", "State Bank of India",
+# "Central Bank of India". A plain `in` test let an RBI story get tagged
+# [WATCHLIST — Bank of India] the moment such a short name is on the list
+# (this exact class of bug reached production in the team mailer's own
+# matcher before being fixed there). Neither watchlist.txt's 41 names nor
+# team.json's 370 currently include a bare "Bank of India"-style short name,
+# but the check is shared code and the list is edited over time, so the
+# guard belongs here rather than depending on today's list staying safe.
+_ENTITY_PREFIX_BLOCK_RE = re.compile(
+    r"(?:\breserve|\bstate|\bcentral|\bunion|\bfederal|\bexim|"
+    r"export[- ]import|\bworld|\bpunjab national)\s+$",
+    re.IGNORECASE,
+)
+
+
+def _text_contains_name(text: str, phrase: str) -> bool:
+    """Word-boundary substring match that rejects a hit sitting inside a
+    longer institution name."""
+    if not phrase:
+        return False
+    for m in re.finditer(re.escape(phrase), text):
+        if m.start() and text[m.start() - 1].isalnum():
+            continue
+        if m.end() < len(text) and text[m.end()].isalnum():
+            continue
+        if _ENTITY_PREFIX_BLOCK_RE.search(text[:m.start()]):
+            continue
+        return True
+    return False
+
+
 def _story_mentions_entity(company: str, aliases: list[str], text: str) -> bool:
     """Verify the story actually concerns this entity. Replaces the old
     first-word test, which passed anything starting with 'Small', 'Bank',
     'National'..."""
     t = (text or "").lower()
     core = _core_name(company)
-    if core and core.lower() in t:
+    if core and _text_contains_name(t, core.lower()):
         return True
     ac = _name_acronym(core)
     if ac and re.search(rf"\b{re.escape(ac)}\b", text or "", re.IGNORECASE):
         return True
     for a in aliases:
-        if a.strip() and a.strip().lower() in t:
+        if a.strip() and _text_contains_name(t, a.strip().lower()):
             return True
+    # If the full core name literally appears in the text but only inside a
+    # longer institution name (the prefix-block case above), that is strong
+    # evidence the story is about the LONGER entity — the word-level fallback
+    # below must not use the same words to reach the opposite conclusion.
+    if core and core.lower() in t:
+        return False
     # Requiring the first THREE significant words all be present rejected
     # genuine stories: "Anand Rathi seeks higher borrowing limits" failed
     # for 'Anand Rathi Share and Stock Brokers' because the headline has no
