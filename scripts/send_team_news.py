@@ -1012,14 +1012,28 @@ def _classify_items_ai(items: list[dict], company_phrases: list[str], sectors: d
             client = anthropic.Anthropic(api_key=api_key)
         except Exception as exc:
             print(f"[ai_classify] anthropic client unavailable, using rules only: {exc}")
+    # S1 is not a judgement call. An item the fetcher tagged to a watchlist
+    # entity, or whose text matched one, IS that entity's news by
+    # definition — so it is pinned to S1 here and never shown to the model.
+    # Leaving it to the model meant a cautious answer could silently empty
+    # somebody's S1, which is the one section the desk cannot do without.
+    # (Junk, stock moves and procedural noise are already gone by now, so
+    # this cannot pin garbage.)
+    pinned = [it for it in items if it.get("companies")]
+    for it in pinned:
+        it["section"] = "S1"
+    rest = [it for it in items if not it.get("companies")]
+    if pinned:
+        print(f"[ai_classify] {len(pinned)} watchlist items pinned to S1 (not sent to the model)")
+
     if client is None:
-        for it in items:
+        for it in rest:
             it["section"] = _classify_team(it, company_phrases, sectors, macro_kw)
         return
 
     n_ai, n_fallback = 0, 0
-    for start in range(0, len(items), _AI_BATCH_SIZE):
-        batch = items[start:start + _AI_BATCH_SIZE]
+    for start in range(0, len(rest), _AI_BATCH_SIZE):
+        batch = rest[start:start + _AI_BATCH_SIZE]
         result = _ai_classify_batch(batch, client, sectors, macro_kw)
         if result is None:
             n_fallback += len(batch)
