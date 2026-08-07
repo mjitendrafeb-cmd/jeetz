@@ -2393,7 +2393,7 @@ def main() -> None:
     print(f"[watchlist] querying {len(wl_companies)} entities from team.json")
     news_text, _summary = fetch_all_news(os.environ.get("NEWSAPI_KEY", ""),
                                          apply_seen=False, per_company_cap=25,
-                                         companies=wl_companies, max_items=1500)
+                                         companies=wl_companies, max_items=None)
     # The per-source counts were computed and then thrown away, so a source
     # collapsing to zero (as the watchlist fetch did for three days) was
     # invisible in the log.
