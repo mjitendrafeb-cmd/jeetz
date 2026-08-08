@@ -544,6 +544,48 @@
       "expect": "S4",
       "expect_team": null,
       "why": "reported S3 leak: single-issuer debenture redemption notice"
+    },
+    {
+      "title": "Eir Partners invests in ClaimsBridge, supports add-on of DialysisPPO",
+      "source": "Bond Markets",
+      "expect": "S4",
+      "expect_team": null,
+      "why": "reported S3 leak: _classify matches its bond regex against the SOURCE NAME, so every item from the 'Bond Markets' feed became macro news whatever it said"
+    },
+    {
+      "title": "Partners Group in talks to buy beauty biz Aroma-Zone from Eurazeo; CVC, Veritas Capital vie for Bodycote",
+      "source": "Bond Markets",
+      "expect": "S4",
+      "expect_team": null,
+      "why": "reported S3 leak: foreign PE deal carried by the bond feed"
+    },
+    {
+      "title": "Accel-KKR, Bain, Knox Lane bet on clinical workforce services",
+      "source": "Bond Markets",
+      "expect": "S4",
+      "expect_team": null,
+      "why": "reported S3 leak: PE healthcare deal, no macro or bond content in the headline"
+    },
+    {
+      "title": "Aurobindo Pharma among 8 stocks hitting 52-week highs; surge up to 20% in a month",
+      "source": "Bond Markets",
+      "expect": null,
+      "expect_team": null,
+      "why": "reported S3 leak: stock-list listicle; plural '52-week highs' also escaped the old singular-only pattern"
+    },
+    {
+      "title": "Reliance Industries, ITC among 10 stocks that saw highest buying by LIC in Q1. See full list",
+      "source": "Bond Markets",
+      "expect": null,
+      "expect_team": null,
+      "why": "reported S3 leak: 'among N stocks' holdings listicle"
+    },
+    {
+      "title": "Corporate bond yields ease after the weekly G-sec auction",
+      "source": "Bond Markets",
+      "expect": "S4",
+      "expect_team": "S3",
+      "why": "genuine bond-market story from the same feed must survive the source-name gate"
     }
   ]
 }

@@ -154,7 +154,14 @@ _TEAM_JUNK_RE = re.compile(
     # AAA/AA/BBB etc, which deliberately do not appear in this word list).
     r"|\b(upgraded|downgraded|upgrade[sd]?|downgrade[sd]?) to (strong )?(buy|sell|hold|accumulate|reduce|neutral|outperform|underperform)\b"
     r"|\brevenue breakdown\b"
-    r"|\b52[- ]week (high|low)\b"
+    r"|\b52[- ]week (high|low)s?\b"
+    # "Aurobindo Pharma among 8 stocks hitting 52-week highs", "Reliance,
+    # ITC among 10 stocks that saw highest buying by LIC" — stock-list
+    # listicles. The plural "highs" also slipped past the 52-week pattern
+    # above, which required a word boundary right after "high".
+    r"|\bamong \d+ stocks?\b|\bamong the \d+ stocks?\b"
+    r"|\b\d+ stocks? (that|which|to)\b|\bsee full list\b"
+    r"|\bhitting (52[- ]week|record|all[- ]time|lifetime) (high|low)s?\b"
     r"|\bsubscribe\b.{0,60}\bipo\b|\bipo\b.{0,60}\bsubscribe\b"
     r"|\b(gmp|grey market premium)\b"
     # Mutual-fund scheme/NAV pages — matched S4 on 'gilt' but carry no news
@@ -912,14 +919,22 @@ def _classify_team(it: dict, company_phrases: list[str],
     # strength of one word the reader never sees. If a story is sector
     # news for the whole desk, its own headline says so.
     #
-    # Deliberately NOT applied to S3: a macro or bond-market item often
-    # carries no sector word at all ("India Inc credit ratio declines",
-    # "Latest data release on money supply and reserves" from RBI-DBIE),
-    # and gating those dropped genuine macro news.
-    if mapped == "S2" and not (_FI_SIGNAL_RE.search(headline)
-                               or _S4_RE.search(headline)
-                               or _S5_RE.search(headline)):
-        return "S1" if it.get("companies") else None
+    # Applied to S3 as well, because _classify() matches its bond/macro
+    # regexes against the SOURCE NAME too: every item carried by the
+    # "Bond Markets" feed hit "bond" in its own feed name and became macro
+    # news whatever it said, so private-equity healthcare deals landed in
+    # everyone's S3. The one exception is an official statistics feed
+    # (RBI-DBIE, MOSPI, PIB, macro-release): those publish nothing BUT
+    # macro data, so the source genuinely is the justification and their
+    # headlines legitimately carry no sector word ("Latest data release on
+    # money supply and reserves"). A keyword-query feed's name is not
+    # evidence of anything.
+    if mapped in ("S2", "S3"):
+        trusted_macro_source = it.get("source", "").lower().startswith(_S5_SOURCES)
+        if not trusted_macro_source and not (_FI_SIGNAL_RE.search(headline)
+                                             or _S4_RE.search(headline)
+                                             or _S5_RE.search(headline)):
+            return "S1" if it.get("companies") else None
     return mapped
 
 
