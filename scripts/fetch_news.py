@@ -771,7 +771,8 @@ def _normalise_key(item: str) -> str:
 
 def fetch_all_news(newsapi_key: str = "", apply_seen: bool = True,
                    per_company_cap: int = 3, companies=None,
-                   max_items: int = 200, days_back: int = 2) -> tuple[str, dict]:
+                   max_items: int = 200, days_back: int = 2,
+                   telegram_days_back: int | None = None) -> tuple[str, dict]:
     """Returns (news_text, source_summary) where source_summary maps source name → item count."""
     cfg = load_config()
     sources = cfg.get("sources", {})
@@ -848,7 +849,10 @@ def fetch_all_news(newsapi_key: str = "", apply_seen: bool = True,
     if src_on("telegram"):
         channels = cfg.get("telegram_channels", [])
         if channels:
-            _add("Telegram", fetch_telegram_channels(channels))
+            # Defaults to 1 (24h) so the 7:30 report's Telegram intake is
+            # exactly what it has always been; the team mail passes its own
+            # window so Friday's posts survive to Monday's edition.
+            _add("Telegram", fetch_telegram_channels(channels, telegram_days_back or 1))
         else:
             summary["Telegram"] = 0
 

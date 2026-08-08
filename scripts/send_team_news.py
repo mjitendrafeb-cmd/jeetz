@@ -2895,7 +2895,8 @@ def main() -> None:
     news_text, _summary = fetch_all_news(os.environ.get("NEWSAPI_KEY", ""),
                                          apply_seen=False, per_company_cap=25,
                                          companies=wl_companies, max_items=None,
-                                         days_back=lookback_days)
+                                         days_back=lookback_days,
+                                         telegram_days_back=lookback_days)
     # The per-source counts were computed and then thrown away, so a source
     # collapsing to zero (as the watchlist fetch did for three days) was
     # invisible in the log.
