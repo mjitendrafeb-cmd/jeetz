@@ -249,6 +249,25 @@ _NOT_NEWS_RE = re.compile(
     r"|^what (is|are)\b.{0,60}\?"
     r"|\bwhy .{0,40}\b(matter|matters) to investors\b"
     r"|\b(summary|round[- ]?up|recap) of (financial |the )?markets?\b"
+    # Derivatives / F&O positioning tables. Market-structure noise, never a
+    # credit event ("Kalyan Jewellers among 5 F&O stocks with a sharp rise
+    # in futures open interest").
+    r"|\bf&o\b|\bopen interest\b|\bfutures? (and options|open interest)\b"
+    r"|\bderivatives? (data|strategy|outlook)\b|\block[- ]?in period\b"
+    # Daily market wraps and gainer/loser tables.
+    r"|\bmarket wrap\b|\btop (gainers|losers)\b|\bgainers and losers\b"
+    r"|\bnifty\b.{0,30}\bsensex\b|\bsensex\b.{0,30}\bnifty\b"
+    # Deposit-rate comparison listicles ("NBFC FD rates 2026: ... offer up
+    # to 8.50%; check top rates").
+    r"|\bfd rates?\b|\bfixed deposit rates?\b|\bcheck (the )?top rates\b"
+    r"|\binterest rates? comparison\b|\boffers? up to \d+(\.\d+)?%"
+    # IPO pipeline/approval filler — not a credit event for this desk.
+    r"|\b(receives?|receive|gets?|get) (sebi|regulatory) (approval|nod)[^.|]{0,30}\bipo"
+    r"|\bsebi (approval|nod)[^.|]{0,25}\b(launch|float)[^.|]{0,15}\bipos?\b"
+    r"|\bipo[- ]bound\b|\bfiles? (draft )?(drhp|rhp)\b"
+    # Personality profiles / fund-manager interviews.
+    r"|\bis known for\b|\bin conversation with\b|\bexclusive interview\b"
+    r"|\b(fund manager|cio|portfolio manager)[^.|]{0,25}\b(says|shares|picks|interview)\b"
     r"|\bhere'?s (what|how|why) you (need to know|should know)\b"
     # RBI daily money-market operations table scraped as text ("1. Fixed
     # Rate 2. Variable Rate& (a) Repo Operation (b) Reverse Repo Operation
@@ -788,13 +807,22 @@ def _item_sectors(it: dict, sectors: dict) -> set:
 # "Muthoot Microfin allots Rs 35 crore CP at 9.4%" reached every reader's
 # S3 because "commercial paper" is a bond-market/macro keyword.
 _ENTITY_STORY_RE = re.compile(
-    r"\b(allots?|allotted|redeems?|redeemed|prepays?|raises?|to raise)\b"
-    r"[^.|]{0,60}\b(ncds?|debentures?|commercial papers?|bonds?)\b"
+    r"\b(allots?|allotted|redeems?|redeemed|prepays?|repays?|repaid|raises?|raising|"
+    r"to raise|matured|matures?|part redemption|full redemption)\b"
+    r"[^.|]{0,60}\b(ncds?|debentures?|commercial papers?|bonds?|\becb\b|"
+    r"external commercial borrowings?|foreign currency borrowings?)\b"
     r"|\b(ncds?|debentures?|commercial papers?|bonds?)\b[^.|]{0,50}"
     r"\b(allotment|redemption|maturity|coupon|issue (price|opens?|closes?))\b"
     r"|\bboard (meets?|meeting|to (meet|consider)|approves?)\b[^.|]{0,60}"
     r"\b(ncds?|debentures?|commercial papers?|bonds?|fund ?rais\w*|\bqip\b|rights issue)\b"
     r"|\bcoupon (rate|of)\b"
+    # One issuer's own debt housekeeping: "Grasim repays Rs 750 crore in
+    # matured commercial papers", "Part Redemption (Revised) of Debentures
+    # of ADANI AIRPORT HOLDINGS", "issues awareness letter for ... credit
+    # facilities". Entity news, never sector or macro.
+    r"|\bpart redemption\b|\bawareness letter\b"
+    r"|\bmatured (commercial papers?|debentures?|ncds?|bonds?)\b"
+    r"|\bredemption[^.|]{0,25}\bdebentures?\b"
     r"|\bq[1-4]\s*(fy\s?\d+\s*)?results?\b"
     r"|\bnet profit (surges?|jumps?|rises?|falls?|declines?|drops?|up|down|grows?)\b"
     # One company's corporate actions — M&A, partnerships, buybacks — are
@@ -855,7 +883,15 @@ def _classify_team(it: dict, company_phrases: list[str],
     # into every reader's S3.
     if _ENTITY_STORY_RE.search(text) and not _SECTOR_WIDE_RE.search(text):
         return "S1" if it.get("companies") else None
-    if _kw_hit(text, macro_kw):
+    # Console keywords are matched on the HEADLINE (plus tags), never the
+    # RSS summary. A summary is a paragraph of loose context: one stray
+    # word in it was routing whole stories into a section they had nothing
+    # to do with — "insurance" in a hospital chain's capex blurb sent
+    # Medicover Hospitals to S2, "brokerage" in a derivatives blurb sent a
+    # Kalyan Jewellers F&O story there too. If a story is genuinely ABOUT a
+    # sector, the sector shows up in its headline.
+    headline = f'{it["tags"]} {it["title"]}'.lower()
+    if _kw_hit(headline, macro_kw):
         return "S3"
     # A sector's keywords define what is relevant FOR THAT SECTOR. Checked
     # before deferring to `base`, because the built-in relevance gate is
@@ -863,11 +899,28 @@ def _classify_team(it: dict, company_phrases: list[str],
     # any other sector ("Road EPC order inflows surge as NHAI awards HAM
     # projects") would otherwise be discarded as having no financial signal
     # before the sector logic ever saw it.
-    if sectors and any(_kw_hit(text, kws) for kws in sectors.values()):
+    if sectors and any(_kw_hit(headline, kws) for kws in sectors.values()):
         return "S2"
     if base is None:
         return None
-    return _TEAM_SECTION_MAP.get(base)
+    mapped = _TEAM_SECTION_MAP.get(base)
+    # Final gate, applied to SECTOR routing only. _classify() reads the
+    # summary as well as the headline — right for the 7:30 report, wrong
+    # for a section everyone receives: a hospital chain's capex note whose
+    # blurb mentioned "insurance", and a UK accounting tie-up whose blurb
+    # mentioned "asset management", both became BFSI sector news on the
+    # strength of one word the reader never sees. If a story is sector
+    # news for the whole desk, its own headline says so.
+    #
+    # Deliberately NOT applied to S3: a macro or bond-market item often
+    # carries no sector word at all ("India Inc credit ratio declines",
+    # "Latest data release on money supply and reserves" from RBI-DBIE),
+    # and gating those dropped genuine macro news.
+    if mapped == "S2" and not (_FI_SIGNAL_RE.search(headline)
+                               or _S4_RE.search(headline)
+                               or _S5_RE.search(headline)):
+        return "S1" if it.get("companies") else None
+    return mapped
 
 
 # ---------------------------------------------------------------------------
@@ -2497,6 +2550,11 @@ def _mech_digest(person_items: list[dict], n_entities: int) -> str:
     executive summary, and a bare Top-5 gives the reader no sense of scale
     or shape. This says how much arrived and what KIND, derived entirely
     from the event taxonomy: no API, nothing that can be hallucinated."""
+    # S1 only. The digest sits under "TODAY AT A GLANCE" and is read as a
+    # statement about the reader's OWN entities; counting S2/S3 in it made
+    # the number meaningless ("108 items across your 47 entities" when most
+    # of those were shared sector and macro stories).
+    person_items = [it for it in person_items if it.get("section") == "S1"]
     if not person_items:
         return ""
     counts: dict = {}
@@ -2509,84 +2567,6 @@ def _mech_digest(person_items: list[dict], n_entities: int) -> str:
     n = len(person_items)
     head = f"{n} item{'s' if n != 1 else ''} across your {n_entities} entit{'ies' if n_entities != 1 else 'y'}"
     return f"{head} — {', '.join(parts)}." if parts else f"{head}."
-
-
-_INLINE_S1_MAX = 20
-
-
-def _np_s1_inline(p: dict, items: list[dict]) -> str:
-    """S1 rendered INSIDE the email body, grouped by entity.
-
-    S1 is the one section that is personally the reader's, and it was only
-    ever in the attachment — which on a phone is a tap away and often never
-    opened. Rendered with tables and inline styles only: the newspaper page
-    uses CSS multi-column, which Outlook and most mobile clients ignore.
-    Capped, with an explicit pointer to the attachment for the remainder, so
-    a reader with 40 watchlist hits still gets a scannable mail rather than
-    an endless one.
-    """
-    if "S1" not in p.get("sections", set()):
-        return ""
-    by_company: dict = {}
-    shown: set = set()
-    for comp in sorted(p.get("companies") or []):
-        for it in items:
-            if comp in (it.get("companies") or []) and _key(it) not in shown:
-                shown.add(_key(it))
-                by_company.setdefault(comp, []).append(it)
-    if not by_company:
-        return (
-            '<table width="100%" cellpadding="0" cellspacing="0" style="border-top:2px solid #e5e5e5;">'
-            '<tr><td style="padding:12px 20px;background:#fff;">'
-            '<p style="margin:0;font-size:11px;color:#888;font-style:italic;">'
-            'No developments across your entities today.</p></td></tr></table>'
-        )
-    for v in by_company.values():
-        v.sort(key=lambda x: (-_materiality(x), _is_undated(x)))
-    order = sorted(by_company.items(), key=lambda kv: -max(_materiality(i) for i in kv[1]))
-
-    total = sum(len(v) for v in by_company.values())
-    rows, used = "", 0
-    for comp, its in order:
-        if used >= _INLINE_S1_MAX:
-            break
-        flag = (' <span style="color:#b91c1c;font-weight:800;">&#9679; ACTION</span>'
-                if max(_materiality(i) for i in its) >= 8 else "")
-        rows += (f'<tr><td style="padding:10px 20px 2px;">'
-                 f'<p style="margin:0;font-size:10px;font-weight:800;letter-spacing:1px;'
-                 f'text-transform:uppercase;color:#111;border-bottom:1px solid #ddd;'
-                 f'padding-bottom:3px;">{_esc(comp)}{flag}'
-                 f'<span style="color:#999;font-weight:600;"> &middot; {len(its)} item'
-                 f'{"s" if len(its) != 1 else ""}</span></p></td></tr>')
-        for it in its:
-            if used >= _INLINE_S1_MAX:
-                break
-            used += 1
-            ev_key, ev_label, _sc, ev_col = _event_of(it)
-            badge = (f'<span style="border:1px solid {ev_col};color:{ev_col};'
-                     f'padding:0 4px;border-radius:2px;font-size:8px;font-weight:800;'
-                     f'margin-right:5px;">{ev_label}</span>' if ev_key != "OTHER" else "")
-            link = (f' <a href="{_esc(it["url"])}" style="color:#cc0000;'
-                    f'text-decoration:none;">&#8594;</a>' if it.get("url") else "")
-            rows += (f'<tr><td style="padding:3px 20px 3px 26px;">'
-                     f'<p style="margin:0;font-size:12px;color:#1a1a1a;line-height:1.5;">'
-                     f'{badge}{_esc(it["title"])}'
-                     f'<span style="color:#999;font-size:10px;"> ({_esc(it["source"])})</span>'
-                     f'{link}</p></td></tr>')
-    more = ""
-    if total > used:
-        more = (f'<tr><td style="padding:6px 20px 12px;">'
-                f'<p style="margin:0;font-size:11px;color:#888;font-style:italic;">'
-                f'+{total - used} more across your entities &mdash; see the attached edition.'
-                f'</p></td></tr>')
-    return (
-        f'<table width="100%" cellpadding="0" cellspacing="0" style="background:#1a1a1a;">'
-        f'<tr><td style="padding:8px 20px;font-size:9px;font-weight:800;letter-spacing:3px;'
-        f'text-transform:uppercase;color:#fff;">&#9733; YOUR ENTITIES &mdash; {total} item'
-        f'{"s" if total != 1 else ""}</td></tr></table>'
-        f'<table width="100%" cellpadding="0" cellspacing="0" '
-        f'style="border:1px solid #e5e5e5;border-top:none;background:#fff;">{rows}{more}</table>'
-    )
 
 
 def _np_partc(top5: list[dict], date_str: str, takeaways: dict | None = None,
@@ -3086,7 +3066,6 @@ def main() -> None:
             "name": (p.get("name") or "").strip(),
             "part_b": part_b, "top5": top5,
             "digest": _mech_digest(person_items, len(p.get("companies") or [])),
-            "s1_inline": _np_s1_inline(p, items),
         }
 
     takeaways, summaries = _ai_mail_body_content(
@@ -3099,12 +3078,7 @@ def main() -> None:
         # otherwise, so the reader always gets a sense of scale and shape
         # rather than an empty space where the summary would be.
         blurb = summaries.get(email, "") or v["digest"]
-        # S1 goes into the body right under the Top-5; S2/S3 stay in the
-        # attached edition. build_email() lives in send_credit_report.py and
-        # is not to be modified, so this rides along inside part_c — the one
-        # block of body content the team mail owns.
-        part_c = (_np_partc(top5, now.strftime("%d %B %Y"), takeaways, blurb)
-                  + v["s1_inline"])
+        part_c = _np_partc(top5, now.strftime("%d %B %Y"), takeaways, blurb)
         body = _np_rebrand(_scr.build_email(part_c, today, _summary))
         attachment = _np_rebrand(_np_build_attachment(part_b, today, who, masthead, coverage_note))
         # Each edition is built from that reader's own entities, so name it.

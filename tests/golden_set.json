@@ -488,6 +488,62 @@
       "expect": "S2",
       "expect_team": "S2",
       "why": "AI classifier wrongly dropped this — an RBI direction under a named statute is supervisory news for the whole desk"
+    },
+    {
+      "title": "Will Upgrade Infras, Equipment, Technology: Medicover Hospitals India ED",
+      "summary": "cashless insurance claims processing to be upgraded",
+      "expect": "S2",
+      "expect_team": null,
+      "why": "reported S2 leak: 'insurance' appeared only in the RSS summary; a shared section must be justified by the headline"
+    },
+    {
+      "title": "RedBird's Affinia adds Wilson Partners in UK accounting tie-up",
+      "summary": "expands its wealth and asset management advisory arm",
+      "expect": "S2",
+      "expect_team": null,
+      "why": "reported S2 leak: sector words only in the summary, and no watchlist party"
+    },
+    {
+      "title": "NBFC FD rates 2026: Muthoot Capital, Manipal Housing offer up to 8.50%; check top rates",
+      "expect": null,
+      "expect_team": null,
+      "why": "reported S2 leak: deposit-rate comparison listicle, not news"
+    },
+    {
+      "title": "Kenneth Andrade, founder and chief investment officer, Old Bridge Mutual Fund, is known for his high-conviction stock-picking",
+      "expect": null,
+      "expect_team": null,
+      "why": "reported S2 leak: fund-manager personality profile"
+    },
+    {
+      "title": "Garuda Aerospace, Naini Papers, Adroit Industries receive SEBI approval to launch IPOs",
+      "expect": null,
+      "expect_team": null,
+      "why": "reported S2 leak: IPO pipeline filler"
+    },
+    {
+      "title": "Kalyan Jewellers among 5 F&O stocks with a sharp rise in futures open interest",
+      "expect": null,
+      "expect_team": null,
+      "why": "reported S3 leak: F&O positioning table, market-structure noise"
+    },
+    {
+      "title": "Market wrap: TCS, SBI, M&M, Trent among top gainers and losers on Nifty and Sensex on Friday",
+      "expect": null,
+      "expect_team": null,
+      "why": "reported S3 leak: daily market wrap"
+    },
+    {
+      "title": "Grasim Industries repays Rs 750 crore in matured commercial papers",
+      "expect": null,
+      "expect_team": null,
+      "why": "reported S3 leak: one issuer's own CP repayment is entity news; 7:30's gate also drops it as a non-FI subject"
+    },
+    {
+      "title": "Part Redemption (Revised) of Debentures of ADANI AIRPORT HOLDINGS LIMITED",
+      "expect": "S4",
+      "expect_team": null,
+      "why": "reported S3 leak: single-issuer debenture redemption notice"
     }
   ]
 }
