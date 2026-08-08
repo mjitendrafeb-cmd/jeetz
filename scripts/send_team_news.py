@@ -2655,9 +2655,17 @@ def main() -> None:
     now = datetime.datetime.now(IST)
     date_str = now.strftime("%A, %d %B %Y")
 
-    # Scheduled runs respect the holiday calendar; manual dispatch always sends.
+    # Scheduled runs respect the holiday calendar; manual dispatch always
+    # sends. TEAM_SCHEDULED is hardcoded 'true' in the workflow's env for
+    # EVERY run — schedule or manual — so it could never actually
+    # distinguish them; a Saturday/Sunday test dispatch was silently
+    # skipped despite being explicitly triggered, contradicting the very
+    # message this block printed. GITHUB_EVENT_NAME is set automatically
+    # by GitHub Actions on every run (no workflow-file change needed) and
+    # is the real signal: 'schedule' for a cron tick, 'workflow_dispatch'
+    # for a manual run.
     weekday = now.strftime("%A")
-    if os.environ.get("TEAM_SCHEDULED") == "true":
+    if os.environ.get("GITHUB_EVENT_NAME") == "schedule":
         if team.get("skip_sundays", True) and weekday == "Sunday":
             print("[skip] Sunday — no mail (skip_sundays enabled; manual runs still work)")
             return
