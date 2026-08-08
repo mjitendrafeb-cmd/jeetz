@@ -1138,6 +1138,137 @@ def _ai_review_items(items: list[dict]) -> list[dict]:
     return kept
 
 
+# ---------------------------------------------------------------------------
+# AI mail-body writing: per-item "why this matters" + per-person exec summary
+# ---------------------------------------------------------------------------
+_TAKEAWAY_BATCH_SIZE = 25
+_SUMMARY_BATCH_SIZE = 15
+
+
+def _ai_takeaway_batch(items: list[dict], client) -> dict:
+    """{item_key: one-line credit angle}. Empty dict on any failure — the
+    caller falls back to a bare headline row, exactly today's behaviour."""
+    lines = "\n".join(
+        f'{i}. [{it.get("section")}] {it["title"]} ({it["source"]})'
+        for i, it in enumerate(items)
+    )
+    prompt = f"""For each numbered news item below, write ONE short clause (under 16
+words) explaining why it matters to a credit/BFSI desk — the credit,
+regulatory, or market angle. Do not restate the headline. Do not use
+filler like "this is important because". Be specific and concrete.
+
+Items:
+{lines}
+
+Respond with ONLY a JSON array, same order, no markdown fences:
+[{{"i": 0, "why": "..."}}, {{"i": 1, "why": "..."}}, ...]"""
+    try:
+        msg = client.messages.create(
+            model=_AI_MODEL, max_tokens=6000,
+            output_config={"effort": "medium"},
+            messages=[{"role": "user", "content": prompt}])
+        text = re.sub(r"^```(json)?|```$", "", _ai_msg_text(msg).strip(),
+                      flags=re.MULTILINE).strip()
+        parsed = json.loads(text)
+        out = {}
+        for row in parsed:
+            i, why = row.get("i"), row.get("why")
+            if isinstance(i, int) and 0 <= i < len(items) and isinstance(why, str) and why.strip():
+                out[_key(items[i])] = why.strip().rstrip(".")
+        return out
+    except Exception as exc:
+        print(f"[ai_takeaway] batch of {len(items)} failed (non-fatal): {exc}")
+        return {}
+
+
+def _ai_summary_batch(entries: list[tuple], client) -> dict:
+    """entries: [(name, [top5 titles])]. Returns {index: summary text}.
+    Empty dict on any failure — the caller omits the summary block, exactly
+    today's behaviour with no exec summary at all."""
+    blocks = []
+    for i, (name, titles) in enumerate(entries):
+        story_lines = "\n".join(f"   - {t}" for t in titles) or "   - (no fresh items today)"
+        blocks.append(f"{i}. Reader: {name or 'the desk'}\n{story_lines}")
+    prompt = f"""You write the 2-3 sentence "at a glance" opening paragraph for an
+internal credit-desk morning briefing. For EACH reader below, given their
+top headlines, write a short executive summary that SYNTHESISES the
+themes (e.g. "Two of your NBFCs face rating pressure while the RBI holds
+rates steady") rather than listing the headlines back. Plain prose, no
+bullets, no bold, third person, confident and factual, under 55 words.
+If a reader has no items, write one sentence saying nothing material
+came up for their entities/sectors today.
+
+{chr(10).join(blocks)}
+
+Respond with ONLY a JSON array, same order as the readers above, no
+markdown fences:
+[{{"i": 0, "summary": "..."}}, {{"i": 1, "summary": "..."}}, ...]"""
+    try:
+        msg = client.messages.create(
+            model=_AI_MODEL, max_tokens=6000,
+            output_config={"effort": "medium"},
+            messages=[{"role": "user", "content": prompt}])
+        text = re.sub(r"^```(json)?|```$", "", _ai_msg_text(msg).strip(),
+                      flags=re.MULTILINE).strip()
+        parsed = json.loads(text)
+        out = {}
+        for row in parsed:
+            i, s = row.get("i"), row.get("summary")
+            if isinstance(i, int) and 0 <= i < len(entries) and isinstance(s, str) and s.strip():
+                out[i] = s.strip()
+        return out
+    except Exception as exc:
+        print(f"[ai_summary] batch of {len(entries)} failed (non-fatal): {exc}")
+        return {}
+
+
+def _ai_mail_body_content(top5_by_email: dict) -> tuple[dict, dict]:
+    """top5_by_email: {email: (name, top5_items)}.
+
+    Batched AI pass over every recipient's Top-5, run ONCE per send (not
+    once per person): unique items across all top5 lists get a single "why
+    it matters" line each (shared S2/S3 stories are typically in many
+    people's top5, so this avoids asking the model the same question 30
+    times), and every person gets their own synthesised summary paragraph
+    from a batched call over all recipients. Fully fails open: on any
+    error, both returned dicts are empty and the mail renders exactly as it
+    did before this feature existed.
+
+    Returns (takeaways: {item_key: line}, summaries: {email: paragraph}).
+    """
+    api_key = os.environ.get("ANTHROPIC_API_KEY", "")
+    if not api_key or not top5_by_email:
+        return {}, {}
+    try:
+        import anthropic
+        client = anthropic.Anthropic(api_key=api_key)
+    except Exception:
+        return {}, {}
+
+    unique_items: dict = {}
+    for _name, top5 in top5_by_email.values():
+        for it in top5:
+            unique_items.setdefault(_key(it), it)
+    unique_list = list(unique_items.values())
+
+    takeaways: dict = {}
+    for start in range(0, len(unique_list), _TAKEAWAY_BATCH_SIZE):
+        takeaways.update(_ai_takeaway_batch(unique_list[start:start + _TAKEAWAY_BATCH_SIZE], client))
+    print(f"[ai_takeaway] {len(takeaways)}/{len(unique_list)} unique top-5 items got a credit-angle line")
+
+    emails = list(top5_by_email.keys())
+    summaries: dict = {}
+    for start in range(0, len(emails), _SUMMARY_BATCH_SIZE):
+        chunk = emails[start:start + _SUMMARY_BATCH_SIZE]
+        entries = [(top5_by_email[e][0], [it["title"] for it in top5_by_email[e][1]]) for e in chunk]
+        result = _ai_summary_batch(entries, client)
+        for i, email in enumerate(chunk):
+            if i in result:
+                summaries[email] = result[i]
+    print(f"[ai_summary] {len(summaries)}/{len(emails)} recipients got an executive summary")
+    return takeaways, summaries
+
+
 def _classify_items_ai(items: list[dict], company_phrases: list[str], sectors: dict,
                         macro_kw: list[str]) -> None:
     """Sets it['section'] on every item, in place. AI-first with a
@@ -2267,18 +2398,26 @@ def _np_partb(p: dict, items: list[dict], by_section: dict) -> tuple[str, int, l
     return "\n".join(parts), total, chosen
 
 
-def _np_partc(top5: list[dict], date_str: str) -> str:
-    """Top-5 table in the exact Part C markup the 7:30 email body uses.
+def _np_partc(top5: list[dict], date_str: str, takeaways: dict | None = None,
+             exec_summary: str = "") -> str:
+    """Top-5 table in the exact Part C markup the 7:30 email body uses, plus
+    an AI executive summary paragraph above it and a one-line "why this
+    matters" under each headline.
 
     (The three-band Action/Watch/Context layout was tried and removed at the
     reader's request — this is the original single ranked list. Ordering
     still comes from the shared materiality score, so the most material item
-    is number 01.)
+    is number 01.) takeaways/exec_summary are both optional and empty by
+    default, so a run with no API access renders exactly as before.
     """
+    takeaways = takeaways or {}
     rows = ""
     for i, it in enumerate(top5):
         border = "border-bottom:1px solid #f0f0f0;" if i < len(top5) - 1 else ""
         label = SECTION_TITLES.get(it.get("section", "S2"), "News").upper()
+        why = takeaways.get(_key(it), "")
+        why_html = (f'<p style="margin:4px 0 0;font-size:11px;color:#666;'
+                   f'line-height:1.5;font-style:italic;">{_esc(why)}</p>' if why else "")
         rows += (
             f'<tr valign="top">'
             f'<td style="padding:10px 8px 10px 16px;font-size:28px;font-weight:900;'
@@ -2287,12 +2426,24 @@ def _np_partc(top5: list[dict], date_str: str) -> str:
             f'<p style="margin:0 0 2px;font-size:9px;font-weight:800;letter-spacing:1px;'
             f'text-transform:uppercase;color:#888;">{label} &bull; {_esc(it["source"])}</p>'
             f'<p style="margin:0;font-size:12px;color:#1a1a1a;line-height:1.6;">{_esc(it["title"])}</p>'
+            f'{why_html}'
             f'</td></tr>'
         )
     if not rows:
         rows = ('<tr><td style="padding:10px 16px;color:#1a1a1a;font-size:12px;">'
                 'No fresh items in your sections today.</td></tr>')
+    summary_block = (
+        f'<table width="100%" cellpadding="0" cellspacing="0" '
+        f'style="border:1px solid #e5e5e5;border-bottom:none;background:#fbfaf7;">'
+        f'<tr><td style="padding:14px 16px 12px;">'
+        f'<p style="margin:0 0 4px;font-size:9px;font-weight:800;letter-spacing:2px;'
+        f'text-transform:uppercase;color:#b45309;">&#9679; TODAY AT A GLANCE</p>'
+        f'<p style="margin:0;font-size:12.5px;color:#333;line-height:1.65;'
+        f'font-family:Georgia,serif;">{_esc(exec_summary)}</p>'
+        f'</td></tr></table>' if exec_summary else ""
+    )
     return (
+        f'{summary_block}'
         f'<table id="takeaways" width="100%" cellpadding="0" cellspacing="0" style="background:#1a1a1a;">'
         f'<tr><td style="padding:8px 16px;font-size:9px;font-weight:800;letter-spacing:3px;'
         f'text-transform:uppercase;color:#fff;">&#9679; TOP 5 HEADLINES &mdash; {date_str}</td></tr>'
@@ -2703,18 +2854,30 @@ def main() -> None:
     masthead = "CareEdge Weekend Edition" if is_weekend_edition else "CareEdge Daily News"
     coverage_note = "Covering Fri–Mon" if is_weekend_edition else ""
 
-    sent_count, failed = 0, []
+    # First pass: build everyone's part B / Top-5 with no AI involved (cheap,
+    # deterministic). This has to happen before the AI mail-body pass below
+    # so it can batch ONE call across every recipient's Top-5 instead of a
+    # separate AI round-trip per person in the send loop.
+    prepared: dict = {}
     for email, p in people.items():
         part_b, total, person_items = _np_partb(p, items, by_section)
-
         if total == 0 and not team.get("send_empty_mail", False):
             print(f"[mail] skipping {email} — nothing new in their sections")
             continue
-
         top5 = sorted(person_items, key=_story_score, reverse=True)[:5]
-        part_c = _np_partc(top5, now.strftime("%d %B %Y"))
+        prepared[email] = {
+            "name": (p.get("name") or "").strip(),
+            "part_b": part_b, "top5": top5,
+        }
+
+    takeaways, summaries = _ai_mail_body_content(
+        {email: (v["name"], v["top5"]) for email, v in prepared.items()})
+
+    sent_count, failed = 0, []
+    for email, v in prepared.items():
+        who, part_b, top5 = v["name"], v["part_b"], v["top5"]
+        part_c = _np_partc(top5, now.strftime("%d %B %Y"), takeaways, summaries.get(email, ""))
         body = _np_rebrand(_scr.build_email(part_c, today, _summary))
-        who = (p.get("name") or "").strip()
         attachment = _np_rebrand(_np_build_attachment(part_b, today, who, masthead, coverage_note))
         # Each edition is built from that reader's own entities, so name it.
         subject = (f"{masthead} — {who} — {now:%d %b %Y}" if who
