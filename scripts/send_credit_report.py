@@ -130,14 +130,18 @@ def _git_commit_push(paths: list[str], message: str) -> bool:
         return False
 
     import time as _time
-    attempts = 5
+    import random as _random
+    attempts = 8
     for attempt in range(1, attempts + 1):
         subprocess.run(["git", "fetch", "origin", "main"], cwd=_REPO_ROOT, capture_output=True)
         rebase = subprocess.run(["git", "rebase", "origin/main"], cwd=_REPO_ROOT, capture_output=True)
         if rebase.returncode != 0:
             subprocess.run(["git", "rebase", "--abort"], cwd=_REPO_ROOT, capture_output=True)
             print(f"[git] Rebase conflict on attempt {attempt}/{attempts} for: {message}")
-            _time.sleep(2 * attempt)
+            # Jittered, not fixed, backoff — two processes hitting this
+            # retry loop at close to the same instant with identical fixed
+            # delays stay in lockstep and can keep colliding indefinitely.
+            _time.sleep(2 * attempt + _random.uniform(0, 2))
             continue
         push = subprocess.run(["git", "push", "origin", "HEAD:main"], cwd=_REPO_ROOT, capture_output=True)
         if push.returncode == 0:
@@ -146,9 +150,30 @@ def _git_commit_push(paths: list[str], message: str) -> bool:
             return True
         print(f"[git] Push attempt {attempt}/{attempts} failed for: {message} "
               f"({push.stderr.decode(errors='replace').strip()[:200]})")
-        _time.sleep(2 * attempt)
+        _time.sleep(2 * attempt + _random.uniform(0, 2))
     print(f"[git] Push failed after {attempts} attempts (non-fatal): {message}")
     return False
+
+
+def _already_sent_today() -> bool:
+    """Fresh check against origin/main, not the local checkout — a run that
+    has been fetching news for several minutes needs to know what landed on
+    main just now, not what main looked like when the job started."""
+    import subprocess
+    ist = datetime.timezone(datetime.timedelta(hours=5, minutes=30))
+    today_ist = datetime.datetime.now(ist).date().isoformat()
+    try:
+        subprocess.run(["git", "fetch", "origin", "main", "--quiet"],
+                       cwd=_REPO_ROOT, timeout=30, capture_output=True)
+        result = subprocess.run(
+            ["git", "show", "origin/main:data/last_sent.json"],
+            cwd=_REPO_ROOT, capture_output=True, text=True, timeout=10)
+        if result.returncode != 0:
+            return False
+        return json.loads(result.stdout).get("date") == today_ist
+    except Exception as exc:
+        print(f"[dup-guard] check failed (non-fatal, proceeding): {exc}")
+        return False
 
 
 def _mark_sent_today() -> None:
@@ -936,6 +961,23 @@ def main() -> None:
             return
 
         subject = f"Credit Intelligence News (AI Report) — {today.strftime('%d %B %Y')}"
+
+        # Second, closer-to-the-wire duplicate check. The workflow's own
+        # bash gate reads last_sent.json ONCE, ~15 minutes before this
+        # point (through the full fetch above) — if another tick's push
+        # of that marker landed on main anywhere in that window, this run
+        # has been generating a report nobody asked for. 07 Aug: 5 separate
+        # full sends in one morning, each because its own gate check came
+        # first and the marker from an earlier run hadn't landed yet when
+        # it looked. Re-reading the freshest possible copy right before the
+        # expensive Claude call (rather than trusting a bash step's read
+        # from 15 minutes ago) shrinks that race window from ~15 minutes to
+        # the few seconds a git fetch takes.
+        if _already_sent_today():
+            print("[dup-guard] last_sent.json on origin/main already shows today's date "
+                  "— another run sent this report while this one was fetching. Aborting "
+                  "before the Claude call.")
+            return
 
         print("Calling Claude API...")
         full_html = generate_report(news_text, today, anthropic_api_key)
