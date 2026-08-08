@@ -1378,14 +1378,19 @@ def _git_push(path: str) -> None:
         return
 
     import time as _time
-    attempts = 5
+    import random as _random
+    attempts = 8
     for attempt in range(1, attempts + 1):
         subprocess.run(["git", "fetch", "origin", "main"], cwd=_REPO_ROOT, capture_output=True)
         rebase = subprocess.run(["git", "rebase", "origin/main"], cwd=_REPO_ROOT, capture_output=True)
         if rebase.returncode != 0:
             subprocess.run(["git", "rebase", "--abort"], cwd=_REPO_ROOT, capture_output=True)
             print(f"[git] rebase conflict on attempt {attempt}/{attempts} for {path}")
-            _time.sleep(2 * attempt)
+            # Jittered backoff — fixed delays let two racing pushers (e.g.
+            # this function called 3x in a row for seen/pool/last_sent,
+            # racing 7:30's own marker push in the same morning window)
+            # stay in lockstep and keep colliding instead of converging.
+            _time.sleep(2 * attempt + _random.uniform(0, 2))
             continue
         push = subprocess.run(["git", "push", "origin", "HEAD:main"], cwd=_REPO_ROOT, capture_output=True)
         if push.returncode == 0:
@@ -1394,7 +1399,7 @@ def _git_push(path: str) -> None:
             return
         print(f"[git] push attempt {attempt}/{attempts} failed for {path} "
               f"({push.stderr.decode(errors='replace').strip()[:200]})")
-        _time.sleep(2 * attempt)
+        _time.sleep(2 * attempt + _random.uniform(0, 2))
     print(f"[git] push failed after {attempts} attempts (non-fatal): {path}")
 
 
