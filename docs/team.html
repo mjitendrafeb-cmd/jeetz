@@ -80,6 +80,10 @@ input[type=checkbox]{width:15px;height:15px;accent-color:#15803d;cursor:pointer}
         <input type="checkbox" id="tglSunday" onchange="team.skip_sundays=this.checked" style="width:17px;height:17px;accent-color:#b45309">
         Skip Sundays
       </label>
+      <label style="display:flex;align-items:center;gap:8px;color:#fff;font-size:12px;font-weight:700;cursor:pointer">
+        <input type="checkbox" id="tglSaturday" onchange="team.skip_saturdays=this.checked" style="width:17px;height:17px;accent-color:#b45309">
+        Skip Saturdays (Monday becomes the Weekend Edition)
+      </label>
       <label style="display:flex;align-items:center;gap:8px;color:#fff;font-size:12px;font-weight:700">
         Holidays:
         <input type="text" id="txtHolidays" placeholder="2026-08-15, 2026-10-02"
@@ -294,8 +298,10 @@ async function load(){
     document.getElementById('txtMacroKw').value=team.macro_keywords.join(', ');
     renderSectors();
     if(team.skip_sundays===undefined)team.skip_sundays=true;
+    if(team.skip_saturdays===undefined)team.skip_saturdays=true;
     if(!Array.isArray(team.holidays))team.holidays=[];
     document.getElementById('tglSunday').checked=team.skip_sundays!==false;
+    document.getElementById('tglSaturday').checked=team.skip_saturdays!==false;
     document.getElementById('txtHolidays').value=(team.holidays||[]).join(', ');
     document.getElementById('tglReport').checked=cfgDailyEnabled;
     document.getElementById('tglTeam').checked=team.scheduled_enabled!==false;

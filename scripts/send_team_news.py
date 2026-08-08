@@ -1288,7 +1288,11 @@ def _save_seen(items: list[dict]) -> None:
 # retention window. Recency is still decided by the item's own PUB date via
 # _is_stale; this window only governs how long a fetched line is remembered.
 _POOL_PATH = os.path.join(_REPO_ROOT, "data", "news_pool.json")
-_POOL_HOURS = 72
+# 96h, not 72: Saturday no longer runs at all, so an item pooled at Friday's
+# ~07:35 IST run is exactly 72h old by Monday's ~07:35 IST run — right at
+# the old cutoff, with no margin for the run's own timing slop. 96h keeps a
+# Friday-morning item safely inside the window through Monday's send.
+_POOL_HOURS = 96
 
 
 def _pool_key(line: str) -> str:
@@ -2293,7 +2297,9 @@ def _np_partc(top5: list[dict], date_str: str) -> str:
     )
 
 
-def _np_build_attachment(part_b_html: str, today, for_name: str = "") -> str:
+def _np_build_attachment(part_b_html: str, today, for_name: str = "",
+                         masthead: str = "CareEdge Daily News",
+                         coverage_note: str = "") -> str:
     """Three-page newspaper.
 
     send_credit_report.build_attachment() is hardcoded to five pages with an
@@ -2302,6 +2308,9 @@ def _np_build_attachment(part_b_html: str, today, for_name: str = "") -> str:
 
     for_name puts the recipient on the masthead — every edition is
     personalised to that reader's entities, so it should say whose it is.
+    masthead/coverage_note let the Monday run rebrand itself as the Weekend
+    Edition and say what span of days it covers, since it is not a normal
+    single day's news.
     """
     date_str = today.strftime("%d %B %Y")
     dow_full = today.strftime("%A, %d %B %Y").upper()
@@ -2335,12 +2344,12 @@ def _np_build_attachment(part_b_html: str, today, for_name: str = "") -> str:
     <div class="mast-right">Credit &amp; Markets Intelligence</div>
   </div>
   <div class="mast-center">
-    <div class="mast-name">CareEdge Daily News</div>
+    <div class="mast-name">{_esc(masthead)}</div>
     {f'<div style="font-family:Georgia,serif;font-size:12px;letter-spacing:1px;color:#555;margin-top:2px;">Prepared for {_esc(for_name)}</div>' if for_name else ''}
     <hr class="mast-rule">
   </div>
   <div class="mast-sub">
-    <span>S1 Watchlist &middot; S2 Sector &middot; S3 Macro</span>
+    <span>S1 Watchlist &middot; S2 Sector &middot; S3 Macro{f' &middot; {_esc(coverage_note)}' if coverage_note else ''}</span>
     <span class="red">&#128274; CONFIDENTIAL</span>
   </div>
   <nav class="navbar">{nav}</nav>
@@ -2360,14 +2369,14 @@ def _np_build_attachment(part_b_html: str, today, for_name: str = "") -> str:
   </div>
   <div class="columns">{content}</div>
   <div class="page-foot">
-    <span>CareEdge Daily News &mdash; {date_str}</span>
+    <span>{_esc(masthead)} &mdash; {date_str}</span>
     <span>Page {pnum} of 3</span><span>&#128274; Confidential</span>
   </div>
 </div>"""
 
     return f"""<!DOCTYPE html>
 <html lang="en"><head><meta charset="UTF-8">
-<title>CareEdge Daily News — {date_str}</title>
+<title>{_esc(masthead)} — {date_str}</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=PT+Serif:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
 <style>
   @page {{ size: A4; margin: 1.2cm 1.4cm; }}
@@ -2491,13 +2500,30 @@ def main() -> None:
     date_str = now.strftime("%A, %d %B %Y")
 
     # Scheduled runs respect the holiday calendar; manual dispatch always sends.
+    weekday = now.strftime("%A")
     if os.environ.get("TEAM_SCHEDULED") == "true":
-        if team.get("skip_sundays", True) and now.strftime("%A") == "Sunday":
+        if team.get("skip_sundays", True) and weekday == "Sunday":
             print("[skip] Sunday — no mail (skip_sundays enabled; manual runs still work)")
+            return
+        # The desk works Mon-Fri. A Saturday edition went to 35 people who
+        # were not reading it — dropped the same way Sunday already was.
+        # Nothing from Saturday is lost: Monday's Weekend Edition below
+        # widens its own lookback specifically to cover it.
+        if team.get("skip_saturdays", True) and weekday == "Saturday":
+            print("[skip] Saturday — no mail (skip_saturdays enabled; manual runs still work)")
             return
         if now.date().isoformat() in team.get("holidays", []):
             print(f"[skip] {now.date().isoformat()} is in the holiday list — no mail")
             return
+
+    # Monday's edition is the first the desk sees since Friday — a normal
+    # 48h lookback would silently drop Friday's own late news (already
+    # stale by Monday) and everything published over the weekend, since no
+    # mail (and no fetch) runs Sat/Sun. Reach back to Friday morning instead.
+    is_weekend_edition = weekday == "Monday"
+    lookback_days = 4 if is_weekend_edition else 2
+    if is_weekend_edition:
+        print("[weekend] Monday run — widening lookback to 4 days (Fri-Mon)")
 
     print("Fetching news (free sources)...")
     # apply_seen=False: do NOT inherit the daily Claude report's memory —
@@ -2518,7 +2544,8 @@ def main() -> None:
     print(f"[watchlist] querying {len(wl_companies)} entities from team.json")
     news_text, _summary = fetch_all_news(os.environ.get("NEWSAPI_KEY", ""),
                                          apply_seen=False, per_company_cap=25,
-                                         companies=wl_companies, max_items=None)
+                                         companies=wl_companies, max_items=None,
+                                         days_back=lookback_days)
     # The per-source counts were computed and then thrown away, so a source
     # collapsing to zero (as the watchlist fetch did for three days) was
     # invisible in the log.
@@ -2551,8 +2578,8 @@ def main() -> None:
 
     today_d = now.date()
     pre_stale = len(items)
-    stale = [it for it in items if _is_stale(it, today_d)]
-    items = [it for it in items if not _is_stale(it, today_d)]
+    stale = [it for it in items if _is_stale(it, today_d, lookback_days)]
+    items = [it for it in items if not _is_stale(it, today_d, lookback_days)]
     for it in stale[:8]:
         print(f"[stale] dropped (>48h old): [{it.get('pub')}] {it['title'][:70]}")
     n_stale = pre_stale - len(items)
@@ -2668,6 +2695,9 @@ def main() -> None:
     import send_credit_report as _scr
 
     today = now.date()
+    masthead = "CareEdge Weekend Edition" if is_weekend_edition else "CareEdge Daily News"
+    coverage_note = "Covering Fri–Mon" if is_weekend_edition else ""
+
     sent_count, failed = 0, []
     for email, p in people.items():
         part_b, total, person_items = _np_partb(p, items, by_section)
@@ -2680,10 +2710,10 @@ def main() -> None:
         part_c = _np_partc(top5, now.strftime("%d %B %Y"))
         body = _np_rebrand(_scr.build_email(part_c, today, _summary))
         who = (p.get("name") or "").strip()
-        attachment = _np_rebrand(_np_build_attachment(part_b, today, who))
+        attachment = _np_rebrand(_np_build_attachment(part_b, today, who, masthead, coverage_note))
         # Each edition is built from that reader's own entities, so name it.
-        subject = (f"CareEdge Daily News — {who} — {now:%d %b %Y}" if who
-                   else f"CareEdge Daily News — {now:%d %b %Y}")
+        subject = (f"{masthead} — {who} — {now:%d %b %Y}" if who
+                   else f"{masthead} — {now:%d %b %Y}")
         # One bad mailbox must not stop the rest of the team's mails.
         try:
             _send(email, subject, body,
@@ -2711,7 +2741,7 @@ def main() -> None:
                 "companies": {r["company"] for r in rows},
                 "sectors": set(sectors) | {_row_sector(r) for r in rows}}
     m_partb, _m_total, _m_items = _np_partb(master_p, items, by_section)
-    _write_archive(_np_rebrand(_np_build_attachment(m_partb, today)), today)
+    _write_archive(_np_rebrand(_np_build_attachment(m_partb, today, "", masthead, coverage_note)), today)
 
     _append_stats({
         "date": today.isoformat(),

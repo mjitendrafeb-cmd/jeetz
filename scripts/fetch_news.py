@@ -406,7 +406,7 @@ def _parse_gnews(url: str, label: str):
     return feed
 
 
-def fetch_google_news() -> list[str]:
+def fetch_google_news(days_back: int = 2) -> list[str]:
     items = []
     seen_titles: set[str] = set()
     alias_map = _load_aliases()
@@ -415,7 +415,7 @@ def fetch_google_news() -> list[str]:
         try:
             url = (
                 f"https://news.google.com/rss/search"
-                f"?q={requests.utils.quote(query + ' when:2d')}&hl=en-IN&gl=IN&ceid=IN:en"
+                f"?q={requests.utils.quote(query + f' when:{days_back}d')}&hl=en-IN&gl=IN&ceid=IN:en"
             )
             feed = _parse_gnews(url, query)
             count = 0
@@ -654,7 +654,7 @@ def _story_mentions_entity(company: str, aliases: list[str], text: str) -> bool:
     return bool(matched and len(matched[0]) >= 7 and matched[0] not in _GENERIC_NAME_WORD)
 
 
-def fetch_company_news(per_company_cap: int = 3, companies=None) -> list[str]:
+def fetch_company_news(per_company_cap: int = 3, companies=None, days_back: int = 2) -> list[str]:
     """per_company_cap: how many stories to keep from each company's
     Google News results. Default 3 = the 7:30 report's long-standing
     behaviour (do not change). The 7:40 team mail passes a wider value
@@ -692,7 +692,7 @@ def fetch_company_news(per_company_cap: int = 3, companies=None) -> list[str]:
             query = _company_query(company, aliases)
             url = (
                 f"https://news.google.com/rss/search"
-                f"?q={requests.utils.quote(query + ' when:2d')}&hl=en-IN&gl=IN&ceid=IN:en"
+                f"?q={requests.utils.quote(query + f' when:{days_back}d')}&hl=en-IN&gl=IN&ceid=IN:en"
             )
             feed = _parse_gnews(url, _core_name(company))
             # Google throttles rapid-fire requests by returning empty feeds.
@@ -771,7 +771,7 @@ def _normalise_key(item: str) -> str:
 
 def fetch_all_news(newsapi_key: str = "", apply_seen: bool = True,
                    per_company_cap: int = 3, companies=None,
-                   max_items: int = 200) -> tuple[str, dict]:
+                   max_items: int = 200, days_back: int = 2) -> tuple[str, dict]:
     """Returns (news_text, source_summary) where source_summary maps source name → item count."""
     cfg = load_config()
     sources = cfg.get("sources", {})
@@ -828,13 +828,13 @@ def fetch_all_news(newsapi_key: str = "", apply_seen: bool = True,
             print(f"[fetch_news] Rating agencies error: {exc}")
 
     if src_on("google_news"):
-        _add("Google News", fetch_google_news())
+        _add("Google News", fetch_google_news(days_back))
 
     if src_on("newsapi"):
         _add("NewsAPI", fetch_newsapi_news(newsapi_key))
 
     if src_on("company_watchlist"):
-        _add("Watchlist (Google)", fetch_company_news(per_company_cap, companies))
+        _add("Watchlist (Google)", fetch_company_news(per_company_cap, companies, days_back))
         try:
             from fetch_bse import fetch_bse_announcements, fetch_bse_financials
             watchlist = load_watchlist()
