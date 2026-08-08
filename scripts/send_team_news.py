@@ -15,6 +15,7 @@ Each enabled person receives ONE email:
 import os
 import re
 import json
+import math
 import html as _html
 import datetime
 import smtplib
@@ -883,6 +884,19 @@ def _classify_team(it: dict, company_phrases: list[str],
 # a batch errors, that batch silently falls back to _classify_team so a
 # quota outage never blocks the mail.
 _AI_MODEL = "claude-sonnet-5"
+
+# 7:40 is the free, no-API system; AI was layered on top later. With no
+# credits on the account, every AI stage failed on each run — ~45 doomed
+# HTTP calls per send — and, worse, the review pass fails OPEN, so
+# near-duplicate removal silently did nothing while appearing to run.
+# When this is off the mechanical path (the one the 78-case golden suite
+# actually covers) is the real path, not an accident of API failure.
+# Flipped from team.json: {"use_ai": true} re-enables everything.
+_AI_ENABLED = False
+
+
+def _ai_on() -> bool:
+    return _AI_ENABLED and bool(os.environ.get("ANTHROPIC_API_KEY", ""))
 _AI_BATCH_SIZE = 40
 
 
@@ -1072,9 +1086,9 @@ def _ai_review_items(items: list[dict]) -> list[dict]:
     uncertainty keeps the item. It also refuses to empty a section, so a
     bad answer can never wipe out somebody's S1.
     """
-    api_key = os.environ.get("ANTHROPIC_API_KEY", "")
-    if not api_key or not items:
+    if not _ai_on() or not items:
         return items
+    api_key = os.environ.get("ANTHROPIC_API_KEY", "")
     try:
         import anthropic
         client = anthropic.Anthropic(api_key=api_key)
@@ -1236,9 +1250,9 @@ def _ai_mail_body_content(top5_by_email: dict) -> tuple[dict, dict]:
 
     Returns (takeaways: {item_key: line}, summaries: {email: paragraph}).
     """
-    api_key = os.environ.get("ANTHROPIC_API_KEY", "")
-    if not api_key or not top5_by_email:
+    if not _ai_on() or not top5_by_email:
         return {}, {}
+    api_key = os.environ.get("ANTHROPIC_API_KEY", "")
     try:
         import anthropic
         client = anthropic.Anthropic(api_key=api_key)
@@ -1275,7 +1289,7 @@ def _classify_items_ai(items: list[dict], company_phrases: list[str], sectors: d
     per-batch mechanical fallback so an API outage degrades, not blocks."""
     api_key = os.environ.get("ANTHROPIC_API_KEY", "")
     client = None
-    if api_key:
+    if _ai_on():
         try:
             import anthropic
             client = anthropic.Anthropic(api_key=api_key)
@@ -1378,6 +1392,32 @@ def _key(it: dict) -> str:
     return f"{it['source']}: {it['title']}".lower().strip()[:120]
 
 
+def _seen_fingerprint(it: dict) -> str:
+    """Story identity that survives rewording and a change of outlet: the
+    sorted distinctive tokens of the headline. Empty when the headline is
+    too generic to fingerprint safely (fewer than 3 distinctive tokens),
+    in which case only the exact key applies and nothing is over-dropped."""
+    dist = sorted(_distinctive_toks(it.get("title", "")))
+    # The FULL distinctive set, not a truncation. Taking the first N sorted
+    # tokens dropped exactly the words that identify the story — "tata" and
+    # "sons" sort last and fell off the end — so unrelated stories could
+    # collide on their boilerplate remainder and a real item would be
+    # silently suppressed. Requiring the whole set to match is stricter: it
+    # catches rewording and re-ordering across outlets (which is the common
+    # case) and declines to guess on heavier rewrites. Over-suppression
+    # loses news; a surviving duplicate is merely untidy.
+    return "|".join(dist) if len(dist) >= 3 else ""
+
+
+def _is_already_sent(it: dict, seen: set) -> bool:
+    """True when this exact item, or the same story under another headline
+    or outlet, already went out on an earlier day."""
+    if _key(it) in seen:
+        return True
+    fp = _seen_fingerprint(it)
+    return bool(fp) and f"fp:{fp}" in seen
+
+
 def _load_seen() -> set[str]:
     try:
         with open(_SEEN_PATH, encoding="utf-8") as f:
@@ -1399,7 +1439,15 @@ def _save_seen(items: list[dict]) -> None:
             days = json.load(f).get("days", {})
     except Exception:
         days = {}
-    days[str(datetime.date.today())] = [_key(it) for it in items]
+    # Exact key PLUS a distinctive-token fingerprint. The exact key is
+    # "{source}: {title}", so the same story reworded — or simply carried by
+    # a different outlet tomorrow — produced a different key and came back
+    # as "new" the next day. The fingerprint lets tomorrow's run recognise
+    # it as already sent. Prefixed "fp:" so old files (plain keys only) stay
+    # readable and the two never collide.
+    days[str(datetime.date.today())] = (
+        [_key(it) for it in items]
+        + [f"fp:{fp}" for fp in {_seen_fingerprint(it) for it in items} if fp])
     cutoff = str(datetime.date.today() - datetime.timedelta(days=30))
     days = {d: v for d, v in days.items() if d >= cutoff}
     with open(_SEEN_PATH, "w", encoding="utf-8") as f:
@@ -2023,13 +2071,53 @@ def _tier_rank(it: dict) -> int:
     return 0 if "T1" in tags else (1 if "T2" in tags else 2)
 
 
+# Boilerplate that appears in every other BFSI headline. A token here says
+# nothing about WHICH story this is, so two headlines agreeing on these
+# alone are not the same story ("HDFC Bank reports Q1 profit rise" vs
+# "ICICI Bank reports Q1 profit rise" agree on almost everything except
+# the one word that matters). Regulator names are deliberately NOT here —
+# for a macro story "rbi"/"sebi" IS the subject.
+_GENERIC_NEWS_WORD = frozenset("""
+report reports reported says said announces announced announcement posts
+post sees see expects expect plans plan gets get receives receive shows
+show new news update updates
+profit loss revenue income growth grow rise rises rising fall falls
+falling gain gains decline declines drop drops jump jumps surge
+crore lakh million billion percent pct rupee rupees
+quarter quarterly q1 q2 q3 q4 fy year yearly annual month monthly
+result results earnings margin margins yield yields rate rates
+bank banks banking finance financial financing company companies limited
+ltd firm firms group india indian sector sectors market markets business
+strong weak higher lower total net gross
+loan loans lending credit fund funds capital investment investments
+share shares stock stocks price prices
+""".split())
+
+
+def _distinctive_toks(title: str) -> frozenset:
+    """Title tokens that actually identify WHICH story this is."""
+    return frozenset(t for t in _title_toks(title) if t not in _GENERIC_NEWS_WORD)
+
+
 def _dedup_cross_source(items: list[dict]) -> list[dict]:
     """7:30 rule, mechanical version: same story from several sources keeps
     ONE card (highest tier wins) with 'Also reported by: ...' under it.
-    Watchlist items tagged to different companies are never merged."""
+    Watchlist items tagged to different companies are never merged.
+
+    Matching is rarity-weighted rather than flat token overlap. The old rule
+    (>=5 shared tokens AND >=0.55 plain ratio AND identical first word)
+    failed on real reported duplicates: three versions of the Tata Sons
+    upper-layer-NBFC story shared exactly the tokens that identify it
+    (tata/sons/upper/layer/nbfc) yet scored 0.50 on flat ratio and had
+    different lead words ('tata' vs 'india'), so all three shipped as
+    separate cards. Weighting by rarity fixes that without merging
+    'HDFC Bank Q1 profit' into 'ICICI Bank Q1 profit' — those two share
+    only COMMON tokens, which now carry almost no weight.
+    """
     kept: list[dict] = []
     for it in items:
         toks = _title_toks(it["title"])
+        dist = _distinctive_toks(it["title"])
         lead = _lead_tok(it["title"])
         nkey = _norm_key(it["title"])
         it["also"] = it.get("also", [])
@@ -2043,12 +2131,18 @@ def _dedup_cross_source(items: list[dict]) -> list[dict]:
                 break
             if len(toks) < 4 or len(k["_toks"]) < 4:
                 continue
-            # A pure overlap ratio fails in both directions: three genuine
-            # paraphrases of the RBI MPC story scored 0.54-0.70 and stayed
-            # separate, while "HDFC Bank reports Q1 profit rise" vs "ICICI
-            # Bank reports Q1 profit rise" scored 0.80 and would have merged
-            # two different issuers. Require a real mass of shared words AND
-            # the same leading subject, then the ratio can be loosened.
+            # Path 1 (new): three or more DISTINCTIVE tokens in common.
+            # This is what catches a reworded duplicate whichever word the
+            # outlet led with — the reported Tata Sons upper-layer-NBFC
+            # trio shares tata/sons/upper/layer/nbfc and now collapses to
+            # one card, while HDFC-vs-ICICI shares only boilerplate and
+            # stays two.
+            if len(dist & k["_dist"]) >= 3:
+                winner = k
+                break
+            # Path 2 (original rule, unchanged): plenty of shared words AND
+            # the same leading subject. Kept so nothing that merged before
+            # stops merging now.
             inter = len(toks & k["_toks"])
             if inter < 5:
                 continue
@@ -2059,18 +2153,18 @@ def _dedup_cross_source(items: list[dict]) -> list[dict]:
             winner = k
             break
         if winner is None:
-            it["_toks"], it["_lead"], it["_nkey"] = toks, lead, nkey
+            it["_toks"], it["_lead"], it["_nkey"], it["_dist"] = toks, lead, nkey, dist
             kept.append(it)
         elif _tier_rank(it) < _tier_rank(winner):
             # newcomer is higher-tier: it replaces the kept item in place
             it["also"] = winner["also"] + [winner["source"]]
-            it["_toks"], it["_lead"], it["_nkey"] = toks, lead, nkey
+            it["_toks"], it["_lead"], it["_nkey"], it["_dist"] = toks, lead, nkey, dist
             kept[kept.index(winner)] = it
         else:
             if it["source"] not in winner["also"] and it["source"] != winner["source"]:
                 winner["also"].append(it["source"])
     for k in kept:
-        for tmp in ("_toks", "_lead", "_nkey"):
+        for tmp in ("_toks", "_lead", "_nkey", "_dist"):
             k.pop(tmp, None)
     return kept
 
@@ -2398,6 +2492,103 @@ def _np_partb(p: dict, items: list[dict], by_section: dict) -> tuple[str, int, l
     return "\n".join(parts), total, chosen
 
 
+def _mech_digest(person_items: list[dict], n_entities: int) -> str:
+    """Factual one-line digest — counts, not prose. With AI off there is no
+    executive summary, and a bare Top-5 gives the reader no sense of scale
+    or shape. This says how much arrived and what KIND, derived entirely
+    from the event taxonomy: no API, nothing that can be hallucinated."""
+    if not person_items:
+        return ""
+    counts: dict = {}
+    for it in person_items:
+        key, label, _s, _c = _event_of(it)
+        if key != "OTHER":
+            counts[label] = counts.get(label, 0) + 1
+    order = [lbl for _k, lbl, _s, _c, _rx in _EVENTS]
+    parts = [f"{counts[l]} {l.lower().replace('&amp;', '&')}" for l in order if counts.get(l)]
+    n = len(person_items)
+    head = f"{n} item{'s' if n != 1 else ''} across your {n_entities} entit{'ies' if n_entities != 1 else 'y'}"
+    return f"{head} — {', '.join(parts)}." if parts else f"{head}."
+
+
+_INLINE_S1_MAX = 20
+
+
+def _np_s1_inline(p: dict, items: list[dict]) -> str:
+    """S1 rendered INSIDE the email body, grouped by entity.
+
+    S1 is the one section that is personally the reader's, and it was only
+    ever in the attachment — which on a phone is a tap away and often never
+    opened. Rendered with tables and inline styles only: the newspaper page
+    uses CSS multi-column, which Outlook and most mobile clients ignore.
+    Capped, with an explicit pointer to the attachment for the remainder, so
+    a reader with 40 watchlist hits still gets a scannable mail rather than
+    an endless one.
+    """
+    if "S1" not in p.get("sections", set()):
+        return ""
+    by_company: dict = {}
+    shown: set = set()
+    for comp in sorted(p.get("companies") or []):
+        for it in items:
+            if comp in (it.get("companies") or []) and _key(it) not in shown:
+                shown.add(_key(it))
+                by_company.setdefault(comp, []).append(it)
+    if not by_company:
+        return (
+            '<table width="100%" cellpadding="0" cellspacing="0" style="border-top:2px solid #e5e5e5;">'
+            '<tr><td style="padding:12px 20px;background:#fff;">'
+            '<p style="margin:0;font-size:11px;color:#888;font-style:italic;">'
+            'No developments across your entities today.</p></td></tr></table>'
+        )
+    for v in by_company.values():
+        v.sort(key=lambda x: (-_materiality(x), _is_undated(x)))
+    order = sorted(by_company.items(), key=lambda kv: -max(_materiality(i) for i in kv[1]))
+
+    total = sum(len(v) for v in by_company.values())
+    rows, used = "", 0
+    for comp, its in order:
+        if used >= _INLINE_S1_MAX:
+            break
+        flag = (' <span style="color:#b91c1c;font-weight:800;">&#9679; ACTION</span>'
+                if max(_materiality(i) for i in its) >= 8 else "")
+        rows += (f'<tr><td style="padding:10px 20px 2px;">'
+                 f'<p style="margin:0;font-size:10px;font-weight:800;letter-spacing:1px;'
+                 f'text-transform:uppercase;color:#111;border-bottom:1px solid #ddd;'
+                 f'padding-bottom:3px;">{_esc(comp)}{flag}'
+                 f'<span style="color:#999;font-weight:600;"> &middot; {len(its)} item'
+                 f'{"s" if len(its) != 1 else ""}</span></p></td></tr>')
+        for it in its:
+            if used >= _INLINE_S1_MAX:
+                break
+            used += 1
+            ev_key, ev_label, _sc, ev_col = _event_of(it)
+            badge = (f'<span style="border:1px solid {ev_col};color:{ev_col};'
+                     f'padding:0 4px;border-radius:2px;font-size:8px;font-weight:800;'
+                     f'margin-right:5px;">{ev_label}</span>' if ev_key != "OTHER" else "")
+            link = (f' <a href="{_esc(it["url"])}" style="color:#cc0000;'
+                    f'text-decoration:none;">&#8594;</a>' if it.get("url") else "")
+            rows += (f'<tr><td style="padding:3px 20px 3px 26px;">'
+                     f'<p style="margin:0;font-size:12px;color:#1a1a1a;line-height:1.5;">'
+                     f'{badge}{_esc(it["title"])}'
+                     f'<span style="color:#999;font-size:10px;"> ({_esc(it["source"])})</span>'
+                     f'{link}</p></td></tr>')
+    more = ""
+    if total > used:
+        more = (f'<tr><td style="padding:6px 20px 12px;">'
+                f'<p style="margin:0;font-size:11px;color:#888;font-style:italic;">'
+                f'+{total - used} more across your entities &mdash; see the attached edition.'
+                f'</p></td></tr>')
+    return (
+        f'<table width="100%" cellpadding="0" cellspacing="0" style="background:#1a1a1a;">'
+        f'<tr><td style="padding:8px 20px;font-size:9px;font-weight:800;letter-spacing:3px;'
+        f'text-transform:uppercase;color:#fff;">&#9733; YOUR ENTITIES &mdash; {total} item'
+        f'{"s" if total != 1 else ""}</td></tr></table>'
+        f'<table width="100%" cellpadding="0" cellspacing="0" '
+        f'style="border:1px solid #e5e5e5;border-top:none;background:#fff;">{rows}{more}</table>'
+    )
+
+
 def _np_partc(top5: list[dict], date_str: str, takeaways: dict | None = None,
              exec_summary: str = "") -> str:
     """Top-5 table in the exact Part C markup the 7:30 email body uses, plus
@@ -2415,6 +2606,16 @@ def _np_partc(top5: list[dict], date_str: str, takeaways: dict | None = None,
     for i, it in enumerate(top5):
         border = "border-bottom:1px solid #f0f0f0;" if i < len(top5) - 1 else ""
         label = SECTION_TITLES.get(it.get("section", "S2"), "News").upper()
+        # Event type is derived mechanically from the existing taxonomy and
+        # IS the credit angle: a reader scanning five lines wants RATING /
+        # DEFAULT / REGULATORY visible at a glance. Free, no API call, and
+        # nothing here can be hallucinated — the honest stand-in for the AI
+        # line whenever AI is off.
+        ev_key, ev_label, _ev_score, ev_colour = _event_of(it)
+        ev_html = (f'<span style="display:inline-block;padding:1px 5px;margin-left:6px;'
+                   f'border:1px solid {ev_colour};color:{ev_colour};border-radius:2px;'
+                   f'font-size:8px;font-weight:800;letter-spacing:0.5px;">{ev_label}</span>'
+                   if ev_key != "OTHER" else "")
         why = takeaways.get(_key(it), "")
         why_html = (f'<p style="margin:4px 0 0;font-size:11px;color:#666;'
                    f'line-height:1.5;font-style:italic;">{_esc(why)}</p>' if why else "")
@@ -2424,7 +2625,7 @@ def _np_partc(top5: list[dict], date_str: str, takeaways: dict | None = None,
             f'color:#cc0000;line-height:1;font-family:Georgia,serif;width:44px;">0{i + 1}</td>'
             f'<td style="padding:10px 16px 10px 4px;{border}">'
             f'<p style="margin:0 0 2px;font-size:9px;font-weight:800;letter-spacing:1px;'
-            f'text-transform:uppercase;color:#888;">{label} &bull; {_esc(it["source"])}</p>'
+            f'text-transform:uppercase;color:#888;">{label} &bull; {_esc(it["source"])}{ev_html}</p>'
             f'<p style="margin:0;font-size:12px;color:#1a1a1a;line-height:1.6;">{_esc(it["title"])}</p>'
             f'{why_html}'
             f'</td></tr>'
@@ -2664,6 +2865,11 @@ def main() -> None:
     # by GitHub Actions on every run (no workflow-file change needed) and
     # is the real signal: 'schedule' for a cron tick, 'workflow_dispatch'
     # for a manual run.
+    global _AI_ENABLED
+    _AI_ENABLED = bool(team.get("use_ai", False))
+    print(f"[ai] {'ENABLED' if _ai_on() else 'off'} — "
+          f"{'AI classification, dedup review and mail-body writing active' if _ai_on() else 'mechanical rules only (team.json use_ai=false or no API key)'}")
+
     weekday = now.strftime("%A")
     if os.environ.get("GITHUB_EVENT_NAME") == "schedule":
         if team.get("skip_sundays", True) and weekday == "Sunday":
@@ -2723,7 +2929,10 @@ def main() -> None:
           f"{sum(1 for it in items if it.get('wl_company'))} carry a WATCHLIST tag")
 
     seen = _load_seen()
-    items = [it for it in items if _key(it) not in seen]
+    pre_seen = len(items)
+    items = [it for it in items if not _is_already_sent(it, seen)]
+    print(f"[dedup] {pre_seen - len(items)} items already sent on an earlier day "
+          f"(exact match or same-story fingerprint)")
     print(f"{len(items)} items after team-mail dedup")
 
     pre_junk = len(items)
@@ -2876,6 +3085,8 @@ def main() -> None:
         prepared[email] = {
             "name": (p.get("name") or "").strip(),
             "part_b": part_b, "top5": top5,
+            "digest": _mech_digest(person_items, len(p.get("companies") or [])),
+            "s1_inline": _np_s1_inline(p, items),
         }
 
     takeaways, summaries = _ai_mail_body_content(
@@ -2884,7 +3095,16 @@ def main() -> None:
     sent_count, failed = 0, []
     for email, v in prepared.items():
         who, part_b, top5 = v["name"], v["part_b"], v["top5"]
-        part_c = _np_partc(top5, now.strftime("%d %B %Y"), takeaways, summaries.get(email, ""))
+        # AI summary when it is available; the mechanical count digest
+        # otherwise, so the reader always gets a sense of scale and shape
+        # rather than an empty space where the summary would be.
+        blurb = summaries.get(email, "") or v["digest"]
+        # S1 goes into the body right under the Top-5; S2/S3 stay in the
+        # attached edition. build_email() lives in send_credit_report.py and
+        # is not to be modified, so this rides along inside part_c — the one
+        # block of body content the team mail owns.
+        part_c = (_np_partc(top5, now.strftime("%d %B %Y"), takeaways, blurb)
+                  + v["s1_inline"])
         body = _np_rebrand(_scr.build_email(part_c, today, _summary))
         attachment = _np_rebrand(_np_build_attachment(part_b, today, who, masthead, coverage_note))
         # Each edition is built from that reader's own entities, so name it.
