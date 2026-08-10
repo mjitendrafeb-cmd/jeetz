@@ -586,7 +586,11 @@ def _google_news_fallback(query: str, tag: str, limit: int = 5) -> list[str]:
             summary = _clean(entry.get("summary", "")).strip()
             link = entry.get("link", "")
             link_part = f" | URL:{link}" if link else ""
-            items.append(f"[RATING — {tag}] {source}: {title} — {summary[:200]}{link_part}")
+            _pub_str, _pub_recent = _entry_pub(entry)
+            if not _pub_recent:
+                continue
+            date_part = f" | PUB:{_pub_str}" if _pub_str else ""
+            items.append(f"[RATING — {tag}] {source}: {title} — {summary[:200]}{date_part}{link_part}")
         return items
     except Exception as exc:
         print(f"[fetch_web] Google News fallback error for {tag}: {exc}")
@@ -806,14 +810,24 @@ def _feed_entries(url: str):
         return []
 
 
+# Recency window for feed entries, in hours. Set once per run by
+# fetch_all_web() rather than threaded through a dozen fetchers. Defaults
+# to 48h, which is what every caller used when this was hardcoded, so the
+# 7:30 report is unaffected; the Monday Weekend Edition raises it to 96h
+# so Friday's items are not filtered out of the one edition meant to
+# cover the weekend.
+_WINDOW_HOURS = 48
+
+
 def _entry_pub(entry) -> tuple[str, bool]:
-    """Return (formatted date, is_recent_48h). Undated entries are kept."""
+    """Return (formatted date, within the current recency window).
+    Undated entries are kept — the caller cannot prove they are stale."""
     pub = entry.get("published_parsed") or entry.get("updated_parsed")
     if not pub:
         return "", True
     try:
         age = time.time() - time.mktime(pub)
-        return time.strftime("%d %b", pub), age <= 48 * 3600
+        return time.strftime("%d %b", pub), age <= _WINDOW_HOURS * 3600
     except Exception:
         return "", True
 
@@ -921,7 +935,11 @@ def fetch_nse_debt_circulars() -> list[str]:
                     title = parts[0].strip()
                 link = entry.get("link", "")
                 link_part = f" | URL:{link}" if link else ""
-                items.append(f"[T1]NSE: {title}{link_part}")
+                _pub_str, _pub_recent = _entry_pub(entry)
+                if not _pub_recent:
+                    continue
+                date_part = f" | PUB:{_pub_str}" if _pub_str else ""
+                items.append(f"[T1]NSE: {title}{date_part}{link_part}")
         except Exception as exc:
             print(f"[fetch_web] NSE debt circulars Google fallback error: {exc}")
     return items[:5]
@@ -956,7 +974,11 @@ def fetch_rbi_dbie() -> list[str]:
                         title = parts[0].strip()
                     link = entry.get("link", "")
                     link_part = f" | URL:{link}" if link else ""
-                    items.append(f"[{tier}]{tag}: {title}{link_part}")
+                    _pub_str, _pub_recent = _entry_pub(entry)
+                    if not _pub_recent:
+                        continue
+                    date_part = f" | PUB:{_pub_str}" if _pub_str else ""
+                    items.append(f"[{tier}]{tag}: {title}{date_part}{link_part}")
                     count += 1
                     if count >= 3:
                         break
@@ -999,7 +1021,11 @@ def fetch_bond_issuances() -> list[str]:
                         title = parts[0].strip()
                     link = entry.get("link", "")
                     link_part = f" | URL:{link}" if link else ""
-                    items.append(f"[S4]Bond Markets: {title}{link_part}")
+                    _pub_str, _pub_recent = _entry_pub(entry)
+                    if not _pub_recent:
+                        continue
+                    date_part = f" | PUB:{_pub_str}" if _pub_str else ""
+                    items.append(f"[S4]Bond Markets: {title}{date_part}{link_part}")
                     count += 1
                     if count >= 3:
                         break
@@ -1033,7 +1059,11 @@ def fetch_mca_charges() -> list[str]:
                 title = parts[0].strip()
             link = entry.get("link", "")
             link_part = f" | URL:{link}" if link else ""
-            items.append(f"[MCA] {title}{link_part}")
+            _pub_str, _pub_recent = _entry_pub(entry)
+            if not _pub_recent:
+                continue
+            date_part = f" | PUB:{_pub_str}" if _pub_str else ""
+            items.append(f"[MCA] {title}{date_part}{link_part}")
     except Exception as exc:
         print(f"[fetch_web] MCA charges error: {exc}")
     # Try MCA site (best-effort, likely fails)
@@ -1084,6 +1114,10 @@ def fetch_nsdl_defaults() -> list[str]:
                     title = parts[0].strip()
                 link = entry.get("link", "")
                 link_part = f" | URL:{link}" if link else ""
+                _pub_str, _pub_recent = _entry_pub(entry)
+                if not _pub_recent:
+                    continue
+                date_part = f" | PUB:{_pub_str}" if _pub_str else ""
                 items.append(f"[T1]NSDL: {title}{link_part}")
         except Exception as exc:
             print(f"[fetch_web] NSDL defaults Google fallback error: {exc}")
@@ -1139,7 +1173,11 @@ def fetch_macro_releases() -> list[str]:
                         title = parts[0].strip()
                     link = entry.get("link", "")
                     link_part = f" | URL:{link}" if link else ""
-                    items.append(f"[T2]Macro-Release: {title}{link_part}")
+                    _pub_str, _pub_recent = _entry_pub(entry)
+                    if not _pub_recent:
+                        continue
+                    date_part = f" | PUB:{_pub_str}" if _pub_str else ""
+                    items.append(f"[T2]Macro-Release: {title}{date_part}{link_part}")
             except Exception as exc:
                 print(f"[fetch_web] Macro release query error for {indicator}: {exc}")
 
@@ -1161,7 +1199,11 @@ def fetch_macro_releases() -> list[str]:
                     title = parts[0].strip()
                 link = entry.get("link", "")
                 link_part = f" | URL:{link}" if link else ""
-                items.append(f"[T2]Macro-Release: {title}{link_part}")
+                _pub_str, _pub_recent = _entry_pub(entry)
+                if not _pub_recent:
+                    continue
+                date_part = f" | PUB:{_pub_str}" if _pub_str else ""
+                items.append(f"[T2]Macro-Release: {title}{date_part}{link_part}")
         except Exception as exc:
             print(f"[fetch_web] Macro general query error: {exc}")
 
@@ -1174,7 +1216,8 @@ def fetch_macro_releases() -> list[str]:
 # ─────────────────────────────────────────────────────────────────────────────
 # MAIN ENTRY POINT
 # ─────────────────────────────────────────────────────────────────────────────
-def fetch_all_web(sources: dict | None = None, custom_urls: list[str] | None = None) -> list[str]:
+def fetch_all_web(sources: dict | None = None, custom_urls: list[str] | None = None,
+                  days_back: int = 2) -> list[str]:
     """
     Fetch from all configured web sources + any custom URLs.
     sources dict maps source key → True/False (from config.json web_sources).
@@ -1182,6 +1225,9 @@ def fetch_all_web(sources: dict | None = None, custom_urls: list[str] | None = N
     """
     if sources is None:
         sources = {}
+
+    global _WINDOW_HOURS
+    _WINDOW_HOURS = 24 * max(1, int(days_back or 2))
 
     def on(key: str) -> bool:
         return sources.get(key, True)

@@ -422,7 +422,7 @@ def fetch_google_news(days_back: int = 2) -> list[str]:
             for entry in feed.entries:
                 if count >= 3:
                     break
-                if not _is_recent(entry, 48, assume=False):
+                if not _is_recent(entry, 24 * max(1, days_back), assume=False):
                     continue
                 raw_title = _clean(entry.get("title", "")).strip()
                 if not raw_title or raw_title in seen_titles:
@@ -715,7 +715,7 @@ def fetch_company_news(per_company_cap: int = 3, companies=None, days_back: int 
                 # same one query per company, we just keep more of its results.
                 if count >= per_company_cap:
                     break
-                if not _is_recent(entry, 48, assume=False):
+                if not _is_recent(entry, 24 * max(1, days_back), assume=False):
                     _stats["drop_old"] += 1
                     continue
                 raw_title = _clean(entry.get("title", "")).strip()
@@ -861,6 +861,7 @@ def fetch_all_news(newsapi_key: str = "", apply_seen: bool = True,
             _add("Web Scraper", fetch_all_web(
                 cfg.get("web_sources", {}),
                 cfg.get("custom_scrape_urls", []),
+                days_back=days_back,
             ))
         except Exception as exc:
             summary["Web Scraper"] = 0
