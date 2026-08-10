@@ -86,27 +86,41 @@ def _save_seen_headlines(news_text: str) -> None:
     cutoff = str(datetime.date.today() - datetime.timedelta(days=30))
     days = {d: v for d, v in days.items() if d >= cutoff}
 
+    payload = json.dumps({"days": days}, indent=2)
     with open(_SEEN_PATH, "w", encoding="utf-8") as f:
-        json.dump({"days": days}, f, indent=2)
+        f.write(payload)
 
-    if _git_commit_push([_SEEN_PATH], f"chore: update seen headlines {datetime.date.today()}"):
+    if _git_commit_push([_SEEN_PATH],
+                        f"chore: update seen headlines {datetime.date.today()}",
+                        contents={_SEEN_PATH: payload}):
         print(f"[seen_headlines] Saved {len(keys)} keys (30-day window) and pushed to repo")
 
 
-def _git_commit_push(paths: list[str], message: str) -> bool:
-    """Commit the given paths and push to main. Returns True if a commit was pushed.
+def _git_commit_push(paths: list[str], message: str, contents: dict | None = None) -> bool:
+    """Publish state files to main. Returns True once the push lands.
 
-    _mark_sent_today's write through this function is the ONLY guard against
-    a duplicate paid report: if the push is lost, the next scheduled tick
-    reads a stale last_sent.json, sees "not sent today", and regenerates and
-    re-emails the whole report. A single pull-rebase-then-push attempt raced
-    against ANY other push to main in that window (another tick, a manual
-    deploy) and silently dropped the marker with no retry -- which is
-    exactly what happened on 07 Aug: 3 of 4 scheduled ticks that morning hit
-    a non-fast-forward push failure and the report went out 4 times. Retries
-    with a fresh fetch+rebase each attempt, since the whole point is to pick
-    up whatever else landed on main since the last attempt."""
+    These are STATE files (last_sent.json, seen headlines), not source: the
+    right resolution for a conflict is "mine wins", never a merge. The
+    previous version rebased and retried, which cannot converge — a rebase
+    of a conflicting change to the same generated file conflicts identically
+    every attempt, so 8 retries were 8 copies of one failure. That is what
+    happened: origin/main still held {"date": "2026-08-07"} on 10 Aug, every
+    tick read a stale marker, and the report went out four times in a
+    morning.
+
+    So instead of rebasing: fetch, move onto origin/main, re-write our
+    content on top, commit, push. Re-writing after the reset is what makes
+    it converge — each attempt starts from whatever is currently on main and
+    reapplies our value, so a competing push just means one more cheap loop.
+
+    contents maps path -> text to (re)write on each attempt. Callers that
+    pass it get the convergent path; callers that omit it fall back to
+    committing whatever is already on disk.
+    """
     import subprocess
+    import time as _time
+    import random as _random
+
     try:
         token = os.environ.get("GITHUB_TOKEN", "")
         if token:
@@ -119,39 +133,45 @@ def _git_commit_push(paths: list[str], message: str) -> bool:
                        cwd=_REPO_ROOT, check=True, capture_output=True)
         subprocess.run(["git", "config", "user.name", "github-actions[bot]"],
                        cwd=_REPO_ROOT, check=True, capture_output=True)
-        subprocess.run(["git", "add", *paths], cwd=_REPO_ROOT, check=True, capture_output=True)
-        result = subprocess.run(["git", "commit", "-m", message],
-                                cwd=_REPO_ROOT, capture_output=True)
-        if result.returncode != 0:
-            print(f"[git] Nothing to commit for: {message}")
-            return False
     except Exception as exc:
-        print(f"[git] Commit failed (non-fatal): {exc}")
+        print(f"[git] Setup failed (non-fatal): {exc}")
         return False
 
-    import time as _time
-    import random as _random
     attempts = 8
     for attempt in range(1, attempts + 1):
-        subprocess.run(["git", "fetch", "origin", "main"], cwd=_REPO_ROOT, capture_output=True)
-        rebase = subprocess.run(["git", "rebase", "origin/main"], cwd=_REPO_ROOT, capture_output=True)
-        if rebase.returncode != 0:
-            subprocess.run(["git", "rebase", "--abort"], cwd=_REPO_ROOT, capture_output=True)
-            print(f"[git] Rebase conflict on attempt {attempt}/{attempts} for: {message}")
-            # Jittered, not fixed, backoff — two processes hitting this
-            # retry loop at close to the same instant with identical fixed
-            # delays stay in lockstep and can keep colliding indefinitely.
-            _time.sleep(2 * attempt + _random.uniform(0, 2))
-            continue
-        push = subprocess.run(["git", "push", "origin", "HEAD:main"], cwd=_REPO_ROOT, capture_output=True)
-        if push.returncode == 0:
-            if attempt > 1:
-                print(f"[git] Push succeeded on attempt {attempt}/{attempts} for: {message}")
-            return True
-        print(f"[git] Push attempt {attempt}/{attempts} failed for: {message} "
-              f"({push.stderr.decode(errors='replace').strip()[:200]})")
+        try:
+            subprocess.run(["git", "fetch", "origin", "main"],
+                           cwd=_REPO_ROOT, capture_output=True, timeout=60)
+            # --mixed: HEAD moves to the current tip, working tree is left
+            # alone. No conflict is possible because nothing is being merged.
+            subprocess.run(["git", "reset", "--mixed", "origin/main"],
+                           cwd=_REPO_ROOT, capture_output=True)
+            # Re-assert our content on top of whatever just arrived.
+            for path, text in (contents or {}).items():
+                os.makedirs(os.path.dirname(path), exist_ok=True)
+                with open(path, "w", encoding="utf-8") as f:
+                    f.write(text)
+            subprocess.run(["git", "add", *paths], cwd=_REPO_ROOT, capture_output=True)
+            committed = subprocess.run(["git", "commit", "-m", message],
+                                       cwd=_REPO_ROOT, capture_output=True)
+            if committed.returncode != 0:
+                # Identical to what is already on main — the value we wanted
+                # is published, which is success for a state file.
+                print(f"[git] Already up to date on main: {message}")
+                return True
+            push = subprocess.run(["git", "push", "origin", "HEAD:main"],
+                                  cwd=_REPO_ROOT, capture_output=True, timeout=120)
+            if push.returncode == 0:
+                if attempt > 1:
+                    print(f"[git] Push succeeded on attempt {attempt}/{attempts}: {message}")
+                return True
+            print(f"[git] Push attempt {attempt}/{attempts} rejected: {message} "
+                  f"({push.stderr.decode(errors='replace').strip()[:160]})")
+        except Exception as exc:
+            print(f"[git] Push attempt {attempt}/{attempts} errored: {exc}")
         _time.sleep(2 * attempt + _random.uniform(0, 2))
-    print(f"[git] Push failed after {attempts} attempts (non-fatal): {message}")
+    print(f"[git] PUSH FAILED after {attempts} attempts: {message} "
+          f"— duplicate-send guard is NOT protected for this run")
     return False
 
 
@@ -182,10 +202,15 @@ def _mark_sent_today() -> None:
     today_ist = datetime.datetime.now(ist).date().isoformat()
     path = os.path.join(_REPO_ROOT, "data", "last_sent.json")
     os.makedirs(os.path.dirname(path), exist_ok=True)
+    payload = json.dumps({"date": today_ist})
     with open(path, "w", encoding="utf-8") as f:
-        json.dump({"date": today_ist}, f)
-    if _git_commit_push([path], f"chore: mark report sent {today_ist}"):
+        f.write(payload)
+    if _git_commit_push([path], f"chore: mark report sent {today_ist}",
+                        contents={path: payload}):
         print(f"[last_sent] Marked report sent for {today_ist}")
+    else:
+        print(f"[last_sent] WARNING: could not publish the sent-marker for "
+              f"{today_ist} — a later tick may send a duplicate")
 
 
 def _get_recipients() -> list[str]:

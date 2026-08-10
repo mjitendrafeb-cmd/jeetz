@@ -1594,17 +1594,25 @@ def _save_pool(pool: dict) -> None:
     _git_push(_POOL_PATH)
 
 
-def _git_push(path: str) -> None:
-    """Commit and push a single state file, with retry.
+def _git_push(path: str, content: str | None = None) -> None:
+    """Publish a state file to main.
 
-    This is what persists team_last_sent.json — the ONLY guard against a
-    duplicate send to the whole team. A single pull-rebase-then-push attempt
-    raced against any other push to main in that window (another tick, a
-    manual deploy) failed with no retry, and 7:30's identical pattern is
-    confirmed to have caused it to send its report 4 times on 07 Aug. Retries
-    with a fresh fetch+rebase each attempt so it converges once main is
-    quiet, instead of silently dropping the marker on the first collision."""
+    Same convergent strategy as the 7:30 report's writer, and for the same
+    reason: these are state files where the correct conflict resolution is
+    "mine wins", never a merge. Rebase-and-retry cannot converge — a rebase
+    of a conflicting change to the same generated file conflicts identically
+    on every attempt. That is exactly how 7:30 sent its report four times in
+    one morning while its marker sat unpublished since 07 Aug. This function
+    guards team_last_sent.json, where the same failure would mean a
+    duplicate mail to the whole team.
+
+    content, when given, is re-written after each reset so every attempt
+    reapplies our value on top of whatever is currently on main.
+    """
     import subprocess
+    import time as _time
+    import random as _random
+
     try:
         token = os.environ.get("GITHUB_TOKEN", "")
         if token:
@@ -1615,39 +1623,39 @@ def _git_push(path: str) -> None:
                        cwd=_REPO_ROOT, capture_output=True)
         subprocess.run(["git", "config", "user.name", "github-actions[bot]"],
                        cwd=_REPO_ROOT, capture_output=True)
-        subprocess.run(["git", "add", path], cwd=_REPO_ROOT, capture_output=True)
-        r = subprocess.run(["git", "commit", "-m", "chore: update team news memory"],
-                           cwd=_REPO_ROOT, capture_output=True)
-        if r.returncode != 0:
-            return  # nothing changed, nothing to push
     except Exception as exc:
-        print(f"[git] commit failed (non-fatal): {exc}")
+        print(f"[git] setup failed (non-fatal): {exc}")
         return
 
-    import time as _time
-    import random as _random
     attempts = 8
     for attempt in range(1, attempts + 1):
-        subprocess.run(["git", "fetch", "origin", "main"], cwd=_REPO_ROOT, capture_output=True)
-        rebase = subprocess.run(["git", "rebase", "origin/main"], cwd=_REPO_ROOT, capture_output=True)
-        if rebase.returncode != 0:
-            subprocess.run(["git", "rebase", "--abort"], cwd=_REPO_ROOT, capture_output=True)
-            print(f"[git] rebase conflict on attempt {attempt}/{attempts} for {path}")
-            # Jittered backoff — fixed delays let two racing pushers (e.g.
-            # this function called 3x in a row for seen/pool/last_sent,
-            # racing 7:30's own marker push in the same morning window)
-            # stay in lockstep and keep colliding instead of converging.
-            _time.sleep(2 * attempt + _random.uniform(0, 2))
-            continue
-        push = subprocess.run(["git", "push", "origin", "HEAD:main"], cwd=_REPO_ROOT, capture_output=True)
-        if push.returncode == 0:
-            if attempt > 1:
-                print(f"[git] push succeeded on attempt {attempt}/{attempts} for {path}")
-            return
-        print(f"[git] push attempt {attempt}/{attempts} failed for {path} "
-              f"({push.stderr.decode(errors='replace').strip()[:200]})")
+        try:
+            subprocess.run(["git", "fetch", "origin", "main"],
+                           cwd=_REPO_ROOT, capture_output=True, timeout=60)
+            subprocess.run(["git", "reset", "--mixed", "origin/main"],
+                           cwd=_REPO_ROOT, capture_output=True)
+            if content is not None:
+                os.makedirs(os.path.dirname(path), exist_ok=True)
+                with open(path, "w", encoding="utf-8") as f:
+                    f.write(content)
+            subprocess.run(["git", "add", path], cwd=_REPO_ROOT, capture_output=True)
+            committed = subprocess.run(["git", "commit", "-m", "chore: update team news memory"],
+                                       cwd=_REPO_ROOT, capture_output=True)
+            if committed.returncode != 0:
+                return  # already identical to main — nothing to publish
+            push = subprocess.run(["git", "push", "origin", "HEAD:main"],
+                                  cwd=_REPO_ROOT, capture_output=True, timeout=120)
+            if push.returncode == 0:
+                if attempt > 1:
+                    print(f"[git] push succeeded on attempt {attempt}/{attempts} for {path}")
+                return
+            print(f"[git] push attempt {attempt}/{attempts} rejected for {path} "
+                  f"({push.stderr.decode(errors='replace').strip()[:160]})")
+        except Exception as exc:
+            print(f"[git] push attempt {attempt}/{attempts} errored for {path}: {exc}")
         _time.sleep(2 * attempt + _random.uniform(0, 2))
-    print(f"[git] push failed after {attempts} attempts (non-fatal): {path}")
+    print(f"[git] PUSH FAILED after {attempts} attempts: {path} "
+          f"— duplicate-send guard is NOT protected for this run")
 
 
 # ---------------------------------------------------------------------------
@@ -2840,9 +2848,10 @@ def _mark_sent_today() -> None:
     path = os.path.join(_REPO_ROOT, "data", "team_last_sent.json")
     os.makedirs(os.path.dirname(path), exist_ok=True)
     today = datetime.datetime.now(IST).date().isoformat()
+    payload = json.dumps({"date": today})
     with open(path, "w", encoding="utf-8") as f:
-        json.dump({"date": today}, f)
-    _git_push(path)
+        f.write(payload)
+    _git_push(path, content=payload)
 
 
 def main() -> None:
