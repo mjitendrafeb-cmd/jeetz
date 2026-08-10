@@ -1595,5 +1595,79 @@
     "AU Small Finance Bank Sees Significant Open Interest Surge Amid Bullish Market Signals"
    ]
   }
+ },
+ {
+  "date": "2026-08-10",
+  "fetched": 1177,
+  "delivered_pool": 277,
+  "junk": 300,
+  "geo": 18,
+  "stale": 128,
+  "dup": 313,
+  "sections": {
+   "S1": 226,
+   "S2": 38,
+   "S3": 13
+  },
+  "mails": 35,
+  "failed": [],
+  "source_summary": {
+   "RBI RSS": 20,
+   "RBI Enforcement": 0,
+   "SEBI RSS": 20,
+   "Rating Agencies": 2,
+   "Google News": 15,
+   "Watchlist (Google)": 282,
+   "BSE Announcements": 0,
+   "BSE Financials": 20,
+   "Telegram": 152,
+   "Web Scraper": 156
+  },
+  "dropped_samples": {
+   "relevance": [
+    "Premature redemption under Sovereign Gold Bond (SGB) Scheme - Redemption Price for premature redemption of SGB",
+    "SBI Q1 Result Preview: What To Expect From The PSU Banking Giant On NIM, Profit, Credit Growth, NPAs, More",
+    "Stocks in news: LIC, Trent, AWL Agri Business, SBI, Titan",
+    "PB Fintech Q1 Results: Earnings call recording uploaded for review",
+    "SBI Life partners with J&K Bank to offer insurance solutions across India",
+    "Q1 results 2026: LIC to Trent among companies to declare Q1 results today; full list here - livemint.com",
+    "Q1 Results Today Live: SBI, Titan, Hindalco, Hitachi Energy, PFC, Godrej Consumer, Oil India, NLC, Kaynes Tech",
+    "Tata Sons listing: Inclusion in RBI\u2019s upper layer NBFC list keeps issue wide open - Business Today",
+    "Q1 results 2026: SBI to Ola Electric among companies to declare Q1 results today; full list here - livemint.co",
+    "Nexa Equity-backed Facility Grid acquires autonomous commissioning company PingCx",
+    "KKR agrees to acquire multi-specialty India hospital operator Medicover",
+    "#MintMarkets | As the market is pointing towards a positive start, some stocks are likely to remain in focus o",
+    "#MintMarkets | Check how Indian stock market is expected to trade today \ud83d\udcc8\ud83d\udcc9",
+    "Maharashtra resident doctors have called off their strike after the Bombay High Court's intervention, but the ",
+    "According to the reply by MEA, expenditure on the Prime Minister's foreign visits was over \u20b9180 crore in 2025,",
+    "A day after announcing that the Cockroach Janta Party (CJP) would continue as a public pressure group, founder",
+    "Choosing a nominee for accounts or policies is crucial, but they only act as custodians until legal heirs rece",
+    "Gorakhpur MP Ravi Kishan has been going viral on social media for the past few days",
+    "Crisil Ratings downgrades ratings of Maithan Alloys to 'AA-' with 'stable' outlook",
+    "Kanan Devan Hills Plantations Company Private Limited"
+   ],
+   "junk": [
+    "Release order for RC No. 4397 of 2021-Kesava Mallikarjuna Prasad Chivukula in the matter of CAT Technologies L",
+    "Completion of Recovery Certificate No. 4397 of 2021-Kesava Mallikarjuna Prasad Chivukula in the matter of CAT ",
+    "Release order for RC No. 4396 of 2021-Dhaduvai Venkatram in the matter of CAT Technologies Ltd.",
+    "Completion of Recovery Certificate No. 4396 of 2021-Dhaduvai Venkatram in the matter of CAT Technologies Ltd.",
+    "Completion of Recovery Certificate No",
+    "Settlement Order in respect of Mr. Raghav Raj Kanoria in the matter of India Power Corporation Limited",
+    "Appeal No. 6970 of 2026 filed by Parthasarathi",
+    "Appeal No. 6969 of 2026 filed by Kamal Kumar Agrawal",
+    "Appeal No. 6968 of 2026 filed by Sailesh Choraria",
+    "Appeal No. 6967 of 2026 filed by Jatin",
+    "Appeal No. 6966 of 2026 filed by Sarju Devi",
+    "Appeal No. 6965 of 2026 filed by Sunil Kumar",
+    "Appeal No. 6964 of 2026 filed by Ravi Prakashkumar Shah",
+    "Appeal No. 6962 of 2026 filed by Tammineni Sriharsha",
+    "Release order for Recovery Certificate No. 1969 of 2019-Kontala Krishnaveni in the matter of Covidh Technologi",
+    "Completion of Recovery Certificate No. 1969 of 2019-Kontala Krishnaveni in the matter of Covidh Technologies L",
+    "Notice(s) of Attachment dated August 05, 2026 issued under RC No",
+    "Motilal Oswal sees private banks delivering 18-20% earnings growth in FY27",
+    "Aadhar Housing Finance Ltd Technical Momentum Shifts Amid Mixed Market Returns",
+    "Broad-Based Technical Strength Lifts AU Small Finance Bank Ltd to 52-Week High of Rs 1092.15"
+   ]
+  }
  }
 ]
