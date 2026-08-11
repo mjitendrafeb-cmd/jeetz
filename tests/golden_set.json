@@ -677,6 +677,32 @@
       "expect": "S2",
       "expect_team": null,
       "why": "reported S2 leak: a SEBI registration number identifies ONE registered intermediary, so it is that entity's disclosure — 7:40 now sends it to S1 when the entity is tracked and drops it otherwise. 7:30 still says S2; its five-section classifier has no entity-story rule and is not changed here"
+    },
+    {
+      "title": "Price to sales forward of NuEnergy Holdings Bhd – MYX:NHB",
+      "source": "Bond Markets",
+      "expect": null,
+      "expect_team": null,
+      "why": "reported S3 leak: foreign valuation-metric page — the MYX:NHB ticker collided with \\bnhb\\b (National Housing Bank)"
+    },
+    {
+      "title": "Each bank or Primary Dealer (PD) on the basis of firm orders received from their constituents will submit a single consolidated non-competitive bid",
+      "source": "Bond Markets",
+      "expect": null,
+      "expect_team": null,
+      "why": "reported S3 leak: RBI Retail Direct scheme boilerplate scraped as text — 'primary dealer' is a bond keyword"
+    },
+    {
+      "title": "I Squared Capital agrees $631m buyout of Australia's OohMedia",
+      "expect": null,
+      "expect_team": null,
+      "why": "reported S2 leak: foreign PE buyout, no watchlist party"
+    },
+    {
+      "title": "NHB raises refinance limits for housing finance companies",
+      "expect": "S2",
+      "expect_team": "S2",
+      "why": "guard: killing the MYX:NHB ticker must not kill genuine National Housing Bank news — it reaches S2 in both reports. 7:30 says S2 rather than S3 because 'raises' is not in its regulator-action verb list; pre-existing, not changed"
     }
   ]
 }
