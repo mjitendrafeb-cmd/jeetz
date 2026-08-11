@@ -1745,18 +1745,12 @@ def _git_push(path: str, content: str | None = None) -> None:
 # compatibility (Outlook/Gmail), cream/navy palette.
 # ---------------------------------------------------------------------------
 
-# CareEdge brand palette, sampled from the corporate research PDF rather
-# than eyeballed: navy #14324E and teal #0FDCD2 are the two colours the
-# house style actually uses. _CE_TEAL_TEXT is a darkened teal — the bright
-# teal is correct for rules and fills but fails legibility as 8px text on
-# white, so anything teal that carries MEANING as text uses this instead.
-_CE_NAVY = "#14324E"
-_CE_NAVY_MID = "#214B6E"
-_CE_TEAL = "#0FDCD2"
-_CE_TEAL_TEXT = "#0BA9A2"
-_CE_RULE = "#DDE6EA"
-_CE_BODY = "#3D5566"
-_CE_MUTED = "#8FA3B0"
+# Single accent colour for the 7:40 newspaper. The CareEdge teal was
+# tried across the whole edition and did not suit it, so the accent is
+# navy and only navy — one colour, applied consistently, instead of the
+# old red/amber/blue trio. Paper, type and layout are unchanged.
+_NP_ACCENT = "#14324E"
+_NP_ACCENT_SOFT = "#3A6187"
 
 _NAVY = "#132A46"
 _NAVY_SOFT = "#9AA9BC"
@@ -2429,10 +2423,6 @@ def _rating_badge(it: dict) -> str:
     if not _RATING_ACTION_RE.search(text):
         return ""
     if _DOWNGRADE_RE.search(text):
-        # Deliberately NOT rebranded. Red here is semantic, not decorative:
-        # it marks a DOWNGRADE, and sits beside a green upgrade badge. In
-        # CareEdge teal it would read as neutral chrome and lose the one
-        # signal a credit desk most needs to catch at a glance.
         return ('<span style="color:#cc0000;font-size:9px;font-weight:800;'
                 'letter-spacing:1px;">&#9660; RATING ACTION</span> ')
     if _UPGRADE_RE.search(text):
@@ -2627,14 +2617,11 @@ def _company_header(name: str, its: list[dict]) -> str:
     n = len(its)
     top = max(_materiality(i) for i in its)
     # Flag the entity itself when it carries something that needs action.
-    flag = (f'<span style="color:{_CE_TEAL_TEXT};font-weight:800;font-size:8px;">'
-            f' &#9679; ACTION</span>' if top >= 8 else "")
-    # The entity name is the navigation element and stays bold uppercase;
-    # the item count is metadata, so it drops to 7.5px light grey instead
-    # of competing with the name at 10px grey-bold.
+    flag = ('<span style="color:#b91c1c;font-weight:800;"> &#9679; ACTION</span>'
+            if top >= 8 else "")
     return (f'<p style="margin:14px 0 5px;font-size:10px;font-weight:800;'
-            f'letter-spacing:1.2px;text-transform:uppercase;color:{_CE_NAVY};'
-            f'border-bottom:1px solid {_CE_TEAL};padding-bottom:3px;'
+            f'letter-spacing:1.2px;text-transform:uppercase;color:#111;'
+            f'border-bottom:1px solid #bbb;padding-bottom:3px;'
             f'break-inside:avoid;break-after:avoid;'
             f'-webkit-column-break-inside:avoid;-webkit-column-break-after:avoid;'
             f'page-break-after:avoid;">{_esc(name)}{flag}'
@@ -2899,43 +2886,43 @@ def _np_build_attachment(part_b_html: str, today, for_name: str = "",
   @page {{ size: A4; margin: 1.2cm 1.4cm; }}
   @page :first {{ margin-top: 0.5cm; }}
   *{{box-sizing:border-box;margin:0;padding:0}}
-  body{{background:#e9edf0;font-family:'PT Serif',Georgia,serif;color:{_CE_NAVY};font-size:11px}}
+  body{{background:#f0ece4;font-family:'PT Serif',Georgia,serif;color:#111;font-size:11px}}
   .newspaper{{max-width:960px;margin:20px auto}}
-  .news-page{{background:#fbfdfd;box-shadow:0 2px 24px rgba(0,0,0,.18);margin-bottom:28px;padding-bottom:20px;break-before:page;page-break-before:always}}
+  .news-page{{background:#fdfaf5;box-shadow:0 2px 24px rgba(0,0,0,.18);margin-bottom:28px;padding-bottom:20px;break-before:page;page-break-before:always}}
   .front-page{{break-before:auto;page-break-before:auto}}
   .mast-top{{display:flex;justify-content:space-between;align-items:flex-end;padding:14px 28px 6px;border-bottom:1px solid #aaa}}
   .mast-left{{font-size:8.5px;letter-spacing:1.5px;text-transform:uppercase;color:#555;line-height:1.8}}
   .mast-right{{font-size:8.5px;text-align:right;color:#555;line-height:1.8}}
   .mast-center{{text-align:center;padding:4px 28px 0}}
-  .mast-name{{font-family:'Playfair Display',Georgia,serif;font-size:52px;font-weight:900;line-height:1;letter-spacing:-2px;color:{_CE_NAVY}}}
-  .mast-rule{{border:none;border-top:3px solid {_CE_TEAL};margin:6px 0 0}}
-  .mast-sub{{display:flex;justify-content:space-between;align-items:center;padding:5px 28px;border-bottom:3px solid {_CE_NAVY};font-size:8.5px;letter-spacing:1px;text-transform:uppercase;color:#555}}
-  .mast-sub .red{{color:{_CE_TEAL_TEXT};font-weight:700;border:1px solid {_CE_TEAL};padding:1px 6px}}
-  .navbar{{display:flex;border-bottom:2px solid {_CE_TEAL};background:{_CE_NAVY}}}
-  .navbar a{{flex:1;text-align:center;padding:7px 4px;font-size:8px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#A9C2D4;text-decoration:none;border-right:1px solid #333}}
+  .mast-name{{font-family:'Playfair Display',Georgia,serif;font-size:52px;font-weight:900;line-height:1;letter-spacing:-2px;color:#111}}
+  .mast-rule{{border:none;border-top:3px double #111;margin:6px 0 0}}
+  .mast-sub{{display:flex;justify-content:space-between;align-items:center;padding:5px 28px;border-bottom:3px solid #111;font-size:8.5px;letter-spacing:1px;text-transform:uppercase;color:#555}}
+  .mast-sub .red{{color:{_NP_ACCENT};font-weight:700;border:1px solid {_NP_ACCENT};padding:1px 6px}}
+  .navbar{{display:flex;border-bottom:2px solid {_NP_ACCENT};background:{_NP_ACCENT}}}
+  .navbar a{{flex:1;text-align:center;padding:7px 4px;font-size:8px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#B9C6D4;text-decoration:none;border-right:1px solid #333}}
   .navbar a:first-child{{color:#fff}}
   .navbar a:last-child{{border-right:none}}
-  .page-header{{display:flex;justify-content:space-between;align-items:center;padding:8px 28px;border-bottom:3px solid {_CE_NAVY};border-top:4px solid {_CE_TEAL}}}
+  .page-header{{display:flex;justify-content:space-between;align-items:center;padding:8px 28px;border-bottom:3px solid {_NP_ACCENT};border-top:4px solid {_NP_ACCENT}}}
   .page-header .ph-meta{{font-size:8px;letter-spacing:1px;text-transform:uppercase;color:#777}}
   .page-header .ph-title{{font-family:'Playfair Display',Georgia,serif;font-size:14px;font-weight:700;color:#111}}
-  .page-header .ph-num{{font-size:26px;font-weight:900;font-family:'Playfair Display',Georgia,serif;color:{_CE_TEAL_TEXT};line-height:1}}
-  .columns{{padding:0 28px 8px;column-count:3;column-gap:22px;column-rule:1px solid {_CE_RULE};min-height:80px}}
+  .page-header .ph-num{{font-size:26px;font-weight:900;font-family:'Playfair Display',Georgia,serif;color:{_NP_ACCENT};line-height:1}}
+  .columns{{padding:0 28px 8px;column-count:3;column-gap:22px;column-rule:1px solid #ccc;min-height:80px}}
   [data-section="banner"]{{column-span:all;margin:20px -28px 0;padding:5px 28px;border-top:3px solid;border-bottom:1px solid}}
   .sb{{font-size:9px;font-weight:800;letter-spacing:3px;text-transform:uppercase;padding-top:6px;padding-bottom:6px}}
-  .sb1{{color:{_CE_NAVY};border-color:{_CE_TEAL}}}
-  .sb2{{color:{_CE_NAVY};border-color:{_CE_TEAL}}}
-  .sb3{{color:{_CE_NAVY};border-color:{_CE_TEAL}}}
-  .art{{break-inside:avoid;padding:11px 0;border-bottom:1px solid {_CE_RULE}}}
-  .art .src{{margin:0 0 3px;font-size:8px;font-weight:800;text-transform:uppercase;letter-spacing:1.5px;color:{_CE_TEAL_TEXT}}}
-  .art .hl{{margin:0 0 6px;font-size:12.8px;font-weight:650;font-family:Georgia,serif;line-height:1.28;color:{_CE_NAVY}}}
-  .art .wh{{margin:0 0 5px;font-size:10.5px;color:{_CE_BODY};line-height:1.55}}
-  .art .rm{{font-size:9px;color:{_CE_TEAL_TEXT};text-decoration:none;font-weight:700}}
-  .art .also{{font-size:10px;color:{_CE_MUTED}}}
-  .art.hero{{padding:12px 0 14px;border-bottom:2px solid {_CE_TEAL};margin-bottom:4px}}
-  .art.hero .src{{color:{_CE_TEAL_TEXT}}}
+  .sb1{{color:{_NP_ACCENT};border-color:{_NP_ACCENT}}}
+  .sb2{{color:{_NP_ACCENT};border-color:{_NP_ACCENT}}}
+  .sb3{{color:{_NP_ACCENT};border-color:{_NP_ACCENT}}}
+  .art{{break-inside:avoid;padding:12px 0;border-bottom:1px solid #ddd}}
+  .art .src{{margin:0 0 3px;font-size:8px;font-weight:800;text-transform:uppercase;letter-spacing:1.5px;color:#999}}
+  .art .hl{{margin:0 0 6px;font-size:12.8px;font-weight:650;font-family:Georgia,serif;line-height:1.28;color:#111}}
+  .art .wh{{margin:0 0 5px;font-size:10.5px;color:#333;line-height:1.55}}
+  .art .rm{{font-size:9px;color:#888;text-decoration:none;font-weight:600}}
+  .art .also{{font-size:10px;color:#999}}
+  .art.hero{{padding:12px 0 14px;border-bottom:2px solid {_NP_ACCENT};margin-bottom:4px}}
+  .art.hero .src{{color:{_NP_ACCENT}}}
   .art.hero .hl{{font-size:16.4px;font-weight:800;line-height:1.24}}
-  .art.hero .wh{{font-size:11px;color:{_CE_BODY};line-height:1.7}}
-  .art.hero .rm{{color:{_CE_TEAL_TEXT};font-weight:700}}
+  .art.hero .wh{{font-size:11px;color:#222;line-height:1.7}}
+  .art.hero .rm{{color:{_NP_ACCENT};font-weight:700}}
   .ibh{{margin:14px 0 4px;font-size:8px;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:#999}}
   .ib{{margin:0 0 4px;font-size:9.5px;color:#555;line-height:1.5}}
   .ib a{{color:#999;font-size:8.5px;text-decoration:none}}
