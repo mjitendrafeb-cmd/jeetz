@@ -276,6 +276,16 @@ _NOT_NEWS_RE = re.compile(
     # Deposit-rate comparison listicles ("NBFC FD rates 2026: ... offer up
     # to 8.50%; check top rates").
     r"|\bfd rates?\b|\bfixed deposit rates?\b|\bcheck (the )?top rates\b"
+    # RBI Retail Direct scheme boilerplate scraped as text ("Each bank or
+    # Primary Dealer (PD) ... will submit a single consolidated
+    # non-competitive bid"). Instructions, not news.
+    r"|\bconsolidated non-competitive bid\b|\bretail direct portal\b"
+    # Foreign-exchange valuation metric pages ("Price to sales forward of
+    # NuEnergy Holdings Bhd – MYX:NHB"). The MYX:NHB ticker also collided
+    # with \bnhb\b (National Housing Bank) in the FI-signal regex, which is
+    # how a Malaysian penny stock reached S3.
+    r"|\bprice to (sales|earnings|book|cash ?flow)( forward| ratio)?\b"
+    r"|\b(myx|lse|asx|sgx|nyse|nasdaq|hkex|klse|tsx|jse):\s?\S"
     r"|\binterest rates? comparison\b|\boffers? up to \d+(\.\d+)?%"
     # IPO pipeline/approval filler — not a credit event for this desk.
     r"|\b(receives?|receive|gets?|get) (sebi|regulatory) (approval|nod)[^.|]{0,30}\bipo"
@@ -1202,9 +1212,12 @@ better than hiding a real one."""
         # max_tokens must cover thinking tokens too — at 3000 with high
         # effort two live batches burned the budget reasoning and returned
         # no text at all ("Expecting value: line 1 column 1").
+        # High effort, matching the router. This pass decides whether a
+        # story is a duplicate or a wrong entity match — judgement calls
+        # where a cheap answer costs a real item or leaves a repeat in.
         msg = client.messages.create(
             model=_AI_MODEL, max_tokens=8000,
-            output_config={"effort": "medium"},
+            output_config={"effort": "high"},
             messages=[{"role": "user", "content": prompt}])
         text = re.sub(r"^```(json)?|```$", "", _ai_msg_text(msg).strip(),
                       flags=re.MULTILINE).strip()

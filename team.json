@@ -9,15 +9,11 @@
       "gh_email": "Shaik.Saleem@careedge.in",
       "analyst_email": "Amy.Thomas@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
       "company": "Belstar Microfinance Limited",
@@ -28,32 +24,32 @@
       "analyst_email": "Anushka.Bothra@careedge.in",
       "rh_email": "",
       "send_gh": true,
-      "send_analyst": true,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
       "sections": [
         "S1",
         "S2",
         "S3"
-      ]
+      ],
+      "sector": "BFSI"
     },
     {
       "company": "MINTIFI Finserve Private Limited",
       "gh_name": "Jitendra",
       "analyst_name": "Pranjal",
       "rh_name": "Vineet",
-      "gh_email": "jitendra.meghrajani@careedge.in",
+      "gh_email": "jitendra.meghrajani@careedge.in, pranjal.mulekar@careedge.in, om.tupe@careedge.in, pooja.biyani@careedge.in, Krish.hablani@careedge.in",
       "analyst_email": "pranjal.mulekar@careedge.in",
       "rh_email": "",
       "send_gh": true,
-      "send_analyst": true,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
       "sections": [
         "S1",
         "S2",
         "S3"
-      ]
+      ],
+      "sector": "BFSI"
     },
     {
       "company": "Kissandhan Agri Financial Serviced Limited",
@@ -63,15 +59,11 @@
       "gh_email": "Jatin.Arora@careedge.in",
       "analyst_email": "shweta.sharma@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
       "company": "Karnataka State Financial Corporation",
@@ -81,15 +73,11 @@
       "gh_email": "Shreekiran.Rao@careedge.in",
       "analyst_email": "tony.mathew@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
       "company": "Laxmi India Finance Limited",
@@ -99,15 +87,11 @@
       "gh_email": "Shaik.Saleem@careedge.in",
       "analyst_email": "Shivam.Katkar@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
       "company": "Dar Credit & Capital Limited",
@@ -117,15 +101,11 @@
       "gh_email": "Shaik.Saleem@careedge.in",
       "analyst_email": "Amy.Thomas@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
       "company": "Religare Housing Development Finance Corporation Limited",
@@ -135,15 +115,11 @@
       "gh_email": "Jatin.Arora@careedge.in",
       "analyst_email": "swapnil.lohani@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
       "company": "Supreme Housing Finance Limited",
@@ -153,51 +129,47 @@
       "gh_email": "Jatin.Arora@careedge.in",
       "analyst_email": "jaya.gupta@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
       "company": "Manba Finance Limited",
       "gh_name": "Jitendra",
       "analyst_name": "Pooja",
       "rh_name": "Vineet",
-      "gh_email": "jitendra.meghrajani@careedge.in",
+      "gh_email": "jitendra.meghrajani@careedge.in, pranjal.mulekar@careedge.in, om.tupe@careedge.in, pooja.biyani@careedge.in, Krish.hablani@careedge.in",
       "analyst_email": "pooja.biyani@careedge.in",
       "rh_email": "",
       "send_gh": true,
-      "send_analyst": true,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
       "sections": [
         "S1",
         "S2",
         "S3"
-      ]
+      ],
+      "sector": "BFSI"
     },
     {
       "company": "CFM ARC",
       "gh_name": "Jitendra",
       "analyst_name": "Pranjal",
       "rh_name": "Vineet",
-      "gh_email": "jitendra.meghrajani@careedge.in",
+      "gh_email": "jitendra.meghrajani@careedge.in, pranjal.mulekar@careedge.in, om.tupe@careedge.in, pooja.biyani@careedge.in, Krish.hablani@careedge.in",
       "analyst_email": "pranjal.mulekar@careedge.in",
       "rh_email": "",
       "send_gh": true,
-      "send_analyst": true,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
       "sections": [
         "S1",
         "S2",
         "S3"
-      ]
+      ],
+      "sector": "BFSI"
     },
     {
       "company": "GrowXCD Finance Private Limited",
@@ -208,14 +180,14 @@
       "analyst_email": "Hareesh.H@careedge.in",
       "rh_email": "",
       "send_gh": true,
-      "send_analyst": true,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
       "sections": [
         "S1",
         "S2",
         "S3"
-      ]
+      ],
+      "sector": "BFSI"
     },
     {
       "company": "KrazyBee Services Limited",
@@ -225,15 +197,11 @@
       "gh_email": "Shreekiran.Rao@careedge.in",
       "analyst_email": "tony.mathew@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
       "company": "Karnataka Bank Limited",
@@ -243,15 +211,11 @@
       "gh_email": "Yogesh.Rochani@careedge.in",
       "analyst_email": "Yashika.Goyal@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
       "company": "Tourism Finance Corporation of India Limited",
@@ -261,69 +225,65 @@
       "gh_email": "Jatin.Arora@careedge.in",
       "analyst_email": "swapnil.lohani@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
       "company": "Golden Legand Leasing and Finance Limited",
       "gh_name": "Jitendra",
       "analyst_name": "Krish H",
       "rh_name": "Vineet",
-      "gh_email": "jitendra.meghrajani@careedge.in",
+      "gh_email": "jitendra.meghrajani@careedge.in, pranjal.mulekar@careedge.in, om.tupe@careedge.in, pooja.biyani@careedge.in, Krish.hablani@careedge.in",
       "analyst_email": "krish.hablani@careedge.in",
       "rh_email": "",
       "send_gh": true,
-      "send_analyst": true,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
       "sections": [
         "S1",
         "S2",
         "S3"
-      ]
+      ],
+      "sector": "BFSI"
     },
     {
       "company": "Nabkisan Finance limited",
       "gh_name": "Jitendra",
       "analyst_name": "Krish H",
       "rh_name": "Vineet",
-      "gh_email": "jitendra.meghrajani@careedge.in",
+      "gh_email": "jitendra.meghrajani@careedge.in, pranjal.mulekar@careedge.in, om.tupe@careedge.in, pooja.biyani@careedge.in, Krish.hablani@careedge.in",
       "analyst_email": "krish.hablani@careedge.in",
       "rh_email": "",
       "send_gh": true,
-      "send_analyst": true,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
       "sections": [
         "S1",
         "S2",
         "S3"
-      ]
+      ],
+      "sector": "BFSI"
     },
     {
       "company": "Svamaan Financial Services Private Limited",
       "gh_name": "Jitendra",
       "analyst_name": "Pooja",
       "rh_name": "Vineet",
-      "gh_email": "jitendra.meghrajani@careedge.in",
+      "gh_email": "jitendra.meghrajani@careedge.in, pranjal.mulekar@careedge.in, om.tupe@careedge.in, pooja.biyani@careedge.in, Krish.hablani@careedge.in",
       "analyst_email": "pooja.biyani@careedge.in",
       "rh_email": "",
       "send_gh": true,
-      "send_analyst": true,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
       "sections": [
         "S1",
         "S2",
         "S3"
-      ]
+      ],
+      "sector": "BFSI"
     },
     {
       "company": "Axis Securities Limited",
@@ -333,15 +293,11 @@
       "gh_email": "Yogesh.Rochani@careedge.in",
       "analyst_email": "Ujjwala.Oke@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
       "company": "Ashika Stock Services Limited",
@@ -351,15 +307,11 @@
       "gh_email": "Shreekiran.Rao@careedge.in",
       "analyst_email": "Punit.Nyati@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
       "company": "IFCI Limited",
@@ -369,15 +321,11 @@
       "gh_email": "Jatin.Arora@careedge.in",
       "analyst_email": "jaya.gupta@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
       "company": "Bank of Baroda",
@@ -387,15 +335,11 @@
       "gh_email": "Aditya.Acharekar@careedge.in",
       "analyst_email": "Shrey.Bohra@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
       "company": "Punjab and Sind Bank",
@@ -405,15 +349,11 @@
       "gh_email": "Aditya.Acharekar@careedge.in",
       "analyst_email": "Dhruv.Shah1@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
       "company": "Nexome Capital Markets Limited",
@@ -423,15 +363,11 @@
       "gh_email": "Yogesh.Rochani@careedge.in",
       "analyst_email": "Yashika.Goyal@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
       "company": "Wonder Home Finance Limited",
@@ -441,15 +377,11 @@
       "gh_email": "Shaik.Saleem@careedge.in",
       "analyst_email": "Amy.Thomas@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
       "company": "SBM Bank (INDIA) Limited",
@@ -459,15 +391,11 @@
       "gh_email": "Yogesh.Rochani@careedge.in",
       "analyst_email": "Sehdev.Pahwa@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
       "company": "Home First Finance Company India Limited",
@@ -478,14 +406,14 @@
       "analyst_email": "Anushka.Bothra@careedge.in",
       "rh_email": "",
       "send_gh": true,
-      "send_analyst": true,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
       "sections": [
         "S1",
         "S2",
         "S3"
-      ]
+      ],
+      "sector": "BFSI"
     },
     {
       "company": "Religare Broking Limited",
@@ -495,15 +423,11 @@
       "gh_email": "Shreekiran.Rao@careedge.in",
       "analyst_email": "Punit.Nyati@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
       "company": "One Mobikwik",
@@ -513,15 +437,11 @@
       "gh_email": "Jatin.Arora@careedge.in",
       "analyst_email": "kanika.aggarwal@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
       "company": "Pinelabs",
@@ -531,15 +451,11 @@
       "gh_email": "Jatin.Arora@careedge.in",
       "analyst_email": "jaya.gupta@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
       "company": "Religare Enterprises",
@@ -549,15 +465,11 @@
       "gh_email": "Jatin.Arora@careedge.in",
       "analyst_email": "kanika.aggarwal@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
       "company": "Finova Capital Private Limited",
@@ -567,15 +479,11 @@
       "gh_email": "Shaik.Saleem@careedge.in",
       "analyst_email": "Shivam.Katkar@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
       "company": "KLM Axiva Finvest Limited",
@@ -586,14 +494,14 @@
       "analyst_email": "Pranav.Viswanathan@careedge.in",
       "rh_email": "",
       "send_gh": true,
-      "send_analyst": true,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
       "sections": [
         "S1",
         "S2",
         "S3"
-      ]
+      ],
+      "sector": "BFSI"
     },
     {
       "company": "Gajet Financial Services Private Limited",
@@ -604,14 +512,14 @@
       "analyst_email": "Pranav.Viswanathan@careedge.in",
       "rh_email": "",
       "send_gh": true,
-      "send_analyst": true,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
       "sections": [
         "S1",
         "S2",
         "S3"
-      ]
+      ],
+      "sector": "BFSI"
     },
     {
       "company": "IDBI Bank Limited",
@@ -621,51 +529,47 @@
       "gh_email": "Aditya.Acharekar@careedge.in",
       "analyst_email": "Shrey.Bohra@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
       "company": "SMFG India Credit Company Limited",
       "gh_name": "Jitendra",
       "analyst_name": "Pranjal",
       "rh_name": "Vineet",
-      "gh_email": "jitendra.meghrajani@careedge.in",
+      "gh_email": "jitendra.meghrajani@careedge.in, pranjal.mulekar@careedge.in, om.tupe@careedge.in, pooja.biyani@careedge.in, Krish.hablani@careedge.in",
       "analyst_email": "pranjal.mulekar@careedge.in",
       "rh_email": "",
       "send_gh": true,
-      "send_analyst": true,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
       "sections": [
         "S1",
         "S2",
         "S3"
-      ]
+      ],
+      "sector": "BFSI"
     },
     {
       "company": "SMFG India Home Finance Company Limited",
       "gh_name": "Jitendra",
       "analyst_name": "Pranjal",
       "rh_name": "Vineet",
-      "gh_email": "jitendra.meghrajani@careedge.in",
+      "gh_email": "jitendra.meghrajani@careedge.in, pranjal.mulekar@careedge.in, om.tupe@careedge.in, pooja.biyani@careedge.in, Krish.hablani@careedge.in",
       "analyst_email": "pranjal.mulekar@careedge.in",
       "rh_email": "",
       "send_gh": true,
-      "send_analyst": true,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
       "sections": [
         "S1",
         "S2",
         "S3"
-      ]
+      ],
+      "sector": "BFSI"
     },
     {
       "company": "NIPUN PROJECTS & FINANCE PRIVATE LIMITED",
@@ -675,15 +579,11 @@
       "gh_email": "Shreekiran.Rao@careedge.in",
       "analyst_email": "Punit.Nyati@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
       "company": "Nivara Home Finance Limited",
@@ -693,15 +593,11 @@
       "gh_email": "Shreekiran.Rao@careedge.in",
       "analyst_email": "tony.mathew@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
       "company": "Pahal Financial Services Private Limited",
@@ -711,15 +607,11 @@
       "gh_email": "Shreekiran.Rao@careedge.in",
       "analyst_email": "Ravi.Nayak@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
       "company": "Sitara Housing Finance Limited",
@@ -730,50 +622,50 @@
       "analyst_email": "Anushka.Bothra@careedge.in",
       "rh_email": "",
       "send_gh": true,
-      "send_analyst": true,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
       "sections": [
         "S1",
         "S2",
         "S3"
-      ]
+      ],
+      "sector": "BFSI"
     },
     {
       "company": "Nisus Finance Services Co Limited",
       "gh_name": "Jitendra",
       "analyst_name": "Pooja",
       "rh_name": "Vineet",
-      "gh_email": "jitendra.meghrajani@careedge.in",
+      "gh_email": "jitendra.meghrajani@careedge.in, pranjal.mulekar@careedge.in, om.tupe@careedge.in, pooja.biyani@careedge.in, Krish.hablani@careedge.in",
       "analyst_email": "pooja.biyani@careedge.in",
       "rh_email": "",
       "send_gh": true,
-      "send_analyst": true,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
       "sections": [
         "S1",
         "S2",
         "S3"
-      ]
+      ],
+      "sector": "BFSI"
     },
     {
       "company": "Profectus Capital Private Limited",
       "gh_name": "Jitendra",
       "analyst_name": "OM",
       "rh_name": "Vineet",
-      "gh_email": "jitendra.meghrajani@careedge.in",
+      "gh_email": "jitendra.meghrajani@careedge.in, pranjal.mulekar@careedge.in, om.tupe@careedge.in, pooja.biyani@careedge.in, Krish.hablani@careedge.in",
       "analyst_email": "om.tupe@careedge.in",
       "rh_email": "",
       "send_gh": true,
-      "send_analyst": true,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
       "sections": [
         "S1",
         "S2",
         "S3"
-      ]
+      ],
+      "sector": "BFSI"
     },
     {
       "company": "Indian Clearing Corporation Limited",
@@ -784,14 +676,14 @@
       "analyst_email": "Pulkit.Jain@careedge.in",
       "rh_email": "",
       "send_gh": true,
-      "send_analyst": true,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
       "sections": [
         "S1",
         "S2",
         "S3"
-      ]
+      ],
+      "sector": "BFSI"
     },
     {
       "company": "NSE IFSC Clearing Corporation Limited",
@@ -802,14 +694,14 @@
       "analyst_email": "Pulkit.Jain@careedge.in",
       "rh_email": "",
       "send_gh": true,
-      "send_analyst": true,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
       "sections": [
         "S1",
         "S2",
         "S3"
-      ]
+      ],
+      "sector": "BFSI"
     },
     {
       "company": "Repco Home Finance Limited",
@@ -820,14 +712,14 @@
       "analyst_email": "Hareesh.H@careedge.in",
       "rh_email": "",
       "send_gh": true,
-      "send_analyst": true,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
       "sections": [
         "S1",
         "S2",
         "S3"
-      ]
+      ],
+      "sector": "BFSI"
     },
     {
       "company": "Jharkhand Rajya Gramin Bank",
@@ -837,15 +729,11 @@
       "gh_email": "Aditya.Acharekar@careedge.in",
       "analyst_email": "Shrey.Bohra@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
       "company": "Bharti Axa Life Insurance Company Limited",
@@ -855,15 +743,11 @@
       "gh_email": "Shaik.Saleem@careedge.in",
       "analyst_email": "Amy.Thomas@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
       "company": "MS Fincap Private Limited",
@@ -873,15 +757,11 @@
       "gh_email": "Shaik.Saleem@careedge.in",
       "analyst_email": "kumer.bisht@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
       "company": "Jammu & Kashmir Bank Limited",
@@ -891,15 +771,11 @@
       "gh_email": "Aditya.Acharekar@careedge.in",
       "analyst_email": "Dhruv.Shah1@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
       "company": "HDFC Life Insurance Company Limited",
@@ -909,15 +785,11 @@
       "gh_email": "Shreekiran.Rao@careedge.in",
       "analyst_email": "Punit.Joshi@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
       "company": "ESAF Small Finance Bank Limited",
@@ -927,15 +799,11 @@
       "gh_email": "Shreekiran.Rao@careedge.in",
       "analyst_email": "Ravi.Nayak@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
       "company": "Goenka Business and Finance Limited",
@@ -945,15 +813,11 @@
       "gh_email": "Shaik.Saleem@careedge.in",
       "analyst_email": "lokesh.warjurkar@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
       "company": "Sarala Development & Microfinance Private Limited",
@@ -963,15 +827,11 @@
       "gh_email": "Shreekiran.Rao@careedge.in",
       "analyst_email": "Punit.Nyati@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
       "company": "SMIFS LIMITED",
@@ -981,15 +841,11 @@
       "gh_email": "Shaik.Saleem@careedge.in",
       "analyst_email": "lokesh.warjurkar@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
       "company": "Cyqure India Private Limited",
@@ -999,15 +855,11 @@
       "gh_email": "Shaik.Saleem@careedge.in",
       "analyst_email": "Shivam.Katkar@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
       "company": "Reliance Capital Limited",
@@ -1017,15 +869,11 @@
       "gh_email": "Shaik.Saleem@careedge.in",
       "analyst_email": "Shivam.Katkar@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
       "company": "Maanaveeya Development & Finance Private Limited",
@@ -1035,15 +883,11 @@
       "gh_email": "Shreekiran.Rao@careedge.in",
       "analyst_email": "tony.mathew@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
       "company": "360 One Alternates Asset Management Limited",
@@ -1053,15 +897,11 @@
       "gh_email": "Yogesh.Rochani@careedge.in",
       "analyst_email": "Sehdev.Pahwa@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
       "company": "360 One Distribution Services Limited",
@@ -1071,15 +911,11 @@
       "gh_email": "Yogesh.Rochani@careedge.in",
       "analyst_email": "Sehdev.Pahwa@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
       "company": "360 One Prime Limited",
@@ -1089,15 +925,11 @@
       "gh_email": "Yogesh.Rochani@careedge.in",
       "analyst_email": "Sehdev.Pahwa@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
       "company": "360 One Wam Limited",
@@ -1107,15 +939,11 @@
       "gh_email": "Yogesh.Rochani@careedge.in",
       "analyst_email": "Sehdev.Pahwa@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
       "company": "HDFC Securities Limited",
@@ -1125,15 +953,11 @@
       "gh_email": "Shaik.Saleem@careedge.in",
       "analyst_email": "lokesh.warjurkar@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
       "company": "Shrinithi Capital Private Limited",
@@ -1144,32 +968,32 @@
       "analyst_email": "Pranav.Viswanathan@careedge.in",
       "rh_email": "",
       "send_gh": true,
-      "send_analyst": true,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
       "sections": [
         "S1",
         "S2",
         "S3"
-      ]
+      ],
+      "sector": "BFSI"
     },
     {
       "company": "Alpha Alternatives Financial Services Private Limited",
       "gh_name": "Jitendra",
       "analyst_name": "Pranjal",
       "rh_name": "Vineet",
-      "gh_email": "jitendra.meghrajani@careedge.in",
+      "gh_email": "jitendra.meghrajani@careedge.in, pranjal.mulekar@careedge.in, om.tupe@careedge.in, pooja.biyani@careedge.in, Krish.hablani@careedge.in",
       "analyst_email": "pranjal.mulekar@careedge.in",
       "rh_email": "",
       "send_gh": true,
-      "send_analyst": true,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
       "sections": [
         "S1",
         "S2",
         "S3"
-      ]
+      ],
+      "sector": "BFSI"
     },
     {
       "company": "Agrim Housing Finance Private Limited",
@@ -1180,14 +1004,14 @@
       "analyst_email": "Anushka.Bothra@careedge.in",
       "rh_email": "",
       "send_gh": true,
-      "send_analyst": true,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
       "sections": [
         "S1",
         "S2",
         "S3"
-      ]
+      ],
+      "sector": "BFSI"
     },
     {
       "company": "National Bank For Financing Infrastructure And Development",
@@ -1197,15 +1021,11 @@
       "gh_email": "Aditya.Acharekar@careedge.in",
       "analyst_email": "Dhruv.Shah1@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
       "company": "Decent Securities Limited",
@@ -1215,15 +1035,11 @@
       "gh_email": "Jatin.Arora@careedge.in",
       "analyst_email": "shweta.sharma@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
       "company": "Geojit Credits Private Limited",
@@ -1233,15 +1049,11 @@
       "gh_email": "Yogesh.Rochani@careedge.in",
       "analyst_email": "Ujjwala.Oke@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
       "company": "Geojit Financial Services Limited",
@@ -1251,15 +1063,11 @@
       "gh_email": "Yogesh.Rochani@careedge.in",
       "analyst_email": "Ujjwala.Oke@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
       "company": "Geojit Investment",
@@ -1269,15 +1077,11 @@
       "gh_email": "Yogesh.Rochani@careedge.in",
       "analyst_email": "Ujjwala.Oke@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
       "company": "Comfort Fincap Limited",
@@ -1287,15 +1091,11 @@
       "gh_email": "Yogesh.Rochani@careedge.in",
       "analyst_email": "Sehdev.Pahwa@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
       "company": "Equitas Small Finance Bank Limited",
@@ -1305,15 +1105,11 @@
       "gh_email": "Shreekiran.Rao@careedge.in",
       "analyst_email": "tony.mathew@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
       "company": "IndusInd General Insurance Company Limited",
@@ -1323,33 +1119,29 @@
       "gh_email": "Shaik.Saleem@careedge.in",
       "analyst_email": "dhvani.shah@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
       "company": "NABFINS Limited",
       "gh_name": "Jitendra",
       "analyst_name": "Krish H",
       "rh_name": "Vineet",
-      "gh_email": "jitendra.meghrajani@careedge.in",
+      "gh_email": "jitendra.meghrajani@careedge.in, pranjal.mulekar@careedge.in, om.tupe@careedge.in, pooja.biyani@careedge.in, Krish.hablani@careedge.in",
       "analyst_email": "krish.hablani@careedge.in",
       "rh_email": "",
       "send_gh": true,
-      "send_analyst": true,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
       "sections": [
         "S1",
         "S2",
         "S3"
-      ]
+      ],
+      "sector": "BFSI"
     },
     {
       "company": "Northern Arc Capital Limited",
@@ -1359,15 +1151,11 @@
       "gh_email": "Shaik.Saleem@careedge.in",
       "analyst_email": "lokesh.warjurkar@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
       "company": "Baid Finserv Limited",
@@ -1377,15 +1165,11 @@
       "gh_email": "Shaik.Saleem@careedge.in",
       "analyst_email": "Amy.Thomas@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
       "company": "Star Union Dai-ichi Life Insurance Company Limited",
@@ -1395,15 +1179,11 @@
       "gh_email": "Shreekiran.Rao@careedge.in",
       "analyst_email": "Ravi.Nayak@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
       "company": "Kusalava Finance Limited",
@@ -1413,15 +1193,11 @@
       "gh_email": "Shreekiran.Rao@careedge.in",
       "analyst_email": "tony.mathew@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
       "company": "Sammaan Capital Limited",
@@ -1431,15 +1207,11 @@
       "gh_email": "Shreekiran.Rao@careedge.in",
       "analyst_email": "Punit.Nyati@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
       "company": "Sammaan Finserve Limited",
@@ -1449,15 +1221,11 @@
       "gh_email": "Shreekiran.Rao@careedge.in",
       "analyst_email": "Punit.Nyati@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
       "company": "Shubham Housing Development Finance Company Limited",
@@ -1467,15 +1235,11 @@
       "gh_email": "Jatin.Arora@careedge.in",
       "analyst_email": "shweta.sharma@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
       "company": "Hinduja Housing Finance Limited",
@@ -1486,14 +1250,14 @@
       "analyst_email": "Pranav.Viswanathan@careedge.in",
       "rh_email": "",
       "send_gh": true,
-      "send_analyst": true,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
       "sections": [
         "S1",
         "S2",
         "S3"
-      ]
+      ],
+      "sector": "BFSI"
     },
     {
       "company": "Hinduja Leyland Finance Limited",
@@ -1504,14 +1268,14 @@
       "analyst_email": "Hareesh.H@careedge.in",
       "rh_email": "",
       "send_gh": true,
-      "send_analyst": true,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
       "sections": [
         "S1",
         "S2",
         "S3"
-      ]
+      ],
+      "sector": "BFSI"
     },
     {
       "company": "L&T Finance Limited (formerly known as L&T Finance Holdings Limited)",
@@ -1521,15 +1285,11 @@
       "gh_email": "Shaik.Saleem@careedge.in",
       "analyst_email": "Shivam.Katkar@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
       "company": "Light Microfinance Private Limited",
@@ -1539,15 +1299,11 @@
       "gh_email": "Shreekiran.Rao@careedge.in",
       "analyst_email": "Ravi.Nayak@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
       "company": "National Housing Bank",
@@ -1557,15 +1313,11 @@
       "gh_email": "Jatin.Arora@careedge.in",
       "analyst_email": "sudeeksha.rathi@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
       "company": "SBFC Finance Limited",
@@ -1575,33 +1327,29 @@
       "gh_email": "Yogesh.Rochani@careedge.in",
       "analyst_email": "Yashika.Goyal@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
       "company": "Earlysalary Services Private Limited",
       "gh_name": "Jitendra",
       "analyst_name": "Pooja",
       "rh_name": "Vineet",
-      "gh_email": "jitendra.meghrajani@careedge.in",
+      "gh_email": "jitendra.meghrajani@careedge.in, pranjal.mulekar@careedge.in, om.tupe@careedge.in, pooja.biyani@careedge.in, Krish.hablani@careedge.in",
       "analyst_email": "pooja.biyani@careedge.in",
       "rh_email": "",
       "send_gh": true,
-      "send_analyst": true,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
       "sections": [
         "S1",
         "S2",
         "S3"
-      ]
+      ],
+      "sector": "BFSI"
     },
     {
       "company": "Crest Ventures Limited",
@@ -1612,14 +1360,14 @@
       "analyst_email": "Anushka.Bothra@careedge.in",
       "rh_email": "",
       "send_gh": true,
-      "send_analyst": true,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
       "sections": [
         "S1",
         "S2",
         "S3"
-      ]
+      ],
+      "sector": "BFSI"
     },
     {
       "company": "IDBI Capital Markets & Securities Limited",
@@ -1629,15 +1377,11 @@
       "gh_email": "Aditya.Acharekar@careedge.in",
       "analyst_email": "Dhruv.Shah1@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
       "company": "Axis Bank Limited",
@@ -1647,15 +1391,11 @@
       "gh_email": "Yogesh.Rochani@careedge.in",
       "analyst_email": "Ujjwala.Oke@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
       "company": "Muthoot Homefin (India) Limited",
@@ -1666,14 +1406,14 @@
       "analyst_email": "Pulkit.Jain@careedge.in",
       "rh_email": "",
       "send_gh": true,
-      "send_analyst": true,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
       "sections": [
         "S1",
         "S2",
         "S3"
-      ]
+      ],
+      "sector": "BFSI"
     },
     {
       "company": "Share India Fincap Private Limited",
@@ -1683,15 +1423,11 @@
       "gh_email": "Shreekiran.Rao@careedge.in",
       "analyst_email": "Punit.Joshi@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
       "company": "Share India Securities Limited",
@@ -1701,15 +1437,11 @@
       "gh_email": "Shreekiran.Rao@careedge.in",
       "analyst_email": "Punit.Joshi@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
       "company": "Poonawalla Fincorp Limited",
@@ -1719,15 +1451,11 @@
       "gh_email": "Shaik.Saleem@careedge.in",
       "analyst_email": "lokesh.warjurkar@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
       "company": "Power Finance Corporation Limited",
@@ -1737,15 +1465,11 @@
       "gh_email": "Jatin.Arora@careedge.in",
       "analyst_email": "shweta.sharma@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
       "company": "REC Limited",
@@ -1755,15 +1479,11 @@
       "gh_email": "Jatin.Arora@careedge.in",
       "analyst_email": "shweta.sharma@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
       "company": "IDFC First Bank",
@@ -1773,15 +1493,11 @@
       "gh_email": "Yogesh.Rochani@careedge.in",
       "analyst_email": "Yashika.Goyal@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
       "company": "Federal Bank Limited",
@@ -1791,15 +1507,11 @@
       "gh_email": "Yogesh.Rochani@careedge.in",
       "analyst_email": "Yashika.Goyal@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
       "company": "HDB Financial Services Limited",
@@ -1809,15 +1521,11 @@
       "gh_email": "Shaik.Saleem@careedge.in",
       "analyst_email": "Amy.Thomas@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
       "company": "Union Bank of India",
@@ -1827,15 +1535,11 @@
       "gh_email": "Aditya.Acharekar@careedge.in",
       "analyst_email": "Dhruv.Shah1@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
       "company": "State Bank of India",
@@ -1845,15 +1549,11 @@
       "gh_email": "Aditya.Acharekar@careedge.in",
       "analyst_email": "Dhruv.Shah1@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
       "company": "Arya Fin-Trade Services (India) Private Limited",
@@ -1863,15 +1563,11 @@
       "gh_email": "Shaik.Saleem@careedge.in",
       "analyst_email": "lokesh.warjurkar@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
       "company": "Asthana Rural Development & Services Private Limited",
@@ -1881,15 +1577,11 @@
       "gh_email": "Shreekiran.Rao@careedge.in",
       "analyst_email": "Punit.Joshi@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
       "company": "Aavas Financiers Limited",
@@ -1899,15 +1591,11 @@
       "gh_email": "Jatin.Arora@careedge.in",
       "analyst_email": "sudeeksha.rathi@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
       "company": "Auriolus Finvest",
@@ -1917,15 +1605,11 @@
       "gh_email": "Jatin.Arora@careedge.in",
       "analyst_email": "swapnil.lohani@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
       "company": "Canara Bank",
@@ -1935,15 +1619,11 @@
       "gh_email": "Aditya.Acharekar@careedge.in",
       "analyst_email": "Dhruv.Shah1@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
       "company": "Central Bank of India",
@@ -1953,15 +1633,11 @@
       "gh_email": "Aditya.Acharekar@careedge.in",
       "analyst_email": "Shrey.Bohra@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
       "company": "Bank of India",
@@ -1971,15 +1647,11 @@
       "gh_email": "Aditya.Acharekar@careedge.in",
       "analyst_email": "Shrey.Bohra@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
       "company": "Truhome Finance Limited",
@@ -1989,15 +1661,11 @@
       "gh_email": "Aditya.Acharekar@careedge.in",
       "analyst_email": "Dhruv.Shah1@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
       "company": "ART Housing Finance India Limited",
@@ -2007,15 +1675,11 @@
       "gh_email": "Jatin.Arora@careedge.in",
       "analyst_email": "jaya.gupta@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
       "company": "ICICI Bank Limited",
@@ -2025,15 +1689,11 @@
       "gh_email": "Yogesh.Rochani@careedge.in",
       "analyst_email": "Sehdev.Pahwa@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
       "company": "Bandhan Mutual Fund (BLR)",
@@ -2043,15 +1703,11 @@
       "gh_email": "Yogesh.Rochani@careedge.in",
       "analyst_email": "Ujjwala.Oke@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
       "company": "Aditya Birla Sun Life Mutual Fund",
@@ -2061,15 +1717,11 @@
       "gh_email": "Shaik.Saleem@careedge.in",
       "analyst_email": "kumer.bisht@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
       "company": "Finnable Credit Private Limited",
@@ -2079,15 +1731,11 @@
       "gh_email": "Shreekiran.Rao@careedge.in",
       "analyst_email": "tony.mathew@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
       "company": "Midland Microfin Limited",
@@ -2097,33 +1745,29 @@
       "gh_email": "Jatin.Arora@careedge.in",
       "analyst_email": "jaya.gupta@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
       "company": "Fedbank Financial Services Limited",
       "gh_name": "Jitendra",
       "analyst_name": "Pooja",
       "rh_name": "Vineet",
-      "gh_email": "jitendra.meghrajani@careedge.in",
+      "gh_email": "jitendra.meghrajani@careedge.in, pranjal.mulekar@careedge.in, om.tupe@careedge.in, pooja.biyani@careedge.in, Krish.hablani@careedge.in",
       "analyst_email": "pooja.biyani@careedge.in",
       "rh_email": "",
       "send_gh": true,
-      "send_analyst": true,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
       "sections": [
         "S1",
         "S2",
         "S3"
-      ]
+      ],
+      "sector": "BFSI"
     },
     {
       "company": "Keshava Prabha Microfin Private Limited",
@@ -2134,14 +1778,14 @@
       "analyst_email": "Pranav.Viswanathan@careedge.in",
       "rh_email": "",
       "send_gh": true,
-      "send_analyst": true,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
       "sections": [
         "S1",
         "S2",
         "S3"
-      ]
+      ],
+      "sector": "BFSI"
     },
     {
       "company": "Cars24 Financial Services Private Limited",
@@ -2151,15 +1795,11 @@
       "gh_email": "Jatin.Arora@careedge.in",
       "analyst_email": "swapnil.lohani@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
       "company": "Flat White Capital Private Limited",
@@ -2169,15 +1809,11 @@
       "gh_email": "Jatin.Arora@careedge.in",
       "analyst_email": "swapnil.lohani@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
       "company": "Setia Auto Finance Private Limited",
@@ -2187,51 +1823,47 @@
       "gh_email": "Shreekiran.Rao@careedge.in",
       "analyst_email": "Punit.Nyati@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
       "company": "Svatantra Micro Housing Finance Corporation Limited",
       "gh_name": "Jitendra",
       "analyst_name": "Pranjal",
       "rh_name": "Vineet",
-      "gh_email": "jitendra.meghrajani@careedge.in",
+      "gh_email": "jitendra.meghrajani@careedge.in, pranjal.mulekar@careedge.in, om.tupe@careedge.in, pooja.biyani@careedge.in, Krish.hablani@careedge.in",
       "analyst_email": "pranjal.mulekar@careedge.in",
       "rh_email": "",
       "send_gh": true,
-      "send_analyst": true,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
       "sections": [
         "S1",
         "S2",
         "S3"
-      ]
+      ],
+      "sector": "BFSI"
     },
     {
       "company": "Svatantra Microfin Limited",
       "gh_name": "Jitendra",
       "analyst_name": "Pranjal",
       "rh_name": "Vineet",
-      "gh_email": "jitendra.meghrajani@careedge.in",
+      "gh_email": "jitendra.meghrajani@careedge.in, pranjal.mulekar@careedge.in, om.tupe@careedge.in, pooja.biyani@careedge.in, Krish.hablani@careedge.in",
       "analyst_email": "pranjal.mulekar@careedge.in",
       "rh_email": "",
       "send_gh": true,
-      "send_analyst": true,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
       "sections": [
         "S1",
         "S2",
         "S3"
-      ]
+      ],
+      "sector": "BFSI"
     },
     {
       "company": "RAR Fincare Limited",
@@ -2242,50 +1874,50 @@
       "analyst_email": "Hareesh.H@careedge.in",
       "rh_email": "",
       "send_gh": true,
-      "send_analyst": true,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
       "sections": [
         "S1",
         "S2",
         "S3"
-      ]
+      ],
+      "sector": "BFSI"
     },
     {
       "company": "Aseem Infrastructure Finance Limited",
       "gh_name": "Jitendra",
       "analyst_name": "Pooja",
       "rh_name": "Vineet",
-      "gh_email": "jitendra.meghrajani@careedge.in",
+      "gh_email": "jitendra.meghrajani@careedge.in, pranjal.mulekar@careedge.in, om.tupe@careedge.in, pooja.biyani@careedge.in, Krish.hablani@careedge.in",
       "analyst_email": "pooja.biyani@careedge.in",
       "rh_email": "",
       "send_gh": true,
-      "send_analyst": true,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
       "sections": [
         "S1",
         "S2",
         "S3"
-      ]
+      ],
+      "sector": "BFSI"
     },
     {
       "company": "Red Fort Capital Finance Company Private Limited",
       "gh_name": "Jitendra",
       "analyst_name": "OM",
       "rh_name": "Vineet",
-      "gh_email": "jitendra.meghrajani@careedge.in",
+      "gh_email": "jitendra.meghrajani@careedge.in, pranjal.mulekar@careedge.in, om.tupe@careedge.in, pooja.biyani@careedge.in, Krish.hablani@careedge.in",
       "analyst_email": "om.tupe@careedge.in",
       "rh_email": "",
       "send_gh": true,
-      "send_analyst": true,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
       "sections": [
         "S1",
         "S2",
         "S3"
-      ]
+      ],
+      "sector": "BFSI"
     },
     {
       "company": "Yogakshemam Loans Limited",
@@ -2296,14 +1928,14 @@
       "analyst_email": "Pranav.Viswanathan@careedge.in",
       "rh_email": "",
       "send_gh": true,
-      "send_analyst": true,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
       "sections": [
         "S1",
         "S2",
         "S3"
-      ]
+      ],
+      "sector": "BFSI"
     },
     {
       "company": "The Puducherry Public Servants Co-op. Credit Society Ltd P-52",
@@ -2313,15 +1945,11 @@
       "gh_email": "Aditya.Acharekar@careedge.in",
       "analyst_email": "Shrey.Bohra@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
       "company": "Star Housing Finance Limited",
@@ -2332,14 +1960,14 @@
       "analyst_email": "Pulkit.Jain@careedge.in",
       "rh_email": "",
       "send_gh": true,
-      "send_analyst": true,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
       "sections": [
         "S1",
         "S2",
         "S3"
-      ]
+      ],
+      "sector": "BFSI"
     },
     {
       "company": "Manipal Cigna Health Insurance Company Limited",
@@ -2349,15 +1977,11 @@
       "gh_email": "Shreekiran.Rao@careedge.in",
       "analyst_email": "Punit.Nyati@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
       "company": "LIC Housing Finance Limited",
@@ -2367,15 +1991,11 @@
       "gh_email": "Shaik.Saleem@careedge.in",
       "analyst_email": "Shivam.Katkar@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
       "company": "ECAP EQUITIES LIMITED (formerly known as EDEL LAND LIMITED)",
@@ -2386,14 +2006,14 @@
       "analyst_email": "Pulkit.Jain@careedge.in",
       "rh_email": "",
       "send_gh": true,
-      "send_analyst": true,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
       "sections": [
         "S1",
         "S2",
         "S3"
-      ]
+      ],
+      "sector": "BFSI"
     },
     {
       "company": "ECL Finance Limited",
@@ -2404,14 +2024,14 @@
       "analyst_email": "Pulkit.Jain@careedge.in",
       "rh_email": "",
       "send_gh": true,
-      "send_analyst": true,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
       "sections": [
         "S1",
         "S2",
         "S3"
-      ]
+      ],
+      "sector": "BFSI"
     },
     {
       "company": "Edel Finance Company Limited",
@@ -2422,14 +2042,14 @@
       "analyst_email": "Anushka.Bothra@careedge.in",
       "rh_email": "",
       "send_gh": true,
-      "send_analyst": true,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
       "sections": [
         "S1",
         "S2",
         "S3"
-      ]
+      ],
+      "sector": "BFSI"
     },
     {
       "company": "Edelweiss Asset Reconstruction Company Limited",
@@ -2440,14 +2060,14 @@
       "analyst_email": "Anushka.Bothra@careedge.in",
       "rh_email": "",
       "send_gh": true,
-      "send_analyst": true,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
       "sections": [
         "S1",
         "S2",
         "S3"
-      ]
+      ],
+      "sector": "BFSI"
     },
     {
       "company": "Edelweiss Financial Services Limited",
@@ -2458,14 +2078,14 @@
       "analyst_email": "Anushka.Bothra@careedge.in",
       "rh_email": "",
       "send_gh": true,
-      "send_analyst": true,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
       "sections": [
         "S1",
         "S2",
         "S3"
-      ]
+      ],
+      "sector": "BFSI"
     },
     {
       "company": "Nido Home Finance Limited",
@@ -2476,14 +2096,14 @@
       "analyst_email": "Anushka.Bothra@careedge.in",
       "rh_email": "",
       "send_gh": true,
-      "send_analyst": true,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
       "sections": [
         "S1",
         "S2",
         "S3"
-      ]
+      ],
+      "sector": "BFSI"
     },
     {
       "company": "Svasti Microfinance Private Limited",
@@ -2493,15 +2113,11 @@
       "gh_email": "Shreekiran.Rao@careedge.in",
       "analyst_email": "Ravi.Nayak@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
       "company": "Home Credit India Finance Private Limited",
@@ -2512,14 +2128,14 @@
       "analyst_email": "Hareesh.H@careedge.in",
       "rh_email": "",
       "send_gh": true,
-      "send_analyst": true,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
       "sections": [
         "S1",
         "S2",
         "S3"
-      ]
+      ],
+      "sector": "BFSI"
     },
     {
       "company": "TVS Holdings Limited",
@@ -2530,14 +2146,14 @@
       "analyst_email": "Hareesh.H@careedge.in",
       "rh_email": "",
       "send_gh": true,
-      "send_analyst": true,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
       "sections": [
         "S1",
         "S2",
         "S3"
-      ]
+      ],
+      "sector": "BFSI"
     },
     {
       "company": "TVS Credit Services Limited",
@@ -2548,14 +2164,14 @@
       "analyst_email": "Hareesh.H@careedge.in",
       "rh_email": "",
       "send_gh": true,
-      "send_analyst": true,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
       "sections": [
         "S1",
         "S2",
         "S3"
-      ]
+      ],
+      "sector": "BFSI"
     },
     {
       "company": "Salem Erode Investments Limited",
@@ -2566,14 +2182,14 @@
       "analyst_email": "Hareesh.H@careedge.in",
       "rh_email": "",
       "send_gh": true,
-      "send_analyst": true,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
       "sections": [
         "S1",
         "S2",
         "S3"
-      ]
+      ],
+      "sector": "BFSI"
     },
     {
       "company": "Grow Money Capital Private Limited",
@@ -2583,15 +2199,11 @@
       "gh_email": "Jatin.Arora@careedge.in",
       "analyst_email": "swapnil.lohani@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
       "company": "India Mortgage Guarantee Corporation Private Limited",
@@ -2601,15 +2213,11 @@
       "gh_email": "Jatin.Arora@careedge.in",
       "analyst_email": "shweta.sharma@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
       "company": "Utkarsh Small Finance Bank Limited",
@@ -2619,15 +2227,11 @@
       "gh_email": "Yogesh.Rochani@careedge.in",
       "analyst_email": "Ujjwala.Oke@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
       "company": "Oxyzo Finance",
@@ -2637,15 +2241,11 @@
       "gh_email": "Jatin.Arora@careedge.in",
       "analyst_email": "sudeeksha.rathi@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
       "company": "Can Fin Homes Limited",
@@ -2655,15 +2255,11 @@
       "gh_email": "Shreekiran.Rao@careedge.in",
       "analyst_email": "tony.mathew@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
       "company": "Hero Fincorp Limited",
@@ -2673,69 +2269,65 @@
       "gh_email": "Jatin.Arora@careedge.in",
       "analyst_email": "swapnil.lohani@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
       "company": "STCI Finance Limited",
       "gh_name": "Jitendra",
       "analyst_name": "OM",
       "rh_name": "Vineet",
-      "gh_email": "jitendra.meghrajani@careedge.in",
+      "gh_email": "jitendra.meghrajani@careedge.in, pranjal.mulekar@careedge.in, om.tupe@careedge.in, pooja.biyani@careedge.in, Krish.hablani@careedge.in",
       "analyst_email": "om.tupe@careedge.in",
       "rh_email": "",
       "send_gh": true,
-      "send_analyst": true,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
       "sections": [
         "S1",
         "S2",
         "S3"
-      ]
+      ],
+      "sector": "BFSI"
     },
     {
       "company": "Spark Institutional Equities Private Limited",
       "gh_name": "Jitendra",
       "analyst_name": "Pooja",
       "rh_name": "Vineet",
-      "gh_email": "jitendra.meghrajani@careedge.in",
+      "gh_email": "jitendra.meghrajani@careedge.in, pranjal.mulekar@careedge.in, om.tupe@careedge.in, pooja.biyani@careedge.in, Krish.hablani@careedge.in",
       "analyst_email": "pooja.biyani@careedge.in",
       "rh_email": "",
       "send_gh": true,
-      "send_analyst": true,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
       "sections": [
         "S1",
         "S2",
         "S3"
-      ]
+      ],
+      "sector": "BFSI"
     },
     {
       "company": "Avendus Finance Private Limited",
       "gh_name": "Jitendra",
       "analyst_name": "Pooja",
       "rh_name": "Vineet",
-      "gh_email": "jitendra.meghrajani@careedge.in",
+      "gh_email": "jitendra.meghrajani@careedge.in, pranjal.mulekar@careedge.in, om.tupe@careedge.in, pooja.biyani@careedge.in, Krish.hablani@careedge.in",
       "analyst_email": "pooja.biyani@careedge.in",
       "rh_email": "",
       "send_gh": true,
-      "send_analyst": true,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
       "sections": [
         "S1",
         "S2",
         "S3"
-      ]
+      ],
+      "sector": "BFSI"
     },
     {
       "company": "Coimbatore Capital Limited",
@@ -2745,15 +2337,11 @@
       "gh_email": "Shreekiran.Rao@careedge.in",
       "analyst_email": "Punit.Nyati@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
       "company": "Au Small Finance Bank Limited",
@@ -2763,15 +2351,11 @@
       "gh_email": "Yogesh.Rochani@careedge.in",
       "analyst_email": "Yashika.Goyal@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
       "company": "Godrej Finance Limited",
@@ -2782,14 +2366,14 @@
       "analyst_email": "Pulkit.Jain@careedge.in",
       "rh_email": "",
       "send_gh": true,
-      "send_analyst": true,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
       "sections": [
         "S1",
         "S2",
         "S3"
-      ]
+      ],
+      "sector": "BFSI"
     },
     {
       "company": "Godrej Housing Finance Limited",
@@ -2800,14 +2384,14 @@
       "analyst_email": "Pulkit.Jain@careedge.in",
       "rh_email": "",
       "send_gh": true,
-      "send_analyst": true,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
       "sections": [
         "S1",
         "S2",
         "S3"
-      ]
+      ],
+      "sector": "BFSI"
     },
     {
       "company": "North Eastern Development Finance Corporation Limited",
@@ -2817,15 +2401,11 @@
       "gh_email": "Aditya.Acharekar@careedge.in",
       "analyst_email": "Shrey.Bohra@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
       "company": "Punjab National Bank",
@@ -2835,15 +2415,11 @@
       "gh_email": "Aditya.Acharekar@careedge.in",
       "analyst_email": "Shrey.Bohra@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
       "company": "Indresh Financial",
@@ -2853,15 +2429,11 @@
       "gh_email": "Jatin.Arora@careedge.in",
       "analyst_email": "swapnil.lohani@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
       "company": "Axis Finance Limited",
@@ -2871,15 +2443,11 @@
       "gh_email": "Yogesh.Rochani@careedge.in",
       "analyst_email": "Ujjwala.Oke@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
       "company": "Savery Transport Finance Limited",
@@ -2890,14 +2458,14 @@
       "analyst_email": "Pranav.Viswanathan@careedge.in",
       "rh_email": "",
       "send_gh": true,
-      "send_analyst": true,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
       "sections": [
         "S1",
         "S2",
         "S3"
-      ]
+      ],
+      "sector": "BFSI"
     },
     {
       "company": "Madhya Pradesh Financial Corporation",
@@ -2907,15 +2475,11 @@
       "gh_email": "Shreekiran.Rao@careedge.in",
       "analyst_email": "Punit.Joshi@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
       "company": "Union Mutual Fund (BLR)",
@@ -2925,15 +2489,11 @@
       "gh_email": "Yogesh.Rochani@careedge.in",
       "analyst_email": "Sehdev.Pahwa@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
       "company": "Ambium Finserve Limited",
@@ -2943,15 +2503,11 @@
       "gh_email": "Shreekiran.Rao@careedge.in",
       "analyst_email": "tony.mathew@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
       "company": "Taru Agencies and Investment Private Limited",
@@ -2961,15 +2517,11 @@
       "gh_email": "Jatin.Arora@careedge.in",
       "analyst_email": "jaya.gupta@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
       "company": "Mas Financial Services Limited",
@@ -2979,15 +2531,11 @@
       "gh_email": "Shaik.Saleem@careedge.in",
       "analyst_email": "Shivam.Katkar@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
       "company": "MAS Rural Housing and Mortgage Finance Limited",
@@ -2997,15 +2545,11 @@
       "gh_email": "Shaik.Saleem@careedge.in",
       "analyst_email": "Shivam.Katkar@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
       "company": "Tata Capital Limited",
@@ -3016,14 +2560,14 @@
       "analyst_email": "Anushka.Bothra@careedge.in",
       "rh_email": "",
       "send_gh": true,
-      "send_analyst": true,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
       "sections": [
         "S1",
         "S2",
         "S3"
-      ]
+      ],
+      "sector": "BFSI"
     },
     {
       "company": "Darashaw and Company Private Limited",
@@ -3033,15 +2577,11 @@
       "gh_email": "Shaik.Saleem@careedge.in",
       "analyst_email": "Amy.Thomas@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
       "company": "ICICI Prudential Mutual Fund - BLR",
@@ -3051,15 +2591,11 @@
       "gh_email": "Shaik.Saleem@careedge.in",
       "analyst_email": "kumer.bisht@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
       "company": "Arohan Financial Services Limited",
@@ -3069,15 +2605,11 @@
       "gh_email": "Shreekiran.Rao@careedge.in",
       "analyst_email": "tony.mathew@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
       "company": "Akme Fintrade (India) Limited",
@@ -3087,15 +2619,11 @@
       "gh_email": "Jatin.Arora@careedge.in",
       "analyst_email": "shweta.sharma@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
       "company": "Aryadhan Financial Solutions Private Limited",
@@ -3105,15 +2633,11 @@
       "gh_email": "Jatin.Arora@careedge.in",
       "analyst_email": "shweta.sharma@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
       "company": "Bahadur Chand Investments Private Limited",
@@ -3123,15 +2647,11 @@
       "gh_email": "Jatin.Arora@careedge.in",
       "analyst_email": "shweta.sharma@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
       "company": "Indian Bank",
@@ -3141,15 +2661,11 @@
       "gh_email": "Aditya.Acharekar@careedge.in",
       "analyst_email": "Dhruv.Shah1@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
       "company": "The Kalupur Commercial Co-Operative Bank Limited",
@@ -3159,51 +2675,47 @@
       "gh_email": "Aditya.Acharekar@careedge.in",
       "analyst_email": "Shrey.Bohra@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
       "company": "Hiranandani Financial Services Private Limited",
       "gh_name": "Jitendra",
       "analyst_name": "OM",
       "rh_name": "Vineet",
-      "gh_email": "jitendra.meghrajani@careedge.in",
+      "gh_email": "jitendra.meghrajani@careedge.in, pranjal.mulekar@careedge.in, om.tupe@careedge.in, pooja.biyani@careedge.in, Krish.hablani@careedge.in",
       "analyst_email": "om.tupe@careedge.in",
       "rh_email": "",
       "send_gh": true,
-      "send_analyst": true,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
       "sections": [
         "S1",
         "S2",
         "S3"
-      ]
+      ],
+      "sector": "BFSI"
     },
     {
       "company": "Khushbu Auto Finance Limited",
       "gh_name": "Jitendra",
       "analyst_name": "OM",
       "rh_name": "Vineet",
-      "gh_email": "jitendra.meghrajani@careedge.in",
+      "gh_email": "jitendra.meghrajani@careedge.in, pranjal.mulekar@careedge.in, om.tupe@careedge.in, pooja.biyani@careedge.in, Krish.hablani@careedge.in",
       "analyst_email": "om.tupe@careedge.in",
       "rh_email": "",
       "send_gh": true,
-      "send_analyst": true,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
       "sections": [
         "S1",
         "S2",
         "S3"
-      ]
+      ],
+      "sector": "BFSI"
     },
     {
       "company": "Namra Finance Limited",
@@ -3213,15 +2725,11 @@
       "gh_email": "Shreekiran.Rao@careedge.in",
       "analyst_email": "Ravi.Nayak@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
       "company": "Arman Financial Services Limited",
@@ -3231,15 +2739,11 @@
       "gh_email": "Shreekiran.Rao@careedge.in",
       "analyst_email": "Ravi.Nayak@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
       "company": "The Karur Vysya Bank Limited",
@@ -3249,15 +2753,11 @@
       "gh_email": "Aditya.Acharekar@careedge.in",
       "analyst_email": "Dhruv.Shah1@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
       "company": "ICICI Securities Primary Dealership Limited",
@@ -3267,15 +2767,11 @@
       "gh_email": "Yogesh.Rochani@careedge.in",
       "analyst_email": "Sehdev.Pahwa@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
       "company": "Best Finance Corporation Limited",
@@ -3286,14 +2782,14 @@
       "analyst_email": "Hareesh.H@careedge.in",
       "rh_email": "",
       "send_gh": true,
-      "send_analyst": true,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
       "sections": [
         "S1",
         "S2",
         "S3"
-      ]
+      ],
+      "sector": "BFSI"
     },
     {
       "company": "Navi Finserv Limited",
@@ -3303,15 +2799,11 @@
       "gh_email": "Shreekiran.Rao@careedge.in",
       "analyst_email": "tony.mathew@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
       "company": "Amrit Malwa Capital Limited",
@@ -3321,15 +2813,11 @@
       "gh_email": "Jatin.Arora@careedge.in",
       "analyst_email": "swapnil.lohani@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
       "company": "Capital Trust Limited",
@@ -3339,15 +2827,11 @@
       "gh_email": "Jatin.Arora@careedge.in",
       "analyst_email": "jaya.gupta@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
       "company": "GIC-Bhutan Reinsurance Company Limited",
@@ -3357,15 +2841,11 @@
       "gh_email": "Shaik.Saleem@careedge.in",
       "analyst_email": "Shivam.Katkar@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
       "company": "Shriram Finance Limited",
@@ -3376,14 +2856,14 @@
       "analyst_email": "Anushka.Bothra@careedge.in",
       "rh_email": "",
       "send_gh": true,
-      "send_analyst": true,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
       "sections": [
         "S1",
         "S2",
         "S3"
-      ]
+      ],
+      "sector": "BFSI"
     },
     {
       "company": "Muthoot Mcred Limited",
@@ -3393,15 +2873,11 @@
       "gh_email": "Shreekiran.Rao@careedge.in",
       "analyst_email": "Punit.Joshi@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
       "company": "IL&FS Financial Services Limited",
@@ -3411,15 +2887,11 @@
       "gh_email": "Aditya.Acharekar@careedge.in",
       "analyst_email": "Shrey.Bohra@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
       "company": "Infrastructure Leasing & Financial Services Limited",
@@ -3429,15 +2901,11 @@
       "gh_email": "Aditya.Acharekar@careedge.in",
       "analyst_email": "Shrey.Bohra@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
       "company": "The Gujarat State Co Operative Bank Limited",
@@ -3447,15 +2915,11 @@
       "gh_email": "Aditya.Acharekar@careedge.in",
       "analyst_email": "Shrey.Bohra@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
       "company": "SBI Mutual Fund - BLR",
@@ -3465,15 +2929,11 @@
       "gh_email": "Shaik.Saleem@careedge.in",
       "analyst_email": "kumer.bisht@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
       "company": "HDFC Bank Limited",
@@ -3483,15 +2943,11 @@
       "gh_email": "Shaik.Saleem@careedge.in",
       "analyst_email": "lokesh.warjurkar@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
       "company": "Cholamandalam Investment And Finance Company Limited",
@@ -3502,14 +2958,14 @@
       "analyst_email": "Hareesh.H@careedge.in",
       "rh_email": "",
       "send_gh": true,
-      "send_analyst": true,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
       "sections": [
         "S1",
         "S2",
         "S3"
-      ]
+      ],
+      "sector": "BFSI"
     },
     {
       "company": "Asirvad Micro Finance Limited",
@@ -3519,15 +2975,11 @@
       "gh_email": "Aditya.Acharekar@careedge.in",
       "analyst_email": "Dhruv.Shah1@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
       "company": "IL&FS Securities Services Limited",
@@ -3537,15 +2989,11 @@
       "gh_email": "Aditya.Acharekar@careedge.in",
       "analyst_email": "Dhruv.Shah1@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
       "company": "Manappuram Finance Limited",
@@ -3555,15 +3003,11 @@
       "gh_email": "Aditya.Acharekar@careedge.in",
       "analyst_email": "Dhruv.Shah1@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
       "company": "Manappuram Home Finance Limited",
@@ -3573,15 +3017,11 @@
       "gh_email": "Aditya.Acharekar@careedge.in",
       "analyst_email": "Shrey.Bohra@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
       "company": "Viksit Capital Private Limited",
@@ -3591,15 +3031,11 @@
       "gh_email": "Aditya.Acharekar@careedge.in",
       "analyst_email": "Dhruv.Shah1@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
       "company": "Annapurna Finance Private Limited",
@@ -3609,15 +3045,11 @@
       "gh_email": "Shreekiran.Rao@careedge.in",
       "analyst_email": "Ravi.Nayak@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
       "company": "General Insurance Corporation of India",
@@ -3627,15 +3059,11 @@
       "gh_email": "Shaik.Saleem@careedge.in",
       "analyst_email": "Shivam.Katkar@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
       "company": "CLIX Capital Services Private Limited",
@@ -3645,15 +3073,11 @@
       "gh_email": "Jatin.Arora@careedge.in",
       "analyst_email": "sudeeksha.rathi@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
       "company": "Meet Finance Private Limited",
@@ -3663,33 +3087,29 @@
       "gh_email": "Aditya.Acharekar@careedge.in",
       "analyst_email": "Dhruv.Shah1@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
       "company": "Way2Wealth Brokers Private Limited",
       "gh_name": "Jitendra",
       "analyst_name": "Krish H",
       "rh_name": "Vineet",
-      "gh_email": "jitendra.meghrajani@careedge.in",
+      "gh_email": "jitendra.meghrajani@careedge.in, pranjal.mulekar@careedge.in, om.tupe@careedge.in, pooja.biyani@careedge.in, Krish.hablani@careedge.in",
       "analyst_email": "krish.hablani@careedge.in",
       "rh_email": "",
       "send_gh": true,
-      "send_analyst": true,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
       "sections": [
         "S1",
         "S2",
         "S3"
-      ]
+      ],
+      "sector": "BFSI"
     },
     {
       "company": "SK Finance Limited",
@@ -3699,15 +3119,11 @@
       "gh_email": "Shaik.Saleem@careedge.in",
       "analyst_email": "Shivam.Katkar@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
       "company": "Axis Max Life Insurance Limited",
@@ -3717,15 +3133,11 @@
       "gh_email": "Shreekiran.Rao@careedge.in",
       "analyst_email": "Punit.Joshi@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
       "company": "Roha Housing Finance Private Limited",
@@ -3735,15 +3147,11 @@
       "gh_email": "Jatin.Arora@careedge.in",
       "analyst_email": "jaya.gupta@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
       "company": "UCO Bank",
@@ -3753,33 +3161,29 @@
       "gh_email": "Aditya.Acharekar@careedge.in",
       "analyst_email": "Dhruv.Shah1@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
       "company": "Auxilo Finserve Private Limited",
       "gh_name": "Jitendra",
       "analyst_name": "Krish H",
       "rh_name": "Vineet",
-      "gh_email": "jitendra.meghrajani@careedge.in",
+      "gh_email": "jitendra.meghrajani@careedge.in, pranjal.mulekar@careedge.in, om.tupe@careedge.in, pooja.biyani@careedge.in, Krish.hablani@careedge.in",
       "analyst_email": "krish.hablani@careedge.in",
       "rh_email": "",
       "send_gh": true,
-      "send_analyst": true,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
       "sections": [
         "S1",
         "S2",
         "S3"
-      ]
+      ],
+      "sector": "BFSI"
     },
     {
       "company": "Bandhan Life Insurance Limited",
@@ -3789,33 +3193,29 @@
       "gh_email": "Shreekiran.Rao@careedge.in",
       "analyst_email": "Punit.Nyati@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
       "company": "Infinity Fincorp Solutions Private Limited",
       "gh_name": "Jitendra",
       "analyst_name": "Pooja",
       "rh_name": "Vineet",
-      "gh_email": "jitendra.meghrajani@careedge.in",
+      "gh_email": "jitendra.meghrajani@careedge.in, pranjal.mulekar@careedge.in, om.tupe@careedge.in, pooja.biyani@careedge.in, Krish.hablani@careedge.in",
       "analyst_email": "pooja.biyani@careedge.in",
       "rh_email": "",
       "send_gh": true,
-      "send_analyst": true,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
       "sections": [
         "S1",
         "S2",
         "S3"
-      ]
+      ],
+      "sector": "BFSI"
     },
     {
       "company": "Mirae Asset Investment Managers (India) Private Limited (CQR)",
@@ -3825,15 +3225,11 @@
       "gh_email": "Shaik.Saleem@careedge.in",
       "analyst_email": "lokesh.warjurkar@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
       "company": "Gosree Finance Limited",
@@ -3844,14 +3240,14 @@
       "analyst_email": "Pranav.Viswanathan@careedge.in",
       "rh_email": "",
       "send_gh": true,
-      "send_analyst": true,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
       "sections": [
         "S1",
         "S2",
         "S3"
-      ]
+      ],
+      "sector": "BFSI"
     },
     {
       "company": "Raise Fintech Ventures Private Limited",
@@ -3861,15 +3257,11 @@
       "gh_email": "Shaik.Saleem@careedge.in",
       "analyst_email": "lokesh.warjurkar@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
       "company": "The Clearing Corporation of India Limited",
@@ -3880,14 +3272,14 @@
       "analyst_email": "Anushka.Bothra@careedge.in",
       "rh_email": "",
       "send_gh": true,
-      "send_analyst": true,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
       "sections": [
         "S1",
         "S2",
         "S3"
-      ]
+      ],
+      "sector": "BFSI"
     },
     {
       "company": "Multi Commodity Exchange Clearing Corporation Limited",
@@ -3898,14 +3290,14 @@
       "analyst_email": "Pulkit.Jain@careedge.in",
       "rh_email": "",
       "send_gh": true,
-      "send_analyst": true,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
       "sections": [
         "S1",
         "S2",
         "S3"
-      ]
+      ],
+      "sector": "BFSI"
     },
     {
       "company": "Bizloan Private Limited",
@@ -3915,15 +3307,11 @@
       "gh_email": "Jatin.Arora@careedge.in",
       "analyst_email": "jaya.gupta@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
       "company": "CSA Investments Private Limited",
@@ -3933,15 +3321,11 @@
       "gh_email": "Jatin.Arora@careedge.in",
       "analyst_email": "swapnil.lohani@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
       "company": "Housing and Urban Development Corporation Limited",
@@ -3951,33 +3335,29 @@
       "gh_email": "Jatin.Arora@careedge.in",
       "analyst_email": "sudeeksha.rathi@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
       "company": "Mantra Capital Limited",
       "gh_name": "Jitendra",
       "analyst_name": "OM",
       "rh_name": "Vineet",
-      "gh_email": "jitendra.meghrajani@careedge.in",
+      "gh_email": "jitendra.meghrajani@careedge.in, pranjal.mulekar@careedge.in, om.tupe@careedge.in, pooja.biyani@careedge.in, Krish.hablani@careedge.in",
       "analyst_email": "om.tupe@careedge.in",
       "rh_email": "",
       "send_gh": true,
-      "send_analyst": true,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
       "sections": [
         "S1",
         "S2",
         "S3"
-      ]
+      ],
+      "sector": "BFSI"
     },
     {
       "company": "City Union Bank Limited",
@@ -3987,15 +3367,11 @@
       "gh_email": "Aditya.Acharekar@careedge.in",
       "analyst_email": "Dhruv.Shah1@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
       "company": "Pantomath Capital Advisors Private Limited",
@@ -4005,15 +3381,11 @@
       "gh_email": "Yogesh.Rochani@careedge.in",
       "analyst_email": "Ujjwala.Oke@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
       "company": "Aham Housing Finance Limited",
@@ -4024,14 +3396,14 @@
       "analyst_email": "Pranav.Viswanathan@careedge.in",
       "rh_email": "",
       "send_gh": true,
-      "send_analyst": true,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
       "sections": [
         "S1",
         "S2",
         "S3"
-      ]
+      ],
+      "sector": "BFSI"
     },
     {
       "company": "NTC Finance Private Limited",
@@ -4042,14 +3414,14 @@
       "analyst_email": "Hareesh.H@careedge.in",
       "rh_email": "",
       "send_gh": true,
-      "send_analyst": true,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
       "sections": [
         "S1",
         "S2",
         "S3"
-      ]
+      ],
+      "sector": "BFSI"
     },
     {
       "company": "INFINA Finance Private Limited",
@@ -4059,15 +3431,11 @@
       "gh_email": "Yogesh.Rochani@careedge.in",
       "analyst_email": "Sehdev.Pahwa@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
       "company": "Magalir Micro Capital Private Limited",
@@ -4077,15 +3445,11 @@
       "gh_email": "Shreekiran.Rao@careedge.in",
       "analyst_email": "tony.mathew@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
       "company": "Kamal Autofinance Private Limited",
@@ -4095,15 +3459,11 @@
       "gh_email": "Shaik.Saleem@careedge.in",
       "analyst_email": "Amy.Thomas@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
       "company": "Finkurve Financial Services Limited",
@@ -4114,14 +3474,14 @@
       "analyst_email": "Pulkit.Jain@careedge.in",
       "rh_email": "",
       "send_gh": true,
-      "send_analyst": true,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
       "sections": [
         "S1",
         "S2",
         "S3"
-      ]
+      ],
+      "sector": "BFSI"
     },
     {
       "company": "Punjab Infrastructure Development Board",
@@ -4131,15 +3491,11 @@
       "gh_email": "Jatin.Arora@careedge.in",
       "analyst_email": "sudeeksha.rathi@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
       "company": "Sagarmala Finance Corporation Limited",
@@ -4149,15 +3505,11 @@
       "gh_email": "Jatin.Arora@careedge.in",
       "analyst_email": "sudeeksha.rathi@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
       "company": "Capital Small Finance Bank Limited",
@@ -4167,15 +3519,11 @@
       "gh_email": "Yogesh.Rochani@careedge.in",
       "analyst_email": "Yashika.Goyal@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
       "company": "Invesco Asset Management (India) Private Limited (BLR)",
@@ -4185,33 +3533,29 @@
       "gh_email": "Yogesh.Rochani@careedge.in",
       "analyst_email": "Yashika.Goyal@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
-      "company": "Micro Units Development and Refinance Agency Limited (MUDRA)",
+      "company": "Micro Units Development and Refinance Agency Limited",
       "gh_name": "Jitendra",
       "analyst_name": "Pranjal",
       "rh_name": "Vineet",
-      "gh_email": "jitendra.meghrajani@careedge.in",
+      "gh_email": "jitendra.meghrajani@careedge.in, pranjal.mulekar@careedge.in, om.tupe@careedge.in, pooja.biyani@careedge.in, Krish.hablani@careedge.in",
       "analyst_email": "pranjal.mulekar@careedge.in",
       "rh_email": "",
       "send_gh": true,
-      "send_analyst": true,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
       "sections": [
         "S1",
         "S2",
         "S3"
-      ]
+      ],
+      "sector": "BFSI"
     },
     {
       "company": "Ceejay Finance Limited",
@@ -4221,33 +3565,29 @@
       "gh_email": "Shreekiran.Rao@careedge.in",
       "analyst_email": "Punit.Nyati@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
       "company": "Integro Finserv Private Limited",
       "gh_name": "Jitendra",
       "analyst_name": "OM",
       "rh_name": "Vineet",
-      "gh_email": "jitendra.meghrajani@careedge.in",
+      "gh_email": "jitendra.meghrajani@careedge.in, pranjal.mulekar@careedge.in, om.tupe@careedge.in, pooja.biyani@careedge.in, Krish.hablani@careedge.in",
       "analyst_email": "om.tupe@careedge.in",
       "rh_email": "",
       "send_gh": true,
-      "send_analyst": true,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
       "sections": [
         "S1",
         "S2",
         "S3"
-      ]
+      ],
+      "sector": "BFSI"
     },
     {
       "company": "Magma General Insurance Limited",
@@ -4257,15 +3597,11 @@
       "gh_email": "Shreekiran.Rao@careedge.in",
       "analyst_email": "Punit.Joshi@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
       "company": "Grihum Housing Finance Limited",
@@ -4275,15 +3611,11 @@
       "gh_email": "Shaik.Saleem@careedge.in",
       "analyst_email": "Shivam.Katkar@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
       "company": "National Minorities Development & Finance Corporation",
@@ -4293,51 +3625,47 @@
       "gh_email": "Jatin.Arora@careedge.in",
       "analyst_email": "shweta.sharma@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
       "company": "Netzero Finance Private Limited",
       "gh_name": "Jitendra",
       "analyst_name": "Pranjal",
       "rh_name": "Vineet",
-      "gh_email": "jitendra.meghrajani@careedge.in",
+      "gh_email": "jitendra.meghrajani@careedge.in, pranjal.mulekar@careedge.in, om.tupe@careedge.in, pooja.biyani@careedge.in, Krish.hablani@careedge.in",
       "analyst_email": "pranjal.mulekar@careedge.in",
       "rh_email": "",
       "send_gh": true,
-      "send_analyst": true,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
       "sections": [
         "S1",
         "S2",
         "S3"
-      ]
+      ],
+      "sector": "BFSI"
     },
     {
       "company": "Kaleidofin Capital Private Limited",
       "gh_name": "Jitendra",
       "analyst_name": "OM",
       "rh_name": "Vineet",
-      "gh_email": "jitendra.meghrajani@careedge.in",
+      "gh_email": "jitendra.meghrajani@careedge.in, pranjal.mulekar@careedge.in, om.tupe@careedge.in, pooja.biyani@careedge.in, Krish.hablani@careedge.in",
       "analyst_email": "om.tupe@careedge.in",
       "rh_email": "",
       "send_gh": true,
-      "send_analyst": true,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
       "sections": [
         "S1",
         "S2",
         "S3"
-      ]
+      ],
+      "sector": "BFSI"
     },
     {
       "company": "Jana Small Finance Bank Limited",
@@ -4347,15 +3675,11 @@
       "gh_email": "Shreekiran.Rao@careedge.in",
       "analyst_email": "Ravi.Nayak@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
       "company": "Orocorp Technologies Private Limited",
@@ -4366,14 +3690,14 @@
       "analyst_email": "Hareesh.H@careedge.in",
       "rh_email": "",
       "send_gh": true,
-      "send_analyst": true,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
       "sections": [
         "S1",
         "S2",
         "S3"
-      ]
+      ],
+      "sector": "BFSI"
     },
     {
       "company": "Canara HSBC Life Insurance Company Limited",
@@ -4383,15 +3707,11 @@
       "gh_email": "Shaik.Saleem@careedge.in",
       "analyst_email": "Amy.Thomas@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
       "company": "Jewel Rock Hire Purchase and Leasing Private Limited",
@@ -4402,14 +3722,14 @@
       "analyst_email": "Pranav.Viswanathan@careedge.in",
       "rh_email": "",
       "send_gh": true,
-      "send_analyst": true,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
       "sections": [
         "S1",
         "S2",
         "S3"
-      ]
+      ],
+      "sector": "BFSI"
     },
     {
       "company": "Kanakadurga Finance Limited",
@@ -4419,15 +3739,11 @@
       "gh_email": "Shreekiran.Rao@careedge.in",
       "analyst_email": "tony.mathew@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
       "company": "Samaaru Finance Private Limited",
@@ -4437,15 +3753,11 @@
       "gh_email": "Yogesh.Rochani@careedge.in",
       "analyst_email": "Ujjwala.Oke@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
       "company": "SBI Payment Services Private Limited",
@@ -4455,15 +3767,11 @@
       "gh_email": "Aditya.Acharekar@careedge.in",
       "analyst_email": "Shrey.Bohra@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
       "company": "Venkateswara Financiers Hyderabad Private Limited",
@@ -4474,14 +3782,14 @@
       "analyst_email": "Hareesh.H@careedge.in",
       "rh_email": "",
       "send_gh": true,
-      "send_analyst": true,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
       "sections": [
         "S1",
         "S2",
         "S3"
-      ]
+      ],
+      "sector": "BFSI"
     },
     {
       "company": "Aphelion Finance Private Limited",
@@ -4491,15 +3799,11 @@
       "gh_email": "Shreekiran.Rao@careedge.in",
       "analyst_email": "Ravi.Nayak@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
       "company": "Universal Sompo General Insurance Company Limited",
@@ -4509,15 +3813,11 @@
       "gh_email": "Shaik.Saleem@careedge.in",
       "analyst_email": "Shivam.Katkar@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
       "company": "Trust Investment Advisors Private Limited",
@@ -4527,15 +3827,11 @@
       "gh_email": "Shaik.Saleem@careedge.in",
       "analyst_email": "Amy.Thomas@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
       "company": "The National Small Industries Corporation Limited",
@@ -4545,15 +3841,11 @@
       "gh_email": "Jatin.Arora@careedge.in",
       "analyst_email": "shweta.sharma@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
       "company": "Chinmay Finlease Limited",
@@ -4563,15 +3855,11 @@
       "gh_email": "Yogesh.Rochani@careedge.in",
       "analyst_email": "Yashika.Goyal@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
       "company": "Indusind Bank Limited",
@@ -4581,15 +3869,11 @@
       "gh_email": "Yogesh.Rochani@careedge.in",
       "analyst_email": "Yashika.Goyal@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
       "company": "Dandona Finance Limited",
@@ -4599,15 +3883,11 @@
       "gh_email": "Jatin.Arora@careedge.in",
       "analyst_email": "shweta.sharma@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
       "company": "Fusion Finance Limited",
@@ -4617,15 +3897,11 @@
       "gh_email": "Jatin.Arora@careedge.in",
       "analyst_email": "jaya.gupta@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
       "company": "India Infrastructure Finance Company Limited",
@@ -4635,15 +3911,11 @@
       "gh_email": "Jatin.Arora@careedge.in",
       "analyst_email": "sudeeksha.rathi@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
       "company": "Billionbrains Garage Ventures Limited",
@@ -4653,15 +3925,11 @@
       "gh_email": "Shaik.Saleem@careedge.in",
       "analyst_email": "lokesh.warjurkar@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
       "company": "Groww Creditserv Technology Private Limited",
@@ -4671,15 +3939,11 @@
       "gh_email": "Shaik.Saleem@careedge.in",
       "analyst_email": "lokesh.warjurkar@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
       "company": "Tamilnadu Industrial Development Corporation Limited",
@@ -4689,15 +3953,11 @@
       "gh_email": "Shreekiran.Rao@careedge.in",
       "analyst_email": "tony.mathew@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
       "company": "PPFAS Mutual Fund",
@@ -4707,15 +3967,11 @@
       "gh_email": "Shaik.Saleem@careedge.in",
       "analyst_email": "kumer.bisht@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
       "company": "Manappuram Asset Finance Limited",
@@ -4725,69 +3981,65 @@
       "gh_email": "Aditya.Acharekar@careedge.in",
       "analyst_email": "Shrey.Bohra@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
       "company": "D. S. Integrated FinSec Private Limited",
       "gh_name": "Jitendra",
       "analyst_name": "OM",
       "rh_name": "Vineet",
-      "gh_email": "jitendra.meghrajani@careedge.in",
+      "gh_email": "jitendra.meghrajani@careedge.in, pranjal.mulekar@careedge.in, om.tupe@careedge.in, pooja.biyani@careedge.in, Krish.hablani@careedge.in",
       "analyst_email": "om.tupe@careedge.in",
       "rh_email": "",
       "send_gh": true,
-      "send_analyst": true,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
       "sections": [
         "S1",
         "S2",
         "S3"
-      ]
+      ],
+      "sector": "BFSI"
     },
     {
       "company": "Credila Financial Services Limited",
       "gh_name": "Jitendra",
       "analyst_name": "Pooja",
       "rh_name": "Vineet",
-      "gh_email": "jitendra.meghrajani@careedge.in",
+      "gh_email": "jitendra.meghrajani@careedge.in, pranjal.mulekar@careedge.in, om.tupe@careedge.in, pooja.biyani@careedge.in, Krish.hablani@careedge.in",
       "analyst_email": "pooja.biyani@careedge.in",
       "rh_email": "",
       "send_gh": true,
-      "send_analyst": true,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
       "sections": [
         "S1",
         "S2",
         "S3"
-      ]
+      ],
+      "sector": "BFSI"
     },
     {
       "company": "Anand Rathi Share and Stock Brokers Limited",
       "gh_name": "Jitendra",
       "analyst_name": "OM",
       "rh_name": "Vineet",
-      "gh_email": "jitendra.meghrajani@careedge.in",
+      "gh_email": "jitendra.meghrajani@careedge.in, pranjal.mulekar@careedge.in, om.tupe@careedge.in, pooja.biyani@careedge.in, Krish.hablani@careedge.in",
       "analyst_email": "om.tupe@careedge.in",
       "rh_email": "",
       "send_gh": true,
-      "send_analyst": true,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
       "sections": [
         "S1",
         "S2",
         "S3"
-      ]
+      ],
+      "sector": "BFSI"
     },
     {
       "company": "Star Health and Allied Insurance Company Limited",
@@ -4797,15 +4049,11 @@
       "gh_email": "Shreekiran.Rao@careedge.in",
       "analyst_email": "Punit.Joshi@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
       "company": "Akara Capital Advisors Private Limited",
@@ -4815,15 +4063,11 @@
       "gh_email": "Jatin.Arora@careedge.in",
       "analyst_email": "sudeeksha.rathi@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
       "company": "Maben Nidhi Limited",
@@ -4833,15 +4077,11 @@
       "gh_email": "Aditya.Acharekar@careedge.in",
       "analyst_email": "Shrey.Bohra@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
       "company": "RNFI Service Limited",
@@ -4851,15 +4091,11 @@
       "gh_email": "Jatin.Arora@careedge.in",
       "analyst_email": "jaya.gupta@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
       "company": "Ujjivan Small Finance Bank Limited",
@@ -4869,15 +4105,11 @@
       "gh_email": "Shreekiran.Rao@careedge.in",
       "analyst_email": "Ravi.Nayak@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
       "company": "Dvara Kshetriya Gramin Financial Services Private Limited",
@@ -4887,15 +4119,11 @@
       "gh_email": "Shreekiran.Rao@careedge.in",
       "analyst_email": "tony.mathew@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
       "company": "SBERBANK Branch in India",
@@ -4905,15 +4133,11 @@
       "gh_email": "Aditya.Acharekar@careedge.in",
       "analyst_email": "Shrey.Bohra@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
       "company": "Angel One Limited",
@@ -4923,15 +4147,11 @@
       "gh_email": "Yogesh.Rochani@careedge.in",
       "analyst_email": "Ujjwala.Oke@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
       "company": "Bajaj Life Insurance Limited",
@@ -4941,15 +4161,11 @@
       "gh_email": "Shaik.Saleem@careedge.in",
       "analyst_email": "Shivam.Katkar@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
       "company": "CRSP CAPITAL PRIVATE LIMITED",
@@ -4959,15 +4175,11 @@
       "gh_email": "Shaik.Saleem@careedge.in",
       "analyst_email": "kumer.bisht@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
       "company": "Bajaj Auto Credit Limited",
@@ -4977,15 +4189,11 @@
       "gh_email": "Shaik.Saleem@careedge.in",
       "analyst_email": "Amy.Thomas@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
       "company": "Indiafirst Life Insurance Company Limited",
@@ -4995,15 +4203,11 @@
       "gh_email": "Shaik.Saleem@careedge.in",
       "analyst_email": "Shivam.Katkar@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
       "company": "Bajaj Finance Limited",
@@ -5013,15 +4217,11 @@
       "gh_email": "Shaik.Saleem@careedge.in",
       "analyst_email": "Amy.Thomas@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
       "company": "Hari and Company Investments Madras Limited",
@@ -5031,15 +4231,11 @@
       "gh_email": "Shaik.Saleem@careedge.in",
       "analyst_email": "lokesh.warjurkar@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
       "company": "Navi Limited",
@@ -5049,15 +4245,11 @@
       "gh_email": "Shreekiran.Rao@careedge.in",
       "analyst_email": "tony.mathew@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
       "company": "Tata Capital Limited- MA",
@@ -5068,14 +4260,14 @@
       "analyst_email": "Anushka.Bothra@careedge.in",
       "rh_email": "",
       "send_gh": true,
-      "send_analyst": true,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
       "sections": [
         "S1",
         "S2",
         "S3"
-      ]
+      ],
+      "sector": "BFSI"
     },
     {
       "company": "Tata Mutual Fund",
@@ -5085,15 +4277,11 @@
       "gh_email": "Yogesh.Rochani@careedge.in",
       "analyst_email": "Yashika.Goyal@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
       "company": "PNB Housing",
@@ -5103,15 +4291,11 @@
       "gh_email": "Jatin.Arora@careedge.in",
       "analyst_email": "kanika.aggarwal@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
       "company": "HDFC Mutual Fund",
@@ -5121,15 +4305,11 @@
       "gh_email": "Shaik.Saleem@careedge.in",
       "analyst_email": "lokesh.warjurkar@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
       "company": "Invesco Asset Management (India) Private Limited",
@@ -5139,15 +4319,11 @@
       "gh_email": "Yogesh.Rochani@careedge.in",
       "analyst_email": "Yashika.Goyal@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
       "company": "Nippon Life India Asset Management Limited",
@@ -5157,51 +4333,47 @@
       "gh_email": "Yogesh.Rochani@careedge.in",
       "analyst_email": "Yashika.Goyal@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
       "company": "Trustedge",
       "gh_name": "Jitendra",
       "analyst_name": "Pooja",
       "rh_name": "Vineet",
-      "gh_email": "jitendra.meghrajani@careedge.in",
+      "gh_email": "jitendra.meghrajani@careedge.in, pranjal.mulekar@careedge.in, om.tupe@careedge.in, pooja.biyani@careedge.in, Krish.hablani@careedge.in",
       "analyst_email": "pooja.biyani@careedge.in",
       "rh_email": "",
       "send_gh": true,
-      "send_analyst": true,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
       "sections": [
         "S1",
         "S2",
         "S3"
-      ]
+      ],
+      "sector": "BFSI"
     },
     {
       "company": "Emkay Global Financial Services Limited",
       "gh_name": "Jitendra",
       "analyst_name": "om",
       "rh_name": "Vineet",
-      "gh_email": "jitendra.meghrajani@careedge.in",
+      "gh_email": "jitendra.meghrajani@careedge.in, pranjal.mulekar@careedge.in, om.tupe@careedge.in, pooja.biyani@careedge.in, Krish.hablani@careedge.in",
       "analyst_email": "om.tupe@careedge.in",
       "rh_email": "",
       "send_gh": true,
-      "send_analyst": true,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
       "sections": [
         "S1",
         "S2",
         "S3"
-      ]
+      ],
+      "sector": "BFSI"
     },
     {
       "company": "Bandhan Mutual Fund",
@@ -5211,33 +4383,29 @@
       "gh_email": "Yogesh.Rochani@careedge.in",
       "analyst_email": "Ujjwala.Oke@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
       "company": "Team India Guaranty Limited",
       "gh_name": "Jitendra",
       "analyst_name": "Pooja",
       "rh_name": "Vineet",
-      "gh_email": "jitendra.meghrajani@careedge.in",
+      "gh_email": "jitendra.meghrajani@careedge.in, pranjal.mulekar@careedge.in, om.tupe@careedge.in, pooja.biyani@careedge.in, Krish.hablani@careedge.in",
       "analyst_email": "pooja.biyani@careedge.in",
       "rh_email": "",
       "send_gh": true,
-      "send_analyst": true,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
       "sections": [
         "S1",
         "S2",
         "S3"
-      ]
+      ],
+      "sector": "BFSI"
     },
     {
       "company": "People Home Loans Limited",
@@ -5247,15 +4415,11 @@
       "gh_email": "Shreekiran.Rao@careedge.in",
       "analyst_email": "Punit.Nyati@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
       "company": "Equirus Securities Private Limited",
@@ -5265,15 +4429,11 @@
       "gh_email": "Shreekiran.Rao@careedge.in",
       "analyst_email": "Ravi.Nayak@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
       "company": "ICICI Home Finance Company Limited",
@@ -5283,15 +4443,11 @@
       "gh_email": "Yogesh.Rochani@careedge.in",
       "analyst_email": "Ujjwala.Oke@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
       "company": "Centrum Housing Finance Limited",
@@ -5301,15 +4457,11 @@
       "gh_email": "Shreekiran.Rao@careedge.in",
       "analyst_email": "Punit.Nyati@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
       "company": "Narendra Finance",
@@ -5319,15 +4471,11 @@
       "gh_email": "Jatin.Arora@careedge.in",
       "analyst_email": "kanika.aggarwal@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
       "company": "Royal Sundaram General Insurance Co. Limited",
@@ -5337,15 +4485,11 @@
       "gh_email": "Shreekiran.Rao@careedge.in",
       "analyst_email": "Punit.Joshi@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
       "company": "Altum Credo Home Finance Private Limited",
@@ -5356,14 +4500,14 @@
       "analyst_email": "Anushka.Bothra@careedge.in",
       "rh_email": "",
       "send_gh": true,
-      "send_analyst": true,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
       "sections": [
         "S1",
         "S2",
         "S3"
-      ]
+      ],
+      "sector": "BFSI"
     },
     {
       "company": "Nuvama Wealth Management Limited",
@@ -5373,15 +4517,11 @@
       "gh_email": "Yogesh.Rochani@careedge.in",
       "analyst_email": "Yashika.Goyal@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
       "company": "Nuvama Clearing Services Limited",
@@ -5391,15 +4531,11 @@
       "gh_email": "Yogesh.Rochani@careedge.in",
       "analyst_email": "Yashika.Goyal@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
       "company": "Nuvama Wealth And Investment Limited",
@@ -5409,15 +4545,11 @@
       "gh_email": "Yogesh.Rochani@careedge.in",
       "analyst_email": "Yashika.Goyal@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
       "company": "Nuvama Wealth Finance Limited",
@@ -5427,15 +4559,11 @@
       "gh_email": "Yogesh.Rochani@careedge.in",
       "analyst_email": "Yashika.Goyal@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
       "company": "Vastu Finserve India Private limited",
@@ -5446,14 +4574,14 @@
       "analyst_email": "Anushka.Bothra@careedge.in",
       "rh_email": "",
       "send_gh": true,
-      "send_analyst": true,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
       "sections": [
         "S1",
         "S2",
         "S3"
-      ]
+      ],
+      "sector": "BFSI"
     },
     {
       "company": "Vastu Housing Finance Corporation Limited",
@@ -5464,14 +4592,14 @@
       "analyst_email": "Anushka.Bothra@careedge.in",
       "rh_email": "",
       "send_gh": true,
-      "send_analyst": true,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
       "sections": [
         "S1",
         "S2",
         "S3"
-      ]
+      ],
+      "sector": "BFSI"
     },
     {
       "company": "Mirae Asset Investment Managers (India) Private Limited (BLR)",
@@ -5481,15 +4609,11 @@
       "gh_email": "Shaik.Saleem@careedge.in",
       "analyst_email": "lokesh.warjurkar@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
       "company": "A. K. Capital Finance Limited",
@@ -5499,15 +4623,11 @@
       "gh_email": "Shaik.Saleem@careedge.in",
       "analyst_email": "Amy.Thomas@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
       "company": "A. K. Capital Services Limited",
@@ -5517,33 +4637,29 @@
       "gh_email": "Shaik.Saleem@careedge.in",
       "analyst_email": "Amy.Thomas@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
       "company": "Avanse Financial Services Limited",
       "gh_name": "Jitendra",
       "analyst_name": "Pranjal",
       "rh_name": "Vineet",
-      "gh_email": "jitendra.meghrajani@careedge.in",
+      "gh_email": "jitendra.meghrajani@careedge.in, pranjal.mulekar@careedge.in, om.tupe@careedge.in, pooja.biyani@careedge.in, Krish.hablani@careedge.in",
       "analyst_email": "pranjal.mulekar@careedge.in",
       "rh_email": "",
       "send_gh": true,
-      "send_analyst": true,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
       "sections": [
         "S1",
         "S2",
         "S3"
-      ]
+      ],
+      "sector": "BFSI"
     },
     {
       "company": "Bank of Maharashtra",
@@ -5553,51 +4669,47 @@
       "gh_email": "Aditya.Acharekar@careedge.in",
       "analyst_email": "Dhruv.Shah1@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
       "company": "NIIF Infrastructure Finance Limited",
       "gh_name": "Jitendra",
       "analyst_name": "Pooja",
       "rh_name": "Vineet",
-      "gh_email": "jitendra.meghrajani@careedge.in",
+      "gh_email": "jitendra.meghrajani@careedge.in, pranjal.mulekar@careedge.in, om.tupe@careedge.in, pooja.biyani@careedge.in, Krish.hablani@careedge.in",
       "analyst_email": "pooja.biyani@careedge.in",
       "rh_email": "",
       "send_gh": true,
-      "send_analyst": true,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
       "sections": [
         "S1",
         "S2",
         "S3"
-      ]
+      ],
+      "sector": "BFSI"
     },
     {
-      "company": "Small Industries Development Bank of India (SIDBI)",
+      "company": "Small Industries Development Bank of India",
       "gh_name": "Jitendra",
       "analyst_name": "Pranjal",
       "rh_name": "Vineet",
-      "gh_email": "jitendra.meghrajani@careedge.in",
+      "gh_email": "jitendra.meghrajani@careedge.in, pranjal.mulekar@careedge.in, om.tupe@careedge.in, pooja.biyani@careedge.in, Krish.hablani@careedge.in",
       "analyst_email": "pranjal.mulekar@careedge.in",
       "rh_email": "",
       "send_gh": true,
-      "send_analyst": true,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
       "sections": [
         "S1",
         "S2",
         "S3"
-      ]
+      ],
+      "sector": "BFSI"
     },
     {
       "company": "Spandana Sphoorty Financial Limited",
@@ -5607,15 +4719,11 @@
       "gh_email": "Shreekiran.Rao@careedge.in",
       "analyst_email": "Ravi.Nayak@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
       "company": "Yes Securities (INDIA) Limited",
@@ -5625,15 +4733,11 @@
       "gh_email": "Yogesh.Rochani@careedge.in",
       "analyst_email": "Sehdev.Pahwa@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
       "company": "Kogta Financial (india) Limited",
@@ -5643,15 +4747,11 @@
       "gh_email": "Shaik.Saleem@careedge.in",
       "analyst_email": "Shivam.Katkar@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
       "company": "Yes Bank Limited",
@@ -5661,15 +4761,11 @@
       "gh_email": "Yogesh.Rochani@careedge.in",
       "analyst_email": "Sehdev.Pahwa@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
       "company": "Jio Credit Limited",
@@ -5679,15 +4775,11 @@
       "gh_email": "Shaik.Saleem@careedge.in",
       "analyst_email": "lokesh.warjurkar@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
       "company": "Jio Leasing Services Limited",
@@ -5697,15 +4789,11 @@
       "gh_email": "Shaik.Saleem@careedge.in",
       "analyst_email": "lokesh.warjurkar@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
       "company": "Vistaar Financial Services Private Limited",
@@ -5715,15 +4803,11 @@
       "gh_email": "Shreekiran.Rao@careedge.in",
       "analyst_email": "tony.mathew@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
       "company": "DCB Bank",
@@ -5733,15 +4817,11 @@
       "gh_email": "Yogesh.Rochani@careedge.in",
       "analyst_email": "Sehdev.Pahwa@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
       "company": "Mahindra And Mahindra Financial Services Limited",
@@ -5751,15 +4831,11 @@
       "gh_email": "Yogesh.Rochani@careedge.in",
       "analyst_email": "Yashika.Goyal@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
       "company": "Mahindra Rural Housing Finance Limited",
@@ -5769,51 +4845,47 @@
       "gh_email": "Yogesh.Rochani@careedge.in",
       "analyst_email": "Yashika.Goyal@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
       "company": "KISETSU Saison Finance (INDIA) Private Limited",
       "gh_name": "Jitendra",
       "analyst_name": "Pranjal",
       "rh_name": "Vineet",
-      "gh_email": "jitendra.meghrajani@careedge.in",
+      "gh_email": "jitendra.meghrajani@careedge.in, pranjal.mulekar@careedge.in, om.tupe@careedge.in, pooja.biyani@careedge.in, Krish.hablani@careedge.in",
       "analyst_email": "pranjal.mulekar@careedge.in",
       "rh_email": "",
       "send_gh": true,
-      "send_analyst": true,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
       "sections": [
         "S1",
         "S2",
         "S3"
-      ]
+      ],
+      "sector": "BFSI"
     },
     {
       "company": "Indostar Capital Finance Limited",
       "gh_name": "Jitendra",
       "analyst_name": "OM",
       "rh_name": "Vineet",
-      "gh_email": "jitendra.meghrajani@careedge.in",
+      "gh_email": "jitendra.meghrajani@careedge.in, pranjal.mulekar@careedge.in, om.tupe@careedge.in, pooja.biyani@careedge.in, Krish.hablani@careedge.in",
       "analyst_email": "om.tupe@careedge.in",
       "rh_email": "",
       "send_gh": true,
-      "send_analyst": true,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
       "sections": [
         "S1",
         "S2",
         "S3"
-      ]
+      ],
+      "sector": "BFSI"
     },
     {
       "company": "IKF Finance Limited",
@@ -5824,14 +4896,14 @@
       "analyst_email": "Hareesh.H@careedge.in",
       "rh_email": "",
       "send_gh": true,
-      "send_analyst": true,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
       "sections": [
         "S1",
         "S2",
         "S3"
-      ]
+      ],
+      "sector": "BFSI"
     },
     {
       "company": "IKF Home Finance Limited",
@@ -5842,14 +4914,14 @@
       "analyst_email": "Pranav.Viswanathan@careedge.in",
       "rh_email": "",
       "send_gh": true,
-      "send_analyst": true,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
       "sections": [
         "S1",
         "S2",
         "S3"
-      ]
+      ],
+      "sector": "BFSI"
     },
     {
       "company": "Aadhar Housing Finance Limited",
@@ -5860,14 +4932,14 @@
       "analyst_email": "Pulkit.Jain@careedge.in",
       "rh_email": "",
       "send_gh": true,
-      "send_analyst": true,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
       "sections": [
         "S1",
         "S2",
         "S3"
-      ]
+      ],
+      "sector": "BFSI"
     },
     {
       "company": "Aptus Finance India Private Limited",
@@ -5878,14 +4950,14 @@
       "analyst_email": "Hareesh.H@careedge.in",
       "rh_email": "",
       "send_gh": true,
-      "send_analyst": true,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
       "sections": [
         "S1",
         "S2",
         "S3"
-      ]
+      ],
+      "sector": "BFSI"
     },
     {
       "company": "Aptus Value Housing Finance India Limited",
@@ -5896,14 +4968,14 @@
       "analyst_email": "Hareesh.H@careedge.in",
       "rh_email": "",
       "send_gh": true,
-      "send_analyst": true,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
       "sections": [
         "S1",
         "S2",
         "S3"
-      ]
+      ],
+      "sector": "BFSI"
     },
     {
       "company": "Indian Railway Finance",
@@ -5913,15 +4985,11 @@
       "gh_email": "Jatin.Arora@careedge.in",
       "analyst_email": "kanika.aggarwal@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
       "company": "Mahaveer Finance India Limited",
@@ -5932,14 +5000,14 @@
       "analyst_email": "Pranav.Viswanathan@careedge.in",
       "rh_email": "",
       "send_gh": true,
-      "send_analyst": true,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
       "sections": [
         "S1",
         "S2",
         "S3"
-      ]
+      ],
+      "sector": "BFSI"
     },
     {
       "company": "Veritas Finance Limited",
@@ -5950,14 +5018,14 @@
       "analyst_email": "Pranav.Viswanathan@careedge.in",
       "rh_email": "",
       "send_gh": true,
-      "send_analyst": true,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
       "sections": [
         "S1",
         "S2",
         "S3"
-      ]
+      ],
+      "sector": "BFSI"
     },
     {
       "company": "Five-Star Business Finance Limited",
@@ -5968,14 +5036,14 @@
       "analyst_email": "Hareesh.H@careedge.in",
       "rh_email": "",
       "send_gh": true,
-      "send_analyst": true,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
       "sections": [
         "S1",
         "S2",
         "S3"
-      ]
+      ],
+      "sector": "BFSI"
     },
     {
       "company": "Piramal Finance Limited (erstwhile Piramal Capital & Housing Finance Limited)",
@@ -5985,15 +5053,11 @@
       "gh_email": "Shreekiran.Rao@careedge.in",
       "analyst_email": "Ravi.Nayak@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
       "company": "RBL Bank Limited",
@@ -6003,15 +5067,11 @@
       "gh_email": "Yogesh.Rochani@careedge.in",
       "analyst_email": "Ujjwala.Oke@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
       "company": "5Paisa Capital Limited",
@@ -6021,15 +5081,11 @@
       "gh_email": "Shaik.Saleem@careedge.in",
       "analyst_email": "lokesh.warjurkar@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
       "company": "SG Finserve Limited",
@@ -6039,87 +5095,83 @@
       "gh_email": "Jatin.Arora@careedge.in",
       "analyst_email": "swapnil.lohani@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
       "company": "Abhiyan Capital (India) Private Limited",
       "gh_name": "Jitendra",
       "analyst_name": "OM",
       "rh_name": "Vineet",
-      "gh_email": "jitendra.meghrajani@careedge.in",
+      "gh_email": "jitendra.meghrajani@careedge.in, pranjal.mulekar@careedge.in, om.tupe@careedge.in, pooja.biyani@careedge.in, Krish.hablani@careedge.in",
       "analyst_email": "om.tupe@careedge.in",
       "rh_email": "",
       "send_gh": true,
-      "send_analyst": true,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
       "sections": [
         "S1",
         "S2",
         "S3"
-      ]
+      ],
+      "sector": "BFSI"
     },
     {
       "company": "Svakarma Finance Private Limited",
       "gh_name": "Jitendra",
       "analyst_name": "OM",
       "rh_name": "Vineet",
-      "gh_email": "jitendra.meghrajani@careedge.in",
+      "gh_email": "jitendra.meghrajani@careedge.in, pranjal.mulekar@careedge.in, om.tupe@careedge.in, pooja.biyani@careedge.in, Krish.hablani@careedge.in",
       "analyst_email": "om.tupe@careedge.in",
       "rh_email": "",
       "send_gh": true,
-      "send_analyst": true,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
       "sections": [
         "S1",
         "S2",
         "S3"
-      ]
+      ],
+      "sector": "BFSI"
     },
     {
       "company": "Shriram Insight Share Brokers Limited",
       "gh_name": "Jitendra",
       "analyst_name": "Krish H",
       "rh_name": "Vineet",
-      "gh_email": "jitendra.meghrajani@careedge.in",
+      "gh_email": "jitendra.meghrajani@careedge.in, pranjal.mulekar@careedge.in, om.tupe@careedge.in, pooja.biyani@careedge.in, Krish.hablani@careedge.in",
       "analyst_email": "krish.hablani@careedge.in",
       "rh_email": "",
       "send_gh": true,
-      "send_analyst": true,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
       "sections": [
         "S1",
         "S2",
         "S3"
-      ]
+      ],
+      "sector": "BFSI"
     },
     {
       "company": "Shriram Credit Company Limited",
       "gh_name": "Jitendra",
       "analyst_name": "Pranjal",
       "rh_name": "Vineet",
-      "gh_email": "jitendra.meghrajani@careedge.in",
+      "gh_email": "jitendra.meghrajani@careedge.in, pranjal.mulekar@careedge.in, om.tupe@careedge.in, pooja.biyani@careedge.in, Krish.hablani@careedge.in",
       "analyst_email": "pranjal.mulekar@careedge.in",
       "rh_email": "",
       "send_gh": true,
-      "send_analyst": true,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
       "sections": [
         "S1",
         "S2",
         "S3"
-      ]
+      ],
+      "sector": "BFSI"
     },
     {
       "company": "The South Indian Bank Limited",
@@ -6129,15 +5181,11 @@
       "gh_email": "Aditya.Acharekar@careedge.in",
       "analyst_email": "Shrey.Bohra@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
       "company": "Edelweiss Asset Management Limited",
@@ -6147,15 +5195,11 @@
       "gh_email": "Shaik.Saleem@careedge.in",
       "analyst_email": "kumer.bisht@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
       "company": "Mahindra Manulife Investment Management Private Limited",
@@ -6165,33 +5209,29 @@
       "gh_email": "Shaik.Saleem@careedge.in",
       "analyst_email": "kumer.bisht@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
       "company": "Ambit Finvest Private Limited",
       "gh_name": "Jitendra",
       "analyst_name": "Pooja",
       "rh_name": "Vineet",
-      "gh_email": "jitendra.meghrajani@careedge.in",
+      "gh_email": "jitendra.meghrajani@careedge.in, pranjal.mulekar@careedge.in, om.tupe@careedge.in, pooja.biyani@careedge.in, Krish.hablani@careedge.in",
       "analyst_email": "pooja.biyani@careedge.in",
       "rh_email": "",
       "send_gh": true,
-      "send_analyst": true,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
       "sections": [
         "S1",
         "S2",
         "S3"
-      ]
+      ],
+      "sector": "BFSI"
     },
     {
       "company": "Indian Overseas Bank",
@@ -6201,15 +5241,11 @@
       "gh_email": "Aditya.Acharekar@careedge.in",
       "analyst_email": "Dhruv.Shah1@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
       "company": "India Shelter Finance",
@@ -6219,15 +5255,11 @@
       "gh_email": "Jatin.Arora@careedge.in",
       "analyst_email": "jaya.gupta@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
       "company": "Indian Renewable Energy Development Agency Limited (IREDA)",
@@ -6237,15 +5269,11 @@
       "gh_email": "Jatin.Arora@careedge.in",
       "analyst_email": "kanika.aggarwal@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
       "company": "S V Creditline Limited",
@@ -6255,15 +5283,11 @@
       "gh_email": "Jatin.Arora@careedge.in",
       "analyst_email": "shweta.sharma@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
       "company": "Save Microfinance Private Limited",
@@ -6273,15 +5297,11 @@
       "gh_email": "Jatin.Arora@careedge.in",
       "analyst_email": "jaya.gupta@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
       "company": "Save Solutions Private Limited",
@@ -6291,15 +5311,11 @@
       "gh_email": "Jatin.Arora@careedge.in",
       "analyst_email": "shweta.sharma@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
       "company": "Solfin Sustainable Finance Private Limited",
@@ -6309,15 +5325,11 @@
       "gh_email": "Jatin.Arora@careedge.in",
       "analyst_email": "shweta.sharma@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
       "company": "Ummeed Housing Finance Private Limited",
@@ -6327,15 +5339,11 @@
       "gh_email": "Jatin.Arora@careedge.in",
       "analyst_email": "shweta.sharma@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
       "company": "Niva Bupa Health Insurance Company Limited",
@@ -6345,15 +5353,11 @@
       "gh_email": "Shaik.Saleem@careedge.in",
       "analyst_email": "Shivam.Katkar@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
       "company": "Axis Mutual Fund",
@@ -6363,15 +5367,11 @@
       "gh_email": "Shaik.Saleem@careedge.in",
       "analyst_email": "kumer.bisht@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
       "company": "Jio BlackRock Asset Management Private Limited",
@@ -6381,15 +5381,11 @@
       "gh_email": "Shaik.Saleem@careedge.in",
       "analyst_email": "kumer.bisht@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
       "company": "LIC Mutual Fund",
@@ -6399,15 +5395,11 @@
       "gh_email": "Shaik.Saleem@careedge.in",
       "analyst_email": "kumer.bisht@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
       "company": "Union Mutual Fund",
@@ -6417,15 +5409,11 @@
       "gh_email": "Shaik.Saleem@careedge.in",
       "analyst_email": "kumer.bisht@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
       "company": "ICICI Prudential Mutual Fund",
@@ -6435,15 +5423,11 @@
       "gh_email": "Shaik.Saleem@careedge.in",
       "analyst_email": "kumer.bisht@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
       "company": "Bajaj Finserv Asset Management Limited",
@@ -6453,15 +5437,11 @@
       "gh_email": "Shaik.Saleem@careedge.in",
       "analyst_email": "kumer.bisht@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
       "company": "Baroda BNP Paribas Mutual Fund",
@@ -6471,15 +5451,11 @@
       "gh_email": "Shaik.Saleem@careedge.in",
       "analyst_email": "kumer.bisht@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
       "company": "Canara Robeco Mutual Fund",
@@ -6489,15 +5465,11 @@
       "gh_email": "Shaik.Saleem@careedge.in",
       "analyst_email": "kumer.bisht@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
       "company": "SBI Funds Management Limited",
@@ -6507,15 +5479,11 @@
       "gh_email": "Shaik.Saleem@careedge.in",
       "analyst_email": "kumer.bisht@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
       "company": "Indo Thai Securities Ltd",
@@ -6525,15 +5493,11 @@
       "gh_email": "Shaik.Saleem@careedge.in",
       "analyst_email": "Shivam.Katkar@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
       "company": "Arvesta Financial Services Private Limited",
@@ -6543,15 +5507,11 @@
       "gh_email": "Yogesh.Rochani@careedge.in",
       "analyst_email": "Sehdev.Pahwa@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
       "company": "Kotak Mahindra Mutual Fund",
@@ -6561,15 +5521,11 @@
       "gh_email": "Yogesh.Rochani@careedge.in",
       "analyst_email": "S.Balakrishna@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
       "company": "Sundaram Asset Management Company Limited",
@@ -6579,15 +5535,11 @@
       "gh_email": "Yogesh.Rochani@careedge.in",
       "analyst_email": "S.Balakrishna@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
       "company": "UTI Asset Management Company Limited",
@@ -6597,15 +5549,11 @@
       "gh_email": "Yogesh.Rochani@careedge.in",
       "analyst_email": "Ujjwala.Oke@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
       "company": "Systamatix Corporate Services Limited",
@@ -6615,15 +5563,11 @@
       "gh_email": "Shaik.Saleem@careedge.in",
       "analyst_email": "lokesh.warjurkar@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
       "company": "Vivriti Capital Limited",
@@ -6633,15 +5577,11 @@
       "gh_email": "Shaik.Saleem@careedge.in",
       "analyst_email": "lokesh.warjurkar@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     },
     {
       "company": "Bhansali",
@@ -6651,15 +5591,11 @@
       "gh_email": "Yogesh.Rochani@careedge.in",
       "analyst_email": "Sehdev.Pahwa@careedge.in",
       "rh_email": "",
-      "send_gh": true,
-      "send_analyst": true,
+      "send_gh": false,
+      "send_analyst": false,
       "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
+      "sections": [],
+      "sector": "BFSI"
     }
   ],
   "scheduled_enabled": true,
@@ -6693,5 +5629,5 @@
     ],
     "Infrastructure": []
   },
-  "sector_keywords": []
+  "use_ai": true
 }
