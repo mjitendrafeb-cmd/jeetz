@@ -536,6 +536,7 @@ _GENERIC_NAME_WORD = {
     "national", "india", "indian", "industries", "development", "holdings",
     "enterprises", "solutions", "resources", "ventures", "partners",
     "management", "asset", "assets", "microfin", "microfinance", "general",
+    "tourism", "travel", "leisure", "hospitality",
 }
 
 

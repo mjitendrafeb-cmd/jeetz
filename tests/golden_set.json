@@ -724,6 +724,20 @@
       "expect": "S1",
       "expect_team": null,
       "why": "same class as Bharti: a group prefix identifies the GROUP, not the entity — 23 live entities sit under one. 7:40 rejects the tag and drops the story; 7:30 still says S1 because _classify trusts a WATCHLIST tag without re-verifying it, which is its design and is not changed here"
+    },
+    {
+      "title": "A Hair of the Dog that Bit You: Ubud Hotel Finds Itself in a Legal Conundrum",
+      "tags": "WATCHLIST — Tourism Finance Corporation of India Limited",
+      "expect": "S1",
+      "expect_team": null,
+      "why": "7:30's _classify trusts the WATCHLIST tag without re-verifying it (same as the Tata/Bharti cases above), so 7:30 still says S1; 'tourism' alone matched as the lone significant word (>=7 chars) for Tourism Finance Corporation of India, pulling in unrelated Bali hospitality stories (Bali Discovery, Travel and Leisure Asia, Mshale). 'tourism'/'travel'/'leisure'/'hospitality' added to the generic-word list in both fetch_news._GENERIC_NAME_WORD and send_team_news._COMMON so a lone hit no longer counts as evidence"
+    },
+    {
+      "title": "Tourism Finance Corporation of India reports strong Q1 results",
+      "tags": "WATCHLIST — Tourism Finance Corporation of India Limited",
+      "expect": "S1",
+      "expect_team": "S1",
+      "why": "guard: a genuine Tourism Finance Corporation of India story (two significant words matched, 'tourism' and 'finance') must still classify as S1 after the generic-word fix"
     }
   ]
 }
