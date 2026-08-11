@@ -505,11 +505,32 @@ def _sig_words(name: str) -> list[str]:
     return out
 
 
+# Legal-form words only. Deliberately NOT the wider _SUFFIXES set, which
+# also contains "india" — dropping that would turn SIDBI ("Small Industries
+# Development Bank of India") into "sidb" and break the very case this
+# function exists for.
+_ACRONYM_DROP = {"private", "limited", "ltd", "ltd.", "pvt", "pvt.", "llp",
+                 "plc", "inc", "inc.", "incorporated", "corporation", "corp",
+                 "corp.", "company"}
+
+
 def _acronym(name: str) -> str:
-    """SIDBI-style initialism from the name's non-filler words — real
-    headlines say 'SIDBI', not 'Small Industries Development Bank'."""
+    """SIDBI-style initialism from the name's significant words — real
+    headlines say 'SIDBI', not 'Small Industries Development Bank'.
+
+    Legal-form words are dropped, because the FETCHER strips them before
+    building its own acronym and the two must agree. They did not: for
+    "Micro Units Development and Refinance Agency Limited" the fetcher
+    searched "MUDRA" and correctly found a story, tagged it to the entity,
+    and then this function looked for "MUDRAL" — trailing L for "Limited" —
+    failed to find it, and _match_companies dropped the item as
+    mis-tagged. 7:40 was discarding watchlist news it had just fetched,
+    which is why a MUDRA story appeared in 7:30 but never in 7:40.
+    """
     letters = [w[0] for w in name.lower().split()
-               if w.strip(".,()") and w not in _FILLER and not w.startswith("(")]
+               if w.strip(".,()") and w not in _FILLER
+               and w.strip(".,()") not in _ACRONYM_DROP
+               and not w.startswith("(")]
     a = "".join(letters)
     return a if len(a) >= 4 else ""
 
