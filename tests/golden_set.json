@@ -738,6 +738,142 @@
       "expect": "S1",
       "expect_team": "S1",
       "why": "guard: a genuine Tourism Finance Corporation of India story (two significant words matched, 'tourism' and 'finance') must still classify as S1 after the generic-word fix"
+    },
+    {
+      "title": "Bali Utd vs Sabah - Live Score",
+      "source": "Football365",
+      "summary": "Live coverage of the match.",
+      "expect": null,
+      "expect_team": null,
+      "why": "S2/S3 relevance-architecture regression test (11 Aug audit): a generic sports-fixture pattern, not a 'Bali' keyword blacklist, so it also rejects fixtures for any other team name"
+    },
+    {
+      "title": "Sahiba Bali stuns fans with new look at the awards night",
+      "source": "Filmfare",
+      "summary": "",
+      "expect": null,
+      "expect_team": null,
+      "why": "S2/S3 relevance-architecture regression test: celebrity/awards-night content, caught by topic (awards night, celebrity) not by the name 'Bali'"
+    },
+    {
+      "title": "French Elegance Meets Balinese Soul at Sofitel Bali Nusa Dua Beach Resort",
+      "source": "Bali Discovery",
+      "summary": "",
+      "expect": null,
+      "expect_team": null,
+      "why": "S2/S3 relevance-architecture regression test: hospitality/resort content caught by topic (beach resort), not by blacklisting the source name"
+    },
+    {
+      "title": "Karkidaka Vavu Bali ritual draws thousands of devotees",
+      "source": "Mshale",
+      "summary": "",
+      "expect": null,
+      "expect_team": null,
+      "why": "S2/S3 relevance-architecture regression test: religious-ritual content caught by topic (ritual/vavu), not by blacklisting the source name"
+    },
+    {
+      "title": "GAME NIGHT: catch all the action from the arena",
+      "source": "ESPN",
+      "summary": "",
+      "expect": null,
+      "expect_team": null,
+      "why": "S2/S3 relevance-architecture regression test: generic sports-event filler"
+    },
+    {
+      "title": "NuEnergy Holdings Bhd Options Chain - Yahoo Finance",
+      "source": "Yahoo Finance",
+      "summary": "",
+      "expect": null,
+      "expect_team": null,
+      "why": "S2/S3 relevance-architecture regression test: a financial DATA/quote page (options chain), not news — same underlying category as the earlier 'Price to sales forward' ticker-page bug, generalised rather than patched per-site"
+    },
+    {
+      "title": "time to time.Investment by Non-Residents23",
+      "source": "RBI",
+      "summary": "",
+      "expect": null,
+      "expect_team": null,
+      "why": "headline-quality gate: a scraped RBI circular body fragment with a page-number artifact glued on ('...time23'). Previously reached S2 unfiltered because a TRUSTED SOURCE (RBI) routes straight to a section with no headline-quality check"
+    },
+    {
+      "title": "rather than after the loss has crystallised",
+      "source": "Business Standard",
+      "summary": "",
+      "expect": null,
+      "expect_team": null,
+      "why": "headline-quality gate: a mid-sentence fragment with no understandable subject"
+    },
+    {
+      "title": "RBI draft revolving-credit norms could raise NBFC funding costs",
+      "source": "Economic Times",
+      "summary": "",
+      "expect": "S3",
+      "expect_team": "S2",
+      "why": "must-keep S2 example (11 Aug audit): sector-wide regulatory development, correctly survives the tightened relevance gates"
+    },
+    {
+      "title": "NBFC sector loan growth moderates to 15% in Q1: report",
+      "source": "Business Standard",
+      "summary": "",
+      "expect": "S2",
+      "expect_team": "S2",
+      "why": "must-keep S2 example: sector-wide credit-growth data"
+    },
+    {
+      "title": "Gold-loan NBFCs see asset quality stress as prices correct",
+      "source": "Livemint",
+      "summary": "",
+      "expect": "S2",
+      "expect_team": "S2",
+      "why": "must-keep S2 example: sector-wide gold-loan asset-quality trend"
+    },
+    {
+      "title": "Microfinance sector asset quality improves in June quarter",
+      "source": "Moneycontrol",
+      "summary": "",
+      "expect": "S2",
+      "expect_team": "S2",
+      "why": "must-keep S2 example: sector-wide microfinance asset-quality trend"
+    },
+    {
+      "title": "Non-life insurance premium growth picks up in July",
+      "source": "Business Standard",
+      "summary": "",
+      "expect": "S2",
+      "expect_team": "S2",
+      "why": "must-keep S2 example: sector-wide non-life insurance premium trend"
+    },
+    {
+      "title": "UPI monthly transaction value crosses Rs 20 lakh crore as MDR debate resurfaces",
+      "source": "Economic Times",
+      "summary": "",
+      "expect": "S2",
+      "expect_team": "S2",
+      "why": "must-keep S2 example: UPI/MDR is a material fintech-payments development, now recognised by the shared _FI_SIGNAL_RE relevance gate ('upi'/'mdr'/'digital payments') so both 7:30 and 7:40 correctly treat it as sector-relevant instead of dropping it for having no finance-vocabulary match"
+    },
+    {
+      "title": "RBI keeps repo rate unchanged at 5.25%, holds accommodative stance",
+      "source": "RBI",
+      "summary": "",
+      "expect": "S3",
+      "expect_team": "S3",
+      "why": "must-keep S3 example: policy-rate decision"
+    },
+    {
+      "title": "Rupee falls to record low against dollar as crude oil surges",
+      "source": "Economic Times",
+      "summary": "",
+      "expect": "S5",
+      "expect_team": "S3",
+      "why": "must-keep S3 example: INR movement tied to crude/dollar"
+    },
+    {
+      "title": "IRDAI issues new solvency margin norms for general insurers",
+      "source": "IRDAI",
+      "summary": "",
+      "expect": "S3",
+      "expect_team": "S2",
+      "why": "must-move-from-S3-to-S2 example (spec item 7): IRDAI/insurance regulatory news belongs in S2, not S3. Already correct pre-existing routing -- _S3_SOURCES/_TEAM_SECTION_MAP already sends the regulator's own five-section 'S3' (regulatory circular) to the three-section 'S2' (sector & regulation); this case locks that mapping in as a named regression test per the spec's explicit MUST-MOVE requirement"
     }
   ]
 }

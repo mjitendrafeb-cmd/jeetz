@@ -366,6 +366,19 @@ def _is_team_junk(it: dict) -> bool:
     if (_TRIBUNAL_LISTING_RE.search(body)
             and "WATCHLIST" not in (it.get("tags") or "")):
         return True
+    # Sport/entertainment/travel/lifestyle and financial data-quote pages are
+    # never this desk's business. Checked here — BEFORE classification, not
+    # inside it — so a trusted-source shortcut (RBI/SEBI feeds routing
+    # straight to S2/S3) or a lenient AI judgement call can never let one
+    # through: the item never reaches either path.
+    if _NEVER_RELEVANT_RE.search(body) or _DATA_PAGE_RE.search(body):
+        return True
+    # A malformed/fragment headline is never presentable, whatever section
+    # it would otherwise land in. Only checked for non-watchlist items — a
+    # watchlist company's own tagged story should never be dropped for a
+    # scraped-summary quirk the reader never sees in the title.
+    if not it.get("wl_company") and _is_malformed_headline(it.get("title", "")):
+        return True
     return bool(_TEAM_JUNK_RE.search(body))
 
 
@@ -416,27 +429,101 @@ _REG_ACTION_RE = re.compile(
 _NEVER_RELEVANT_RE = re.compile(
     r"\b(premier league|\bepl\b|football|soccer|cricket|\bipl\b|world cup|fifa|"
     r"olympic|tournament|match (report|preview|day)|wicket|goalkeeper|transfer window|"
+    r"live score|fixture|kick-?off|\bvs\.?\b.{0,20}\b(live|score|preview)|"
+    r"\b(utd|united|fc|club)\b[^.|]{0,15}\bvs\.?\b|"
     r"box office|bollywood|tollywood|film|movie|web series|streaming (show|series)|"
-    r"celebrity|actor|actress|singer|award (show|night)|reality show)\b",
+    r"celebrity|actor|actress|singer|awards? (show|night)|reality show|"
+    r"\bgame night\b|"
+    # Travel/tourism/hospitality/lifestyle content. Root cause of the Bali
+    # leaks: these stories carry no finance vocabulary at all in most cases
+    # (so _FI_SIGNAL_RE alone would already reject them), but a source/tag
+    # coincidence (e.g. a mis-tagged watchlist match, or a trusted-source
+    # bypass) can still let them through the section router. Blocking the
+    # TOPIC directly — not the word "Bali" — closes that whichever entity
+    # or source happened to carry it.
+    r"travel (guide|itinerary|advisory)|\bvacation\b|"
+    r"honeymoon|\b(beach|spa) resort\b|\bresort\b|homestay|\bbnb\b|airbnb|"
+    r"things to do in|places to visit|travel destination|"
+    r"\bcuisine\b|street food|nightlife|"
+    # Religious/cultural ritual coverage (the literal word "bali" is a Hindu/
+    # Balinese ritual and place-name; caught here as a TOPIC, not a keyword
+    # blacklist — "Karkidaka Vavu Bali" ritual stories, temple ceremonies).
+    r"\britual[s]?\b|pilgrimage|temple (ceremony|festival)|\bvavu\b|"
+    r"\bhotel\b.{0,25}\b(review|booking|chain|guest)\b)\b",
     re.IGNORECASE,
 )
+
+# Financial DATA/quote pages (option chains, ticker quote pages) that are not
+# news at all — "Price to sales forward of NuEnergy Holdings Bhd" was one
+# instance of this broader category; a Yahoo Finance options page is another.
+_DATA_PAGE_RE = re.compile(
+    r"\byahoo finance\b|\boptions? chain\b|\bimplied volatility\b|"
+    r"\bstrike price\b|\b(call|put) options?\b.{0,20}\bexpiry\b|"
+    r"\bstock quote\b|\bshare price today\b|\blive (price|quote)\b",
+    re.IGNORECASE,
+)
+
+# Headline-quality gate: reject records that are not a real headline at all
+# — a mid-paragraph fragment, a scraped table/list remnant, or a truncated
+# sentence with no understandable subject. Examples that reached production:
+# "time to time.Investment by Non-Residents23" (RBI circular body text with
+# a page-number artifact glued on), "rather than after the loss has
+# crystallised" (mid-sentence fragment). These slipped through because a
+# TRUSTED SOURCE (e.g. the RBI feed) routes straight to a section with no
+# headline-quality check at all — the fix has to be a gate that runs before
+# any source-trust shortcut, not another keyword.
+_FRAGMENT_STARTERS = (
+    "rather than", "which ", "that ", "and ", "but ", "however", "meanwhile",
+    "time to time", "read more", "click here", "for more detail",
+    "for more information", "continued from", "subject to the above",
+    "in this regard", "as mentioned above", "as mentioned below",
+    "the above ", "as per the ", "provided that", "notwithstanding",
+    "not relevant?",
+)
+
+
+def _is_malformed_headline(title: str) -> bool:
+    t = (title or "").strip()
+    if len(t) < 8:
+        return True
+    if t.lower().startswith(_FRAGMENT_STARTERS):
+        return True
+    # A scraped run-on where a sentence break has no space before the next
+    # capitalised word ("time to time.Investment by Non-Residents23").
+    if re.search(r"[a-z]\.[A-Z]", t):
+        return True
+    # A headline beginning mid-sentence (lowercase first letter). Real
+    # headlines from every feed this desk uses are properly capitalised, so
+    # this is a safe general signal rather than a word-specific patch.
+    if t[0].islower():
+        return True
+    return False
 
 # Tier 1 — a financial-sector signal. REQUIRED for anything to land in S2.
 # Deliberately excludes bare corporate-action words: an acquisition or a
 # Q1 result is only S2 news when the subject is a financial institution.
 _FI_SIGNAL_RE = re.compile(
-    r"\b(nbfc|hfc|housing finance|non-?banking financial|bank(s|ing)?|"
-    r"microfinance|\bmfi\b|fintech|broking|brokerage|stock broker|"
-    r"insurer|insuranc\w*|irdai|mutual fund|\bamc\b|asset management|"
-    r"asset reconstruction|\barc\b|debenture trustee|chit fund|"
-    r"small finance bank|payments? bank|cooperative bank|co-operative bank|"
+    # Plural forms ("NBFCs", "HFCs", "insurers", "lenders") were previously
+    # unmatched: \bnbfc\b requires a word boundary right after "nbfc", which
+    # fails against "NBFCs" because the trailing "s" is part of the same
+    # word. That silently broke every SECTOR-WIDE headline using the plural
+    # ("Gold-loan NBFCs see asset quality stress...") while the singular
+    # ("An NBFC raised...") kept working — exactly backwards for a desk that
+    # mostly wants sector-wide (plural) stories in S2.
+    r"\b(nbfc[s]?|hfc[s]?|housing finance|non-?banking financial|bank(s|ing)?|"
+    r"microfinance|\bmfi[s]?\b|fintech|broking|brokerage|stock broker[s]?|"
+    r"insurer[s]?|insuranc\w*|irdai|mutual fund[s]?|\bamc[s]?\b|asset management|"
+    r"asset reconstruction|\barc[s]?\b|debenture trustee[s]?|chit fund[s]?|"
+    r"small finance bank[s]?|payments? bank[s]?|cooperative bank[s]?|co-operative bank[s]?|"
     r"\brbi\b|\bsebi\b|\bnhb\b|nabard|sidbi|pfrda|\bibbi\b|"
-    r"financial (services|institution)|finance (company|limited|ltd)|\bfinance\b|"
-    r"lender[s]?|\bnpa\b|non-performing|gross npa|net npa|"
-    r"credit (rating|profile|quality|growth|cost)|capital adequacy|provisioning|"
-    r"disbursement|\baum\b|assets under management|securitisation|securitization|"
-    r"net interest margin|\bnim\b|gold loan|vehicle loan|personal loan|"
-    r"microcredit|priority sector)\b",
+    r"financial (services|institution[s]?)|finance (company|companies|limited|ltd)|\bfinance\b|"
+    r"lender[s]?|\bnpa[s]?\b|non-performing|gross npa|net npa|"
+    r"credit (rating[s]?|profile[s]?|quality|growth|cost[s]?)|capital adequacy|provisioning|"
+    r"disbursement[s]?|\baum\b|assets under management|securitisation|securitization|"
+    r"net interest margin[s]?|\bnim[s]?\b|gold loan[s]?|vehicle loan[s]?|personal loan[s]?|"
+    r"microcredit|priority sector|"
+    r"\bupi\b|\bmdr\b|digital (lending|payments?)|payment[s]? (gateway|aggregator)|"
+    r"\baif[s]?\b|alternative investment fund[s]?)\b",
     re.IGNORECASE,
 )
 
@@ -460,12 +547,12 @@ _NON_FI_SUBJECT_RE = re.compile(
 # The strict subset: an actual financial institution or regulator, not just
 # finance vocabulary. "lender" and "loan" deliberately absent.
 _FI_CORE_RE = re.compile(
-    r"\b(nbfc|hfc|housing finance|non-?banking financial|bank(s|ing)?|"
-    r"microfinance|\bmfi\b|fintech|broking|brokerage|insurer|insuranc\w*|irdai|"
-    r"mutual fund|\bamc\b|asset management|asset reconstruction|"
-    r"small finance bank|payments? bank|cooperative bank|co-operative bank|"
+    r"\b(nbfc[s]?|hfc[s]?|housing finance|non-?banking financial|bank(s|ing)?|"
+    r"microfinance|\bmfi[s]?\b|fintech|broking|brokerage|insurer[s]?|insuranc\w*|irdai|"
+    r"mutual fund[s]?|\bamc[s]?\b|asset management|asset reconstruction|"
+    r"small finance bank[s]?|payments? bank[s]?|cooperative bank[s]?|co-operative bank[s]?|"
     r"\brbi\b|\bsebi\b|\bnhb\b|nabard|sidbi|pfrda|\bibbi\b|"
-    r"financial (services|institution))\b",
+    r"financial (services|institution[s]?))\b",
     re.IGNORECASE,
 )
 
@@ -1002,6 +1089,67 @@ _SECTOR_WIDE_RE = re.compile(
     re.IGNORECASE,
 )
 
+# ---------------------------------------------------------------------------
+# S2 / S3 taxonomy — analyst-facing category labels
+# ---------------------------------------------------------------------------
+# Ordered tuples of (code, label, regex); first match wins. Used to group and
+# label S2/S3 cards so a reader scanning the section sees WHAT KIND of
+# development each story is, not just a flat list. A story that matches no
+# category still renders (grouped as "General") rather than being dropped —
+# this is a display taxonomy, not an additional relevance filter.
+_S2_TAXONOMY = (
+    ("REG", "Regulatory & Policy", re.compile(
+        r"\b(rbi|sebi|irdai|pfrda|ifsca|ministry of finance|\bdfs\b|\bmca\b|"
+        r"department of financial services|supreme court|high court|"
+        r"tribunal (rules|upholds|quashes))\b", re.IGNORECASE)),
+    ("MFI", "Microfinance &amp; Retail Credit", re.compile(
+        r"\b(microfinance|\bmfi[s]?\b|unsecured (credit|loan)|gold loan|"
+        r"consumer finance|msme lending|vehicle finance|two-?wheeler loan|"
+        r"personal loan)\b", re.IGNORECASE)),
+    ("INS", "Insurance", re.compile(
+        r"\b(insur\w*|irdai|premium (growth|trend|income)|claims? ratio|"
+        r"solvency|bancassurance)\b", re.IGNORECASE)),
+    ("CAP", "Capital Markets, AMC & AIF", re.compile(
+        r"\b(mutual fund|\bamc\b|\baif\b|alternative investment fund|broking|"
+        r"brokerage|stock exchange|\bnse\b|\bbse\b|securities market|demat)\b",
+        re.IGNORECASE)),
+    ("FIN", "Fintech & Payments", re.compile(
+        r"\b(fintech|\bupi\b|\bmdr\b|digital lending|digital payments?|"
+        r"payment[s]? (gateway|aggregator|bank))\b", re.IGNORECASE)),
+    ("BNK", "Banks & NBFCs", re.compile(
+        r"\b(nbfc|hfc|bank(s|ing)?|credit growth|\baum\b|net interest margin|"
+        r"\bnim\b|asset quality|capital adequacy|liquidity|funding cost|"
+        r"provisioning|\bnpa\b)\b", re.IGNORECASE)),
+)
+_S3_TAXONOMY = (
+    ("RATES", "Rates & Liquidity", re.compile(
+        r"\b(repo rate|monetary policy|\bmpc\b|banking system liquidity|"
+        r"\bvrr\b|\bvrrr\b|policy transmission|money market)\b", re.IGNORECASE)),
+    ("CREDIT", "Fixed Income & Credit Markets", re.compile(
+        r"\b(g-sec|gilt|corporate bond spread|bond issuance|foreign (portfolio )?"
+        r"(flows?|investors?) (into|in) debt|debt market)\b", re.IGNORECASE)),
+    ("FX", "FX & Commodities", re.compile(
+        r"\b(rupee|\binr\b|\bdxy\b|dollar index|crude|brent|gold price|"
+        r"commodit\w*)\b", re.IGNORECASE)),
+    ("GLOBAL", "Global Macro", re.compile(
+        r"\b(\bfed\b|federal reserve|\becb\b|\bboe\b|bank of england|fomc|"
+        r"us (cpi|jobs|gdp|growth)|china growth|geopolit\w*|global (rates|growth))\b",
+        re.IGNORECASE)),
+    ("MACRO", "India Macro", re.compile(
+        r"\b(gdp|gva|\bcpi\b|\bwpi\b|\biip\b|\bpmi\b|fiscal deficit|"
+        r"government borrowing|\bgst\b|tax collections?|trade deficit|"
+        r"current account|employment data|rural economy|monsoon|agriculture|"
+        r"capex cycle|consumption|investment indicators?)\b", re.IGNORECASE)),
+)
+
+
+def _categorize(it: dict, table: tuple) -> str:
+    text = f'{it.get("title","")} {it.get("summary","")}'
+    for code, label, rx in table:
+        if rx.search(text):
+            return label
+    return "General"
+
 
 def _classify_team(it: dict, company_phrases: list[str],
                    sectors=None, macro_kw=()) -> str | None:
@@ -1030,6 +1178,16 @@ def _classify_team(it: dict, company_phrases: list[str],
         base = _classify(untagged, company_phrases)
         if base == "S1":
             return None
+        # Every check from here on must use the STRIPPED tags, not the
+        # original. This was the actual mechanism behind most of the real
+        # Bali leaks: a rejected "WATCHLIST — Bharti Axa Life Insurance
+        # Company Limited" tag still contains the word "Insurance", and the
+        # sector/macro keyword checks below matched against `it["tags"]`
+        # (the untouched original) rather than the cleaned version — so an
+        # unrelated Bali travel story about "Elite Havens... Estate in Bali"
+        # sailed into S2 purely because the REJECTED tag text happened to
+        # contain a sector word the reader never sees.
+        it = untagged
     text = f'{it["tags"]} {it["source"]} {it["title"]} {it["summary"]}'.lower()
     # Sport, entertainment and stray CRA press pages are never rescued by a
     # keyword — those drops are absolute.
@@ -1062,6 +1220,16 @@ def _classify_team(it: dict, company_phrases: list[str],
     if base is None:
         return None
     mapped = _TEAM_SECTION_MAP.get(base)
+    # _classify()'s old-S3 (regulatory) bucket is also where a policy-RATE
+    # decision lands, because its source-based shortcut fires on ANY item
+    # whose source starts with "rbi" — a monetary-policy release and a
+    # supervisory circular share a feed but not a category. "RBI keeps repo
+    # rate unchanged" is MACRO (S3 in the three-section scheme: RBI's own
+    # policy-rate action moves every rate in the system), not sector-desk
+    # regulation. Only overridden when the headline itself names a rate/
+    # monetary-policy topic — an ordinary RBI circular still maps to S2.
+    if mapped == "S2" and _S5_RE.search(headline):
+        mapped = "S3"
     # Final gate, applied to SECTOR routing only. _classify() reads the
     # summary as well as the headline — right for the 7:30 report, wrong
     # for a section everyone receives: a hospital chain's capex note whose
@@ -1168,19 +1336,58 @@ its keywords as a guide (a story can qualify for a sector even without a
 literal keyword hit, if it is clearly about that sector's business):
 {sector_lines}
 
-S3 — MACROECONOMIC & MARKETS NEWS. Economy-wide: GDP, inflation, monetary
-policy, fiscal policy, forex reserves, bond/G-sec markets in aggregate, IMF/
-World Bank/economic-survey commentary. Guide keywords: {macro_line}
+S3 — MACROECONOMIC & MARKETS NEWS. SYSTEMIC economy-wide developments only —
+not a dumping ground for anything with a rupee sign in it. India macro (GDP,
+CPI/WPI/IIP, PMI, fiscal deficit, GST/tax collections, trade, monsoon/rural
+economy, capex/consumption indicators); rates & liquidity (RBI monetary
+policy, repo rate, banking-system liquidity, VRR/VRRR); fixed income/credit
+markets in AGGREGATE (G-sec yields, systemic bond spreads, foreign debt
+flows — NOT one company's own CP/NCD issue, which is S1/DROP per the rule
+below); FX & commodities with a credit-relevant India angle (rupee, DXY,
+crude, gold); global macro (Fed/ECB/BoE, US data, China growth,
+geopolitics/crude shocks) ONLY when it has a plausible India/credit
+transmission channel — a global story with no such link is DROP, not S3.
+Guide keywords: {macro_line}
 
-DROP — anything that is none of the above, or is not real news: stock-price
-moves, broker buy/sell/target-price calls or forecasts ("X sees..."),
-technical-analysis/chart noise, IPO listing-pop commentary, mutual-fund
-scheme/NAV pages, tribunal cause-list or recovery-officer procedural
-notices, sport/entertainment, HR/headcount scraper pages, crypto, or a
-story naming a rating agency where the agency's own name is the only
-finance signal (a rating action on an untracked, non-financial-sector
-issuer is DROP; the same action on a tracked entity or a genuine
-BFSI/financial issuer is not).
+  IMPORTANT — insurance/IRDAI news is S2 (Insurance is a BFSI subsector),
+  never S3, even though it is "regulatory."
+
+  IMPORTANT — a macro STATISTIC (CPI/WPI/IIP/GDP/PMI) must be the LATEST
+  available release or a genuine revision/policy development. If the item
+  is plainly discussing an old reference period re-surfacing in today's
+  results (e.g. a January inflation writeup appearing in an August feed,
+  with no sign it is today's release or a fresh revision), output DROP —
+  do not present stale data as current.
+
+DROP — anything that is none of the above, or is not real news. Be
+AGGRESSIVE here; a section with 20 low-value items crowding out one real
+regulatory story is a worse outcome than an empty section. Always drop:
+  - stock-price moves, broker buy/sell/target-price calls or forecasts
+    ("X sees..."), technical-analysis/chart noise, IPO listing-pop
+    commentary, mutual-fund scheme/NAV pages, F&O/derivatives tables
+  - tribunal cause-list or recovery-officer procedural notices
+  - sport (scores, fixtures, tournaments), entertainment/celebrity content,
+    TRAVEL/TOURISM/HOSPITALITY content (hotels, resorts, destinations,
+    festivals, religious rituals) — these carry no finance signal no matter
+    what proper noun or place name happens to appear in them
+  - financial DATA/quote pages that are not articles: stock-quote pages,
+    options-chain/derivatives pricing pages, "52-week high" listicles
+  - HR/headcount scraper pages, crypto-trading stories, generic
+    personal-finance explainers with no new development
+  - a headline that is a mid-sentence fragment, a scraped table/list
+    remnant, or otherwise not a real, understandable headline — if you
+    cannot tell what the story is about from the title, DROP it rather
+    than guess
+  - a story naming a rating agency where the agency's own name is the only
+    finance signal (a rating action on an untracked, non-financial-sector
+    issuer is DROP; the same action on a tracked entity or a genuine
+    BFSI/financial issuer is not)
+  - one company's OWN CP/NCD/bond issuance, redemption or board approval to
+    raise funds — this is S1 (if tracked) or DROP (if not), never S3 macro,
+    UNLESS the story is explicitly about a sector- or market-wide funding
+    trend (e.g. "NBFC sector CP issuance hits a 3-year high")
+  - overseas corporate/PE transactions with no India credit angle
+  - a routine appointment/recruitment story with no systemic significance
 
 Rules:
 - A story about ONE company's OWN commercial activity (results, debt
@@ -1190,6 +1397,12 @@ Rules:
   apply to regulator enforcement/directions, which stay S2 per above.
 - A rating-agency name (CRISIL, ICRA, CareEdge, India Ratings) is not by
   itself a sector signal — judge the actual subject.
+- Before accepting ANY item into S2, confirm it is MATERIALLY about Indian
+  BFSI, Indian financial regulation, Indian financial-markets regulation,
+  or an identifiable BFSI subsector (banks/NBFCs, microfinance/retail
+  credit, insurance, capital markets/AMC/AIF, fintech/payments) — a
+  coincidental keyword match is not enough; you must be able to say WHICH
+  of these subsectors the story concerns.
 - When genuinely uncertain between two sections, prefer the more specific
   one (S1 over S2, S2 over S3) if a legitimate case exists; otherwise DROP
   rather than guess.
@@ -1534,6 +1747,7 @@ def _classify_items_ai(items: list[dict], company_phrases: list[str], sectors: d
     if client is None:
         for it in rest:
             it["section"] = _classify_team(it, company_phrases, sectors, macro_kw)
+        _tag_categories(items)
         return
 
     n_ai, n_fallback = 0, 0
@@ -1550,6 +1764,20 @@ def _classify_items_ai(items: list[dict], company_phrases: list[str], sectors: d
                 it["section"] = result[i]
     print(f"[ai_classify] {n_ai} items classified by {_AI_MODEL}, "
           f"{n_fallback} fell back to mechanical rules")
+    _tag_categories(items)
+
+
+def _tag_categories(items: list[dict]) -> None:
+    """Sets it['category'] for every S2/S3 item, in place. Applied uniformly
+    after classification regardless of which path (AI, mechanical fallback,
+    or console keyword) decided the section, so the taxonomy label is never
+    tied to one classification route."""
+    for it in items:
+        sec = it.get("section")
+        if sec == "S2":
+            it["category"] = _categorize(it, _S2_TAXONOMY)
+        elif sec == "S3":
+            it["category"] = _categorize(it, _S3_TAXONOMY)
 
 
 # A short bank name is a substring of longer institution names — a plain
@@ -2292,6 +2520,53 @@ def _is_stale(it: dict, today: "datetime.date", max_age_days: int = 2) -> bool:
     return d is not None and (today - d).days > max_age_days
 
 
+# Event-DATE freshness, not just search-result date: a macro-data article
+# can be freshly CRAWLED today while describing an old reference period —
+# a January CPI writeup resurfacing in an August search still says "January
+# CPI", it just wasn't indexed until now. _is_stale above only catches the
+# crawl date; this catches the DATA date. Scoped narrowly to the handful of
+# stats that are always described by name-of-period (CPI/WPI/IIP/GDP/PMI) —
+# a story that merely mentions a past month in passing ("since January") but
+# is not itself a dated data release is left alone.
+_MACRO_STAT_RE = re.compile(r"\b(cpi|inflation|wpi|iip|\bgdp\b|\bgva\b|\bpmi\b)\b", re.IGNORECASE)
+_MONTH_MENTION_RE = re.compile(
+    r"\b(jan(?:uary)?|feb(?:ruary)?|mar(?:ch)?|apr(?:il)?|may|jun(?:e)?|jul(?:y)?|"
+    r"aug(?:ust)?|sep(?:t(?:ember)?)?|oct(?:ober)?|nov(?:ember)?|dec(?:ember)?)"
+    r"[\s.]*(20\d{2})?\b", re.IGNORECASE)
+_MONTH_NUM = {"jan": 1, "feb": 2, "mar": 3, "apr": 4, "may": 5, "jun": 6, "jul": 7,
+              "aug": 8, "sep": 9, "sept": 9, "oct": 10, "nov": 11, "dec": 12}
+
+
+def _is_stale_macro_period(it: dict, today: "datetime.date") -> bool:
+    """True when a CPI/WPI/IIP/GDP/PMI story explicitly names a reference
+    month more than 3 calendar months old. Any ambiguity (no month found, no
+    stat keyword, ""since January"" with no stat context) keeps the item —
+    a missed stale item is cheap, a wrongly dropped live release is not.
+
+    The month must sit near the stat keyword (same short window), not just
+    anywhere in the text — "RBI holds rates, citing the inflation
+    trajectory since January" mentions both words but is not itself a
+    January-inflation data release; a document-wide search would wrongly
+    flag it."""
+    text = f'{it.get("title","")} {it.get("summary","")}'
+    stat_hit = _MACRO_STAT_RE.search(text)
+    if not stat_hit:
+        return False
+    window = text[max(0, stat_hit.start() - 25):stat_hit.end() + 25]
+    m = _MONTH_MENTION_RE.search(window)
+    if not m:
+        return False
+    month = _MONTH_NUM.get(m.group(1).lower()[:3])
+    if not month:
+        return False
+    year = int(m.group(2)) if m.group(2) else today.year
+    ref = datetime.date(year, month, 1)
+    if ref > today:
+        return False  # a forward-looking mention ("July print due in August"), not stale data
+    age_months = (today.year - ref.year) * 12 + (today.month - ref.month)
+    return age_months > 3
+
+
 _TITLE_STOP = {"the", "a", "an", "of", "in", "on", "for", "to", "and", "at",
                "as", "by", "with", "its", "is", "are", "from", "amid", "after"}
 
@@ -2657,7 +2932,11 @@ def _esc(s: str) -> str:
     return _html.escape(str(s or ""), quote=True)
 
 
-def _np_card(it: dict, hero: bool = False, company: str = "") -> str:
+_ALSO_REPORTED_CAP = 3
+
+
+def _np_card(it: dict, hero: bool = False, company: str = "",
+             takeaway: str = "") -> str:
     cls = "art hero" if hero else "art"
     # Reference layout: "SOURCE | DATE" with a thin pipe and the DATE in
     # teal, rather than one flat grey run separated by bullets.
@@ -2667,18 +2946,35 @@ def _np_card(it: dict, hero: bool = False, company: str = "") -> str:
     pub = _esc(it.get("pub", ""))
     if pub:
         meta = f'{meta}{sep}<span class="dt">{pub}</span>' if meta else f'<span class="dt">{pub}</span>'
+    # Category label for S2/S3 only — a small tag, not a redesign, so a
+    # reader scanning the section sees WHAT KIND of story this is without
+    # opening it (spec: taxonomy per section, minimal visual change).
+    cat = it.get("category")
+    cat_tag = (f'<span class="cat" style="color:{_NP_TEAL_DK};font-weight:700;'
+               f'font-size:8.5px;letter-spacing:0.6px;text-transform:uppercase;">'
+               f' &middot; {_esc(cat)}</span>') if cat else ""
     bits = [meta] if meta else []
     link = (f'<a class="rm" href="{_esc(it["url"])}" target="_blank">Read more &#8594;</a>'
             if it["url"] else "")
     fb = _feedback_link(it)
+    # Capped at 3: a duplicate story reported by seven or ten outlets is
+    # still one card, not a wall of source names — the reader needs to know
+    # it is corroborated, not the full syndication list.
+    also_list = (it.get("also") or [])[:_ALSO_REPORTED_CAP]
     also = (f'<br><span class="also">Also reported by: '
-            f'{_esc(", ".join(it["also"]))}</span>' if it.get("also") else "")
+            f'{_esc(", ".join(also_list))}</span>' if also_list else "")
     # No filler line when a feed gives no description — just omit it.
     summary = _esc(it["summary"])
     body = f'<p class="wh">{summary}</p>' if summary else ""
-    return (f'<div class="{cls}"><p class="src">{"".join(bits)}{_undated_note(it)}</p>'
+    # Credit lens: only for the top handful of stories per section (passed
+    # in by the caller), only when the AI takeaway pass produced one. Never
+    # a paraphrase of the headline — that constraint lives in the prompt.
+    lens = (f'<p class="lens" style="color:{_NP_NAVY};font-size:10.5px;'
+            f'font-weight:600;margin:3px 0 0;">Credit lens: {_esc(takeaway)}</p>'
+            if takeaway else "")
+    return (f'<div class="{cls}"><p class="src">{"".join(bits)}{cat_tag}{_undated_note(it)}</p>'
             f'<p class="hl">{_esc(it["title"])}</p>'
-            f'{body}{link}{fb}{also}</div>')
+            f'{body}{lens}{link}{fb}{also}</div>')
 
 
 def _feedback_link(it: dict) -> str:
@@ -2718,7 +3014,25 @@ def _company_header(name: str, its: list[dict]) -> str:
             f'{"s" if n != 1 else ""}</span></p>')
 
 
-def _np_partb(p: dict, items: list[dict], by_section: dict) -> tuple[str, int, list[dict]]:
+_CATEGORY_ORDER = {
+    "S2": [lbl for _c, lbl, _rx in _S2_TAXONOMY] + ["General"],
+    "S3": [lbl for _c, lbl, _rx in _S3_TAXONOMY] + ["General"],
+}
+
+
+def _category_header(label: str) -> str:
+    """Lighter than _company_header — a subsection label within S2/S3, not
+    an entity heading. Only rendered when at least one qualifying story
+    exists in that category (the caller never calls this for an empty
+    group)."""
+    return (f'<p style="margin:13px 0 4px;font-size:8.5px;font-weight:700;'
+            f'letter-spacing:1px;text-transform:uppercase;color:{_NP_TEAL_DK};'
+            f'break-after:avoid;-webkit-column-break-after:avoid;'
+            f'page-break-after:avoid;">{_esc(label)}</p>')
+
+
+def _np_partb(p: dict, items: list[dict], by_section: dict,
+              takeaways: dict | None = None) -> tuple[str, int, list[dict]]:
     """Per-person Part B in the 7:30 class markup. Returns (html, story_count,
     the stories shown — used to pick the Top 5)."""
     parts: list[str] = []
@@ -2792,11 +3106,28 @@ def _np_partb(p: dict, items: list[dict], by_section: dict) -> tuple[str, int, l
             # story) were demoted to one-liners purely by fetch order. The old
             # [:20] slice also dropped everything past 20 outright.
             sec_items = _rating_first(sec_items)
-            # Every item gets a full card. The "In brief" one-liner band was
-            # removed at the reader's request — with only three sections there
-            # is room, and a bullet with no summary read as a second-class
-            # story rather than a space saver.
-            parts.extend(_np_card(it) for it in sec_items)
+            # Top 3 by materiality are the section's KEY stories: hero
+            # styling plus a Credit lens line when the AI pass produced one.
+            # Everything else stays a compact full card — same content, no
+            # Credit lens, no visual promotion. This is the section 12/5
+            # "2-4 key stories more prominent" requirement without inventing
+            # a new card style.
+            hero_keys = {_key(it) for it in sec_items[:3]}
+            by_cat: dict[str, list[dict]] = {}
+            for it in sec_items:
+                by_cat.setdefault(it.get("category") or "General", []).append(it)
+            cat_order = _CATEGORY_ORDER.get(skey, [])
+            ordered_labels = [l for l in cat_order if l in by_cat]
+            ordered_labels += [l for l in by_cat if l not in cat_order]
+            for label in ordered_labels:
+                # A category heading only ever appears here, guarded by the
+                # dict lookup above — never rendered for a group with zero
+                # qualifying stories.
+                parts.append(_category_header(label))
+                for it in by_cat[label]:
+                    is_hero = _key(it) in hero_keys
+                    lens = (takeaways or {}).get(_key(it), "") if is_hero else ""
+                    parts.append(_np_card(it, hero=is_hero, takeaway=lens))
     return "\n".join(parts), total, chosen
 
 
@@ -3218,6 +3549,17 @@ def main() -> None:
         if it["section"] == "S2":
             it["sectors"] = _item_sectors(it, sectors)
 
+    pre_stale_macro = len(items)
+    stale_macro = [it for it in items
+                   if it["section"] == "S3" and _is_stale_macro_period(it, today_d)]
+    if stale_macro:
+        stale_ids = {id(it) for it in stale_macro}
+        items = [it for it in items if id(it) not in stale_ids]
+        for it in stale_macro[:8]:
+            print(f"[stale-macro] dropped (reference period >3 months old): {it['title'][:75]}")
+        print(f"{len(items)} items after macro-period freshness filter "
+              f"(dropped {pre_stale_macro - len(items)})")
+
     pre_offtopic = len(items)
     offtopic = [it for it in items if it["section"] is None]
     items = [it for it in items if it["section"] is not None]
@@ -3311,13 +3653,35 @@ def main() -> None:
     masthead = "CareEdge Weekend Edition" if is_weekend_edition else "CareEdge Daily News"
     coverage_note = "Covering Fri–Mon" if is_weekend_edition else ""
 
-    # First pass: build everyone's part B / Top-5 with no AI involved (cheap,
-    # deterministic). This has to happen before the AI mail-body pass below
-    # so it can batch ONE call across every recipient's Top-5 instead of a
-    # separate AI round-trip per person in the send loop.
+    # Credit lens: the TOP 3-5 S2 stories and TOP 3-5 S3 stories, desk-wide
+    # (not per person — the same regulatory action is everyone's top story),
+    # get a one-line "why a credit analyst cares" note attached to their
+    # card. Computed BEFORE the part-B pass below so every reader's
+    # attachment can carry it. Fails open to no lens line, same as every
+    # other AI-assisted feature here.
+    section_takeaways: dict = {}
+    if _ai_on():
+        s2_top = _rating_first(by_section.get("S2", []))[:5]
+        s3_top = _rating_first(by_section.get("S3", []))[:5]
+        lens_candidates = s2_top + s3_top
+        if lens_candidates:
+            try:
+                import anthropic
+                _client = anthropic.Anthropic(api_key=os.environ.get("ANTHROPIC_API_KEY", ""))
+                section_takeaways = _ai_takeaway_batch(lens_candidates, _client)
+                print(f"[ai_takeaway] {len(section_takeaways)}/{len(lens_candidates)} "
+                      f"desk-wide S2/S3 key stories got a credit lens")
+            except Exception as exc:
+                print(f"[ai_takeaway] desk-wide pass unavailable (non-fatal): {exc}")
+
+    # First pass: build everyone's part B / Top-5 with no per-person AI call
+    # involved (cheap, deterministic — section_takeaways above is the one
+    # shared AI pass this needs). This has to happen before the AI mail-body
+    # pass below so it can batch ONE call across every recipient's Top-5
+    # instead of a separate AI round-trip per person in the send loop.
     prepared: dict = {}
     for email, p in people.items():
-        part_b, total, person_items = _np_partb(p, items, by_section)
+        part_b, total, person_items = _np_partb(p, items, by_section, section_takeaways)
         if total == 0 and not team.get("send_empty_mail", False):
             print(f"[mail] skipping {email} — nothing new in their sections")
             continue
@@ -3330,6 +3694,7 @@ def main() -> None:
 
     takeaways, summaries = _ai_mail_body_content(
         {email: (v["name"], v["top5"]) for email, v in prepared.items()})
+    takeaways = {**section_takeaways, **takeaways}
 
     sent_count, failed = 0, []
     for email, v in prepared.items():
@@ -3370,7 +3735,7 @@ def main() -> None:
     master_p = {"sections": {"S1", "S2", "S3"},
                 "companies": {r["company"] for r in rows},
                 "sectors": set(sectors) | {_row_sector(r) for r in rows}}
-    m_partb, _m_total, _m_items = _np_partb(master_p, items, by_section)
+    m_partb, _m_total, _m_items = _np_partb(master_p, items, by_section, takeaways)
     _write_archive(_np_rebrand(_np_build_attachment(m_partb, today, "", masthead, coverage_note)), today)
 
     _append_stats({
