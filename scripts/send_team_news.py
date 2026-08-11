@@ -517,7 +517,8 @@ _SUFFIXES = {"private", "limited", "ltd", "pvt", "co", "company", "(india)", "in
 # 'small' alone must not attach an Equitas Small Finance story to SIDBI.
 _COMMON = {"small", "national", "india", "indian", "bank", "finance", "financial",
            "capital", "home", "housing", "credit", "micro", "asset", "industries",
-           "development", "investment", "securities", "insurance", "mutual", "fund"}
+           "development", "investment", "securities", "insurance", "mutual", "fund",
+           "tourism", "travel", "leisure", "hospitality"}
 
 
 def _sig_words(name: str) -> list[str]:
