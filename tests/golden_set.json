@@ -600,6 +600,30 @@
       "expect": "S1",
       "expect_team": "S1",
       "why": "guard: dropping legal suffixes from the acronym must not break SIDBI, whose acronym legitimately ends in 'India'"
+    },
+    {
+      "title": "The Ramco Cements Hold TP 1050",
+      "expect": null,
+      "expect_team": null,
+      "why": "reported leak: abbreviated broker call — 'target price' was filtered but the TP shorthand was not"
+    },
+    {
+      "title": "HDFC Bank Buy TP 2100",
+      "expect": null,
+      "expect_team": null,
+      "why": "the TP shorthand on a FINANCIAL issuer reached S2, because it carries a real FI signal — the cement version was only saved by having none"
+    },
+    {
+      "title": "IRDAI revises motor TP premium rates for FY27",
+      "expect": "S3",
+      "expect_team": "S2",
+      "why": "guard: 'TP' as third-party motor insurance must not be junked as a price target — the pattern requires a digit after TP"
+    },
+    {
+      "title": "Unifiz Capital to consider raising NCD",
+      "expect": "S4",
+      "expect_team": null,
+      "why": "reported S3 leak: one issuer considering an NCD raise is entity news — S1 if tracked, dropped otherwise"
     }
   ]
 }

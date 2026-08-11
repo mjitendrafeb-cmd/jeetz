@@ -138,6 +138,15 @@ _TEAM_JUNK_RE = re.compile(
     r"\b(buy|sell|hold|accumulate|reduce|add|neutral|not rated)\b[^.|]{0,70}\btarget\b"
     r"|\bfor the target\b"
     r"|\btarget (price|rs\.?)\b"
+    # Abbreviated broker calls: "The Ramco Cements Hold TP 1050", "HDFC Bank
+    # Buy TP 2100". The spelled-out "target price" was caught but the TP/TGT
+    # shorthand was not — harmless for a cement issuer (no FI signal, so it
+    # was dropped anyway) but any FINANCIAL issuer sailed into S2. A digit
+    # must follow, so "Motor TP directions" (third-party motor insurance)
+    # is not mistaken for a price target.
+    r"|\b(tp|tgt)\b\s*:?\s*(rs\.?\s*)?\d"
+    r"|\b(buy|sell|hold|accumulate|reduce|add|neutral|outperform|underperform|"
+    r"overweight|underweight)\b[^.|]{0,25}\b(tp|tgt)\b\s*:?\s*(rs\.?\s*)?\d"
     r"|\b(rated|maintains?|reiterates?|recommends?|upgrades? to|downgrades? to) ['‘“\"]?(strong )?(buy|sell|hold|accumulate|reduce|neutral|overweight|underweight)\b"
     r"|\bbuy,? sell or hold\b"
     r"|\bstock (pick|tip|recommendation)s?\b"
