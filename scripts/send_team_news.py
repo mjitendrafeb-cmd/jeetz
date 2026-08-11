@@ -825,7 +825,16 @@ def _parse_item(raw: str) -> dict:
         summary = _dedupe_summary(title, summary, source)
     wl_company = ""
     for t in tags:
-        m2 = re.match(r"WATCHLIST\s*[—-]\s*(.+)", t)
+        # BSE / FINANCIALS carry the entity the same way WATCHLIST does —
+        # they ARE exchange filings by that company. Without this they were
+        # not recognised as watchlist items and could not be pinned to S1.
+        # Requires an em/en dash, or a SPACED hyphen — not a bare one.
+        # fetch_web emits the tag "[WATCHLIST-BSE]" with no company at all,
+        # and a bare-hyphen pattern read that as WATCHLIST — "BSE",
+        # inventing an entity called BSE. (That predates the BSE work: the
+        # original WATCHLIST-only pattern had the same hole.)
+        m2 = re.match(r"(?:WATCHLIST|BSE|FINANCIALS)\s*(?:[—–]|\s-\s)\s*(.+)",
+                      t, re.IGNORECASE)
         if m2:
             wl_company = m2.group(1).strip()
     return {
@@ -2927,7 +2936,6 @@ def _np_build_attachment(part_b_html: str, today, for_name: str = "",
   </div>
   <div class="mast-center">
     <div class="mast-name">{_esc(masthead)}</div>
-    {f'<div style="font-family:Georgia,serif;font-size:12px;letter-spacing:1px;color:#555;margin-top:2px;">Prepared for {_esc(for_name)}</div>' if for_name else ''}
     <hr class="mast-rule">
   </div>
   <div class="mast-sub">
