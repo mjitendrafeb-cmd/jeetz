@@ -1807,6 +1807,20 @@ def _git_push(path: str, content: str | None = None) -> None:
 # compatibility (Outlook/Gmail), cream/navy palette.
 # ---------------------------------------------------------------------------
 
+# Newspaper palette, matched to the reference design: white ground, deep
+# navy chrome, teal used ONLY as an accent (active tab underline, section
+# rule, dates, links). Red is retained for CONFIDENTIAL and for downgrade
+# badges — both are alerts, not decoration, and the reference keeps
+# CONFIDENTIAL red too.
+_NP_NAVY = "#0E2E4E"
+_NP_NAVY_DEEP = "#0A2440"
+_NP_TEAL = "#1FBFC7"
+_NP_TEAL_DK = "#0E8F9A"
+_NP_INK = "#12283C"
+_NP_BODY = "#41535F"
+_NP_MUTED = "#8896A2"
+_NP_RULE = "#E3E8EC"
+
 _NAVY = "#132A46"
 _NAVY_SOFT = "#9AA9BC"
 _CREAM = "#EDEAE3"
@@ -2635,8 +2649,15 @@ def _esc(s: str) -> str:
 
 def _np_card(it: dict, hero: bool = False, company: str = "") -> str:
     cls = "art hero" if hero else "art"
-    bits = [_esc(b) for b in (company.upper() if company else "",
-                              it["source"], it.get("pub", "")) if b]
+    # Reference layout: "SOURCE | DATE" with a thin pipe and the DATE in
+    # teal, rather than one flat grey run separated by bullets.
+    lead = [_esc(b) for b in (company.upper() if company else "", it["source"]) if b]
+    sep = '<span class="pipe">|</span>'
+    meta = sep.join(lead)
+    pub = _esc(it.get("pub", ""))
+    if pub:
+        meta = f'{meta}{sep}<span class="dt">{pub}</span>' if meta else f'<span class="dt">{pub}</span>'
+    bits = [meta] if meta else []
     link = (f'<a class="rm" href="{_esc(it["url"])}" target="_blank">Read more &#8594;</a>'
             if it["url"] else "")
     fb = _feedback_link(it)
@@ -2645,7 +2666,7 @@ def _np_card(it: dict, hero: bool = False, company: str = "") -> str:
     # No filler line when a feed gives no description — just omit it.
     summary = _esc(it["summary"])
     body = f'<p class="wh">{summary}</p>' if summary else ""
-    return (f'<div class="{cls}"><p class="src">{" &bull; ".join(bits)}{_undated_note(it)}</p>'
+    return (f'<div class="{cls}"><p class="src">{"".join(bits)}{_undated_note(it)}</p>'
             f'<p class="hl">{_esc(it["title"])}</p>'
             f'{body}{link}{fb}{also}</div>')
 
@@ -2672,16 +2693,18 @@ def _company_header(name: str, its: list[dict]) -> str:
     n = len(its)
     top = max(_materiality(i) for i in its)
     # Flag the entity itself when it carries something that needs action.
-    flag = ('<span style="color:#b91c1c;font-weight:800;"> &#9679; ACTION</span>'
-            if top >= 8 else "")
+    # Red is kept for ACTION: it is an alert, like CONFIDENTIAL in the
+    # reference, not part of the navy/teal chrome.
+    flag = (f'<span style="color:#D0021B;font-weight:800;font-size:8px;">'
+            f' &#9679; ACTION</span>' if top >= 8 else "")
     return (f'<p style="margin:14px 0 5px;font-size:10px;font-weight:800;'
-            f'letter-spacing:1.2px;text-transform:uppercase;color:#111;'
-            f'border-bottom:1px solid #bbb;padding-bottom:3px;'
+            f'letter-spacing:1.2px;text-transform:uppercase;color:{_NP_NAVY};'
+            f'border-bottom:1px solid {_NP_RULE};padding-bottom:4px;'
             f'break-inside:avoid;break-after:avoid;'
             f'-webkit-column-break-inside:avoid;-webkit-column-break-after:avoid;'
             f'page-break-after:avoid;">{_esc(name)}{flag}'
-            f'<span style="color:#9AA5B1;font-weight:500;font-size:7.5px;'
-            f'letter-spacing:0.8px;"> &middot; {n} item'
+            f'<span style="color:{_NP_MUTED};font-weight:500;font-size:7.5px;'
+            f'letter-spacing:0.8px;"> <span style="color:{_NP_RULE};">|</span> {n} item'
             f'{"s" if n != 1 else ""}</span></p>')
 
 
@@ -2941,48 +2964,51 @@ def _np_build_attachment(part_b_html: str, today, for_name: str = "",
   @page {{ size: A4; margin: 1.2cm 1.4cm; }}
   @page :first {{ margin-top: 0.5cm; }}
   *{{box-sizing:border-box;margin:0;padding:0}}
-  body{{background:#f0ece4;font-family:'PT Serif',Georgia,serif;color:#111;font-size:11px}}
+  body{{background:#eef1f4;font-family:'PT Serif',Georgia,serif;color:{_NP_INK};font-size:11px}}
   .newspaper{{max-width:960px;margin:20px auto}}
-  .news-page{{background:#fdfaf5;box-shadow:0 2px 24px rgba(0,0,0,.18);margin-bottom:28px;padding-bottom:20px;break-before:page;page-break-before:always}}
+  .news-page{{background:#ffffff;box-shadow:0 2px 24px rgba(0,0,0,.18);margin-bottom:28px;padding-bottom:20px;break-before:page;page-break-before:always}}
   .front-page{{break-before:auto;page-break-before:auto}}
   .mast-top{{display:flex;justify-content:space-between;align-items:flex-end;padding:14px 28px 6px;border-bottom:1px solid #aaa}}
   .mast-left{{font-size:8.5px;letter-spacing:1.5px;text-transform:uppercase;color:#555;line-height:1.8}}
   .mast-right{{font-size:8.5px;text-align:right;color:#555;line-height:1.8}}
   .mast-center{{text-align:center;padding:4px 28px 0}}
-  .mast-name{{font-family:'Playfair Display',Georgia,serif;font-size:52px;font-weight:900;line-height:1;letter-spacing:-2px;color:#111}}
-  .mast-rule{{border:none;border-top:3px double #111;margin:6px 0 0}}
-  .mast-sub{{display:flex;justify-content:space-between;align-items:center;padding:5px 28px;border-bottom:3px solid #111;font-size:8.5px;letter-spacing:1px;text-transform:uppercase;color:#555}}
-  .mast-sub .red{{color:#cc0000;font-weight:700;border:1px solid #cc0000;padding:1px 6px}}
-  .navbar{{display:flex;border-bottom:2px solid #cc0000;background:#111}}
-  .navbar a{{flex:1;text-align:center;padding:7px 4px;font-size:8px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#ccc;text-decoration:none;border-right:1px solid #333}}
+  .mast-name{{font-family:'Playfair Display',Georgia,serif;font-size:52px;font-weight:900;line-height:1;letter-spacing:-2px;color:{_NP_NAVY}}}
+  .mast-rule{{border:none;border-top:2px solid {_NP_TEAL};margin:6px 0 0}}
+  .mast-sub{{display:flex;justify-content:space-between;align-items:center;padding:5px 28px;border-bottom:1px solid {_NP_RULE};font-size:8.5px;letter-spacing:1px;text-transform:uppercase;color:#555}}
+  .mast-sub .red{{color:#D0021B;font-weight:700;letter-spacing:1.5px}}
+  .navbar{{display:flex;background:{_NP_NAVY_DEEP}}}
+  .navbar a{{flex:1;text-align:center;padding:9px 4px 7px;font-size:8px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#C6D3DE;text-decoration:none;border-right:1px solid rgba(255,255,255,.10);border-bottom:3px solid transparent}}
+  .navbar a:first-child{{color:#fff;border-bottom:3px solid {_NP_TEAL}}}
+  .art .src .pipe{{color:{_NP_RULE};margin:0 7px;font-weight:400}}
+  .art .src .dt{{color:{_NP_TEAL_DK};font-weight:700}}
   .navbar a:first-child{{color:#fff}}
   .navbar a:last-child{{border-right:none}}
-  .page-header{{display:flex;justify-content:space-between;align-items:center;padding:8px 28px;border-bottom:3px solid #111;border-top:4px solid #cc0000}}
+  .page-header{{display:flex;justify-content:space-between;align-items:center;padding:8px 28px;border-bottom:1px solid {_NP_RULE};border-top:3px solid {_NP_NAVY}}}
   .page-header .ph-meta{{font-size:8px;letter-spacing:1px;text-transform:uppercase;color:#777}}
   .page-header .ph-title{{font-family:'Playfair Display',Georgia,serif;font-size:14px;font-weight:700;color:#111}}
-  .page-header .ph-num{{font-size:26px;font-weight:900;font-family:'Playfair Display',Georgia,serif;color:#cc0000;line-height:1}}
-  .columns{{padding:0 28px 8px;column-count:3;column-gap:22px;column-rule:1px solid #ccc;min-height:80px}}
+  .page-header .ph-num{{font-size:26px;font-weight:900;font-family:'Playfair Display',Georgia,serif;color:{_NP_TEAL};line-height:1}}
+  .columns{{padding:0 28px 8px;column-count:3;column-gap:22px;column-rule:1px solid {_NP_RULE};min-height:80px}}
   [data-section="banner"]{{column-span:all;margin:20px -28px 0;padding:5px 28px;border-top:3px solid;border-bottom:1px solid}}
   .sb{{font-size:9px;font-weight:800;letter-spacing:3px;text-transform:uppercase;padding-top:6px;padding-bottom:6px}}
-  .sb1{{color:#cc0000;border-color:#cc0000}}
-  .sb2{{color:#b45309;border-color:#b45309}}
-  .sb3{{color:#1e3a8a;border-color:#1e3a8a}}
-  .art{{break-inside:avoid;padding:12px 0;border-bottom:1px solid #ddd}}
-  .art .src{{margin:0 0 3px;font-size:8px;font-weight:800;text-transform:uppercase;letter-spacing:1.5px;color:#999}}
-  .art .hl{{margin:0 0 6px;font-size:12.8px;font-weight:650;font-family:Georgia,serif;line-height:1.28;color:#111}}
-  .art .wh{{margin:0 0 5px;font-size:10.5px;color:#333;line-height:1.55}}
-  .art .rm{{font-size:9px;color:#888;text-decoration:none;font-weight:600}}
-  .art .also{{font-size:10px;color:#999}}
-  .art.hero{{padding:12px 0 14px;border-bottom:2px solid #cc0000;margin-bottom:4px}}
-  .art.hero .src{{color:#cc0000}}
+  .sb1{{color:{_NP_NAVY};border-color:{_NP_TEAL}}}
+  .sb2{{color:{_NP_NAVY};border-color:{_NP_TEAL}}}
+  .sb3{{color:{_NP_NAVY};border-color:{_NP_TEAL}}}
+  .art{{break-inside:avoid;padding:12px 0;border-bottom:1px solid {_NP_RULE}}}
+  .art .src{{margin:0 0 3px;font-size:8px;font-weight:800;text-transform:uppercase;letter-spacing:1.5px;color:{_NP_MUTED}}}
+  .art .hl{{margin:0 0 6px;font-size:12.8px;font-weight:650;font-family:Georgia,serif;line-height:1.28;color:{_NP_INK}}}
+  .art .wh{{margin:0 0 5px;font-size:10.5px;color:{_NP_BODY};line-height:1.55}}
+  .art .rm{{font-size:9px;color:{_NP_TEAL_DK};text-decoration:none;font-weight:700}}
+  .art .also{{font-size:10px;color:{_NP_MUTED}}}
+  .art.hero{{padding:12px 0 14px;border-bottom:1px solid {_NP_TEAL};margin-bottom:4px}}
+  .art.hero .src{{color:{_NP_MUTED}}}
   .art.hero .hl{{font-size:16.4px;font-weight:800;line-height:1.24}}
-  .art.hero .wh{{font-size:11px;color:#222;line-height:1.7}}
-  .art.hero .rm{{color:#cc0000;font-weight:700}}
+  .art.hero .wh{{font-size:11px;color:{_NP_BODY};line-height:1.7}}
+  .art.hero .rm{{color:{_NP_TEAL_DK};font-weight:700}}
   .ibh{{margin:14px 0 4px;font-size:8px;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:#999}}
   .ib{{margin:0 0 4px;font-size:9.5px;color:#555;line-height:1.5}}
   .ib a{{color:#999;font-size:8.5px;text-decoration:none}}
   .empty{{padding:10px 0;font-size:10px;color:#aaa;font-style:italic}}
-  .page-foot{{display:flex;justify-content:space-between;border-top:1px solid #bbb;margin:8px 28px 0;padding-top:6px;font-size:8px;color:#888;letter-spacing:1px;text-transform:uppercase}}
+  .page-foot{{display:flex;justify-content:space-between;border-top:2px solid {_NP_TEAL};margin:8px 28px 0;padding-top:6px;font-size:8px;color:#888;letter-spacing:1px;text-transform:uppercase}}
   @media print {{ body{{background:#fff}} .news-page{{box-shadow:none;margin-bottom:0}} }}
 </style></head>
 <body><div class="newspaper">{pages}</div></body></html>"""
