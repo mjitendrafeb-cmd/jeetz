@@ -576,6 +576,20 @@ _NAME_FALSE_FRIEND_RE = re.compile(
 )
 
 
+# Indian conglomerate prefixes. Matching one of these identifies the GROUP,
+# not the company: "Bharti" is shared by Airtel, Hexacom and Enterprises;
+# "Aditya Birla" by Capital, Fashion and dozens more. Requiring two matched
+# words is not enough for the two-word ones, since both words ARE the
+# group. When the only evidence sits inside the prefix, the story has to
+# also carry a word from the REST of the entity's name.
+_GROUP_PREFIX_RE = re.compile(
+    r"^(aditya birla|kotak mahindra|bharti|tata|reliance|mahindra|adani|"
+    r"godrej|hinduja|jindal|murugappa|piramal|shriram|bajaj|essar|vedanta|"
+    r"torrent|larsen|birla|ambani|hero|apollo)\b",
+    re.IGNORECASE,
+)
+
+
 def _mentions_company(body: str, name: str) -> bool:
     """Does the story text actually refer to this company? True when it
     contains the acronym (sidbi), any DISTINCTIVE name word (indostar,
@@ -591,15 +605,50 @@ def _mentions_company(body: str, name: str) -> bool:
     S1 items far beyond the case reported.
     """
     body = _NAME_FALSE_FRIEND_RE.sub(" ", body)
+    if _group_prefix_only(body, name):
+        return False
     acro = _acronym(name)
     if acro and re.search(r"\b" + re.escape(acro) + r"\b", body):
         return True
     words = _sig_words(name)
     matched = [w for w in words
                if re.search(r"\b" + re.escape(w) + r"\b", body)]
-    if any(w not in _COMMON for w in matched):
+    if len(matched) >= 2:
         return True
-    return len(matched) >= 2
+    if not matched:
+        return False
+    # Exactly one word matched. That is enough only when the name HAS only
+    # one significant word ("Navi", "REC", "Bhansali" — there is nothing
+    # else to match on), or when the word is long enough to identify the
+    # firm by itself.
+    #
+    # A short first word of a TWO-word name is usually a group prefix, not
+    # an identifier: "Bharti Axa Life Insurance" matched on "bharti"
+    # alone, so every Bharti Airtel, Bharti Hexacom and Bharti Enterprises
+    # story became Bharti Axa news — 31 items in one edition. Same shape as
+    # Tata, Aditya, Reliance, Mahindra. The 7-character floor is the rule
+    # fetch_news._story_mentions_entity already uses, so both sides of the
+    # pipeline now agree — disagreeing is what lost the MUDRA story.
+    lone = matched[0]
+    if len(words) == 1:
+        return lone not in _COMMON
+    return len(lone) >= 7 and lone not in _COMMON
+
+
+def _group_prefix_only(body: str, name: str) -> bool:
+    """True when the ONLY thing the story shares with this entity is the
+    conglomerate prefix — "Aditya Birla Fashion" against "Aditya Birla Sun
+    Life Mutual Fund". Requires a word from the rest of the name."""
+    m = _GROUP_PREFIX_RE.match(name.strip())
+    if not m:
+        return False
+    rest = name[m.end():]
+    tail = [w.strip(".,()").lower() for w in rest.split()]
+    tail = [w for w in tail
+            if len(w) >= 3 and w not in _FILLER and w not in _SUFFIXES]
+    if not tail:
+        return False  # nothing else to distinguish it by; prefix is the name
+    return not any(re.search(r"\b" + re.escape(w) + r"\b", body) for w in tail)
 
 
 _URL_IN_TEXT_RE = re.compile(r"https?://\S+")
