@@ -1,36 +1,6 @@
 [
  {
   "date": "2026-08-03",
-  "fetched": 89,
-  "delivered_pool": 65,
-  "junk": 10,
-  "geo": 1,
-  "stale": 0,
-  "dup": 1,
-  "sections": {
-   "S1": 35,
-   "S2": 16,
-   "S3": 4,
-   "S4": 5,
-   "S5": 5
-  },
-  "mails": 5,
-  "failed": [],
-  "source_summary": {
-   "RBI RSS": 20,
-   "RBI Enforcement": 0,
-   "SEBI RSS": 20,
-   "Rating Agencies": 2,
-   "Google News": 18,
-   "Watchlist (Google)": 10,
-   "BSE Announcements": 0,
-   "BSE Financials": 20,
-   "Telegram": 22,
-   "Web Scraper": 44
-  }
- },
- {
-  "date": "2026-08-03",
   "fetched": 103,
   "delivered_pool": 68,
   "junk": 14,
@@ -1955,6 +1925,79 @@
     "Meghalaya to build new state house in Navi Mumbai as demand rises for accommodation",
     "Mumbai: NCLT Admits Insolvency Plea Against Matoshree Infrastructure Over Claimed \u20b9209.72-Crore Default - Free",
     "Wise Equity inks agreement to acquire E-Pharma Trento"
+   ],
+   "junk": [
+    "Order in the matter of certain Investment Advisers",
+    "Order No. 01 of 2026 issued under RC No. 424 of 2014 drawn against Mr. Bhargav Ranchodlal Panchal (PAN: AFUPP7",
+    "Completion of Recovery Certificate No. RC9216 of 2026 in respect of Prabhjeet Singh Chawla (PAN: ACAPC4870A) i",
+    "Appeal No. 6976 of 2026 filed by Chhabeg Singh",
+    "Appeal No. 6974 of 2026 filed by Sudha Devi",
+    "Appeal No. 6973 of 2026 filed by Bharat Bhushan Sharma",
+    "Appeal No. 6972 of 2026 filed by Sunil Kumari",
+    "Appeal No. 6971 of 2026 filed by Piyush Agarwal",
+    "Release order for RC No. 4397 of 2021-Kesava Mallikarjuna Prasad Chivukula in the matter of CAT Technologies L",
+    "Completion of Recovery Certificate No. 4397 of 2021-Kesava Mallikarjuna Prasad Chivukula in the matter of CAT ",
+    "Release order for RC No. 4396 of 2021-Dhaduvai Venkatram in the matter of CAT Technologies Ltd.",
+    "Completion of Recovery Certificate No. 4396 of 2021-Dhaduvai Venkatram in the matter of CAT Technologies Ltd.",
+    "Kotak Bond Short Term Fund Direct-IDCW Weekly (\u20b9 10.03) - NAV, Reviews & asset allocation",
+    "Buy, Sell Or Hold: L&T Finance, Angel One, Cyient, Dalmia Bharat, Cello World",
+    "Broad-Based Technical Strength Lifts AU Small Finance Bank Ltd to 52-Week High of Rs 1092.15",
+    "Axis Max Life Launches Retirement Campaign, Inspiring Indians to Plan Their \u2018Second Innings\u2019",
+    "Bandhan Income Plus Arbitrage Active FOF - Direct Plan - Weekly IDCW",
+    "BANK OF INDIA Mid Cap Tax Fund Series 1 Regular Plan IDCW",
+    "Baroda BNP Paribas Services Fund - Regular Plan Portfolio",
+    "Bhansali Engineering Polymers Ltd is Rated Buy"
+   ]
+  }
+ },
+ {
+  "date": "2026-08-11",
+  "fetched": 1903,
+  "delivered_pool": 396,
+  "junk": 408,
+  "geo": 24,
+  "stale": 151,
+  "dup": 693,
+  "sections": {
+   "S1": 266,
+   "S2": 104,
+   "S3": 26
+  },
+  "mails": 1,
+  "failed": [],
+  "source_summary": {
+   "RBI RSS": 20,
+   "RBI Enforcement": 0,
+   "SEBI RSS": 20,
+   "Google News": 19,
+   "Watchlist (Google)": 550,
+   "BSE Announcements": 0,
+   "BSE Financials": 0,
+   "Telegram": 77,
+   "Web Scraper": 177
+  },
+  "dropped_samples": {
+   "relevance": [
+    "Rajya Sabha to take up Taxation Laws Amendment Bill, Bankers' Books Evidence Bill tomorrow",
+    "Rahul Gandhi hosted an \u2018AMA\u2019 session on Instagram and interacted with the GenZ days after the photo-sharing ap",
+    "Donald Trump has signed two executive orders expanding restrictions on birthright citizenship and cracking dow",
+    "Under India's E20 fuel program, the primary beneficiaries making money are large private distillery owners, su",
+    "#MintMarkets | Indian equity markets opened lower on Friday, with the Sensex falling 438.68 points to 78,516.0",
+    "SEBI Registration No. INH100009327 FC WEALTH COMPOUNDERS STRATEGY JULY\u201926 REVIEW WWW.FINTREKKCAPITAL.COM All d",
+    "Crisil Ratings downgrades ratings of Maithan Alloys to 'AA-' with 'stable' outlook",
+    "Inflow Technologies Pvt Ltd",
+    "L.G. Balakrishnan & Bros Limited",
+    "Himadri Speciality Chemical Limited",
+    "India Ratings downgrades Dhampur Sugar\u2019s long-term credit rating to IND A+",
+    "Update Regarding debt securities of IndiGrid Infrastructure Trust",
+    "#MFSummitWithMC",
+    "Lloyds Metals & Energy allots \u20b9700 crore NCDs at 9.02% coupon",
+    "SBI may mop up USD 10 billion of FCNR deposits by Sept end: CS Setty",
+    "Muthoot Microfin awaits RBI response before raising ECB",
+    "Gold rises for fourth day to Rs 1.54 lakh/10g in Delhi; silver remains flat",
+    "Meghalaya to build new state house in Navi Mumbai as demand rises for accommodation",
+    "Mumbai: NCLT Admits Insolvency Plea Against Matoshree Infrastructure Over Claimed \u20b9209.72-Crore Default - Free",
+    "Ahluwalia Contracts Q1 Results: Earnings call scheduled for Aug 17"
    ],
    "junk": [
     "Order in the matter of certain Investment Advisers",
