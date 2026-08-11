@@ -1745,13 +1745,6 @@ def _git_push(path: str, content: str | None = None) -> None:
 # compatibility (Outlook/Gmail), cream/navy palette.
 # ---------------------------------------------------------------------------
 
-# Single accent colour for the 7:40 newspaper. The CareEdge teal was
-# tried across the whole edition and did not suit it, so the accent is
-# navy and only navy — one colour, applied consistently, instead of the
-# old red/amber/blue trio. Paper, type and layout are unchanged.
-_NP_ACCENT = "#14324E"
-_NP_ACCENT_SOFT = "#3A6187"
-
 _NAVY = "#132A46"
 _NAVY_SOFT = "#9AA9BC"
 _CREAM = "#EDEAE3"
@@ -2897,32 +2890,32 @@ def _np_build_attachment(part_b_html: str, today, for_name: str = "",
   .mast-name{{font-family:'Playfair Display',Georgia,serif;font-size:52px;font-weight:900;line-height:1;letter-spacing:-2px;color:#111}}
   .mast-rule{{border:none;border-top:3px double #111;margin:6px 0 0}}
   .mast-sub{{display:flex;justify-content:space-between;align-items:center;padding:5px 28px;border-bottom:3px solid #111;font-size:8.5px;letter-spacing:1px;text-transform:uppercase;color:#555}}
-  .mast-sub .red{{color:{_NP_ACCENT};font-weight:700;border:1px solid {_NP_ACCENT};padding:1px 6px}}
-  .navbar{{display:flex;border-bottom:2px solid {_NP_ACCENT};background:{_NP_ACCENT}}}
-  .navbar a{{flex:1;text-align:center;padding:7px 4px;font-size:8px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#B9C6D4;text-decoration:none;border-right:1px solid #333}}
+  .mast-sub .red{{color:#cc0000;font-weight:700;border:1px solid #cc0000;padding:1px 6px}}
+  .navbar{{display:flex;border-bottom:2px solid #cc0000;background:#111}}
+  .navbar a{{flex:1;text-align:center;padding:7px 4px;font-size:8px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#ccc;text-decoration:none;border-right:1px solid #333}}
   .navbar a:first-child{{color:#fff}}
   .navbar a:last-child{{border-right:none}}
-  .page-header{{display:flex;justify-content:space-between;align-items:center;padding:8px 28px;border-bottom:3px solid {_NP_ACCENT};border-top:4px solid {_NP_ACCENT}}}
+  .page-header{{display:flex;justify-content:space-between;align-items:center;padding:8px 28px;border-bottom:3px solid #111;border-top:4px solid #cc0000}}
   .page-header .ph-meta{{font-size:8px;letter-spacing:1px;text-transform:uppercase;color:#777}}
   .page-header .ph-title{{font-family:'Playfair Display',Georgia,serif;font-size:14px;font-weight:700;color:#111}}
-  .page-header .ph-num{{font-size:26px;font-weight:900;font-family:'Playfair Display',Georgia,serif;color:{_NP_ACCENT};line-height:1}}
+  .page-header .ph-num{{font-size:26px;font-weight:900;font-family:'Playfair Display',Georgia,serif;color:#cc0000;line-height:1}}
   .columns{{padding:0 28px 8px;column-count:3;column-gap:22px;column-rule:1px solid #ccc;min-height:80px}}
   [data-section="banner"]{{column-span:all;margin:20px -28px 0;padding:5px 28px;border-top:3px solid;border-bottom:1px solid}}
   .sb{{font-size:9px;font-weight:800;letter-spacing:3px;text-transform:uppercase;padding-top:6px;padding-bottom:6px}}
-  .sb1{{color:{_NP_ACCENT};border-color:{_NP_ACCENT}}}
-  .sb2{{color:{_NP_ACCENT};border-color:{_NP_ACCENT}}}
-  .sb3{{color:{_NP_ACCENT};border-color:{_NP_ACCENT}}}
+  .sb1{{color:#cc0000;border-color:#cc0000}}
+  .sb2{{color:#b45309;border-color:#b45309}}
+  .sb3{{color:#1e3a8a;border-color:#1e3a8a}}
   .art{{break-inside:avoid;padding:12px 0;border-bottom:1px solid #ddd}}
   .art .src{{margin:0 0 3px;font-size:8px;font-weight:800;text-transform:uppercase;letter-spacing:1.5px;color:#999}}
   .art .hl{{margin:0 0 6px;font-size:12.8px;font-weight:650;font-family:Georgia,serif;line-height:1.28;color:#111}}
   .art .wh{{margin:0 0 5px;font-size:10.5px;color:#333;line-height:1.55}}
   .art .rm{{font-size:9px;color:#888;text-decoration:none;font-weight:600}}
   .art .also{{font-size:10px;color:#999}}
-  .art.hero{{padding:12px 0 14px;border-bottom:2px solid {_NP_ACCENT};margin-bottom:4px}}
-  .art.hero .src{{color:{_NP_ACCENT}}}
+  .art.hero{{padding:12px 0 14px;border-bottom:2px solid #cc0000;margin-bottom:4px}}
+  .art.hero .src{{color:#cc0000}}
   .art.hero .hl{{font-size:16.4px;font-weight:800;line-height:1.24}}
   .art.hero .wh{{font-size:11px;color:#222;line-height:1.7}}
-  .art.hero .rm{{color:{_NP_ACCENT};font-weight:700}}
+  .art.hero .rm{{color:#cc0000;font-weight:700}}
   .ibh{{margin:14px 0 4px;font-size:8px;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:#999}}
   .ib{{margin:0 0 4px;font-size:9.5px;color:#555;line-height:1.5}}
   .ib a{{color:#999;font-size:8.5px;text-decoration:none}}
