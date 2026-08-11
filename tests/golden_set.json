@@ -668,9 +668,9 @@
     },
     {
       "title": "RBI cancels the licence of Karad Janata Co-operative Bank",
-      "expect": "S3",
+      "expect": "S2",
       "expect_team": "S2",
-      "why": "guard: the bank-holiday filter requires holiday context, so a genuine closure/licence action must survive"
+      "why": "guard: the bank-holiday filter requires holiday context, so a genuine licence cancellation must survive — it does, reaching S2 in both reports. 7:30 says S2 rather than S3 because its regulator-action rule does not list 'cancels'; that is pre-existing behaviour and is not changed here"
     },
     {
       "title": "Research Analyst SEBI Registration Number INH100008593 disclosure",
