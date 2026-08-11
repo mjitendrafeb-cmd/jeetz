@@ -60,11 +60,22 @@ def verdict(stn, stock_move, non_english, case):
         return None, None
     if stock_move.search(case["title"]):
         return None, None
+    # Mirror production: _parse_item lifts the tagged entity into
+    # wl_company, and main() runs _match_companies BEFORE classification.
+    # Without both, the suite could not exercise the tag-rejection path —
+    # a story tagged to an entity it never actually mentions (a Navi MUMBAI
+    # story tagged "Navi Limited") — because _classify calls anything
+    # carrying a WATCHLIST tag S1 regardless.
+    import re as _re
+    m = _re.match(r"WATCHLIST\s*[—–-]\s*(.+)", case.get("tags", "").strip())
+    wl = m.group(1).strip() if m else ""
     it = {
         "title": case["title"], "summary": case.get("summary", ""),
         "tags": case.get("tags", ""), "source": case.get("source", "ET"),
-        "url": "", "pub": "05 Aug", "wl_company": "", "companies": [],
+        "url": "", "pub": "05 Aug", "wl_company": wl, "companies": [],
     }
+    if wl:
+        it["companies"] = stn._match_companies(it, [{"company": wl}])
     if stn._is_out_of_scope(it) or stn._is_team_junk(it):
         return None, None
     # Both taxonomies are checked: _classify() (five sections) is still
