@@ -703,6 +703,27 @@
       "expect": "S2",
       "expect_team": "S2",
       "why": "guard: killing the MYX:NHB ticker must not kill genuine National Housing Bank news — it reaches S2 in both reports. 7:30 says S2 rather than S3 because 'raises' is not in its regulator-action verb list; pre-existing, not changed"
+    },
+    {
+      "title": "Bharti Airtel Q1 profit rises 12% on tariff hikes",
+      "tags": "WATCHLIST — Bharti Axa Life Insurance Company Limited",
+      "expect": "S1",
+      "expect_team": null,
+      "why": "reported: Bharti Axa showed 31 S1 items because 'bharti' alone matched — every Bharti Airtel/Hexacom/Enterprises story became insurance news. 7:40 now rejects the tag and drops it; 7:30 still says S1 because _classify trusts a WATCHLIST tag without re-verifying it, which is its design and is not changed here"
+    },
+    {
+      "title": "Bharti Axa Life Insurance launches new term plan",
+      "tags": "WATCHLIST — Bharti Axa Life Insurance Company Limited",
+      "expect": "S1",
+      "expect_team": "S1",
+      "why": "guard: the group-prefix rule must not stop genuine Bharti Axa news matching"
+    },
+    {
+      "title": "Tata Motors Q1 profit rises on higher SUV sales",
+      "tags": "WATCHLIST — Tata Capital Limited",
+      "expect": "S1",
+      "expect_team": null,
+      "why": "same class as Bharti: a group prefix identifies the GROUP, not the entity — 23 live entities sit under one. 7:40 rejects the tag and drops the story; 7:30 still says S1 because _classify trusts a WATCHLIST tag without re-verifying it, which is its design and is not changed here"
     }
   ]
 }
