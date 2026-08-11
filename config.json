@@ -11,22 +11,20 @@
     "newsapi": false,
     "company_watchlist": true,
     "bse_announcements": true,
-    "rating_agencies": true,
+    "rating_agencies": false,
     "telegram": true,
     "web_scraper": true
   },
   "custom_scrape_urls": [
     "https://bfsi.economictimes.indiatimes.com/",
     "https://www.livemint.com/industry/banking",
-    "https://www.business-standard.com/finance",
-    "https://www.financialexpress.com/business/banking-finance/",
     "https://www.moneycontrol.com/news/business/banks/"
   ],
   "web_sources": {
-    "careedge": true,
-    "crisil": true,
-    "icra": true,
-    "india_ratings": true,
+    "careedge": false,
+    "crisil": false,
+    "icra": false,
+    "india_ratings": false,
     "bse": true,
     "nse": true,
     "fimmda": true,
