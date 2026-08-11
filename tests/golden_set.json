@@ -659,6 +659,24 @@
       "expect": "S1",
       "expect_team": "S1",
       "why": "reported duplication: eight outlets' versions of one Q1 result shipped as eight S1 cards because they agreed only on 'fusion' — same-entity/same-theme merging now collapses them; this case guards that the surviving card still classifies S1"
+    },
+    {
+      "title": "Bank holidays in August 2026: Banks to remain closed for 12 days; check full list",
+      "expect": null,
+      "expect_team": null,
+      "why": "reported S2 leak: branch opening hours are not a credit event, but holiday calendars mention banks constantly"
+    },
+    {
+      "title": "RBI cancels the licence of Karad Janata Co-operative Bank",
+      "expect": "S3",
+      "expect_team": "S2",
+      "why": "guard: the bank-holiday filter requires holiday context, so a genuine closure/licence action must survive"
+    },
+    {
+      "title": "Research Analyst SEBI Registration Number INH100008593 disclosure",
+      "expect": "S2",
+      "expect_team": null,
+      "why": "reported S2 leak: a SEBI registration number identifies ONE registered intermediary, so it is that entity's disclosure — 7:40 now sends it to S1 when the entity is tracked and drops it otherwise. 7:30 still says S2; its five-section classifier has no entity-story rule and is not changed here"
     }
   ]
 }

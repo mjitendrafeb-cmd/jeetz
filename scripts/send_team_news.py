@@ -285,6 +285,15 @@ _NOT_NEWS_RE = re.compile(
     r"|\bis known for\b|\bin conversation with\b|\bexclusive interview\b"
     r"|\b(fund manager|cio|portfolio manager)[^.|]{0,25}\b(says|shares|picks|interview)\b"
     r"|\bhere'?s (what|how|why) you (need to know|should know)\b"
+    # Bank holiday calendars. Branch-opening hours are not a credit event,
+    # but they mention banks constantly so they sailed into S2. Written to
+    # require holiday context, so a genuine closure ("RBI cancels the
+    # licence of X Co-operative Bank") is untouched.
+    r"|\bbank holidays?\b"
+    r"|\bholiday (list|calendar|schedule)\b"
+    r"|\bbanks? (are |will be |to |to remain |remain )?closed\b[^.|]{0,60}"
+    r"\b(holiday|festival|jayanti|puja|eid|diwali|independence day|republic day|"
+    r"second saturday|sunday)\b"
     # RBI daily money-market operations table scraped as text ("1. Fixed
     # Rate 2. Variable Rate& (a) Repo Operation (b) Reverse Repo Operation
     # 3. MSF# ..."): a data table, not a story.
@@ -881,6 +890,12 @@ _ENTITY_STORY_RE = re.compile(
     # of ADANI AIRPORT HOLDINGS", "issues awareness letter for ... credit
     # facilities". Entity news, never sector or macro.
     r"|\bpart redemption\b|\bawareness letter\b"
+    # A SEBI registration number identifies ONE registered intermediary, so
+    # the item is that entity's own disclosure, not sector news: S1 when the
+    # entity is on a watchlist, dropped otherwise. INH/INZ/INA/INP are the
+    # research-analyst, broker, adviser and portfolio-manager series.
+    r"|\b(inh|inz|ina|inp)\s?\d{6,9}\b"
+    r"|\bsebi registration (number|no\.?)\b"
     r"|\bmatured (commercial papers?|debentures?|ncds?|bonds?)\b"
     r"|\bredemption[^.|]{0,25}\bdebentures?\b"
     r"|\bq[1-4]\s*(fy\s?\d+\s*)?results?\b"
