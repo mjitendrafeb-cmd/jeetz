@@ -586,6 +586,20 @@
       "expect": "S4",
       "expect_team": "S3",
       "why": "genuine bond-market story from the same feed must survive the source-name gate"
+    },
+    {
+      "title": "Kashmir Life Centre Says KCC, MUDRA, PMEGP, Vishwakarma, SVANidhi Loans Available in Jammu Kashmir",
+      "tags": "WATCHLIST — Micro Units Development and Refinance Agency Limited",
+      "expect": "S1",
+      "expect_team": "S1",
+      "why": "reported miss: the mailer's acronym included 'Limited' ('mudral'), so it rejected its own fetcher's MUDRA tag and dropped a real watchlist story that 7:30 kept"
+    },
+    {
+      "title": "SIDBI expands network with 71 new branches",
+      "tags": "WATCHLIST — Small Industries Development Bank of India",
+      "expect": "S1",
+      "expect_team": "S1",
+      "why": "guard: dropping legal suffixes from the acronym must not break SIDBI, whose acronym legitimately ends in 'India'"
     }
   ]
 }
