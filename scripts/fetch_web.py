@@ -790,6 +790,23 @@ _EXTRA_RSS_FEEDS = [
         "https://inc42.com/feed/",
         _gnews_site_feed("site:inc42.com NBFC fintech funding round"),
     ]),
+    # Indian debt-market trade publication, requested as a source. Added as
+    # RSS rather than to config.json's custom_scrape_urls: the generic HTML
+    # scraper depends on a site's markup (which is why business-standard
+    # and financialexpress fail on every run) and, more importantly, emits
+    # NO publication date — undated items are exempt from the recency
+    # filter, which is exactly how July stories were surviving in the
+    # Weekend Edition. RSS carries a date and survives bot-blocking.
+    #
+    # Both direct URLs are unverified: debtcircle.in is unreachable from
+    # the build sandbox, so these are the two standard WordPress paths. If
+    # both are wrong the Google News fallback still returns the site's
+    # content, which is the whole point of the candidate-list design.
+    ("DebtCircle", "T2", 8, [
+        "https://debtcircle.in/feed/",
+        "https://debtcircle.in/rss/",
+        _gnews_site_feed("site:debtcircle.in bond NCD debt market India"),
+    ]),
     ("Medianama", "T2", 5, [
         "https://www.medianama.com/feed/",
         _gnews_site_feed("site:medianama.com fintech NBFC RBI"),
