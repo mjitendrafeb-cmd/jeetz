@@ -2242,6 +2242,46 @@ def _distinctive_toks(title: str) -> frozenset:
     return frozenset(t for t in _title_toks(title) if t not in _GENERIC_NEWS_WORD)
 
 
+def _entity_key(it: dict) -> str:
+    """Which watchlist entity this item belongs to, or "" if none."""
+    comps = it.get("companies") or []
+    if comps:
+        return sorted(comps)[0].lower()
+    return (it.get("wl_company") or "").strip().lower()
+
+
+# Themes that a company produces ONCE per event, so every outlet's version
+# is the same story. Deliberately broader than the _EVENTS taxonomy, which
+# splits these across RESULTS/OTHER depending on exact wording — "logs Rs
+# 62 crore profit" and "June-Quarter PAT 624.1 Million" describe one result
+# but land in different event buckets.
+_STORY_THEMES = (
+    ("results", re.compile(
+        r"\b(q[1-4]\b|quarter|quarterly|profit|profitable|\bpat\b|earnings|"
+        r"results?\b|revenue|net income|\bnpa\b|asset quality|provisions?|"
+        r"disbursement|\bpbt\b|bottom ?line)\b", re.IGNORECASE)),
+    # Deliberately its own pattern, not _RATING_ACTION_RE: that one also
+    # drives the card badges and the materiality score, so widening it
+    # would change ordering and styling as a side effect. Here it only has
+    # to recognise "this is the rating story" in whatever words an outlet
+    # chose ("upgrades", "rating raised", "cuts rating to").
+    ("rating", re.compile(
+        r"\b(upgrad\w*|downgrad\w*|rating watch|credit watch|placed on watch|"
+        r"outlook (revised|negative|positive|stable)|revises? outlook|"
+        r"reaffirm\w*|withdraws? rating|assigns? [^.|]{0,25}rating|"
+        r"rating (raised|cut|lowered|revised|upgraded|downgraded|reaffirmed)|"
+        r"(raises|cuts|lowers|revises) [^.|]{0,20}rating)\b", re.IGNORECASE)),
+)
+
+
+def _story_theme(it: dict) -> str:
+    text = f'{it.get("title","")} {it.get("summary","")}'
+    for name, rx in _STORY_THEMES:
+        if rx.search(text):
+            return name
+    return ""
+
+
 def _dedup_cross_source(items: list[dict]) -> list[dict]:
     """7:30 rule, mechanical version: same story from several sources keeps
     ONE card (highest tier wins) with 'Also reported by: ...' under it.
@@ -2274,7 +2314,22 @@ def _dedup_cross_source(items: list[dict]) -> list[dict]:
                 break
             if len(toks) < 4 or len(k["_toks"]) < 4:
                 continue
-            # Path 1 (new): three or more DISTINCTIVE tokens in common.
+            # Path 0: the same company's own recurring story, told by
+            # several outlets in words that share almost nothing. Eight
+            # versions of Fusion Finance's Q1 result all shipped as
+            # separate cards because they agreed only on "fusion" — every
+            # other shared word (profit, crore, quarter) is boilerplate
+            # this file deliberately treats as meaningless. A company
+            # reports a given quarter once, so same entity + same theme is
+            # one story. Requires a confirmed entity match, so this can
+            # never merge two different issuers.
+            ent_a, ent_b = _entity_key(it), _entity_key(k)
+            if ent_a and ent_a == ent_b:
+                theme_a, theme_b = _story_theme(it), _story_theme(k)
+                if theme_a and theme_a == theme_b:
+                    winner = k
+                    break
+            # Path 1: three or more DISTINCTIVE tokens in common.
             # This is what catches a reworded duplicate whichever word the
             # outlet led with — the reported Tata Sons upper-layer-NBFC
             # trio shares tata/sons/upper/layer/nbfc and now collapses to
@@ -3029,21 +3084,22 @@ def main() -> None:
     n_stale = pre_stale - len(items)
     print(f"{len(items)} items after recency filter (dropped {n_stale})")
 
-    pre_dup = len(items)
-    items = _dedup_cross_source(items)
-    n_dup = pre_dup - len(items)
-    print(f"{len(items)} items after cross-source dedup (merged {n_dup})")
-
     phrases = [_phrase(r["company"]) for r in rows]
     sectors = _load_sectors(team)
     macro_kw = [str(k).strip().lower() for k in team.get("macro_keywords", []) if str(k).strip()]
     print(f"[sectors] {', '.join(f'{n}({len(k)}kw)' for n, k in sectors.items()) or 'none'}"
           f" | macro={len(macro_kw)}kw")
-    # Companies first: both the AI classifier and its mechanical fallback
-    # need to know which watchlist entities an item already matched, to
-    # decide S1-vs-drop for anything single-entity.
+    # Match companies BEFORE dedup, not after: the classifier needs it, and
+    # so does the same-entity merge below — without it, dedup can only see
+    # the fetcher's tag and cannot tell that eight differently-worded
+    # headlines are all about one company's quarterly results.
     for it in items:
         it["companies"] = _match_companies(it, rows)
+
+    pre_dup = len(items)
+    items = _dedup_cross_source(items)
+    n_dup = pre_dup - len(items)
+    print(f"{len(items)} items after cross-source dedup (merged {n_dup})")
     _classify_items_ai(items, phrases, sectors, macro_kw)
     for it in items:
         if it["section"] == "S2":

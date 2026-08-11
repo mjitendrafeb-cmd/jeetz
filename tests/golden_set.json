@@ -652,6 +652,13 @@
       "expect": "S1",
       "expect_team": "S1",
       "why": "guard: word-boundary matching must still match REC by its real name"
+    },
+    {
+      "title": "Fusion Finance turns corner, logs Rs 62 crore profit",
+      "tags": "WATCHLIST — Fusion Finance Limited",
+      "expect": "S1",
+      "expect_team": "S1",
+      "why": "reported duplication: eight outlets' versions of one Q1 result shipped as eight S1 cards because they agreed only on 'fusion' — same-entity/same-theme merging now collapses them; this case guards that the surviving card still classifies S1"
     }
   ]
 }
