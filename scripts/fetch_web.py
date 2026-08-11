@@ -527,39 +527,75 @@ def fetch_nse_rss() -> list[str]:
 
 
 def fetch_bse_rss() -> list[str]:
-    """BSE notices/announcements via RSS/XML endpoints."""
+    """BSE notices and corporate announcements via RSS.
+
+    A company's own filing is the highest-signal S1 item available, and this
+    source was contributing almost nothing: "BSE Announcement" returned 0 on
+    every run while "BSE Notice" returned a handful. Two causes, both fixed:
+
+    - the request went through feedparser directly, which sends a bare
+      urllib User-Agent and gets 403'd by BSE. _feed_entries() reuses the
+      shared browser-headed session, which is what the working feeds in
+      this file already do.
+    - a single hardcoded URL per feed. BSE publishes its feed list at
+      bseindia.com/rss-feed.html and moves paths between www and beta, so
+      each feed now has CANDIDATES tried in order — a dead path falls
+      through instead of silently zeroing the source.
+
+    Items also carry PUB dates now. Without one they were exempt from the
+    recency filter and printed DATE UNCONFIRMED.
+    """
     feeds = [
-        ("https://www.bseindia.com/data/xml/notices.xml", "BSE Notice"),
-        ("https://www.bseindia.com/data/xml/announcements.xml", "BSE Announcement"),
+        ("BSE Announcement", True, [
+            "https://www.bseindia.com/data/xml/corpannouncement.xml",
+            "https://www.bseindia.com/data/xml/announcements.xml",
+            "https://beta.bseindia.com/data/xml/corpannouncement.xml",
+            "https://www.bseindia.com/corporates/ann.xml",
+        ]),
+        ("BSE Notice", False, [
+            "https://www.bseindia.com/data/xml/notices.xml",
+            "https://beta.bseindia.com/data/xml/notices.xml",
+        ]),
+        ("BSE Board Meeting", True, [
+            "https://www.bseindia.com/data/xml/boardmeeting.xml",
+            "https://beta.bseindia.com/data/xml/boardmeeting.xml",
+        ]),
     ]
     watch = _load_watchlist_phrases()
     items: list[str] = []
-    for url, tag in feeds:
-        try:
-            feed = feedparser.parse(url, agent=_HEADERS["User-Agent"])
-            count = 0
-            for entry in feed.entries[:60]:
-                if not _entry_recent(entry, 48):
-                    continue
-                title = _clean(entry.get("title", "")).strip()
-                desc = _clean(entry.get("summary", entry.get("description", ""))).strip()
-                if not title:
-                    continue
-                combined = (title + " " + desc).lower()
-                keep, is_watch = _exchange_keep(
-                    combined, watch, watchlist_only=(tag == "BSE Announcement"))
-                if not keep:
-                    continue
-                link = entry.get("link", "")
-                prefix = "[WATCHLIST-BSE]" if is_watch else "[T1]"
-                items.append(f"{prefix}{tag}: {title} — {desc[:150]} | URL:{link}")
-                count += 1
-                if count >= 10:
-                    break
-            print(f"[fetch_web] BSE RSS {tag}: {count} items")
-        except Exception as exc:
-            print(f"[fetch_web] BSE RSS error ({url}): {exc}")
-    return items[:20]
+    for tag, watchlist_only, urls in feeds:
+        entries, used = [], ""
+        for u in urls:
+            entries = _feed_entries(u)
+            if entries:
+                used = u
+                break
+        if not entries:
+            print(f"[fetch_web] BSE RSS {tag}: no data (tried {len(urls)} url(s))")
+            continue
+
+        count = 0
+        for entry in entries[:80]:
+            pub_str, recent = _entry_pub(entry)
+            if not recent:
+                continue
+            title = _clean(entry.get("title", "")).strip()
+            desc = _clean(entry.get("summary", entry.get("description", ""))).strip()
+            if not title:
+                continue
+            combined = (title + " " + desc).lower()
+            keep, is_watch = _exchange_keep(combined, watch, watchlist_only=watchlist_only)
+            if not keep:
+                continue
+            link = entry.get("link", "")
+            date_part = f" | PUB:{pub_str}" if pub_str else ""
+            prefix = "[WATCHLIST-BSE]" if is_watch else "[T1]"
+            items.append(f"{prefix}{tag}: {title} — {desc[:150]}{date_part} | URL:{link}")
+            count += 1
+            if count >= 12:
+                break
+        print(f"[fetch_web] BSE RSS {tag}: {count} items (from {used})")
+    return items[:30]
 
 
 # ─────────────────────────────────────────────────────────────────────────────
