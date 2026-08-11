@@ -544,17 +544,40 @@ def _acronym(name: str) -> str:
     return a if len(a) >= 4 else ""
 
 
+# Company words that are really the first half of an unrelated proper noun.
+# "Navi Limited" is on the watchlist, so a Navi MUMBAI story matched on
+# "navi" and landed in S1 as company news. Stripping the phrase before the
+# name test is the surgical fix: a genuine "Navi Finserv raises NCDs"
+# headline is untouched, because only the two-word place name disappears.
+_NAME_FALSE_FRIEND_RE = re.compile(
+    r"\bnavi\s+mumbai\b"
+    r"|\bnew\s+delhi\b"
+    r"|\bnoida\s+authority\b",
+    re.IGNORECASE,
+)
+
+
 def _mentions_company(body: str, name: str) -> bool:
     """Does the story text actually refer to this company? True when it
     contains the acronym (sidbi), any DISTINCTIVE name word (indostar,
     baroda, equitas), or at least TWO common words ('small' + 'industries').
     A single common word like 'small' is not enough — that attached
-    Equitas Small Finance stories to SIDBI."""
+    Equitas Small Finance stories to SIDBI.
+
+    Name words are matched on WORD BOUNDARIES. They were plain substrings,
+    which is fine for a long distinctive name and disastrous for a short
+    one: "REC Limited" reduces to the single word "rec", so every story
+    containing "recent", "recovery" or "record" was read as REC news. Short
+    watchlist names are common (REC, Navi, SMIFS), so this was mis-filing
+    S1 items far beyond the case reported.
+    """
+    body = _NAME_FALSE_FRIEND_RE.sub(" ", body)
     acro = _acronym(name)
     if acro and re.search(r"\b" + re.escape(acro) + r"\b", body):
         return True
     words = _sig_words(name)
-    matched = [w for w in words if w in body]
+    matched = [w for w in words
+               if re.search(r"\b" + re.escape(w) + r"\b", body)]
     if any(w not in _COMMON for w in matched):
         return True
     return len(matched) >= 2
@@ -908,7 +931,21 @@ def _classify_team(it: dict, company_phrases: list[str],
     """
     base = _classify(it, company_phrases)
     if base == "S1":
-        return "S1"
+        # _classify calls anything carrying a WATCHLIST tag S1. But
+        # _match_companies re-verifies that tag and rejects it when the
+        # story does not actually mention the entity (a Navi MUMBAI story
+        # tagged to "Navi Limited"). A rejected tag left the item labelled
+        # S1 with no company attached: invisible in the mail, since S1
+        # renders per entity, but it still inflated the S1 counts. Judge
+        # such an item on its own merits instead, with the tag removed.
+        if it.get("companies") or not it.get("wl_company"):
+            return "S1"
+        untagged = dict(it)
+        untagged["tags"] = re.sub(r"WATCHLIST\s*[—–-][^|\]]*", " ",
+                                  it.get("tags", ""), flags=re.IGNORECASE)
+        base = _classify(untagged, company_phrases)
+        if base == "S1":
+            return None
     text = f'{it["tags"]} {it["source"]} {it["title"]} {it["summary"]}'.lower()
     # Sport, entertainment and stray CRA press pages are never rescued by a
     # keyword — those drops are absolute.

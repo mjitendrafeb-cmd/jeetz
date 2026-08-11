@@ -624,6 +624,34 @@
       "expect": "S4",
       "expect_team": null,
       "why": "reported S3 leak: one issuer considering an NCD raise is entity news — S1 if tracked, dropped otherwise"
+    },
+    {
+      "title": "Navi Mumbai civic body clears Rs 500 crore infrastructure plan",
+      "tags": "WATCHLIST — Navi Limited",
+      "expect": "S1",
+      "expect_team": null,
+      "why": "reported S1 leak: 'Navi Limited' matched the city Navi Mumbai on the word 'navi'. 7:30 still says S1 because _classify trusts the WATCHLIST tag and has no re-verification step — that is its design and is not changed here; 7:40 re-verifies, rejects the tag and correctly drops the story"
+    },
+    {
+      "title": "Navi Finserv raises Rs 300 crore via NCDs",
+      "tags": "WATCHLIST — Navi Finserv Limited",
+      "expect": "S1",
+      "expect_team": "S1",
+      "why": "guard: stripping the 'Navi Mumbai' phrase must not stop genuine Navi Finserv news matching"
+    },
+    {
+      "title": "Recent developments in the bond market",
+      "tags": "WATCHLIST — REC Limited",
+      "expect": "S1",
+      "expect_team": "S3",
+      "why": "name words were plain substrings, so short names like REC matched 'recent'/'recovery'/'record'. 7:40 now rejects the tag and judges the story on its merits (a bond-market item -> S3) instead of filing it under REC; 7:30 keeps S1 because it trusts the tag by design"
+    },
+    {
+      "title": "REC Limited raises Rs 2000 crore via bonds",
+      "tags": "WATCHLIST — REC Limited",
+      "expect": "S1",
+      "expect_team": "S1",
+      "why": "guard: word-boundary matching must still match REC by its real name"
     }
   ]
 }
