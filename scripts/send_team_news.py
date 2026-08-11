@@ -2508,7 +2508,9 @@ def _company_header(name: str, its: list[dict]) -> str:
     return (f'<p style="margin:14px 0 5px;font-size:10px;font-weight:800;'
             f'letter-spacing:1.2px;text-transform:uppercase;color:#111;'
             f'border-bottom:1px solid #bbb;padding-bottom:3px;'
-            f'break-inside:avoid;">{_esc(name)}{flag}'
+            f'break-inside:avoid;break-after:avoid;'
+            f'-webkit-column-break-inside:avoid;-webkit-column-break-after:avoid;'
+            f'page-break-after:avoid;">{_esc(name)}{flag}'
             f'<span style="color:#999;font-weight:600;"> &middot; {n} item'
             f'{"s" if n != 1 else ""}</span></p>')
 
@@ -2555,23 +2557,20 @@ def _np_partb(p: dict, items: list[dict], by_section: dict) -> tuple[str, int, l
                            key=lambda kv: -max(_materiality(i) for i in kv[1]))
             lead = True
             for comp, its in order:
-                # The header and its cards are separate sibling elements in
-                # the printed HTML; break-inside:avoid on each individually
-                # (already on the header, and on every .art card) stops a
-                # column from splitting a single element, but nothing
-                # stopped the multi-column layout from breaking BETWEEN
-                # them — landing a header at the bottom of one column and
-                # its cards, unlabelled, at the top of the next (reported:
-                # "Religare Broking Limited" header separated from its own
-                # two cards). Wrapping the whole entity group in one
-                # break-inside:avoid block keeps the header glued to every
-                # card it introduces.
-                group = [_company_header(comp, its)]
+                # A header must not be orphaned at the foot of a column,
+                # but the group must NOT be made atomic either: wrapping
+                # header+cards in one break-inside:avoid block was tried
+                # and produced the reported blank right-hand columns —
+                # HDFC Bank had 15 cards, the block was taller than a
+                # column, so the browser could not break it anywhere and
+                # pushed the whole thing, leaving the rest of the page
+                # empty. The correct idiom is break-AFTER:avoid on the
+                # header alone: it stays with the card that follows it,
+                # while later cards flow across columns normally.
+                parts.append(_company_header(comp, its))
                 for it in its:
-                    group.append(_np_card(it, hero=lead))
+                    parts.append(_np_card(it, hero=lead))
                     lead = False
-                parts.append(f'<div style="break-inside:avoid;-webkit-column-break-inside:avoid;">'
-                             f'{"".join(group)}</div>')
         else:
             sec_items = by_section[skey]
             if skey == "S2" and p.get("sectors"):
