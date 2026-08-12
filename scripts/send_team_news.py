@@ -54,6 +54,11 @@ _S4_RE = re.compile(
     r"commercial paper|\bcp\b|securitisation|securitization|fimmda|ccil|"
     r"treasury bill[s]?|t-bill[s]?|masala bond|certificate[s]? of deposit|"
     r"repo auction|vrr|\bomo\b|state (development loan|government securities)|"
+    # "Government Stock" is RBI's own term for G-Secs in its auction-result
+    # releases ("Government Stock - Full Auction Results") — a real 11 Aug
+    # item landed in S2 instead of S3 for lacking the more common "G-Sec"
+    # phrasing.
+    r"government stock|"
     r"money market|debt market|coupon rate|private placement)\b",
     re.IGNORECASE,
 )
@@ -373,6 +378,8 @@ def _is_team_junk(it: dict) -> bool:
     # through: the item never reaches either path.
     if _NEVER_RELEVANT_RE.search(body) or _DATA_PAGE_RE.search(body):
         return True
+    if _EDUCATIONAL_FILLER_RE.search(it.get("title", "")):
+        return True
     # A malformed/fragment headline is never presentable, whatever section
     # it would otherwise land in. Only checked for non-watchlist items — a
     # watchlist company's own tagged story should never be dropped for a
@@ -459,7 +466,26 @@ _NEVER_RELEVANT_RE = re.compile(
 _DATA_PAGE_RE = re.compile(
     r"\byahoo finance\b|\boptions? chain\b|\bimplied volatility\b|"
     r"\bstrike price\b|\b(call|put) options?\b.{0,20}\bexpiry\b|"
-    r"\bstock quote\b|\bshare price today\b|\blive (price|quote)\b",
+    r"\bstock quote\b|\bshare price today\b|\blive (price|quote)\b|"
+    # Aggregator quote-page titles list the same metric twice in one title
+    # ("L&T Finance Share Price, L&T Finance Stock Price, L&T Finance Ltd")
+    # — a real 11 Aug leak that the single-mention patterns above missed.
+    r"\bshare price\b.{0,60}\bstock price\b|\bstock price\b.{0,60}\bshare price\b",
+    re.IGNORECASE,
+)
+
+# Generic educational/promotional filler, often from Telegram channels —
+# "explainer" content with no new development, and engagement-bait posts
+# ("learn more...share more 👍"). Two real 11 Aug examples: "Dollar Index
+# and Its Impact on the Indian Economy" and "We are starting a bond market
+# jargon series..... learn more.... share more". A story with an actual new
+# development uses concrete facts/numbers in its own headline; these do not.
+_EDUCATIONAL_FILLER_RE = re.compile(
+    r"^(dollar index and its|understanding|what is|explained:|explainer:)\b"
+    r"|\blearn more\b.{0,20}\bshare more\b"
+    r"|\bwant a\b.{0,30}\?\s*$|\bhow to invest in\b.{0,20}\?"
+    r"|\bwe are starting a\b.{0,20}\bseries\b"
+    r"|[\U0001F300-\U0001FAFF☀-➿]",  # emoji anywhere in the headline
     re.IGNORECASE,
 )
 
@@ -496,6 +522,15 @@ def _is_malformed_headline(title: str) -> bool:
     # headlines from every feed this desk uses are properly capitalised, so
     # this is a safe general signal rather than a word-specific patch.
     if t[0].islower():
+        return True
+    # An unclosed leading parenthesis is a scraped date/citation fragment,
+    # not a headline ("(Press Release dated January 16, 2025 (").
+    if t.startswith("(") and t.count("(") != t.count(")"):
+        return True
+    # A bare "Org Name - domain.tld" with no verb or event — a scraped page
+    # title, not a story ("Insolvency and Bankruptcy Board of India -
+    # ibbi.gov.in"). Real headlines describe something happening.
+    if re.match(r"^[A-Za-z0-9 .,&'-]+ - [\w.-]+\.(com|in|org|gov\.in|co\.in)$", t):
         return True
     return False
 
@@ -1032,9 +1067,15 @@ def _item_sectors(it: dict, sectors: dict) -> set:
 # "Muthoot Microfin allots Rs 35 crore CP at 9.4%" reached every reader's
 # S3 because "commercial paper" is a bond-market/macro keyword.
 _ENTITY_STORY_RE = re.compile(
+    # "approves?" added after a real 11 Aug leak: "Embassy Office Parks
+    # REIT approves ₹400 Cr CP issuance" reached S3 because the existing
+    # board-approval pattern below requires the literal word "board" —
+    # an issuer approving its OWN issuance without that word slipped
+    # through. One issuer's own CP/NCD/bond decision is entity news
+    # whoever within the company approved it.
     r"\b(allots?|allotted|redeems?|redeemed|prepays?|repays?|repaid|raises?|raising|"
-    r"to raise|matured|matures?|part redemption|full redemption)\b"
-    r"[^.|]{0,60}\b(ncds?|debentures?|commercial papers?|bonds?|\becb\b|"
+    r"to raise|matured|matures?|part redemption|full redemption|approves?)\b"
+    r"[^.|]{0,60}\b(ncds?|debentures?|commercial papers?|\bcp\b|bonds?|\becb\b|"
     r"external commercial borrowings?|foreign currency borrowings?)\b"
     r"|\b(ncds?|debentures?|commercial papers?|bonds?)\b[^.|]{0,50}"
     r"\b(allotment|redemption|maturity|coupon|issue (price|opens?|closes?))\b"
@@ -1228,7 +1269,17 @@ def _classify_team(it: dict, company_phrases: list[str],
     # policy-rate action moves every rate in the system), not sector-desk
     # regulation. Only overridden when the headline itself names a rate/
     # monetary-policy topic — an ordinary RBI circular still maps to S2.
-    if mapped == "S2" and _S5_RE.search(headline):
+    # Same reasoning extended to bond/money-market AUCTION content: "RBI"-
+    # or regulator-sourced items land in old-S3 by source alone before their
+    # content is examined, so a G-Sec auction-result release ("Government
+    # Stock - Full Auction Results") mapped to S2 even though it is
+    # aggregate debt-market data, not sector regulation. Guarded on NOT
+    # being a regulatory ACTION headline ("SEBI tightens disclosure norms
+    # for debenture trustees") — a regulator's circular ABOUT bonds is
+    # still sector regulation (S2), exactly as _classify() itself already
+    # distinguishes for the five-section report.
+    if (mapped == "S2" and not _REG_ACTION_RE.search(headline)
+            and (_S5_RE.search(headline) or _S4_RE.search(headline))):
         mapped = "S3"
     # Final gate, applied to SECTOR routing only. _classify() reads the
     # summary as well as the headline — right for the 7:30 report, wrong
@@ -2564,7 +2615,11 @@ def _is_stale_macro_period(it: dict, today: "datetime.date") -> bool:
     if ref > today:
         return False  # a forward-looking mention ("July print due in August"), not stale data
     age_months = (today.year - ref.year) * 12 + (today.month - ref.month)
-    return age_months > 3
+    # India's monthly stats (CPI/IIP/WPI) normally release with a ~5-6 week
+    # lag, so "2 months old" is already the outer edge of a genuinely fresh
+    # release; a real 11 Aug case was "retail inflation rises to 3.93% in
+    # May" resurfacing in August — 3 months old, and not remotely current.
+    return age_months > 2
 
 
 _TITLE_STOP = {"the", "a", "an", "of", "in", "on", "for", "to", "and", "at",

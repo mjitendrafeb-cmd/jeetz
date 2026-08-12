@@ -874,6 +874,62 @@
       "expect": "S3",
       "expect_team": "S2",
       "why": "must-move-from-S3-to-S2 example (spec item 7): IRDAI/insurance regulatory news belongs in S2, not S3. Already correct pre-existing routing -- _S3_SOURCES/_TEAM_SECTION_MAP already sends the regulator's own five-section 'S3' (regulatory circular) to the three-section 'S2' (sector & regulation); this case locks that mapping in as a named regression test per the spec's explicit MUST-MOVE requirement"
+    },
+    {
+      "title": "Embassy Office Parks REIT approves ₹400 Cr CP issuance",
+      "source": "Business Standard",
+      "summary": "",
+      "expect": "S4",
+      "expect_team": null,
+      "why": "real 11 Aug replay finding: one issuer's OWN CP/NCD/bond decision must never reach S3 macro, per spec item 7 -- the existing board-approval pattern required the literal word 'board', and the CP instrument list required the spelled-out 'commercial paper', so an issuer approving its own CP issuance ('REIT approves...CP issuance', no 'board', bare 'CP') slipped past both and reached S3. Untracked entity, so the correct outcome is DROP, not S1"
+    },
+    {
+      "title": "L&T Finance Share Price, L&T Finance Stock Price, L&T Finance Ltd",
+      "source": "MarketsMojo",
+      "summary": "",
+      "expect": null,
+      "expect_team": null,
+      "why": "real 11 Aug replay finding: an aggregator stock-quote page (same metric listed twice in the title) reached S2 because the existing _DATA_PAGE_RE only matched a single mention of each phrase"
+    },
+    {
+      "title": "Dollar Index and Its Impact on the Indian Economy",
+      "source": "Telegram",
+      "summary": "",
+      "expect": null,
+      "expect_team": null,
+      "why": "spec item 7 named example: a generic personal-finance/macro EXPLAINER with no new development must be excluded"
+    },
+    {
+      "title": "We are starting a bond market jargon series …..learn more….share more 👍",
+      "source": "Telegram",
+      "summary": "",
+      "expect": null,
+      "expect_team": null,
+      "why": "real 11 Aug replay finding: Telegram engagement-bait/educational filler with no news content, reached S3 via bond-market keywords"
+    },
+    {
+      "title": "(Press Release dated January 16, 2025 (",
+      "source": "SEBI",
+      "summary": "",
+      "expect": null,
+      "expect_team": null,
+      "why": "real 11 Aug replay finding: a scraped date/citation fragment with an unclosed parenthesis, not a headline -- headline-quality gate extended to catch this shape (the earlier fragment checks only covered lowercase-start and glued-sentence patterns)"
+    },
+    {
+      "title": "Insolvency and Bankruptcy Board of India - ibbi.gov.in",
+      "source": "IBBI",
+      "summary": "",
+      "expect": null,
+      "expect_team": null,
+      "why": "real 11 Aug replay finding: a bare scraped page title ('Org Name - domain'), not a story about an event -- a trusted regulator source (IBBI) routed it straight to S2 with no headline-quality check"
+    },
+    {
+      "title": "Government Stock - Full Auction Results",
+      "source": "Telegram",
+      "summary": "",
+      "expect": "S4",
+      "expect_team": "S3",
+      "why": "real 11 Aug replay finding: RBI's own term for a G-Sec auction result ('Government Stock') was not recognised by the bond/macro keyword list, which only had the more common 'G-Sec' phrasing -- misrouted to S2 instead of S3 (a taxonomy-accuracy fix, not a false-positive removal: the item is real regulatory-desk-relevant news, just in the wrong of the two legitimate sections)"
     }
   ]
 }
