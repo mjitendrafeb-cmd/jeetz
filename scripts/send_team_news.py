@@ -2603,7 +2603,7 @@ def _is_stale_macro_period(it: dict, today: "datetime.date") -> bool:
     stat_hit = _MACRO_STAT_RE.search(text)
     if not stat_hit:
         return False
-    window = text[max(0, stat_hit.start() - 25):stat_hit.end() + 25]
+    window = text[max(0, stat_hit.start() - 45):stat_hit.end() + 45]
     m = _MONTH_MENTION_RE.search(window)
     if not m:
         return False
