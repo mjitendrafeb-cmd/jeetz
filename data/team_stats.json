@@ -1,35 +1,5 @@
 [
  {
-  "date": "2026-08-03",
-  "fetched": 103,
-  "delivered_pool": 68,
-  "junk": 14,
-  "geo": 1,
-  "stale": 0,
-  "dup": 7,
-  "sections": {
-   "S1": 38,
-   "S2": 17,
-   "S3": 2,
-   "S4": 7,
-   "S5": 4
-  },
-  "mails": 5,
-  "failed": [],
-  "source_summary": {
-   "RBI RSS": 20,
-   "RBI Enforcement": 0,
-   "SEBI RSS": 20,
-   "Rating Agencies": 2,
-   "Google News": 18,
-   "Watchlist (Google)": 11,
-   "BSE Announcements": 0,
-   "BSE Financials": 20,
-   "Telegram": 31,
-   "Web Scraper": 49
-  }
- },
- {
   "date": "2026-08-04",
   "fetched": 88,
   "delivered_pool": 47,
@@ -1998,6 +1968,83 @@
     "Meghalaya to build new state house in Navi Mumbai as demand rises for accommodation",
     "Mumbai: NCLT Admits Insolvency Plea Against Matoshree Infrastructure Over Claimed \u20b9209.72-Crore Default - Free",
     "Ahluwalia Contracts Q1 Results: Earnings call scheduled for Aug 17"
+   ],
+   "junk": [
+    "Order in the matter of certain Investment Advisers",
+    "Order No. 01 of 2026 issued under RC No. 424 of 2014 drawn against Mr. Bhargav Ranchodlal Panchal (PAN: AFUPP7",
+    "Completion of Recovery Certificate No. RC9216 of 2026 in respect of Prabhjeet Singh Chawla (PAN: ACAPC4870A) i",
+    "Appeal No. 6976 of 2026 filed by Chhabeg Singh",
+    "Appeal No. 6974 of 2026 filed by Sudha Devi",
+    "Appeal No. 6973 of 2026 filed by Bharat Bhushan Sharma",
+    "Appeal No. 6972 of 2026 filed by Sunil Kumari",
+    "Appeal No. 6971 of 2026 filed by Piyush Agarwal",
+    "Release order for RC No. 4397 of 2021-Kesava Mallikarjuna Prasad Chivukula in the matter of CAT Technologies L",
+    "Completion of Recovery Certificate No. 4397 of 2021-Kesava Mallikarjuna Prasad Chivukula in the matter of CAT ",
+    "Release order for RC No. 4396 of 2021-Dhaduvai Venkatram in the matter of CAT Technologies Ltd.",
+    "Completion of Recovery Certificate No. 4396 of 2021-Dhaduvai Venkatram in the matter of CAT Technologies Ltd.",
+    "Kotak Bond Short Term Fund Direct-IDCW Weekly (\u20b9 10.03) - NAV, Reviews & asset allocation",
+    "Buy, Sell Or Hold: L&T Finance, Angel One, Cyient, Dalmia Bharat, Cello World",
+    "Broad-Based Technical Strength Lifts AU Small Finance Bank Ltd to 52-Week High of Rs 1092.15",
+    "Axis Max Life Launches Retirement Campaign, Inspiring Indians to Plan Their \u2018Second Innings\u2019",
+    "Bandhan Income Plus Arbitrage Active FOF - Direct Plan - Weekly IDCW",
+    "BANK OF INDIA Mid Cap Tax Fund Series 1 Regular Plan IDCW",
+    "Baroda BNP Paribas Services Fund - Regular Plan Portfolio",
+    "Bhansali Engineering Polymers Ltd is Rated Buy"
+   ]
+  }
+ },
+ {
+  "date": "2026-08-12",
+  "fetched": 1492,
+  "delivered_pool": 266,
+  "junk": 395,
+  "geo": 24,
+  "stale": 225,
+  "dup": 383,
+  "sections": {
+   "S1": 188,
+   "S2": 66,
+   "S3": 12
+  },
+  "mails": 3,
+  "failed": [
+   "om.tupe@careedge.in",
+   "pooja.biyani@careedge.in",
+   "Krish.hablani@careedge.in"
+  ],
+  "source_summary": {
+   "RBI RSS": 20,
+   "RBI Enforcement": 0,
+   "SEBI RSS": 20,
+   "Google News": 18,
+   "Watchlist (Google)": 570,
+   "BSE Announcements": 0,
+   "BSE Financials": 0,
+   "Telegram": 77,
+   "Web Scraper": 175
+  },
+  "dropped_samples": {
+   "relevance": [
+    "Explained: What is NCDC (Amendment) Bill 2026 & what it proposes to change?",
+    "Rahul Gandhi hosted an \u2018AMA\u2019 session on Instagram and interacted with the GenZ days after the photo-sharing ap",
+    "Donald Trump has signed two executive orders expanding restrictions on birthright citizenship and cracking dow",
+    "Under India's E20 fuel program, the primary beneficiaries making money are large private distillery owners, su",
+    "#MintMarkets | Indian equity markets opened lower on Friday, with the Sensex falling 438.68 points to 78,516.0",
+    "Crisil Ratings downgrades ratings of Maithan Alloys to 'AA-' with 'stable' outlook",
+    "Inflow Technologies Pvt Ltd",
+    "L.G. Balakrishnan & Bros Limited",
+    "Himadri Speciality Chemical Limited",
+    "India Ratings downgrades Dhampur Sugar\u2019s long-term credit rating to IND A+",
+    "Update Regarding debt securities of IndiGrid Infrastructure Trust",
+    "#MFSummitWithMC",
+    "Lloyds Metals & Energy allots \u20b9700 crore NCDs at 9.02% coupon",
+    "SBI may mop up USD 10 billion of FCNR deposits by Sept end: CS Setty",
+    "Muthoot Microfin awaits RBI response before raising ECB",
+    "Gold rises for fourth day to Rs 1.54 lakh/10g in Delhi; silver remains flat",
+    "Wise Equity inks agreement to acquire E-Pharma Trento",
+    "\u2018Bear hugs\u2019 on the rise in UK take-privates \u2013 but why?; Apollo and EasyJet agree on \u00a35.7bn takeover",
+    "Sunoco to acquire Court Square-backed oil transporter Offen Petroleum for $600m",
+    "MPK Equity-backed Gorgeous Collective acquires Clean Your Dirty Face"
    ],
    "junk": [
     "Order in the matter of certain Investment Advisers",
