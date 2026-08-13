@@ -230,7 +230,7 @@ _TRIBUNAL_LISTING_RE = re.compile(
     # SEBI/recovery-officer procedural notices ("Release order for Recovery
     # Certificate No. 1969 of 2019...", "Notice(s) of Attachment dated...").
     r"|\brecovery certificate\b"
-    r"|\bnotice\(?s\)? of attachment\b"
+    r"|\bnotices? of attachment\b"
     r"|\brc no\.?\s*\d+\b"
     r"|\brelease order for\b"
     r"|\battachment (order|notice)\b"
@@ -1087,6 +1087,18 @@ _ENTITY_STORY_RE = re.compile(
     # of ADANI AIRPORT HOLDINGS", "issues awareness letter for ... credit
     # facilities". Entity news, never sector or macro.
     r"|\bpart redemption\b|\bawareness letter\b"
+    # Recovery/attachment procedural notices against ONE named party
+    # ("Notice of Attachment of Bank Accounts and Demat Accounts with AP
+    # No: ..."). _TRIBUNAL_LISTING_RE already drops these pre-classification
+    # when no WATCHLIST tag is present, but a rejected tag (the entity match
+    # fails re-verification) fell through to here and the bare word "bank"
+    # in the notice text then qualified it as generic S2 sector news via the
+    # default relevance gate — a procedural notice about one party's frozen
+    # account is never sector news. Matched here too so it is S1-or-nothing
+    # regardless of which stage first sees it.
+    r"|\bnotices? of attachment\b|\battachment (order|notice)\b"
+    r"|\brecovery certificate\b|\brc no\.?\s*\d+\b|\brelease order for\b"
+    r"|\bsettlement order\b|\bremittance order\b|\bissued under rc no\b"
     # A SEBI registration number identifies ONE registered intermediary, so
     # the item is that entity's own disclosure, not sector news: S1 when the
     # entity is on a watchlist, dropped otherwise. INH/INZ/INA/INP are the
@@ -3058,8 +3070,11 @@ def _company_header(name: str, its: list[dict]) -> str:
     # reference, not part of the navy/teal chrome.
     flag = (f'<span style="color:#D0021B;font-weight:800;font-size:8px;">'
             f' &#9679; ACTION</span>' if top >= 8 else "")
-    return (f'<p style="margin:14px 0 5px;font-size:10px;font-weight:800;'
-            f'letter-spacing:1.2px;text-transform:uppercase;color:{_NP_NAVY};'
+    # Reader feedback: the entity name needs to stand out more against the
+    # cards below it — bumped from 10px/800 weight/_NP_NAVY to 11px/900
+    # weight/_NP_NAVY_DEEP (darker) for stronger contrast at a glance.
+    return (f'<p style="margin:14px 0 5px;font-size:11px;font-weight:900;'
+            f'letter-spacing:1.2px;text-transform:uppercase;color:{_NP_NAVY_DEEP};'
             f'border-bottom:1px solid {_NP_RULE};padding-bottom:4px;'
             f'break-inside:avoid;break-after:avoid;'
             f'-webkit-column-break-inside:avoid;-webkit-column-break-after:avoid;'
@@ -3073,6 +3088,11 @@ _CATEGORY_ORDER = {
     "S2": [lbl for _c, lbl, _rx in _S2_TAXONOMY] + ["General"],
     "S3": [lbl for _c, lbl, _rx in _S3_TAXONOMY] + ["General"],
 }
+# Reader feedback: these two S2 subheadings took up space without adding
+# navigational value (the desk already scans S2 as one list). Items in
+# these categories still render — categorised, ordered, everything else
+# unchanged — just without a printed subsection label above them.
+_NO_HEADING_CATEGORIES = {"Regulatory & Policy", "Microfinance & Retail Credit"}
 
 
 def _category_header(label: str) -> str:
@@ -3177,8 +3197,10 @@ def _np_partb(p: dict, items: list[dict], by_section: dict,
             for label in ordered_labels:
                 # A category heading only ever appears here, guarded by the
                 # dict lookup above — never rendered for a group with zero
-                # qualifying stories.
-                parts.append(_category_header(label))
+                # qualifying stories. Two categories are exempted entirely
+                # per reader feedback — see _NO_HEADING_CATEGORIES.
+                if label not in _NO_HEADING_CATEGORIES:
+                    parts.append(_category_header(label))
                 for it in by_cat[label]:
                     is_hero = _key(it) in hero_keys
                     lens = (takeaways or {}).get(_key(it), "") if is_hero else ""
