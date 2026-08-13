@@ -789,7 +789,10 @@
       "send_analyst": false,
       "send_rh": false,
       "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "aliases": [
+        "HDFC Life"
+      ]
     },
     {
       "company": "ESAF Small Finance Bank Limited",
@@ -993,7 +996,10 @@
         "S2",
         "S3"
       ],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "aliases": [
+        "Alpha Alternatives"
+      ]
     },
     {
       "company": "Agrim Housing Finance Private Limited",
@@ -1651,7 +1657,10 @@
       "send_analyst": false,
       "send_rh": false,
       "sections": [],
-      "sector": "BFSI"
+      "sector": "BFSI",
+      "aliases": [
+        "BOI"
+      ]
     },
     {
       "company": "Truhome Finance Limited",

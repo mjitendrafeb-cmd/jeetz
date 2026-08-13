@@ -127,6 +127,7 @@ input[type=checkbox]{width:15px;height:15px;accent-color:#15803d;cursor:pointer}
     <table id="entTable">
       <thead><tr>
         <th style="min-width:180px">Company</th>
+        <th style="min-width:150px" title="Short names the press actually uses, comma-separated — e.g. BOI, Bank of India | Alpha Alternatives | HDFC Life. Each one is searched as its own phrase, so news that never spells out the full registered name is still found.">Aliases / Short names</th>
         <th>GH Name</th><th>Analyst Name</th><th>RH Name</th>
         <th>GH Email</th><th>Analyst Email</th><th>RH Email</th>
         <th class="c">Send GH</th><th class="c">Send Analyst</th><th class="c">Send RH</th>
@@ -221,6 +222,10 @@ function toggleSec(i,s,on){const a=team.rows[i].sections;const k=a.indexOf(s);if
 function render(){
   document.getElementById('entBody').innerHTML=team.rows.map((r,i)=>`<tr data-i="${i}">
     <td><input type="text" class="company" value="${esc(r.company)}" onchange="team.rows[this.closest('tr').dataset.i].company=this.value"></td>
+    <td><input type="text" value="${esc((r.aliases||[]).join(', '))}" placeholder="BOI, Bank of India"
+      title="Comma-separated. Each is searched as its own phrase."
+      onchange="team.rows[this.closest('tr').dataset.i].aliases=this.value.split(',').map(x=>x.trim()).filter(Boolean)"
+      style="width:100%;padding:6px 7px;font-size:11px;border:1px solid #ddd;border-radius:3px;font-family:inherit"></td>
     ${txt(i,'gh_name','nm')}${txt(i,'analyst_name','nm')}${txt(i,'rh_name','nm')}
     ${txt(i,'gh_email','em')}${txt(i,'analyst_email','em')}${txt(i,'rh_email','em')}
     ${chk(i,'send_gh')}${chk(i,'send_analyst')}${chk(i,'send_rh')}
@@ -273,7 +278,7 @@ function addSector(){
   team.sectors[n]=[];renderSectors();
 }
 function addRow(){
-  team.rows.push({company:'',gh_name:'',analyst_name:'',rh_name:'',gh_email:'',analyst_email:'',rh_email:'',send_gh:false,send_analyst:false,send_rh:false,sector:'BFSI',sections:['S1']});
+  team.rows.push({company:'',aliases:[],gh_name:'',analyst_name:'',rh_name:'',gh_email:'',analyst_email:'',rh_email:'',send_gh:false,send_analyst:false,send_rh:false,sector:'BFSI',sections:['S1']});
   render();
   const rows=document.querySelectorAll('#entBody tr');rows[rows.length-1].scrollIntoView();rows[rows.length-1].querySelector('input').focus();
 }
@@ -341,11 +346,12 @@ async function runNow(){
 /* ---------------- Excel download / upload ---------------- */
 const YN=v=>v?'Y':'N';
 const isYes=v=>['yes','y','true','1'].includes(String(v||'').trim().toLowerCase());
-const COLS=['company','gh_name','analyst_name','rh_name','gh_email','analyst_email','rh_email','send_gh','send_analyst','send_rh','sector','S1','S2','S3'];
+const COLS=['company','aliases','gh_name','analyst_name','rh_name','gh_email','analyst_email','rh_email','send_gh','send_analyst','send_rh','sector','S1','S2','S3'];
 
 function downloadExcel(){
   const rows=team.rows.map(r=>({
-    company:r.company,gh_name:r.gh_name,analyst_name:r.analyst_name,rh_name:r.rh_name,
+    company:r.company,aliases:(r.aliases||[]).join(', '),
+    gh_name:r.gh_name,analyst_name:r.analyst_name,rh_name:r.rh_name,
     gh_email:r.gh_email,analyst_email:r.analyst_email,rh_email:r.rh_email,
     send_gh:YN(r.send_gh),send_analyst:YN(r.send_analyst),send_rh:YN(r.send_rh),
     sector:r.sector||'BFSI',
@@ -353,7 +359,7 @@ function downloadExcel(){
   }));
   const wb=XLSX.utils.book_new();
   const ws=XLSX.utils.json_to_sheet(rows,{header:COLS});
-  ws['!cols']=[{wch:42},{wch:14},{wch:14},{wch:14},{wch:26},{wch:26},{wch:26},{wch:8},{wch:12},{wch:8},{wch:4},{wch:4},{wch:4},{wch:4},{wch:4}];
+  ws['!cols']=[{wch:42},{wch:28},{wch:14},{wch:14},{wch:14},{wch:26},{wch:26},{wch:26},{wch:8},{wch:12},{wch:8},{wch:12},{wch:4},{wch:4},{wch:4}];
   XLSX.utils.book_append_sheet(wb,ws,'Team');
   XLSX.writeFile(wb,'team_management.xlsx');
 }
@@ -368,6 +374,7 @@ function uploadExcel(inp){
       const rows=XLSX.utils.sheet_to_json(ws,{defval:''});
       const newRows=rows.filter(r=>String(r.company||'').trim()).map(r=>({
         company:String(r.company).trim(),
+        aliases:String(r.aliases||'').split(',').map(x=>x.trim()).filter(Boolean),
         gh_name:String(r.gh_name||'').trim(),analyst_name:String(r.analyst_name||'').trim(),rh_name:String(r.rh_name||'').trim(),
         gh_email:String(r.gh_email||'').trim(),analyst_email:String(r.analyst_email||'').trim(),rh_email:String(r.rh_email||'').trim(),
         send_gh:isYes(r.send_gh),send_analyst:isYes(r.send_analyst),send_rh:isYes(r.send_rh),

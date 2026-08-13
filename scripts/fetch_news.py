@@ -668,7 +668,16 @@ def _company_query(company: str, aliases: list[str], broad: bool = False) -> str
         a = a.strip()
         if a:
             parts.append(f'"{a}"' if " " in a else a)
-    return " OR ".join(parts)
+    # A console alias often IS the auto-derived short form ("Alpha
+    # Alternatives"); repeating it in the query wastes characters and looks
+    # broken in the logs. Case-insensitive, order preserved.
+    seen, uniq = set(), []
+    for pt in parts:
+        k = pt.lower()
+        if k not in seen:
+            seen.add(k)
+            uniq.append(pt)
+    return " OR ".join(uniq)
 
 
 # A short entity name is a substring of longer, unrelated names — "Bank of
@@ -742,7 +751,7 @@ def _story_mentions_entity(company: str, aliases: list[str], text: str) -> bool:
 
 
 def fetch_company_news(per_company_cap: int = 3, companies=None, days_back: int = 2,
-                       broad_queries: bool = False) -> list[str]:
+                       broad_queries: bool = False, extra_aliases=None) -> list[str]:
     """per_company_cap: how many stories to keep from each company's
     Google News results. Default 3 = the 7:30 report's long-standing
     behaviour (do not change). The 7:40 team mail passes a wider value
@@ -763,6 +772,23 @@ def fetch_company_news(per_company_cap: int = 3, companies=None, days_back: int 
     # EVERY company's query died with a NameError before it was ever sent —
     # the whole per-entity watchlist fetch silently returned nothing.
     alias_map = _load_aliases()
+    # Console-supplied aliases (team.json's per-row "Aliases / Short names"
+    # column) are merged on top of aliases.json. The desk knows the market
+    # name for its own entities — "BOI", "Alpha Alternatives", "HDFC Life" —
+    # far better than any rule can derive it, and this lets them fix a
+    # missed entity themselves instead of waiting on a code change. Merged
+    # rather than replacing so the hand-maintained aliases.json still counts.
+    if extra_aliases:
+        for co, al in extra_aliases.items():
+            key = str(co).strip().lower()
+            if not key:
+                continue
+            merged = list(alias_map.get(key, []))
+            for a in al or []:
+                a = str(a).strip()
+                if a and a.lower() not in {x.lower() for x in merged}:
+                    merged.append(a)
+            alias_map[key] = merged
     # Where watchlist results actually go. Without this the loop was a black
     # box: a company whose feed had entries logged nothing at all, so an
     # over-strict filter looked identical to Google returning no news.
@@ -861,7 +887,8 @@ def fetch_all_news(newsapi_key: str = "", apply_seen: bool = True,
                    per_company_cap: int = 3, companies=None,
                    max_items: int = 200, days_back: int = 2,
                    telegram_days_back: int | None = None,
-                   broad_company_queries: bool = False) -> tuple[str, dict]:
+                   broad_company_queries: bool = False,
+                   extra_aliases=None) -> tuple[str, dict]:
     """Returns (news_text, source_summary) where source_summary maps source name → item count."""
     cfg = load_config()
     sources = cfg.get("sources", {})
@@ -925,7 +952,8 @@ def fetch_all_news(newsapi_key: str = "", apply_seen: bool = True,
 
     if src_on("company_watchlist"):
         _add("Watchlist (Google)", fetch_company_news(per_company_cap, companies, days_back,
-                                                      broad_queries=broad_company_queries))
+                                                      broad_queries=broad_company_queries,
+                                                      extra_aliases=extra_aliases))
         try:
             from fetch_bse import fetch_bse_announcements, fetch_bse_financials
             watchlist = load_watchlist()

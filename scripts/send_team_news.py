@@ -1882,8 +1882,17 @@ def _match_companies(it: dict, rows: list[dict]) -> list[str]:
         if not name:
             continue
         n = name.lower()
+        # Console aliases must be honoured HERE as well as at fetch time.
+        # The two name checks are independently implemented, and whenever
+        # they have disagreed the result was the worst possible one: the
+        # story is fetched under the alias, then silently dropped here for
+        # "never mentioning" the entity — real news lost with only a [WARN]
+        # to show for it. A story that says only "BOI" or "HDFC Life" is
+        # about that entity by the desk's own explicit instruction.
+        aliases = [str(a).strip() for a in (r.get("aliases") or []) if str(a).strip()]
+        alias_hit = any(_contains_name(body, a.lower()) for a in aliases)
         tag_match = tag and (tag == n or tag.startswith(n) or n.startswith(tag))
-        if tag_match:
+        if tag_match and not alias_hit:
             # Sanity: the story must actually mention the company. Google's
             # per-company query sometimes returns unrelated stories (e.g. a
             # Patanjali deal from 'D. S. Integrated's query because 'd.' is
@@ -1892,9 +1901,22 @@ def _match_companies(it: dict, rows: list[dict]) -> list[str]:
                 print(f"[WARN] tag '{name[:40]}' but story never mentions it: "
                       f"'{it['title'][:60]}' — dropped from this company")
                 tag_match = False
-        if tag_match or _contains_name(body, n) or _contains_name(body, _phrase(name)):
+        if (tag_match or alias_hit
+                or _contains_name(body, n) or _contains_name(body, _phrase(name))):
             hits.append(name)
     return hits
+
+
+def _row_aliases(rows: list[dict]) -> dict:
+    """{company: [alias, ...]} from the console's per-row Aliases column.
+    Blank entries are dropped so an untouched column costs nothing."""
+    out = {}
+    for r in rows:
+        name = (r.get("company") or "").strip()
+        al = [str(a).strip() for a in (r.get("aliases") or []) if str(a).strip()]
+        if name and al:
+            out[name] = al
+    return out
 
 
 # ---------------------------------------------------------------------------
@@ -3633,7 +3655,14 @@ def main() -> None:
     # Google search ever ran on — so 332 of the desk's 370 entities could
     # not produce S1 news no matter what was published about them.
     wl_companies = sorted({r["company"].strip() for r in rows if r.get("company", "").strip()})
-    print(f"[watchlist] querying {len(wl_companies)} entities from team.json")
+    # Per-entity short names typed into the console's "Aliases / Short
+    # names" column. Each becomes its own quoted phrase in that entity's
+    # Google query, which is the desk's own escape hatch for an entity the
+    # press never refers to by its registered name.
+    wl_aliases = _row_aliases(rows)
+    n_alias = sum(len(v) for v in wl_aliases.values())
+    print(f"[watchlist] querying {len(wl_companies)} entities from team.json "
+          f"({n_alias} console alias(es) across {len(wl_aliases)} entities)")
     news_text, _summary = fetch_all_news(os.environ.get("NEWSAPI_KEY", ""),
                                          apply_seen=False, per_company_cap=25,
                                          companies=wl_companies, max_items=None,
@@ -3648,7 +3677,8 @@ def main() -> None:
                                          # entities could never match their own
                                          # coverage. This ORs the shortened form in.
                                          # 7:30's query construction is unchanged.
-                                         broad_company_queries=True)
+                                         broad_company_queries=True,
+                                         extra_aliases=wl_aliases)
     # The per-source counts were computed and then thrown away, so a source
     # collapsing to zero (as the watchlist fetch did for three days) was
     # invisible in the log.
