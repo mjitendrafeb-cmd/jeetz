@@ -930,6 +930,20 @@
       "expect": "S4",
       "expect_team": "S3",
       "why": "real 11 Aug replay finding: RBI's own term for a G-Sec auction result ('Government Stock') was not recognised by the bond/macro keyword list, which only had the more common 'G-Sec' phrasing -- misrouted to S2 instead of S3 (a taxonomy-accuracy fix, not a false-positive removal: the item is real regulatory-desk-relevant news, just in the wrong of the two legitimate sections)"
+    },
+    {
+      "title": "Fusion Finance Limited: Notice of Attachment of Bank Accounts and Demat Accounts with AP No: 1234",
+      "tags": "WATCHLIST — Fusion Finance Limited",
+      "expect": "S1",
+      "expect_team": "S1",
+      "why": "user-reported: a procedural bank/demat-account attachment notice against ONE named entity must never be generic S2 sector news. Two bugs found: (1) _ENTITY_STORY_RE/_TRIBUNAL_LISTING_RE both had a regex typo (notice\\(?s\\)? of attachment required the literal 's' -- 'Notice of Attachment' singular never matched), fixed to notices?; (2) the pattern was only in _TRIBUNAL_LISTING_RE (pre-classification junk filter, which only fires when NO watchlist tag is present) and missing from _ENTITY_STORY_RE, so once the tag is verified (title names the entity) it still needs to route to S1, not fall through the entity check into generic S2 via the bare word 'bank'"
+    },
+    {
+      "title": "Notice of Attachment of Bank Accounts and Demat Accounts with AP No: 1234",
+      "tags": "",
+      "expect": null,
+      "expect_team": null,
+      "why": "same notice with no watchlist tag at all -- must be dropped, never generic S2/S3 sector news"
     }
   ]
 }
