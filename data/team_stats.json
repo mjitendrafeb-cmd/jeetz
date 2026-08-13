@@ -1,35 +1,5 @@
 [
  {
-  "date": "2026-08-04",
-  "fetched": 137,
-  "delivered_pool": 96,
-  "junk": 12,
-  "geo": 0,
-  "stale": 0,
-  "dup": 8,
-  "sections": {
-   "S1": 27,
-   "S2": 29,
-   "S3": 5,
-   "S4": 15,
-   "S5": 20
-  },
-  "mails": 6,
-  "failed": [],
-  "source_summary": {
-   "RBI RSS": 20,
-   "RBI Enforcement": 0,
-   "SEBI RSS": 20,
-   "Rating Agencies": 2,
-   "Google News": 22,
-   "Watchlist (Google)": 20,
-   "BSE Announcements": 0,
-   "BSE Financials": 0,
-   "Telegram": 26,
-   "Web Scraper": 99
-  }
- },
- {
   "date": "2026-08-05",
   "fetched": 149,
   "delivered_pool": 104,
@@ -2072,6 +2042,79 @@
    "BSE Financials": 0,
    "Telegram": 42,
    "Web Scraper": 187
+  },
+  "dropped_samples": {
+   "relevance": [
+    "Wise Equity inks agreement to acquire E-Pharma Trento",
+    "\u2018Bear hugs\u2019 on the rise in UK take-privates \u2013 but why?; Apollo and EasyJet agree on \u00a35.7bn takeover",
+    "Sunoco to acquire Court Square-backed oil transporter Offen Petroleum for $600m",
+    "MPK Equity-backed Gorgeous Collective acquires Clean Your Dirty Face",
+    "KKR agrees to acquire multi-specialty India hospital operator Medicover",
+    "PL Capital Update on TCI Express- Resurgence in volumes continue",
+    "PL Capital sees 8% UPSIDE in Hero MotoCorp- Strong Quarter with Focus Cost Savings",
+    "PL Capital sees 21% UPSIDE in Britannia Industries- Demand trends healthy, Input cost inflation a concern",
+    "PL Capital sees 7% UPSIDE in Nazara Technologies- Integration of BT & BP acquisition to drive re-rating",
+    "PL Capital sees 9% DOWNSIDE in Deepak Nitrite- Improved spreads drive margin expansion",
+    "PL Capital sees 1% DOWNSIDE in Cummins India- Mixed Q1; Price hike to cushion margin headwinds",
+    "PL Capital sees 5% UPSIDE in Bajaj Electricals- CP remains weak; margin recovery underway",
+    "PL Capital sees 5% UPSIDE in Pearl Global Industries- Margin expansion driven by value-added products",
+    "PL Capital sees 5% UPSIDE in Siemens Energy India- Strong Q3; Execution momentum accelerates",
+    "PL Capital Update on Aurobindo Pharma- Multiple levers",
+    "PL Capital sees 25% UPSIDE in JK Lakshmi Cement- NSR recovers; cost pressures persist",
+    "Five Stocks To Buy Today: Siemens, Zydus Life, Divi's Labs, And More",
+    "Jharkhand students protest: Chief Minister Hemant Soren said the government was committed to protecting democr",
+    "Delhi Metro achieved a monumental feat by recording 99.95% train punctuality in 2026",
+    "#LONGSTORYUNLOCKED | In the midst of rainfall deficits, shrinking rivers and dry winters, the Union Territory "
+   ],
+   "junk": [
+    "Akme Fintrade (India) Ltd is Rated Hold",
+    "ANGELONE Share Price Today - Angel One on NSE/BSE",
+    "FCNR (B) FD Rates for NRIs: PNB offers up to 6.50%; compare SBI, HDFC Bank, ICICI Bank, Axis Bank and Kotak ra",
+    "Axis Max Life Launches Retirement Campaign Featuring Rohit Sharma and Ritika Sajdeh",
+    "Bajaj Finance - Reliance Industries, ITC among 10 stocks that saw highest buying by LIC in Q1. See full list",
+    "Stock Pick: NBFC \u092e\u0947\u0902 \u092c\u0921\u093c\u0940 \u0924\u0947\u091c\u0940?",
+    "UBI, Indian Bank, And Jana SFB Among Others Revise FD Rates, Offer Up To 8.30 Per Cent To Seniors",
+    "Bank holidays this week: SBI, HDFC, ICICI, PNB to remain closed for upto 2 days",
+    "ICICI Bank (NYSE:IBN) Share Price Crosses Above 200 Day Moving Average - Should You Sell?",
+    "sbi 10 years fd rate vs icici bank 10 year fd rate compared know maturity on rs 700000 rs 1400000 rs 2100000 d",
+    "IDBI Bank Ltd. is Rated Sell by MarketsMOJO",
+    "IDFC First Bank Ltd. is Rated Buy by MarketsMOJO",
+    "Indian Bank - Concurrent Gainers: 15 stocks that gain for 5 days in a row",
+    "Indian Bank is Rated Buy by MarketsMOJO",
+    "South Indian Bank Ltd is Rated Strong Buy",
+    "IndusInd Bank and EazyDiner Launch a Lifetime-Free Credit Card That Saves You \u20b921,495 a Year to Eat Out",
+    "Md Habibur Rahman, Deputy Managing Director of NCC Bank, receives an award from Arijit Basu, Non-Executive Cha",
+    "Jana Small Finance Bank Ltd is Rated Buy",
+    "Karnataka Bank launches \u2018KBL Finsurance\u2019 platform",
+    "Mantra Capital Limited Downgraded to Strong Sell Amid Weak Fundamentals and Bearish Technicals"
+   ]
+  }
+ },
+ {
+  "date": "2026-08-13",
+  "fetched": 2301,
+  "delivered_pool": 306,
+  "junk": 587,
+  "geo": 38,
+  "stale": 253,
+  "dup": 886,
+  "sections": {
+   "S1": 235,
+   "S2": 51,
+   "S3": 20
+  },
+  "mails": 1,
+  "failed": [],
+  "source_summary": {
+   "RBI RSS": 20,
+   "RBI Enforcement": 0,
+   "SEBI RSS": 20,
+   "Google News": 19,
+   "Watchlist (Google)": 642,
+   "BSE Announcements": 0,
+   "BSE Financials": 0,
+   "Telegram": 41,
+   "Web Scraper": 201
   },
   "dropped_samples": {
    "relevance": [
