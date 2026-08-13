@@ -571,13 +571,99 @@ def _load_aliases() -> dict:
         return {}
 
 
-def _company_query(company: str, aliases: list[str]) -> str:
-    """Quoted phrase OR acronym OR aliases — precision over recall."""
+# Business-descriptor words that trail an Indian financial entity's
+# REGISTERED name but are routinely dropped in press coverage. "Alpha
+# Alternatives Financial Services Private Limited" is reported as "Alpha
+# Alternatives"; "Bharti Axa Life Insurance" as "Bharti Axa". Because the
+# query is a QUOTED exact phrase, the registered form matches neither, and
+# the story is never fetched at all — measured on the live list, 87 of 370
+# entities (~24%) carry a 4+ word core name with no alias to rescue them.
+_NAME_TAIL_DESCRIPTOR = {
+    "financial", "finance", "services", "service", "capital", "housing",
+    "home", "mutual", "fund", "funds", "asset", "assets", "management",
+    "managers", "life", "general", "insurance", "assurance", "bank",
+    "banking", "india", "broking", "brokers", "broker", "securities",
+    "investment", "investments", "credit", "advisors", "advisory",
+    "holdings", "enterprises", "corporation", "trust", "trustee",
+    "stock", "stocks", "share", "shares", "company", "co", "private",
+    "solutions", "ventures", "partners", "fincorp", "finserve",
+    "and", "&",
+}
+
+
+# A shortened name starting with one of these is a description of an
+# institution rather than a name for one. "Central Bank of India" would
+# shorten to "Central Bank" — and the RBI is called "India's central bank"
+# in practically every monetary-policy story ever written, so that query
+# would hand the whole of S3's RBI coverage to one watchlist row. Same
+# family as _ENTITY_PREFIX_BLOCK_RE below, which catches this at
+# verification time; blocking it here stops it being SEARCHED for at all.
+_SHORT_NAME_BLOCK_HEAD = {
+    "bank", "state", "central", "union", "federal", "reserve", "exim",
+    "world", "punjab", "small", "new", "first", "the",
+}
+
+
+def _short_name(core: str) -> str:
+    """The distinctive head of a long registered name, or "" when it cannot
+    be shortened safely.
+
+    Trailing business descriptors are stripped one at a time and the result
+    is never taken below two words, so "Alpha Alternatives Financial
+    Services" -> "Alpha Alternatives" while "Alpha" alone (far too broad)
+    is never produced. A short form whose first word is itself tiny or
+    generic is rejected outright: "Au Small Finance Bank" would reduce to
+    "Au Small", which would pull in every story containing those words.
+    """
+    words = core.split()
+    if len(words) < 3:
+        return ""                       # already short; nothing to gain
+
+    # Phase 1 — drop trailing business descriptors, never below two words,
+    # so "HDFC Life Insurance" keeps the press form "HDFC Life" instead of
+    # being stripped all the way down to "HDFC".
+    while len(words) > 2 and words[-1].lower().strip(".,") in _NAME_TAIL_DESCRIPTOR:
+        words = words[:-1]
+    # Phase 2 — a trailing connective is never a name ending. This one MAY
+    # take the result below two words, and that is the point: it is what
+    # forces "Bank of India" to give up rather than become "Bank of".
+    while words and words[-1].lower().strip(".,") in _NAME_STOP:
+        words = words[:-1]
+    if len(words) == len(core.split()):
+        return ""                       # nothing was stripped
+    # Two words minimum. Stripping a trailing connective is what stops
+    # "Bank of India" collapsing to the catastrophic "Bank of" — that
+    # phrase would match every Bank of Baroda/Maharashtra story ever
+    # written, which is the exact failure _ENTITY_PREFIX_BLOCK_RE exists
+    # to catch downstream. Better to give up on shortening than to widen
+    # the net that far.
+    if len(words) < 2:
+        return ""
+    head = words[0].lower().strip(".,")
+    if len(head) < 3 or head in _GENERIC_NAME_WORD or head in _SHORT_NAME_BLOCK_HEAD:
+        return ""                       # "Au Small", "Central Bank" — too broad
+    return " ".join(words)
+
+
+def _company_query(company: str, aliases: list[str], broad: bool = False) -> str:
+    """Quoted phrase OR acronym OR aliases — precision over recall.
+
+    broad=True additionally ORs in the shortened press form of a long
+    registered name (see _short_name). Opt-in, and used only by the 7:40
+    team mail: the 7:30 report's query construction is deliberately left
+    byte-identical. Recall widens, but precision does not depend on the
+    query — every fetched story is still put through
+    _story_mentions_entity() before it is tagged to the entity.
+    """
     core = _core_name(company)
     parts = [f'"{core}"']
     ac = _name_acronym(core)
     if ac:
         parts.append(ac)
+    if broad:
+        short = _short_name(core)
+        if short and short.lower() != core.lower():
+            parts.append(f'"{short}"')
     for a in aliases:
         a = a.strip()
         if a:
@@ -655,7 +741,8 @@ def _story_mentions_entity(company: str, aliases: list[str], text: str) -> bool:
     return bool(matched and len(matched[0]) >= 7 and matched[0] not in _GENERIC_NAME_WORD)
 
 
-def fetch_company_news(per_company_cap: int = 3, companies=None, days_back: int = 2) -> list[str]:
+def fetch_company_news(per_company_cap: int = 3, companies=None, days_back: int = 2,
+                       broad_queries: bool = False) -> list[str]:
     """per_company_cap: how many stories to keep from each company's
     Google News results. Default 3 = the 7:30 report's long-standing
     behaviour (do not change). The 7:40 team mail passes a wider value
@@ -690,7 +777,7 @@ def fetch_company_news(per_company_cap: int = 3, companies=None, days_back: int 
     for company in companies:
         try:
             aliases = alias_map.get(company.strip().lower(), [])
-            query = _company_query(company, aliases)
+            query = _company_query(company, aliases, broad=broad_queries)
             url = (
                 f"https://news.google.com/rss/search"
                 f"?q={requests.utils.quote(query + f' when:{days_back}d')}&hl=en-IN&gl=IN&ceid=IN:en"
@@ -773,7 +860,8 @@ def _normalise_key(item: str) -> str:
 def fetch_all_news(newsapi_key: str = "", apply_seen: bool = True,
                    per_company_cap: int = 3, companies=None,
                    max_items: int = 200, days_back: int = 2,
-                   telegram_days_back: int | None = None) -> tuple[str, dict]:
+                   telegram_days_back: int | None = None,
+                   broad_company_queries: bool = False) -> tuple[str, dict]:
     """Returns (news_text, source_summary) where source_summary maps source name → item count."""
     cfg = load_config()
     sources = cfg.get("sources", {})
@@ -836,7 +924,8 @@ def fetch_all_news(newsapi_key: str = "", apply_seen: bool = True,
         _add("NewsAPI", fetch_newsapi_news(newsapi_key))
 
     if src_on("company_watchlist"):
-        _add("Watchlist (Google)", fetch_company_news(per_company_cap, companies, days_back))
+        _add("Watchlist (Google)", fetch_company_news(per_company_cap, companies, days_back,
+                                                      broad_queries=broad_company_queries))
         try:
             from fetch_bse import fetch_bse_announcements, fetch_bse_financials
             watchlist = load_watchlist()

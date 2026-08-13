@@ -3638,7 +3638,17 @@ def main() -> None:
                                          apply_seen=False, per_company_cap=25,
                                          companies=wl_companies, max_items=None,
                                          days_back=lookback_days,
-                                         telegram_days_back=lookback_days)
+                                         telegram_days_back=lookback_days,
+                                         # 7:40 only. An entity's REGISTERED name is
+                                         # often longer than the name the press uses
+                                         # ("Alpha Alternatives Financial Services
+                                         # Private Limited" is reported as "Alpha
+                                         # Alternatives"), and the query is a quoted
+                                         # exact phrase — so ~24% of the desk's
+                                         # entities could never match their own
+                                         # coverage. This ORs the shortened form in.
+                                         # 7:30's query construction is unchanged.
+                                         broad_company_queries=True)
     # The per-source counts were computed and then thrown away, so a source
     # collapsing to zero (as the watchlist fetch did for three days) was
     # invisible in the log.
