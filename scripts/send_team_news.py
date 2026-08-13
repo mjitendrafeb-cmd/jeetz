@@ -3059,6 +3059,45 @@ def _feedback_link(it: dict) -> str:
             f'margin-left:8px;">not relevant?</a>')
 
 
+def _request_entity_link(for_name: str = "", n_entities: int = 0) -> str:
+    """Self-service route for readers who have no GitHub account.
+
+    The console (docs/team.html) can already add entities, but saving needs
+    a GitHub Personal Access Token — which means a GitHub account with write
+    access to the repo. The desk's analysts have neither, so in practice
+    only the admin could ever add an entity. This is the same mailto trick
+    the 'not relevant?' link uses: no server, no endpoint, no auth, and the
+    request lands in the admin mailbox pre-filled and ready to action in
+    the console.
+
+    Deliberately a REQUEST rather than a direct write: every entity costs a
+    Google News query on every run, so the entity list is worth keeping
+    under one pair of eyes.
+    """
+    import urllib.parse
+    admin = os.environ.get("GMAIL_USER", "")
+    if not admin:
+        return ""
+    who = for_name or "(your name)"
+    subj = urllib.parse.quote(f"[add entity] request from {who}")
+    body = urllib.parse.quote(
+        "Please add the following to my watchlist:\n\n"
+        "Entity name (as registered, e.g. 'Shriram Finance Limited'):\n"
+        "  1. \n"
+        "  2. \n\n"
+        "Remove from my watchlist (optional):\n"
+        "  1. \n\n"
+        f"Requested by: {who}\n")
+    return (f'<p style="margin:16px 0 0;padding-top:8px;'
+            f'border-top:1px solid {_NP_RULE};font-size:9px;'
+            f'color:{_NP_MUTED};line-height:1.6;">'
+            f'Tracking {n_entities} entit{"ies" if n_entities != 1 else "y"}. '
+            f'<a href="mailto:{admin}?subject={subj}&amp;body={body}" '
+            f'style="color:{_NP_TEAL_DK};font-weight:700;'
+            f'text-decoration:none;">Request an entity &#8594;</a>'
+            f'</p>')
+
+
 def _company_header(name: str, its: list[dict]) -> str:
     """Entity sub-header inside S1. Styled inline rather than with a class,
     because the newspaper stylesheet lives in send_credit_report.py and the
@@ -3143,6 +3182,8 @@ def _np_partb(p: dict, items: list[dict], by_section: dict,
                 parts.append(
                     f'<p class="empty">No material developments across your '
                     f'{len(p["companies"])} entities today.</p>')
+                parts.append(_request_entity_link(p.get("name", ""),
+                                                  len(p["companies"])))
                 continue
             n_items = sum(len(v) for v in by_company.values())
             total += n_items
@@ -3170,6 +3211,11 @@ def _np_partb(p: dict, items: list[dict], by_section: dict,
                 for it in its:
                     parts.append(_np_card(it, hero=lead))
                     lead = False
+            # Closes the section the reader is most likely to notice a gap
+            # in — "my entity isn't here" is exactly the moment to offer
+            # the request link.
+            parts.append(_request_entity_link(p.get("name", ""),
+                                              len(p["companies"])))
         else:
             sec_items = by_section[skey]
             if skey == "S2" and p.get("sectors"):
