@@ -3114,10 +3114,17 @@ def _np_partb(p: dict, items: list[dict], by_section: dict,
     chosen: list[dict] = []
     total = 0
     for sid, sbcls, skey, title in _NP_SECTIONS:
-        parts.append(f'<div id="{sid}" data-section="banner" class="sb {sbcls}">{title}</div>')
+        # A section the reader has not subscribed to is omitted ENTIRELY —
+        # no banner, no placeholder, and (via the empty bucket this leaves)
+        # no page, no nav tab and no page number in the attachment. It used
+        # to print "Not subscribed — enable this section in the console",
+        # which cost a whole page of an S1-only reader's newsletter to say
+        # nothing. A subscribed section with no news still renders its
+        # banner plus "No news in this category today", so the two cases
+        # stay distinguishable downstream.
         if skey not in p["sections"]:
-            parts.append('<p class="empty">Not subscribed &mdash; enable this section in the console.</p>')
             continue
+        parts.append(f'<div id="{sid}" data-section="banner" class="sb {sbcls}">{title}</div>')
         if skey == "S1":
             # (F) Group by entity. A GH scanning 39 items wants "Shriram
             # Finance: 5 items" together, not five cards interleaved with
@@ -3299,12 +3306,20 @@ def _np_partc(top5: list[dict], date_str: str, takeaways: dict | None = None,
 
 def _np_build_attachment(part_b_html: str, today, for_name: str = "",
                          masthead: str = "CareEdge Daily News",
-                         coverage_note: str = "") -> str:
-    """Three-page newspaper.
+                         coverage_note: str = "", sections=None) -> str:
+    """Newspaper covering the sections the reader is subscribed to.
 
     send_credit_report.build_attachment() is hardcoded to five pages with an
     S4/S5 nav, and that file is not to be modified — so the team mail builds
-    its own. Same visual language, three sections.
+    its own. Same visual language.
+
+    sections: which of S1/S2/S3 this reader gets. Unsubscribed sections are
+    dropped completely — no page, no nav tab, no page number — so an
+    S1-only reader receives a genuine one-page newspaper rather than a
+    three-page one whose last two pages say "not subscribed". Page numbers
+    and the "Page X of N" footer are computed from the surviving sections,
+    so they always read 1..N with no gaps. Defaults to all three (the
+    master/archive edition).
 
     for_name puts the recipient on the masthead — every edition is
     personalised to that reader's entities, so it should say whose it is.
@@ -3312,6 +3327,7 @@ def _np_build_attachment(part_b_html: str, today, for_name: str = "",
     Edition and say what span of days it covers, since it is not a normal
     single day's news.
     """
+    sections = set(sections) if sections else {"S1", "S2", "S3"}
     date_str = today.strftime("%d %B %Y")
     dow_full = today.strftime("%A, %d %B %Y").upper()
     edition = f"Vol. {today.year} &middot; Internal Use Only"
@@ -3330,13 +3346,27 @@ def _np_build_attachment(part_b_html: str, today, for_name: str = "",
     empty = ('<p style="padding:20px 0;font-size:11px;color:#aaa;'
              'font-style:italic;">No news in this category today.</p>')
 
+    # Only the subscribed sections become pages, renumbered 1..N so an
+    # S1+S3 reader gets pages 1 and 2 (not 1 and 3), and the footer says
+    # "Page 1 of 2". The first surviving section always gets the front-page
+    # masthead treatment, whichever section it happens to be.
+    active = [(sid, title) for sid, title, _pnum in _NP_PAGES
+              if sid.upper() in sections]
+    if not active:                      # nobody subscribed to anything
+        active = [(_NP_PAGES[0][0], _NP_PAGES[0][1])]
+    n_pages = len(active)
+
     nav = "".join(
-        f'<a href="#pg{n}">{t}</a>' for _sid, t, n in _NP_PAGES)
+        f'<a href="#pg{i}">{t}</a>' for i, (_sid, t) in enumerate(active, 1))
+    # Masthead strapline lists only the sections actually in this edition.
+    strap_names = {"s1": "S1 Watchlist", "s2": "S2 Sector", "s3": "S3 Macro"}
+    strap = " &middot; ".join(strap_names[sid] for sid, _t in active)
 
     pages = ""
-    for sid, title, pnum in _NP_PAGES:
+    for idx, (sid, title) in enumerate(active, 1):
+        pnum = str(idx)
         content = buckets.get(sid) or empty
-        if pnum == "1":
+        if idx == 1:
             pages += f"""
 <div class="news-page front-page" id="pg1">
   <div class="mast-top">
@@ -3348,14 +3378,14 @@ def _np_build_attachment(part_b_html: str, today, for_name: str = "",
     <hr class="mast-rule">
   </div>
   <div class="mast-sub">
-    <span>S1 Watchlist &middot; S2 Sector &middot; S3 Macro{f' &middot; {_esc(coverage_note)}' if coverage_note else ''}</span>
+    <span>{strap}{f' &middot; {_esc(coverage_note)}' if coverage_note else ''}</span>
     <span class="red">&#128274; CONFIDENTIAL</span>
   </div>
   <nav class="navbar">{nav}</nav>
   <div class="columns">{content}</div>
   <div class="page-foot">
     <span>CareEdge Daily News &mdash; {date_str}</span>
-    <span>Page 1 of 3</span><span>&#128274; Confidential</span>
+    <span>Page 1 of {n_pages}</span><span>&#128274; Confidential</span>
   </div>
 </div>"""
         else:
@@ -3369,7 +3399,7 @@ def _np_build_attachment(part_b_html: str, today, for_name: str = "",
   <div class="columns">{content}</div>
   <div class="page-foot">
     <span>{_esc(masthead)} &mdash; {date_str}</span>
-    <span>Page {pnum} of 3</span><span>&#128274; Confidential</span>
+    <span>Page {pnum} of {n_pages}</span><span>&#128274; Confidential</span>
   </div>
 </div>"""
 
@@ -3766,6 +3796,7 @@ def main() -> None:
         prepared[email] = {
             "name": (p.get("name") or "").strip(),
             "part_b": part_b, "top5": top5,
+            "sections": set(p.get("sections") or ()),
             "digest": _mech_digest(person_items, len(p.get("companies") or [])),
         }
 
@@ -3782,7 +3813,8 @@ def main() -> None:
         blurb = summaries.get(email, "") or v["digest"]
         part_c = _np_partc(top5, now.strftime("%d %B %Y"), takeaways, blurb)
         body = _np_rebrand(_scr.build_email(part_c, today, _summary))
-        attachment = _np_rebrand(_np_build_attachment(part_b, today, who, masthead, coverage_note))
+        attachment = _np_rebrand(_np_build_attachment(
+            part_b, today, who, masthead, coverage_note, v["sections"]))
         # Each edition is built from that reader's own entities, so name it.
         subject = (f"{masthead} — {who} — {now:%d %b %Y}" if who
                    else f"{masthead} — {now:%d %b %Y}")
