@@ -3554,10 +3554,32 @@ def _np_rebrand(html: str) -> str:
     return html
 
 
+def _smtp_settings() -> tuple[str, int, str, str, str]:
+    """(host, port, user, password, from_address).
+
+    Gmail was hardcoded here, and a free Gmail account doing automated bulk
+    sending from a datacenter IP is exactly the pattern Google blocks —
+    which is what happened. Host/port/credentials are now read from the
+    environment so the desk can move to a corporate relay or a
+    transactional provider by changing SECRETS ALONE, with no code change
+    and no redeploy. Defaults preserve the previous Gmail behaviour.
+
+    SMTP_FROM is separate from SMTP_USER because relays commonly
+    authenticate as one identity and send as another (e.g. login as an
+    API key, send as news@careedge.in).
+    """
+    host = os.environ.get("SMTP_HOST", "smtp.gmail.com")
+    port = int(os.environ.get("SMTP_PORT", "465"))
+    user = os.environ.get("SMTP_USER") or os.environ.get("GMAIL_USER", "")
+    pw = (os.environ.get("SMTP_PASSWORD")
+          or os.environ.get("GMAIL_APP_PASSWORD", ""))
+    frm = os.environ.get("SMTP_FROM") or user
+    return host, port, user, pw, frm
+
+
 def _send(to_addr: str, subject: str, html: str,
           attachment_html: str = "", attachment_name: str = "") -> None:
-    user = os.environ["GMAIL_USER"]
-    pw = os.environ["GMAIL_APP_PASSWORD"]
+    host, port, user, pw, frm = _smtp_settings()
     if attachment_html:
         msg = MIMEMultipart("mixed")
         body = MIMEMultipart("alternative")
@@ -3572,11 +3594,30 @@ def _send(to_addr: str, subject: str, html: str,
         msg = MIMEMultipart("alternative")
         msg.attach(MIMEText(html, "html"))
     msg["Subject"] = subject
-    msg["From"] = f"CareEdge Daily News <{user}>"
+    msg["From"] = f"CareEdge Daily News <{frm}>"
     msg["To"] = to_addr
-    with smtplib.SMTP_SSL("smtp.gmail.com", 465) as s:
-        s.login(user, pw)
-        s.sendmail(user, [to_addr], msg.as_string())
+    # Port 465 is implicit TLS (SMTP_SSL); 587 and 25 are plaintext-then-
+    # STARTTLS, which is what every corporate relay and transactional
+    # provider expects. Picking on port rather than a separate flag keeps
+    # the configuration to one fewer secret.
+    if port == 465:
+        with smtplib.SMTP_SSL(host, port, timeout=60) as s:
+            if pw:
+                s.login(user, pw)
+            s.sendmail(frm, [to_addr], msg.as_string())
+    else:
+        with smtplib.SMTP(host, port, timeout=60) as s:
+            s.ehlo()
+            try:
+                s.starttls()
+                s.ehlo()
+            except smtplib.SMTPNotSupportedError:
+                # An internal relay on port 25 may accept unencrypted mail
+                # from trusted hosts and offer no STARTTLS at all.
+                pass
+            if pw:
+                s.login(user, pw)
+            s.sendmail(frm, [to_addr], msg.as_string())
     print(f"[mail] sent '{subject}' -> {to_addr}")
 
 
