@@ -2080,6 +2080,19 @@ def _git_push(path: str, content: str | None = None) -> None:
     import time as _time
     import random as _random
 
+    # Local mode: run the whole pipeline and send the mail, but never touch
+    # the git repo. This function does `git reset --mixed origin/main` and
+    # pushes to main, which is right for a throwaway CI checkout and quite
+    # wrong for someone's working copy on an office machine. State files are
+    # still written to disk — they simply are not published.
+    if os.environ.get("LOCAL_RUN", "").strip().lower() in ("1", "true", "yes"):
+        print(f"[git] LOCAL_RUN — not publishing {os.path.basename(path)} to main")
+        if content is not None:
+            os.makedirs(os.path.dirname(path), exist_ok=True)
+            with open(path, "w", encoding="utf-8") as f:
+                f.write(content)
+        return
+
     try:
         token = os.environ.get("GITHUB_TOKEN", "")
         if token:
