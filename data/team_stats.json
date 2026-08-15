@@ -1,70 +1,6 @@
 [
  {
   "date": "2026-08-06",
-  "fetched": 142,
-  "delivered_pool": 96,
-  "junk": 10,
-  "geo": 1,
-  "stale": 0,
-  "dup": 7,
-  "sections": {
-   "S1": 21,
-   "S2": 52,
-   "S3": 23
-  },
-  "mails": 6,
-  "failed": [],
-  "source_summary": {
-   "RBI RSS": 20,
-   "RBI Enforcement": 0,
-   "SEBI RSS": 20,
-   "Rating Agencies": 2,
-   "Google News": 25,
-   "Watchlist (Google)": 0,
-   "BSE Announcements": 0,
-   "BSE Financials": 0,
-   "Telegram": 28,
-   "Web Scraper": 195
-  },
-  "dropped_samples": {
-   "relevance": [
-    "India's markets regulator unlikely to immediately review new stock closing auction, source says",
-    "Marine Electricals Yearly Results, Financial summary, Marine Electricals Yearly Earnings",
-    "Global Market Today: Asian stocks drop as AI rally pauses, oil dips",
-    "US-Iran War Live Updates: Donald Trump\u2019s Hormuz deal would give Iran control of inbound traffic in the Strait",
-    "According to the survey, one in two Indians said they had watched multiple fake videos in the last 12 months, ",
-    "Maharashtra has enforced a one-year ban on the production, storage, and distribution of analogue or non-dairy ",
-    "The EPFO is expected to launch E-PRAAPTI by the end of August to help members recover money lying in old or in",
-    "Visa's latest round of artificial intelligence-fuelled layoffs, affecting nearly 2,600 employees, has extended",
-    "Hester Biosciences Ltd.\u2019s Consolidated Net Profit up 459%",
-    "Country\u2019s Outstanding Debt Crosses Rs 200 Lakh Crore",
-    "Global Headwinds Intensify - Can India Inc Stay the Course? by CareEdge Ratings",
-    "Manoj Vaibhav Gems 'N' Jewellers Limited",
-    "India Ratings downgrades Dhampur Sugar\u2019s long-term credit rating to IND A+",
-    "Listing of further issue of GVP Infotech Limited",
-    "Listing of further issue of Adani Enterprises Limited",
-    "Listing of Equity Shares of Juniper Green Energy Limited (IPO)",
-    "Traders welcome India\u2019s bond e-trading evolution as regulator shows teeth",
-    "Molbio eyes overseas growth after OptraScan secures USFDA clearance - Business Standard",
-    "Business Standard News Notification: Latest Breaking Notification News Updates and Headlines on Business Stand",
-    "Edelweiss' EAAA adds Pune office park to commercial realty portfolio - Business Standard"
-   ],
-   "junk": [
-    "UBS on BSE Neutral, TP Rs 4500 Revenue broadly in line, earnings aided by stronger investment income Healthy o",
-    "Jefferies on BSE Hold, TP Rs 3520",
-    "JPM on BSE Neutral, TP Rs 4090 Revenues of Rs15.66bn (+63% YoY/flat QoQ), as sharp YoY step-up in equity deriv",
-    "HSBC India Strategy India offers diversification and stability AI rotation outflows largely done With 80%+ of ",
-    "Emkay remains bullish on Stovekraft",
-    "GS on Pidilite Buy, TP Rs 1700 Consol revenue grew 21.3% YoY (2% ahead of est), while consolidated EBITDA grew",
-    "Jefferies on FSN E Com Buy, TP Rs 400 Strong beat across metrics - revenue growth remained strong, margin rose",
-    "Stock Stats | Stock info | Infographics",
-    "Kotak Bond - Short Term Fund - Regular (IDCW-W) - Business Standard",
-    "Stock Radar: Hindalco stock forms double bottom pattern after falling over 14% from highs; time to buy?"
-   ]
-  }
- },
- {
-  "date": "2026-08-06",
   "fetched": 145,
   "delivered_pool": 90,
   "junk": 15,
@@ -2166,6 +2102,81 @@
    "SEBI RSS": 20,
    "Google News": 17,
    "Watchlist (Google)": 800,
+   "BSE Announcements": 0,
+   "BSE Financials": 0,
+   "Telegram": 68,
+   "Web Scraper": 182
+  },
+  "dropped_samples": {
+   "relevance": [
+    "Premature redemption under Sovereign Gold Bond (SGB) Scheme - Redemption Price for premature redemption of SGB",
+    "Release Order \u2013 Kamlesh Ahuja [Defaulter] (PAN: ADFPA4706R) in the matter of dealings in Illiquid Stock Option",
+    "SBI Securities IPO Note on Behari Lal Engineering Ltd",
+    "MNCL sees 28% UPSIDE in Goldiam International- Strong B2B Execution; ORIGEM Expansion Turns Calibrated",
+    "PL Capital sees 10% UPSIDE in Vikram Solar- Margin pressure persists despite revenue growth",
+    "PL Capital sees 13% UPSIDE in Cello World- Utilization ramp-up to support growth",
+    "PL Capital sees 26% UPSIDE in Fine Organic Industries- SEZ and U.S",
+    "PL Capital sees 4% DOWNSIDE in Carborundum Universal- Mixed Q1, Ceramics lead the way ahead",
+    "A Zepto warehouse operated by logistics company Nippon Express in Bengaluru\u2019s Hoskote has been sealed by Karna",
+    "Air India's outgoing CEO, Campbell Wilson, has reportedly been summoned by the Indian government over the Delh",
+    "Tamil Nadu Assembly passed a resolution urging the Centre to abolish NEET for medical admissions, citing socia",
+    "Deepti Gaur Mukerjee, a senior bureaucrat and 1993-batch IAS officer from the MP cadre, has been appointed as ",
+    "#WATCH | Delhi | BJP MP Kangana Ranaut says, \"First, they (the Opposition) raised so much ruckus to have a dis",
+    "Over the past one month, Ananya Birla has visited flood-hit Assam and extended support to student protests ove",
+    "Billionaire Gautam Adani welcomed the US court judgement to drop corruption charges against him in a late-nigh",
+    "Elon Musk's wealth grew by another $320 billion over the year between July 2025 and July 2026, according to Be",
+    "India has expanded the number of countries from which it sources liquefied natural gas (LNG) from six to 15, a",
+    "Narender Berwal won a silver medal in boxing in the Commonwealth Games 2026 in Glasgow",
+    "Youth concerns over paper leaks, unemployment and police action against protesters took centre stage at Congre",
+    "Alexandria Ocasio-Cortez, a Democratic representative from New York, is emerging as a potential 2028 president"
+   ],
+   "junk": [
+    "SEBI Order for Compliance - Completion of Recovery Certificate No.4473 of 2022 Mr",
+    "Completion of Recovery Certificate No",
+    "Completion of Recovery Certificate No",
+    "Order in the matter of Nirman Agri Genetics Limited",
+    "Notice of Demand under Recovery Certificate number 9277 of 2026 dated August 10, 2026 issued to Mr",
+    "Cancellation of Recovery Certificate No",
+    "Order in the matter of certain Investment Advisers",
+    "Order No. 01 of 2026 issued under RC No. 424 of 2014 drawn against Mr. Bhargav Ranchodlal Panchal (PAN: AFUPP7",
+    "Completion of Recovery Certificate No. RC9216 of 2026 in respect of Prabhjeet Singh Chawla (PAN: ACAPC4870A) i",
+    "Appeal No. 6976 of 2026 filed by Chhabeg Singh",
+    "Appeal No. 6974 of 2026 filed by Sudha Devi",
+    "Appeal No. 6973 of 2026 filed by Bharat Bhushan Sharma",
+    "Aadhar Housing Finance Ltd is Rated Buy by MarketsMOJO",
+    "Aditya Birla Sun Life Mutual Fund suspends fresh subscriptions in its multiple IDCW plans",
+    "Arohan Financial Services IPO Date, Price Band, GMP, Subscription & Allotment",
+    "Sensex closes down 388 points, Nifty slips below 24,500; Eternal gains, Axis Bank sees big dent",
+    "Buy Gold Above 155500 SL BELOW 154500 TGT 157000/157800 - Axis Securities Ltd",
+    "Coforge Ltd: Axis Securities Projects Strong Growth Driven by AI and Encora Integration",
+    "Trade Idea of The Day - Bajaj Finance Ltd Target Rs. 45 - Religare Broking Ltd",
+    "Bajaj Finance Ltd is Rated Hold"
+   ]
+  }
+ },
+ {
+  "date": "2026-08-15",
+  "fetched": 2127,
+  "delivered_pool": 316,
+  "junk": 532,
+  "geo": 41,
+  "stale": 469,
+  "dup": 549,
+  "sections": {
+   "S1": 270,
+   "S2": 34,
+   "S3": 12
+  },
+  "mails": 0,
+  "failed": [
+   "jitendra.meghrajani@careedge.in"
+  ],
+  "source_summary": {
+   "RBI RSS": 20,
+   "RBI Enforcement": 0,
+   "SEBI RSS": 20,
+   "Google News": 17,
+   "Watchlist (Google)": 789,
    "BSE Announcements": 0,
    "BSE Financials": 0,
    "Telegram": 68,
