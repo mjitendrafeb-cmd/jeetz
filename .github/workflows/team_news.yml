@@ -127,6 +127,10 @@ jobs:
           SMTP_USER: ${{ secrets.SMTP_USER }}
           SMTP_PASSWORD: ${{ secrets.SMTP_PASSWORD }}
           SMTP_FROM: ${{ secrets.SMTP_FROM }}
+          # When set, mail goes over Brevo's HTTPS API instead of SMTP —
+          # sidesteps the SMTP "authorised IPs" gate, which cannot work
+          # from a CI runner whose IP changes every run.
+          BREVO_API_KEY: ${{ secrets.BREVO_API_KEY }}
           TELEGRAM_API_ID: ${{ secrets.TELEGRAM_API_ID }}
           TELEGRAM_API_HASH: ${{ secrets.TELEGRAM_API_HASH }}
           TELEGRAM_SESSION: ${{ secrets.TELEGRAM_SESSION }}

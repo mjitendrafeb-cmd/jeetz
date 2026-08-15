@@ -3590,8 +3590,62 @@ def _smtp_settings() -> tuple[str, int, str, str, str]:
     return host, port, user, pw, frm
 
 
+def _send_via_brevo_api(to_addr: str, subject: str, html: str,
+                        attachment_html: str, attachment_name: str,
+                        api_key: str) -> None:
+    """Send over Brevo's HTTPS transactional API instead of SMTP.
+
+    Brevo's "authorised IPs" security feature gates SMTP KEYS by source IP.
+    GitHub Actions runners sit behind shared NAT and draw a different
+    address every run, so there is no IP that can usefully be allowlisted —
+    the result was a 525 'Unauthorized IP address' on every send even
+    though the credentials were correct. The HTTPS API authenticates with
+    an api-key header and is not subject to that SMTP gate, which makes
+    this path immune to the whole class of problem.
+
+    Body shape per Brevo's v3 send-transac-email reference: sender/to/
+    subject/htmlContent, with attachments carrying base64 `content` and a
+    `name` (the name is required whenever content is supplied, and the
+    base64 must NOT include a data: URI prefix).
+    """
+    import base64
+    import requests
+
+    frm = (os.environ.get("SMTP_FROM")
+           or os.environ.get("BREVO_FROM")
+           or os.environ.get("GMAIL_USER", ""))
+    payload = {
+        "sender": {"name": "CareEdge Daily News", "email": frm},
+        "to": [{"email": to_addr}],
+        "subject": subject,
+        "htmlContent": html,
+    }
+    if attachment_html:
+        payload["attachment"] = [{
+            "name": attachment_name,
+            "content": base64.b64encode(attachment_html.encode("utf-8")).decode("ascii"),
+        }]
+    resp = requests.post(
+        "https://api.brevo.com/v3/smtp/email",
+        headers={"api-key": api_key, "content-type": "application/json",
+                 "accept": "application/json"},
+        json=payload, timeout=60)
+    if resp.status_code >= 300:
+        # Surface Brevo's own message — its 4xx bodies name the exact
+        # problem (unverified sender, bad key, quota), which is far more
+        # actionable than a bare status code.
+        raise RuntimeError(f"Brevo API {resp.status_code}: {resp.text[:300]}")
+
+
 def _send(to_addr: str, subject: str, html: str,
           attachment_html: str = "", attachment_name: str = "") -> None:
+    # Preferred when configured: no SMTP, so no IP allowlist to trip over.
+    api_key = os.environ.get("BREVO_API_KEY", "").strip()
+    if api_key:
+        _send_via_brevo_api(to_addr, subject, html,
+                            attachment_html, attachment_name, api_key)
+        print(f"[mail] sent '{subject}' -> {to_addr} (Brevo API)")
+        return
     host, port, user, pw, frm = _smtp_settings()
     if attachment_html:
         msg = MIMEMultipart("mixed")
