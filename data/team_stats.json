@@ -1,75 +1,5 @@
 [
  {
-  "date": "2026-08-05",
-  "fetched": 133,
-  "delivered_pool": 88,
-  "junk": 14,
-  "geo": 0,
-  "stale": 0,
-  "dup": 10,
-  "sections": {
-   "S1": 12,
-   "S2": 19,
-   "S3": 31,
-   "S4": 18,
-   "S5": 8
-  },
-  "mails": 6,
-  "failed": [],
-  "source_summary": {
-   "RBI RSS": 20,
-   "RBI Enforcement": 0,
-   "SEBI RSS": 20,
-   "Rating Agencies": 2,
-   "Google News": 23,
-   "Watchlist (Google)": 0,
-   "BSE Announcements": 0,
-   "BSE Financials": 0,
-   "Telegram": 28,
-   "Web Scraper": 196
-  },
-  "dropped_samples": {
-   "relevance": [
-    "Franklin India Short Term Fund NFO Opens August 5",
-    "EIP and OceanSound-backed Convey acquires government and utility software Selectron",
-    "Nordic Capital to carve out BWXT\u2019s medical business in $800m transaction",
-    "BV Investments backs workforce compliance service provider Thomas & Company",
-    "Naval shipbuilding attracts private equity; Sheridan acquires Carolina Components; KKR to take Integer Holding",
-    "US-Iran War LIVE: Pete Hegseth rejects media reports claiming US missile defence stockpiles 'dangerously low'",
-    "#MintMarkets | Stock market closing timings changed: What it means for index funds, ETFs and arbitrage fund in",
-    "\u2734\ufe0f Who answers if data collected by the police & authorities gets to non state actors\u2753 \u2734\ufe0f Was there data abuse",
-    "The deadline for the voter list clean-up exercise, the Special Intensive Revision (SIR), in the national capit",
-    "A consumer court in Kerala has directed Air India to pay \u20b91.36 lakh in compensation to a man who was stranded ",
-    "The FSSAI has banned three Old Monk rum variants for using artificial flavours instead of proper ageing method",
-    "2yr resistance breakout in smallcap index",
-    "Muthoot Finance crashes 14% post Q1; analysts flag margin pressure - Business Standard",
-    "Bharti Airtel Q1 preview: Analysts see 15% revenue growth; ARPU may rise 2% - Business Standard",
-    "Stocks to watch today: Maruti Suzuki, ITC, ZEEL, Voda Idea, auto stocks - Business Standard",
-    "Ajinkya Kawale - Business Standard",
-    "Hubtown Q1 PAT slides 69% YoY to Rs 25 crore - Business Standard",
-    "Madhusudan Kela\u2019s 2 turnaround bets: Which one looks stronger? - financialexpress.com",
-    "Page 221 of ANI : Latest News, Exclusive News Stories, Current Affairs, Events by ANI - financialexpress.com",
-    "Nifty closes 150 points higher from 3:15 pm CAS closing level, Sensex closes down 200 points - financialexpres"
-   ],
-   "junk": [
-    "Scheme for writing books originally in Hindi on Economics/Banking/Financial subjects- Year 2025-26",
-    "MORGAN STANLEY ON INDIA STRATEGY Key Takeaways: India has the ingredients to sustain its recent outperformance",
-    "JEFFERIES ON PIDILITE Recommendation: Hold Target Price: \u20b91,610 Q1 beat driven primarily by margin expansion P",
-    "Axis Securities sees 15% UPSIDE in Aarti Industries Ltd- Temporary Volume Headwinds, Structural Growth Intact;",
-    "PL Capital sees 11% UPSIDE in Shree Cement- Strong volumes, but higher fuel costs impacted Q1",
-    "Axis Securities sees 5% UPSIDE in Shree Cement Limited- Robust Volume Growth; Maintain HOLD",
-    "Axis Securities sees 24% UPSIDE in Aptus Value Housing Finance India Ltd.- Looking Through the Temporary AQ We",
-    "ICICI Securities sees 14% UPSIDE in ITC- The bar just moved higher",
-    "JM Financial sees 13% UPSIDE in ITC- Mixed bag; all eyes on Cigarette EBIT recovery",
-    "What is repo rate? Here's why the RBI's August 5 decision is crucial",
-    "Domestic investors absorb $58 bn FII selloff, emerge as biggest mkt owners - Business Standard",
-    "Kotak Bond - Short Term Fund - Regular (IDCW) - Business Standard",
-    "Oil rebounds after selloff as talks to end US-Iran war remain uncertain - Business Standard",
-    "Stock Radar: Concord Biotech stock showing signs of rebound after falling over 20% from highs; time to buy?"
-   ]
-  }
- },
- {
   "date": "2026-08-06",
   "fetched": 142,
   "delivered_pool": 96,
@@ -2210,6 +2140,81 @@
     "Jana Small Finance Bank Ltd is Rated Buy",
     "Karnataka Bank launches \u2018KBL Finsurance\u2019 platform",
     "Mantra Capital Limited Downgraded to Strong Sell Amid Weak Fundamentals and Bearish Technicals"
+   ]
+  }
+ },
+ {
+  "date": "2026-08-15",
+  "fetched": 2130,
+  "delivered_pool": 312,
+  "junk": 536,
+  "geo": 40,
+  "stale": 469,
+  "dup": 553,
+  "sections": {
+   "S1": 264,
+   "S2": 36,
+   "S3": 12
+  },
+  "mails": 0,
+  "failed": [
+   "jitendra.meghrajani@careedge.in"
+  ],
+  "source_summary": {
+   "RBI RSS": 20,
+   "RBI Enforcement": 0,
+   "SEBI RSS": 20,
+   "Google News": 17,
+   "Watchlist (Google)": 800,
+   "BSE Announcements": 0,
+   "BSE Financials": 0,
+   "Telegram": 68,
+   "Web Scraper": 182
+  },
+  "dropped_samples": {
+   "relevance": [
+    "Premature redemption under Sovereign Gold Bond (SGB) Scheme - Redemption Price for premature redemption of SGB",
+    "Release Order \u2013 Kamlesh Ahuja [Defaulter] (PAN: ADFPA4706R) in the matter of dealings in Illiquid Stock Option",
+    "SBI Securities IPO Note on Behari Lal Engineering Ltd",
+    "MNCL sees 28% UPSIDE in Goldiam International- Strong B2B Execution; ORIGEM Expansion Turns Calibrated",
+    "PL Capital sees 10% UPSIDE in Vikram Solar- Margin pressure persists despite revenue growth",
+    "PL Capital sees 13% UPSIDE in Cello World- Utilization ramp-up to support growth",
+    "PL Capital sees 26% UPSIDE in Fine Organic Industries- SEZ and U.S",
+    "PL Capital sees 4% DOWNSIDE in Carborundum Universal- Mixed Q1, Ceramics lead the way ahead",
+    "A Zepto warehouse operated by logistics company Nippon Express in Bengaluru\u2019s Hoskote has been sealed by Karna",
+    "Air India's outgoing CEO, Campbell Wilson, has reportedly been summoned by the Indian government over the Delh",
+    "Tamil Nadu Assembly passed a resolution urging the Centre to abolish NEET for medical admissions, citing socia",
+    "Deepti Gaur Mukerjee, a senior bureaucrat and 1993-batch IAS officer from the MP cadre, has been appointed as ",
+    "#WATCH | Delhi | BJP MP Kangana Ranaut says, \"First, they (the Opposition) raised so much ruckus to have a dis",
+    "Over the past one month, Ananya Birla has visited flood-hit Assam and extended support to student protests ove",
+    "Billionaire Gautam Adani welcomed the US court judgement to drop corruption charges against him in a late-nigh",
+    "Elon Musk's wealth grew by another $320 billion over the year between July 2025 and July 2026, according to Be",
+    "India has expanded the number of countries from which it sources liquefied natural gas (LNG) from six to 15, a",
+    "Narender Berwal won a silver medal in boxing in the Commonwealth Games 2026 in Glasgow",
+    "Youth concerns over paper leaks, unemployment and police action against protesters took centre stage at Congre",
+    "Alexandria Ocasio-Cortez, a Democratic representative from New York, is emerging as a potential 2028 president"
+   ],
+   "junk": [
+    "SEBI Order for Compliance - Completion of Recovery Certificate No.4473 of 2022 Mr",
+    "Completion of Recovery Certificate No",
+    "Completion of Recovery Certificate No",
+    "Order in the matter of Nirman Agri Genetics Limited",
+    "Notice of Demand under Recovery Certificate number 9277 of 2026 dated August 10, 2026 issued to Mr",
+    "Cancellation of Recovery Certificate No",
+    "Order in the matter of certain Investment Advisers",
+    "Order No. 01 of 2026 issued under RC No. 424 of 2014 drawn against Mr. Bhargav Ranchodlal Panchal (PAN: AFUPP7",
+    "Completion of Recovery Certificate No. RC9216 of 2026 in respect of Prabhjeet Singh Chawla (PAN: ACAPC4870A) i",
+    "Appeal No. 6976 of 2026 filed by Chhabeg Singh",
+    "Appeal No. 6974 of 2026 filed by Sudha Devi",
+    "Appeal No. 6973 of 2026 filed by Bharat Bhushan Sharma",
+    "Aadhar Housing Finance Ltd is Rated Buy by MarketsMOJO",
+    "Aditya Birla Sun Life Mutual Fund suspends fresh subscriptions in its multiple IDCW plans",
+    "Arohan Financial Services IPO Date, Price Band, GMP, Subscription & Allotment",
+    "Sensex closes down 388 points, Nifty slips below 24,500; Eternal gains, Axis Bank sees big dent",
+    "Buy Gold Above 155500 SL BELOW 154500 TGT 157000/157800 - Axis Securities Ltd",
+    "Coforge Ltd: Axis Securities Projects Strong Growth Driven by AI and Encora Integration",
+    "Trade Idea of The Day - Bajaj Finance Ltd Target Rs. 45 - Religare Broking Ltd",
+    "Bajaj Finance Ltd is Rated Hold"
    ]
   }
  }
