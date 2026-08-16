@@ -2968,7 +2968,7 @@ def _send_weekly_stats(now: "datetime.datetime") -> None:
             f'{fn_block}'
             f'<p style="color:#888;font-size:11px;">Auto-generated every Saturday. '
             f'<a href="{_MANAGE_URL}">Console</a> &middot; <a href="{_ARCHIVE_URL}">Archive</a></p></body></html>')
-    admin = os.environ.get("GMAIL_USER", "")
+    admin = _admin_addr()
     if admin:
         try:
             _send(admin, f"CareEdge Daily News — weekly quality report ({now:%d %b %Y})", html)
@@ -3085,7 +3085,7 @@ def _feedback_link(it: dict) -> str:
     admin mailbox with the exact title, which goes straight into
     suppress.json."""
     import urllib.parse
-    admin = os.environ.get("GMAIL_USER", "")
+    admin = _admin_addr()
     if not admin:
         return ""
     subj = urllib.parse.quote(f"[not relevant] {it.get('title','')[:120]}")
@@ -3110,7 +3110,7 @@ def _request_entity_link(for_name: str = "", n_entities: int = 0) -> str:
     under one pair of eyes.
     """
     import urllib.parse
-    admin = os.environ.get("GMAIL_USER", "")
+    admin = _admin_addr()
     if not admin:
         return ""
     who = for_name or "(your name)"
@@ -3567,6 +3567,20 @@ def _np_rebrand(html: str) -> str:
     return html
 
 
+def _admin_addr() -> str:
+    """Where reader feedback and operational alerts should land.
+
+    This was hardcoded to GMAIL_USER, which is now a mailbox Google has
+    blocked — so every "not relevant?" and "Request an entity" link in the
+    newsletter, and every delivery-failure alert, was pointing at a dead
+    address. ADMIN_EMAIL overrides; otherwise fall back to the verified
+    sender, and only then to the legacy Gmail name.
+    """
+    return (os.environ.get("ADMIN_EMAIL", "").strip()
+            or os.environ.get("SMTP_FROM", "").strip()
+            or os.environ.get("GMAIL_USER", "").strip())
+
+
 def _smtp_settings() -> tuple[str, int, str, str, str]:
     """(host, port, user, password, from_address).
 
@@ -3620,6 +3634,12 @@ def _send_via_brevo_api(to_addr: str, subject: str, html: str,
         "subject": subject,
         "htmlContent": html,
     }
+    # Until the sending domain is authenticated, Brevo rewrites the From to
+    # its own shared domain (…@…brevosend.com), so a reader hitting Reply
+    # would write to an address nobody reads. Point replies at the desk.
+    reply_to = _admin_addr()
+    if reply_to and reply_to != frm:
+        payload["replyTo"] = {"email": reply_to}
     if attachment_html:
         payload["attachment"] = [{
             "name": attachment_name,
@@ -4024,7 +4044,7 @@ def main() -> None:
 
     if failed:
         print(f"[mail] {len(failed)} failed: {', '.join(failed)}")
-        admin = os.environ.get("GMAIL_USER", "")
+        admin = _admin_addr()
         if admin:
             try:
                 _send(admin, "CareEdge Daily News — delivery failures",
