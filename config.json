@@ -16,7 +16,6 @@
     "web_scraper": true
   },
   "custom_scrape_urls": [
-    "https://bfsi.economictimes.indiatimes.com/",
     "https://www.livemint.com/industry/banking",
     "https://www.moneycontrol.com/news/business/banks/"
   ],
