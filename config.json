@@ -15,10 +15,7 @@
     "telegram": true,
     "web_scraper": true
   },
-  "custom_scrape_urls": [
-    "https://www.livemint.com/industry/banking",
-    "https://www.moneycontrol.com/news/business/banks/"
-  ],
+  "custom_scrape_urls": [],
   "web_sources": {
     "careedge": false,
     "crisil": false,
