@@ -845,12 +845,12 @@ _EXTRA_RSS_FEEDS = [
     ]),
     # Previously only reached via the generic HTML scraper (fetch_custom_url):
     # capped at 15 headlines/day, one fetch/day, no publish date so it never
-    # got the 48h recency check the RSS sources below get. The user supplied
-    # this feed URL directly; unverified from this environment (outbound
-    # access to this domain is blocked here) so the Google News fallback is
-    # kept as a safety net exactly as DebtCircle's is, in case the URL turns
-    # out to be a landing page rather than raw RSS.
+    # got the 48h recency check the RSS sources below get. Both feed URLs
+    # were supplied directly by the user (the second is confirmed the live
+    # "recent stories" feed); the Google News fallback stays behind them as
+    # a safety net, same pattern as every other entry in this list.
     ("ET BFSI", "T2", 10, [
+        "https://bfsi.economictimes.indiatimes.com/rss/recentstories",
         "https://bfsi.economictimes.indiatimes.com/rss",
         _gnews_site_feed("site:bfsi.economictimes.indiatimes.com"),
     ]),
