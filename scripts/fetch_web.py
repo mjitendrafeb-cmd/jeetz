@@ -851,6 +851,7 @@ _EXTRA_RSS_FEEDS = [
     # a safety net, same pattern as every other entry in this list.
     ("ET BFSI", "T2", 10, [
         "https://bfsi.economictimes.indiatimes.com/rss/recentstories",
+        "https://bfsi.economictimes.indiatimes.com/rss/articles",
         "https://bfsi.economictimes.indiatimes.com/rss",
         _gnews_site_feed("site:bfsi.economictimes.indiatimes.com"),
     ]),
