@@ -12,7 +12,7 @@
       "rh_email": "sudam.shingade@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -31,7 +31,7 @@
       "rh_email": "Hardik.Shah@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -50,7 +50,7 @@
       "rh_email": "Hardik.Shah@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -69,7 +69,7 @@
       "rh_email": "Priyesh.Ruparelia@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -88,7 +88,7 @@
       "rh_email": "Priyesh.Ruparelia@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -107,7 +107,7 @@
       "rh_email": "sudam.shingade@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -126,7 +126,7 @@
       "rh_email": "sudam.shingade@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -145,7 +145,7 @@
       "rh_email": "Priyesh.Ruparelia@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -164,7 +164,7 @@
       "rh_email": "Priyesh.Ruparelia@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -183,7 +183,7 @@
       "rh_email": "Hardik.Shah@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -202,7 +202,7 @@
       "rh_email": "Hardik.Shah@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -221,7 +221,7 @@
       "rh_email": "Hardik.Shah@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -242,7 +242,7 @@
       "rh_email": "Priyesh.Ruparelia@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -261,7 +261,7 @@
       "rh_email": "sudam.shingade@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -280,7 +280,7 @@
       "rh_email": "Priyesh.Ruparelia@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -299,7 +299,7 @@
       "rh_email": "Hardik.Shah@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -318,7 +318,7 @@
       "rh_email": "Hardik.Shah@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -337,7 +337,7 @@
       "rh_email": "Hardik.Shah@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -356,7 +356,7 @@
       "rh_email": "sudam.shingade@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -375,7 +375,7 @@
       "rh_email": "Priyesh.Ruparelia@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -394,7 +394,7 @@
       "rh_email": "Priyesh.Ruparelia@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -413,7 +413,7 @@
       "rh_email": "Priyesh.Ruparelia@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -432,7 +432,7 @@
       "rh_email": "Priyesh.Ruparelia@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -451,7 +451,7 @@
       "rh_email": "sudam.shingade@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -470,7 +470,7 @@
       "rh_email": "sudam.shingade@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -489,7 +489,7 @@
       "rh_email": "sudam.shingade@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -508,7 +508,7 @@
       "rh_email": "Hardik.Shah@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -527,7 +527,7 @@
       "rh_email": "Priyesh.Ruparelia@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -546,7 +546,7 @@
       "rh_email": "Priyesh.Ruparelia@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -565,7 +565,7 @@
       "rh_email": "Priyesh.Ruparelia@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -584,7 +584,7 @@
       "rh_email": "Priyesh.Ruparelia@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -603,7 +603,7 @@
       "rh_email": "sudam.shingade@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -622,7 +622,7 @@
       "rh_email": "Hardik.Shah@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -641,7 +641,7 @@
       "rh_email": "Hardik.Shah@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -660,7 +660,7 @@
       "rh_email": "Priyesh.Ruparelia@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -679,7 +679,7 @@
       "rh_email": "Hardik.Shah@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -698,7 +698,7 @@
       "rh_email": "Hardik.Shah@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -717,7 +717,7 @@
       "rh_email": "Priyesh.Ruparelia@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -736,7 +736,7 @@
       "rh_email": "Priyesh.Ruparelia@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -755,7 +755,7 @@
       "rh_email": "Priyesh.Ruparelia@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -774,7 +774,7 @@
       "rh_email": "Hardik.Shah@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -793,7 +793,7 @@
       "rh_email": "Hardik.Shah@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -812,7 +812,7 @@
       "rh_email": "Hardik.Shah@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -831,7 +831,7 @@
       "rh_email": "Hardik.Shah@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -850,7 +850,7 @@
       "rh_email": "Hardik.Shah@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -869,7 +869,7 @@
       "rh_email": "Hardik.Shah@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -888,7 +888,7 @@
       "rh_email": "Priyesh.Ruparelia@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -907,7 +907,7 @@
       "rh_email": "sudam.shingade@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -926,7 +926,7 @@
       "rh_email": "sudam.shingade@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -945,7 +945,7 @@
       "rh_email": "Priyesh.Ruparelia@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -966,7 +966,7 @@
       "rh_email": "Priyesh.Ruparelia@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -985,7 +985,7 @@
       "rh_email": "Priyesh.Ruparelia@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -1004,7 +1004,7 @@
       "rh_email": "sudam.shingade@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -1023,7 +1023,7 @@
       "rh_email": "Priyesh.Ruparelia@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -1042,7 +1042,7 @@
       "rh_email": "sudam.shingade@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -1061,7 +1061,7 @@
       "rh_email": "sudam.shingade@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -1080,7 +1080,7 @@
       "rh_email": "sudam.shingade@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -1099,7 +1099,7 @@
       "rh_email": "Priyesh.Ruparelia@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -1118,7 +1118,7 @@
       "rh_email": "sudam.shingade@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -1137,7 +1137,7 @@
       "rh_email": "sudam.shingade@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -1156,7 +1156,7 @@
       "rh_email": "sudam.shingade@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -1175,7 +1175,7 @@
       "rh_email": "sudam.shingade@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -1194,7 +1194,7 @@
       "rh_email": "sudam.shingade@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -1213,7 +1213,7 @@
       "rh_email": "Hardik.Shah@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -1234,7 +1234,7 @@
       "rh_email": "Hardik.Shah@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -1253,7 +1253,7 @@
       "rh_email": "Hardik.Shah@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -1272,7 +1272,7 @@
       "rh_email": "Priyesh.Ruparelia@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -1291,7 +1291,7 @@
       "rh_email": "Priyesh.Ruparelia@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -1310,7 +1310,7 @@
       "rh_email": "sudam.shingade@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -1329,7 +1329,7 @@
       "rh_email": "sudam.shingade@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -1348,7 +1348,7 @@
       "rh_email": "sudam.shingade@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -1367,7 +1367,7 @@
       "rh_email": "sudam.shingade@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -1386,7 +1386,7 @@
       "rh_email": "Priyesh.Ruparelia@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -1405,7 +1405,7 @@
       "rh_email": "sudam.shingade@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -1424,7 +1424,7 @@
       "rh_email": "Hardik.Shah@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -1443,7 +1443,7 @@
       "rh_email": "sudam.shingade@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -1462,7 +1462,7 @@
       "rh_email": "sudam.shingade@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -1481,7 +1481,7 @@
       "rh_email": "Priyesh.Ruparelia@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -1500,7 +1500,7 @@
       "rh_email": "Priyesh.Ruparelia@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -1519,7 +1519,7 @@
       "rh_email": "Priyesh.Ruparelia@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -1538,7 +1538,7 @@
       "rh_email": "Priyesh.Ruparelia@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -1557,7 +1557,7 @@
       "rh_email": "Priyesh.Ruparelia@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -1576,7 +1576,7 @@
       "rh_email": "Hardik.Shah@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -1595,7 +1595,7 @@
       "rh_email": "Hardik.Shah@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -1614,7 +1614,7 @@
       "rh_email": "sudam.shingade@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -1633,7 +1633,7 @@
       "rh_email": "Priyesh.Ruparelia@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -1652,7 +1652,7 @@
       "rh_email": "Priyesh.Ruparelia@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -1671,7 +1671,7 @@
       "rh_email": "sudam.shingade@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -1690,7 +1690,7 @@
       "rh_email": "Hardik.Shah@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -1709,7 +1709,7 @@
       "rh_email": "Hardik.Shah@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -1728,7 +1728,7 @@
       "rh_email": "Priyesh.Ruparelia@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -1747,7 +1747,7 @@
       "rh_email": "sudam.shingade@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -1766,7 +1766,7 @@
       "rh_email": "Hardik.Shah@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -1785,7 +1785,7 @@
       "rh_email": "Priyesh.Ruparelia@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -1804,7 +1804,7 @@
       "rh_email": "Priyesh.Ruparelia@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -1823,7 +1823,7 @@
       "rh_email": "sudam.shingade@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -1842,7 +1842,7 @@
       "rh_email": "Priyesh.Ruparelia@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -1861,7 +1861,7 @@
       "rh_email": "Priyesh.Ruparelia@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -1880,7 +1880,7 @@
       "rh_email": "sudam.shingade@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -1899,7 +1899,7 @@
       "rh_email": "sudam.shingade@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -1918,7 +1918,7 @@
       "rh_email": "sudam.shingade@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -1937,7 +1937,7 @@
       "rh_email": "Priyesh.Ruparelia@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -1956,7 +1956,7 @@
       "rh_email": "Priyesh.Ruparelia@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -1975,7 +1975,7 @@
       "rh_email": "sudam.shingade@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -1994,7 +1994,7 @@
       "rh_email": "Priyesh.Ruparelia@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -2013,7 +2013,7 @@
       "rh_email": "Priyesh.Ruparelia@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -2032,7 +2032,7 @@
       "rh_email": "Priyesh.Ruparelia@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -2051,7 +2051,7 @@
       "rh_email": "Priyesh.Ruparelia@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -2070,7 +2070,7 @@
       "rh_email": "Priyesh.Ruparelia@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -2091,7 +2091,7 @@
       "rh_email": "Priyesh.Ruparelia@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -2110,7 +2110,7 @@
       "rh_email": "Priyesh.Ruparelia@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -2129,7 +2129,7 @@
       "rh_email": "Priyesh.Ruparelia@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -2148,7 +2148,7 @@
       "rh_email": "sudam.shingade@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -2167,7 +2167,7 @@
       "rh_email": "sudam.shingade@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -2186,7 +2186,7 @@
       "rh_email": "sudam.shingade@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -2205,7 +2205,7 @@
       "rh_email": "Priyesh.Ruparelia@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -2224,7 +2224,7 @@
       "rh_email": "Priyesh.Ruparelia@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -2243,7 +2243,7 @@
       "rh_email": "Hardik.Shah@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -2262,7 +2262,7 @@
       "rh_email": "Hardik.Shah@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -2281,7 +2281,7 @@
       "rh_email": "Priyesh.Ruparelia@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -2300,7 +2300,7 @@
       "rh_email": "Priyesh.Ruparelia@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -2319,7 +2319,7 @@
       "rh_email": "Priyesh.Ruparelia@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -2338,7 +2338,7 @@
       "rh_email": "Hardik.Shah@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -2357,7 +2357,7 @@
       "rh_email": "Hardik.Shah@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -2376,7 +2376,7 @@
       "rh_email": "Hardik.Shah@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -2395,7 +2395,7 @@
       "rh_email": "Hardik.Shah@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -2414,7 +2414,7 @@
       "rh_email": "Hardik.Shah@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -2433,7 +2433,7 @@
       "rh_email": "Hardik.Shah@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -2452,7 +2452,7 @@
       "rh_email": "Priyesh.Ruparelia@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -2471,7 +2471,7 @@
       "rh_email": "Hardik.Shah@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -2490,7 +2490,7 @@
       "rh_email": "Priyesh.Ruparelia@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -2509,7 +2509,7 @@
       "rh_email": "sudam.shingade@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -2528,7 +2528,7 @@
       "rh_email": "Hardik.Shah@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -2547,7 +2547,7 @@
       "rh_email": "Hardik.Shah@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -2566,7 +2566,7 @@
       "rh_email": "Hardik.Shah@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -2585,7 +2585,7 @@
       "rh_email": "Hardik.Shah@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -2604,7 +2604,7 @@
       "rh_email": "Hardik.Shah@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -2623,7 +2623,7 @@
       "rh_email": "Hardik.Shah@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -2642,7 +2642,7 @@
       "rh_email": "Priyesh.Ruparelia@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -2661,7 +2661,7 @@
       "rh_email": "Hardik.Shah@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -2680,7 +2680,7 @@
       "rh_email": "Hardik.Shah@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -2699,7 +2699,7 @@
       "rh_email": "Hardik.Shah@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -2718,7 +2718,7 @@
       "rh_email": "Hardik.Shah@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -2737,7 +2737,7 @@
       "rh_email": "Priyesh.Ruparelia@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -2756,7 +2756,7 @@
       "rh_email": "Priyesh.Ruparelia@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -2775,7 +2775,7 @@
       "rh_email": "sudam.shingade@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -2794,7 +2794,7 @@
       "rh_email": "Priyesh.Ruparelia@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -2813,7 +2813,7 @@
       "rh_email": "Priyesh.Ruparelia@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -2832,7 +2832,7 @@
       "rh_email": "Priyesh.Ruparelia@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -2851,7 +2851,7 @@
       "rh_email": "Hardik.Shah@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -2870,7 +2870,7 @@
       "rh_email": "Hardik.Shah@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -2889,7 +2889,7 @@
       "rh_email": "Hardik.Shah@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -2908,7 +2908,7 @@
       "rh_email": "Priyesh.Ruparelia@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -2929,7 +2929,7 @@
       "rh_email": "sudam.shingade@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -2948,7 +2948,7 @@
       "rh_email": "Hardik.Shah@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -2967,7 +2967,7 @@
       "rh_email": "Hardik.Shah@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -2986,7 +2986,7 @@
       "rh_email": "Priyesh.Ruparelia@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -3007,7 +3007,7 @@
       "rh_email": "Priyesh.Ruparelia@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -3026,7 +3026,7 @@
       "rh_email": "Priyesh.Ruparelia@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -3047,7 +3047,7 @@
       "rh_email": "sudam.shingade@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -3066,7 +3066,7 @@
       "rh_email": "Hardik.Shah@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -3085,7 +3085,7 @@
       "rh_email": "Priyesh.Ruparelia@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -3104,7 +3104,7 @@
       "rh_email": "sudam.shingade@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -3123,7 +3123,7 @@
       "rh_email": "Priyesh.Ruparelia@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -3142,7 +3142,7 @@
       "rh_email": "Priyesh.Ruparelia@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -3161,7 +3161,7 @@
       "rh_email": "sudam.shingade@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -3180,7 +3180,7 @@
       "rh_email": "sudam.shingade@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -3199,7 +3199,7 @@
       "rh_email": "Hardik.Shah@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -3218,7 +3218,7 @@
       "rh_email": "sudam.shingade@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -3237,7 +3237,7 @@
       "rh_email": "sudam.shingade@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -3256,7 +3256,7 @@
       "rh_email": "Priyesh.Ruparelia@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -3275,7 +3275,7 @@
       "rh_email": "Priyesh.Ruparelia@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -3294,7 +3294,7 @@
       "rh_email": "Priyesh.Ruparelia@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -3313,7 +3313,7 @@
       "rh_email": "Priyesh.Ruparelia@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -3332,7 +3332,7 @@
       "rh_email": "Priyesh.Ruparelia@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -3351,7 +3351,7 @@
       "rh_email": "Priyesh.Ruparelia@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -3370,7 +3370,7 @@
       "rh_email": "Hardik.Shah@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -3389,7 +3389,7 @@
       "rh_email": "Hardik.Shah@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -3408,7 +3408,7 @@
       "rh_email": "Priyesh.Ruparelia@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -3427,7 +3427,7 @@
       "rh_email": "Priyesh.Ruparelia@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -3446,7 +3446,7 @@
       "rh_email": "Priyesh.Ruparelia@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -3465,7 +3465,7 @@
       "rh_email": "sudam.shingade@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -3484,7 +3484,7 @@
       "rh_email": "Hardik.Shah@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -3503,7 +3503,7 @@
       "rh_email": "Priyesh.Ruparelia@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -3522,7 +3522,7 @@
       "rh_email": "Priyesh.Ruparelia@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -3541,7 +3541,7 @@
       "rh_email": "Priyesh.Ruparelia@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -3560,7 +3560,7 @@
       "rh_email": "sudam.shingade@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -3579,7 +3579,7 @@
       "rh_email": "Hardik.Shah@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -3598,7 +3598,7 @@
       "rh_email": "Priyesh.Ruparelia@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -3617,7 +3617,7 @@
       "rh_email": "Priyesh.Ruparelia@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -3636,7 +3636,7 @@
       "rh_email": "Priyesh.Ruparelia@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -3655,7 +3655,7 @@
       "rh_email": "Priyesh.Ruparelia@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -3674,7 +3674,7 @@
       "rh_email": "sudam.shingade@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -3693,7 +3693,7 @@
       "rh_email": "sudam.shingade@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -3712,7 +3712,7 @@
       "rh_email": "Hardik.Shah@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -3731,7 +3731,7 @@
       "rh_email": "Priyesh.Ruparelia@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -3750,7 +3750,7 @@
       "rh_email": "Priyesh.Ruparelia@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -3769,7 +3769,7 @@
       "rh_email": "Priyesh.Ruparelia@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -3788,7 +3788,7 @@
       "rh_email": "Priyesh.Ruparelia@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -3807,7 +3807,7 @@
       "rh_email": "Priyesh.Ruparelia@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -3826,7 +3826,7 @@
       "rh_email": "Priyesh.Ruparelia@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -3845,7 +3845,7 @@
       "rh_email": "sudam.shingade@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -3864,7 +3864,7 @@
       "rh_email": "Priyesh.Ruparelia@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -3883,7 +3883,7 @@
       "rh_email": "Priyesh.Ruparelia@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -3902,7 +3902,7 @@
       "rh_email": "Hardik.Shah@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -3921,7 +3921,7 @@
       "rh_email": "sudam.shingade@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -3940,7 +3940,7 @@
       "rh_email": "Priyesh.Ruparelia@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -3959,7 +3959,7 @@
       "rh_email": "Priyesh.Ruparelia@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -3978,7 +3978,7 @@
       "rh_email": "Priyesh.Ruparelia@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -3997,7 +3997,7 @@
       "rh_email": "Hardik.Shah@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -4016,7 +4016,7 @@
       "rh_email": "Priyesh.Ruparelia@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -4035,7 +4035,7 @@
       "rh_email": "Hardik.Shah@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -4054,7 +4054,7 @@
       "rh_email": "sudam.shingade@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -4073,7 +4073,7 @@
       "rh_email": "Hardik.Shah@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -4092,7 +4092,7 @@
       "rh_email": "sudam.shingade@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -4111,7 +4111,7 @@
       "rh_email": "Hardik.Shah@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -4130,7 +4130,7 @@
       "rh_email": "Hardik.Shah@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -4149,7 +4149,7 @@
       "rh_email": "Priyesh.Ruparelia@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -4168,7 +4168,7 @@
       "rh_email": "Priyesh.Ruparelia@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -4187,7 +4187,7 @@
       "rh_email": "Priyesh.Ruparelia@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -4206,7 +4206,7 @@
       "rh_email": "Hardik.Shah@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -4225,7 +4225,7 @@
       "rh_email": "Priyesh.Ruparelia@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -4244,7 +4244,7 @@
       "rh_email": "sudam.shingade@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -4263,7 +4263,7 @@
       "rh_email": "Hardik.Shah@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -4282,7 +4282,7 @@
       "rh_email": "Hardik.Shah@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -4301,7 +4301,7 @@
       "rh_email": "sudam.shingade@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -4320,7 +4320,7 @@
       "rh_email": "Priyesh.Ruparelia@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -4339,7 +4339,7 @@
       "rh_email": "sudam.shingade@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -4358,7 +4358,7 @@
       "rh_email": "Hardik.Shah@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -4377,7 +4377,7 @@
       "rh_email": "Priyesh.Ruparelia@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -4396,7 +4396,7 @@
       "rh_email": "Priyesh.Ruparelia@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -4415,7 +4415,7 @@
       "rh_email": "sudam.shingade@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -4434,7 +4434,7 @@
       "rh_email": "sudam.shingade@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -4455,7 +4455,7 @@
       "rh_email": "Hardik.Shah@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -4474,7 +4474,7 @@
       "rh_email": "Priyesh.Ruparelia@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -4493,7 +4493,7 @@
       "rh_email": "Hardik.Shah@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -4512,7 +4512,7 @@
       "rh_email": "Priyesh.Ruparelia@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -4531,7 +4531,7 @@
       "rh_email": "sudam.shingade@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -4550,7 +4550,7 @@
       "rh_email": "Priyesh.Ruparelia@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -4569,7 +4569,7 @@
       "rh_email": "Hardik.Shah@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -4588,7 +4588,7 @@
       "rh_email": "Hardik.Shah@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -4607,7 +4607,7 @@
       "rh_email": "Priyesh.Ruparelia@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -4626,7 +4626,7 @@
       "rh_email": "Hardik.Shah@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -4645,7 +4645,7 @@
       "rh_email": "sudam.shingade@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -4664,7 +4664,7 @@
       "rh_email": "Hardik.Shah@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -4683,7 +4683,7 @@
       "rh_email": "Priyesh.Ruparelia@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -4702,7 +4702,7 @@
       "rh_email": "sudam.shingade@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -4721,7 +4721,7 @@
       "rh_email": "Priyesh.Ruparelia@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -4740,7 +4740,7 @@
       "rh_email": "Hardik.Shah@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -4759,7 +4759,7 @@
       "rh_email": "Priyesh.Ruparelia@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -4778,7 +4778,7 @@
       "rh_email": "sudam.shingade@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -4797,7 +4797,7 @@
       "rh_email": "sudam.shingade@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -4816,7 +4816,7 @@
       "rh_email": "Priyesh.Ruparelia@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -4835,7 +4835,7 @@
       "rh_email": "sudam.shingade@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -4854,7 +4854,7 @@
       "rh_email": "sudam.shingade@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -4873,7 +4873,7 @@
       "rh_email": "Priyesh.Ruparelia@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -4892,7 +4892,7 @@
       "rh_email": "Priyesh.Ruparelia@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -4911,7 +4911,7 @@
       "rh_email": "Priyesh.Ruparelia@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -4930,7 +4930,7 @@
       "rh_email": "sudam.shingade@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -4949,7 +4949,7 @@
       "rh_email": "sudam.shingade@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -4968,7 +4968,7 @@
       "rh_email": "Priyesh.Ruparelia@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -4987,7 +4987,7 @@
       "rh_email": "sudam.shingade@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -5006,7 +5006,7 @@
       "rh_email": "Priyesh.Ruparelia@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -5025,7 +5025,7 @@
       "rh_email": "Hardik.Shah@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -5044,7 +5044,7 @@
       "rh_email": "Hardik.Shah@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -5063,7 +5063,7 @@
       "rh_email": "Hardik.Shah@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -5082,7 +5082,7 @@
       "rh_email": "Priyesh.Ruparelia@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -5101,7 +5101,7 @@
       "rh_email": "Priyesh.Ruparelia@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -5120,7 +5120,7 @@
       "rh_email": "Priyesh.Ruparelia@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -5139,7 +5139,7 @@
       "rh_email": "Priyesh.Ruparelia@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -5158,7 +5158,7 @@
       "rh_email": "Priyesh.Ruparelia@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -5177,7 +5177,7 @@
       "rh_email": "Priyesh.Ruparelia@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -5196,7 +5196,7 @@
       "rh_email": "Priyesh.Ruparelia@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -5215,7 +5215,7 @@
       "rh_email": "sudam.shingade@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -5234,7 +5234,7 @@
       "rh_email": "sudam.shingade@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -5253,7 +5253,7 @@
       "rh_email": "sudam.shingade@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -5272,7 +5272,7 @@
       "rh_email": "sudam.shingade@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -5291,7 +5291,7 @@
       "rh_email": "sudam.shingade@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -5310,7 +5310,7 @@
       "rh_email": "sudam.shingade@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -5329,7 +5329,7 @@
       "rh_email": "sudam.shingade@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -5348,7 +5348,7 @@
       "rh_email": "Priyesh.Ruparelia@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -5367,7 +5367,7 @@
       "rh_email": "Hardik.Shah@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -5386,7 +5386,7 @@
       "rh_email": "sudam.shingade@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -5405,7 +5405,7 @@
       "rh_email": "Priyesh.Ruparelia@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -5424,7 +5424,7 @@
       "rh_email": "sudam.shingade@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -5443,7 +5443,7 @@
       "rh_email": "sudam.shingade@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -5462,7 +5462,7 @@
       "rh_email": "sudam.shingade@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -5481,7 +5481,7 @@
       "rh_email": "Hardik.Shah@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -5500,7 +5500,7 @@
       "rh_email": "Hardik.Shah@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -5519,7 +5519,7 @@
       "rh_email": "sudam.shingade@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -5538,7 +5538,7 @@
       "rh_email": "Hardik.Shah@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -5557,7 +5557,7 @@
       "rh_email": "Priyesh.Ruparelia@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -5576,7 +5576,7 @@
       "rh_email": "Priyesh.Ruparelia@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -5595,7 +5595,7 @@
       "rh_email": "sudam.shingade@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -5614,7 +5614,7 @@
       "rh_email": "Priyesh.Ruparelia@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -5633,7 +5633,7 @@
       "rh_email": "Priyesh.Ruparelia@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -5652,7 +5652,7 @@
       "rh_email": "Priyesh.Ruparelia@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -5671,7 +5671,7 @@
       "rh_email": "Hardik.Shah@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -5690,7 +5690,7 @@
       "rh_email": "sudam.shingade@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -5709,7 +5709,7 @@
       "rh_email": "sudam.shingade@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -5728,7 +5728,7 @@
       "rh_email": "sudam.shingade@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -5747,7 +5747,7 @@
       "rh_email": "sudam.shingade@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -5766,7 +5766,7 @@
       "rh_email": "Hardik.Shah@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -5785,7 +5785,7 @@
       "rh_email": "Hardik.Shah@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -5804,7 +5804,7 @@
       "rh_email": "sudam.shingade@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -5823,7 +5823,7 @@
       "rh_email": "sudam.shingade@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -5842,7 +5842,7 @@
       "rh_email": "sudam.shingade@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -5861,7 +5861,7 @@
       "rh_email": "Hardik.Shah@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -5880,7 +5880,7 @@
       "rh_email": "Priyesh.Ruparelia@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -5899,7 +5899,7 @@
       "rh_email": "Hardik.Shah@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -5920,7 +5920,7 @@
       "rh_email": "Hardik.Shah@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -5939,7 +5939,7 @@
       "rh_email": "Priyesh.Ruparelia@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -5958,7 +5958,7 @@
       "rh_email": "sudam.shingade@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -5977,7 +5977,7 @@
       "rh_email": "sudam.shingade@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -5996,7 +5996,7 @@
       "rh_email": "sudam.shingade@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -6015,7 +6015,7 @@
       "rh_email": "sudam.shingade@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -6034,7 +6034,7 @@
       "rh_email": "sudam.shingade@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -6053,7 +6053,7 @@
       "rh_email": "Priyesh.Ruparelia@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -6072,7 +6072,7 @@
       "rh_email": "sudam.shingade@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -6091,7 +6091,7 @@
       "rh_email": "sudam.shingade@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -6110,7 +6110,7 @@
       "rh_email": "sudam.shingade@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -6129,7 +6129,7 @@
       "rh_email": "Hardik.Shah@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -6148,7 +6148,7 @@
       "rh_email": "Hardik.Shah@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -6167,7 +6167,7 @@
       "rh_email": "Hardik.Shah@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -6186,7 +6186,7 @@
       "rh_email": "Hardik.Shah@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -6205,7 +6205,7 @@
       "rh_email": "Hardik.Shah@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -6224,7 +6224,7 @@
       "rh_email": "Hardik.Shah@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -6243,7 +6243,7 @@
       "rh_email": "Hardik.Shah@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -6262,7 +6262,7 @@
       "rh_email": "Priyesh.Ruparelia@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -6281,7 +6281,7 @@
       "rh_email": "Hardik.Shah@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -6300,7 +6300,7 @@
       "rh_email": "Hardik.Shah@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -6319,7 +6319,7 @@
       "rh_email": "Hardik.Shah@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -6338,7 +6338,7 @@
       "rh_email": "Priyesh.Ruparelia@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -6357,7 +6357,7 @@
       "rh_email": "sudam.shingade@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -6376,7 +6376,7 @@
       "rh_email": "sudam.shingade@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -6395,7 +6395,7 @@
       "rh_email": "Priyesh.Ruparelia@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -6414,7 +6414,7 @@
       "rh_email": "Hardik.Shah@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -6433,7 +6433,7 @@
       "rh_email": "Hardik.Shah@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -6452,7 +6452,7 @@
       "rh_email": "Hardik.Shah@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -6471,7 +6471,7 @@
       "rh_email": "Hardik.Shah@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -6490,7 +6490,7 @@
       "rh_email": "Priyesh.Ruparelia@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -6509,7 +6509,7 @@
       "rh_email": "sudam.shingade@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -6528,7 +6528,7 @@
       "rh_email": "sudam.shingade@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -6547,7 +6547,7 @@
       "rh_email": "Hardik.Shah@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -6566,7 +6566,7 @@
       "rh_email": "Priyesh.Ruparelia@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -6585,7 +6585,7 @@
       "rh_email": "Priyesh.Ruparelia@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -6604,7 +6604,7 @@
       "rh_email": "Priyesh.Ruparelia@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -6623,7 +6623,7 @@
       "rh_email": "Priyesh.Ruparelia@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -6642,7 +6642,7 @@
       "rh_email": "Priyesh.Ruparelia@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -6661,7 +6661,7 @@
       "rh_email": "Priyesh.Ruparelia@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -6680,7 +6680,7 @@
       "rh_email": "Priyesh.Ruparelia@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -6699,7 +6699,7 @@
       "rh_email": "Priyesh.Ruparelia@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -6718,7 +6718,7 @@
       "rh_email": "sudam.shingade@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -6737,7 +6737,7 @@
       "rh_email": "sudam.shingade@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -6756,7 +6756,7 @@
       "rh_email": "sudam.shingade@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -6775,7 +6775,7 @@
       "rh_email": "sudam.shingade@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -6794,7 +6794,7 @@
       "rh_email": "sudam.shingade@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -6813,7 +6813,7 @@
       "rh_email": "sudam.shingade@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -6832,7 +6832,7 @@
       "rh_email": "sudam.shingade@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -6851,7 +6851,7 @@
       "rh_email": "sudam.shingade@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -6870,7 +6870,7 @@
       "rh_email": "sudam.shingade@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -6889,7 +6889,7 @@
       "rh_email": "sudam.shingade@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -6908,7 +6908,7 @@
       "rh_email": "sudam.shingade@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -6927,7 +6927,7 @@
       "rh_email": "sudam.shingade@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -6946,7 +6946,7 @@
       "rh_email": "sudam.shingade@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -6965,7 +6965,7 @@
       "rh_email": "sudam.shingade@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -6984,7 +6984,7 @@
       "rh_email": "sudam.shingade@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -7003,7 +7003,7 @@
       "rh_email": "sudam.shingade@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -7022,7 +7022,7 @@
       "rh_email": "sudam.shingade@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
@@ -7041,7 +7041,7 @@
       "rh_email": "sudam.shingade@careedge.in",
       "send_gh": true,
       "send_analyst": true,
-      "send_rh": false,
+      "send_rh": true,
       "sector": "BFSI",
       "sections": [
         "S1",
