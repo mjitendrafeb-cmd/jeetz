@@ -295,7 +295,12 @@ async function load(){
       .map(function(x){return SEC_MIGRATE[x]||x;})));});
     if(!Array.isArray(team.sector_keywords))team.sector_keywords=[];
     if(!Array.isArray(team.macro_keywords))team.macro_keywords=[];
-    document.getElementById('txtSectorKw').value=team.sector_keywords.join(', ');
+    // txtSectorKw was a single flat textarea for sector keywords; it was
+    // replaced by the per-sector UI (renderSectors(), below) which reads
+    // team.sectors instead. This line kept writing to the now-removed
+    // element on every load, crashing before render() ever ran -- the
+    // page looked "broken" (empty table, "Load failed" banner) even
+    // though team.json loaded fine and edits/Excel export still worked.
     if(!team.sectors||typeof team.sectors!=='object'||Array.isArray(team.sectors)){
       team.sectors={BFSI:(team.sector_keywords||[])};delete team.sector_keywords;}
     if(!Object.keys(team.sectors).length)team.sectors={BFSI:[]};
