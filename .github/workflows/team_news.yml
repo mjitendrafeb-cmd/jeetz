@@ -19,7 +19,7 @@ on:
   workflow_dispatch:
     inputs:
       test_email:
-        description: 'One-off test: restrict this run to a single recipient email (blank = normal full send)'
+        description: 'One-off test: restrict this run to one or more recipient emails, comma-separated (blank = normal full send)'
         required: false
         type: string
       test_sections:

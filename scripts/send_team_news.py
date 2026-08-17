@@ -3922,11 +3922,16 @@ def main() -> None:
     # WITHOUT touching team.json (which would affect all 7 GHs). Set via
     # workflow_dispatch inputs -> TEST_EMAIL / TEST_SECTIONS env vars. Never
     # set on a scheduled run, so normal mornings are completely unaffected.
-    test_email = os.environ.get("TEST_EMAIL", "").strip().lower()
+    # Comma/semicolon-separated so one manual run can cover several people
+    # at once (e.g. "just the RHs and Punit, not the whole team again") —
+    # without this a re-run to reach 4 people meant 4 queued workflow runs
+    # back to back (same concurrency group), each redoing the full fetch.
+    test_emails = {e.strip().lower() for e in re.split(r"[,;]", os.environ.get("TEST_EMAIL", ""))
+                   if e.strip()}
     test_sections_env = os.environ.get("TEST_SECTIONS", "").strip()
     test_sections = {s.strip().upper() for s in test_sections_env.split(",") if s.strip()} or None
-    if test_email:
-        print(f"[test] restricting this run to {test_email}"
+    if test_emails:
+        print(f"[test] restricting this run to {', '.join(sorted(test_emails))}"
               f"{' / sections ' + ','.join(sorted(test_sections)) if test_sections else ''}")
 
     people: dict[str, dict] = {}
@@ -3942,12 +3947,12 @@ def main() -> None:
             # In test mode, match by email regardless of the row's Send tick
             # — a manual test should not depend on that row happening to be
             # enabled. Normal runs keep the send_f gate exactly as before.
-            if not test_email and not r.get(send_f):
+            if not test_emails and not r.get(send_f):
                 continue
             # A cell may hold several addresses ("a@x, b@x; c@x") — each
             # address gets its own personalized mail.
             for email in (e.strip() for e in re.split(r"[,;]", r.get(email_f, "")) if e.strip()):
-                if test_email and email.strip().lower() != test_email:
+                if test_emails and email.strip().lower() not in test_emails:
                     continue
                 if not secs:
                     continue
@@ -4075,7 +4080,7 @@ def main() -> None:
     if now.strftime("%A") == "Saturday":
         _send_weekly_stats(now)
 
-    if test_email:
+    if test_emails:
         # A one-off test must not mark today as sent (that would block
         # tomorrow's real scheduled run) or teach the shared seen-memory
         # about items other GHs haven't received yet. The pool is skipped
