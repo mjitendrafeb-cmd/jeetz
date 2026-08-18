@@ -2187,6 +2187,12 @@ _NP_INK = "#12283C"
 _NP_BODY = "#41535F"
 _NP_MUTED = "#8896A2"
 _NP_RULE = "#E3E8EC"
+# S1 entity-header band: a pale navy fill (chosen over three alternatives —
+# a teal-coloured heading and a left accent bar — for the S1 entity header)
+# so the header reads as a labelled block rather than another line of text,
+# with no size or weight change from the surrounding cards.
+_NP_HEADER_TINT = "#EEF3F8"
+_NP_HEADER_TINT_RULE = "#B9C6D3"
 
 _NAVY = "#132A46"
 _NAVY_SOFT = "#9AA9BC"
@@ -3175,19 +3181,24 @@ def _company_header(name: str, its: list[dict]) -> str:
     # reference, not part of the navy/teal chrome.
     flag = (f'<span style="color:#D0021B;font-weight:800;font-size:8px;">'
             f' &#9679; ACTION</span>' if top >= 8 else "")
-    # Reader feedback: 11px/weight-900/1.2px letter-spacing/uppercase made a
-    # long entity name ("Micro Units Development and Refinance Agency
-    # Limited") look bulky, taking up real width in a 3-column layout.
-    # Distinction now comes from the darker colour rather than maximum
-    # weight — weight-700 (still clearly bold) with tighter letter-spacing.
-    return (f'<p style="margin:14px 0 5px;font-size:10.5px;font-weight:700;'
+    # Reader feedback, round 1: 11px/weight-900/1.2px letter-spacing/uppercase
+    # made a long entity name ("Micro Units Development and Refinance Agency
+    # Limited") look bulky in a 3-column layout. Trimmed to weight-700/10.5px.
+    # Round 2: that trim made the header hard to tell apart from a card
+    # headline -- _NP_NAVY_DEEP (#0A2440) and the headline colour _NP_INK
+    # (#12283C) are nearly the same dark navy, so a bold navy line above a
+    # bold navy headline just read as more text, not a heading. Fixed with
+    # shape instead of more weight: a pale tinted band (picked from four
+    # options) makes it read as a labelled block at a glance, with no size
+    # or weight change at all.
+    return (f'<p style="margin:14px 0 12px;font-size:10.5px;font-weight:700;'
             f'letter-spacing:0.5px;text-transform:uppercase;color:{_NP_NAVY_DEEP};'
-            f'border-bottom:1px solid {_NP_RULE};padding-bottom:4px;'
+            f'background:{_NP_HEADER_TINT};padding:6px 10px;border-radius:2px;'
             f'break-inside:avoid;break-after:avoid;'
             f'-webkit-column-break-inside:avoid;-webkit-column-break-after:avoid;'
             f'page-break-after:avoid;">{_esc(name)}{flag}'
             f'<span style="color:{_NP_MUTED};font-weight:500;font-size:7.5px;'
-            f'letter-spacing:0.8px;"> <span style="color:{_NP_RULE};">|</span> {n} item'
+            f'letter-spacing:0.8px;"> <span style="color:{_NP_HEADER_TINT_RULE};">|</span> {n} item'
             f'{"s" if n != 1 else ""}</span></p>')
 
 
