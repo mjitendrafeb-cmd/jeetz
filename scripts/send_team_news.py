@@ -269,7 +269,12 @@ _JUNK_SOURCE_RE = re.compile(
     r"zippia|growjo|leadiq|craft\.co|owler|rocketreach|"
     # Minnesota-based African-diaspora community newspaper -- zero credit
     # relevance, reported source of Bali/travel content reaching S2/S3.
-    r"\bmshale\b)",
+    r"\bmshale\b|"
+    # Upstox's own blog/market-commentary content -- broker-published stock
+    # tips and market recaps, same class of noise as @brokerage_report.
+    # Matches the SOURCE field (Upstox as publisher), not mentions of
+    # Upstox in other outlets' articles.
+    r"\bupstox\b)",
     re.IGNORECASE,
 )
 # Crypto trading stories reach S1 through loose company-name matches (an
@@ -3170,11 +3175,13 @@ def _company_header(name: str, its: list[dict]) -> str:
     # reference, not part of the navy/teal chrome.
     flag = (f'<span style="color:#D0021B;font-weight:800;font-size:8px;">'
             f' &#9679; ACTION</span>' if top >= 8 else "")
-    # Reader feedback: the entity name needs to stand out more against the
-    # cards below it — bumped from 10px/800 weight/_NP_NAVY to 11px/900
-    # weight/_NP_NAVY_DEEP (darker) for stronger contrast at a glance.
-    return (f'<p style="margin:14px 0 5px;font-size:11px;font-weight:900;'
-            f'letter-spacing:1.2px;text-transform:uppercase;color:{_NP_NAVY_DEEP};'
+    # Reader feedback: 11px/weight-900/1.2px letter-spacing/uppercase made a
+    # long entity name ("Micro Units Development and Refinance Agency
+    # Limited") look bulky, taking up real width in a 3-column layout.
+    # Distinction now comes from the darker colour rather than maximum
+    # weight — weight-700 (still clearly bold) with tighter letter-spacing.
+    return (f'<p style="margin:14px 0 5px;font-size:10.5px;font-weight:700;'
+            f'letter-spacing:0.5px;text-transform:uppercase;color:{_NP_NAVY_DEEP};'
             f'border-bottom:1px solid {_NP_RULE};padding-bottom:4px;'
             f'break-inside:avoid;break-after:avoid;'
             f'-webkit-column-break-inside:avoid;-webkit-column-break-after:avoid;'
@@ -3188,11 +3195,12 @@ _CATEGORY_ORDER = {
     "S2": [lbl for _c, lbl, _rx in _S2_TAXONOMY] + ["General"],
     "S3": [lbl for _c, lbl, _rx in _S3_TAXONOMY] + ["General"],
 }
-# Reader feedback: these two S2 subheadings took up space without adding
+# Reader feedback: these S2 subheadings took up space without adding
 # navigational value (the desk already scans S2 as one list). Items in
 # these categories still render — categorised, ordered, everything else
 # unchanged — just without a printed subsection label above them.
-_NO_HEADING_CATEGORIES = {"Regulatory & Policy", "Microfinance & Retail Credit"}
+_NO_HEADING_CATEGORIES = {"Regulatory & Policy", "Microfinance & Retail Credit",
+                          "Banks & NBFCs"}
 
 
 def _category_header(label: str) -> str:

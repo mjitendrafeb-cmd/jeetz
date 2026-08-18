@@ -987,6 +987,14 @@
       "expect": null,
       "expect_team": null,
       "why": "user-reported: Mshale (a Minnesota African-diaspora community paper) has zero credit relevance -- blocked as a junk source, same treatment as reveliolabs/bitcoinworld/etc."
+    },
+    {
+      "title": "Sensex, Nifty end flat; top 5 stocks to watch tomorrow",
+      "source": "Upstox",
+      "tags": "",
+      "expect": null,
+      "expect_team": null,
+      "why": "user-reported: Upstox's own blog/market-commentary content is broker-published noise -- blocked as a junk source, same treatment as @brokerage_report/Mshale/etc."
     }
   ]
 }
