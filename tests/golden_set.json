@@ -944,6 +944,49 @@
       "expect": null,
       "expect_team": null,
       "why": "same notice with no watchlist tag at all -- must be dropped, never generic S2/S3 sector news"
+    },
+    {
+      "title": "Ugro Capital allots Rs 48.9 crore commercial paper for 91 days tenure",
+      "tags": "WATCHLIST — Ugro Capital Limited",
+      "expect": "S1",
+      "expect_team": "S1",
+      "why": "user-reported: the entity's own CP allotment leaked to S3. Root cause was SYSTEMIC, not local to this pattern: [^.|] (the shared 'same clause' gap used 23 times across this file) excludes every literal period, including the decimal point in a rupee amount -- 'allots' and 'commercial paper' are only 15 chars apart but the '.' in '48.9' was an impassable wall inside {0,60}, so the match failed and the story fell to the generic S3 default. Fixed by allowing a digit.digit decimal through the gap everywhere it is used, not just here"
+    },
+    {
+      "title": "Ugro Capital allots Rs 48.9 crore commercial paper for 91 days tenure",
+      "tags": "",
+      "expect": "S4",
+      "expect_team": null,
+      "why": "same headline, untracked entity -- 7:40 correctly drops it. 7:30's five-section _classify has no entity-vs-sector concept and reads the bare 'commercial paper' keyword as S4 bond-market news -- pre-existing 5-section behaviour, unchanged"
+    },
+    {
+      "title": "Anupam Rasayan promoter pledges 2 lakh shares for NCD cover",
+      "tags": "WATCHLIST — Anupam Rasayan India Limited",
+      "expect": "S1",
+      "expect_team": "S1",
+      "why": "user-reported: a promoter's own share pledge is entity-level disclosure, never sector or macro news -- _ENTITY_STORY_RE had no pattern for 'pledge' at all. 7:30's _classify trusts any WATCHLIST tag immediately and never reaches the pledge/NCD wording, so it already reads S1 here -- pre-existing behaviour, unchanged by this fix"
+    },
+    {
+      "title": "Anupam Rasayan promoter pledges 2 lakh shares for NCD cover",
+      "tags": "",
+      "expect": "S4",
+      "expect_team": null,
+      "why": "same headline, untracked entity -- 7:40 correctly drops it (no entity-vs-sector concept exists for 'pledge' outside _classify_team). 7:30's five-section _classify has no such concept at all and reads the bare 'NCD' keyword as S4 bond-market news -- pre-existing 5-section behaviour, not something this task touches"
+    },
+    {
+      "title": "NBFC promoter pledges across the sector rise to 3-year high",
+      "tags": "",
+      "expect": "S2",
+      "expect_team": "S2",
+      "why": "guard: a genuinely SECTOR-WIDE pledge story ('across the sector') must survive the new pledge pattern via _SECTOR_WIDE_RE, exactly like the existing entity-vs-sector guards for CP/NCD/M&A wording"
+    },
+    {
+      "title": "Some Bali travel story with a company mention",
+      "source": "Mshale",
+      "tags": "",
+      "expect": null,
+      "expect_team": null,
+      "why": "user-reported: Mshale (a Minnesota African-diaspora community paper) has zero credit relevance -- blocked as a junk source, same treatment as reveliolabs/bitcoinworld/etc."
     }
   ]
 }
