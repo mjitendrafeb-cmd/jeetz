@@ -1,80 +1,6 @@
 [
  {
   "date": "2026-08-07",
-  "fetched": 190,
-  "delivered_pool": 97,
-  "junk": 26,
-  "geo": 0,
-  "stale": 0,
-  "dup": 34,
-  "sections": {
-   "S1": 76,
-   "S2": 13,
-   "S3": 8
-  },
-  "mails": 1,
-  "failed": [],
-  "source_summary": {
-   "RBI RSS": 20,
-   "RBI Enforcement": 0,
-   "SEBI RSS": 20,
-   "Rating Agencies": 2,
-   "Google News": 26,
-   "Watchlist (Google)": 657,
-   "BSE Announcements": 0,
-   "BSE Financials": 0,
-   "Telegram": 32,
-   "Web Scraper": 199
-  },
-  "dropped_samples": {
-   "relevance": [
-    "Premature redemption under Sovereign Gold Bond (SGB) Scheme - Redemption Price for premature redemption of SGB",
-    "Release Order - Certificate No",
-    "Karnataka HC defers hearing on RBI Governance Directions to August 14",
-    "Online Banking Fraud: What Security Is Available To Affected Customers?",
-    "SBI Q1 Result Preview: What To Expect From The PSU Banking Giant On NIM, Profit, Credit Growth, NPAs, More",
-    "Inventurus Knowledge Solutions Q1 Results: Earnings call scheduled for Aug 6",
-    "OB Extends \u20b975 Crore Project Finance to Assotech World Avenue 07, Signaling Continued Institutional...",
-    "Stocks in news: LIC, Trent, AWL Agri Business, SBI, Titan",
-    "Three strategic takeaways from PB Fintech Q1 FY27 earnings call",
-    "PB Fintech Q1 Results: Earnings call recording uploaded for review",
-    "Pune E-Stock Broking appoints Viral Patel as independent director",
-    "Muthoot Microfin allots \u20b935 crore Commercial Paper at 9.4% yield",
-    "Afcons Infrastructure redeems \u20b950 crore commercial paper on maturity",
-    "Korean Brokerages Boost Short-Term Borrowing Limits to Build Cash Buffers",
-    "Ards FC announce new reserves team management",
-    "New season beckons for Ards as giants Glenavon target strong start",
-    "Could an Ards councillor become the next North Down UUP Stormont candidate?",
-    "Enjoy The New Punjabi Music Video For 'Romantic Amli' By Vadda Grewal",
-    "Bright Horizons Family Solutions Inc. (BFAM) stock price, news, quote and history",
-    "Bright Horizons Family Solutions Inc. $BFAM Shares Sold by Lazard Asset Management LLC"
-   ],
-   "junk": [
-    "Release order for RC No. 4397 of 2021-Kesava Mallikarjuna Prasad Chivukula in the matter of CAT Technologies L",
-    "Completion of Recovery Certificate No. 4397 of 2021-Kesava Mallikarjuna Prasad Chivukula in the matter of CAT ",
-    "Release order for RC No. 4396 of 2021-Dhaduvai Venkatram in the matter of CAT Technologies Ltd.",
-    "Completion of Recovery Certificate No. 4396 of 2021-Dhaduvai Venkatram in the matter of CAT Technologies Ltd.",
-    "Completion of Recovery Certificate No",
-    "Settlement Order in respect of Mr. Raghav Raj Kanoria in the matter of India Power Corporation Limited",
-    "Appeal No. 6970 of 2026 filed by Parthasarathi",
-    "Appeal No. 6969 of 2026 filed by Kamal Kumar Agrawal",
-    "Appeal No. 6968 of 2026 filed by Sailesh Choraria",
-    "Appeal No. 6967 of 2026 filed by Jatin",
-    "Appeal No. 6966 of 2026 filed by Sarju Devi",
-    "Appeal No. 6965 of 2026 filed by Sunil Kumar",
-    "Appeal No. 6964 of 2026 filed by Ravi Prakashkumar Shah",
-    "Appeal No. 6962 of 2026 filed by Tammineni Sriharsha",
-    "Release order for Recovery Certificate No. 1969 of 2019-Kontala Krishnaveni in the matter of Covidh Technologi",
-    "Completion of Recovery Certificate No. 1969 of 2019-Kontala Krishnaveni in the matter of Covidh Technologies L",
-    "Notice(s) of Attachment dated August 05, 2026 issued under RC No",
-    "Motilal Oswal sees private banks delivering 18-20% earnings growth in FY27",
-    "Aadhar Housing Finance Ltd Technical Momentum Shifts Amid Mixed Market Returns",
-    "Broad-Based Technical Strength Lifts AU Small Finance Bank Ltd to 52-Week High of Rs 1092.15"
-   ]
-  }
- },
- {
-  "date": "2026-08-07",
   "fetched": 838,
   "delivered_pool": 292,
   "junk": 104,
@@ -2226,6 +2152,79 @@
     "JM Financial Mutual Fund, Aditya Birla suspend fresh subscriptions in 36 IDCW options",
     "Buy Star Cement; target of Rs 265: Anand Rathi",
     "Buy TD Power Systems; target of Rs 1751: Anand Rathi"
+   ]
+  }
+ },
+ {
+  "date": "2026-08-18",
+  "fetched": 1331,
+  "delivered_pool": 264,
+  "junk": 349,
+  "geo": 28,
+  "stale": 276,
+  "dup": 249,
+  "sections": {
+   "S1": 228,
+   "S2": 24,
+   "S3": 12
+  },
+  "mails": 39,
+  "failed": [],
+  "source_summary": {
+   "RBI RSS": 20,
+   "RBI Enforcement": 0,
+   "SEBI RSS": 20,
+   "Google News": 16,
+   "Watchlist (Google)": 625,
+   "BSE Announcements": 0,
+   "BSE Financials": 0,
+   "Telegram": 52,
+   "Web Scraper": 145
+  },
+  "dropped_samples": {
+   "relevance": [
+    "Premature redemption under Sovereign Gold Bond (SGB) Scheme - Redemption Price for premature redemption of SGB",
+    "Developments in India\u2019s Balance of Payments for the Month of June 2026",
+    "Relaxations in Know Your Client (KYC) norms for individual Persons Resident Outside India (i.e",
+    "Framework for Calculation of Net Distributable Cash Flows for InvITs",
+    "Bajaj New Pulsar 150: Launch Date, Images & Expected Price in India",
+    "Spaces with a soul",
+    "Video",
+    "Enterprise value to EBIT forward of PT Hatten Bali Tbk \u2013 IDX:WINE",
+    "Inside Rumah Rubah, The Stunning Bali Home Of Maison Kitsun\u00e9's Gildas Loa\u00ebc",
+    "Kazakhstani Woman Tries to Smuggle 1 kg of Hashish Via Bali\u2019s Airport.",
+    "A quest to restore the sacred glow of fireflies in Bali",
+    "Nusa Lembongan\u2019s Beachfront Hotels Are In High Demand With Beach-Loving Tourists",
+    "Bali resident talks family out of killing green viper, then relocates it to a riverbed",
+    "The wealth builder",
+    "GOAL",
+    "IIFCL Recruitment 2026 Short Notification OUT",
+    "IUST to host J&K Science Congress From Sept 29",
+    "Teachers Deserve Fairness",
+    "Shakeel Shan Honoured with Excellence Award",
+    "India needs to double annual infrastructure investment to sustain 9% growth: NaBFID MD"
+   ],
+   "junk": [
+    "General Remittance Order dated 14.08.2026 in Recovery Certificate No",
+    "General Remittance Order dated 14.08.2026 in Recovery Certificate No",
+    "General Remittance Order dated 14.08.2026 in Recovery Certificate No",
+    "General Remittance Order dated 14.08.2026 in Recovery Certificate No",
+    "Completion of Recovery Certificate No",
+    "Appeal No. 6992 of 2026 filed by Rakesh Mohan Rai",
+    "Appeal No. 6991 of 2026 filed by Parivesh Shukla",
+    "Appeal No. 6990 of 2026 filed by Vikas Jain",
+    "Appeal No. 6989 of 2026 filed by Valji Narayan Bhadra",
+    "Appeal No. 6988 of 2026 filed by Neeraj Sisodia",
+    "Appeal No. 6987 of 2026 filed by Sunil Rohilla",
+    "Appeal No. 6980 of 2026 filed by Ebenezer R",
+    "Appeal No. 6983 of 2026 filed by Anivesh Kumar Pandey",
+    "Adjudication Order in respect of Fatmabibi Yusufbhai Rangwala in the matter of Illiquid Stock Options at BSE",
+    "Top stock picks: Analysts recommend Bosch, Tata Power, Adani Ports, 360 One WAM, L&T, BEL",
+    "Buy Star Cement; target of Rs 265: Anand Rathi",
+    "Buy Fine Organic Industries; target of Rs 6000: Anand Rathi",
+    "Buy TD Power Systems; target of Rs 1751: Anand Rathi",
+    "Angel One Share Price - Live NSE: ANGELONE Stock Price & Chart",
+    "Aptus Value Housing Number of Employees 2026"
    ]
   }
  }
