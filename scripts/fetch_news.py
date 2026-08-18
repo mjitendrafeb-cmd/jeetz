@@ -603,6 +603,21 @@ _SHORT_NAME_BLOCK_HEAD = {
     "world", "punjab", "small", "new", "first", "the",
 }
 
+# Full short-form phrases blocked outright, checked after descriptor
+# stripping. _SHORT_NAME_BLOCK_HEAD catches an over-broad FIRST word; this
+# catches an over-broad WHOLE phrase that survives because neither word is
+# individually generic. Reported case: "Red Fort Capital Finance Company
+# Private Limited" -> "Red Fort" after stripping "Capital"/"Finance" as
+# descriptors — a real short form, but one that collides with the Delhi
+# monument (constant news volume, especially every Independence Day).
+# Named Indian landmarks are exactly this trap: two ordinary words that
+# are individually fine but name something world-famous together.
+_SHORT_NAME_BLOCK_PHRASE = {
+    "red fort", "india gate", "gateway of india", "taj mahal",
+    "golden temple", "lotus temple", "charminar", "hawa mahal",
+    "victoria memorial", "howrah bridge",
+}
+
 
 def _short_name(core: str) -> str:
     """The distinctive head of a long registered name, or "" when it cannot
@@ -642,6 +657,9 @@ def _short_name(core: str) -> str:
     head = words[0].lower().strip(".,")
     if len(head) < 3 or head in _GENERIC_NAME_WORD or head in _SHORT_NAME_BLOCK_HEAD:
         return ""                       # "Au Small", "Central Bank" — too broad
+    phrase = " ".join(w.lower().strip(".,") for w in words)
+    if phrase in _SHORT_NAME_BLOCK_PHRASE:
+        return ""                       # "Red Fort" — a famous landmark, not a company name
     return " ".join(words)
 
 

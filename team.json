@@ -2405,7 +2405,9 @@
     },
     {
       "company": "Red Fort Capital Finance Company Private Limited",
-      "aliases": [],
+      "aliases": [
+        "Red Fort Capital"
+      ],
       "gh_name": "Jitendra",
       "analyst_name": "OM",
       "rh_name": "Hardik",
