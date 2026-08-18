@@ -137,10 +137,27 @@ def _is_out_of_scope(it: dict) -> bool:
     return bool(_OUT_OF_SCOPE_GEO_RE.search(body)
                 or _FOREIGN_TLD_RE.search(it["source"]))
 
+# Throughout this file, a "these two phrases in the same clause" gap
+# pattern (originally a bare negated-period character class) is used to
+# stop a match at a sentence boundary. That plain form excludes EVERY
+# literal period -- including the decimal point in a rupee amount. "Ugro
+# Capital allots Rs 48.9 crore commercial paper" has "allots" and
+# "commercial paper" only 15 characters apart, well inside any {0,N}
+# budget below, but the decimal point in "48.9" was an impassable wall:
+# the gap could not be crossed, so the match failed and the story fell
+# through to the generic S3 default instead of being recognised as the
+# entity's own CP issuance. Decimal rupee/percentage figures are
+# extremely common in Indian financial headlines, so this silently broke
+# an unknown number of entity-story, rating-action, management-change and
+# junk-pattern matches wherever a number happened to sit between the two
+# halves. Every occurrence below now also accepts a digit-dot-digit
+# sequence through the gap, so a decimal point no longer blocks it while
+# a real sentence-ending period still does.
+
 # Mechanical version of the 7:30 report's AI SKIP rules (stock tips, target
 # price calls, awards, CSR, consumer product launches). Same intent, no AI.
 _TEAM_JUNK_RE = re.compile(
-    r"\b(buy|sell|hold|accumulate|reduce|add|neutral|not rated)\b[^.|]{0,70}\btarget\b"
+    r"\b(buy|sell|hold|accumulate|reduce|add|neutral|not rated)\b(?:\d\.\d|[^.|]){0,70}\btarget\b"
     r"|\bfor the target\b"
     r"|\btarget (price|rs\.?)\b"
     # Abbreviated broker calls: "The Ramco Cements Hold TP 1050", "HDFC Bank
@@ -151,7 +168,7 @@ _TEAM_JUNK_RE = re.compile(
     # is not mistaken for a price target.
     r"|\b(tp|tgt)\b\s*:?\s*(rs\.?\s*)?\d"
     r"|\b(buy|sell|hold|accumulate|reduce|add|neutral|outperform|underperform|"
-    r"overweight|underweight)\b[^.|]{0,25}\b(tp|tgt)\b\s*:?\s*(rs\.?\s*)?\d"
+    r"overweight|underweight)\b(?:\d\.\d|[^.|]){0,25}\b(tp|tgt)\b\s*:?\s*(rs\.?\s*)?\d"
     r"|\b(rated|maintains?|reiterates?|recommends?|upgrades? to|downgrades? to) ['‘“\"]?(strong )?(buy|sell|hold|accumulate|reduce|neutral|overweight|underweight)\b"
     r"|\bbuy,? sell or hold\b"
     r"|\bstock (pick|tip|recommendation)s?\b"
@@ -211,9 +228,9 @@ _TEAM_JUNK_RE = re.compile(
     r"nirmal bang|geojit|angel one|5paisa|iifl securities|yes securities|"
     r"jefferies|morgan stanley|goldman sachs|citi\b|jp morgan|bernstein|clsa|"
     r"macquarie|\bubs\b|\bhsbc\b|bofa|nomura)\b"
-    r"[^.|]{0,60}\b(sees?|expects?|estimates?|forecasts?|projects?|pegs?|says?)\b"
+    r"(?:\d\.\d|[^.|]){0,60}\b(sees?|expects?|estimates?|forecasts?|projects?|pegs?|says?)\b"
     # "Can X's buyback boost its share price? Here's what <broker> says"
-    r"|\bhere'?s what\b[^.|]{0,40}\b(says?|think|expects?)\b",
+    r"|\bhere'?s what\b(?:\d\.\d|[^.|]){0,40}\b(says?|think|expects?)\b",
     re.IGNORECASE,
 )
 
@@ -249,7 +266,10 @@ _TRIBUNAL_LISTING_RE = re.compile(
 # (reveliolabs "Auxilo Finserve Number of Employees 2026"), and crypto sites.
 _JUNK_SOURCE_RE = re.compile(
     r"(@brokerage_report|reveliolabs|bitcoinworld|coindesk|cointelegraph|"
-    r"zippia|growjo|leadiq|craft\.co|owler|rocketreach)",
+    r"zippia|growjo|leadiq|craft\.co|owler|rocketreach|"
+    # Minnesota-based African-diaspora community newspaper -- zero credit
+    # relevance, reported source of Bali/travel content reaching S2/S3.
+    r"\bmshale\b)",
     re.IGNORECASE,
 )
 # Crypto trading stories reach S1 through loose company-name matches (an
@@ -293,12 +313,13 @@ _NOT_NEWS_RE = re.compile(
     r"|\b(myx|lse|asx|sgx|nyse|nasdaq|hkex|klse|tsx|jse):\s?\S"
     r"|\binterest rates? comparison\b|\boffers? up to \d+(\.\d+)?%"
     # IPO pipeline/approval filler — not a credit event for this desk.
-    r"|\b(receives?|receive|gets?|get) (sebi|regulatory) (approval|nod)[^.|]{0,30}\bipo"
-    r"|\bsebi (approval|nod)[^.|]{0,25}\b(launch|float)[^.|]{0,15}\bipos?\b"
+    r"|\b(receives?|receive|gets?|get) (sebi|regulatory) (approval|nod)(?:\d\.\d|[^.|]){0,30}\bipo"
+    r"|\bsebi (approval|nod)(?:\d\.\d|[^.|]){0,25}\b(launch|float)(?:\d\.\d|[^.|]){0,15}\bipos?\b"
     r"|\bipo[- ]bound\b|\bfiles? (draft )?(drhp|rhp)\b"
+    r"|\bfiles? for (an? )?(draft )?ipo\b"
     # Personality profiles / fund-manager interviews.
     r"|\bis known for\b|\bin conversation with\b|\bexclusive interview\b"
-    r"|\b(fund manager|cio|portfolio manager)[^.|]{0,25}\b(says|shares|picks|interview)\b"
+    r"|\b(fund manager|cio|portfolio manager)(?:\d\.\d|[^.|]){0,25}\b(says|shares|picks|interview)\b"
     r"|\bhere'?s (what|how|why) you (need to know|should know)\b"
     # Bank holiday calendars. Branch-opening hours are not a credit event,
     # but they mention banks constantly so they sailed into S2. Written to
@@ -306,7 +327,7 @@ _NOT_NEWS_RE = re.compile(
     # licence of X Co-operative Bank") is untouched.
     r"|\bbank holidays?\b"
     r"|\bholiday (list|calendar|schedule)\b"
-    r"|\bbanks? (are |will be |to |to remain |remain )?closed\b[^.|]{0,60}"
+    r"|\bbanks? (are |will be |to |to remain |remain )?closed\b(?:\d\.\d|[^.|]){0,60}"
     r"\b(holiday|festival|jayanti|puja|eid|diwali|independence day|republic day|"
     r"second saturday|sunday)\b"
     # RBI daily money-market operations table scraped as text ("1. Fixed
@@ -322,12 +343,12 @@ _NOT_NEWS_RE = re.compile(
 # Same rule as fetch_news._STOCK_MOVE_RE, kept here because the team mailer
 # also sees items that did not come through that path.
 _TEAM_STOCK_MOVE_RE = re.compile(
-    r"\b(shares?|stock|share price|scrip|m-?cap)\b[^.|]{0,40}?\b"
+    r"\b(shares?|stock|share price|scrip|m-?cap)\b(?:\d\.\d|[^.|]){0,40}?\b"
     r"(jump|rall(y|ies|ied)|surg|soar|zoom|spike|climb|gain|rise|rises|risen|"
     r"advanc|drop|fall|fell|slip|slid|declin|tank|plunge|crash|slump|tumbl|"
     r"sink|sank|dip)\w*"
     r"|\b(jump|rall(y|ies)|surg|soar|zoom|spike|climb|gain|drop|fall|slip|"
-    r"declin|tank|plunge|crash|slump|tumbl)\w*\b[^.|]{0,25}\b(shares?|stock|share price)\b"
+    r"declin|tank|plunge|crash|slump|tumbl)\w*\b(?:\d\.\d|[^.|]){0,25}\b(shares?|stock|share price)\b"
     r"|\bsell[- ]?off\b"
     r"|\bshares?\s+(up|down)\s+\d",
     re.IGNORECASE,
@@ -417,7 +438,7 @@ def _is_cra_announcement(it: dict) -> bool:
 # at 18.6%") is sector news, not regulation. Checked AFTER the S4/S5 keyword
 # tests so monetary policy still reads as macro.
 _REG_ACTION_RE = re.compile(
-    r"\b(rbi|sebi|irdai|nhb|pfrda|ibbi|nclt)\b[^.|]{0,45}?\b"
+    r"\b(rbi|sebi|irdai|nhb|pfrda|ibbi|nclt)\b(?:\d\.\d|[^.|]){0,45}?\b"
     r"(allow|permit|direct|mandat|tighten|eas(e|es|ing)|relax|issu|notif|amend|"
     r"propos|approv|bars?\b|banned|bans\b|cap(s|ped)?\b|prescrib|introduc|"
     r"extend|defer|withdraw|revis|norms?\b|guidelines?\b|circular)\w*",
@@ -437,7 +458,7 @@ _NEVER_RELEVANT_RE = re.compile(
     r"\b(premier league|\bepl\b|football|soccer|cricket|\bipl\b|world cup|fifa|"
     r"olympic|tournament|match (report|preview|day)|wicket|goalkeeper|transfer window|"
     r"live score|fixture|kick-?off|\bvs\.?\b.{0,20}\b(live|score|preview)|"
-    r"\b(utd|united|fc|club)\b[^.|]{0,15}\bvs\.?\b|"
+    r"\b(utd|united|fc|club)\b(?:\d\.\d|[^.|]){0,15}\bvs\.?\b|"
     r"box office|bollywood|tollywood|film|movie|web series|streaming (show|series)|"
     r"celebrity|actor|actress|singer|awards? (show|night)|reality show|"
     r"\bgame night\b|"
@@ -1075,11 +1096,11 @@ _ENTITY_STORY_RE = re.compile(
     # whoever within the company approved it.
     r"\b(allots?|allotted|redeems?|redeemed|prepays?|repays?|repaid|raises?|raising|"
     r"to raise|matured|matures?|part redemption|full redemption|approves?)\b"
-    r"[^.|]{0,60}\b(ncds?|debentures?|commercial papers?|\bcp\b|bonds?|\becb\b|"
+    r"(?:\d\.\d|[^.|]){0,60}\b(ncds?|debentures?|commercial papers?|\bcp\b|bonds?|\becb\b|"
     r"external commercial borrowings?|foreign currency borrowings?)\b"
-    r"|\b(ncds?|debentures?|commercial papers?|bonds?)\b[^.|]{0,50}"
+    r"|\b(ncds?|debentures?|commercial papers?|bonds?)\b(?:\d\.\d|[^.|]){0,50}"
     r"\b(allotment|redemption|maturity|coupon|issue (price|opens?|closes?))\b"
-    r"|\bboard (meets?|meeting|to (meet|consider)|approves?)\b[^.|]{0,60}"
+    r"|\bboard (meets?|meeting|to (meet|consider)|approves?)\b(?:\d\.\d|[^.|]){0,60}"
     r"\b(ncds?|debentures?|commercial papers?|bonds?|fund ?rais\w*|\bqip\b|rights issue)\b"
     r"|\bcoupon (rate|of)\b"
     # One issuer's own debt housekeeping: "Grasim repays Rs 750 crore in
@@ -1106,7 +1127,7 @@ _ENTITY_STORY_RE = re.compile(
     r"|\b(inh|inz|ina|inp)\s?\d{6,9}\b"
     r"|\bsebi registration (number|no\.?)\b"
     r"|\bmatured (commercial papers?|debentures?|ncds?|bonds?)\b"
-    r"|\bredemption[^.|]{0,25}\bdebentures?\b"
+    r"|\bredemption(?:\d\.\d|[^.|]){0,25}\bdebentures?\b"
     r"|\bq[1-4]\s*(fy\s?\d+\s*)?results?\b"
     r"|\bnet profit (surges?|jumps?|rises?|falls?|declines?|drops?|up|down|grows?)\b"
     # One company's corporate actions — M&A, partnerships, buybacks — are
@@ -1117,15 +1138,20 @@ _ENTITY_STORY_RE = re.compile(
     r"|\b(partners? with|ties? up with|tie-?up with|joins? hands with|"
     r"collaborates? with|signs? (an? )?(mou|pact|agreement) with)\b"
     r"|\bshare buy-?back\b|\bbuy-?back of (shares|equity)\b"
+    # A promoter's own share pledge is entity-level disclosure, not sector
+    # or macro news, whichever instrument it secures ("promoter pledges 2
+    # lakh shares for NCD cover", "creates pledge over shares as security").
+    r"|\bpromoters?\b(?:\d\.\d|[^.|]){0,40}\bpledg\w*\b|\bpledg\w*\b(?:\d\.\d|[^.|]){0,25}\bshares?\b"
+    r"|\b(revokes?|releases?) (the )?pledge\b"
     # Board/management appointments at one company. The role list is
     # corporate officers only, so "RBI appoints deputy governor" (regulator
     # news) is untouched.
-    r"|\bappoints?\b[^.|]{0,50}\bas (an? )?(independent |non-executive |executive )?"
+    r"|\bappoints?\b(?:\d\.\d|[^.|]){0,50}\bas (an? )?(independent |non-executive |executive )?"
     r"(director|chairman|chairperson|ceo|cfo|coo|cio|md\b|managing director|president)"
     # One creditor's insolvency claim against one company.
     r"|\bnclt (admits?|approves?|rejects?|dismisses?)\b"
     # One lender's loan/project-finance deal with one borrower.
-    r"|\b(extends?|sanctions?|disburses?)\b[^.|]{0,50}"
+    r"|\b(extends?|sanctions?|disburses?)\b(?:\d\.\d|[^.|]){0,50}"
     r"\b(project finance|term loan|credit (line|facility))\b"
     # One company's regulatory classification ("Tata Sons remains an
     # 'upper-layer NBFC'"); the plural guard keeps list-wide stories.
@@ -2346,15 +2372,15 @@ _EVENTS = [
     ("RATING", "RATING", 9, "#15803d", re.compile(
         r"\b(upgrad\w*|downgrad\w*|rating watch|credit watch|placed on watch|"
         r"outlook (revised|negative|positive|stable)|revises? outlook|"
-        r"reaffirm\w*|withdraws? rating|assigns? [^.|]{0,25}rating)", re.IGNORECASE)),
+        r"reaffirm\w*|withdraws? rating|assigns? (?:\d\.\d|[^.|]){0,25}rating)", re.IGNORECASE)),
     ("REGULATORY", "REGULATORY", 8, "#b45309", re.compile(
         r"\b(monetary penalty|imposes? (a )?penalt|penalis|penaliz|enforcement action|"
         r"adjudication order|show cause notice|debarr|cease and desist|sebi order|"
         r"compounding order|licence (cancel|revok)|registration cancel)", re.IGNORECASE)),
     ("MANAGEMENT", "MANAGEMENT", 7, "#7c3aed", re.compile(
-        r"\b((ceo|cfo|md|managing director|chairman|auditor|director)[^.|]{0,30}"
+        r"\b((ceo|cfo|md|managing director|chairman|auditor|director)(?:\d\.\d|[^.|]){0,30}"
         r"(resign|steps? down|quits?|exits?|appoint|elevat)|"
-        r"(resign|steps? down|quits?)[^.|]{0,25}(ceo|cfo|md|chairman|auditor)|"
+        r"(resign|steps? down|quits?)(?:\d\.\d|[^.|]){0,25}(ceo|cfo|md|chairman|auditor)|"
         r"auditor (resign|change)|board (approves|appoints))", re.IGNORECASE)),
     ("FUNDING", "FUNDING", 6, "#1e3a8a", re.compile(
         r"\b(raises?\s+(rs\.?\s?)?[\d.,]+\s*(crore|cr\b|million|billion)|"
@@ -2746,9 +2772,9 @@ _STORY_THEMES = (
     ("rating", re.compile(
         r"\b(upgrad\w*|downgrad\w*|rating watch|credit watch|placed on watch|"
         r"outlook (revised|negative|positive|stable)|revises? outlook|"
-        r"reaffirm\w*|withdraws? rating|assigns? [^.|]{0,25}rating|"
+        r"reaffirm\w*|withdraws? rating|assigns? (?:\d\.\d|[^.|]){0,25}rating|"
         r"rating (raised|cut|lowered|revised|upgraded|downgraded|reaffirmed)|"
-        r"(raises|cuts|lowers|revises) [^.|]{0,20}rating)\b", re.IGNORECASE)),
+        r"(raises|cuts|lowers|revises) (?:\d\.\d|[^.|]){0,20}rating)\b", re.IGNORECASE)),
 )
 
 
