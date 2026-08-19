@@ -174,7 +174,17 @@ function refreshTokenBar(){const ok=!!getToken();document.getElementById('tokenB
 function showTab(id,el){document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));document.querySelectorAll('nav a').forEach(a=>a.classList.remove('active'));document.getElementById('tab-'+id).classList.add('active');el.classList.add('active');}
 
 async function ghGet(path){
-  const r=await fetch(`https://api.github.com/repos/${OWNER}/${REPO}/contents/${path}?ref=${BRANCH}&_=${Date.now()}`,{headers:{Accept:'application/vnd.github+json'}});
+  // Was unauthenticated even when a token was set in the Token tab --
+  // GitHub caps ANONYMOUS API requests at 60/hour per IP (vs 5000/hour
+  // authenticated). Everyone opening this console from the office shares
+  // one public IP for that limit, so the team occasionally reloading the
+  // page in the same hour was enough to exhaust it -- surfaced as a bare
+  // "Load failed: team.json: 403" with no further explanation. ghPut()
+  // already sent the token correctly; this brings ghGet() in line.
+  const t=getToken();
+  const headers={Accept:'application/vnd.github+json'};
+  if(t)headers.Authorization='Bearer '+t;
+  const r=await fetch(`https://api.github.com/repos/${OWNER}/${REPO}/contents/${path}?ref=${BRANCH}&_=${Date.now()}`,{headers});
   if(!r.ok)throw new Error(path+': '+r.status);
   const j=await r.json();
   return {sha:j.sha,text:decodeURIComponent(escape(atob(j.content.replace(/\n/g,''))))};
