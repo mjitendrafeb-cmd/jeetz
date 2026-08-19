@@ -76,6 +76,7 @@ input[type=checkbox]{width:15px;height:15px;accent-color:#15803d;cursor:pointer}
       <h1>Entities, People &amp; News Routing</h1>
     </div>
     <button class="run-btn" id="runBtn" onclick="runNow()">&#9993; Send Team News Now</button>
+    <button class="run-btn" id="testRunBtn" style="background:#5b7285;margin-left:8px" onclick="testRunNow()">&#9993; Test Send To Me Only</button>
   </div>
   <div class="token-bar" id="tokenBar">
     <span class="dot" id="tokenDot"></span>
@@ -377,6 +378,24 @@ async function runNow(){
     b.textContent='✓ Triggered — mails in ~5-10 min';
   }catch(e){b.textContent='Failed: '+e.message;b.disabled=false;return;}
   setTimeout(()=>{b.textContent='✉ Send Team News Now';b.disabled=false;},15000);
+}
+
+// This still runs a real send (same content, same section rules) but
+// restricts recipients to whatever address is typed here -- the
+// workflow's test_email input overrides the normal team.json routing
+// for this one run only, so nobody else on the distribution list gets
+// mail. Does not touch team.json or affect the next scheduled send.
+async function testRunNow(){
+  if(!getToken()){alert('Set a GitHub token first (Token tab).');return;}
+  const email=prompt('Send a test copy to which address?','jitendra.meghrajani@careedge.in');
+  if(!email)return;
+  const b=document.getElementById('testRunBtn');b.disabled=true;b.textContent='Triggering…';
+  try{
+    const r=await fetch(`https://api.github.com/repos/${OWNER}/${REPO}/actions/workflows/team_news.yml/dispatches`,{method:'POST',headers:{Authorization:'Bearer '+getToken(),Accept:'application/vnd.github+json'},body:JSON.stringify({ref:BRANCH,inputs:{test_email:email.trim()}})});
+    if(!r.ok)throw new Error('HTTP '+r.status);
+    b.textContent='✓ Triggered — test mail in ~5-10 min';
+  }catch(e){b.textContent='Failed: '+e.message;b.disabled=false;return;}
+  setTimeout(()=>{b.textContent='✉ Test Send To Me Only';b.disabled=false;},15000);
 }
 
 /* ---------------- Excel download / upload ---------------- */
