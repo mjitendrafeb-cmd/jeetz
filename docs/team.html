@@ -45,9 +45,29 @@ input[type=checkbox]{width:15px;height:15px;accent-color:#15803d;cursor:pointer}
 .legend{font-size:10px;color:#888;margin:8px 0 0}
 .field{flex:1;min-width:260px;padding:8px 10px;font-size:12px;font-family:monospace;border:1px solid #ddd;border-radius:3px}
 .scroll{max-height:66vh;overflow:auto;border:1px solid #eee}
+#gate{position:fixed;inset:0;background:#0e2e4e;display:flex;align-items:center;justify-content:center;z-index:999;font-family:Arial,Helvetica,sans-serif}
+#gate .box{background:#fff;border-radius:6px;padding:32px 36px;width:280px;text-align:center;box-shadow:0 10px 40px rgba(0,0,0,.35)}
+#gate h2{font-size:15px;margin-bottom:14px;color:#0e2e4e}
+#gate input{width:100%;padding:9px 10px;font-size:13px;border:1px solid #ccc;border-radius:4px;box-sizing:border-box;text-align:center}
+#gate button{width:100%;margin-top:10px;padding:9px;font-size:13px;font-weight:700;background:#0e2e4e;color:#fff;border:none;border-radius:4px;cursor:pointer}
+#gate .gerr{color:#cc0000;font-size:11px;margin-top:8px;min-height:14px}
+#appwrap{display:none}
 </style>
 </head>
 <body>
+<!-- Client-side gate only -- the hash below is recoverable from view-source
+     by anyone who tries; this stops casual browsing by people who have the
+     link, not a determined visitor. Real access control needs a server-side
+     proxy holding the GitHub token, which this static page does not have. -->
+<div id="gate">
+  <div class="box">
+    <h2>&#128274; Team Console</h2>
+    <input type="password" id="gatePin" placeholder="Password" autofocus>
+    <button onclick="tryGate()">Enter</button>
+    <div class="gerr" id="gateErr"></div>
+  </div>
+</div>
+<div id="appwrap">
 <div class="wrap">
   <div class="bar"></div>
   <div class="mast">
@@ -158,6 +178,7 @@ input[type=checkbox]{width:15px;height:15px;accent-color:#15803d;cursor:pointer}
     </div>
   </div>
 </div>
+</div><!-- /#appwrap -->
 
 <script>
 const OWNER='mjitendrafeb-cmd', REPO='jeetz', BRANCH='main';
@@ -407,7 +428,35 @@ function uploadExcel(inp){
 }
 
 document.getElementById('tokenInput').value=getToken();
-refreshTokenBar();load();
+
+/* ---------------- client-side gate ---------------- */
+// SHA-256 of the password, not the password itself, so a glance at
+// view-source doesn't hand it over outright. Still fully recoverable by
+// anyone who opens dev tools and reads this script -- see the comment
+// above the #gate markup. Real access control needs a server-side proxy.
+const GATE_HASH='2cf24dba5fb0a30e26e83b2ac5b9e29e1b161e5c1fa7425e73043362938b9824';
+async function sha256Hex(s){
+  const buf=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(s));
+  return Array.from(new Uint8Array(buf)).map(b=>b.toString(16).padStart(2,'0')).join('');
+}
+function unlockApp(){
+  document.getElementById('gate').style.display='none';
+  document.getElementById('appwrap').style.display='block';
+  refreshTokenBar();load();
+}
+async function tryGate(){
+  const pin=document.getElementById('gatePin').value;
+  if(await sha256Hex(pin)===GATE_HASH){
+    sessionStorage.setItem('team_console_unlocked','1');
+    unlockApp();
+  }else{
+    document.getElementById('gateErr').textContent='Incorrect password.';
+    document.getElementById('gatePin').value='';
+    document.getElementById('gatePin').focus();
+  }
+}
+document.getElementById('gatePin').addEventListener('keydown',e=>{if(e.key==='Enter')tryGate();});
+if(sessionStorage.getItem('team_console_unlocked')==='1'){unlockApp();}
 </script>
 </body>
 </html>
