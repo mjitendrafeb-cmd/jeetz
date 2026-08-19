@@ -3612,6 +3612,23 @@ def _np_rebrand(html: str) -> str:
     return html
 
 
+def _from_display_name() -> str:
+    """The name shown in the reader's From field.
+
+    Was hardcoded to "CareEdge Daily News" while sending from a domain
+    (mailalerts.in) with no relationship to careedge.in -- a textbook
+    display-name-impersonation signal ("claims to be a known brand, sent
+    from a domain that isn't theirs"), which is what Microsoft Defender's
+    anti-phishing policies are specifically built to catch. IT confirmed
+    this is exactly why editions were landing in quarantine. A neutral
+    name removes that specific trigger; it does not fix the domain having
+    no sending reputation of its own, which needs either DNS
+    authentication for the sending domain or moving to a mailbox on
+    careedge.in itself.
+    """
+    return os.environ.get("MAIL_FROM_NAME", "Daily News Digest").strip() or "Daily News Digest"
+
+
 def _admin_addr() -> str:
     """Where reader feedback and operational alerts should land.
 
@@ -3674,7 +3691,7 @@ def _send_via_brevo_api(to_addr: str, subject: str, html: str,
            or os.environ.get("BREVO_FROM")
            or os.environ.get("GMAIL_USER", ""))
     payload = {
-        "sender": {"name": "CareEdge Daily News", "email": frm},
+        "sender": {"name": _from_display_name(), "email": frm},
         "to": [{"email": to_addr}],
         "subject": subject,
         "htmlContent": html,
@@ -3726,7 +3743,7 @@ def _send(to_addr: str, subject: str, html: str,
         msg = MIMEMultipart("alternative")
         msg.attach(MIMEText(html, "html"))
     msg["Subject"] = subject
-    msg["From"] = f"CareEdge Daily News <{frm}>"
+    msg["From"] = f"{_from_display_name()} <{frm}>"
     msg["To"] = to_addr
     # Port 465 is implicit TLS (SMTP_SSL); 587 and 25 are plaintext-then-
     # STARTTLS, which is what every corporate relay and transactional
