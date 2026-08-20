@@ -1736,42 +1736,59 @@ Respond with ONLY a JSON array, same order, no markdown fences:
         return {}
 
 
+# Fixed taxonomy for key_credit_variable_affected -- every S1 row's AI
+# analysis (and the mechanical fallback) tags one of these, so a reader
+# scanning the table can filter/scan by what actually moved rather than
+# reading every sentence to find out.
+_CREDIT_VARIABLES = ["capital", "leverage", "liquidity", "asset_quality",
+                     "profitability", "growth", "funding", "governance",
+                     "regulatory", "macro", "other"]
+_VARIABLE_LABELS = {v: v.replace("_", " ").upper() for v in _CREDIT_VARIABLES}
+
+
 def _ai_s1_view_batch(items: list[dict], client) -> dict:
-    """{item_key: 2-sentence analytical view} for the S1 table's Summary
-    column. Unlike _ai_takeaway_batch (one clause, only for a section's top
-    3), this covers every S1 row, because the table format dropped the
-    hero-card treatment that used to carry a headline's weight visually —
-    the Summary column now has to do that work in words. Deliberately NOT
-    a restated headline or a copy of the feed's own summary: an actual
-    reading of what the development means and what to watch next. Empty
-    dict on any failure — caller falls back to the mechanical
-    headline+summary pad, exactly the pre-AI behaviour."""
+    """{item_key: {variable, implication, why, commentary}} for the S1
+    table's Summary column. Unlike _ai_takeaway_batch (one clause, only
+    for a section's top 3), this covers every S1 row, because the table
+    format dropped the hero-card treatment that used to carry a
+    headline's weight visually — the Summary column now has to do real
+    credit analysis, not repeat the headline or the feed's own summary.
+    Empty dict on any failure — caller falls back to _mech_s1_view,
+    which returns the same shape mechanically."""
     lines = "\n".join(
         f'{i}. {it["title"]} — {(it.get("summary") or "").strip()[:200]} ({it["source"]})'
         for i, it in enumerate(items)
     )
-    prompt = f"""You write the Summary column of a credit-desk watchlist table. For
-each numbered news item below, write a short analytical view in 2
-sentences (roughly 25-45 words total): sentence 1 states what actually
-happened and why it's material for the entity's credit profile (funding,
-asset quality, governance, rating, litigation, etc — whichever applies);
-sentence 2 says what to watch next or what remains unclear, OR states
-plainly that it is a routine/neutral development if that is the case.
+    var_list = ", ".join(_CREDIT_VARIABLES)
+    prompt = f"""You are a credit analyst writing the Summary column of a rated-entity
+watchlist table. For each numbered news item below, produce a
+structured credit read:
 
-Do NOT just restate the headline. Do NOT invent facts, numbers, or
-outcomes not implied by the item. If the item is genuinely thin
-(e.g. a one-line appointment notice with no other detail), it is fine
-for sentence 2 to say "no further detail available" rather than
-padding with speculation.
+- credit_implication: ONE sentence stating what actually happened and
+  what it implies for the entity's credit profile. No headline restatement.
+- why_rating_analyst_should_care: ONE sentence on why a rating analyst
+  should care -- the mechanism (e.g. "raises near-term refinancing risk
+  if repeated" / "modest, unlikely to move the rating on its own"), or
+  state plainly it is routine/neutral if that's the honest read.
+- key_credit_variable_affected: exactly one of [{var_list}] -- the
+  single variable most affected. Use "other" only when none genuinely fits.
+- newsletter_commentary: the two sentences above, combined into one
+  reader-facing note (25-45 words), which is what actually gets printed.
+
+Do NOT invent facts, numbers, or outcomes not implied by the item. If an
+item is genuinely thin (e.g. a bare appointment notice), it is fine for
+why_rating_analyst_should_care to say there is no further detail rather
+than speculating.
 
 Items:
 {lines}
 
 Respond with ONLY a JSON array, same order, no markdown fences:
-[{{"i": 0, "view": "..."}}, {{"i": 1, "view": "..."}}, ...]"""
+[{{"i": 0, "credit_implication": "...", "why_rating_analyst_should_care": "...",
+"key_credit_variable_affected": "...", "newsletter_commentary": "..."}}, ...]"""
     try:
         msg = client.messages.create(
-            model=_AI_MODEL, max_tokens=8000,
+            model=_AI_MODEL, max_tokens=10000,
             output_config={"effort": "medium"},
             messages=[{"role": "user", "content": prompt}])
         text = re.sub(r"^```(json)?|```$", "", _ai_msg_text(msg).strip(),
@@ -1779,9 +1796,20 @@ Respond with ONLY a JSON array, same order, no markdown fences:
         parsed = json.loads(text)
         out = {}
         for row in parsed:
-            i, view = row.get("i"), row.get("view")
-            if isinstance(i, int) and 0 <= i < len(items) and isinstance(view, str) and view.strip():
-                out[_key(items[i])] = view.strip()
+            i = row.get("i")
+            commentary = row.get("newsletter_commentary")
+            if not (isinstance(i, int) and 0 <= i < len(items)
+                    and isinstance(commentary, str) and commentary.strip()):
+                continue
+            variable = str(row.get("key_credit_variable_affected") or "other").strip().lower()
+            if variable not in _CREDIT_VARIABLES:
+                variable = "other"
+            out[_key(items[i])] = {
+                "variable": variable,
+                "implication": (row.get("credit_implication") or "").strip(),
+                "why": (row.get("why_rating_analyst_should_care") or "").strip(),
+                "commentary": commentary.strip(),
+            }
         return out
     except Exception as exc:
         print(f"[ai_s1_view] batch of {len(items)} failed (non-fatal): {exc}")
@@ -3229,15 +3257,25 @@ _S1_RISK_TEMPLATES = {
 }
 
 
-def _mech_s1_view(it: dict) -> str:
-    """Rule-based risk view for the S1 Summary column, no API call involved.
-    This is what every row gets when the AI pass is off, out of credits, or
-    fails — NOT a stripped-down placeholder but the mechanical equivalent
-    of _ai_s1_view_batch: grounded in the same free, regex-based event
-    taxonomy _event_of()/_materiality() already derive (RATING/DEFAULT/
-    REGULATORY/FUNDING/etc), plus an explicit risk-severity read from the
-    same materiality score used for the row's red-flag threshold — so the
-    Summary column always states a view, not a copy of the headline."""
+# Mechanical mapping from the free regex event taxonomy (_event_of) to
+# the same key_credit_variable_affected enum the AI path uses, so both
+# paths tag a variable consistently. RATING/M&A map to "other": a rating
+# action or ownership change is a meta-/structural event, not itself one
+# of the underlying fundamentals in the list.
+_EVENT_TO_VARIABLE = {
+    "DEFAULT": "liquidity", "RATING": "other", "REGULATORY": "regulatory",
+    "MANAGEMENT": "governance", "FUNDING": "funding", "M&A": "other",
+    "RESULTS": "profitability",
+}
+
+
+def _mech_s1_view(it: dict) -> dict:
+    """Rule-based credit read for the S1 Summary column, no API call
+    involved -- same {variable, implication, why, commentary} shape
+    _ai_s1_view_batch returns, built from the existing free regex event
+    taxonomy (_event_of/_materiality) instead of a model call. This is
+    what every row gets when the AI pass is off, out of credits, or
+    fails."""
     key, _label, score, _colour = _event_of(it)
     text = f'{it.get("title", "")} {it.get("summary", "")}'
     if key == "RATING":
@@ -3256,19 +3294,24 @@ def _mech_s1_view(it: dict) -> str:
             key, "General development — no rating, funding, regulatory or governance "
                  "signal detected from the available text.")
     band = "High" if score >= 8 else "Moderate" if score >= 6 else "Low"
-    return f"{risk} Risk read: {band}."
+    return {
+        "variable": _EVENT_TO_VARIABLE.get(key, "other"),
+        "implication": risk,
+        "why": f"Risk read: {band}.",
+        "commentary": f"{risk} Risk read: {band}.",
+    }
 
 
-def _np_s1_row(it: dict, company: str, view: str = "") -> str:
+def _np_s1_row(it: dict, company: str, view: dict | None = None) -> str:
     """One S1 watchlist row: Company | Source Link | Summary. Replaces the
     per-entity header + stacked cards for S1 specifically (team's requested
     table layout) — S2/S3 keep the 3-column card layout in _np_card, since
     those items don't belong to one company and a table doesn't fit them.
 
-    view: the desk-wide AI analytical view for this item (from
-    _ai_s1_view_batch), when available. Preferred over the mechanical risk
-    view when present, but both are a real reading of the story, never a
-    copy of the headline — see _mech_s1_view for the no-API path.
+    view: {variable, implication, why, commentary} -- from _ai_s1_view_batch
+    when AI is available, else _mech_s1_view. Same shape either way, so
+    the row always shows a key_credit_variable_affected tag plus a real
+    analytical commentary, never a copy of the headline.
     """
     # Materiality >= 8 is the same "needs action" threshold the old
     # per-entity header used -- reader feedback asked for this to read as a
@@ -3280,8 +3323,14 @@ def _np_s1_row(it: dict, company: str, view: str = "") -> str:
     meta = " &middot; ".join(_esc(x) for x in (it["source"], it.get("pub", "")) if x)
     headline = (f'<a href="{_esc(it["url"])}" target="_blank">{_esc(it["title"])}</a>'
                 if it["url"] else f'<span>{_esc(it["title"])}</span>')
-    summary = _esc(view.strip()) if view.strip() else _esc(_mech_s1_view(it))
-    summary = summary or "&mdash;"
+    view = view or _mech_s1_view(it)
+    var_label = _VARIABLE_LABELS.get(view.get("variable", "other"), "OTHER")
+    var_tag = (f'<span style="display:inline-block;padding:1px 5px;margin-right:5px;'
+               f'border:1px solid {_NP_TEAL_DK};color:{_NP_TEAL_DK};border-radius:2px;'
+               f'font-size:7.5px;font-weight:800;letter-spacing:.4px;vertical-align:1px;">'
+               f'{var_label}</span>')
+    commentary = _esc((view.get("commentary") or "").strip())
+    summary = f'{var_tag}{commentary}' if commentary else "&mdash;"
     also_list = (it.get("also") or [])[:_ALSO_REPORTED_CAP]
     also = (f'<span class="also">Also reported by: {_esc(", ".join(also_list))}</span>'
             if also_list else "")
@@ -3426,7 +3475,7 @@ def _np_partb(p: dict, items: list[dict], by_section: dict,
             # card can. S2/S3 are unaffected; that layout doesn't fit
             # them (their items don't belong to one company), see the
             # layout-scope decision this replaced.
-            rows = "".join(_np_s1_row(it, comp, (takeaways or {}).get(_key(it), ""))
+            rows = "".join(_np_s1_row(it, comp, (takeaways or {}).get(_key(it)))
                            for comp, its in order for it in its)
             parts.append(
                 '<div class="s1wrap"><table class="s1tbl">'
