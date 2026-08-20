@@ -3402,13 +3402,11 @@ def _np_s1_row(it: dict, company: str, view: dict | None = None) -> str:
     headline = (f'<a href="{_esc(it["url"])}" target="_blank">{_esc(it["title"])}</a>'
                 if it["url"] else f'<span>{_esc(it["title"])}</span>')
     view = view or _mech_s1_view(it)
-    var_label = _VARIABLE_LABELS.get(view.get("variable", "other"), "OTHER")
-    var_tag = (f'<span style="display:inline-block;padding:1px 5px;margin-right:5px;'
-               f'border:1px solid {_NP_TEAL_DK};color:{_NP_TEAL_DK};border-radius:2px;'
-               f'font-size:7.5px;font-weight:800;letter-spacing:.4px;vertical-align:1px;">'
-               f'{var_label}</span>')
-    commentary = _esc((view.get("commentary") or "").strip())
-    summary = f'{var_tag}{commentary}' if commentary else "&mdash;"
+    # Reader feedback: no colour-tag chip -- the analysis prose itself is
+    # the point, not a labelled badge ahead of it. key_credit_variable_
+    # affected is still computed and available on `view` for any future
+    # use (sorting, filtering), just not rendered as a visible tag here.
+    summary = _esc((view.get("commentary") or "").strip()) or "&mdash;"
     also_list = (it.get("also") or [])[:_ALSO_REPORTED_CAP]
     also = (f'<span class="also">Also reported by: {_esc(", ".join(also_list))}</span>'
             if also_list else "")
