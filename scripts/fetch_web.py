@@ -573,6 +573,20 @@ def fetch_bse_rss() -> list[str]:
         ("BSE Financial Results", True, [
             "https://beta.bseindia.com/Data/XML/FinancialResultsFeed.xml",
         ]),
+        # Governance/promoter-holding signals -- both S1-only, same reasoning
+        # as Corporate Action/Financial Results above.
+        ("BSE Insider Trading", True, [
+            "https://beta.bseindia.com/Data/XML/InsiderTradingFeed.xml",
+        ]),
+        ("BSE Shareholding Pattern", True, [
+            "https://beta.bseindia.com/Data/XML/ShareholdingPattern_Feed.xml",
+        ]),
+        ("BSE Voting Result", True, [
+            "https://beta.bseindia.com/data/XML/VotingResultFeed.xml",
+        ]),
+        ("BSE Annual Report", True, [
+            "https://beta.bseindia.com/Data/XML/AnnualReportFeed.xml",
+        ]),
     ]
     watch = _load_watchlist_phrases()
     items: list[str] = []
@@ -587,8 +601,14 @@ def fetch_bse_rss() -> list[str]:
             print(f"[fetch_web] BSE RSS {tag}: no data (tried {len(urls)} url(s))")
             continue
 
+        # These feeds cover EVERY BSE-listed company (thousands), not just
+        # the ~370 on the watchlist -- 80 most-recent entries could easily
+        # contain zero watchlist matches purely on timing. Scanning further
+        # back raises the odds of catching one without touching the output
+        # cap (still 12/feed) or the recency filter below.
+        scan_cap = 400 if watchlist_only else 80
         count = 0
-        for entry in entries[:80]:
+        for entry in entries[:scan_cap]:
             pub_str, recent = _entry_pub(entry)
             if not recent:
                 continue
@@ -608,7 +628,10 @@ def fetch_bse_rss() -> list[str]:
             if count >= 12:
                 break
         print(f"[fetch_web] BSE RSS {tag}: {count} items (from {used})")
-    return items[:30]
+    # Raised from 30 now that there are 9 feeds (was 3) -- the old cap could
+    # silently starve the later feeds (Insider Trading, Shareholding
+    # Pattern, etc) if the first couple already filled it.
+    return items[:80]
 
 
 # ─────────────────────────────────────────────────────────────────────────────
