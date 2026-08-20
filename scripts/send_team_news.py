@@ -4846,14 +4846,14 @@ def main() -> None:
     sent_count, failed = 0, []
     for email, v in prepared.items():
         who, part_b, top5 = v["name"], v["part_b"], v["top5"]
-        # Priority: GPT's cross-cutting executive brief (desk-wide, same
-        # for every reader, per the "one request per run" design) > the
-        # Anthropic per-reader summary > the mechanical count digest, so
-        # the reader always gets a sense of scale and shape rather than an
-        # empty space where the summary would be.
-        blurb = gpt_exec_summary or summaries.get(email, "") or v["digest"]
-        part_c = _np_partc(top5, now.strftime("%d %B %Y"), takeaways, blurb,
-                           watchlist_html=gpt_watchlist_html)
+        # Per explicit instruction: the email body stays JUST the Top 10
+        # Headlines list (S1 first, then S2/S3 filling remaining slots) for
+        # now -- gpt_exec_summary/gpt_watchlist_html are computed above
+        # (and logged) but deliberately not rendered here yet. GPT's S1
+        # analysis still lands in the S1 Summary table via
+        # section_takeaways, unaffected by this.
+        blurb = summaries.get(email, "") or v["digest"]
+        part_c = _np_partc(top5, now.strftime("%d %B %Y"), takeaways, blurb)
         body = _np_rebrand(_scr.build_email(part_c, today, _summary))
         attachment = _np_rebrand(_np_build_attachment(
             part_b, today, who, masthead, coverage_note, v["sections"]))
