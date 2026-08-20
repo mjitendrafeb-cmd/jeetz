@@ -274,7 +274,10 @@ _JUNK_SOURCE_RE = re.compile(
     # tips and market recaps, same class of noise as @brokerage_report.
     # Matches the SOURCE field (Upstox as publisher), not mentions of
     # Upstox in other outlets' articles.
-    r"\bupstox\b)",
+    r"\bupstox\b|"
+    # Wrestling/pro-wrestling news site -- zero credit relevance, reported
+    # source of noise reaching S2/S3.
+    r"fightful\.com)",
     re.IGNORECASE,
 )
 # Crypto trading stories reach S1 through loose company-name matches (an
@@ -1952,6 +1955,27 @@ def _contains_name(body: str, phrase: str) -> bool:
     return False
 
 
+# Some console aliases are short/generic enough to collide with unrelated
+# usage: "MUDRA" is also the Hindi word for a hand gesture/currency, a yoga
+# term, and the name of an unrelated ad agency ("Mudra Communications").
+# A bare alias match on these needs nearby context confirming the story is
+# actually about the India refinance agency/scheme, not just any use of
+# the word -- same problem as the Red Fort/Delhi-monument collision fixed
+# in fetch_news.py's short-name guard, but for console-entered aliases.
+_AMBIGUOUS_ALIAS_CONTEXT = {
+    "mudra": re.compile(
+        r"\b(india|pmmy|pradhan mantri|refinanc|shishu|kishor(?:\W|$)|tarun|"
+        r"micro units?|msme loan|small business loan)\b", re.IGNORECASE),
+}
+
+
+def _alias_matches(body: str, alias: str) -> bool:
+    if not _contains_name(body, alias.lower()):
+        return False
+    guard = _AMBIGUOUS_ALIAS_CONTEXT.get(alias.strip().lower())
+    return bool(guard.search(body)) if guard else True
+
+
 def _match_companies(it: dict, rows: list[dict]) -> list[str]:
     """Tag from the fetcher is authoritative (the item came from that
     company's own query); text phrase match is only a fallback. Re-matching
@@ -1973,7 +1997,7 @@ def _match_companies(it: dict, rows: list[dict]) -> list[str]:
         # to show for it. A story that says only "BOI" or "HDFC Life" is
         # about that entity by the desk's own explicit instruction.
         aliases = [str(a).strip() for a in (r.get("aliases") or []) if str(a).strip()]
-        alias_hit = any(_contains_name(body, a.lower()) for a in aliases)
+        alias_hit = any(_alias_matches(body, a) for a in aliases)
         tag_match = tag and (tag == n or tag.startswith(n) or n.startswith(tag))
         if tag_match and not alias_hit:
             # Sanity: the story must actually mention the company. Google's
