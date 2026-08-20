@@ -3539,7 +3539,7 @@ def _np_partc(top5: list[dict], date_str: str, takeaways: dict | None = None,
         rows += (
             f'<tr valign="top">'
             f'<td style="padding:10px 8px 10px 16px;font-size:28px;font-weight:900;'
-            f'color:#cc0000;line-height:1;font-family:Georgia,serif;width:44px;">0{i + 1}</td>'
+            f'color:#cc0000;line-height:1;font-family:Georgia,serif;width:44px;">{i + 1:02d}</td>'
             f'<td style="padding:10px 16px 10px 4px;{border}">'
             f'<p style="margin:0 0 2px;font-size:9px;font-weight:800;letter-spacing:1px;'
             f'text-transform:uppercase;color:#888;">{label} &bull; {_esc(it["source"])}{ev_html}</p>'
@@ -3560,11 +3560,12 @@ def _np_partc(top5: list[dict], date_str: str, takeaways: dict | None = None,
         f'font-family:Georgia,serif;">{_esc(exec_summary)}</p>'
         f'</td></tr></table>' if exec_summary else ""
     )
+    heading = f"TOP {len(top5)} HEADLINES" if top5 else "HEADLINES"
     return (
         f'{summary_block}'
         f'<table id="takeaways" width="100%" cellpadding="0" cellspacing="0" style="background:#1a1a1a;">'
         f'<tr><td style="padding:8px 16px;font-size:9px;font-weight:800;letter-spacing:3px;'
-        f'text-transform:uppercase;color:#fff;">&#9679; TOP 5 HEADLINES &mdash; {date_str}</td></tr>'
+        f'text-transform:uppercase;color:#fff;">&#9679; {heading} &mdash; {date_str}</td></tr>'
         f'</table>'
         f'<table width="100%" cellpadding="0" cellspacing="0" '
         f'style="border:1px solid #e5e5e5;border-top:none;">{rows}</table>'
@@ -4312,7 +4313,16 @@ def main() -> None:
         if total == 0 and not team.get("send_empty_mail", False):
             print(f"[mail] skipping {email} — nothing new in their sections")
             continue
-        top5 = sorted(person_items, key=_story_score, reverse=True)[:5]
+        # Top 10, S1 first: the email-body "quick view" should prioritise
+        # the reader's own watchlist over shared sector/macro news. All S1
+        # items are ranked ahead of any S2/S3 item regardless of score;
+        # S2/S3 only fills remaining slots when S1 doesn't have 10 items
+        # on its own.
+        s1_ranked = sorted((it for it in person_items if it.get("section") == "S1"),
+                            key=_story_score, reverse=True)
+        other_ranked = sorted((it for it in person_items if it.get("section") != "S1"),
+                               key=_story_score, reverse=True)
+        top5 = (s1_ranked + other_ranked)[:10]
         prepared[email] = {
             "name": (p.get("name") or "").strip(),
             "part_b": part_b, "top5": top5,
