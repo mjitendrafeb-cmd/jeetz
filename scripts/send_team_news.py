@@ -3884,6 +3884,42 @@ def _send_via_brevo_api(to_addr: str, subject: str, html: str,
         raise RuntimeError(f"Brevo API {resp.status_code}: {resp.text[:300]}")
 
 
+def _inline_full_edition(body_html: str, attachment_html: str) -> str:
+    """Merges the full newspaper edition into the email body instead of
+    sending it as a separate .html attachment.
+
+    Reported: mail reliably reaches Gmail but not careedge.in, even after
+    the sender display name, subject line, and domain were all fixed for
+    the brand-impersonation signal -- ruling those out. What's left is
+    the one thing that survives all of that: every mail carried a raw
+    .html file attachment, which Defender for Office 365 (and most
+    corporate mail security policies) routinely blocks or strips outright
+    as a phishing/credential-harvesting vector, independent of sender
+    reputation. Folding the same content into the body removes the
+    attachment entirely rather than trying to make an .html attachment
+    look safe enough to pass -- it's still a .html file either way.
+
+    The top-5 quick-view email stays exactly as it is (simple, inline-
+    styled, renders everywhere including Outlook's Word engine); the full
+    multi-page edition's own <style> and body content are appended below
+    it, not replacing it, so a reader gets both without needing a
+    download.
+    """
+    style_m = re.search(r"<style>.*?</style>", attachment_html, re.S)
+    body_m = re.search(r"<body[^>]*>(.*)</body>", attachment_html, re.S)
+    if not style_m or not body_m:
+        return body_html  # malformed attachment doc -- fail open, no crash
+    style = style_m.group(0)
+    inner = body_m.group(1)
+    divider = ('<table width="100%" cellpadding="0" cellspacing="0">'
+               '<tr><td style="padding:24px 0 4px;border-top:2px solid #1a1a1a;'
+               'font-family:Arial,Helvetica,sans-serif;font-size:11px;'
+               'font-weight:800;letter-spacing:2px;text-transform:uppercase;'
+               'color:#1a1a1a;">Full Edition</td></tr></table>')
+    return body_html.replace("</head>", f"{style}</head>", 1) \
+                     .replace("</body>", f"{divider}{inner}</body>", 1)
+
+
 def _send(to_addr: str, subject: str, html: str,
           attachment_html: str = "", attachment_name: str = "") -> None:
     # Preferred when configured: no SMTP, so no IP allowlist to trip over.
@@ -4311,11 +4347,12 @@ def main() -> None:
         subj_name = _from_display_name()
         subject = (f"{subj_name} — {who} — {now:%d %b %Y}" if who
                    else f"{subj_name} — {now:%d %b %Y}")
+        # Full edition is inlined into the body, not sent as a separate
+        # .html attachment -- see _inline_full_edition for why.
+        full_body = _inline_full_edition(body, attachment)
         # One bad mailbox must not stop the rest of the team's mails.
         try:
-            _send(email, subject, body,
-                  attachment_html=attachment,
-                  attachment_name=f"CareEdge_Daily_News_{today:%Y%m%d}.html")
+            _send(email, subject, full_body)
             sent_count += 1
         except Exception as exc:
             print(f"[mail] FAILED for {email}: {exc}")
