@@ -1830,7 +1830,37 @@ Respond with ONLY a JSON array, same order, no markdown fences:
 # One request per run (not per article) -- see _gpt_analysis.
 # ---------------------------------------------------------------------------
 
-_GPT_MODEL = os.environ.get("OPENAI_MODEL", "gpt-4o")
+# Provider-agnostic: any OpenAI-compatible endpoint works via the same
+# `openai` client, just a different base_url/key/model. Prefers Gemini's
+# free tier (GEMINI_API_KEY) since that's what's actually configured;
+# OPENAI_API_KEY still works as a paid alternative if ever set instead.
+_GPT_PROVIDERS = {
+    "gemini": {
+        "env_key": "GEMINI_API_KEY",
+        "base_url": "https://generativelanguage.googleapis.com/v1beta/openai/",
+        "default_model": "gemini-2.0-flash",
+        "model_env": "GEMINI_MODEL",
+    },
+    "openai": {
+        "env_key": "OPENAI_API_KEY",
+        "base_url": None,  # openai package default
+        "default_model": "gpt-4o",
+        "model_env": "OPENAI_MODEL",
+    },
+}
+
+
+def _gpt_provider() -> dict | None:
+    """First configured provider, Gemini preferred. None if neither
+    GEMINI_API_KEY nor OPENAI_API_KEY is set."""
+    for name, cfg in _GPT_PROVIDERS.items():
+        if os.environ.get(cfg["env_key"], "").strip():
+            return {**cfg, "name": name,
+                     "api_key": os.environ[cfg["env_key"]].strip(),
+                     "model": os.environ.get(cfg["model_env"], cfg["default_model"])}
+    return None
+
+
 # S2/S3 are sent only as context for the email body's cross-cutting
 # takeaways, never for per-item S2/S3 analysis (out of scope this phase).
 # Capped so the daily payload stays a reasonable size on the heaviest days.
@@ -1871,7 +1901,7 @@ Differentiate factual information supplied in the news from analytical inference
 
 
 def _gpt_on() -> bool:
-    return bool(os.environ.get("OPENAI_API_KEY", "").strip())
+    return _gpt_provider() is not None
 
 
 def _gpt_item_payload(it: dict) -> dict:
@@ -1977,12 +2007,15 @@ Respond with ONLY this JSON structure, no markdown fences, no extra commentary:
       "analysis": "...", "watch": "..."}}
   ]
 }}"""
+    provider = _gpt_provider()
+    if not provider:
+        return None
     t0 = _time.time()
     try:
         from openai import OpenAI
-        client = OpenAI(api_key=os.environ.get("OPENAI_API_KEY", ""))
+        client = OpenAI(api_key=provider["api_key"], base_url=provider["base_url"])
         resp = client.chat.completions.create(
-            model=_GPT_MODEL,
+            model=provider["model"],
             response_format={"type": "json_object"},
             messages=[
                 {"role": "system", "content": _GPT_SYSTEM_PROMPT},
@@ -1994,8 +2027,8 @@ Respond with ONLY this JSON structure, no markdown fences, no extra commentary:
         elapsed = _time.time() - t0
         usage = getattr(resp, "usage", None)
         # Debug/dev record only -- never surfaced in the newsletter itself.
-        print(f"[gpt] model={_GPT_MODEL} elapsed={elapsed:.1f}s "
-              f"tokens={getattr(usage, 'total_tokens', 'n/a')} "
+        print(f"[gpt] provider={provider['name']} model={provider['model']} "
+              f"elapsed={elapsed:.1f}s tokens={getattr(usage, 'total_tokens', 'n/a')} "
               f"s1_sent={len(payload['s1'])}")
         if not _gpt_validate(data):
             print("[gpt] response failed schema validation (non-fatal), falling back")

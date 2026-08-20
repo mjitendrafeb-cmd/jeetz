@@ -147,6 +147,9 @@ jobs:
           # _gpt_analysis in send_team_news.py). Separate provider/switch
           # from ANTHROPIC_API_KEY above -- fails open to the existing
           # Anthropic/mechanical pipeline if unset or if the call fails.
+          # GEMINI_API_KEY is preferred (free tier); OPENAI_API_KEY works
+          # too if ever set instead -- see _gpt_provider().
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
           TEAM_SCHEDULED: 'true'
           TEST_EMAIL: ${{ inputs.test_email }}
