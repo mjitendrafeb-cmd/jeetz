@@ -651,7 +651,18 @@ def _phrase(name: str) -> str:
     'Small Industries Development Bank' -> 'small industries'.
     'D. S. Integrated FinSec' -> 'd. s. integrated finsec' (initials are
     not significant on their own)."""
-    words = name.lower().split()
+    # Normalise "&" the same way _match_companies normalises `body` -- a
+    # phrase built with the literal "&" ("jammu & kashmir") never matches
+    # press text that spells it "and", and vice versa.
+    words = name.lower().replace(" & ", " and ").split()
+    # A LEADING filler ("The Karur Vysya Bank" -> "the karur vysya") ends up
+    # baked into the literal phrase, which then never matches real press
+    # headlines that just drop the article ("Karur Vysya Bank..."). A
+    # filler BETWEEN two significant words stays (that's what stops "Bank
+    # of Baroda" from over-matching on bare "bank") -- only strip fillers
+    # before the first significant word is seen.
+    while words and (len(words[0].strip(".")) < 3 or words[0] in _FILLER):
+        words.pop(0)
     if not words:
         return ""
     sig = 0
@@ -1178,6 +1189,10 @@ _ENTITY_STORY_RE = re.compile(
 # ...unless the story is about the sector as a whole ("NBFCs' NCD issuance
 # hits record", "banks' Q1 results preview") — plural/collective subjects
 # keep their S2/S3 routing.
+_PROCEDURAL_REDEMPTION_RE = re.compile(
+    r"\b(part|full) redemption\b|\bredemption of (debentures?|ncds?|bonds?)\b|"
+    r"\bdebenture redemption\b", re.IGNORECASE,
+)
 _SECTOR_WIDE_RE = re.compile(
     r"\b(banks|nbfcs|hfcs|mfis|lenders|insurers|brokerages|mutual funds|"
     r"microfinance (institutions|sector)|sector|industry|india inc|issuers|"
@@ -1288,6 +1303,15 @@ def _classify_team(it: dict, company_phrases: list[str],
     # Sport, entertainment and stray CRA press pages are never rescued by a
     # keyword — those drops are absolute.
     if _NEVER_RELEVANT_RE.search(text) or _is_cra_announcement(it):
+        return None
+    # Debenture/NCD redemption notices for a non-watchlist issuer are pure
+    # procedural housekeeping, never sector or macro news -- but some
+    # exchange feed entries list several issuers at once ("...redemption
+    # for the following companies:"), which trips _SECTOR_WIDE_RE's plural
+    # "companies"/"issuers" wording and rescued them into S3 via the
+    # bond-market keyword match below. Checked unconditionally, before that
+    # rescue path, so wording can't route it around the drop.
+    if _PROCEDURAL_REDEMPTION_RE.search(text) and not it.get("companies"):
         return None
     # Entity-specific stories never reach S2/S3 — checked BEFORE the keyword
     # rules, because instrument words ("commercial paper", "NCD") are also
@@ -2323,14 +2347,19 @@ def _match_companies(it: dict, rows: list[dict]) -> list[str]:
     company's own query); text phrase match is only a fallback. Re-matching
     by text alone silently dropped tagged items whose headline did not
     repeat the company name."""
-    body = (it["title"] + " " + it["summary"]).lower()
+    # "&" vs "and": a registered name says "Jammu & Kashmir Bank Limited"
+    # but real press headlines almost always spell it "Jammu and Kashmir
+    # Bank" -- a literal substring match on either form alone missed the
+    # other. Normalising both sides to "and" makes the two forms equivalent
+    # wherever they're compared as literal text.
+    body = (it["title"] + " " + it["summary"]).lower().replace(" & ", " and ")
     tag = it.get("wl_company", "").lower()
     hits = []
     for r in rows:
         name = r["company"].strip()
         if not name:
             continue
-        n = name.lower()
+        n = name.lower().replace(" & ", " and ")
         # Console aliases must be honoured HERE as well as at fetch time.
         # The two name checks are independently implemented, and whenever
         # they have disagreed the result was the worst possible one: the
