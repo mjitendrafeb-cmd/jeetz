@@ -6904,44 +6904,6 @@
         "S2",
         "S3"
       ]
-    },
-    {
-      "company": "Tata Communications Limited",
-      "aliases": [],
-      "gh_name": "Jitendra",
-      "analyst_name": "Pranjal",
-      "rh_name": "Hardik",
-      "gh_email": "jitendra.meghrajani@careedge.in, jitendra.meghrajani@gmail.com",
-      "analyst_email": "pranjal.mulekar@careedge.in",
-      "rh_email": "Hardik.Shah@careedge.in",
-      "send_gh": true,
-      "send_analyst": true,
-      "send_rh": true,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
-    },
-    {
-      "company": "Paisalo Digital Limited",
-      "aliases": [],
-      "gh_name": "Jitendra",
-      "analyst_name": "OM",
-      "rh_name": "Hardik",
-      "gh_email": "jitendra.meghrajani@careedge.in, jitendra.meghrajani@gmail.com",
-      "analyst_email": "om.tupe@careedge.in",
-      "rh_email": "Hardik.Shah@careedge.in",
-      "send_gh": true,
-      "send_analyst": true,
-      "send_rh": true,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
     }
   ],
   "scheduled_enabled": true,
