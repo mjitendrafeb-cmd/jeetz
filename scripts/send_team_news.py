@@ -3258,47 +3258,125 @@ _S1_RISK_TEMPLATES = {
 
 
 # Mechanical mapping from the free regex event taxonomy (_event_of) to
-# the same key_credit_variable_affected enum the AI path uses, so both
-# paths tag a variable consistently. RATING/M&A map to "other": a rating
-# action or ownership change is a meta-/structural event, not itself one
-# of the underlying fundamentals in the list.
+# the same key_credit_variable_affected enum the AI path uses -- fallback
+# only, used when neither a RATING direction nor a _VARIABLE_RULES
+# keyword match applies. RATING/M&A map to "other": a rating action or
+# ownership change is a meta-/structural event, not itself one of the
+# underlying fundamentals in the list.
 _EVENT_TO_VARIABLE = {
     "DEFAULT": "liquidity", "RATING": "other", "REGULATORY": "regulatory",
     "MANAGEMENT": "governance", "FUNDING": "funding", "M&A": "other",
     "RESULTS": "profitability",
 }
 
+# Direct keyword-to-variable rules, checked before the coarser
+# _EVENT_TO_VARIABLE fallback -- lets a headline like "...rating
+# downgraded... on asset quality stress" tag asset_quality, not the
+# generic "other" a bare RATING event match alone would produce. Ordered:
+# first match wins, most specific patterns first.
+_VARIABLE_RULES = [
+    ("asset_quality", re.compile(
+        r"\b(npa|gnpa|nnpa|asset quality|stressed asset|slippage|bad loan|"
+        r"write[- ]?off|provisioning|non[- ]?performing)\b", re.IGNORECASE),
+     "Signals asset-quality deterioration — check the GNPA/NNPA trend and "
+     "provisioning coverage."),
+    ("liquidity", re.compile(
+        r"\b(liquidity|cash flow|payment delay|missed payment|repayment|"
+        r"asset[- ]liability mismatch|\balm\b|debt restructur|moratorium|"
+        r"one[- ]?time settlement)\b", re.IGNORECASE),
+     "Signals liquidity/repayment stress — a direct credit concern, not routine."),
+    ("capital", re.compile(
+        r"\b(capital adequacy|\bcrar\b|\bcar\b|capital infusion|capital base|"
+        r"net ?worth|equity (raise|infusion)|tier[- ]?(i|ii|1|2) capital)\b",
+        re.IGNORECASE),
+     "Affects the capital cushion — check whether it strengthens or thins the buffer."),
+    ("leverage", re.compile(
+        r"\b(leverage|debt[- ]to[- ]equity|gearing ratio|debt[- ]equity ratio)\b",
+        re.IGNORECASE),
+     "Moves the leverage/gearing profile — check direction against the entity's "
+     "typical range."),
+    ("funding", re.compile(
+        r"\b(commercial paper|\bncds?\b|debentures?|\bbonds?\b|fund[- ]?rais\w*|"
+        r"borrowing|credit line|refinanc\w*|preferential allotment|rights issue|"
+        r"\bqip\b|securitisation)\b", re.IGNORECASE),
+     "Adds to the funding mix — check tenor and cost for any sign of "
+     "wholesale-market stress."),
+    ("profitability", re.compile(
+        r"\b(net profit|\bpat\b|\bnii\b|net interest income|earnings|margin|"
+        r"\broe\b|\broa\b|quarterly results?)\b", re.IGNORECASE),
+     "A profitability data point — check the trend, not just the single "
+     "quarter's number."),
+    ("growth", re.compile(
+        r"\b(loan growth|disbursement|\baum\b growth|expands?|new branches?|"
+        r"market share|portfolio growth)\b", re.IGNORECASE),
+     "A growth signal — check whether it comes with any asset-quality trade-off."),
+    ("governance", re.compile(
+        r"\b(resign|steps? down|appoint\w*|board approv|auditor|whistleblow|"
+        r"fraud|related[- ]party|governance)\b", re.IGNORECASE),
+     "A governance/continuity signal — watch for follow-on rating-agency commentary."),
+    ("regulatory", re.compile(
+        r"\b(penalty|penalis|\bsebi\b|\brbi\b order|show cause|debarr|"
+        r"licence (cancel|revok)|compliance|enforcement action|adjudication)\b",
+        re.IGNORECASE),
+     "Raises compliance/reputational risk — check the penalty quantum and any "
+     "operating restrictions."),
+    ("macro", re.compile(
+        r"\b(\bgdp\b|inflation|repo rate|monetary policy|rbi policy|economic growth)\b",
+        re.IGNORECASE),
+     "A macro/systemic signal rather than entity-specific — read alongside "
+     "sector-wide trends."),
+]
+
 
 def _mech_s1_view(it: dict) -> dict:
     """Rule-based credit read for the S1 Summary column, no API call
     involved -- same {variable, implication, why, commentary} shape
-    _ai_s1_view_batch returns, built from the existing free regex event
-    taxonomy (_event_of/_materiality) instead of a model call. This is
-    what every row gets when the AI pass is off, out of credits, or
-    fails."""
-    key, _label, score, _colour = _event_of(it)
+    _ai_s1_view_batch returns. This is the PRIMARY path when Anthropic
+    credits are unavailable, not a degraded placeholder: _VARIABLE_RULES
+    scans the actual text for the specific fundamental affected
+    (asset quality, liquidity, capital, funding, etc), same taxonomy the
+    AI path tags, before ever falling back to the coarser event-category
+    mapping."""
     text = f'{it.get("title", "")} {it.get("summary", "")}'
+    key, _label, score, _colour = _event_of(it)
+    band = "High" if score >= 8 else "Moderate" if score >= 6 else "Low"
+
+    variable, note = "other", ""
+    for var, rx, implication in _VARIABLE_RULES:
+        if rx.search(text):
+            variable, note = var, implication
+            break
+
     if key == "RATING":
         if _DOWNGRADE_RE.search(text):
-            risk = ("Rating downgrade/negative outlook — signals credit deterioration; "
-                    "check the driver (asset quality, liquidity, governance) and any "
-                    "covenant or funding follow-through.")
+            headline_read = ("Rating downgrade/negative outlook — signals credit "
+                              "deterioration; check the driver and any covenant or "
+                              "funding follow-through.")
         elif _UPGRADE_RE.search(text):
-            risk = ("Rating upgrade/positive outlook — credit-positive; confirm it reflects "
-                    "a structural improvement rather than a one-off.")
+            headline_read = ("Rating upgrade/positive outlook — credit-positive; "
+                              "confirm it reflects a structural improvement rather "
+                              "than a one-off.")
         else:
-            risk = ("Rating action (reaffirmation or watch) with no stated change in credit "
-                    "view; watch for the next review outcome.")
+            headline_read = ("Rating action (reaffirmation or watch) with no stated "
+                              "change in credit view; watch for the next review outcome.")
+        # The rating direction is always the headline read; a keyword match
+        # (e.g. "asset quality stress" in the same sentence) still refines
+        # WHICH variable moved, since that's the more useful tag here.
+        implication = headline_read
+    elif note:
+        variable, implication = variable, note
     else:
-        risk = _S1_RISK_TEMPLATES.get(
+        implication = _S1_RISK_TEMPLATES.get(
             key, "General development — no rating, funding, regulatory or governance "
                  "signal detected from the available text.")
-    band = "High" if score >= 8 else "Moderate" if score >= 6 else "Low"
+        variable = _EVENT_TO_VARIABLE.get(key, "other")
+
+    why = f"Risk read: {band}."
     return {
-        "variable": _EVENT_TO_VARIABLE.get(key, "other"),
-        "implication": risk,
-        "why": f"Risk read: {band}.",
-        "commentary": f"{risk} Risk read: {band}.",
+        "variable": variable,
+        "implication": implication,
+        "why": why,
+        "commentary": f"{implication} {why}",
     }
 
 
