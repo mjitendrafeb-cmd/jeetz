@@ -1724,6 +1724,58 @@ Respond with ONLY a JSON array, same order, no markdown fences:
         return {}
 
 
+def _ai_s1_view_batch(items: list[dict], client) -> dict:
+    """{item_key: 2-sentence analytical view} for the S1 table's Summary
+    column. Unlike _ai_takeaway_batch (one clause, only for a section's top
+    3), this covers every S1 row, because the table format dropped the
+    hero-card treatment that used to carry a headline's weight visually —
+    the Summary column now has to do that work in words. Deliberately NOT
+    a restated headline or a copy of the feed's own summary: an actual
+    reading of what the development means and what to watch next. Empty
+    dict on any failure — caller falls back to the mechanical
+    headline+summary pad, exactly the pre-AI behaviour."""
+    lines = "\n".join(
+        f'{i}. {it["title"]} — {(it.get("summary") or "").strip()[:200]} ({it["source"]})'
+        for i, it in enumerate(items)
+    )
+    prompt = f"""You write the Summary column of a credit-desk watchlist table. For
+each numbered news item below, write a short analytical view in 2
+sentences (roughly 25-45 words total): sentence 1 states what actually
+happened and why it's material for the entity's credit profile (funding,
+asset quality, governance, rating, litigation, etc — whichever applies);
+sentence 2 says what to watch next or what remains unclear, OR states
+plainly that it is a routine/neutral development if that is the case.
+
+Do NOT just restate the headline. Do NOT invent facts, numbers, or
+outcomes not implied by the item. If the item is genuinely thin
+(e.g. a one-line appointment notice with no other detail), it is fine
+for sentence 2 to say "no further detail available" rather than
+padding with speculation.
+
+Items:
+{lines}
+
+Respond with ONLY a JSON array, same order, no markdown fences:
+[{{"i": 0, "view": "..."}}, {{"i": 1, "view": "..."}}, ...]"""
+    try:
+        msg = client.messages.create(
+            model=_AI_MODEL, max_tokens=8000,
+            output_config={"effort": "medium"},
+            messages=[{"role": "user", "content": prompt}])
+        text = re.sub(r"^```(json)?|```$", "", _ai_msg_text(msg).strip(),
+                      flags=re.MULTILINE).strip()
+        parsed = json.loads(text)
+        out = {}
+        for row in parsed:
+            i, view = row.get("i"), row.get("view")
+            if isinstance(i, int) and 0 <= i < len(items) and isinstance(view, str) and view.strip():
+                out[_key(items[i])] = view.strip()
+        return out
+    except Exception as exc:
+        print(f"[ai_s1_view] batch of {len(items)} failed (non-fatal): {exc}")
+        return {}
+
+
 def _ai_summary_batch(entries: list[tuple], client) -> dict:
     """entries: [(name, [top5 titles])]. Returns {index: summary text}.
     Empty dict on any failure — the caller omits the summary block, exactly
@@ -3137,11 +3189,16 @@ def _np_s1_summary_text(it: dict) -> str:
     return summary
 
 
-def _np_s1_row(it: dict, company: str) -> str:
+def _np_s1_row(it: dict, company: str, view: str = "") -> str:
     """One S1 watchlist row: Company | Source Link | Summary. Replaces the
     per-entity header + stacked cards for S1 specifically (team's requested
     table layout) — S2/S3 keep the 3-column card layout in _np_card, since
     those items don't belong to one company and a table doesn't fit them.
+
+    view: the desk-wide AI analytical view for this item (from
+    _ai_s1_view_batch), when available. Preferred over the mechanical
+    headline+summary pad — a written view of what the development means,
+    not a copy of the headline, is the point of the Summary column.
     """
     # Materiality >= 8 is the same "needs action" threshold the old
     # per-entity header used -- reader feedback asked for this to read as a
@@ -3153,7 +3210,8 @@ def _np_s1_row(it: dict, company: str) -> str:
     meta = " &middot; ".join(_esc(x) for x in (it["source"], it.get("pub", "")) if x)
     headline = (f'<a href="{_esc(it["url"])}" target="_blank">{_esc(it["title"])}</a>'
                 if it["url"] else f'<span>{_esc(it["title"])}</span>')
-    summary = _esc(_np_s1_summary_text(it)) or "&mdash;"
+    summary = _esc(view.strip()) if view.strip() else _esc(_np_s1_summary_text(it))
+    summary = summary or "&mdash;"
     also_list = (it.get("also") or [])[:_ALSO_REPORTED_CAP]
     also = (f'<span class="also">Also reported by: {_esc(", ".join(also_list))}</span>'
             if also_list else "")
@@ -3298,7 +3356,8 @@ def _np_partb(p: dict, items: list[dict], by_section: dict,
             # card can. S2/S3 are unaffected; that layout doesn't fit
             # them (their items don't belong to one company), see the
             # layout-scope decision this replaced.
-            rows = "".join(_np_s1_row(it, comp) for comp, its in order for it in its)
+            rows = "".join(_np_s1_row(it, comp, (takeaways or {}).get(_key(it), ""))
+                           for comp, its in order for it in its)
             parts.append(
                 '<div class="s1wrap"><table class="s1tbl">'
                 '<thead><tr><th>Company</th><th>Source Link</th><th>Summary</th></tr></thead>'
@@ -4117,6 +4176,24 @@ def main() -> None:
                       f"desk-wide S2/S3 key stories got a credit lens")
             except Exception as exc:
                 print(f"[ai_takeaway] desk-wide pass unavailable (non-fatal): {exc}")
+
+        # S1 table Summary column: every watchlist item gets a real
+        # analytical view, not just a headline restated. Computed once
+        # desk-wide (an item shared by several GHs gets one view, not a
+        # separate AI call per reader) and merged into the same dict the
+        # S2/S3 lens uses -- _np_s1_row looks it up by the same item key.
+        s1_items = by_section.get("S1", [])
+        if s1_items:
+            try:
+                import anthropic
+                _client = anthropic.Anthropic(api_key=os.environ.get("ANTHROPIC_API_KEY", ""))
+                for start in range(0, len(s1_items), _TAKEAWAY_BATCH_SIZE):
+                    batch = s1_items[start:start + _TAKEAWAY_BATCH_SIZE]
+                    section_takeaways.update(_ai_s1_view_batch(batch, _client))
+                print(f"[ai_s1_view] {sum(1 for it in s1_items if _key(it) in section_takeaways)}"
+                      f"/{len(s1_items)} S1 items got an analytical view")
+            except Exception as exc:
+                print(f"[ai_s1_view] desk-wide pass unavailable (non-fatal): {exc}")
 
     # First pass: build everyone's part B / Top-5 with no per-person AI call
     # involved (cheap, deterministic — section_takeaways above is the one
