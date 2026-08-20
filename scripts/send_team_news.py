@@ -2453,7 +2453,9 @@ _EVENTS = [
         r"\b(raises?\s+(rs\.?\s?)?[\d.,]+\s*(crore|cr\b|million|billion)|"
         r"fund ?rais\w*|funding round|series [a-f]\b|\bqip\b|rights issue|"
         r"preferential allotment|capital infusion|tier[- ]?(i|ii|1|2) bonds?|"
-        r"issues? (ncds?|debentures?|bonds?)|capital raise)", re.IGNORECASE)),
+        r"issues? (ncds?|debentures?|bonds?)|capital raise|"
+        r"allots?(?:\d\.\d|[^.|]){0,25}\b(commercial paper|ncds?|debentures?|bonds?)\b)",
+        re.IGNORECASE)),
     ("M&A", "M&amp;A", 6, "#0f766e", re.compile(
         r"\b(acqui(re|res|red|sition)|merger|amalgamat\w*|stake (sale|buy|purchase|acquisition)|"
         r"divest\w*|takeover|open offer|slump sale)", re.IGNORECASE)),
@@ -3172,21 +3174,49 @@ def _np_card(it: dict, hero: bool = False, company: str = "",
             f'{body}{lens}{link}{fb}{also}</div>')
 
 
-def _np_s1_summary_text(it: dict) -> str:
-    """Summary column content, kept substantial (2+ lines) rather than a
-    one-line fragment. A table row loses the visual weight a card's bold
-    headline gave the story, so the summary now has to carry more of the
-    substance on its own. A short or empty feed summary gets the headline
-    folded in ahead of it so the cell always reads as real news content,
-    not a truncated snippet standing alone."""
-    summary = (it.get("summary") or "").strip()
-    title = (it.get("title") or "").strip()
-    # ~110 chars is roughly one line at this column's width -- below that,
-    # the summary alone reads as a fragment rather than two lines of
-    # substance.
-    if len(summary) < 110:
-        summary = f"{title}. {summary}".strip(". ") + "." if summary else title
-    return summary
+_S1_RISK_TEMPLATES = {
+    "DEFAULT": "Default/payment-stress signal — directly material to credit quality.",
+    "REGULATORY": "Regulatory action — raises compliance and reputational risk; check the "
+                  "penalty quantum and any operating restrictions attached.",
+    "MANAGEMENT": "Leadership/governance change — a continuity risk to watch, not on its "
+                  "own a credit event.",
+    "FUNDING": "Fresh funding supports liquidity; check tenor and cost for any sign of "
+               "wholesale-market stress rather than routine refinancing.",
+    "M&A": "Ownership or structural change — the credit profile may shift with the new "
+           "promoter/parent.",
+    "RESULTS": "Quarterly numbers — check the asset-quality trend (GNPA/NNPA) and "
+               "profitability for any deterioration behind the headline figure.",
+}
+
+
+def _mech_s1_view(it: dict) -> str:
+    """Rule-based risk view for the S1 Summary column, no API call involved.
+    This is what every row gets when the AI pass is off, out of credits, or
+    fails — NOT a stripped-down placeholder but the mechanical equivalent
+    of _ai_s1_view_batch: grounded in the same free, regex-based event
+    taxonomy _event_of()/_materiality() already derive (RATING/DEFAULT/
+    REGULATORY/FUNDING/etc), plus an explicit risk-severity read from the
+    same materiality score used for the row's red-flag threshold — so the
+    Summary column always states a view, not a copy of the headline."""
+    key, _label, score, _colour = _event_of(it)
+    text = f'{it.get("title", "")} {it.get("summary", "")}'
+    if key == "RATING":
+        if _DOWNGRADE_RE.search(text):
+            risk = ("Rating downgrade/negative outlook — signals credit deterioration; "
+                    "check the driver (asset quality, liquidity, governance) and any "
+                    "covenant or funding follow-through.")
+        elif _UPGRADE_RE.search(text):
+            risk = ("Rating upgrade/positive outlook — credit-positive; confirm it reflects "
+                    "a structural improvement rather than a one-off.")
+        else:
+            risk = ("Rating action (reaffirmation or watch) with no stated change in credit "
+                    "view; watch for the next review outcome.")
+    else:
+        risk = _S1_RISK_TEMPLATES.get(
+            key, "General development — no rating, funding, regulatory or governance "
+                 "signal detected from the available text.")
+    band = "High" if score >= 8 else "Moderate" if score >= 6 else "Low"
+    return f"{risk} Risk read: {band}."
 
 
 def _np_s1_row(it: dict, company: str, view: str = "") -> str:
@@ -3196,9 +3226,9 @@ def _np_s1_row(it: dict, company: str, view: str = "") -> str:
     those items don't belong to one company and a table doesn't fit them.
 
     view: the desk-wide AI analytical view for this item (from
-    _ai_s1_view_batch), when available. Preferred over the mechanical
-    headline+summary pad — a written view of what the development means,
-    not a copy of the headline, is the point of the Summary column.
+    _ai_s1_view_batch), when available. Preferred over the mechanical risk
+    view when present, but both are a real reading of the story, never a
+    copy of the headline — see _mech_s1_view for the no-API path.
     """
     # Materiality >= 8 is the same "needs action" threshold the old
     # per-entity header used -- reader feedback asked for this to read as a
@@ -3210,7 +3240,7 @@ def _np_s1_row(it: dict, company: str, view: str = "") -> str:
     meta = " &middot; ".join(_esc(x) for x in (it["source"], it.get("pub", "")) if x)
     headline = (f'<a href="{_esc(it["url"])}" target="_blank">{_esc(it["title"])}</a>'
                 if it["url"] else f'<span>{_esc(it["title"])}</span>')
-    summary = _esc(view.strip()) if view.strip() else _esc(_np_s1_summary_text(it))
+    summary = _esc(view.strip()) if view.strip() else _esc(_mech_s1_view(it))
     summary = summary or "&mdash;"
     also_list = (it.get("also") or [])[:_ALSO_REPORTED_CAP]
     also = (f'<span class="also">Also reported by: {_esc(", ".join(also_list))}</span>'
