@@ -4366,9 +4366,14 @@ def main() -> None:
         # this needs reverting again.
         # One bad mailbox must not stop the rest of the team's mails.
         try:
+            # Attachment filename uses the same neutral name as the From
+            # display name and subject -- "CareEdge" in the filename is
+            # the same brand-vs-unrelated-domain signal already fixed
+            # elsewhere.
+            attach_name = _from_display_name().replace(" ", "_")
             _send(email, subject, body,
                   attachment_html=attachment,
-                  attachment_name=f"CareEdge_Daily_News_{today:%Y%m%d}.html")
+                  attachment_name=f"{attach_name}_{today:%Y%m%d}.html")
             sent_count += 1
         except Exception as exc:
             print(f"[mail] FAILED for {email}: {exc}")
