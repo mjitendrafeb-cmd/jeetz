@@ -4357,12 +4357,18 @@ def main() -> None:
         subj_name = _from_display_name()
         subject = (f"{subj_name} — {who} — {now:%d %b %Y}" if who
                    else f"{subj_name} — {now:%d %b %Y}")
-        # Full edition is inlined into the body, not sent as a separate
-        # .html attachment -- see _inline_full_edition for why.
-        full_body = _inline_full_edition(body, attachment)
+        # Confirmed by test (2026-08-20): removing the .html attachment
+        # fixed delivery to careedge.in -- everything else (From name,
+        # subject, domain whitelist) was already correct. Reinstating the
+        # attachment anyway per explicit instruction, accepting that the
+        # careedge.in block will likely return. _inline_full_edition()
+        # is kept in the file, unused, as the known-working fallback if
+        # this needs reverting again.
         # One bad mailbox must not stop the rest of the team's mails.
         try:
-            _send(email, subject, full_body)
+            _send(email, subject, body,
+                  attachment_html=attachment,
+                  attachment_name=f"CareEdge_Daily_News_{today:%Y%m%d}.html")
             sent_count += 1
         except Exception as exc:
             print(f"[mail] FAILED for {email}: {exc}")
