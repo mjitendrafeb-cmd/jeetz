@@ -3120,24 +3120,44 @@ def _np_card(it: dict, hero: bool = False, company: str = "",
             f'{body}{lens}{link}{fb}{also}</div>')
 
 
+def _np_s1_summary_text(it: dict) -> str:
+    """Summary column content, kept substantial (2+ lines) rather than a
+    one-line fragment. A table row loses the visual weight a card's bold
+    headline gave the story, so the summary now has to carry more of the
+    substance on its own. A short or empty feed summary gets the headline
+    folded in ahead of it so the cell always reads as real news content,
+    not a truncated snippet standing alone."""
+    summary = (it.get("summary") or "").strip()
+    title = (it.get("title") or "").strip()
+    # ~110 chars is roughly one line at this column's width -- below that,
+    # the summary alone reads as a fragment rather than two lines of
+    # substance.
+    if len(summary) < 110:
+        summary = f"{title}. {summary}".strip(". ") + "." if summary else title
+    return summary
+
+
 def _np_s1_row(it: dict, company: str) -> str:
     """One S1 watchlist row: Company | Source Link | Summary. Replaces the
     per-entity header + stacked cards for S1 specifically (team's requested
     table layout) — S2/S3 keep the 3-column card layout in _np_card, since
     those items don't belong to one company and a table doesn't fit them.
     """
-    # Same ACTION signal the old per-entity header carried, just moved onto
-    # the row it actually belongs to instead of the whole entity's group.
-    flag = ('<span class="flag">&#9679; ACTION</span>'
-            if _materiality(it) >= 8 else "")
+    # Materiality >= 8 is the same "needs action" threshold the old
+    # per-entity header used -- reader feedback asked for this to read as a
+    # clear risk flag, so the whole row is marked (red left rule + red
+    # company name), not just a small badge under the name.
+    risky = _materiality(it) >= 8
+    row_cls = ' class="risk"' if risky else ""
+    flag = '<span class="flag">&#9679; ACTION</span>' if risky else ""
     meta = " &middot; ".join(_esc(x) for x in (it["source"], it.get("pub", "")) if x)
     headline = (f'<a href="{_esc(it["url"])}" target="_blank">{_esc(it["title"])}</a>'
                 if it["url"] else f'<span>{_esc(it["title"])}</span>')
-    summary = _esc(it["summary"]) or "&mdash;"
+    summary = _esc(_np_s1_summary_text(it)) or "&mdash;"
     also_list = (it.get("also") or [])[:_ALSO_REPORTED_CAP]
     also = (f'<span class="also">Also reported by: {_esc(", ".join(also_list))}</span>'
             if also_list else "")
-    return (f'<tr><td class="company">{_esc(company)}{flag}</td>'
+    return (f'<tr{row_cls}><td class="company">{_esc(company)}{flag}</td>'
             f'<td class="link">{headline}'
             f'<span class="srcmeta">{meta}{_undated_note(it)}</span></td>'
             f'<td class="summary">{summary}{also}{_feedback_link(it)}</td></tr>')
@@ -3569,6 +3589,10 @@ def _np_build_attachment(part_b_html: str, today, for_name: str = "",
     font-size:11px;width:16%}}
   table.s1tbl td.company .flag{{color:#D0021B;font-weight:800;font-size:7.5px;
     display:block;margin-top:2px;letter-spacing:.5px}}
+  /* Risk flag: materiality >= 8 -- the whole row reads red, not just a
+     small badge, so a reader scanning the Company column can't miss it. */
+  table.s1tbl tr.risk td{{border-left:3px solid #D0021B}}
+  table.s1tbl tr.risk td.company{{color:#D0021B}}
   table.s1tbl td.link{{width:30%}}
   table.s1tbl td.link a{{color:{_NP_TEAL_DK};font-weight:700;text-decoration:none;font-size:10.5px}}
   table.s1tbl td.link .srcmeta{{display:block;margin-top:3px;font-size:8.5px;color:{_NP_MUTED}}}
