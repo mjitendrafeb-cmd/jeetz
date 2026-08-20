@@ -1945,20 +1945,40 @@ def _gpt_item_payload(it: dict) -> dict:
     }
 
 
+def _gpt_s1_payload_indexed(s1_items: list[dict]) -> list[dict]:
+    """S1 payload rows carry their own list index ("i"). GPT references
+    these indices in item_indices so the mapping back to raw items is
+    exact, not a guess by company name. Reported bug: mapping purely by
+    entity applied ONE synthesised observation (a fundraising story) to
+    EVERY item under that company, including an unrelated CFO-appointment
+    story -- three different events all showed identical commentary."""
+    out = []
+    for i, it in enumerate(s1_items):
+        row = _gpt_item_payload(it)
+        row["i"] = i
+        out.append(row)
+    return out
+
+
 def _gpt_build_payload(s1_items: list[dict], s2_items: list[dict],
-                       s3_items: list[dict], today) -> dict:
+                       s3_items: list[dict], today) -> tuple[dict, list[dict]]:
+    """Returns (payload, s1_sent) -- s1_sent is the exact, order-preserved
+    list the "i" indices in payload["s1"] refer to. Caller must use THIS
+    list (not the original s1_items) when mapping item_indices back to
+    raw items, since capping/sorting can reorder/drop entries."""
     s1 = s1_items
     if len(s1) > _GPT_S1_CAP:
         s1 = sorted(s1, key=_materiality, reverse=True)[:_GPT_S1_CAP]
         print(f"[gpt] S1 list capped to top {_GPT_S1_CAP} of {len(s1_items)} "
               f"by materiality for the GPT payload")
-    return {
+    payload = {
         "date": today.isoformat(),
-        "s1": [_gpt_item_payload(it) for it in s1],
+        "s1": _gpt_s1_payload_indexed(s1),
         # Context only, for the email body -- never per-item S2/S3 analysis.
         "s2": [_gpt_item_payload(it) for it in _rating_first(s2_items)[:_GPT_S2S3_CAP]],
         "s3": [_gpt_item_payload(it) for it in _rating_first(s3_items)[:_GPT_S2S3_CAP]],
     }
+    return payload, s1
 
 
 def _gpt_validate(data) -> bool:
@@ -1993,28 +2013,35 @@ def _gpt_validate(data) -> bool:
             return False
         if row.get("analyst_action") not in _GPT_ACTIONS:
             return False
+        idx = row.get("item_indices")
+        if not isinstance(idx, list) or not idx \
+                or not all(isinstance(x, int) for x in idx):
+            return False
     return True
 
 
 def _gpt_analysis(s1_items: list[dict], s2_items: list[dict],
-                  s3_items: list[dict], today) -> dict | None:
-    """One request per run. Returns the validated {email_body, s1_summary}
-    dict, or None on any failure -- caller falls back to the existing
-    Anthropic/mechanical paths exactly as if GPT were never called."""
+                  s3_items: list[dict], today) -> tuple[dict, list[dict]] | None:
+    """One request per run. Returns (validated {email_body, s1_summary}
+    dict, s1_sent list) on success, or None on any failure -- caller falls
+    back to the existing Anthropic/mechanical paths exactly as if GPT were
+    never called. s1_sent is the exact order-preserved list _gpt_map_s1
+    must use to resolve item_indices back to raw items."""
     if not _gpt_on() or not s1_items:
         return None
     import time as _time
-    payload = _gpt_build_payload(s1_items, s2_items, s3_items, today)
+    payload, s1_sent = _gpt_build_payload(s1_items, s2_items, s3_items, today)
     user_prompt = f"""Analyse today's collected news for an internal CareEdge-style credit-intelligence newsletter.
 
 INPUT (JSON):
 {json.dumps(payload, ensure_ascii=False)}
 
 INSTRUCTIONS:
+- Each S1 item carries an "i" index. Every s1_summary entry MUST include "item_indices": the list of "i" values it covers -- this is how your analysis gets mapped back onto the exact articles it's about. Never guess by company name alone: a company can have several unrelated stories on the same day (e.g. a fundraising AND a separate CFO appointment), and each needs its OWN item_indices, not a shared one.
 - S1 is the tracked watchlist; give each S1 entity/event a detailed analytical read.
 - S2/S3 are supplied only to help you write the short executive email body -- do not produce per-item S2/S3 analysis.
-- If two or more S1 items refer to the SAME entity and the SAME underlying event (e.g. two articles both about one fundraising), synthesise them into ONE s1_summary entry. Do not repeat the same event twice.
-- Exclude from s1_summary: recruitment/hiring stories, generic analyst/market commentary that only mentions the entity in passing, incidental keyword matches, and other items with no credible credit implication. s1_summary having fewer entries than the number of S1 items supplied is expected and correct.
+- If two or more S1 items refer to the SAME entity and the SAME underlying event (e.g. two articles both about one fundraising), synthesise them into ONE s1_summary entry with both their "i" values in item_indices. Items about a DIFFERENT event for the same entity get a SEPARATE s1_summary entry with their own item_indices -- do not merge unrelated events just because they share a company.
+- Exclude from s1_summary: recruitment/hiring stories, generic analyst/market commentary that only mentions the entity in passing, incidental keyword matches, and other items with no credible credit implication. s1_summary having fewer entries than the number of S1 items supplied is expected and correct -- excluded items simply don't appear, don't force an entry for them.
 - For every s1_summary entry, determine: what changed, through which credit variable, the directional implication (Positive/Negative/Neutral/Mixed/Monitor), and the analyst action (Immediate Review/Seek Management Clarification/Review/Monitor/No Action). For fundraising specifically, do not assume it is negative -- the implication depends on instrument, tenor, pricing and use of proceeds; if those are not in the supplied news, say the credit implication depends on those details and recommend Monitor or Review rather than asserting a directional view.
 - email_body.key_takeaways must be cross-cutting and prioritised across today's S1/S2/S3 news -- max 4-6 bullets, 1-2 concise sentences each. Do NOT repeat every S1 entity here.
 - email_body.watchlist_attention is at most 2-4 entities where genuine analyst action is warranted, drawn from S1 only. Return an empty list if none genuinely qualify.
@@ -2029,7 +2056,8 @@ Respond with ONLY this JSON structure, no markdown fences, no extra commentary:
     "watchlist_attention": [{{"entity": "...", "action": "...", "text": "..."}}]
   }},
   "s1_summary": [
-    {{"entity": "...", "event": "...", "credit_view": "Positive|Negative|Neutral|Mixed|Monitor",
+    {{"entity": "...", "event": "...", "item_indices": [0, 3],
+      "credit_view": "Positive|Negative|Neutral|Mixed|Monitor",
       "materiality": "High|Medium|Low",
       "analyst_action": "Immediate Review|Seek Management Clarification|Review|Monitor|No Action",
       "analysis": "...", "watch": "..."}}
@@ -2065,41 +2093,31 @@ Respond with ONLY this JSON structure, no markdown fences, no extra commentary:
               f"(of {len(payload['s1'])} sent), "
               f"{len(data['email_body'].get('key_takeaways', []))} key takeaways, "
               f"{len(data['email_body'].get('watchlist_attention', []))} watchlist entries")
-        return data
+        return data, s1_sent
     except Exception as exc:
         print(f"[gpt] analysis failed (non-fatal, falling back to existing pipeline): {exc}")
         return None
 
 
-def _gpt_map_s1(data: dict, s1_items: list[dict]) -> dict:
-    """Maps GPT's per-entity s1_summary onto every raw S1 item belonging to
-    that entity, in the exact {item_key: {variable, implication, why,
-    commentary}} shape _np_s1_row already reads -- zero changes needed to
-    _np_s1_row or the S1 table. When GPT synthesised several articles into
-    one observation, every one of those articles' rows shows the same
-    commentary, so the table keeps one row per link while the analysis
-    reads as a single observation, not a repeat."""
-    by_entity: dict[str, list[dict]] = {}
-    for it in s1_items:
-        for c in (it.get("companies") or []):
-            by_entity.setdefault(c.strip().lower(), []).append(it)
+def _gpt_map_s1(data: dict, s1_sent: list[dict]) -> dict:
+    """Maps GPT's s1_summary onto raw S1 items via item_indices (exact,
+    deterministic -- see _gpt_analysis/_gpt_validate), in the
+    {item_key: {variable, implication, why, commentary}} shape _np_s1_row
+    already reads. s1_sent MUST be the same order-preserved list returned
+    by _gpt_analysis, not the original unfiltered S1 list, since the
+    indices are positions into that exact list.
 
+    Previously matched by entity name alone, which applied ONE
+    synthesised observation to EVERY item under that company -- a
+    fundraising analysis got copy-pasted onto an unrelated CFO-appointment
+    story for the same entity. Indices fix this at the root: each
+    s1_summary entry only touches the specific articles it was written
+    about."""
     out: dict = {}
+    n = len(s1_sent)
     for row in data.get("s1_summary", []):
-        entity = str(row.get("entity") or "").strip()
-        if not entity:
-            continue
-        matches = by_entity.get(entity.lower())
-        if not matches:
-            # GPT may echo a shortened/press form of the registered name --
-            # fall back to a substring match against the tracked companies
-            # this item was actually matched to, same tolerance the rest of
-            # the file already uses for entity name variants.
-            el = entity.lower()
-            matches = [it for it in s1_items
-                       if any(el in c.lower() or c.lower() in el
-                              for c in (it.get("companies") or []))]
-        if not matches:
+        idx = [i for i in (row.get("item_indices") or []) if isinstance(i, int) and 0 <= i < n]
+        if not idx:
             continue
         credit_view = row.get("credit_view", "Monitor")
         action = row.get("analyst_action", "Monitor")
@@ -2110,8 +2128,8 @@ def _gpt_map_s1(data: dict, s1_items: list[dict]) -> dict:
             commentary += f" Watch: {watch}."
         view = {"variable": "other", "implication": analysis,
                 "why": watch, "commentary": commentary}
-        for it in matches:
-            out[_key(it)] = view
+        for i in idx:
+            out[_key(s1_sent[i])] = view
     return out
 
 
@@ -4782,13 +4800,14 @@ def main() -> None:
     gpt_exec_summary, gpt_watchlist_html = "", ""
     gpt_s1_items = by_section.get("S1", [])
     if gpt_s1_items:
-        gpt_data = _gpt_analysis(gpt_s1_items, by_section.get("S2", []),
-                                  by_section.get("S3", []), today)
-        if gpt_data:
-            gpt_s1_map = _gpt_map_s1(gpt_data, gpt_s1_items)
+        gpt_result = _gpt_analysis(gpt_s1_items, by_section.get("S2", []),
+                                    by_section.get("S3", []), today)
+        if gpt_result:
+            gpt_data, gpt_s1_sent = gpt_result
+            gpt_s1_map = _gpt_map_s1(gpt_data, gpt_s1_sent)
             section_takeaways.update(gpt_s1_map)
             gpt_exec_summary, gpt_watchlist_html = _gpt_map_email_body(gpt_data)
-            print(f"[gpt] {len(gpt_s1_map)}/{len(gpt_s1_items)} S1 items "
+            print(f"[gpt] {len(gpt_s1_map)}/{len(gpt_s1_sent)} S1 items "
                   f"carry a GPT credit view; email body "
                   f"{'set' if gpt_exec_summary else 'not set'} from GPT")
 
