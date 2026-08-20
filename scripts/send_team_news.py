@@ -4300,8 +4300,17 @@ def main() -> None:
         attachment = _np_rebrand(_np_build_attachment(
             part_b, today, who, masthead, coverage_note, v["sections"]))
         # Each edition is built from that reader's own entities, so name it.
-        subject = (f"{masthead} — {who} — {now:%d %b %Y}" if who
-                   else f"{masthead} — {now:%d %b %Y}")
+        # Uses the neutral MAIL_FROM_NAME, not the "CareEdge Daily News"
+        # masthead: the subject is the one thing every spam/anti-phish
+        # filter reads regardless of display-name/sender fixes, and
+        # "CareEdge" in the subject from an unrelated mailalerts.in domain
+        # is the same brand-impersonation signal that got the From name
+        # changed earlier -- reported still blocking delivery on the
+        # careedge.in side even after IT allowlisted the domain. The
+        # newsletter's own masthead/branding inside the mail is untouched.
+        subj_name = _from_display_name()
+        subject = (f"{subj_name} — {who} — {now:%d %b %Y}" if who
+                   else f"{subj_name} — {now:%d %b %Y}")
         # One bad mailbox must not stop the rest of the team's mails.
         try:
             _send(email, subject, body,
