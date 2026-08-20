@@ -761,7 +761,16 @@ def _mentions_company(body: str, name: str) -> bool:
         return False
     acro = _acronym(name)
     if acro and re.search(r"\b" + re.escape(acro) + r"\b", body):
-        return True
+        # Same collision problem as a console alias (see
+        # _AMBIGUOUS_ALIAS_CONTEXT): "MUDRA" is the derived acronym for
+        # Micro Units Development and Refinance Agency, but it is also a
+        # Hindi word and an unrelated ad agency's name. This path was
+        # bypassing the alias-level guard entirely -- _match_companies'
+        # tag_match sanity check calls _mentions_company directly, so a
+        # bare acronym hit here made the alias context requirement moot.
+        guard = _AMBIGUOUS_ALIAS_CONTEXT.get(acro.lower())
+        if not guard or guard.search(body):
+            return True
     words = _sig_words(name)
     matched = [w for w in words
                if re.search(r"\b" + re.escape(w) + r"\b", body)]
@@ -1965,7 +1974,14 @@ def _contains_name(body: str, phrase: str) -> bool:
 _AMBIGUOUS_ALIAS_CONTEXT = {
     "mudra": re.compile(
         r"\b(india|pmmy|pradhan mantri|refinanc|shishu|kishor(?:\W|$)|tarun|"
-        r"micro units?|msme loan|small business loan)\b", re.IGNORECASE),
+        r"micro units?|msme loan|small business loan|mudra loan|"
+        # Co-mentioned Indian government credit/employment schemes: a
+        # headline naming several of these alongside MUDRA (e.g. "KCC,
+        # MUDRA, PMEGP, Vishwakarma, SVANidhi Loan") is unambiguously
+        # about the scheme, not the unrelated word/agency, even with no
+        # other context word present.
+        r"pmegp|svanidhi|\bkcc\b|kisan credit card|vishwakarma|yojana|"
+        r"loan scheme)\b", re.IGNORECASE),
 }
 
 

@@ -557,6 +557,22 @@ def _name_acronym(core: str) -> str:
     return "".join(w[0].upper() for w in words) if len(words) >= 4 else ""
 
 
+# Some derived acronyms collide with unrelated words/entities: "MUDRA" is
+# also the Hindi word for a hand gesture/currency, a yoga term, and the
+# name of an unrelated ad agency ("Mudra Communications"). A bare acronym
+# match on these needs nearby context confirming the story is actually
+# about the India refinance agency/scheme. Mirrors
+# send_team_news._AMBIGUOUS_ALIAS_CONTEXT — kept as a separate copy since
+# the two modules don't share state, but must stay in sync if extended.
+_AMBIGUOUS_ACRONYM_CONTEXT = {
+    "MUDRA": re.compile(
+        r"\b(india|pmmy|pradhan mantri|refinanc|shishu|kishor(?:\W|$)|tarun|"
+        r"micro units?|msme loan|small business loan|mudra loan|"
+        r"pmegp|svanidhi|\bkcc\b|kisan credit card|vishwakarma|yojana|"
+        r"loan scheme)\b", re.IGNORECASE),
+}
+
+
 def _load_aliases() -> dict:
     """Optional manual overrides: aliases.json maps company -> [alias, ...].
     Auto-acronyms cover most cases; this is for names the rules cannot
@@ -740,9 +756,15 @@ def _story_mentions_entity(company: str, aliases: list[str], text: str) -> bool:
         return True
     ac = _name_acronym(core)
     if ac and re.search(rf"\b{re.escape(ac)}\b", text or "", re.IGNORECASE):
-        return True
+        guard = _AMBIGUOUS_ACRONYM_CONTEXT.get(ac)
+        if not guard or guard.search(text or ""):
+            return True
     for a in aliases:
-        if a.strip() and _text_contains_name(t, a.strip().lower()):
+        a = a.strip()
+        if not a or not _text_contains_name(t, a.lower()):
+            continue
+        guard = _AMBIGUOUS_ACRONYM_CONTEXT.get(a.upper())
+        if not guard or guard.search(text or ""):
             return True
     # If the full core name literally appears in the text but only inside a
     # longer institution name (the prefix-block case above), that is strong
