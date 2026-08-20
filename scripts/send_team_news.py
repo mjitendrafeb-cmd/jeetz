@@ -2202,6 +2202,10 @@ _GREEN = "#2E6B4F"
 _GREY = "#8A8578"
 _DIVIDER = "#ECE8E0"
 _MANAGE_URL = "https://mjitendrafeb-cmd.github.io/jeetz/team.html"
+# Daily run-status summary recipient. Sent once per real (non-test) run,
+# after all team mails go out, so someone has a record of the run without
+# opening GitHub Actions.
+_STATUS_EMAIL = "careedgedailynews@gmail.com"
 
 # Matches "up ~34%", "profit up 36%", "falls 12.5%", "-74.4%", "surges 8%"
 _DELTA_RE = re.compile(
@@ -4120,6 +4124,25 @@ def main() -> None:
                       f'</ul><p><a href="{_MANAGE_URL}">Check addresses in the console</a></p>')
             except Exception:
                 pass
+
+    if not test_emails:
+        try:
+            status_rows = "".join(
+                f'<li>{len(people.get(e, {}).get("companies") or [])} co(s), '
+                f'sections {",".join(sorted(v["sections"]))}: '
+                f'<b style="color:{("#cc0000" if e in failed else "#2E6B4F")}">'
+                f'{"FAILED" if e in failed else "sent"}</b> — {e}</li>'
+                for e, v in prepared.items())
+            failed_clause = (f', <b style="color:#cc0000">{len(failed)} failed</b>'
+                              if failed else "")
+            _send(_STATUS_EMAIL, f"7:40 Team Mail status — {now:%d %b %Y}",
+                  f"<p><b>{sent_count} sent</b>{failed_clause}"
+                  f" out of {len(prepared)} recipients.</p>"
+                  f"<p>Run time: {now:%d %b %Y %H:%M} IST.</p>"
+                  f'<ul style="font-size:12px">{status_rows}</ul>'
+                  f'<p><a href="{_MANAGE_URL}">Console</a></p>')
+        except Exception as exc:
+            print(f"[status] status mail failed (non-fatal): {exc}")
 
     # Master edition (all companies, all sections) for the public archive.
     master_p = {"sections": {"S1", "S2", "S3"},
