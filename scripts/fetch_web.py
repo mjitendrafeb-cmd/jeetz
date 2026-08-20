@@ -486,19 +486,41 @@ def _exchange_keep(combined: str, watch_phrases: list[str],
 
 
 def fetch_nse_rss() -> list[str]:
-    """NSE corporate announcements / circulars via nsearchives RSS."""
+    """NSE corporate announcements / circulars / filings via nsearchives RSS.
+
+    All watchlist_only=True (S1-only) except Circular, same reasoning as
+    the BSE feeds: these cover every NSE-listed company (thousands), not
+    just the ~370 tracked ones, so a non-watchlist item is not this desk's
+    S1/S2/S3 news whatever the filing type."""
     feeds = [
         ("https://nsearchives.nseindia.com/content/RSS/Online_announcements.xml", "NSE Announcement"),
         ("https://nsearchives.nseindia.com/content/RSS/Circulars.xml", "NSE Circular"),
         ("https://nsearchives.nseindia.com/content/RSS/Financial_Results.xml", "NSE Results"),
+        ("https://nsearchives.nseindia.com/content/RSS/Corporate_action.xml", "NSE Corporate Action"),
+        ("https://nsearchives.nseindia.com/content/RSS/Board_Meetings.xml", "NSE Board Meeting"),
+        ("https://nsearchives.nseindia.com/content/RSS/Corporate_Governance.xml", "NSE Corporate Governance"),
+        ("https://nsearchives.nseindia.com/content/RSS/Related_Party_Trans.xml", "NSE Related Party Transactions"),
+        # Pledge/encumbrance on promoter shares -- directly the kind of
+        # signal _EVENTS' DEFAULT/RATING categories care about.
+        ("https://nsearchives.nseindia.com/content/RSS/Sast_ReasonForEncumbrance.xml", "NSE Share Encumbrance"),
+        ("https://nsearchives.nseindia.com/content/RSS/Shareholding_Pattern.xml", "NSE Shareholding Pattern"),
+        ("https://nsearchives.nseindia.com/content/RSS/Share_Transfers.xml", "NSE Share Transfers"),
+        ("https://nsearchives.nseindia.com/content/RSS/Voting_Results.xml", "NSE Voting Result"),
+        ("https://nsearchives.nseindia.com/content/RSS/Secretarial_Compliance.xml", "NSE Secretarial Compliance"),
+        ("https://nsearchives.nseindia.com/content/RSS/Investor_Complaints.xml", "NSE Investor Complaints"),
+        ("https://nsearchives.nseindia.com/content/RSS/Annual_Reports.xml", "NSE Annual Report"),
     ]
     watch = _load_watchlist_phrases()
     items: list[str] = []
     for url, tag in feeds:
         try:
             feed = feedparser.parse(url, agent=_HEADERS["User-Agent"])
+            # Exchange-wide feed covering thousands of companies -- scan
+            # deeper than the plain recency-only Circular feed so a rare
+            # watchlist match isn't missed purely by fetch-moment timing.
+            scan_cap = 60 if tag == "NSE Circular" else 400
             count = 0
-            for entry in feed.entries[:60]:
+            for entry in feed.entries[:scan_cap]:
                 if not _entry_recent(entry, 48):
                     continue
                 title = _clean(entry.get("title", "")).strip()
@@ -523,7 +545,9 @@ def fetch_nse_rss() -> list[str]:
             print(f"[fetch_web] NSE RSS {tag}: {count} items")
         except Exception as exc:
             print(f"[fetch_web] NSE RSS error ({url}): {exc}")
-    return items[:20]
+    # Raised from 20 now that there are 13 feeds (was 3) -- the old cap
+    # could silently starve the later feeds if the first couple filled it.
+    return items[:80]
 
 
 def fetch_bse_rss() -> list[str]:
