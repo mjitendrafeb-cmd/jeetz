@@ -385,10 +385,31 @@ async function runNow(){
 // workflow's test_email input overrides the normal team.json routing
 // for this one run only, so nobody else on the distribution list gets
 // mail. Does not touch team.json or affect the next scheduled send.
+// Looks up the actual email(s) sitting in team.json against a given GH/
+// Analyst/RH name, instead of a hardcoded address -- so this stays correct
+// if that person's routing email ever changes in the console.
+function emailForName(name){
+  const want=(name||'').trim().toLowerCase();
+  if(!want)return '';
+  for(const r of (team.rows||[])){
+    for(const [nameField,emailField] of [['gh_name','gh_email'],['analyst_name','analyst_email'],['rh_name','rh_email']]){
+      if((r[nameField]||'').trim().toLowerCase()===want){
+        const addrs=(r[emailField]||'').split(/[,;]/).map(s=>s.trim()).filter(Boolean);
+        const own=addrs.find(a=>a.toLowerCase().includes(want.split(/\s+/)[0]));
+        return own||addrs[0]||'';
+      }
+    }
+  }
+  return '';
+}
+
 async function testRunNow(){
   if(!getToken()){alert('Set a GitHub token first (Token tab).');return;}
-  const email=prompt('Send a test copy to which address?','jitendra.meghrajani@careedge.in');
-  if(!email)return;
+  const who=prompt('Send a test copy to which GH/Analyst/RH name (as it appears in the console)?','Jitendra');
+  if(!who)return;
+  const email=emailForName(who);
+  if(!email){alert(`No email found in team.json against "${who}".`);return;}
+  if(!confirm(`Send a test copy to ${email} (looked up for "${who}")?`))return;
   const b=document.getElementById('testRunBtn');b.disabled=true;b.textContent='Triggering…';
   try{
     const r=await fetch(`https://api.github.com/repos/${OWNER}/${REPO}/actions/workflows/team_news.yml/dispatches`,{method:'POST',headers:{Authorization:'Bearer '+getToken(),Accept:'application/vnd.github+json'},body:JSON.stringify({ref:BRANCH,inputs:{test_email:email.trim()}})});
