@@ -2151,29 +2151,29 @@
  },
  {
   "date": "2026-08-20",
-  "fetched": 3725,
-  "delivered_pool": 347,
-  "junk": 926,
+  "fetched": 3720,
+  "delivered_pool": 346,
+  "junk": 930,
   "geo": 127,
   "stale": 638,
-  "dup": 1381,
+  "dup": 1375,
   "sections": {
-   "S1": 298,
-   "S2": 31,
-   "S3": 18
+   "S1": 297,
+   "S2": 32,
+   "S3": 17
   },
-  "mails": 1,
+  "mails": 2,
   "failed": [],
   "source_summary": {
    "RBI RSS": 19,
    "RBI Enforcement": 0,
    "SEBI RSS": 20,
    "Google News": 27,
-   "Watchlist (Google)": 909,
+   "Watchlist (Google)": 910,
    "BSE Announcements": 0,
    "BSE Financials": 0,
    "Telegram": 56,
-   "Web Scraper": 167
+   "Web Scraper": 169
   },
   "dropped_samples": {
    "relevance": [
