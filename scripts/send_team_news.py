@@ -4031,6 +4031,26 @@ def main() -> None:
                 if "S1" in secs:
                     p["companies"].add(r["company"])
 
+    if test_emails:
+        # A test address typed into the console (e.g. a personal Gmail for
+        # checking delivery) usually isn't in any team.json row at all, so
+        # the match loop above never adds it — that used to mean "nobody
+        # enabled" and the whole run quietly sent nothing. Give any
+        # still-unmatched test address the master edition (every company,
+        # every section) instead of just dropping it, so a test send always
+        # produces mail regardless of whether that address is on the team.
+        matched = {e.strip().lower() for e in people}
+        for addr in test_emails - matched:
+            secs = {"S1", "S2", "S3"} & (test_sections or {"S1", "S2", "S3"})
+            if not secs:
+                continue
+            people[addr] = {
+                "name": "",
+                "companies": {r["company"] for r in rows},
+                "sections": secs,
+                "sectors": set(sectors) | {_row_sector(r) for r in rows},
+            }
+
     if not people:
         print("[route] nobody is enabled in team.json — no mails to send")
         _save_seen(items)
