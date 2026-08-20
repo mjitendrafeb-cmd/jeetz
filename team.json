@@ -6933,9 +6933,12 @@
       "asset reconstruction",
       "mutual fund",
       "insurance",
-      "small finance bank"
+      "small finance bank",
+      "securitisation (india)",
+      "structured finance (india)"
     ],
-    "Infrastructure": []
+    "Infrastructure": [],
+    "Securitisation": []
   },
   "use_ai": true,
   "sector_keywords": [],
