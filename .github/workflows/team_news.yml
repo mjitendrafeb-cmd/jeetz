@@ -143,6 +143,11 @@ jobs:
           TELEGRAM_API_HASH: ${{ secrets.TELEGRAM_API_HASH }}
           TELEGRAM_SESSION: ${{ secrets.TELEGRAM_SESSION }}
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          # GPT credit analysis for S1 Summary + email body only (see
+          # _gpt_analysis in send_team_news.py). Separate provider/switch
+          # from ANTHROPIC_API_KEY above -- fails open to the existing
+          # Anthropic/mechanical pipeline if unset or if the call fails.
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
           TEAM_SCHEDULED: 'true'
           TEST_EMAIL: ${{ inputs.test_email }}
           TEST_SECTIONS: ${{ inputs.test_sections }}

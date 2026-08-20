@@ -1816,6 +1816,271 @@ Respond with ONLY a JSON array, same order, no markdown fences:
         return {}
 
 
+# ---------------------------------------------------------------------------
+# GPT (OpenAI) credit analysis -- S1 Summary + email body ONLY.
+#
+# Scope, per explicit instruction: GPT does NOT collect news, does NOT
+# classify S1/S2/S3, does NOT touch newsletter formatting. It is a second
+# analysis provider layered on top of the EXISTING pipeline, reading
+# already-collected/filtered/deduped items and writing into the SAME two
+# insertion points the Anthropic path already uses:
+#   - section_takeaways[item_key] -> _np_s1_row's `view`   (S1 Summary column)
+#   - exec_summary / watchlist_html -> _np_partc            (email body)
+# No changes to _np_s1_row, the S1 table structure, or S2/S3 rendering.
+# One request per run (not per article) -- see _gpt_analysis.
+# ---------------------------------------------------------------------------
+
+_GPT_MODEL = os.environ.get("OPENAI_MODEL", "gpt-4o")
+# S2/S3 are sent only as context for the email body's cross-cutting
+# takeaways, never for per-item S2/S3 analysis (out of scope this phase).
+# Capped so the daily payload stays a reasonable size on the heaviest days.
+_GPT_S1_CAP = 200
+_GPT_S2S3_CAP = 20
+
+_GPT_CREDIT_VIEWS = {"Positive", "Negative", "Neutral", "Mixed", "Monitor"}
+_GPT_ACTIONS = {"Immediate Review", "Seek Management Clarification",
+                "Review", "Monitor", "No Action"}
+
+_GPT_SYSTEM_PROMPT = """You are an experienced Indian BFSI credit-rating analyst supporting an internal CareEdge-style daily credit-intelligence newsletter.
+News has already been collected. Do not summarise news mechanically.
+Assess each development through:
+Event
+-> credit transmission
+-> affected entity/sector
+-> affected credit variable
+-> materiality
+-> analyst action.
+Focus on:
+- asset quality
+- capitalisation
+- leverage
+- liquidity
+- ALM
+- funding
+- borrowing cost
+- profitability
+- growth
+- governance
+- regulation
+- competitive intensity.
+Do not automatically treat debt raising as negative.
+Do not automatically treat growth as positive.
+Do not invent facts, numbers, ratios or company information.
+Where evidence is insufficient, say Monitor rather than forcing a directional conclusion.
+Differentiate factual information supplied in the news from analytical inference."""
+
+
+def _gpt_on() -> bool:
+    return bool(os.environ.get("OPENAI_API_KEY", "").strip())
+
+
+def _gpt_item_payload(it: dict) -> dict:
+    comps = sorted(it.get("companies") or [])
+    entity = comps[0] if comps else (it.get("wl_company") or "")
+    return {
+        "entity": entity,
+        "headline": it.get("title", ""),
+        "existing_summary": it.get("summary", ""),
+        "source": it.get("source", ""),
+        "url": it.get("url", ""),
+        "published_at": it.get("pub", ""),
+    }
+
+
+def _gpt_build_payload(s1_items: list[dict], s2_items: list[dict],
+                       s3_items: list[dict], today) -> dict:
+    s1 = s1_items
+    if len(s1) > _GPT_S1_CAP:
+        s1 = sorted(s1, key=_materiality, reverse=True)[:_GPT_S1_CAP]
+        print(f"[gpt] S1 list capped to top {_GPT_S1_CAP} of {len(s1_items)} "
+              f"by materiality for the GPT payload")
+    return {
+        "date": today.isoformat(),
+        "s1": [_gpt_item_payload(it) for it in s1],
+        # Context only, for the email body -- never per-item S2/S3 analysis.
+        "s2": [_gpt_item_payload(it) for it in _rating_first(s2_items)[:_GPT_S2S3_CAP]],
+        "s3": [_gpt_item_payload(it) for it in _rating_first(s3_items)[:_GPT_S2S3_CAP]],
+    }
+
+
+def _gpt_validate(data) -> bool:
+    """Structural check before anything from this response touches HTML.
+    Deliberately strict -- a malformed or partially-hallucinated response
+    is treated as a full failure (caller falls back), not patched up."""
+    if not isinstance(data, dict):
+        return False
+    eb = data.get("email_body")
+    s1 = data.get("s1_summary")
+    if not isinstance(eb, dict) or not isinstance(s1, list):
+        return False
+    kt = eb.get("key_takeaways")
+    if not isinstance(kt, list):
+        return False
+    for row in kt:
+        if not isinstance(row, dict) or not str(row.get("title") or "").strip() \
+                or not str(row.get("text") or "").strip():
+            return False
+    wa = eb.get("watchlist_attention", [])
+    if not isinstance(wa, list):
+        return False
+    for row in wa:
+        if not isinstance(row, dict) or not str(row.get("entity") or "").strip() \
+                or not str(row.get("text") or "").strip():
+            return False
+    for row in s1:
+        if not isinstance(row, dict) or not str(row.get("entity") or "").strip() \
+                or not str(row.get("analysis") or "").strip():
+            return False
+        if row.get("credit_view") not in _GPT_CREDIT_VIEWS:
+            return False
+        if row.get("analyst_action") not in _GPT_ACTIONS:
+            return False
+    return True
+
+
+def _gpt_analysis(s1_items: list[dict], s2_items: list[dict],
+                  s3_items: list[dict], today) -> dict | None:
+    """One request per run. Returns the validated {email_body, s1_summary}
+    dict, or None on any failure -- caller falls back to the existing
+    Anthropic/mechanical paths exactly as if GPT were never called."""
+    if not _gpt_on() or not s1_items:
+        return None
+    import time as _time
+    payload = _gpt_build_payload(s1_items, s2_items, s3_items, today)
+    user_prompt = f"""Analyse today's collected news for an internal CareEdge-style credit-intelligence newsletter.
+
+INPUT (JSON):
+{json.dumps(payload, ensure_ascii=False)}
+
+INSTRUCTIONS:
+- S1 is the tracked watchlist; give each S1 entity/event a detailed analytical read.
+- S2/S3 are supplied only to help you write the short executive email body -- do not produce per-item S2/S3 analysis.
+- If two or more S1 items refer to the SAME entity and the SAME underlying event (e.g. two articles both about one fundraising), synthesise them into ONE s1_summary entry. Do not repeat the same event twice.
+- Exclude from s1_summary: recruitment/hiring stories, generic analyst/market commentary that only mentions the entity in passing, incidental keyword matches, and other items with no credible credit implication. s1_summary having fewer entries than the number of S1 items supplied is expected and correct.
+- For every s1_summary entry, determine: what changed, through which credit variable, the directional implication (Positive/Negative/Neutral/Mixed/Monitor), and the analyst action (Immediate Review/Seek Management Clarification/Review/Monitor/No Action). For fundraising specifically, do not assume it is negative -- the implication depends on instrument, tenor, pricing and use of proceeds; if those are not in the supplied news, say the credit implication depends on those details and recommend Monitor or Review rather than asserting a directional view.
+- email_body.key_takeaways must be cross-cutting and prioritised across today's S1/S2/S3 news -- max 4-6 bullets, 1-2 concise sentences each. Do NOT repeat every S1 entity here.
+- email_body.watchlist_attention is at most 2-4 entities where genuine analyst action is warranted, drawn from S1 only. Return an empty list if none genuinely qualify.
+- The email body and s1_summary must not contain identical text for the same entity: the email is short/prioritised/cross-news, s1_summary is detailed/entity-specific.
+- Do not invent facts, numbers, ratios or company financials not present in the supplied news.
+
+Respond with ONLY this JSON structure, no markdown fences, no extra commentary:
+{{
+  "email_body": {{
+    "headline": "Daily Credit Intelligence",
+    "key_takeaways": [{{"title": "...", "credit_view": "Positive|Negative|Neutral|Mixed|Monitor", "text": "..."}}],
+    "watchlist_attention": [{{"entity": "...", "action": "...", "text": "..."}}]
+  }},
+  "s1_summary": [
+    {{"entity": "...", "event": "...", "credit_view": "Positive|Negative|Neutral|Mixed|Monitor",
+      "materiality": "High|Medium|Low",
+      "analyst_action": "Immediate Review|Seek Management Clarification|Review|Monitor|No Action",
+      "analysis": "...", "watch": "..."}}
+  ]
+}}"""
+    t0 = _time.time()
+    try:
+        from openai import OpenAI
+        client = OpenAI(api_key=os.environ.get("OPENAI_API_KEY", ""))
+        resp = client.chat.completions.create(
+            model=_GPT_MODEL,
+            response_format={"type": "json_object"},
+            messages=[
+                {"role": "system", "content": _GPT_SYSTEM_PROMPT},
+                {"role": "user", "content": user_prompt},
+            ],
+        )
+        text = resp.choices[0].message.content
+        data = json.loads(text)
+        elapsed = _time.time() - t0
+        usage = getattr(resp, "usage", None)
+        # Debug/dev record only -- never surfaced in the newsletter itself.
+        print(f"[gpt] model={_GPT_MODEL} elapsed={elapsed:.1f}s "
+              f"tokens={getattr(usage, 'total_tokens', 'n/a')} "
+              f"s1_sent={len(payload['s1'])}")
+        if not _gpt_validate(data):
+            print("[gpt] response failed schema validation (non-fatal), falling back")
+            return None
+        print(f"[gpt] analysis ok: {len(data['s1_summary'])} S1 entries "
+              f"(of {len(payload['s1'])} sent), "
+              f"{len(data['email_body'].get('key_takeaways', []))} key takeaways, "
+              f"{len(data['email_body'].get('watchlist_attention', []))} watchlist entries")
+        return data
+    except Exception as exc:
+        print(f"[gpt] analysis failed (non-fatal, falling back to existing pipeline): {exc}")
+        return None
+
+
+def _gpt_map_s1(data: dict, s1_items: list[dict]) -> dict:
+    """Maps GPT's per-entity s1_summary onto every raw S1 item belonging to
+    that entity, in the exact {item_key: {variable, implication, why,
+    commentary}} shape _np_s1_row already reads -- zero changes needed to
+    _np_s1_row or the S1 table. When GPT synthesised several articles into
+    one observation, every one of those articles' rows shows the same
+    commentary, so the table keeps one row per link while the analysis
+    reads as a single observation, not a repeat."""
+    by_entity: dict[str, list[dict]] = {}
+    for it in s1_items:
+        for c in (it.get("companies") or []):
+            by_entity.setdefault(c.strip().lower(), []).append(it)
+
+    out: dict = {}
+    for row in data.get("s1_summary", []):
+        entity = str(row.get("entity") or "").strip()
+        if not entity:
+            continue
+        matches = by_entity.get(entity.lower())
+        if not matches:
+            # GPT may echo a shortened/press form of the registered name --
+            # fall back to a substring match against the tracked companies
+            # this item was actually matched to, same tolerance the rest of
+            # the file already uses for entity name variants.
+            el = entity.lower()
+            matches = [it for it in s1_items
+                       if any(el in c.lower() or c.lower() in el
+                              for c in (it.get("companies") or []))]
+        if not matches:
+            continue
+        credit_view = row.get("credit_view", "Monitor")
+        action = row.get("analyst_action", "Monitor")
+        analysis = (row.get("analysis") or "").strip()
+        watch = (row.get("watch") or "").strip()
+        commentary = f"{credit_view} | {action}: {analysis}"
+        if watch:
+            commentary += f" Watch: {watch}."
+        view = {"variable": "other", "implication": analysis,
+                "why": watch, "commentary": commentary}
+        for it in matches:
+            out[_key(it)] = view
+    return out
+
+
+def _gpt_map_email_body(data: dict) -> tuple[str, str]:
+    """Renders GPT's email_body into the two plain-text strings
+    _np_partc already accepts (exec_summary, watchlist_html) -- no changes
+    to _np_partc's escaping or markup needed for the takeaways themselves."""
+    eb = data.get("email_body") or {}
+    bits = []
+    for kt in (eb.get("key_takeaways") or [])[:6]:
+        title = str(kt.get("title") or "").strip()
+        view = str(kt.get("credit_view") or "").strip()
+        text = str(kt.get("text") or "").strip()
+        if not (title and text):
+            continue
+        bits.append(f"{title} ({view}): {text}" if view else f"{title}: {text}")
+    exec_summary = " ".join(bits)
+
+    wa_bits = []
+    for wa in (eb.get("watchlist_attention") or [])[:4]:
+        entity = str(wa.get("entity") or "").strip()
+        action = str(wa.get("action") or "").strip()
+        text = str(wa.get("text") or "").strip()
+        if not (entity and text):
+            continue
+        wa_bits.append(f"{entity} ({action}): {text}" if action else f"{entity}: {text}")
+    watchlist_html = " ".join(wa_bits)
+    return exec_summary, watchlist_html
+
+
 def _ai_summary_batch(entries: list[tuple], client) -> dict:
     """entries: [(name, [top5 titles])]. Returns {index: summary text}.
     Empty dict on any failure — the caller omits the summary block, exactly
@@ -3632,7 +3897,7 @@ def _mech_digest(person_items: list[dict], n_entities: int) -> str:
 
 
 def _np_partc(top5: list[dict], date_str: str, takeaways: dict | None = None,
-             exec_summary: str = "") -> str:
+             exec_summary: str = "", watchlist_html: str = "") -> str:
     """Top-5 table in the exact Part C markup the 7:30 email body uses, plus
     an AI executive summary paragraph above it and a one-line "why this
     matters" under each headline.
@@ -3642,6 +3907,11 @@ def _np_partc(top5: list[dict], date_str: str, takeaways: dict | None = None,
     still comes from the shared materiality score, so the most material item
     is number 01.) takeaways/exec_summary are both optional and empty by
     default, so a run with no API access renders exactly as before.
+
+    watchlist_html: optional short "needs analyst attention" note (from
+    GPT's email_body.watchlist_attention), rendered as its own small block
+    under the exec summary. Empty by default -- omitted entirely when there
+    is nothing that genuinely merits it, same principle as exec_summary.
     """
     takeaways = takeaways or {}
     rows = ""
@@ -3675,6 +3945,13 @@ def _np_partc(top5: list[dict], date_str: str, takeaways: dict | None = None,
     if not rows:
         rows = ('<tr><td style="padding:10px 16px;color:#1a1a1a;font-size:12px;">'
                 'No fresh items in your sections today.</td></tr>')
+    watchlist_block = (
+        f'<p style="margin:10px 0 0;font-size:9px;font-weight:800;letter-spacing:2px;'
+        f'text-transform:uppercase;color:#b45309;">&#9679; Watchlist Attention</p>'
+        f'<p style="margin:0;font-size:12.5px;color:#333;line-height:1.65;'
+        f'font-family:Georgia,serif;">{_esc(watchlist_html)}</p>'
+        if watchlist_html else ""
+    )
     summary_block = (
         f'<table width="100%" cellpadding="0" cellspacing="0" '
         f'style="border:1px solid #e5e5e5;border-bottom:none;background:#fbfaf7;">'
@@ -3683,6 +3960,7 @@ def _np_partc(top5: list[dict], date_str: str, takeaways: dict | None = None,
         f'text-transform:uppercase;color:#b45309;">&#9679; TODAY AT A GLANCE</p>'
         f'<p style="margin:0;font-size:12.5px;color:#333;line-height:1.65;'
         f'font-family:Georgia,serif;">{_esc(exec_summary)}</p>'
+        f'{watchlist_block}'
         f'</td></tr></table>' if exec_summary else ""
     )
     heading = f"TOP {len(top5)} HEADLINES" if top5 else "HEADLINES"
@@ -4427,6 +4705,27 @@ def main() -> None:
             except Exception as exc:
                 print(f"[ai_s1_view] desk-wide pass unavailable (non-fatal): {exc}")
 
+    # GPT (OpenAI) credit analysis -- S1 Summary + email body only, per
+    # explicit scope for this phase. Runs independently of _ai_on()/
+    # ANTHROPIC_API_KEY (separate provider, separate on/off switch) and, if
+    # it succeeds, its S1 entries OVERRIDE the Anthropic/mechanical ones in
+    # section_takeaways above -- same insertion point, so _np_partb/
+    # _np_s1_row need no changes. Any failure (no key, API error, malformed
+    # response) leaves section_takeaways exactly as the existing pipeline
+    # already built it -- nothing here can make S1 worse than before.
+    gpt_exec_summary, gpt_watchlist_html = "", ""
+    gpt_s1_items = by_section.get("S1", [])
+    if gpt_s1_items:
+        gpt_data = _gpt_analysis(gpt_s1_items, by_section.get("S2", []),
+                                  by_section.get("S3", []), today)
+        if gpt_data:
+            gpt_s1_map = _gpt_map_s1(gpt_data, gpt_s1_items)
+            section_takeaways.update(gpt_s1_map)
+            gpt_exec_summary, gpt_watchlist_html = _gpt_map_email_body(gpt_data)
+            print(f"[gpt] {len(gpt_s1_map)}/{len(gpt_s1_items)} S1 items "
+                  f"carry a GPT credit view; email body "
+                  f"{'set' if gpt_exec_summary else 'not set'} from GPT")
+
     # First pass: build everyone's part B / Top-5 with no per-person AI call
     # involved (cheap, deterministic — section_takeaways above is the one
     # shared AI pass this needs). This has to happen before the AI mail-body
@@ -4462,11 +4761,14 @@ def main() -> None:
     sent_count, failed = 0, []
     for email, v in prepared.items():
         who, part_b, top5 = v["name"], v["part_b"], v["top5"]
-        # AI summary when it is available; the mechanical count digest
-        # otherwise, so the reader always gets a sense of scale and shape
-        # rather than an empty space where the summary would be.
-        blurb = summaries.get(email, "") or v["digest"]
-        part_c = _np_partc(top5, now.strftime("%d %B %Y"), takeaways, blurb)
+        # Priority: GPT's cross-cutting executive brief (desk-wide, same
+        # for every reader, per the "one request per run" design) > the
+        # Anthropic per-reader summary > the mechanical count digest, so
+        # the reader always gets a sense of scale and shape rather than an
+        # empty space where the summary would be.
+        blurb = gpt_exec_summary or summaries.get(email, "") or v["digest"]
+        part_c = _np_partc(top5, now.strftime("%d %B %Y"), takeaways, blurb,
+                           watchlist_html=gpt_watchlist_html)
         body = _np_rebrand(_scr.build_email(part_c, today, _summary))
         attachment = _np_rebrand(_np_build_attachment(
             part_b, today, who, masthead, coverage_note, v["sections"]))
