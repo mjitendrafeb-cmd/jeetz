@@ -489,6 +489,52 @@ def _usable_link(url: str) -> str:
     return "" if _RAW_DATA_LINK_RE.search(url) else url
 
 
+# Reported: several NSE Announcement/Secretarial Compliance/Investor
+# Complaints entries had a <title> that was just the bare company name --
+# "HDFC Bank Limited", nothing describing what the filing actually was --
+# even though the attachment filename itself often names the filing type
+# ("HDFCBANK_..._Rating_20Aug2026.pdf" is a rating action; "..._Intimation
+# .pdf" a board intimation). Best-effort only: NSE's internal filing codes
+# (CIM, SCR, and similar short codes) aren't decoded here because their
+# meaning isn't reliably known -- an unrecognised filename adds nothing
+# rather than guessing wrong.
+_FILENAME_SUBJECT_MAP = {
+    "alteration_of_capital_and_fund_raising": "Alteration of capital / fund raising",
+    "investor_debt": "Investor debt filing",
+    "shareholding": "Shareholding pattern",
+    "encumbrance": "Share encumbrance / pledge",
+    "related_party": "Related party transaction",
+    "board_meeting": "Board meeting intimation",
+    "voting": "Voting result",
+    "rating": "Rating update",
+    "intimation": "Intimation",
+    "compliance": "Compliance filing",
+}
+
+
+def _subject_from_filename(url: str) -> str:
+    """Best-effort readable subject derived from the attachment filename,
+    for when the feed's own <title> carries no real information (see
+    _FILENAME_SUBJECT_MAP). Empty string when no known pattern matches --
+    callers must not invent a subject where none is recognisable."""
+    fname = (url or "").rsplit("/", 1)[-1].lower()
+    for key, label in _FILENAME_SUBJECT_MAP.items():
+        if key in fname:
+            return label
+    return ""
+
+
+def _enrich_title(title: str, raw_link: str) -> str:
+    """Appends a filename-derived subject when the feed's own title doesn't
+    already mention it -- turns a bare 'HDFC Bank Limited' into 'HDFC Bank
+    Limited — Rating update' instead of leaving the reader with just a
+    company name and no idea what happened."""
+    subject = _subject_from_filename(raw_link)
+    if subject and subject.split()[0].lower() not in title.lower():
+        return f"{title} — {subject}"
+    return title
+
+
 def _entry_recent(entry, hours: int = 48) -> bool:
     pub = entry.get("published_parsed") or entry.get("updated_parsed")
     if not pub:
@@ -566,7 +612,9 @@ def fetch_nse_rss(companies=None) -> list[str]:
                     keep, is_watch = _exchange_keep(combined, watch, watchlist_only=True)
                 if not keep:
                     continue
-                link = _usable_link(entry.get("link", ""))
+                raw_link = entry.get("link", "")
+                title = _enrich_title(title, raw_link)
+                link = _usable_link(raw_link)
                 prefix = "[WATCHLIST-NSE]" if is_watch else "[T1]"
                 url_part = f" | URL:{link}" if link else ""
                 items.append(f"{prefix}{tag}: {title} — {desc[:150]}{url_part}")
@@ -675,7 +723,9 @@ def fetch_bse_rss(companies=None) -> list[str]:
             keep, is_watch = _exchange_keep(combined, watch, watchlist_only=watchlist_only)
             if not keep:
                 continue
-            link = _usable_link(entry.get("link", ""))
+            raw_link = entry.get("link", "")
+            title = _enrich_title(title, raw_link)
+            link = _usable_link(raw_link)
             date_part = f" | PUB:{pub_str}" if pub_str else ""
             prefix = "[WATCHLIST-BSE]" if is_watch else "[T1]"
             url_part = f" | URL:{link}" if link else ""
