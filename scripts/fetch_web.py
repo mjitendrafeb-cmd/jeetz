@@ -414,6 +414,37 @@ def fetch_ccil() -> list[str]:
 # NSE / BSE RSS FEEDS — static XML on archive servers, usually not IP-blocked
 # like the JSON APIs are.
 # ─────────────────────────────────────────────────────────────────────────────
+# Legal-form/filler words that don't identify a company on their own.
+_PHRASE_FILLER = {"private", "limited", "ltd", "pvt", "co", "company",
+                   "and", "the", "of", "&"}
+
+
+def _company_phrase(name: str) -> str:
+    """Contiguous prefix covering TWO significant words -- matches
+    send_team_news._phrase() exactly, so both matching paths agree.
+
+    'A. K. Capital Services Limited'.split()[:2] gives 'a. k.', a
+    near-meaningless 4-character string that substring-matched an
+    unrelated NSE filing for a different company entirely ('Clix Capital
+    Services'). But dropping the initials outright isn't right either --
+    'capital services' alone is exactly as generic and would collide with
+    the same unrelated filing. Initials stay IN the phrase as a prefix
+    (mirroring the actual company name), just don't count toward the
+    two-significant-word threshold: 'a. k. capital services', not 'a. k.'
+    or 'capital services' alone."""
+    words = str(name).lower().split()
+    if not words:
+        return str(name).lower()
+    sig = 0
+    for i, w in enumerate(words):
+        core = w.strip(".,()")
+        if len(core) >= 3 and core not in _PHRASE_FILLER:
+            sig += 1
+        if sig == 2:
+            return " ".join(words[:i + 1])
+    return " ".join(words)
+
+
 def _load_watchlist_phrases(companies=None) -> list[str]:
     """First two words of each watchlist company (lowercased) — precise enough
     to not match sibling group entities (e.g. 'shriram credit' won't match
@@ -428,8 +459,7 @@ def _load_watchlist_phrases(companies=None) -> list[str]:
     the company just was never in the phrase list being matched against.
     """
     if companies:
-        return [" ".join(str(c).lower().split()[:2]) or str(c).lower()
-                for c in companies if str(c).strip()]
+        return [_company_phrase(c) for c in companies if str(c).strip()]
     import os
     path = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "watchlist.txt")
     phrases: list[str] = []
