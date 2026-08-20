@@ -547,18 +547,31 @@ def fetch_bse_rss() -> list[str]:
     """
     feeds = [
         ("BSE Announcement", True, [
+            "https://beta.bseindia.com/data/xml/announcements.xml",
             "https://www.bseindia.com/data/xml/corpannouncement.xml",
             "https://www.bseindia.com/data/xml/announcements.xml",
             "https://beta.bseindia.com/data/xml/corpannouncement.xml",
             "https://www.bseindia.com/corporates/ann.xml",
         ]),
         ("BSE Notice", False, [
-            "https://www.bseindia.com/data/xml/notices.xml",
             "https://beta.bseindia.com/data/xml/notices.xml",
+            "https://www.bseindia.com/data/xml/notices.xml",
         ]),
         ("BSE Board Meeting", True, [
             "https://www.bseindia.com/data/xml/boardmeeting.xml",
             "https://beta.bseindia.com/data/xml/boardmeeting.xml",
+        ]),
+        # S1-only: corporate actions (NCD/bond redemptions, rights issues,
+        # buybacks) and financial results are both directly credit-relevant,
+        # but only for a watchlist company -- a non-watchlist company's
+        # quarterly result is not this desk's S1/S2/S3 news, so both are
+        # forced watchlist_only regardless of what _exchange_keep would
+        # otherwise pass for a non-watchlist item.
+        ("BSE Corporate Action", True, [
+            "https://beta.bseindia.com/data/XML/CorpActionFeed.xml",
+        ]),
+        ("BSE Financial Results", True, [
+            "https://beta.bseindia.com/Data/XML/FinancialResultsFeed.xml",
         ]),
     ]
     watch = _load_watchlist_phrases()
