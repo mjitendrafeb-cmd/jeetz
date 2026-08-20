@@ -1862,7 +1862,11 @@ _GPT_PROVIDERS = {
     "gemini": {
         "env_key": "GEMINI_API_KEY",
         "base_url": "https://generativelanguage.googleapis.com/v1beta/openai/",
-        "default_model": "gemini-2.0-flash",
+        # gemini-2.0-flash was retired by Google (confirmed via a live
+        # 404 on 2026-08-20: "no longer available, use
+        # models/gemini-3.6-flash"). Overridable via GEMINI_MODEL if
+        # Google moves the goalposts again.
+        "default_model": "gemini-3.6-flash",
         "model_env": "GEMINI_MODEL",
     },
     "openai": {
