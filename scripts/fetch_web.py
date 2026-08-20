@@ -414,10 +414,22 @@ def fetch_ccil() -> list[str]:
 # NSE / BSE RSS FEEDS — static XML on archive servers, usually not IP-blocked
 # like the JSON APIs are.
 # ─────────────────────────────────────────────────────────────────────────────
-def _load_watchlist_phrases() -> list[str]:
+def _load_watchlist_phrases(companies=None) -> list[str]:
     """First two words of each watchlist company (lowercased) — precise enough
     to not match sibling group entities (e.g. 'shriram credit' won't match
-    Shriram Finance news)."""
+    Shriram Finance news).
+
+    companies: explicit company name list to use instead of watchlist.txt.
+    Without this, the NSE/BSE exchange feeds (watchlist_only=True) could
+    only ever match watchlist.txt's 41 names -- 7:30's own list -- even
+    when called from the 7:40 team mail, whose team.json tracks ~370
+    entities. 331 of them could never produce an exchange-feed hit
+    however many feeds were added or how deep they were scanned, since
+    the company just was never in the phrase list being matched against.
+    """
+    if companies:
+        return [" ".join(str(c).lower().split()[:2]) or str(c).lower()
+                for c in companies if str(c).strip()]
     import os
     path = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "watchlist.txt")
     phrases: list[str] = []
@@ -485,7 +497,7 @@ def _exchange_keep(combined: str, watch_phrases: list[str],
     return (is_watch or is_credit), is_watch
 
 
-def fetch_nse_rss() -> list[str]:
+def fetch_nse_rss(companies=None) -> list[str]:
     """NSE corporate announcements / circulars / filings via nsearchives RSS.
 
     All watchlist_only=True (S1-only) except Circular, same reasoning as
@@ -510,7 +522,7 @@ def fetch_nse_rss() -> list[str]:
         ("https://nsearchives.nseindia.com/content/RSS/Investor_Complaints.xml", "NSE Investor Complaints"),
         ("https://nsearchives.nseindia.com/content/RSS/Annual_Reports.xml", "NSE Annual Report"),
     ]
-    watch = _load_watchlist_phrases()
+    watch = _load_watchlist_phrases(companies)
     items: list[str] = []
     for url, tag in feeds:
         try:
@@ -550,7 +562,7 @@ def fetch_nse_rss() -> list[str]:
     return items[:80]
 
 
-def fetch_bse_rss() -> list[str]:
+def fetch_bse_rss(companies=None) -> list[str]:
     """BSE notices and corporate announcements via RSS.
 
     A company's own filing is the highest-signal S1 item available, and this
@@ -612,7 +624,7 @@ def fetch_bse_rss() -> list[str]:
             "https://beta.bseindia.com/Data/XML/AnnualReportFeed.xml",
         ]),
     ]
-    watch = _load_watchlist_phrases()
+    watch = _load_watchlist_phrases(companies)
     items: list[str] = []
     for tag, watchlist_only, urls in feeds:
         entries, used = [], ""
@@ -1342,11 +1354,16 @@ def fetch_macro_releases() -> list[str]:
 # MAIN ENTRY POINT
 # ─────────────────────────────────────────────────────────────────────────────
 def fetch_all_web(sources: dict | None = None, custom_urls: list[str] | None = None,
-                  days_back: int = 2) -> list[str]:
+                  days_back: int = 2, companies=None) -> list[str]:
     """
     Fetch from all configured web sources + any custom URLs.
     sources dict maps source key → True/False (from config.json web_sources).
     custom_urls is the list from config.json custom_scrape_urls.
+
+    companies: passed through to fetch_nse_rss/fetch_bse_rss so their
+    watchlist_only feeds match against the CALLER's actual entity list
+    (team.json's ~370 for 7:40) instead of always falling back to
+    watchlist.txt's 41 -- see _load_watchlist_phrases.
     """
     if sources is None:
         sources = {}
@@ -1388,11 +1405,11 @@ def fetch_all_web(sources: dict | None = None, custom_urls: list[str] | None = N
         print("[fetch_web] Fetching NSE corporate actions...")
         all_items.extend(fetch_nse_corporate_actions())
         print("[fetch_web] Fetching NSE RSS feeds...")
-        all_items.extend(fetch_nse_rss())
+        all_items.extend(fetch_nse_rss(companies))
 
     if on("bse"):
         print("[fetch_web] Fetching BSE RSS feeds...")
-        all_items.extend(fetch_bse_rss())
+        all_items.extend(fetch_bse_rss(companies))
 
     if on("fimmda"):
         print("[fetch_web] Fetching FIMMDA...")

@@ -1020,6 +1020,7 @@ def fetch_all_news(newsapi_key: str = "", apply_seen: bool = True,
                 cfg.get("web_sources", {}),
                 cfg.get("custom_scrape_urls", []),
                 days_back=days_back,
+                companies=companies,
             ))
         except Exception as exc:
             summary["Web Scraper"] = 0
