@@ -471,6 +471,24 @@ _EXCHANGE_JUNK_OVERRIDE_RE = re.compile(
 )
 
 
+# Some NSE/BSE RSS feeds (Secretarial Compliance, Investor Complaints,
+# debt-related filings, etc) put a raw XBRL/data-attachment URL in the
+# <link> field instead of a readable announcement page -- e.g.
+# ".../corporate/xbrl/INVESTOR_DEBT_1653709_...WEB.xml", which opens as a
+# machine XML document, not something a reader can act on. Reported: an
+# SMFG S1 item linking straight to one of these. Same "no link beats a
+# dead/useless link" rule _item_html already follows for a missing URL.
+_RAW_DATA_LINK_RE = re.compile(r"/xbrl/|\.xml(\?|$)", re.IGNORECASE)
+
+
+def _usable_link(url: str) -> str:
+    """Drops a link that points at a raw XBRL/XML data file rather than a
+    readable page -- returns '' so the caller renders with no link at all,
+    same as an item that never had a URL."""
+    url = (url or "").strip()
+    return "" if _RAW_DATA_LINK_RE.search(url) else url
+
+
 def _entry_recent(entry, hours: int = 48) -> bool:
     pub = entry.get("published_parsed") or entry.get("updated_parsed")
     if not pub:
@@ -548,9 +566,10 @@ def fetch_nse_rss(companies=None) -> list[str]:
                     keep, is_watch = _exchange_keep(combined, watch, watchlist_only=True)
                 if not keep:
                     continue
-                link = entry.get("link", "")
+                link = _usable_link(entry.get("link", ""))
                 prefix = "[WATCHLIST-NSE]" if is_watch else "[T1]"
-                items.append(f"{prefix}{tag}: {title} — {desc[:150]} | URL:{link}")
+                url_part = f" | URL:{link}" if link else ""
+                items.append(f"{prefix}{tag}: {title} — {desc[:150]}{url_part}")
                 count += 1
                 if count >= 10:
                     break
@@ -656,10 +675,11 @@ def fetch_bse_rss(companies=None) -> list[str]:
             keep, is_watch = _exchange_keep(combined, watch, watchlist_only=watchlist_only)
             if not keep:
                 continue
-            link = entry.get("link", "")
+            link = _usable_link(entry.get("link", ""))
             date_part = f" | PUB:{pub_str}" if pub_str else ""
             prefix = "[WATCHLIST-BSE]" if is_watch else "[T1]"
-            items.append(f"{prefix}{tag}: {title} — {desc[:150]}{date_part} | URL:{link}")
+            url_part = f" | URL:{link}" if link else ""
+            items.append(f"{prefix}{tag}: {title} — {desc[:150]}{date_part}{url_part}")
             count += 1
             if count >= 12:
                 break
