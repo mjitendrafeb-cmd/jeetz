@@ -3120,6 +3120,29 @@ def _np_card(it: dict, hero: bool = False, company: str = "",
             f'{body}{lens}{link}{fb}{also}</div>')
 
 
+def _np_s1_row(it: dict, company: str) -> str:
+    """One S1 watchlist row: Company | Source Link | Summary. Replaces the
+    per-entity header + stacked cards for S1 specifically (team's requested
+    table layout) — S2/S3 keep the 3-column card layout in _np_card, since
+    those items don't belong to one company and a table doesn't fit them.
+    """
+    # Same ACTION signal the old per-entity header carried, just moved onto
+    # the row it actually belongs to instead of the whole entity's group.
+    flag = ('<span class="flag">&#9679; ACTION</span>'
+            if _materiality(it) >= 8 else "")
+    meta = " &middot; ".join(_esc(x) for x in (it["source"], it.get("pub", "")) if x)
+    headline = (f'<a href="{_esc(it["url"])}" target="_blank">{_esc(it["title"])}</a>'
+                if it["url"] else f'<span>{_esc(it["title"])}</span>')
+    summary = _esc(it["summary"]) or "&mdash;"
+    also_list = (it.get("also") or [])[:_ALSO_REPORTED_CAP]
+    also = (f'<span class="also">Also reported by: {_esc(", ".join(also_list))}</span>'
+            if also_list else "")
+    return (f'<tr><td class="company">{_esc(company)}{flag}</td>'
+            f'<td class="link">{headline}'
+            f'<span class="srcmeta">{meta}{_undated_note(it)}</span></td>'
+            f'<td class="summary">{summary}{also}{_feedback_link(it)}</td></tr>')
+
+
 def _feedback_link(it: dict) -> str:
     """(J) One click to flag an item as irrelevant. A mailto keeps this
     working with no server, no endpoint and no auth — the reply lands in the
@@ -3172,38 +3195,6 @@ def _request_entity_link(for_name: str = "", n_entities: int = 0) -> str:
             f'style="color:{_NP_TEAL_DK};font-weight:700;'
             f'text-decoration:none;">Request an entity &#8594;</a>'
             f'</p>')
-
-
-def _company_header(name: str, its: list[dict]) -> str:
-    """Entity sub-header inside S1. Styled inline rather than with a class,
-    because the newspaper stylesheet lives in send_credit_report.py and the
-    7:30 report is not to be modified."""
-    n = len(its)
-    top = max(_materiality(i) for i in its)
-    # Flag the entity itself when it carries something that needs action.
-    # Red is kept for ACTION: it is an alert, like CONFIDENTIAL in the
-    # reference, not part of the navy/teal chrome.
-    flag = (f'<span style="color:#D0021B;font-weight:800;font-size:8px;">'
-            f' &#9679; ACTION</span>' if top >= 8 else "")
-    # Reader feedback, round 1: 11px/weight-900/1.2px letter-spacing/uppercase
-    # made a long entity name ("Micro Units Development and Refinance Agency
-    # Limited") look bulky in a 3-column layout. Trimmed to weight-700/10.5px.
-    # Round 2: that trim made the header hard to tell apart from a card
-    # headline -- _NP_NAVY_DEEP (#0A2440) and the headline colour _NP_INK
-    # (#12283C) are nearly the same dark navy, so a bold navy line above a
-    # bold navy headline just read as more text, not a heading. Fixed with
-    # shape instead of more weight: a pale tinted band (picked from four
-    # options) makes it read as a labelled block at a glance, with no size
-    # or weight change at all.
-    return (f'<p style="margin:14px 0 12px;font-size:10.5px;font-weight:700;'
-            f'letter-spacing:0.5px;text-transform:uppercase;color:{_NP_NAVY_DEEP};'
-            f'background:{_NP_HEADER_TINT};padding:6px 10px;border-radius:2px;'
-            f'break-inside:avoid;break-after:avoid;'
-            f'-webkit-column-break-inside:avoid;-webkit-column-break-after:avoid;'
-            f'page-break-after:avoid;">{_esc(name)}{flag}'
-            f'<span style="color:{_NP_MUTED};font-weight:500;font-size:7.5px;'
-            f'letter-spacing:0.8px;"> <span style="color:{_NP_HEADER_TINT_RULE};">|</span> {n} item'
-            f'{"s" if n != 1 else ""}</span></p>')
 
 
 _CATEGORY_ORDER = {
@@ -3279,22 +3270,19 @@ def _np_partb(p: dict, items: list[dict], by_section: dict,
                 v.sort(key=lambda it: (-_materiality(it), _is_undated(it)))
             order = sorted(by_company.items(),
                            key=lambda kv: -max(_materiality(i) for i in kv[1]))
-            lead = True
-            for comp, its in order:
-                # A header must not be orphaned at the foot of a column,
-                # but the group must NOT be made atomic either: wrapping
-                # header+cards in one break-inside:avoid block was tried
-                # and produced the reported blank right-hand columns —
-                # HDFC Bank had 15 cards, the block was taller than a
-                # column, so the browser could not break it anywhere and
-                # pushed the whole thing, leaving the rest of the page
-                # empty. The correct idiom is break-AFTER:avoid on the
-                # header alone: it stays with the card that follows it,
-                # while later cards flow across columns normally.
-                parts.append(_company_header(comp, its))
-                for it in its:
-                    parts.append(_np_card(it, hero=lead))
-                    lead = False
+            # Team-requested layout: Company / Source Link / Summary as a
+            # table, one row per story, instead of per-entity header +
+            # stacked cards. The table wrapper carries column-span:all so
+            # it escapes the page's 3-column card layout entirely — a
+            # table row can't sensibly split across columns the way a
+            # card can. S2/S3 are unaffected; that layout doesn't fit
+            # them (their items don't belong to one company), see the
+            # layout-scope decision this replaced.
+            rows = "".join(_np_s1_row(it, comp) for comp, its in order for it in its)
+            parts.append(
+                '<div class="s1wrap"><table class="s1tbl">'
+                '<thead><tr><th>Company</th><th>Source Link</th><th>Summary</th></tr></thead>'
+                f'<tbody>{rows}</tbody></table></div>')
             # Closes the section the reader is most likely to notice a gap
             # in — "my entity isn't here" is exactly the moment to offer
             # the request link.
@@ -3566,6 +3554,26 @@ def _np_build_attachment(part_b_html: str, today, for_name: str = "",
   .page-header .ph-num{{font-size:26px;font-weight:900;font-family:'Playfair Display',Georgia,serif;color:{_NP_TEAL};line-height:1}}
   .columns{{padding:0 28px 8px;column-count:3;column-gap:22px;column-rule:1px solid {_NP_RULE};min-height:80px}}
   [data-section="banner"]{{column-span:all;margin:20px -28px 0;padding:5px 28px;border-top:3px solid;border-bottom:1px solid}}
+  /* S1 watchlist table -- Company / Source Link / Summary, one row per
+     story. column-span:all pulls it out of the 3-column card layout used
+     by S2/S3, which a table row can't split across the way a card can. */
+  .s1wrap{{column-span:all;overflow-x:auto;margin-top:6px}}
+  table.s1tbl{{width:100%;border-collapse:collapse;font-size:11px}}
+  table.s1tbl th{{background:{_NP_NAVY_DEEP};color:#fff;font-family:Arial,Helvetica,sans-serif;
+    font-weight:700;font-size:9px;letter-spacing:.7px;text-transform:uppercase;
+    text-align:left;padding:8px 12px}}
+  table.s1tbl td{{padding:9px 12px;border-bottom:1px solid {_NP_RULE};vertical-align:top;
+    color:{_NP_BODY};line-height:1.5}}
+  table.s1tbl tr:nth-child(even) td{{background:#FAFBFC}}
+  table.s1tbl td.company{{font-family:Georgia,serif;font-weight:700;color:{_NP_INK};
+    font-size:11px;width:16%}}
+  table.s1tbl td.company .flag{{color:#D0021B;font-weight:800;font-size:7.5px;
+    display:block;margin-top:2px;letter-spacing:.5px}}
+  table.s1tbl td.link{{width:30%}}
+  table.s1tbl td.link a{{color:{_NP_TEAL_DK};font-weight:700;text-decoration:none;font-size:10.5px}}
+  table.s1tbl td.link .srcmeta{{display:block;margin-top:3px;font-size:8.5px;color:{_NP_MUTED}}}
+  table.s1tbl td.summary{{width:54%;font-size:10.3px}}
+  table.s1tbl td.summary .also{{display:block;margin-top:3px;color:{_NP_MUTED};font-size:9px}}
   .sb{{font-size:9px;font-weight:800;letter-spacing:3px;text-transform:uppercase;padding-top:6px;padding-bottom:6px}}
   .sb1{{color:{_NP_NAVY};border-color:{_NP_TEAL}}}
   .sb2{{color:{_NP_NAVY};border-color:{_NP_TEAL}}}
