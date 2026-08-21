@@ -2266,6 +2266,30 @@ def _gpt_map_s1(data: dict, s1_sent: list[dict]) -> dict:
             commentary += f" Watch: {watch}."
         view = {"variable": "other", "implication": analysis,
                 "why": watch, "commentary": commentary}
+        # Defence-in-depth against the exact failure the prompt instruction
+        # above asks Gemini not to do, and it still sometimes does under
+        # coverage pressure: merging several DIFFERENT same-company events
+        # (a pledge release, a product launch, a revenue update) into one
+        # entry and pointing every "i" at it -- confirmed directly, three
+        # unrelated Nisus Finance stories all showing identical text, one
+        # of them not even mentioning what its own headline was about.
+        # Applying the anchor item's text to every index is only safe when
+        # those headlines actually look like the same story. Company-name
+        # tokens (row["entity"]) are excluded first since every headline
+        # about a company trivially "matches" on its own name.
+        if len(idx) > 1:
+            entity_toks = _title_toks(str(row.get("entity") or ""))
+            anchor_toks = _title_toks(s1_sent[idx[0]]["title"]) - entity_toks
+            kept = [idx[0]]
+            for i in idx[1:]:
+                other_toks = _title_toks(s1_sent[i]["title"]) - entity_toks
+                if anchor_toks and other_toks and len(anchor_toks & other_toks) >= 2:
+                    kept.append(i)
+                else:
+                    print(f"[gpt] dropped merged entry for unrelated headline: "
+                          f"'{s1_sent[i]['title'][:70]}' doesn't match "
+                          f"'{s1_sent[idx[0]]['title'][:70]}' -- falls back to mechanical view")
+            idx = kept
         for i in idx:
             out[_key(s1_sent[i])] = view
     return out
