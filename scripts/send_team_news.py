@@ -3915,6 +3915,13 @@ def _np_s1_row(it: dict, company: str, view: dict | None = None) -> str:
     headline = (f'<a href="{_esc(it["url"])}" target="_blank">{_esc(it["title"])}</a>'
                 if it["url"] else f'<span>{_esc(it["title"])}</span>')
     view = view or _mech_s1_view(it)
+    # Defensive: callers pass the {variable, implication, why, commentary}
+    # dict, but the email-body path carries the same keys flattened to a
+    # plain commentary string. A str reaching here used to crash the whole
+    # run on view.get(); accept both shapes instead so a caller mix-up
+    # degrades to "renders the text" rather than "no newsletter today".
+    if isinstance(view, str):
+        view = {"commentary": view}
     # Reader feedback: no colour-tag chip -- the analysis prose itself is
     # the point, not a labelled badge ahead of it. key_credit_variable_
     # affected is still computed and available on `view` for any future
@@ -5044,11 +5051,17 @@ def main() -> None:
     # string either way. Coerce dict values to their "commentary" text so a
     # GPT-only run (Anthropic pass empty/failed, e.g. out of credits) never
     # leaks a raw dict repr into the email body.
+    # NOTE: these are two DIFFERENT shapes for two different consumers --
+    # keep them separate. _np_partc (email body) wants plain strings;
+    # _np_partb/_np_s1_row (the S1/S2/S3 tables) want the dict form and
+    # call view.get("commentary") on it. Merging both into one variable is
+    # what caused the raw-dict leak in the body AND, once flattened, an
+    # AttributeError in the master-edition table build.
     section_takeaways_str = {
         k: (v.get("commentary", "") if isinstance(v, dict) else v)
         for k, v in section_takeaways.items()
     }
-    takeaways = {**section_takeaways_str, **takeaways}
+    email_takeaways = {**section_takeaways_str, **takeaways}
 
     sent_count, failed = 0, []
     for email, v in prepared.items():
@@ -5060,7 +5073,7 @@ def main() -> None:
         # analysis still lands in the S1 Summary table via
         # section_takeaways, unaffected by this.
         blurb = summaries.get(email, "") or v["digest"]
-        part_c = _np_partc(top5, now.strftime("%d %B %Y"), takeaways, blurb)
+        part_c = _np_partc(top5, now.strftime("%d %B %Y"), email_takeaways, blurb)
         body = _np_rebrand(_scr.build_email(part_c, today, _summary))
         attachment = _np_rebrand(_np_build_attachment(
             part_b, today, who, masthead, coverage_note, v["sections"]))
@@ -5133,7 +5146,7 @@ def main() -> None:
     master_p = {"sections": {"S1", "S2", "S3"},
                 "companies": {r["company"] for r in rows},
                 "sectors": set(sectors) | {_row_sector(r) for r in rows}}
-    m_partb, _m_total, _m_items = _np_partb(master_p, items, by_section, takeaways, gpt_excluded)
+    m_partb, _m_total, _m_items = _np_partb(master_p, items, by_section, section_takeaways, gpt_excluded)
     _write_archive(_np_rebrand(_np_build_attachment(m_partb, today, "", masthead, coverage_note)), today)
 
     _append_stats({
