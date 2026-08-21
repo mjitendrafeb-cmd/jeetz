@@ -2034,12 +2034,32 @@ def _gpt_fetch_article_texts(items: list[dict]) -> dict:
     return out
 
 
+def _gpt_cat_payload_indexed(items: list[dict]) -> list[dict]:
+    """S2/S3 payload rows, indexed the same way _gpt_s1_payload_indexed
+    indexes S1 -- "category" instead of "entity" (S2/S3 items don't
+    belong to one company), no article_text (S1-only for now, to bound
+    the number of page fetches per run)."""
+    out = []
+    for i, it in enumerate(items):
+        out.append({
+            "i": i,
+            "category": it.get("category") or "General",
+            "headline": it.get("title", ""),
+            "existing_summary": it.get("summary", ""),
+            "source": it.get("source", ""),
+            "url": it.get("url", ""),
+            "published_at": it.get("pub", ""),
+        })
+    return out
+
+
 def _gpt_build_payload(s1_items: list[dict], s2_items: list[dict],
-                       s3_items: list[dict], today) -> tuple[dict, list[dict]]:
-    """Returns (payload, s1_sent) -- s1_sent is the exact, order-preserved
-    list the "i" indices in payload["s1"] refer to. Caller must use THIS
-    list (not the original s1_items) when mapping item_indices back to
-    raw items, since capping/sorting can reorder/drop entries."""
+                       s3_items: list[dict], today) -> tuple[dict, list[dict], list[dict], list[dict]]:
+    """Returns (payload, s1_sent, s2_sent, s3_sent) -- each *_sent list is
+    the exact, order-preserved list the "i" indices in the matching
+    payload section refer to. Callers must use these (not the original
+    *_items lists) when mapping item_indices back to raw items, since
+    capping/sorting can reorder/drop entries."""
     s1 = s1_items
     if len(s1) > _GPT_S1_CAP:
         s1 = sorted(s1, key=_materiality, reverse=True)[:_GPT_S1_CAP]
@@ -2054,14 +2074,15 @@ def _gpt_build_payload(s1_items: list[dict], s2_items: list[dict],
     # it was just never populated.
     fetch_priority = sorted(s1, key=_materiality, reverse=True)[:_GPT_ARTICLE_FETCH_CAP]
     article_texts = _gpt_fetch_article_texts(fetch_priority)
+    s2 = _rating_first(s2_items)[:_GPT_S2S3_CAP]
+    s3 = _rating_first(s3_items)[:_GPT_S2S3_CAP]
     payload = {
         "date": today.isoformat(),
         "s1": _gpt_s1_payload_indexed(s1, article_texts),
-        # Context only, for the email body -- never per-item S2/S3 analysis.
-        "s2": [_gpt_item_payload(it) for it in _rating_first(s2_items)[:_GPT_S2S3_CAP]],
-        "s3": [_gpt_item_payload(it) for it in _rating_first(s3_items)[:_GPT_S2S3_CAP]],
+        "s2": _gpt_cat_payload_indexed(s2),
+        "s3": _gpt_cat_payload_indexed(s3),
     }
-    return payload, s1
+    return payload, s1, s2, s3
 
 
 def _gpt_validate(data) -> bool:
@@ -2100,37 +2121,54 @@ def _gpt_validate(data) -> bool:
         if not isinstance(idx, list) or not idx \
                 or not all(isinstance(x, int) for x in idx):
             return False
+    # s2_summary/s3_summary are optional (older prompt versions or a
+    # thin news day may omit them entirely) but must be well-formed
+    # when present -- same item_indices contract as s1_summary, just
+    # no entity/credit_view/analyst_action (S2/S3 items don't belong to
+    # one company, and don't get the Positive/Negative directional call
+    # S1 does -- just a plain analytical read).
+    for section_key in ("s2_summary", "s3_summary"):
+        rows = data.get(section_key, [])
+        if not isinstance(rows, list):
+            return False
+        for row in rows:
+            if not isinstance(row, dict) or not str(row.get("analysis") or "").strip():
+                return False
+            idx = row.get("item_indices")
+            if not isinstance(idx, list) or not idx \
+                    or not all(isinstance(x, int) for x in idx):
+                return False
     return True
 
 
 def _gpt_analysis(s1_items: list[dict], s2_items: list[dict],
-                  s3_items: list[dict], today) -> tuple[dict, list[dict]] | None:
-    """One request per run. Returns (validated {email_body, s1_summary}
-    dict, s1_sent list) on success, or None on any failure -- caller falls
-    back to the existing Anthropic/mechanical paths exactly as if GPT were
-    never called. s1_sent is the exact order-preserved list _gpt_map_s1
-    must use to resolve item_indices back to raw items."""
+                  s3_items: list[dict], today) -> tuple[dict, list[dict], list[dict], list[dict]] | None:
+    """One request per run. Returns (validated data dict, s1_sent, s2_sent,
+    s3_sent) on success, or None on any failure -- caller falls back to the
+    existing Anthropic/mechanical paths exactly as if GPT were never
+    called. Each *_sent list is the exact order-preserved list its
+    section's item_indices resolve against."""
     if not _gpt_on() or not s1_items:
         return None
     import time as _time
-    payload, s1_sent = _gpt_build_payload(s1_items, s2_items, s3_items, today)
+    payload, s1_sent, s2_sent, s3_sent = _gpt_build_payload(s1_items, s2_items, s3_items, today)
     user_prompt = f"""Analyse today's collected news for an internal CareEdge-style credit-intelligence newsletter.
 
 INPUT (JSON):
 {json.dumps(payload, ensure_ascii=False)}
 
 INSTRUCTIONS:
-- Each S1 item carries an "i" index. Every s1_summary entry MUST include "item_indices": the list of "i" values it covers -- this is how your analysis gets mapped back onto the exact articles it's about. Never guess by company name alone: a company can have several unrelated stories on the same day (e.g. a fundraising AND a separate CFO appointment), and each needs its OWN item_indices, not a shared one.
-- S1 is the tracked watchlist; give each S1 entity/event a detailed analytical read.
-- S2/S3 are supplied only to help you write the short executive email body -- do not produce per-item S2/S3 analysis.
-- If two or more S1 items refer to the SAME entity and the SAME underlying event (e.g. two articles both about one fundraising), synthesise them into ONE s1_summary entry with both their "i" values in item_indices. Items about a DIFFERENT event for the same entity get a SEPARATE s1_summary entry with their own item_indices -- do not merge unrelated events just because they share a company.
-- Exclude from s1_summary: recruitment/hiring stories, generic analyst/market commentary that only mentions the entity in passing, incidental keyword matches, and other items with no credible credit implication. s1_summary having fewer entries than the number of S1 items supplied is expected and correct -- excluded items simply don't appear, don't force an entry for them.
+- Every item in s1/s2/s3 carries an "i" index, LOCAL to its own section (s1's i values and s2's i values are independent -- an s2_summary entry's item_indices refers to s2's list, never s1's or s3's). Every s1_summary/s2_summary/s3_summary entry MUST include "item_indices": the list of "i" values it covers -- this is how your analysis gets mapped back onto the exact articles it's about. Never guess by company/category alone: an entity or category can have several unrelated stories on the same day (e.g. a fundraising AND a separate CFO appointment), and each needs its OWN item_indices, not a shared one.
+- S1 is the tracked watchlist; give each S1 entity/event a detailed analytical read (entity, event, directional credit_view, materiality, analyst_action, analysis, watch -- see schema).
+- S2/S3 get a lighter per-item read: just "analysis" (what it means for the credit desk, 1-2 sentences, not a headline restatement) and "item_indices". No entity/credit_view/analyst_action fields for S2/S3 -- these items don't belong to one company and don't need a directional call the way an S1 watchlist entity does.
+- If two or more items in the SAME section refer to the SAME underlying event (e.g. two articles both about one fundraising, or two wire reports of the same RBI circular), synthesise them into ONE summary entry with all their "i" values in item_indices. Items about a DIFFERENT event get a SEPARATE entry with their own item_indices -- do not merge unrelated events just because they share a company or category.
+- Exclude from s1_summary/s2_summary/s3_summary: recruitment/hiring stories, generic analyst/market commentary that only mentions an entity in passing, incidental keyword matches, and other items with no credible credit implication. Having fewer summary entries than items supplied is expected and correct -- excluded items simply don't appear, don't force an entry for them. It is also fine for s2_summary/s3_summary to be empty arrays on a thin news day.
 - For every s1_summary entry, determine: what changed, through which credit variable, the directional implication (Positive/Negative/Neutral/Mixed/Monitor), and the analyst action (Immediate Review/Seek Management Clarification/Review/Monitor/No Action). For fundraising specifically, do not assume it is negative -- the implication depends on instrument, tenor, pricing and use of proceeds; if those are not in the supplied news, say the credit implication depends on those details and recommend Monitor or Review rather than asserting a directional view.
 - email_body.key_takeaways must be cross-cutting and prioritised across today's S1/S2/S3 news -- max 4-6 bullets, 1-2 concise sentences each. Do NOT repeat every S1 entity here.
 - email_body.watchlist_attention is at most 2-4 entities where genuine analyst action is warranted, drawn from S1 only. Return an empty list if none genuinely qualify.
 - The email body and s1_summary must not contain identical text for the same entity: the email is short/prioritised/cross-news, s1_summary is detailed/entity-specific.
 - Do not invent facts, numbers, ratios or company financials not present in the supplied news.
-- Some S1 items include "article_text": the full scraped article body, not just the headline/existing_summary. When present, ground the analysis in it -- actual instrument details, amounts, tenor, quoted management commentary, etc -- instead of writing generically off the headline alone. When article_text is empty (not every item has it), work from headline + existing_summary as before; do not pretend to know more than what was supplied.
+- Some S1 items include "article_text": the full scraped article body, not just the headline/existing_summary. When present, ground the analysis in it -- actual instrument details, amounts, tenor, quoted management commentary, etc -- instead of writing generically off the headline alone. When article_text is empty (not every item has it), work from headline + existing_summary as before; do not pretend to know more than what was supplied. S2/S3 items never have article_text -- work from headline + existing_summary only.
 
 Respond with ONLY this JSON structure, no markdown fences, no extra commentary:
 {{
@@ -2145,6 +2183,12 @@ Respond with ONLY this JSON structure, no markdown fences, no extra commentary:
       "materiality": "High|Medium|Low",
       "analyst_action": "Immediate Review|Seek Management Clarification|Review|Monitor|No Action",
       "analysis": "...", "watch": "..."}}
+  ],
+  "s2_summary": [
+    {{"item_indices": [0], "analysis": "..."}}
+  ],
+  "s3_summary": [
+    {{"item_indices": [1, 2], "analysis": "..."}}
   ]
 }}"""
     provider = _gpt_provider()
@@ -2169,15 +2213,18 @@ Respond with ONLY this JSON structure, no markdown fences, no extra commentary:
         # Debug/dev record only -- never surfaced in the newsletter itself.
         print(f"[gpt] provider={provider['name']} model={provider['model']} "
               f"elapsed={elapsed:.1f}s tokens={getattr(usage, 'total_tokens', 'n/a')} "
-              f"s1_sent={len(payload['s1'])}")
+              f"s1_sent={len(payload['s1'])} s2_sent={len(payload['s2'])} "
+              f"s3_sent={len(payload['s3'])}")
         if not _gpt_validate(data):
             print("[gpt] response failed schema validation (non-fatal), falling back")
             return None
         print(f"[gpt] analysis ok: {len(data['s1_summary'])} S1 entries "
               f"(of {len(payload['s1'])} sent), "
+              f"{len(data.get('s2_summary', []))} S2 entries (of {len(payload['s2'])} sent), "
+              f"{len(data.get('s3_summary', []))} S3 entries (of {len(payload['s3'])} sent), "
               f"{len(data['email_body'].get('key_takeaways', []))} key takeaways, "
               f"{len(data['email_body'].get('watchlist_attention', []))} watchlist entries")
-        return data, s1_sent
+        return data, s1_sent, s2_sent, s3_sent
     except Exception as exc:
         print(f"[gpt] analysis failed (non-fatal, falling back to existing pipeline): {exc}")
         return None
@@ -2214,6 +2261,24 @@ def _gpt_map_s1(data: dict, s1_sent: list[dict]) -> dict:
                 "why": watch, "commentary": commentary}
         for i in idx:
             out[_key(s1_sent[i])] = view
+    return out
+
+
+def _gpt_map_cat(data: dict, section_key: str, sent: list[dict]) -> dict:
+    """Maps GPT's s2_summary/s3_summary onto raw items via item_indices,
+    returning {item_key: plain analysis string} -- the shape _np_card's
+    `takeaway` param already expects for the existing "Credit lens" line,
+    so extending Gemini analysis to S2/S3 needed no new card markup, just
+    a second insertion into the same section_takeaways dict S1 uses."""
+    out: dict = {}
+    n = len(sent)
+    for row in data.get(section_key, []):
+        idx = [i for i in (row.get("item_indices") or []) if isinstance(i, int) and 0 <= i < n]
+        analysis = (row.get("analysis") or "").strip()
+        if not idx or not analysis:
+            continue
+        for i in idx:
+            out[_key(sent[i])] = analysis
     return out
 
 
@@ -4022,11 +4087,11 @@ def _np_partb(p: dict, items: list[dict], by_section: dict,
             # [:20] slice also dropped everything past 20 outright.
             sec_items = _rating_first(sec_items)
             # Top 3 by materiality are the section's KEY stories: hero
-            # styling plus a Credit lens line when the AI pass produced one.
-            # Everything else stays a compact full card — same content, no
-            # Credit lens, no visual promotion. This is the section 12/5
-            # "2-4 key stories more prominent" requirement without inventing
-            # a new card style.
+            # styling. Credit lens line shows for ANY item that has one --
+            # the old Anthropic pass only ever covered hero items (its own
+            # separate top-5-per-section call), but GPT's S2/S3 pass
+            # covers every item sent, not just the top 3, so gating the
+            # lens display on hero status would silently drop most of it.
             hero_keys = {_key(it) for it in sec_items[:3]}
             by_cat: dict[str, list[dict]] = {}
             for it in sec_items:
@@ -4043,7 +4108,7 @@ def _np_partb(p: dict, items: list[dict], by_section: dict,
                     parts.append(_category_header(label))
                 for it in by_cat[label]:
                     is_hero = _key(it) in hero_keys
-                    lens = (takeaways or {}).get(_key(it), "") if is_hero else ""
+                    lens = (takeaways or {}).get(_key(it), "")
                     parts.append(_np_card(it, hero=is_hero, takeaway=lens))
     return "\n".join(parts), total, chosen
 
@@ -4887,26 +4952,35 @@ def main() -> None:
             except Exception as exc:
                 print(f"[ai_s1_view] desk-wide pass unavailable (non-fatal): {exc}")
 
-    # GPT (OpenAI) credit analysis -- S1 Summary + email body only, per
-    # explicit scope for this phase. Runs independently of _ai_on()/
-    # ANTHROPIC_API_KEY (separate provider, separate on/off switch) and, if
-    # it succeeds, its S1 entries OVERRIDE the Anthropic/mechanical ones in
-    # section_takeaways above -- same insertion point, so _np_partb/
-    # _np_s1_row need no changes. Any failure (no key, API error, malformed
-    # response) leaves section_takeaways exactly as the existing pipeline
-    # already built it -- nothing here can make S1 worse than before.
+    # GPT (Gemini/OpenAI) credit analysis -- S1 Summary, S2/S3 Credit lens,
+    # and email body. Runs independently of _ai_on()/ANTHROPIC_API_KEY
+    # (separate provider, separate on/off switch) and, if it succeeds, its
+    # entries OVERRIDE the Anthropic/mechanical ones in section_takeaways
+    # above -- same insertion point for all three sections, so _np_partb/
+    # _np_s1_row/_np_card need no changes. Any failure (no key, API error,
+    # malformed response) leaves section_takeaways exactly as the existing
+    # pipeline already built it -- nothing here can make a section worse
+    # than before. S2/S3 previously only got a Credit lens line for the
+    # top-3 hero items per section (Anthropic path); GPT's coverage isn't
+    # gated by hero status -- see the _np_partb S2/S3 branch below.
     gpt_exec_summary, gpt_watchlist_html = "", ""
     gpt_s1_items = by_section.get("S1", [])
     if gpt_s1_items:
         gpt_result = _gpt_analysis(gpt_s1_items, by_section.get("S2", []),
                                     by_section.get("S3", []), today)
         if gpt_result:
-            gpt_data, gpt_s1_sent = gpt_result
+            gpt_data, gpt_s1_sent, gpt_s2_sent, gpt_s3_sent = gpt_result
             gpt_s1_map = _gpt_map_s1(gpt_data, gpt_s1_sent)
+            gpt_s2_map = _gpt_map_cat(gpt_data, "s2_summary", gpt_s2_sent)
+            gpt_s3_map = _gpt_map_cat(gpt_data, "s3_summary", gpt_s3_sent)
             section_takeaways.update(gpt_s1_map)
+            section_takeaways.update(gpt_s2_map)
+            section_takeaways.update(gpt_s3_map)
             gpt_exec_summary, gpt_watchlist_html = _gpt_map_email_body(gpt_data)
-            print(f"[gpt] {len(gpt_s1_map)}/{len(gpt_s1_sent)} S1 items "
-                  f"carry a GPT credit view; email body "
+            print(f"[gpt] {len(gpt_s1_map)}/{len(gpt_s1_sent)} S1 items, "
+                  f"{len(gpt_s2_map)}/{len(gpt_s2_sent)} S2 items, "
+                  f"{len(gpt_s3_map)}/{len(gpt_s3_sent)} S3 items carry a "
+                  f"GPT credit view; email body "
                   f"{'set' if gpt_exec_summary else 'not set'} from GPT")
 
     # First pass: build everyone's part B / Top-5 with no per-person AI call
