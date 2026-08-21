@@ -2160,7 +2160,8 @@ INPUT (JSON):
 INSTRUCTIONS:
 - Every item in s1/s2/s3 carries an "i" index, LOCAL to its own section (s1's i values and s2's i values are independent -- an s2_summary entry's item_indices refers to s2's list, never s1's or s3's). Every s1_summary/s2_summary/s3_summary entry MUST include "item_indices": the list of "i" values it covers -- this is how your analysis gets mapped back onto the exact articles it's about. Never guess by company/category alone: an entity or category can have several unrelated stories on the same day (e.g. a fundraising AND a separate CFO appointment), and each needs its OWN item_indices, not a shared one.
 - S1 is the tracked watchlist; give each S1 entity/event a detailed analytical read (entity, event, directional credit_view, materiality, analyst_action, analysis, watch -- see schema).
-- S2/S3 get a lighter per-item read: just "analysis" (what it means for the credit desk, 1-2 sentences, not a headline restatement) and "item_indices". No entity/credit_view/analyst_action fields for S2/S3 -- these items don't belong to one company and don't need a directional call the way an S1 watchlist entity does.
+- S2/S3 still get a real analytical read, not a one-liner: 2-3 sentences covering (a) what actually happened/changed, in concrete terms, not a headline restatement, (b) why a credit desk should care -- the transmission mechanism to the sector/macro environment its watchlist entities sit in, and (c) what to watch or what remains uncertain, where relevant. No entity/credit_view/analyst_action fields for S2/S3 -- these items don't belong to one company and don't need a directional call the way an S1 watchlist entity does, but the substance should be comparable in depth to an S1 entry, just without the entity-specific framing.
+- Genuinely filter S2/S3, not just analyse everything you're given: omit a summary entry entirely for routine market commentary, generic explainers, or anything with no real credit/sector relevance even after a full read -- an item you omit is simply left out of the table entirely, so only include an entry when it is actually worth a reader's attention.
 - If two or more items in the SAME section refer to the SAME underlying event (e.g. two articles both about one fundraising, or two wire reports of the same RBI circular), synthesise them into ONE summary entry with all their "i" values in item_indices. Items about a DIFFERENT event get a SEPARATE entry with their own item_indices -- do not merge unrelated events just because they share a company or category.
 - Exclude from s1_summary/s2_summary/s3_summary: recruitment/hiring stories, generic analyst/market commentary that only mentions an entity in passing, incidental keyword matches, and other items with no credible credit implication. Having fewer summary entries than items supplied is expected and correct -- excluded items simply don't appear, don't force an entry for them. It is also fine for s2_summary/s3_summary to be empty arrays on a thin news day.
 - For every s1_summary entry, determine: what changed, through which credit variable, the directional implication (Positive/Negative/Neutral/Mixed/Monitor), and the analyst action (Immediate Review/Seek Management Clarification/Review/Monitor/No Action). For fundraising specifically, do not assume it is negative -- the implication depends on instrument, tenor, pricing and use of proceeds; if those are not in the supplied news, say the credit implication depends on those details and recommend Monitor or Review rather than asserting a directional view.
@@ -4000,9 +4001,21 @@ def _category_header(label: str) -> str:
 
 
 def _np_partb(p: dict, items: list[dict], by_section: dict,
-              takeaways: dict | None = None) -> tuple[str, int, list[dict]]:
+              takeaways: dict | None = None, gpt_excluded: set | None = None
+              ) -> tuple[str, int, list[dict]]:
     """Per-person Part B in the 7:30 class markup. Returns (html, story_count,
-    the stories shown — used to pick the Top 5)."""
+    the stories shown — used to pick the Top 5).
+
+    gpt_excluded: item keys GPT was actually shown and judged not material
+    enough to include in s2_summary/s3_summary -- these rows are dropped
+    from the S2/S3 table entirely, not just left without an analysis line.
+    Only items GPT actually evaluated are ever in this set: an item beyond
+    the per-run cap, or any item at all when GPT is off/failed, was never
+    judged and always stays in the table with the mechanical fallback --
+    "GPT didn't look at it" must never be treated the same as "GPT looked
+    and said skip it".
+    """
+    gpt_excluded = gpt_excluded or set()
     parts: list[str] = []
     chosen: list[dict] = []
     total = 0
@@ -4061,7 +4074,7 @@ def _np_partb(p: dict, items: list[dict], by_section: dict,
                            for comp, its in order for it in its)
             parts.append(
                 '<div class="s1wrap"><table class="s1tbl">'
-                '<thead><tr><th>Company</th><th>Source Link</th><th>Summary</th></tr></thead>'
+                '<thead><tr><th>Company</th><th>Source Link</th><th>Credit View</th></tr></thead>'
                 f'<tbody>{rows}</tbody></table></div>')
             # Closes the section the reader is most likely to notice a gap
             # in — "my entity isn't here" is exactly the moment to offer
@@ -4077,8 +4090,6 @@ def _np_partb(p: dict, items: list[dict], by_section: dict,
             if not sec_items:
                 parts.append('<p class="empty">No news in this category today.</p>')
                 continue
-            total += len(sec_items)
-            chosen.extend(sec_items)
             # Team-requested layout (tried as a demo, now built for real):
             # S2/S3 as a Category / Source Link / Summary table, same
             # structure as the S1 watchlist table -- Category stands in
@@ -4087,6 +4098,15 @@ def _np_partb(p: dict, items: list[dict], by_section: dict,
             # entirely (_np_card/_category_header/_NO_HEADING_CATEGORIES
             # are left in the file, unused, as the known-working fallback
             # if this needs reverting).
+            #
+            # gpt_excluded is applied HERE, before total/chosen are
+            # updated, so a GPT-judged-not-material item is dropped from
+            # the story count and the Top-10 email-body candidate pool
+            # too -- not just missing its analysis line while still
+            # counting as "news" everywhere else.
+            sec_items = [it for it in sec_items if _key(it) not in gpt_excluded]
+            total += len(sec_items)
+            chosen.extend(sec_items)
             sec_items = _rating_first(sec_items)
             rows = []
             for it in sec_items:
@@ -4096,7 +4116,7 @@ def _np_partb(p: dict, items: list[dict], by_section: dict,
                 rows.append(_np_s1_row(it, cat, view))
             parts.append(
                 '<div class="s1wrap"><table class="s1tbl">'
-                '<thead><tr><th>Category</th><th>Source Link</th><th>Summary</th></tr></thead>'
+                '<thead><tr><th>Category</th><th>Source Link</th><th>Credit View</th></tr></thead>'
                 f'<tbody>{"".join(rows)}</tbody></table></div>')
     return "\n".join(parts), total, chosen
 
@@ -4952,6 +4972,7 @@ def main() -> None:
     # top-3 hero items per section (Anthropic path); GPT's coverage isn't
     # gated by hero status -- see the _np_partb S2/S3 branch below.
     gpt_exec_summary, gpt_watchlist_html = "", ""
+    gpt_excluded: set = set()
     gpt_s1_items = by_section.get("S1", [])
     if gpt_s1_items:
         gpt_result = _gpt_analysis(gpt_s1_items, by_section.get("S2", []),
@@ -4964,11 +4985,21 @@ def main() -> None:
             section_takeaways.update(gpt_s1_map)
             section_takeaways.update(gpt_s2_map)
             section_takeaways.update(gpt_s3_map)
+            # An item GPT was actually shown but left OUT of s2_summary/
+            # s3_summary was judged, not just skipped -- "let Gemini also
+            # filter S2/S3" means that judgment should drop the row, not
+            # just leave it with no analysis line. Items beyond the
+            # per-run cap were never shown to GPT at all and must not be
+            # swept into this set -- they stay in the table with the
+            # mechanical fallback exactly as before.
+            gpt_excluded = ({_key(it) for it in gpt_s2_sent} - set(gpt_s2_map)) | \
+                           ({_key(it) for it in gpt_s3_sent} - set(gpt_s3_map))
             gpt_exec_summary, gpt_watchlist_html = _gpt_map_email_body(gpt_data)
             print(f"[gpt] {len(gpt_s1_map)}/{len(gpt_s1_sent)} S1 items, "
                   f"{len(gpt_s2_map)}/{len(gpt_s2_sent)} S2 items, "
                   f"{len(gpt_s3_map)}/{len(gpt_s3_sent)} S3 items carry a "
-                  f"GPT credit view; email body "
+                  f"GPT credit view ({len(gpt_excluded)} S2/S3 items filtered "
+                  f"out as not material); email body "
                   f"{'set' if gpt_exec_summary else 'not set'} from GPT")
 
     # First pass: build everyone's part B / Top-5 with no per-person AI call
@@ -4978,7 +5009,7 @@ def main() -> None:
     # instead of a separate AI round-trip per person in the send loop.
     prepared: dict = {}
     for email, p in people.items():
-        part_b, total, person_items = _np_partb(p, items, by_section, section_takeaways)
+        part_b, total, person_items = _np_partb(p, items, by_section, section_takeaways, gpt_excluded)
         if total == 0 and not team.get("send_empty_mail", False):
             print(f"[mail] skipping {email} — nothing new in their sections")
             continue
@@ -5086,7 +5117,7 @@ def main() -> None:
     master_p = {"sections": {"S1", "S2", "S3"},
                 "companies": {r["company"] for r in rows},
                 "sectors": set(sectors) | {_row_sector(r) for r in rows}}
-    m_partb, _m_total, _m_items = _np_partb(master_p, items, by_section, takeaways)
+    m_partb, _m_total, _m_items = _np_partb(master_p, items, by_section, takeaways, gpt_excluded)
     _write_archive(_np_rebrand(_np_build_attachment(m_partb, today, "", masthead, coverage_note)), today)
 
     _append_stats({
