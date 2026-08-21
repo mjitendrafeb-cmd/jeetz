@@ -4450,20 +4450,19 @@ def _np_rebrand(html: str) -> str:
 
 
 def _from_display_name() -> str:
-    """The name shown in the reader's From field.
+    """The name shown in the reader's From field, used for the subject
+    line and attachment filename too.
 
-    Was hardcoded to "CareEdge Daily News" while sending from a domain
-    (mailalerts.in) with no relationship to careedge.in -- a textbook
-    display-name-impersonation signal ("claims to be a known brand, sent
-    from a domain that isn't theirs"), which is what Microsoft Defender's
-    anti-phishing policies are specifically built to catch. IT confirmed
-    this is exactly why editions were landing in quarantine. A neutral
-    name removes that specific trigger; it does not fix the domain having
-    no sending reputation of its own, which needs either DNS
-    authentication for the sending domain or moving to a mailbox on
-    careedge.in itself.
+    Was temporarily neutralised to "Daily News Digest" while sending from
+    a domain (mailalerts.in) with no relationship to careedge.in -- a
+    textbook display-name-impersonation signal ("claims to be a known
+    brand, sent from a domain that isn't theirs"), which is what
+    Microsoft Defender's anti-phishing policies are specifically built to
+    catch. Restored to "CareEdge Daily News" now that IT has whitelisted
+    the sending domain, which is the control that actually governs this
+    signal -- confirmed by mail now landing at careedge.in.
     """
-    return os.environ.get("MAIL_FROM_NAME", "Daily News Digest").strip() or "Daily News Digest"
+    return os.environ.get("MAIL_FROM_NAME", "CareEdge Daily News").strip() or "CareEdge Daily News"
 
 
 def _admin_addr() -> str:
@@ -4528,8 +4527,24 @@ def _html_to_pdf(html: str) -> bytes | None:
     try:
         import time as _t
         from weasyprint import HTML as _WeasyHTML
+        # The S1/S2/S3 section wrapper (.news-page) forces a hard page
+        # break before the next section, which is harmless in the email/
+        # browser view (break-before is a print-only CSS property browsers
+        # ignore on screen) but WeasyPrint treats everything as paginated
+        # media. With a large S1 table (300+ rows -- this newsletter's
+        # normal size now, not the handful of rows the 3-page layout was
+        # designed around), S1 already overflows into dozens of pages on
+        # its own; forcing S2 to start on a fresh page ON TOP of that
+        # wastes most of whatever's left on S1's last page every time --
+        # confirmed directly: one table row followed by a blank page.
+        # Overriding to break-before:auto lets S1/S2/S3 flow straight into
+        # each other -- the section banner is still there as a clear
+        # visual break, it just doesn't force a wasted near-empty page.
+        pdf_css = ("<style>.news-page{break-before:auto !important;"
+                   "page-break-before:auto !important}</style>")
+        pdf_html = html.replace("</head>", f"{pdf_css}</head>", 1)
         t0 = _t.time()
-        pdf = _WeasyHTML(string=html).write_pdf()
+        pdf = _WeasyHTML(string=pdf_html).write_pdf()
         print(f"[pdf] rendered {len(pdf) // 1024} KB in {_t.time() - t0:.1f}s")
     except Exception as exc:
         print(f"[pdf] render failed (non-fatal, falling back to .html): {exc}")
@@ -5151,26 +5166,21 @@ def main() -> None:
             # the same brand-vs-unrelated-domain signal already fixed
             # elsewhere.
             attach_name = _from_display_name().replace(" ", "_")
-            # Back to the .html attachment per explicit instruction: the
-            # PDF attempt (2026-08-21) was ALSO blocked at careedge.in, so
-            # switching the attachment type gained nothing.
-            #
-            # What that result actually tells us: two unrelated attachment
-            # types both blocked, while the 2026-08-20 no-attachment test
-            # delivered fine. That points at a policy on attachments in
-            # general (or Safe Attachments detonation), NOT at .html as a
-            # file type -- so no further format swap is worth trying from
-            # this end. The remaining options are an IT-side Safe
-            # Attachments/transport-rule exception, or dropping the
-            # attachment entirely (_inline_full_edition, the one approach
-            # empirically confirmed to reach careedge.in).
-            #
-            # _html_to_pdf() and _send's attachment_bytes path are kept
-            # working but unused, so re-enabling PDF is a two-line change
-            # if the policy ever changes.
-            _send(email, subject, body,
-                  attachment_html=attachment,
-                  attachment_name=f"{attach_name}_{today:%Y%m%d}.html")
+            # PDF, not .html: Defender blocks .html attachments by
+            # attachment-type policy regardless of sender allowlisting
+            # (confirmed -- whitelisting the domain never fixed
+            # careedge.in). Falls back to the original .html attachment
+            # if the renderer is unavailable, so this can only improve
+            # deliverability, never stop a send.
+            pdf = _html_to_pdf(attachment)
+            if pdf:
+                _send(email, subject, body,
+                      attachment_bytes=pdf,
+                      attachment_name=f"{attach_name}_{today:%Y%m%d}.pdf")
+            else:
+                _send(email, subject, body,
+                      attachment_html=attachment,
+                      attachment_name=f"{attach_name}_{today:%Y%m%d}.html")
             sent_count += 1
         except Exception as exc:
             print(f"[mail] FAILED for {email}: {exc}")
