@@ -5151,26 +5151,21 @@ def main() -> None:
             # the same brand-vs-unrelated-domain signal already fixed
             # elsewhere.
             attach_name = _from_display_name().replace(" ", "_")
-            # Back to the .html attachment per explicit instruction: the
-            # PDF attempt (2026-08-21) was ALSO blocked at careedge.in, so
-            # switching the attachment type gained nothing.
-            #
-            # What that result actually tells us: two unrelated attachment
-            # types both blocked, while the 2026-08-20 no-attachment test
-            # delivered fine. That points at a policy on attachments in
-            # general (or Safe Attachments detonation), NOT at .html as a
-            # file type -- so no further format swap is worth trying from
-            # this end. The remaining options are an IT-side Safe
-            # Attachments/transport-rule exception, or dropping the
-            # attachment entirely (_inline_full_edition, the one approach
-            # empirically confirmed to reach careedge.in).
-            #
-            # _html_to_pdf() and _send's attachment_bytes path are kept
-            # working but unused, so re-enabling PDF is a two-line change
-            # if the policy ever changes.
-            _send(email, subject, body,
-                  attachment_html=attachment,
-                  attachment_name=f"{attach_name}_{today:%Y%m%d}.html")
+            # PDF, not .html: Defender blocks .html attachments by
+            # attachment-type policy regardless of sender allowlisting
+            # (confirmed -- whitelisting the domain never fixed
+            # careedge.in). Falls back to the original .html attachment
+            # if the renderer is unavailable, so this can only improve
+            # deliverability, never stop a send.
+            pdf = _html_to_pdf(attachment)
+            if pdf:
+                _send(email, subject, body,
+                      attachment_bytes=pdf,
+                      attachment_name=f"{attach_name}_{today:%Y%m%d}.pdf")
+            else:
+                _send(email, subject, body,
+                      attachment_html=attachment,
+                      attachment_name=f"{attach_name}_{today:%Y%m%d}.html")
             sent_count += 1
         except Exception as exc:
             print(f"[mail] FAILED for {email}: {exc}")
