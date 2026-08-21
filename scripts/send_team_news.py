@@ -1666,7 +1666,7 @@ def _ai_review_items(items: list[dict]) -> list[dict]:
     api_key = os.environ.get("ANTHROPIC_API_KEY", "")
     try:
         import anthropic
-        client = anthropic.Anthropic(api_key=api_key)
+        client = anthropic.Anthropic(api_key=api_key, timeout=60, max_retries=1)
     except Exception:
         return items
 
@@ -2375,7 +2375,7 @@ def _ai_mail_body_content(top5_by_email: dict) -> tuple[dict, dict]:
     api_key = os.environ.get("ANTHROPIC_API_KEY", "")
     try:
         import anthropic
-        client = anthropic.Anthropic(api_key=api_key)
+        client = anthropic.Anthropic(api_key=api_key, timeout=60, max_retries=1)
     except Exception:
         return {}, {}
 
@@ -2412,7 +2412,7 @@ def _classify_items_ai(items: list[dict], company_phrases: list[str], sectors: d
     if _ai_on():
         try:
             import anthropic
-            client = anthropic.Anthropic(api_key=api_key)
+            client = anthropic.Anthropic(api_key=api_key, timeout=60, max_retries=1)
         except Exception as exc:
             print(f"[ai_classify] anthropic client unavailable, using rules only: {exc}")
     # S1 is not a judgement call. An item the fetcher tagged to a watchlist
@@ -4940,7 +4940,7 @@ def main() -> None:
         if lens_candidates:
             try:
                 import anthropic
-                _client = anthropic.Anthropic(api_key=os.environ.get("ANTHROPIC_API_KEY", ""))
+                _client = anthropic.Anthropic(api_key=os.environ.get("ANTHROPIC_API_KEY", ""), timeout=60, max_retries=1)
                 section_takeaways = _ai_takeaway_batch(lens_candidates, _client)
                 print(f"[ai_takeaway] {len(section_takeaways)}/{len(lens_candidates)} "
                       f"desk-wide S2/S3 key stories got a credit lens")
@@ -4956,7 +4956,7 @@ def main() -> None:
         if s1_items:
             try:
                 import anthropic
-                _client = anthropic.Anthropic(api_key=os.environ.get("ANTHROPIC_API_KEY", ""))
+                _client = anthropic.Anthropic(api_key=os.environ.get("ANTHROPIC_API_KEY", ""), timeout=60, max_retries=1)
                 for start in range(0, len(s1_items), _TAKEAWAY_BATCH_SIZE):
                     batch = s1_items[start:start + _TAKEAWAY_BATCH_SIZE]
                     section_takeaways.update(_ai_s1_view_batch(batch, _client))
