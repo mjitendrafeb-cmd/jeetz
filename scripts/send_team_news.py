@@ -1191,7 +1191,17 @@ _ENTITY_STORY_RE = re.compile(
 # keep their S2/S3 routing.
 _PROCEDURAL_REDEMPTION_RE = re.compile(
     r"\b(part|full) redemption\b|\bredemption of (debentures?|ncds?|bonds?)\b|"
-    r"\bdebenture redemption\b", re.IGNORECASE,
+    r"\bdebenture redemption\b|"
+    # Reported: "Listing of Secured Redeemable Non-Convertible Debentures
+    # of <Issuer>" and "Suspension of Trading in Debentures of the
+    # Companies" both reached S3 General for non-watchlist issuers --
+    # same class of pure BSE/NSE administrative housekeeping as a
+    # redemption notice (a listing/trading-status intimation, not
+    # analytical news), just different wording the original pattern
+    # didn't cover.
+    r"\blisting of\b.{0,40}\bdebentures?\b|"
+    r"\bsuspension of trading\b.{0,20}\bdebentures?\b",
+    re.IGNORECASE,
 )
 _SECTOR_WIDE_RE = re.compile(
     r"\b(banks|nbfcs|hfcs|mfis|lenders|insurers|brokerages|mutual funds|"
