@@ -1,78 +1,5 @@
 [
  {
-  "date": "2026-08-18",
-  "fetched": 1331,
-  "delivered_pool": 264,
-  "junk": 349,
-  "geo": 28,
-  "stale": 276,
-  "dup": 249,
-  "sections": {
-   "S1": 228,
-   "S2": 24,
-   "S3": 12
-  },
-  "mails": 39,
-  "failed": [],
-  "source_summary": {
-   "RBI RSS": 20,
-   "RBI Enforcement": 0,
-   "SEBI RSS": 20,
-   "Google News": 16,
-   "Watchlist (Google)": 625,
-   "BSE Announcements": 0,
-   "BSE Financials": 0,
-   "Telegram": 52,
-   "Web Scraper": 145
-  },
-  "dropped_samples": {
-   "relevance": [
-    "Premature redemption under Sovereign Gold Bond (SGB) Scheme - Redemption Price for premature redemption of SGB",
-    "Developments in India\u2019s Balance of Payments for the Month of June 2026",
-    "Relaxations in Know Your Client (KYC) norms for individual Persons Resident Outside India (i.e",
-    "Framework for Calculation of Net Distributable Cash Flows for InvITs",
-    "Bajaj New Pulsar 150: Launch Date, Images & Expected Price in India",
-    "Spaces with a soul",
-    "Video",
-    "Enterprise value to EBIT forward of PT Hatten Bali Tbk \u2013 IDX:WINE",
-    "Inside Rumah Rubah, The Stunning Bali Home Of Maison Kitsun\u00e9's Gildas Loa\u00ebc",
-    "Kazakhstani Woman Tries to Smuggle 1 kg of Hashish Via Bali\u2019s Airport.",
-    "A quest to restore the sacred glow of fireflies in Bali",
-    "Nusa Lembongan\u2019s Beachfront Hotels Are In High Demand With Beach-Loving Tourists",
-    "Bali resident talks family out of killing green viper, then relocates it to a riverbed",
-    "The wealth builder",
-    "GOAL",
-    "IIFCL Recruitment 2026 Short Notification OUT",
-    "IUST to host J&K Science Congress From Sept 29",
-    "Teachers Deserve Fairness",
-    "Shakeel Shan Honoured with Excellence Award",
-    "India needs to double annual infrastructure investment to sustain 9% growth: NaBFID MD"
-   ],
-   "junk": [
-    "General Remittance Order dated 14.08.2026 in Recovery Certificate No",
-    "General Remittance Order dated 14.08.2026 in Recovery Certificate No",
-    "General Remittance Order dated 14.08.2026 in Recovery Certificate No",
-    "General Remittance Order dated 14.08.2026 in Recovery Certificate No",
-    "Completion of Recovery Certificate No",
-    "Appeal No. 6992 of 2026 filed by Rakesh Mohan Rai",
-    "Appeal No. 6991 of 2026 filed by Parivesh Shukla",
-    "Appeal No. 6990 of 2026 filed by Vikas Jain",
-    "Appeal No. 6989 of 2026 filed by Valji Narayan Bhadra",
-    "Appeal No. 6988 of 2026 filed by Neeraj Sisodia",
-    "Appeal No. 6987 of 2026 filed by Sunil Rohilla",
-    "Appeal No. 6980 of 2026 filed by Ebenezer R",
-    "Appeal No. 6983 of 2026 filed by Anivesh Kumar Pandey",
-    "Adjudication Order in respect of Fatmabibi Yusufbhai Rangwala in the matter of Illiquid Stock Options at BSE",
-    "Top stock picks: Analysts recommend Bosch, Tata Power, Adani Ports, 360 One WAM, L&T, BEL",
-    "Buy Star Cement; target of Rs 265: Anand Rathi",
-    "Buy Fine Organic Industries; target of Rs 6000: Anand Rathi",
-    "Buy TD Power Systems; target of Rs 1751: Anand Rathi",
-    "Angel One Share Price - Live NSE: ANGELONE Stock Price & Chart",
-    "Aptus Value Housing Number of Employees 2026"
-   ]
-  }
- },
- {
   "date": "2026-08-19",
   "fetched": 1829,
   "delivered_pool": 271,
@@ -2141,6 +2068,79 @@
    "BSE Financials": 0,
    "Telegram": 64,
    "Web Scraper": 218
+  },
+  "dropped_samples": {
+   "relevance": [
+    "Result: Conversion/Switch Auction of Government of India Securities",
+    "Result of the Overnight Variable Rate Reverse Repo (VRRR) auction held on August 17, 2026",
+    "Premature redemption under Sovereign Gold Bond (SGB) Scheme - Redemption Price for premature redemption of SGB",
+    "Relaxations in Know Your Client (KYC) norms for individual Persons Resident Outside India (i.e",
+    "Framework for Calculation of Net Distributable Cash Flows for InvITs",
+    "SBI Securities sees 25% UPSIDE in Man Industries (India) Ltd.- Core pipe business sustains growth momentum, co",
+    "PL Capital sees 15% UPSIDE in Ipca Laboratories- Strong beat; FY27 guidance raised",
+    "Jharkhand student leader Devendra Mahto on Tuesday ended his hunger strike after the Jharkhand government anno",
+    "Jharkhand CM Hemant Soren announces JSSC-CGL exam cancellation and inquiry into recruitment exams conducted si",
+    "Tamil Nadu Chief Minister C Joseph Vijay announced a full waiver of cooperative farm loans up to \u20b975,000",
+    "The BJP has replaced longtime IT cell chief Amit Malviya with Chhattisgarh's Deepak Mhaskey in a major organis",
+    "After decades of service, Visakhapatnam Airport ended scheduled commercial flights on 16 August 2026, with ope",
+    "#WATCH | Deoghar, Jharkhand: Devotees and Kanwariyas throng the Shree Baba Baidyanath Jyotirlinga Temple on th",
+    "US-Iran war LIVE: Shipping via Strait of Hormuz slows amid tanker attacks; oil steadies as fighting erupts in ",
+    "The Ministry of Petroleum and Natural Gas has sought to allay concerns over ethanol-blended petrol, saying veh",
+    "Ajay Harinath Singh \u2013 Dynasty Of Dominance: Lineage, Business & Power",
+    "Listing of further issue of Krishival Foods Limited",
+    "Listing of Government Securities on Capital Market Segment",
+    "Certificate No. RC9282 of 2026 Notice of Demand in respect of Atit Commercial Company Private Limited (Transfe",
+    "General Remittance Advice against: Sunil Singh (Proprietor of Alfa Finsec) [Defaulter] (PAN: BDGPS0774K) in th"
+   ],
+   "junk": [
+    "General Remittance Order dated 14.08.2026 in Recovery Certificate No",
+    "General Remittance Order dated 14.08.2026 in Recovery Certificate No",
+    "General Remittance Order dated 14.08.2026 in Recovery Certificate No",
+    "General Remittance Order dated 14.08.2026 in Recovery Certificate No",
+    "Completion of Recovery Certificate No",
+    "Appeal No. 6992 of 2026 filed by Rakesh Mohan Rai",
+    "Appeal No. 6991 of 2026 filed by Parivesh Shukla",
+    "Appeal No. 6990 of 2026 filed by Vikas Jain",
+    "Appeal No. 6989 of 2026 filed by Valji Narayan Bhadra",
+    "Appeal No. 6988 of 2026 filed by Neeraj Sisodia",
+    "Appeal No. 6987 of 2026 filed by Sunil Rohilla",
+    "Appeal No. 6980 of 2026 filed by Ebenezer R",
+    "Appeal No. 6983 of 2026 filed by Anivesh Kumar Pandey",
+    "Buy Sudarshan Chemical Industries; target of Rs 1450: Anand Rathi",
+    "Anand Rathi Wealth Ltd is Rated Buy",
+    "FMCG Growth Accelerates to 15.1% In Q1FY27, Anand Rathi Sees Better Margins & Attractive Valuations",
+    "Avoid aggressive mkt positioning, says Angel One; Aequs among 3 stock picks",
+    "Avoid aggressive mkt positioning, says Angel One; Aequs among 3 stock picks",
+    "Banking Stock Picks: SBI, ICICI Bank, Axis Bank and others - 12 BUY-rated stocks with up to 40% upside potenti",
+    "Axis Max Life launches retirement campaign with Rohit Sharma"
+   ]
+  }
+ },
+ {
+  "date": "2026-08-21",
+  "fetched": 4776,
+  "delivered_pool": 534,
+  "junk": 1083,
+  "geo": 113,
+  "stale": 749,
+  "dup": 1937,
+  "sections": {
+   "S1": 461,
+   "S2": 46,
+   "S3": 27
+  },
+  "mails": 1,
+  "failed": [],
+  "source_summary": {
+   "RBI RSS": 19,
+   "RBI Enforcement": 0,
+   "SEBI RSS": 20,
+   "Google News": 27,
+   "Watchlist (Google)": 904,
+   "BSE Announcements": 0,
+   "BSE Financials": 0,
+   "Telegram": 64,
+   "Web Scraper": 217
   },
   "dropped_samples": {
    "relevance": [
