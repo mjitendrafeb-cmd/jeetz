@@ -4079,37 +4079,25 @@ def _np_partb(p: dict, items: list[dict], by_section: dict,
                 continue
             total += len(sec_items)
             chosen.extend(sec_items)
-            # Every story gets the same full-card treatment. The old 6-card
-            # cut mirrored the 7:30 prompt, but there the AI *chooses* the six
-            # most credit-significant stories -- with no AI the cut was
-            # arbitrary, so genuinely material items (a CRISIL credit-ratio
-            # story) were demoted to one-liners purely by fetch order. The old
-            # [:20] slice also dropped everything past 20 outright.
+            # Team-requested layout (tried as a demo, now built for real):
+            # S2/S3 as a Category / Source Link / Summary table, same
+            # structure as the S1 watchlist table -- Category stands in
+            # for Company, since these items don't belong to one entity.
+            # Replaces the old category-subheader + 3-column card layout
+            # entirely (_np_card/_category_header/_NO_HEADING_CATEGORIES
+            # are left in the file, unused, as the known-working fallback
+            # if this needs reverting).
             sec_items = _rating_first(sec_items)
-            # Top 3 by materiality are the section's KEY stories: hero
-            # styling. Credit lens line shows for ANY item that has one --
-            # the old Anthropic pass only ever covered hero items (its own
-            # separate top-5-per-section call), but GPT's S2/S3 pass
-            # covers every item sent, not just the top 3, so gating the
-            # lens display on hero status would silently drop most of it.
-            hero_keys = {_key(it) for it in sec_items[:3]}
-            by_cat: dict[str, list[dict]] = {}
+            rows = []
             for it in sec_items:
-                by_cat.setdefault(it.get("category") or "General", []).append(it)
-            cat_order = _CATEGORY_ORDER.get(skey, [])
-            ordered_labels = [l for l in cat_order if l in by_cat]
-            ordered_labels += [l for l in by_cat if l not in cat_order]
-            for label in ordered_labels:
-                # A category heading only ever appears here, guarded by the
-                # dict lookup above — never rendered for a group with zero
-                # qualifying stories. Two categories are exempted entirely
-                # per reader feedback — see _NO_HEADING_CATEGORIES.
-                if label not in _NO_HEADING_CATEGORIES:
-                    parts.append(_category_header(label))
-                for it in by_cat[label]:
-                    is_hero = _key(it) in hero_keys
-                    lens = (takeaways or {}).get(_key(it), "")
-                    parts.append(_np_card(it, hero=is_hero, takeaway=lens))
+                cat = it.get("category") or "General"
+                raw_view = (takeaways or {}).get(_key(it))
+                view = {"commentary": raw_view} if raw_view else None
+                rows.append(_np_s1_row(it, cat, view))
+            parts.append(
+                '<div class="s1wrap"><table class="s1tbl">'
+                '<thead><tr><th>Category</th><th>Source Link</th><th>Summary</th></tr></thead>'
+                f'<tbody>{"".join(rows)}</tbody></table></div>')
     return "\n".join(parts), total, chosen
 
 
