@@ -6907,44 +6907,6 @@
         "S2",
         "S3"
       ]
-    },
-    {
-      "company": "Tata Communications Limited",
-      "aliases": [],
-      "gh_name": "",
-      "analyst_name": "",
-      "rh_name": "",
-      "gh_email": "",
-      "analyst_email": "",
-      "rh_email": "",
-      "send_gh": false,
-      "send_analyst": false,
-      "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
-    },
-    {
-      "company": "Paisalo Digital Limited",
-      "aliases": [],
-      "gh_name": "",
-      "analyst_name": "",
-      "rh_name": "",
-      "gh_email": "",
-      "analyst_email": "",
-      "rh_email": "",
-      "send_gh": false,
-      "send_analyst": false,
-      "send_rh": false,
-      "sector": "BFSI",
-      "sections": [
-        "S1",
-        "S2",
-        "S3"
-      ]
     }
   ],
   "scheduled_enabled": true,
