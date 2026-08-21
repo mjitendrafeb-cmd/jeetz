@@ -116,10 +116,10 @@ input[type=checkbox]{width:15px;height:15px;accent-color:#15803d;cursor:pointer}
     </div>
     <div class="ib">
       One row per <strong>company</strong>: GH / Analyst / RH names &amp; emails, then
-      <strong>Send?</strong> ticks (only ticked people receive mails), then <strong>S1&ndash;S5</strong> ticks =
-      which report sections that row's enabled people receive.
+      <strong>Send?</strong> ticks (only ticked people receive mails), then a separate <strong>S1&ndash;S3</strong> group per role (GH / Analyst / RH) =
+      which report sections that specific person on that row receives &mdash; each role's ticks are independent, so unticking a section for one role no longer affects the others on the same row.
       <em>S1 = their own companies' news &middot; S2 = sector &amp; regulation &middot; S3 = macroeconomic &amp; markets.</em>
-      A person on multiple rows gets the union of ticked sections. <strong>7:30 AI report:</strong> its watchlist is auto-built each morning from every row whose <strong>GH Name contains "Jitendra"</strong> &mdash; edit GH Name here to add/remove companies from that report. <strong>7:40 Team Mail:</strong> uses this whole table with the Send/S1&ndash;S3 ticks, for everyone. <strong>S1</strong> = that row's company &middot; <strong>S2</strong> = sector &amp; regulation &middot; <strong>S3</strong> = macroeconomic &amp; markets. No API credits used for the 7:40 mail.
+      A person on multiple rows gets the union of their ticked sections across those rows. <strong>7:30 AI report:</strong> its watchlist is auto-built each morning from every row whose <strong>GH Name contains "Jitendra"</strong> &mdash; edit GH Name here to add/remove companies from that report. <strong>7:40 Team Mail:</strong> uses this whole table with the Send/S1&ndash;S3 ticks, per role, for everyone. No API credits used for the 7:40 mail.
     </div>
     <div style="display:flex;gap:18px;flex-wrap:wrap;background:#faf8f4;border:1px solid #e2ddd2;padding:12px 14px;margin-bottom:14px;border-radius:4px">
       <div style="flex:1;min-width:330px">
@@ -152,7 +152,10 @@ input[type=checkbox]{width:15px;height:15px;accent-color:#15803d;cursor:pointer}
         <th>GH Name</th><th>Analyst Name</th><th>RH Name</th>
         <th>GH Email</th><th>Analyst Email</th><th>RH Email</th>
         <th class="c">Send GH</th><th class="c">Send Analyst</th><th class="c">Send RH</th>
-        <th title="Which sector this entity operates in — drives which S2 news its people get">Sector</th><th class="c" title="Entity: news on this row's company">S1</th><th class="c" title="Sector &amp; regulation">S2</th><th class="c" title="Macroeconomic &amp; markets">S3</th>
+        <th title="Which sector this entity operates in — drives which S2 news its people get">Sector</th>
+        <th class="c" title="GH: entity news on this row's company">GH S1</th><th class="c" title="GH: sector &amp; regulation">GH S2</th><th class="c" title="GH: macroeconomic &amp; markets">GH S3</th>
+        <th class="c" title="Analyst: entity news on this row's company">An S1</th><th class="c" title="Analyst: sector &amp; regulation">An S2</th><th class="c" title="Analyst: macroeconomic &amp; markets">An S3</th>
+        <th class="c" title="RH: entity news on this row's company">RH S1</th><th class="c" title="RH: sector &amp; regulation">RH S2</th><th class="c" title="RH: macroeconomic &amp; markets">RH S3</th>
         <th></th>
       </tr></thead>
       <tbody id="entBody"></tbody>
@@ -166,7 +169,7 @@ input[type=checkbox]{width:15px;height:15px;accent-color:#15803d;cursor:pointer}
       <button class="btn btn-red" onclick="saveAll()">Save All Changes</button>
       <span id="status"></span>
     </div>
-    <div class="legend">Excel columns: company, gh_name, analyst_name, rh_name, gh_email, analyst_email, rh_email, send_gh (Y/N), send_analyst (Y/N), send_rh (Y/N), S1, S2, S3, S4, S5 (Y/N).
+    <div class="legend">Excel columns: company, gh_name, analyst_name, rh_name, gh_email, analyst_email, rh_email, send_gh (Y/N), send_analyst (Y/N), send_rh (Y/N), sector, GH_S1/S2/S3, An_S1/S2/S3, RH_S1/S2/S3 (Y/N, one triplet per role).
     Download &rarr; edit in Excel &rarr; upload &rarr; review &rarr; <strong>Save All Changes</strong>.</div>
   </div>
 
@@ -248,8 +251,9 @@ function esc(s){return (s||'').replace(/&/g,'&amp;').replace(/"/g,'&quot;').repl
 
 function txt(i,field,cls){const em=field.includes('email');return `<td><input type="${em?'email':'text'}"${em?' multiple title="One or more emails, comma-separated"':''} class="${cls}" value="${esc(team.rows[i][field])}" onchange="team.rows[this.closest('tr').dataset.i]['${field}']=this.value"></td>`;}
 function chk(i,field){return `<td class="c"><input type="checkbox" ${team.rows[i][field]?'checked':''} onchange="team.rows[this.closest('tr').dataset.i]['${field}']=this.checked"></td>`;}
-function secChk(i,s){const on=team.rows[i].sections.includes(s);return `<td class="c"><input type="checkbox" ${on?'checked':''} onchange="toggleSec(this.closest('tr').dataset.i,'${s}',this.checked)"></td>`;}
-function toggleSec(i,s,on){const a=team.rows[i].sections;const k=a.indexOf(s);if(on&&k<0)a.push(s);if(!on&&k>=0)a.splice(k,1);}
+const ROLE_SECS={gh:'gh_sections',analyst:'analyst_sections',rh:'rh_sections'};
+function secChk(i,role,s){const f=ROLE_SECS[role];const on=(team.rows[i][f]||[]).includes(s);return `<td class="c"><input type="checkbox" ${on?'checked':''} onchange="toggleSec(this.closest('tr').dataset.i,'${role}','${s}',this.checked)"></td>`;}
+function toggleSec(i,role,s,on){const f=ROLE_SECS[role];const r=team.rows[i];if(!r[f])r[f]=[];const a=r[f];const k=a.indexOf(s);if(on&&k<0)a.push(s);if(!on&&k>=0)a.splice(k,1);}
 
 function render(){
   document.getElementById('entBody').innerHTML=team.rows.map((r,i)=>`<tr data-i="${i}">
@@ -264,7 +268,7 @@ function render(){
     <td><input list="sectorList" value="${esc(team.rows[i].sector||'BFSI')}"
       onchange="team.rows[this.closest('tr').dataset.i].sector=this.value.trim()||'BFSI'"
       style="width:100%;padding:6px 7px;font-size:11px;border:1px solid #ddd;border-radius:3px;font-family:inherit"></td>
-    ${SECS.map(s=>secChk(i,s)).join('')}
+    ${SECS.map(s=>secChk(i,'gh',s)).join('')}${SECS.map(s=>secChk(i,'analyst',s)).join('')}${SECS.map(s=>secChk(i,'rh',s)).join('')}
     <td><button class="del" title="Remove company" onclick="team.rows.splice(this.closest('tr').dataset.i,1);render()">&#10006;</button></td>
   </tr>`).join('');
 }
@@ -289,7 +293,7 @@ function renameSector(idx,val){
   team.sectors=out;
   // keep entity rows pointing at the renamed sector
   team.rows.forEach(function(r){if((r.sector||'')===old)r.sector=val;});
-  renderSectors();renderTable();
+  renderSectors();render();
 }
 function setSectorKw(idx,val){
   var n=Object.keys(team.sectors)[idx];
@@ -303,14 +307,14 @@ function delSector(idx){
   delete team.sectors[n];
   var fallback=Object.keys(team.sectors)[0]||'BFSI';
   team.rows.forEach(function(r){if((r.sector||'')===n)r.sector=fallback;});
-  renderSectors();renderTable();
+  renderSectors();render();
 }
 function addSector(){
   var n='New Sector',i=2;while(team.sectors[n]){n='New Sector '+(i++);}
   team.sectors[n]=[];renderSectors();
 }
 function addRow(){
-  team.rows.push({company:'',aliases:[],gh_name:'',analyst_name:'',rh_name:'',gh_email:'',analyst_email:'',rh_email:'',send_gh:false,send_analyst:false,send_rh:false,sector:'BFSI',sections:['S1']});
+  team.rows.push({company:'',aliases:[],gh_name:'',analyst_name:'',rh_name:'',gh_email:'',analyst_email:'',rh_email:'',send_gh:false,send_analyst:false,send_rh:false,sector:'BFSI',gh_sections:['S1'],analyst_sections:['S1'],rh_sections:['S1']});
   render();
   const rows=document.querySelectorAll('#entBody tr');rows[rows.length-1].scrollIntoView();rows[rows.length-1].querySelector('input').focus();
 }
@@ -325,6 +329,16 @@ async function load(){
     // Fold any legacy S4/S5 ticks onto S3 so old rows keep working.
     team.rows.forEach(function(r){r.sections=Array.from(new Set((r.sections||[])
       .map(function(x){return SEC_MIGRATE[x]||x;})));});
+    // Rows used to share ONE sections list across GH/Analyst/RH, so
+    // unticking a section for one role silently unticked it for everyone
+    // else on that row too. Give each role its own list, seeded from the
+    // old shared one the first time a row is loaded post-migration; once
+    // a role field exists it's never re-seeded from the legacy field again.
+    team.rows.forEach(function(r){
+      ['gh_sections','analyst_sections','rh_sections'].forEach(function(f){
+        if(!Array.isArray(r[f]))r[f]=(r.sections||[]).slice();
+      });
+    });
     if(!Array.isArray(team.sector_keywords))team.sector_keywords=[];
     if(!Array.isArray(team.macro_keywords))team.macro_keywords=[];
     // txtSectorKw was a single flat textarea for sector keywords; it was
@@ -422,7 +436,8 @@ async function testRunNow(){
 /* ---------------- Excel download / upload ---------------- */
 const YN=v=>v?'Y':'N';
 const isYes=v=>['yes','y','true','1'].includes(String(v||'').trim().toLowerCase());
-const COLS=['company','aliases','gh_name','analyst_name','rh_name','gh_email','analyst_email','rh_email','send_gh','send_analyst','send_rh','sector','S1','S2','S3'];
+const COLS=['company','aliases','gh_name','analyst_name','rh_name','gh_email','analyst_email','rh_email','send_gh','send_analyst','send_rh','sector',
+  'GH_S1','GH_S2','GH_S3','An_S1','An_S2','An_S3','RH_S1','RH_S2','RH_S3'];
 
 function downloadExcel(){
   const rows=team.rows.map(r=>({
@@ -431,11 +446,14 @@ function downloadExcel(){
     gh_email:r.gh_email,analyst_email:r.analyst_email,rh_email:r.rh_email,
     send_gh:YN(r.send_gh),send_analyst:YN(r.send_analyst),send_rh:YN(r.send_rh),
     sector:r.sector||'BFSI',
-    S1:YN(r.sections.includes('S1')),S2:YN(r.sections.includes('S2')),S3:YN(r.sections.includes('S3')),
+    GH_S1:YN((r.gh_sections||[]).includes('S1')),GH_S2:YN((r.gh_sections||[]).includes('S2')),GH_S3:YN((r.gh_sections||[]).includes('S3')),
+    An_S1:YN((r.analyst_sections||[]).includes('S1')),An_S2:YN((r.analyst_sections||[]).includes('S2')),An_S3:YN((r.analyst_sections||[]).includes('S3')),
+    RH_S1:YN((r.rh_sections||[]).includes('S1')),RH_S2:YN((r.rh_sections||[]).includes('S2')),RH_S3:YN((r.rh_sections||[]).includes('S3')),
   }));
   const wb=XLSX.utils.book_new();
   const ws=XLSX.utils.json_to_sheet(rows,{header:COLS});
-  ws['!cols']=[{wch:42},{wch:28},{wch:14},{wch:14},{wch:14},{wch:26},{wch:26},{wch:26},{wch:8},{wch:12},{wch:8},{wch:12},{wch:4},{wch:4},{wch:4}];
+  ws['!cols']=[{wch:42},{wch:28},{wch:14},{wch:14},{wch:14},{wch:26},{wch:26},{wch:26},{wch:8},{wch:12},{wch:8},{wch:12},
+    {wch:6},{wch:6},{wch:6},{wch:6},{wch:6},{wch:6},{wch:6},{wch:6},{wch:6}];
   XLSX.utils.book_append_sheet(wb,ws,'Team');
   XLSX.writeFile(wb,'team_management.xlsx');
 }
@@ -455,7 +473,9 @@ function uploadExcel(inp){
         gh_email:String(r.gh_email||'').trim(),analyst_email:String(r.analyst_email||'').trim(),rh_email:String(r.rh_email||'').trim(),
         send_gh:isYes(r.send_gh),send_analyst:isYes(r.send_analyst),send_rh:isYes(r.send_rh),
         sector:(r.sector||'BFSI').toString().trim()||'BFSI',
-        sections:SECS.filter(s=>isYes(r[s])),
+        gh_sections:SECS.filter(s=>isYes(r['GH_'+s])),
+        analyst_sections:SECS.filter(s=>isYes(r['An_'+s])),
+        rh_sections:SECS.filter(s=>isYes(r['RH_'+s])),
       }));
       if(!newRows.length){alert('No rows found. Keep the same column headers as the downloaded file (company, gh_name, ...).');inp.value='';return;}
       team.rows=newRows;
