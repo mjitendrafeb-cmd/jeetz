@@ -4080,7 +4080,7 @@ def _np_partb(p: dict, items: list[dict], by_section: dict,
                            for comp, its in order for it in its)
             parts.append(
                 '<div class="s1wrap"><table class="s1tbl">'
-                '<thead><tr><th>Company</th><th>Source Link</th><th>Credit View</th></tr></thead>'
+                '<thead><tr><th>Company</th><th>Source Link</th><th>View/Implications</th></tr></thead>'
                 f'<tbody>{rows}</tbody></table></div>')
             # Closes the section the reader is most likely to notice a gap
             # in — "my entity isn't here" is exactly the moment to offer
@@ -4122,7 +4122,7 @@ def _np_partb(p: dict, items: list[dict], by_section: dict,
                 rows.append(_np_s1_row(it, cat, view))
             parts.append(
                 '<div class="s1wrap"><table class="s1tbl">'
-                '<thead><tr><th>Category</th><th>Source Link</th><th>Credit View</th></tr></thead>'
+                '<thead><tr><th>Category</th><th>Source Link</th><th>View/Implications</th></tr></thead>'
                 f'<tbody>{"".join(rows)}</tbody></table></div>')
     return "\n".join(parts), total, chosen
 
