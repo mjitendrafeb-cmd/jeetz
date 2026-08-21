@@ -1945,18 +1945,82 @@ def _gpt_item_payload(it: dict) -> dict:
     }
 
 
-def _gpt_s1_payload_indexed(s1_items: list[dict]) -> list[dict]:
+def _gpt_s1_payload_indexed(s1_items: list[dict], article_texts: dict | None = None) -> list[dict]:
     """S1 payload rows carry their own list index ("i"). GPT references
     these indices in item_indices so the mapping back to raw items is
     exact, not a guess by company name. Reported bug: mapping purely by
     entity applied ONE synthesised observation (a fundraising story) to
     EVERY item under that company, including an unrelated CFO-appointment
-    story -- three different events all showed identical commentary."""
+    story -- three different events all showed identical commentary.
+
+    article_texts: {id(item): text} from _gpt_fetch_article_texts, for
+    whichever items were fetched. Empty string for the rest -- GPT still
+    gets headline+existing_summary either way, article_text is additive."""
+    article_texts = article_texts or {}
     out = []
     for i, it in enumerate(s1_items):
         row = _gpt_item_payload(it)
         row["i"] = i
+        row["article_text"] = article_texts.get(id(it), "")
         out.append(row)
+    return out
+
+
+# Fetching every S1 item's full article page would take far too long on a
+# heavy day (200+ items x several seconds each) -- bounded to the
+# highest-priority items by materiality, fetched concurrently so the total
+# wait stays reasonable regardless of how many items are eligible.
+_GPT_ARTICLE_FETCH_CAP = 40
+_GPT_ARTICLE_FETCH_TIMEOUT = 6
+_GPT_ARTICLE_TEXT_CAP = 2500
+
+
+def _gpt_fetch_article_text(url: str) -> str:
+    """Best-effort full article text for one URL. Empty string on any
+    failure (paywall, timeout, non-HTML, blocked) -- caller treats that
+    exactly like an item that was never selected for fetching."""
+    if not url:
+        return ""
+    try:
+        import requests
+        from bs4 import BeautifulSoup
+        r = requests.get(url, timeout=_GPT_ARTICLE_FETCH_TIMEOUT, headers={
+            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
+                          "AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36"})
+        if r.status_code != 200 or "text/html" not in r.headers.get("Content-Type", ""):
+            return ""
+        soup = BeautifulSoup(r.text, "html.parser")
+        for tag in soup(["script", "style", "nav", "header", "footer", "aside", "form"]):
+            tag.decompose()
+        paras = [p.get_text(" ", strip=True) for p in soup.find_all("p")]
+        # Boilerplate ("Subscribe now", nav links) tends to be short;
+        # requiring real sentence length is a cheap, effective filter.
+        text = " ".join(p for p in paras if len(p) > 40)
+        return text[:_GPT_ARTICLE_TEXT_CAP]
+    except Exception:
+        return ""
+
+
+def _gpt_fetch_article_texts(items: list[dict]) -> dict:
+    """{id(item): text}, fetched concurrently. Items with no URL or a
+    failed fetch are simply absent -- callers already default to ""."""
+    candidates = [it for it in items if it.get("url")]
+    if not candidates:
+        return {}
+    from concurrent.futures import ThreadPoolExecutor
+    out = {}
+    with ThreadPoolExecutor(max_workers=10) as ex:
+        futures = {ex.submit(_gpt_fetch_article_text, it["url"]): it for it in candidates}
+        for fut in futures:
+            it = futures[fut]
+            try:
+                text = fut.result()
+            except Exception:
+                text = ""
+            if text:
+                out[id(it)] = text
+    print(f"[gpt] fetched full article text for {len(out)}/{len(candidates)} "
+          f"top-priority S1 items")
     return out
 
 
@@ -1971,9 +2035,18 @@ def _gpt_build_payload(s1_items: list[dict], s2_items: list[dict],
         s1 = sorted(s1, key=_materiality, reverse=True)[:_GPT_S1_CAP]
         print(f"[gpt] S1 list capped to top {_GPT_S1_CAP} of {len(s1_items)} "
               f"by materiality for the GPT payload")
+    # Full article text for the highest-priority items only (see
+    # _GPT_ARTICLE_FETCH_CAP) -- headline + a 200-char snippet alone
+    # produces thin, generic analysis for anything not already well-
+    # described by the feed. Reported: "can't Gemini summarise the
+    # article or give credit implication as required" -- this is what
+    # was actually missing; the spec always had an article_text field,
+    # it was just never populated.
+    fetch_priority = sorted(s1, key=_materiality, reverse=True)[:_GPT_ARTICLE_FETCH_CAP]
+    article_texts = _gpt_fetch_article_texts(fetch_priority)
     payload = {
         "date": today.isoformat(),
-        "s1": _gpt_s1_payload_indexed(s1),
+        "s1": _gpt_s1_payload_indexed(s1, article_texts),
         # Context only, for the email body -- never per-item S2/S3 analysis.
         "s2": [_gpt_item_payload(it) for it in _rating_first(s2_items)[:_GPT_S2S3_CAP]],
         "s3": [_gpt_item_payload(it) for it in _rating_first(s3_items)[:_GPT_S2S3_CAP]],
@@ -2047,6 +2120,7 @@ INSTRUCTIONS:
 - email_body.watchlist_attention is at most 2-4 entities where genuine analyst action is warranted, drawn from S1 only. Return an empty list if none genuinely qualify.
 - The email body and s1_summary must not contain identical text for the same entity: the email is short/prioritised/cross-news, s1_summary is detailed/entity-specific.
 - Do not invent facts, numbers, ratios or company financials not present in the supplied news.
+- Some S1 items include "article_text": the full scraped article body, not just the headline/existing_summary. When present, ground the analysis in it -- actual instrument details, amounts, tenor, quoted management commentary, etc -- instead of writing generically off the headline alone. When article_text is empty (not every item has it), work from headline + existing_summary as before; do not pretend to know more than what was supplied.
 
 Respond with ONLY this JSON structure, no markdown fences, no extra commentary:
 {{
