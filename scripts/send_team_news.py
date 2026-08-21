@@ -3625,7 +3625,15 @@ _ALSO_REPORTED_CAP = 3
 
 def _np_card(it: dict, hero: bool = False, company: str = "",
              takeaway: str = "") -> str:
+    # Same materiality >= 8 threshold and red-flag treatment the S1 table
+    # rows use, applied to S2/S3 cards -- a high-materiality regulatory
+    # action or default signal shouldn't read as visually identical to a
+    # routine sector story just because it isn't in S1.
+    risky = _materiality(it) >= 8
     cls = "art hero" if hero else "art"
+    if risky:
+        cls += " risk"
+    flag = '<span class="flag">&#9679; ACTION</span>' if risky else ""
     # Reference layout: "SOURCE | DATE" with a thin pipe and the DATE in
     # teal, rather than one flat grey run separated by bullets.
     lead = [_esc(b) for b in (company.upper() if company else "", it["source"]) if b]
@@ -3660,7 +3668,7 @@ def _np_card(it: dict, hero: bool = False, company: str = "",
     lens = (f'<p class="lens" style="color:{_NP_NAVY};font-size:10.5px;'
             f'font-weight:600;margin:3px 0 0;">Credit lens: {_esc(takeaway)}</p>'
             if takeaway else "")
-    return (f'<div class="{cls}"><p class="src">{"".join(bits)}{cat_tag}{_undated_note(it)}</p>'
+    return (f'<div class="{cls}"><p class="src">{"".join(bits)}{cat_tag}{_undated_note(it)}{flag}</p>'
             f'<p class="hl">{_esc(it["title"])}</p>'
             f'{body}{lens}{link}{fb}{also}</div>')
 
@@ -4304,6 +4312,12 @@ def _np_build_attachment(part_b_html: str, today, for_name: str = "",
   .art.hero .hl{{font-size:16.4px;font-weight:800;line-height:1.24}}
   .art.hero .wh{{font-size:11px;color:{_NP_BODY};line-height:1.7}}
   .art.hero .rm{{color:{_NP_TEAL_DK};font-weight:700}}
+  /* Risk flag: materiality >= 8, same threshold and red treatment the S1
+     table rows use -- a left rule plus a red headline, not just a small
+     badge, so a reader scanning the column can't miss it. */
+  .art.risk{{border-left:3px solid #D0021B;padding-left:10px}}
+  .art.risk .hl{{color:#D0021B}}
+  .art .flag{{color:#D0021B;font-weight:800;font-size:7.5px;letter-spacing:.5px}}
   .ibh{{margin:14px 0 4px;font-size:8px;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:#999}}
   .ib{{margin:0 0 4px;font-size:9.5px;color:#555;line-height:1.5}}
   .ib a{{color:#999;font-size:8.5px;text-decoration:none}}
