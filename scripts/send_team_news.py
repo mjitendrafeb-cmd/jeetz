@@ -2021,10 +2021,14 @@ def _gpt_fetch_article_texts(items: list[dict]) -> dict:
     out = {}
     with ThreadPoolExecutor(max_workers=10) as ex:
         futures = {ex.submit(_gpt_fetch_article_text, it["url"]): it for it in candidates}
+        # requests' timeout is a per-read-chunk timeout, not a total-time
+        # cap -- a pathologically slow response can still take far longer
+        # than _GPT_ARTICLE_FETCH_TIMEOUT to finish. Bound .result() too
+        # so one stuck request can't block the whole batch indefinitely.
         for fut in futures:
             it = futures[fut]
             try:
-                text = fut.result()
+                text = fut.result(timeout=_GPT_ARTICLE_FETCH_TIMEOUT + 5)
             except Exception:
                 text = ""
             if text:
