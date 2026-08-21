@@ -1903,7 +1903,7 @@ def _gpt_provider() -> dict | None:
 # takeaways, never for per-item S2/S3 analysis (out of scope this phase).
 # Capped so the daily payload stays a reasonable size on the heaviest days.
 _GPT_S1_CAP = 200
-_GPT_S2S3_CAP = 20
+_GPT_S2S3_CAP = 40
 
 _GPT_CREDIT_VIEWS = {"Positive", "Negative", "Neutral", "Mixed", "Monitor"}
 _GPT_ACTIONS = {"Immediate Review", "Seek Management Clarification",
