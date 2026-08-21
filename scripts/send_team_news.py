@@ -631,9 +631,9 @@ def _is_fin_relevant(it: dict) -> bool:
         return False
     return True
 
-ROLES = (("gh_name", "gh_email", "send_gh"),
-         ("analyst_name", "analyst_email", "send_analyst"),
-         ("rh_name", "rh_email", "send_rh"))
+ROLES = (("gh_name", "gh_email", "send_gh", "gh_sections"),
+         ("analyst_name", "analyst_email", "send_analyst", "analyst_sections"),
+         ("rh_name", "rh_email", "send_rh", "rh_sections"))
 
 
 def _load_team() -> dict:
@@ -4962,10 +4962,13 @@ def main() -> None:
         # _TEAM_SECTION_MAP — that maps classifier output, where "S3" still
         # means the old regulation bucket. Re-mapping row ticks with it would
         # rewrite a new-scheme S3 (macro) subscription to S2 on every load.
-        secs = {_ROW_SECTION_MIGRATE.get(x, x) for x in r.get("sections", [])}
-        if test_sections is not None:
-            secs = secs & test_sections
-        for name_f, email_f, send_f in ROLES:
+        for name_f, email_f, send_f, sections_f in ROLES:
+            # Per-role sections, falling back to the legacy shared "sections"
+            # field for rows not yet migrated to per-role fields.
+            secs = {_ROW_SECTION_MIGRATE.get(x, x)
+                    for x in r.get(sections_f, r.get("sections", []))}
+            if test_sections is not None:
+                secs = secs & test_sections
             # In test mode, match by email regardless of the row's Send tick
             # — a manual test should not depend on that row happening to be
             # enabled. Normal runs keep the send_f gate exactly as before.
