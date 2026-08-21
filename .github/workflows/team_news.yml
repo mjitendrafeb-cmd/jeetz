@@ -110,6 +110,12 @@ jobs:
       - name: Install dependencies
         if: steps.gate.outputs.send == 'true'
         run: |
+          # WeasyPrint renders the edition to PDF (Defender blocks .html
+          # attachments by policy). It binds to system pango/cairo, which
+          # are not guaranteed on the runner image -- install explicitly
+          # so a base-image change can't silently drop us back to .html.
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq libpango-1.0-0 libpangoft2-1.0-0 libharfbuzz0b libffi-dev
           python -m pip install --upgrade pip
           if [ -f scripts/requirements.txt ]; then pip install -r scripts/requirements.txt; fi
 

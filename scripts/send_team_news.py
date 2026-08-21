@@ -4503,9 +4503,44 @@ def _smtp_settings() -> tuple[str, int, str, str, str]:
     return host, port, user, pw, frm
 
 
+_PDF_CACHE: dict = {}
+
+
+def _html_to_pdf(html: str) -> bytes | None:
+    """Render an edition to PDF bytes. None on ANY failure.
+
+    Why PDF at all: Microsoft Defender's Common Attachment Types Filter
+    blocks raw .html attachments outright as a credential-harvesting
+    vector, and that policy is evaluated separately from sender
+    allowlisting -- which is why whitelisting the sending domain never
+    fixed careedge.in delivery. PDF is not on that blocked-type list.
+
+    Fails open by design, like every other optional stage here: if
+    WeasyPrint is missing or the render throws, the caller falls back to
+    the old .html attachment rather than dropping the mail.
+
+    Cached on the exact HTML, since recipients sharing the same sections
+    generate byte-identical editions and rendering is ~1-10s each.
+    """
+    key = hash(html)
+    if key in _PDF_CACHE:
+        return _PDF_CACHE[key]
+    try:
+        import time as _t
+        from weasyprint import HTML as _WeasyHTML
+        t0 = _t.time()
+        pdf = _WeasyHTML(string=html).write_pdf()
+        print(f"[pdf] rendered {len(pdf) // 1024} KB in {_t.time() - t0:.1f}s")
+    except Exception as exc:
+        print(f"[pdf] render failed (non-fatal, falling back to .html): {exc}")
+        pdf = None
+    _PDF_CACHE[key] = pdf
+    return pdf
+
+
 def _send_via_brevo_api(to_addr: str, subject: str, html: str,
                         attachment_html: str, attachment_name: str,
-                        api_key: str) -> None:
+                        api_key: str, attachment_bytes: bytes | None = None) -> None:
     """Send over Brevo's HTTPS transactional API instead of SMTP.
 
     Brevo's "authorised IPs" security feature gates SMTP KEYS by source IP.
@@ -4539,7 +4574,12 @@ def _send_via_brevo_api(to_addr: str, subject: str, html: str,
     reply_to = _admin_addr()
     if reply_to and reply_to != frm:
         payload["replyTo"] = {"email": reply_to}
-    if attachment_html:
+    if attachment_bytes:
+        payload["attachment"] = [{
+            "name": attachment_name,
+            "content": base64.b64encode(attachment_bytes).decode("ascii"),
+        }]
+    elif attachment_html:
         payload["attachment"] = [{
             "name": attachment_name,
             "content": base64.b64encode(attachment_html.encode("utf-8")).decode("ascii"),
@@ -4593,22 +4633,30 @@ def _inline_full_edition(body_html: str, attachment_html: str) -> str:
 
 
 def _send(to_addr: str, subject: str, html: str,
-          attachment_html: str = "", attachment_name: str = "") -> None:
+          attachment_html: str = "", attachment_name: str = "",
+          attachment_bytes: bytes | None = None) -> None:
     # Preferred when configured: no SMTP, so no IP allowlist to trip over.
     api_key = os.environ.get("BREVO_API_KEY", "").strip()
     if api_key:
         _send_via_brevo_api(to_addr, subject, html,
-                            attachment_html, attachment_name, api_key)
+                            attachment_html, attachment_name, api_key,
+                            attachment_bytes)
         print(f"[mail] sent '{subject}' -> {to_addr} (Brevo API)")
         return
     host, port, user, pw, frm = _smtp_settings()
-    if attachment_html:
+    if attachment_bytes or attachment_html:
         msg = MIMEMultipart("mixed")
         body = MIMEMultipart("alternative")
         body.attach(MIMEText(html, "html"))
         msg.attach(body)
-        part = MIMEBase("text", "html")
-        part.set_payload(attachment_html.encode("utf-8"))
+        # application/pdf when we have a rendered PDF; text/html only as
+        # the fall-back path when the PDF render failed.
+        if attachment_bytes:
+            part = MIMEBase("application", "pdf")
+            part.set_payload(attachment_bytes)
+        else:
+            part = MIMEBase("text", "html")
+            part.set_payload(attachment_html.encode("utf-8"))
         encoders.encode_base64(part)
         part.add_header("Content-Disposition", f'attachment; filename="{attachment_name}"')
         msg.attach(part)
@@ -5103,9 +5151,21 @@ def main() -> None:
             # the same brand-vs-unrelated-domain signal already fixed
             # elsewhere.
             attach_name = _from_display_name().replace(" ", "_")
-            _send(email, subject, body,
-                  attachment_html=attachment,
-                  attachment_name=f"{attach_name}_{today:%Y%m%d}.html")
+            # PDF, not .html: Defender blocks .html attachments by
+            # attachment-type policy regardless of sender allowlisting
+            # (confirmed -- whitelisting the domain never fixed
+            # careedge.in). Falls back to the original .html attachment
+            # if the renderer is unavailable, so this can only improve
+            # deliverability, never stop a send.
+            pdf = _html_to_pdf(attachment)
+            if pdf:
+                _send(email, subject, body,
+                      attachment_bytes=pdf,
+                      attachment_name=f"{attach_name}_{today:%Y%m%d}.pdf")
+            else:
+                _send(email, subject, body,
+                      attachment_html=attachment,
+                      attachment_name=f"{attach_name}_{today:%Y%m%d}.html")
             sent_count += 1
         except Exception as exc:
             print(f"[mail] FAILED for {email}: {exc}")
