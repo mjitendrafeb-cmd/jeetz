@@ -2204,7 +2204,7 @@ Respond with ONLY this JSON structure, no markdown fences, no extra commentary:
     try:
         from openai import OpenAI
         client = OpenAI(api_key=provider["api_key"], base_url=provider["base_url"],
-                         timeout=90, max_retries=1)
+                         timeout=240, max_retries=1)
         resp = client.chat.completions.create(
             model=provider["model"],
             response_format={"type": "json_object"},
