@@ -606,12 +606,6 @@ def fetch_nse_rss(companies=None) -> list[str]:
         ("https://nsearchives.nseindia.com/content/RSS/Board_Meetings.xml", "NSE Board Meeting"),
         ("https://nsearchives.nseindia.com/content/RSS/Corporate_Governance.xml", "NSE Corporate Governance"),
         ("https://nsearchives.nseindia.com/content/RSS/Related_Party_Trans.xml", "NSE Related Party Transactions"),
-        # Pledge/encumbrance on promoter shares -- directly the kind of
-        # signal _EVENTS' DEFAULT/RATING categories care about.
-        ("https://nsearchives.nseindia.com/content/RSS/Sast_ReasonForEncumbrance.xml", "NSE Share Encumbrance"),
-        ("https://nsearchives.nseindia.com/content/RSS/Shareholding_Pattern.xml", "NSE Shareholding Pattern"),
-        ("https://nsearchives.nseindia.com/content/RSS/Share_Transfers.xml", "NSE Share Transfers"),
-        ("https://nsearchives.nseindia.com/content/RSS/Voting_Results.xml", "NSE Voting Result"),
         ("https://nsearchives.nseindia.com/content/RSS/Secretarial_Compliance.xml", "NSE Secretarial Compliance"),
         ("https://nsearchives.nseindia.com/content/RSS/Investor_Complaints.xml", "NSE Investor Complaints"),
         ("https://nsearchives.nseindia.com/content/RSS/Annual_Reports.xml", "NSE Annual Report"),
