@@ -4392,7 +4392,7 @@ def _np_build_attachment(part_b_html: str, today, for_name: str = "",
             pages += f"""
 <div class="news-page front-page" id="pg1">
   <div class="mast-top">
-    <div class="mast-left">{dow_full}<br>{edition}</div>
+    <div class="mast-left"><span class="mast-eyebrow-ic">&#9679;</span>{dow_full}<br>{edition}</div>
     <div class="mast-right">Credit &amp; Markets Intelligence</div>
   </div>
   <div class="mast-center">
@@ -4401,13 +4401,19 @@ def _np_build_attachment(part_b_html: str, today, for_name: str = "",
   </div>
   <div class="mast-sub">
     <span>{strap}{f' &middot; {_esc(coverage_note)}' if coverage_note else ''}</span>
-    <span class="red">&#128274; CONFIDENTIAL</span>
+    <span class="red">CONFIDENTIAL</span>
   </div>
   <nav class="navbar">{nav}</nav>
+  <!-- Repeats at the top of every subsequent physical page via CSS
+       running elements (position:running/element()) -- takes no space
+       here itself. A reader who lands on page 6 of an S1 section that
+       overflowed far past page 1 would otherwise see a bare table with
+       no title, date or section context at all. -->
+  <div class="runhead">{_esc(masthead)} &middot; {title} &middot; {date_str}</div>
   <div class="columns">{content}</div>
   <div class="page-foot">
     <span>CareEdge Daily News &mdash; {date_str}</span>
-    <span>Page 1 of {n_pages}</span><span>&#128274; Confidential</span>
+    <span>Page 1 of {n_pages}</span><span>Confidential</span>
   </div>
 </div>"""
         else:
@@ -4418,10 +4424,11 @@ def _np_build_attachment(part_b_html: str, today, for_name: str = "",
     <div class="ph-title">{title}</div>
     <div class="ph-num">{pnum}</div>
   </div>
+  <div class="runhead">{_esc(masthead)} &middot; {title} &middot; {date_str}</div>
   <div class="columns">{content}</div>
   <div class="page-foot">
     <span>{_esc(masthead)} &mdash; {date_str}</span>
-    <span>Page {pnum} of {n_pages}</span><span>&#128274; Confidential</span>
+    <span>Page {pnum} of {n_pages}</span><span>Confidential</span>
   </div>
 </div>"""
 
@@ -4430,8 +4437,21 @@ def _np_build_attachment(part_b_html: str, today, for_name: str = "",
 <title>{_esc(masthead)} — {date_str}</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=PT+Serif:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
 <style>
-  @page {{ size: A4; margin: 1.2cm 1.4cm; }}
+  /* Continuation pages (a section overflowing past one physical page)
+     reserve top space for the slim running header and repeat it there.
+     WeasyPrint does not support "@page :not(:first)" as a selector (it
+     silently drops the whole rule, confirmed directly against a minimal
+     isolated test) -- so the reservation applies to every page here, and
+     is explicitly cleared back on :first below, which is the pattern
+     WeasyPrint does support. Page 1 does not need it: it already carries
+     the full masthead inline. */
+  @page {{ size: A4; margin: 1.2cm 1.4cm; margin-top: 1.9cm; }}
+  @page {{ @top-center {{ content: element(runhead); width: 100%; }} }}
   @page :first {{ margin-top: 0.5cm; }}
+  @page :first {{ @top-center {{ content: none; }} }}
+  .runhead {{ position: running(runhead); font-size:8.5px; font-weight:700;
+    letter-spacing:1px; text-transform:uppercase; color:{_NP_MUTED};
+    padding:8px 28px; border-bottom:1px solid {_NP_RULE}; background:#fff; }}
   *{{box-sizing:border-box;margin:0;padding:0}}
   body{{background:#eef1f4;font-family:'PT Serif',Georgia,'Noto Serif',serif;color:{_NP_INK};font-size:11px}}
   .newspaper{{max-width:960px;margin:20px auto}}
@@ -4439,6 +4459,7 @@ def _np_build_attachment(part_b_html: str, today, for_name: str = "",
   .front-page{{break-before:auto;page-break-before:auto}}
   .mast-top{{display:flex;justify-content:space-between;align-items:flex-end;padding:14px 28px 6px;border-bottom:1px solid #aaa}}
   .mast-left{{font-size:8.5px;letter-spacing:1.5px;text-transform:uppercase;color:#555;line-height:1.8}}
+  .mast-eyebrow-ic{{color:{_NP_TEAL_DK};margin-right:6px;font-size:8px}}
   .mast-right{{font-size:8.5px;text-align:right;color:#555;line-height:1.8}}
   .mast-center{{text-align:center;padding:4px 28px 0}}
   .mast-name{{font-family:'Playfair Display',Georgia,serif;font-size:52px;font-weight:900;line-height:1;letter-spacing:-2px;color:{_NP_NAVY}}}
@@ -4446,11 +4467,10 @@ def _np_build_attachment(part_b_html: str, today, for_name: str = "",
   .mast-sub{{display:flex;justify-content:space-between;align-items:center;padding:5px 28px;border-bottom:1px solid {_NP_RULE};font-size:8.5px;letter-spacing:1px;text-transform:uppercase;color:#555}}
   .mast-sub .red{{color:#D0021B;font-weight:700;letter-spacing:1.5px}}
   .navbar{{display:flex;background:{_NP_NAVY_DEEP}}}
-  .navbar a{{flex:1;text-align:center;padding:9px 4px 7px;font-size:8px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#C6D3DE;text-decoration:none;border-right:1px solid rgba(255,255,255,.10);border-bottom:3px solid transparent}}
-  .navbar a:first-child{{color:#fff;border-bottom:3px solid {_NP_TEAL}}}
+  .navbar a{{flex:1;text-align:center;padding:10px 6px;font-size:8.5px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:#C6D3DE;text-decoration:none;border-right:1px solid rgba(255,255,255,.10);white-space:nowrap}}
+  .navbar a:first-child{{background:{_NP_TEAL};color:{_NP_NAVY_DEEP}}}
   .art .src .pipe{{color:{_NP_RULE};margin:0 7px;font-weight:400}}
   .art .src .dt{{color:{_NP_TEAL_DK};font-weight:700}}
-  .navbar a:first-child{{color:#fff}}
   .navbar a:last-child{{border-right:none}}
   .page-header{{display:flex;justify-content:space-between;align-items:center;padding:8px 28px;border-bottom:1px solid {_NP_RULE};border-top:3px solid {_NP_NAVY}}}
   .page-header .ph-meta{{font-size:8px;letter-spacing:1px;text-transform:uppercase;color:#777}}
@@ -4463,7 +4483,7 @@ def _np_build_attachment(part_b_html: str, today, for_name: str = "",
      by S2/S3, which a table row can't split across the way a card can. */
   .s1wrap{{column-span:all;overflow-x:auto;margin-top:6px}}
   table.s1tbl{{width:100%;border-collapse:collapse;font-size:11px}}
-  table.s1tbl th{{background:{_NP_NAVY_DEEP};color:#fff;font-family:Arial,Helvetica,sans-serif;
+  table.s1tbl th{{background:{_NP_TEAL_DK};color:#fff;font-family:Arial,Helvetica,sans-serif;
     font-weight:700;font-size:9px;letter-spacing:.7px;text-transform:uppercase;
     text-align:left;padding:8px 12px}}
   table.s1tbl td{{padding:9px 12px;border-bottom:1px solid {_NP_RULE};vertical-align:top;
