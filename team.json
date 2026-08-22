@@ -26,7 +26,7 @@
       "gh_name": "Akansha",
       "analyst_name": "Anushka",
       "rh_name": "Hardik",
-      "gh_email": "Akansha.Jain@careedge.in",
+      "gh_email": "Akansha.Jain@careedge.in, Vineet.jain@careedge.in",
       "analyst_email": "Anushka.Bothra@careedge.in",
       "rh_email": "Hardik.Shah@careedge.in",
       "send_gh": true,
@@ -45,7 +45,7 @@
       "gh_name": "Jitendra",
       "analyst_name": "Pranjal",
       "rh_name": "Hardik",
-      "gh_email": "jitendra.meghrajani@careedge.in, pranjal.mulekar@careedge.in, om.tupe@careedge.in, pooja.biyani@careedge.in, Krish.hablani@careedge.in",
+      "gh_email": "jitendra.meghrajani@careedge.in, jitendra.meghrajani@gmail.com",
       "analyst_email": "pranjal.mulekar@careedge.in",
       "rh_email": "Hardik.Shah@careedge.in",
       "send_gh": true,
@@ -72,7 +72,6 @@
       "send_rh": true,
       "sector": "BFSI",
       "sections": [
-        "S1",
         "S2",
         "S3"
       ]
@@ -91,7 +90,6 @@
       "send_rh": true,
       "sector": "BFSI",
       "sections": [
-        "S1",
         "S2",
         "S3"
       ]
@@ -148,7 +146,6 @@
       "send_rh": true,
       "sector": "BFSI",
       "sections": [
-        "S1",
         "S2",
         "S3"
       ]
@@ -167,18 +164,19 @@
       "send_rh": true,
       "sector": "BFSI",
       "sections": [
-        "S1",
         "S2",
         "S3"
       ]
     },
     {
       "company": "Manba Finance Limited",
-      "aliases": ["Manba"],
+      "aliases": [
+        "Manba"
+      ],
       "gh_name": "Jitendra",
       "analyst_name": "Pooja",
       "rh_name": "Hardik",
-      "gh_email": "jitendra.meghrajani@careedge.in, pranjal.mulekar@careedge.in, om.tupe@careedge.in, pooja.biyani@careedge.in, Krish.hablani@careedge.in",
+      "gh_email": "jitendra.meghrajani@careedge.in, jitendra.meghrajani@gmail.com",
       "analyst_email": "pooja.biyani@careedge.in",
       "rh_email": "Hardik.Shah@careedge.in",
       "send_gh": true,
@@ -197,7 +195,7 @@
       "gh_name": "Jitendra",
       "analyst_name": "Pranjal",
       "rh_name": "Hardik",
-      "gh_email": "jitendra.meghrajani@careedge.in, pranjal.mulekar@careedge.in, om.tupe@careedge.in, pooja.biyani@careedge.in, Krish.hablani@careedge.in",
+      "gh_email": "jitendra.meghrajani@careedge.in, jitendra.meghrajani@gmail.com",
       "analyst_email": "pranjal.mulekar@careedge.in",
       "rh_email": "Hardik.Shah@careedge.in",
       "send_gh": true,
@@ -216,7 +214,7 @@
       "gh_name": "Akansha",
       "analyst_name": "Hareesh",
       "rh_name": "Hardik",
-      "gh_email": "Akansha.Jain@careedge.in",
+      "gh_email": "Akansha.Jain@careedge.in, Vineet.jain@careedge.in",
       "analyst_email": "Hareesh.H@careedge.in",
       "rh_email": "Hardik.Shah@careedge.in",
       "send_gh": true,
@@ -245,7 +243,6 @@
       "send_rh": true,
       "sector": "BFSI",
       "sections": [
-        "S1",
         "S2",
         "S3"
       ]
@@ -283,7 +280,6 @@
       "send_rh": true,
       "sector": "BFSI",
       "sections": [
-        "S1",
         "S2",
         "S3"
       ]
@@ -294,7 +290,7 @@
       "gh_name": "Jitendra",
       "analyst_name": "Krish H",
       "rh_name": "Hardik",
-      "gh_email": "jitendra.meghrajani@careedge.in, pranjal.mulekar@careedge.in, om.tupe@careedge.in, pooja.biyani@careedge.in, Krish.hablani@careedge.in",
+      "gh_email": "jitendra.meghrajani@careedge.in, jitendra.meghrajani@gmail.com",
       "analyst_email": "krish.hablani@careedge.in",
       "rh_email": "Hardik.Shah@careedge.in",
       "send_gh": true,
@@ -313,7 +309,7 @@
       "gh_name": "Jitendra",
       "analyst_name": "Krish H",
       "rh_name": "Hardik",
-      "gh_email": "jitendra.meghrajani@careedge.in, pranjal.mulekar@careedge.in, om.tupe@careedge.in, pooja.biyani@careedge.in, Krish.hablani@careedge.in",
+      "gh_email": "jitendra.meghrajani@careedge.in, jitendra.meghrajani@gmail.com",
       "analyst_email": "krish.hablani@careedge.in",
       "rh_email": "Hardik.Shah@careedge.in",
       "send_gh": true,
@@ -332,7 +328,7 @@
       "gh_name": "Jitendra",
       "analyst_name": "Pooja",
       "rh_name": "Hardik",
-      "gh_email": "jitendra.meghrajani@careedge.in, pranjal.mulekar@careedge.in, om.tupe@careedge.in, pooja.biyani@careedge.in, Krish.hablani@careedge.in",
+      "gh_email": "jitendra.meghrajani@careedge.in, jitendra.meghrajani@gmail.com",
       "analyst_email": "pooja.biyani@careedge.in",
       "rh_email": "Hardik.Shah@careedge.in",
       "send_gh": true,
@@ -378,7 +374,6 @@
       "send_rh": true,
       "sector": "BFSI",
       "sections": [
-        "S1",
         "S2",
         "S3"
       ]
@@ -397,7 +392,6 @@
       "send_rh": true,
       "sector": "BFSI",
       "sections": [
-        "S1",
         "S2",
         "S3"
       ]
@@ -416,7 +410,6 @@
       "send_rh": true,
       "sector": "BFSI",
       "sections": [
-        "S1",
         "S2",
         "S3"
       ]
@@ -435,7 +428,6 @@
       "send_rh": true,
       "sector": "BFSI",
       "sections": [
-        "S1",
         "S2",
         "S3"
       ]
@@ -503,7 +495,7 @@
       "gh_name": "Akansha",
       "analyst_name": "Anushka",
       "rh_name": "Hardik",
-      "gh_email": "Akansha.Jain@careedge.in",
+      "gh_email": "Akansha.Jain@careedge.in, Vineet.jain@careedge.in",
       "analyst_email": "Anushka.Bothra@careedge.in",
       "rh_email": "Hardik.Shah@careedge.in",
       "send_gh": true,
@@ -530,7 +522,6 @@
       "send_rh": true,
       "sector": "BFSI",
       "sections": [
-        "S1",
         "S2",
         "S3"
       ]
@@ -549,7 +540,6 @@
       "send_rh": true,
       "sector": "BFSI",
       "sections": [
-        "S1",
         "S2",
         "S3"
       ]
@@ -568,7 +558,6 @@
       "send_rh": true,
       "sector": "BFSI",
       "sections": [
-        "S1",
         "S2",
         "S3"
       ]
@@ -587,7 +576,6 @@
       "send_rh": true,
       "sector": "BFSI",
       "sections": [
-        "S1",
         "S2",
         "S3"
       ]
@@ -617,7 +605,7 @@
       "gh_name": "Akansha",
       "analyst_name": "Pranav V",
       "rh_name": "Hardik",
-      "gh_email": "Akansha.Jain@careedge.in",
+      "gh_email": "Akansha.Jain@careedge.in, Vineet.jain@careedge.in",
       "analyst_email": "Pranav.Viswanathan@careedge.in",
       "rh_email": "Hardik.Shah@careedge.in",
       "send_gh": true,
@@ -636,7 +624,7 @@
       "gh_name": "Akansha",
       "analyst_name": "Pranav V",
       "rh_name": "Hardik",
-      "gh_email": "Akansha.Jain@careedge.in",
+      "gh_email": "Akansha.Jain@careedge.in, Vineet.jain@careedge.in",
       "analyst_email": "Pranav.Viswanathan@careedge.in",
       "rh_email": "Hardik.Shah@careedge.in",
       "send_gh": true,
@@ -663,7 +651,6 @@
       "send_rh": true,
       "sector": "BFSI",
       "sections": [
-        "S1",
         "S2",
         "S3"
       ]
@@ -674,7 +661,7 @@
       "gh_name": "Jitendra",
       "analyst_name": "Pranjal",
       "rh_name": "Hardik",
-      "gh_email": "jitendra.meghrajani@careedge.in, pranjal.mulekar@careedge.in, om.tupe@careedge.in, pooja.biyani@careedge.in, Krish.hablani@careedge.in",
+      "gh_email": "jitendra.meghrajani@careedge.in, jitendra.meghrajani@gmail.com",
       "analyst_email": "pranjal.mulekar@careedge.in",
       "rh_email": "Hardik.Shah@careedge.in",
       "send_gh": true,
@@ -693,7 +680,7 @@
       "gh_name": "Jitendra",
       "analyst_name": "Pranjal",
       "rh_name": "Hardik",
-      "gh_email": "jitendra.meghrajani@careedge.in, pranjal.mulekar@careedge.in, om.tupe@careedge.in, pooja.biyani@careedge.in, Krish.hablani@careedge.in",
+      "gh_email": "jitendra.meghrajani@careedge.in, jitendra.meghrajani@gmail.com",
       "analyst_email": "pranjal.mulekar@careedge.in",
       "rh_email": "Hardik.Shah@careedge.in",
       "send_gh": true,
@@ -720,7 +707,6 @@
       "send_rh": true,
       "sector": "BFSI",
       "sections": [
-        "S1",
         "S2",
         "S3"
       ]
@@ -739,7 +725,6 @@
       "send_rh": true,
       "sector": "BFSI",
       "sections": [
-        "S1",
         "S2",
         "S3"
       ]
@@ -758,7 +743,6 @@
       "send_rh": true,
       "sector": "BFSI",
       "sections": [
-        "S1",
         "S2",
         "S3"
       ]
@@ -769,7 +753,7 @@
       "gh_name": "Akansha",
       "analyst_name": "Anushka",
       "rh_name": "Hardik",
-      "gh_email": "Akansha.Jain@careedge.in",
+      "gh_email": "Akansha.Jain@careedge.in, Vineet.jain@careedge.in",
       "analyst_email": "Anushka.Bothra@careedge.in",
       "rh_email": "Hardik.Shah@careedge.in",
       "send_gh": true,
@@ -788,7 +772,7 @@
       "gh_name": "Jitendra",
       "analyst_name": "Pooja",
       "rh_name": "Hardik",
-      "gh_email": "jitendra.meghrajani@careedge.in, pranjal.mulekar@careedge.in, om.tupe@careedge.in, pooja.biyani@careedge.in, Krish.hablani@careedge.in",
+      "gh_email": "jitendra.meghrajani@careedge.in, jitendra.meghrajani@gmail.com",
       "analyst_email": "pooja.biyani@careedge.in",
       "rh_email": "Hardik.Shah@careedge.in",
       "send_gh": true,
@@ -807,7 +791,7 @@
       "gh_name": "Jitendra",
       "analyst_name": "OM",
       "rh_name": "Hardik",
-      "gh_email": "jitendra.meghrajani@careedge.in, pranjal.mulekar@careedge.in, om.tupe@careedge.in, pooja.biyani@careedge.in, Krish.hablani@careedge.in",
+      "gh_email": "jitendra.meghrajani@careedge.in, jitendra.meghrajani@gmail.com",
       "analyst_email": "om.tupe@careedge.in",
       "rh_email": "Hardik.Shah@careedge.in",
       "send_gh": true,
@@ -826,7 +810,7 @@
       "gh_name": "Akansha",
       "analyst_name": "Pulkit Jain",
       "rh_name": "Hardik",
-      "gh_email": "Akansha.Jain@careedge.in",
+      "gh_email": "Akansha.Jain@careedge.in, Vineet.jain@careedge.in",
       "analyst_email": "Pulkit.Jain@careedge.in",
       "rh_email": "Hardik.Shah@careedge.in",
       "send_gh": true,
@@ -845,7 +829,7 @@
       "gh_name": "Akansha",
       "analyst_name": "Pulkit Jain",
       "rh_name": "Hardik",
-      "gh_email": "Akansha.Jain@careedge.in",
+      "gh_email": "Akansha.Jain@careedge.in, Vineet.jain@careedge.in",
       "analyst_email": "Pulkit.Jain@careedge.in",
       "rh_email": "Hardik.Shah@careedge.in",
       "send_gh": true,
@@ -864,7 +848,7 @@
       "gh_name": "Akansha",
       "analyst_name": "Hareesh",
       "rh_name": "Hardik",
-      "gh_email": "Akansha.Jain@careedge.in",
+      "gh_email": "Akansha.Jain@careedge.in, Vineet.jain@careedge.in",
       "analyst_email": "Hareesh.H@careedge.in",
       "rh_email": "Hardik.Shah@careedge.in",
       "send_gh": true,
@@ -891,7 +875,6 @@
       "send_rh": true,
       "sector": "BFSI",
       "sections": [
-        "S1",
         "S2",
         "S3"
       ]
@@ -948,7 +931,6 @@
       "send_rh": true,
       "sector": "BFSI",
       "sections": [
-        "S1",
         "S2",
         "S3"
       ]
@@ -969,7 +951,6 @@
       "send_rh": true,
       "sector": "BFSI",
       "sections": [
-        "S1",
         "S2",
         "S3"
       ]
@@ -988,7 +969,6 @@
       "send_rh": true,
       "sector": "BFSI",
       "sections": [
-        "S1",
         "S2",
         "S3"
       ]
@@ -1026,7 +1006,6 @@
       "send_rh": true,
       "sector": "BFSI",
       "sections": [
-        "S1",
         "S2",
         "S3"
       ]
@@ -1102,7 +1081,6 @@
       "send_rh": true,
       "sector": "BFSI",
       "sections": [
-        "S1",
         "S2",
         "S3"
       ]
@@ -1208,7 +1186,7 @@
       "gh_name": "Akansha",
       "analyst_name": "Pranav V",
       "rh_name": "Hardik",
-      "gh_email": "Akansha.Jain@careedge.in",
+      "gh_email": "Akansha.Jain@careedge.in, Vineet.jain@careedge.in",
       "analyst_email": "Pranav.Viswanathan@careedge.in",
       "rh_email": "Hardik.Shah@careedge.in",
       "send_gh": true,
@@ -1229,7 +1207,7 @@
       "gh_name": "Jitendra",
       "analyst_name": "Pranjal",
       "rh_name": "Hardik",
-      "gh_email": "jitendra.meghrajani@careedge.in, pranjal.mulekar@careedge.in, om.tupe@careedge.in, pooja.biyani@careedge.in, Krish.hablani@careedge.in",
+      "gh_email": "jitendra.meghrajani@careedge.in, jitendra.meghrajani@gmail.com",
       "analyst_email": "pranjal.mulekar@careedge.in",
       "rh_email": "Hardik.Shah@careedge.in",
       "send_gh": true,
@@ -1248,7 +1226,7 @@
       "gh_name": "Akansha",
       "analyst_name": "Anushka",
       "rh_name": "Hardik",
-      "gh_email": "Akansha.Jain@careedge.in",
+      "gh_email": "Akansha.Jain@careedge.in, Vineet.jain@careedge.in",
       "analyst_email": "Anushka.Bothra@careedge.in",
       "rh_email": "Hardik.Shah@careedge.in",
       "send_gh": true,
@@ -1275,7 +1253,6 @@
       "send_rh": true,
       "sector": "BFSI",
       "sections": [
-        "S1",
         "S2",
         "S3"
       ]
@@ -1294,7 +1271,6 @@
       "send_rh": true,
       "sector": "BFSI",
       "sections": [
-        "S1",
         "S2",
         "S3"
       ]
@@ -1389,7 +1365,6 @@
       "send_rh": true,
       "sector": "BFSI",
       "sections": [
-        "S1",
         "S2",
         "S3"
       ]
@@ -1419,7 +1394,7 @@
       "gh_name": "Jitendra",
       "analyst_name": "Krish H",
       "rh_name": "Hardik",
-      "gh_email": "jitendra.meghrajani@careedge.in, pranjal.mulekar@careedge.in, om.tupe@careedge.in, pooja.biyani@careedge.in, Krish.hablani@careedge.in",
+      "gh_email": "jitendra.meghrajani@careedge.in, jitendra.meghrajani@gmail.com",
       "analyst_email": "krish.hablani@careedge.in",
       "rh_email": "Hardik.Shah@careedge.in",
       "send_gh": true,
@@ -1484,7 +1459,6 @@
       "send_rh": true,
       "sector": "BFSI",
       "sections": [
-        "S1",
         "S2",
         "S3"
       ]
@@ -1503,7 +1477,6 @@
       "send_rh": true,
       "sector": "BFSI",
       "sections": [
-        "S1",
         "S2",
         "S3"
       ]
@@ -1522,7 +1495,6 @@
       "send_rh": true,
       "sector": "BFSI",
       "sections": [
-        "S1",
         "S2",
         "S3"
       ]
@@ -1541,7 +1513,6 @@
       "send_rh": true,
       "sector": "BFSI",
       "sections": [
-        "S1",
         "S2",
         "S3"
       ]
@@ -1560,7 +1531,6 @@
       "send_rh": true,
       "sector": "BFSI",
       "sections": [
-        "S1",
         "S2",
         "S3"
       ]
@@ -1571,7 +1541,7 @@
       "gh_name": "Akansha",
       "analyst_name": "Pranav V",
       "rh_name": "Hardik",
-      "gh_email": "Akansha.Jain@careedge.in",
+      "gh_email": "Akansha.Jain@careedge.in, Vineet.jain@careedge.in",
       "analyst_email": "Pranav.Viswanathan@careedge.in",
       "rh_email": "Hardik.Shah@careedge.in",
       "send_gh": true,
@@ -1590,7 +1560,7 @@
       "gh_name": "Akansha",
       "analyst_name": "Hareesh",
       "rh_name": "Hardik",
-      "gh_email": "Akansha.Jain@careedge.in",
+      "gh_email": "Akansha.Jain@careedge.in, Vineet.jain@careedge.in",
       "analyst_email": "Hareesh.H@careedge.in",
       "rh_email": "Hardik.Shah@careedge.in",
       "send_gh": true,
@@ -1636,7 +1606,6 @@
       "send_rh": true,
       "sector": "BFSI",
       "sections": [
-        "S1",
         "S2",
         "S3"
       ]
@@ -1655,7 +1624,6 @@
       "send_rh": true,
       "sector": "BFSI",
       "sections": [
-        "S1",
         "S2",
         "S3"
       ]
@@ -1685,7 +1653,7 @@
       "gh_name": "Jitendra",
       "analyst_name": "Pooja",
       "rh_name": "Hardik",
-      "gh_email": "jitendra.meghrajani@careedge.in, pranjal.mulekar@careedge.in, om.tupe@careedge.in, pooja.biyani@careedge.in, Krish.hablani@careedge.in",
+      "gh_email": "jitendra.meghrajani@careedge.in, jitendra.meghrajani@gmail.com",
       "analyst_email": "pooja.biyani@careedge.in",
       "rh_email": "Hardik.Shah@careedge.in",
       "send_gh": true,
@@ -1704,7 +1672,7 @@
       "gh_name": "Akansha",
       "analyst_name": "Anushka",
       "rh_name": "Hardik",
-      "gh_email": "Akansha.Jain@careedge.in",
+      "gh_email": "Akansha.Jain@careedge.in, Vineet.jain@careedge.in",
       "analyst_email": "Anushka.Bothra@careedge.in",
       "rh_email": "Hardik.Shah@careedge.in",
       "send_gh": true,
@@ -1731,7 +1699,6 @@
       "send_rh": true,
       "sector": "BFSI",
       "sections": [
-        "S1",
         "S2",
         "S3"
       ]
@@ -1761,7 +1728,7 @@
       "gh_name": "Akansha",
       "analyst_name": "Pulkit Jain",
       "rh_name": "Hardik",
-      "gh_email": "Akansha.Jain@careedge.in",
+      "gh_email": "Akansha.Jain@careedge.in, Vineet.jain@careedge.in",
       "analyst_email": "Pulkit.Jain@careedge.in",
       "rh_email": "Hardik.Shah@careedge.in",
       "send_gh": true,
@@ -1788,7 +1755,6 @@
       "send_rh": true,
       "sector": "BFSI",
       "sections": [
-        "S1",
         "S2",
         "S3"
       ]
@@ -1807,7 +1773,6 @@
       "send_rh": true,
       "sector": "BFSI",
       "sections": [
-        "S1",
         "S2",
         "S3"
       ]
@@ -1845,7 +1810,6 @@
       "send_rh": true,
       "sector": "BFSI",
       "sections": [
-        "S1",
         "S2",
         "S3"
       ]
@@ -1864,7 +1828,6 @@
       "send_rh": true,
       "sector": "BFSI",
       "sections": [
-        "S1",
         "S2",
         "S3"
       ]
@@ -1940,7 +1903,6 @@
       "send_rh": true,
       "sector": "BFSI",
       "sections": [
-        "S1",
         "S2",
         "S3"
       ]
@@ -1959,7 +1921,6 @@
       "send_rh": true,
       "sector": "BFSI",
       "sections": [
-        "S1",
         "S2",
         "S3"
       ]
@@ -1997,7 +1958,6 @@
       "send_rh": true,
       "sector": "BFSI",
       "sections": [
-        "S1",
         "S2",
         "S3"
       ]
@@ -2016,7 +1976,6 @@
       "send_rh": true,
       "sector": "BFSI",
       "sections": [
-        "S1",
         "S2",
         "S3"
       ]
@@ -2035,7 +1994,6 @@
       "send_rh": true,
       "sector": "BFSI",
       "sections": [
-        "S1",
         "S2",
         "S3"
       ]
@@ -2054,7 +2012,6 @@
       "send_rh": true,
       "sector": "BFSI",
       "sections": [
-        "S1",
         "S2",
         "S3"
       ]
@@ -2073,7 +2030,6 @@
       "send_rh": true,
       "sector": "BFSI",
       "sections": [
-        "S1",
         "S2",
         "S3"
       ]
@@ -2094,7 +2050,6 @@
       "send_rh": true,
       "sector": "BFSI",
       "sections": [
-        "S1",
         "S2",
         "S3"
       ]
@@ -2113,7 +2068,6 @@
       "send_rh": true,
       "sector": "BFSI",
       "sections": [
-        "S1",
         "S2",
         "S3"
       ]
@@ -2132,7 +2086,6 @@
       "send_rh": true,
       "sector": "BFSI",
       "sections": [
-        "S1",
         "S2",
         "S3"
       ]
@@ -2208,7 +2161,6 @@
       "send_rh": true,
       "sector": "BFSI",
       "sections": [
-        "S1",
         "S2",
         "S3"
       ]
@@ -2227,7 +2179,6 @@
       "send_rh": true,
       "sector": "BFSI",
       "sections": [
-        "S1",
         "S2",
         "S3"
       ]
@@ -2238,7 +2189,7 @@
       "gh_name": "Jitendra",
       "analyst_name": "Pooja",
       "rh_name": "Hardik",
-      "gh_email": "jitendra.meghrajani@careedge.in, pranjal.mulekar@careedge.in, om.tupe@careedge.in, pooja.biyani@careedge.in, Krish.hablani@careedge.in",
+      "gh_email": "jitendra.meghrajani@careedge.in, jitendra.meghrajani@gmail.com",
       "analyst_email": "pooja.biyani@careedge.in",
       "rh_email": "Hardik.Shah@careedge.in",
       "send_gh": true,
@@ -2257,7 +2208,7 @@
       "gh_name": "Akansha",
       "analyst_name": "Pranav V",
       "rh_name": "Hardik",
-      "gh_email": "Akansha.Jain@careedge.in",
+      "gh_email": "Akansha.Jain@careedge.in, Vineet.jain@careedge.in",
       "analyst_email": "Pranav.Viswanathan@careedge.in",
       "rh_email": "Hardik.Shah@careedge.in",
       "send_gh": true,
@@ -2284,7 +2235,6 @@
       "send_rh": true,
       "sector": "BFSI",
       "sections": [
-        "S1",
         "S2",
         "S3"
       ]
@@ -2303,7 +2253,6 @@
       "send_rh": true,
       "sector": "BFSI",
       "sections": [
-        "S1",
         "S2",
         "S3"
       ]
@@ -2322,7 +2271,6 @@
       "send_rh": true,
       "sector": "BFSI",
       "sections": [
-        "S1",
         "S2",
         "S3"
       ]
@@ -2333,7 +2281,7 @@
       "gh_name": "Jitendra",
       "analyst_name": "Pranjal",
       "rh_name": "Hardik",
-      "gh_email": "jitendra.meghrajani@careedge.in, pranjal.mulekar@careedge.in, om.tupe@careedge.in, pooja.biyani@careedge.in, Krish.hablani@careedge.in",
+      "gh_email": "jitendra.meghrajani@careedge.in, jitendra.meghrajani@gmail.com",
       "analyst_email": "pranjal.mulekar@careedge.in",
       "rh_email": "Hardik.Shah@careedge.in",
       "send_gh": true,
@@ -2352,7 +2300,7 @@
       "gh_name": "Jitendra",
       "analyst_name": "Pranjal",
       "rh_name": "Hardik",
-      "gh_email": "jitendra.meghrajani@careedge.in, pranjal.mulekar@careedge.in, om.tupe@careedge.in, pooja.biyani@careedge.in, Krish.hablani@careedge.in",
+      "gh_email": "jitendra.meghrajani@careedge.in, jitendra.meghrajani@gmail.com",
       "analyst_email": "pranjal.mulekar@careedge.in",
       "rh_email": "Hardik.Shah@careedge.in",
       "send_gh": true,
@@ -2371,7 +2319,7 @@
       "gh_name": "Akansha",
       "analyst_name": "Hareesh",
       "rh_name": "Hardik",
-      "gh_email": "Akansha.Jain@careedge.in",
+      "gh_email": "Akansha.Jain@careedge.in, Vineet.jain@careedge.in",
       "analyst_email": "Hareesh.H@careedge.in",
       "rh_email": "Hardik.Shah@careedge.in",
       "send_gh": true,
@@ -2390,7 +2338,7 @@
       "gh_name": "Jitendra",
       "analyst_name": "Pooja",
       "rh_name": "Hardik",
-      "gh_email": "jitendra.meghrajani@careedge.in, pranjal.mulekar@careedge.in, om.tupe@careedge.in, pooja.biyani@careedge.in, Krish.hablani@careedge.in",
+      "gh_email": "jitendra.meghrajani@careedge.in, jitendra.meghrajani@gmail.com",
       "analyst_email": "pooja.biyani@careedge.in",
       "rh_email": "Hardik.Shah@careedge.in",
       "send_gh": true,
@@ -2411,7 +2359,7 @@
       "gh_name": "Jitendra",
       "analyst_name": "OM",
       "rh_name": "Hardik",
-      "gh_email": "jitendra.meghrajani@careedge.in, pranjal.mulekar@careedge.in, om.tupe@careedge.in, pooja.biyani@careedge.in, Krish.hablani@careedge.in",
+      "gh_email": "jitendra.meghrajani@careedge.in, jitendra.meghrajani@gmail.com",
       "analyst_email": "om.tupe@careedge.in",
       "rh_email": "Hardik.Shah@careedge.in",
       "send_gh": true,
@@ -2430,7 +2378,7 @@
       "gh_name": "Akansha",
       "analyst_name": "Pranav V",
       "rh_name": "Hardik",
-      "gh_email": "Akansha.Jain@careedge.in",
+      "gh_email": "Akansha.Jain@careedge.in, Vineet.jain@careedge.in",
       "analyst_email": "Pranav.Viswanathan@careedge.in",
       "rh_email": "Hardik.Shah@careedge.in",
       "send_gh": true,
@@ -2457,7 +2405,6 @@
       "send_rh": true,
       "sector": "BFSI",
       "sections": [
-        "S1",
         "S2",
         "S3"
       ]
@@ -2468,7 +2415,7 @@
       "gh_name": "Akansha",
       "analyst_name": "Pulkit Jain",
       "rh_name": "Hardik",
-      "gh_email": "Akansha.Jain@careedge.in",
+      "gh_email": "Akansha.Jain@careedge.in, Vineet.jain@careedge.in",
       "analyst_email": "Pulkit.Jain@careedge.in",
       "rh_email": "Hardik.Shah@careedge.in",
       "send_gh": true,
@@ -2495,7 +2442,6 @@
       "send_rh": true,
       "sector": "BFSI",
       "sections": [
-        "S1",
         "S2",
         "S3"
       ]
@@ -2525,7 +2471,7 @@
       "gh_name": "Akansha",
       "analyst_name": "Pulkit Jain",
       "rh_name": "Hardik",
-      "gh_email": "Akansha.Jain@careedge.in",
+      "gh_email": "Akansha.Jain@careedge.in, Vineet.jain@careedge.in",
       "analyst_email": "Pulkit.Jain@careedge.in",
       "rh_email": "Hardik.Shah@careedge.in",
       "send_gh": true,
@@ -2544,7 +2490,7 @@
       "gh_name": "Akansha",
       "analyst_name": "Pulkit Jain",
       "rh_name": "Hardik",
-      "gh_email": "Akansha.Jain@careedge.in",
+      "gh_email": "Akansha.Jain@careedge.in, Vineet.jain@careedge.in",
       "analyst_email": "Pulkit.Jain@careedge.in",
       "rh_email": "Hardik.Shah@careedge.in",
       "send_gh": true,
@@ -2563,7 +2509,7 @@
       "gh_name": "Akansha",
       "analyst_name": "Anushka",
       "rh_name": "Hardik",
-      "gh_email": "Akansha.Jain@careedge.in",
+      "gh_email": "Akansha.Jain@careedge.in, Vineet.jain@careedge.in",
       "analyst_email": "Anushka.Bothra@careedge.in",
       "rh_email": "Hardik.Shah@careedge.in",
       "send_gh": true,
@@ -2582,7 +2528,7 @@
       "gh_name": "Akansha",
       "analyst_name": "Anushka",
       "rh_name": "Hardik",
-      "gh_email": "Akansha.Jain@careedge.in",
+      "gh_email": "Akansha.Jain@careedge.in, Vineet.jain@careedge.in",
       "analyst_email": "Anushka.Bothra@careedge.in",
       "rh_email": "Hardik.Shah@careedge.in",
       "send_gh": true,
@@ -2601,7 +2547,7 @@
       "gh_name": "Akansha",
       "analyst_name": "Anushka",
       "rh_name": "Hardik",
-      "gh_email": "Akansha.Jain@careedge.in",
+      "gh_email": "Akansha.Jain@careedge.in, Vineet.jain@careedge.in",
       "analyst_email": "Anushka.Bothra@careedge.in",
       "rh_email": "Hardik.Shah@careedge.in",
       "send_gh": true,
@@ -2620,7 +2566,7 @@
       "gh_name": "Akansha",
       "analyst_name": "Anushka",
       "rh_name": "Hardik",
-      "gh_email": "Akansha.Jain@careedge.in",
+      "gh_email": "Akansha.Jain@careedge.in, Vineet.jain@careedge.in",
       "analyst_email": "Anushka.Bothra@careedge.in",
       "rh_email": "Hardik.Shah@careedge.in",
       "send_gh": true,
@@ -2647,7 +2593,6 @@
       "send_rh": true,
       "sector": "BFSI",
       "sections": [
-        "S1",
         "S2",
         "S3"
       ]
@@ -2658,7 +2603,7 @@
       "gh_name": "Akansha",
       "analyst_name": "Hareesh",
       "rh_name": "Hardik",
-      "gh_email": "Akansha.Jain@careedge.in",
+      "gh_email": "Akansha.Jain@careedge.in, Vineet.jain@careedge.in",
       "analyst_email": "Hareesh.H@careedge.in",
       "rh_email": "Hardik.Shah@careedge.in",
       "send_gh": true,
@@ -2677,7 +2622,7 @@
       "gh_name": "Akansha",
       "analyst_name": "Hareesh",
       "rh_name": "Hardik",
-      "gh_email": "Akansha.Jain@careedge.in",
+      "gh_email": "Akansha.Jain@careedge.in, Vineet.jain@careedge.in",
       "analyst_email": "Hareesh.H@careedge.in",
       "rh_email": "Hardik.Shah@careedge.in",
       "send_gh": true,
@@ -2696,7 +2641,7 @@
       "gh_name": "Akansha",
       "analyst_name": "Hareesh",
       "rh_name": "Hardik",
-      "gh_email": "Akansha.Jain@careedge.in",
+      "gh_email": "Akansha.Jain@careedge.in, Vineet.jain@careedge.in",
       "analyst_email": "Hareesh.H@careedge.in",
       "rh_email": "Hardik.Shah@careedge.in",
       "send_gh": true,
@@ -2715,7 +2660,7 @@
       "gh_name": "Akansha",
       "analyst_name": "Hareesh",
       "rh_name": "Hardik",
-      "gh_email": "Akansha.Jain@careedge.in",
+      "gh_email": "Akansha.Jain@careedge.in, Vineet.jain@careedge.in",
       "analyst_email": "Hareesh.H@careedge.in",
       "rh_email": "Hardik.Shah@careedge.in",
       "send_gh": true,
@@ -2742,7 +2687,6 @@
       "send_rh": true,
       "sector": "BFSI",
       "sections": [
-        "S1",
         "S2",
         "S3"
       ]
@@ -2761,7 +2705,6 @@
       "send_rh": true,
       "sector": "BFSI",
       "sections": [
-        "S1",
         "S2",
         "S3"
       ]
@@ -2799,7 +2742,6 @@
       "send_rh": true,
       "sector": "BFSI",
       "sections": [
-        "S1",
         "S2",
         "S3"
       ]
@@ -2818,7 +2760,6 @@
       "send_rh": true,
       "sector": "BFSI",
       "sections": [
-        "S1",
         "S2",
         "S3"
       ]
@@ -2837,7 +2778,6 @@
       "send_rh": true,
       "sector": "BFSI",
       "sections": [
-        "S1",
         "S2",
         "S3"
       ]
@@ -2848,7 +2788,7 @@
       "gh_name": "Jitendra",
       "analyst_name": "OM",
       "rh_name": "Hardik",
-      "gh_email": "jitendra.meghrajani@careedge.in, pranjal.mulekar@careedge.in, om.tupe@careedge.in, pooja.biyani@careedge.in, Krish.hablani@careedge.in",
+      "gh_email": "jitendra.meghrajani@careedge.in, jitendra.meghrajani@gmail.com",
       "analyst_email": "om.tupe@careedge.in",
       "rh_email": "Hardik.Shah@careedge.in",
       "send_gh": true,
@@ -2867,7 +2807,7 @@
       "gh_name": "Jitendra",
       "analyst_name": "Pooja",
       "rh_name": "Hardik",
-      "gh_email": "jitendra.meghrajani@careedge.in, pranjal.mulekar@careedge.in, om.tupe@careedge.in, pooja.biyani@careedge.in, Krish.hablani@careedge.in",
+      "gh_email": "jitendra.meghrajani@careedge.in, jitendra.meghrajani@gmail.com",
       "analyst_email": "pooja.biyani@careedge.in",
       "rh_email": "Hardik.Shah@careedge.in",
       "send_gh": true,
@@ -2886,7 +2826,7 @@
       "gh_name": "Jitendra",
       "analyst_name": "Pooja",
       "rh_name": "Hardik",
-      "gh_email": "jitendra.meghrajani@careedge.in, pranjal.mulekar@careedge.in, om.tupe@careedge.in, pooja.biyani@careedge.in, Krish.hablani@careedge.in",
+      "gh_email": "jitendra.meghrajani@careedge.in, jitendra.meghrajani@gmail.com",
       "analyst_email": "pooja.biyani@careedge.in",
       "rh_email": "Hardik.Shah@careedge.in",
       "send_gh": true,
@@ -2913,7 +2853,6 @@
       "send_rh": true,
       "sector": "BFSI",
       "sections": [
-        "S1",
         "S2",
         "S3"
       ]
@@ -2945,7 +2884,7 @@
       "gh_name": "Akansha",
       "analyst_name": "Pulkit Jain",
       "rh_name": "Hardik",
-      "gh_email": "Akansha.Jain@careedge.in",
+      "gh_email": "Akansha.Jain@careedge.in, Vineet.jain@careedge.in",
       "analyst_email": "Pulkit.Jain@careedge.in",
       "rh_email": "Hardik.Shah@careedge.in",
       "send_gh": true,
@@ -2964,7 +2903,7 @@
       "gh_name": "Akansha",
       "analyst_name": "Pulkit Jain",
       "rh_name": "Hardik",
-      "gh_email": "Akansha.Jain@careedge.in",
+      "gh_email": "Akansha.Jain@careedge.in, Vineet.jain@careedge.in",
       "analyst_email": "Pulkit.Jain@careedge.in",
       "rh_email": "Hardik.Shah@careedge.in",
       "send_gh": true,
@@ -2991,7 +2930,6 @@
       "send_rh": true,
       "sector": "BFSI",
       "sections": [
-        "S1",
         "S2",
         "S3"
       ]
@@ -3012,7 +2950,6 @@
       "send_rh": true,
       "sector": "BFSI",
       "sections": [
-        "S1",
         "S2",
         "S3"
       ]
@@ -3031,7 +2968,6 @@
       "send_rh": true,
       "sector": "BFSI",
       "sections": [
-        "S1",
         "S2",
         "S3"
       ]
@@ -3063,7 +2999,7 @@
       "gh_name": "Akansha",
       "analyst_name": "Pranav V",
       "rh_name": "Hardik",
-      "gh_email": "Akansha.Jain@careedge.in",
+      "gh_email": "Akansha.Jain@careedge.in, Vineet.jain@careedge.in",
       "analyst_email": "Pranav.Viswanathan@careedge.in",
       "rh_email": "Hardik.Shah@careedge.in",
       "send_gh": true,
@@ -3090,7 +3026,6 @@
       "send_rh": true,
       "sector": "BFSI",
       "sections": [
-        "S1",
         "S2",
         "S3"
       ]
@@ -3128,7 +3063,6 @@
       "send_rh": true,
       "sector": "BFSI",
       "sections": [
-        "S1",
         "S2",
         "S3"
       ]
@@ -3147,7 +3081,6 @@
       "send_rh": true,
       "sector": "BFSI",
       "sections": [
-        "S1",
         "S2",
         "S3"
       ]
@@ -3196,7 +3129,7 @@
       "gh_name": "Akansha",
       "analyst_name": "Anushka",
       "rh_name": "Hardik",
-      "gh_email": "Akansha.Jain@careedge.in",
+      "gh_email": "Akansha.Jain@careedge.in, Vineet.jain@careedge.in",
       "analyst_email": "Anushka.Bothra@careedge.in",
       "rh_email": "Hardik.Shah@careedge.in",
       "send_gh": true,
@@ -3261,7 +3194,6 @@
       "send_rh": true,
       "sector": "BFSI",
       "sections": [
-        "S1",
         "S2",
         "S3"
       ]
@@ -3280,7 +3212,6 @@
       "send_rh": true,
       "sector": "BFSI",
       "sections": [
-        "S1",
         "S2",
         "S3"
       ]
@@ -3299,7 +3230,6 @@
       "send_rh": true,
       "sector": "BFSI",
       "sections": [
-        "S1",
         "S2",
         "S3"
       ]
@@ -3318,7 +3248,6 @@
       "send_rh": true,
       "sector": "BFSI",
       "sections": [
-        "S1",
         "S2",
         "S3"
       ]
@@ -3337,7 +3266,6 @@
       "send_rh": true,
       "sector": "BFSI",
       "sections": [
-        "S1",
         "S2",
         "S3"
       ]
@@ -3356,7 +3284,6 @@
       "send_rh": true,
       "sector": "BFSI",
       "sections": [
-        "S1",
         "S2",
         "S3"
       ]
@@ -3367,7 +3294,7 @@
       "gh_name": "Jitendra",
       "analyst_name": "OM",
       "rh_name": "Hardik",
-      "gh_email": "jitendra.meghrajani@careedge.in, pranjal.mulekar@careedge.in, om.tupe@careedge.in, pooja.biyani@careedge.in, Krish.hablani@careedge.in",
+      "gh_email": "jitendra.meghrajani@careedge.in, jitendra.meghrajani@gmail.com",
       "analyst_email": "om.tupe@careedge.in",
       "rh_email": "Hardik.Shah@careedge.in",
       "send_gh": true,
@@ -3386,7 +3313,7 @@
       "gh_name": "Jitendra",
       "analyst_name": "OM",
       "rh_name": "Hardik",
-      "gh_email": "jitendra.meghrajani@careedge.in, pranjal.mulekar@careedge.in, om.tupe@careedge.in, pooja.biyani@careedge.in, Krish.hablani@careedge.in",
+      "gh_email": "jitendra.meghrajani@careedge.in, jitendra.meghrajani@gmail.com",
       "analyst_email": "om.tupe@careedge.in",
       "rh_email": "Hardik.Shah@careedge.in",
       "send_gh": true,
@@ -3413,7 +3340,6 @@
       "send_rh": true,
       "sector": "BFSI",
       "sections": [
-        "S1",
         "S2",
         "S3"
       ]
@@ -3432,7 +3358,6 @@
       "send_rh": true,
       "sector": "BFSI",
       "sections": [
-        "S1",
         "S2",
         "S3"
       ]
@@ -3451,7 +3376,6 @@
       "send_rh": true,
       "sector": "BFSI",
       "sections": [
-        "S1",
         "S2",
         "S3"
       ]
@@ -3481,7 +3405,7 @@
       "gh_name": "Akansha",
       "analyst_name": "Hareesh",
       "rh_name": "Hardik",
-      "gh_email": "Akansha.Jain@careedge.in",
+      "gh_email": "Akansha.Jain@careedge.in, Vineet.jain@careedge.in",
       "analyst_email": "Hareesh.H@careedge.in",
       "rh_email": "Hardik.Shah@careedge.in",
       "send_gh": true,
@@ -3508,7 +3432,6 @@
       "send_rh": true,
       "sector": "BFSI",
       "sections": [
-        "S1",
         "S2",
         "S3"
       ]
@@ -3527,7 +3450,6 @@
       "send_rh": true,
       "sector": "BFSI",
       "sections": [
-        "S1",
         "S2",
         "S3"
       ]
@@ -3546,7 +3468,6 @@
       "send_rh": true,
       "sector": "BFSI",
       "sections": [
-        "S1",
         "S2",
         "S3"
       ]
@@ -3576,7 +3497,7 @@
       "gh_name": "Akansha",
       "analyst_name": "Anushka",
       "rh_name": "Hardik",
-      "gh_email": "Akansha.Jain@careedge.in",
+      "gh_email": "Akansha.Jain@careedge.in, Vineet.jain@careedge.in",
       "analyst_email": "Anushka.Bothra@careedge.in",
       "rh_email": "Hardik.Shah@careedge.in",
       "send_gh": true,
@@ -3603,7 +3524,6 @@
       "send_rh": true,
       "sector": "BFSI",
       "sections": [
-        "S1",
         "S2",
         "S3"
       ]
@@ -3622,7 +3542,6 @@
       "send_rh": true,
       "sector": "BFSI",
       "sections": [
-        "S1",
         "S2",
         "S3"
       ]
@@ -3641,7 +3560,6 @@
       "send_rh": true,
       "sector": "BFSI",
       "sections": [
-        "S1",
         "S2",
         "S3"
       ]
@@ -3660,7 +3578,6 @@
       "send_rh": true,
       "sector": "BFSI",
       "sections": [
-        "S1",
         "S2",
         "S3"
       ]
@@ -3709,7 +3626,7 @@
       "gh_name": "Akansha",
       "analyst_name": "Hareesh",
       "rh_name": "Hardik",
-      "gh_email": "Akansha.Jain@careedge.in",
+      "gh_email": "Akansha.Jain@careedge.in, Vineet.jain@careedge.in",
       "analyst_email": "Hareesh.H@careedge.in",
       "rh_email": "Hardik.Shah@careedge.in",
       "send_gh": true,
@@ -3736,7 +3653,6 @@
       "send_rh": true,
       "sector": "BFSI",
       "sections": [
-        "S1",
         "S2",
         "S3"
       ]
@@ -3755,7 +3671,6 @@
       "send_rh": true,
       "sector": "BFSI",
       "sections": [
-        "S1",
         "S2",
         "S3"
       ]
@@ -3774,7 +3689,6 @@
       "send_rh": true,
       "sector": "BFSI",
       "sections": [
-        "S1",
         "S2",
         "S3"
       ]
@@ -3793,7 +3707,6 @@
       "send_rh": true,
       "sector": "BFSI",
       "sections": [
-        "S1",
         "S2",
         "S3"
       ]
@@ -3812,7 +3725,6 @@
       "send_rh": true,
       "sector": "BFSI",
       "sections": [
-        "S1",
         "S2",
         "S3"
       ]
@@ -3831,7 +3743,6 @@
       "send_rh": true,
       "sector": "BFSI",
       "sections": [
-        "S1",
         "S2",
         "S3"
       ]
@@ -3869,7 +3780,6 @@
       "send_rh": true,
       "sector": "BFSI",
       "sections": [
-        "S1",
         "S2",
         "S3"
       ]
@@ -3888,7 +3798,6 @@
       "send_rh": true,
       "sector": "BFSI",
       "sections": [
-        "S1",
         "S2",
         "S3"
       ]
@@ -3899,7 +3808,7 @@
       "gh_name": "Jitendra",
       "analyst_name": "Krish H",
       "rh_name": "Hardik",
-      "gh_email": "jitendra.meghrajani@careedge.in, pranjal.mulekar@careedge.in, om.tupe@careedge.in, pooja.biyani@careedge.in, Krish.hablani@careedge.in",
+      "gh_email": "jitendra.meghrajani@careedge.in, jitendra.meghrajani@gmail.com",
       "analyst_email": "krish.hablani@careedge.in",
       "rh_email": "Hardik.Shah@careedge.in",
       "send_gh": true,
@@ -3945,7 +3854,6 @@
       "send_rh": true,
       "sector": "BFSI",
       "sections": [
-        "S1",
         "S2",
         "S3"
       ]
@@ -3964,7 +3872,6 @@
       "send_rh": true,
       "sector": "BFSI",
       "sections": [
-        "S1",
         "S2",
         "S3"
       ]
@@ -3983,18 +3890,19 @@
       "send_rh": true,
       "sector": "BFSI",
       "sections": [
-        "S1",
         "S2",
         "S3"
       ]
     },
     {
       "company": "Auxilo Finserve Private Limited",
-      "aliases": ["Auxilo"],
+      "aliases": [
+        "Auxilo"
+      ],
       "gh_name": "Jitendra",
       "analyst_name": "Krish H",
       "rh_name": "Hardik",
-      "gh_email": "jitendra.meghrajani@careedge.in, pranjal.mulekar@careedge.in, om.tupe@careedge.in, pooja.biyani@careedge.in, Krish.hablani@careedge.in",
+      "gh_email": "jitendra.meghrajani@careedge.in, jitendra.meghrajani@gmail.com",
       "analyst_email": "krish.hablani@careedge.in",
       "rh_email": "Hardik.Shah@careedge.in",
       "send_gh": true,
@@ -4021,7 +3929,6 @@
       "send_rh": true,
       "sector": "BFSI",
       "sections": [
-        "S1",
         "S2",
         "S3"
       ]
@@ -4032,7 +3939,7 @@
       "gh_name": "Jitendra",
       "analyst_name": "Pooja",
       "rh_name": "Hardik",
-      "gh_email": "jitendra.meghrajani@careedge.in, pranjal.mulekar@careedge.in, om.tupe@careedge.in, pooja.biyani@careedge.in, Krish.hablani@careedge.in",
+      "gh_email": "jitendra.meghrajani@careedge.in, jitendra.meghrajani@gmail.com",
       "analyst_email": "pooja.biyani@careedge.in",
       "rh_email": "Hardik.Shah@careedge.in",
       "send_gh": true,
@@ -4070,7 +3977,7 @@
       "gh_name": "Akansha",
       "analyst_name": "Pranav V",
       "rh_name": "Hardik",
-      "gh_email": "Akansha.Jain@careedge.in",
+      "gh_email": "Akansha.Jain@careedge.in, Vineet.jain@careedge.in",
       "analyst_email": "Pranav.Viswanathan@careedge.in",
       "rh_email": "Hardik.Shah@careedge.in",
       "send_gh": true,
@@ -4108,7 +4015,7 @@
       "gh_name": "Akansha",
       "analyst_name": "Anushka",
       "rh_name": "Hardik",
-      "gh_email": "Akansha.Jain@careedge.in",
+      "gh_email": "Akansha.Jain@careedge.in, Vineet.jain@careedge.in",
       "analyst_email": "Anushka.Bothra@careedge.in",
       "rh_email": "Hardik.Shah@careedge.in",
       "send_gh": true,
@@ -4127,7 +4034,7 @@
       "gh_name": "Akansha",
       "analyst_name": "Pulkit Jain",
       "rh_name": "Hardik",
-      "gh_email": "Akansha.Jain@careedge.in",
+      "gh_email": "Akansha.Jain@careedge.in, Vineet.jain@careedge.in",
       "analyst_email": "Pulkit.Jain@careedge.in",
       "rh_email": "Hardik.Shah@careedge.in",
       "send_gh": true,
@@ -4154,7 +4061,6 @@
       "send_rh": true,
       "sector": "BFSI",
       "sections": [
-        "S1",
         "S2",
         "S3"
       ]
@@ -4173,7 +4079,6 @@
       "send_rh": true,
       "sector": "BFSI",
       "sections": [
-        "S1",
         "S2",
         "S3"
       ]
@@ -4192,7 +4097,6 @@
       "send_rh": true,
       "sector": "BFSI",
       "sections": [
-        "S1",
         "S2",
         "S3"
       ]
@@ -4203,7 +4107,7 @@
       "gh_name": "Jitendra",
       "analyst_name": "OM",
       "rh_name": "Hardik",
-      "gh_email": "jitendra.meghrajani@careedge.in, pranjal.mulekar@careedge.in, om.tupe@careedge.in, pooja.biyani@careedge.in, Krish.hablani@careedge.in",
+      "gh_email": "jitendra.meghrajani@careedge.in, jitendra.meghrajani@gmail.com",
       "analyst_email": "om.tupe@careedge.in",
       "rh_email": "Hardik.Shah@careedge.in",
       "send_gh": true,
@@ -4230,7 +4134,6 @@
       "send_rh": true,
       "sector": "BFSI",
       "sections": [
-        "S1",
         "S2",
         "S3"
       ]
@@ -4260,7 +4163,7 @@
       "gh_name": "Akansha",
       "analyst_name": "Pranav V",
       "rh_name": "Hardik",
-      "gh_email": "Akansha.Jain@careedge.in",
+      "gh_email": "Akansha.Jain@careedge.in, Vineet.jain@careedge.in",
       "analyst_email": "Pranav.Viswanathan@careedge.in",
       "rh_email": "Hardik.Shah@careedge.in",
       "send_gh": true,
@@ -4279,7 +4182,7 @@
       "gh_name": "Akansha",
       "analyst_name": "Hareesh",
       "rh_name": "Hardik",
-      "gh_email": "Akansha.Jain@careedge.in",
+      "gh_email": "Akansha.Jain@careedge.in, Vineet.jain@careedge.in",
       "analyst_email": "Hareesh.H@careedge.in",
       "rh_email": "Hardik.Shah@careedge.in",
       "send_gh": true,
@@ -4325,7 +4228,6 @@
       "send_rh": true,
       "sector": "BFSI",
       "sections": [
-        "S1",
         "S2",
         "S3"
       ]
@@ -4355,7 +4257,7 @@
       "gh_name": "Akansha",
       "analyst_name": "Pulkit Jain",
       "rh_name": "Hardik",
-      "gh_email": "Akansha.Jain@careedge.in",
+      "gh_email": "Akansha.Jain@careedge.in, Vineet.jain@careedge.in",
       "analyst_email": "Pulkit.Jain@careedge.in",
       "rh_email": "Hardik.Shah@careedge.in",
       "send_gh": true,
@@ -4382,7 +4284,6 @@
       "send_rh": true,
       "sector": "BFSI",
       "sections": [
-        "S1",
         "S2",
         "S3"
       ]
@@ -4401,7 +4302,6 @@
       "send_rh": true,
       "sector": "BFSI",
       "sections": [
-        "S1",
         "S2",
         "S3"
       ]
@@ -4452,7 +4352,7 @@
       "gh_name": "Jitendra",
       "analyst_name": "Pranjal",
       "rh_name": "Hardik",
-      "gh_email": "jitendra.meghrajani@careedge.in, pranjal.mulekar@careedge.in, om.tupe@careedge.in, pooja.biyani@careedge.in, Krish.hablani@careedge.in",
+      "gh_email": "jitendra.meghrajani@careedge.in, jitendra.meghrajani@gmail.com",
       "analyst_email": "pranjal.mulekar@careedge.in",
       "rh_email": "Hardik.Shah@careedge.in",
       "send_gh": true,
@@ -4479,7 +4379,6 @@
       "send_rh": true,
       "sector": "BFSI",
       "sections": [
-        "S1",
         "S2",
         "S3"
       ]
@@ -4490,7 +4389,7 @@
       "gh_name": "Jitendra",
       "analyst_name": "OM",
       "rh_name": "Hardik",
-      "gh_email": "jitendra.meghrajani@careedge.in, pranjal.mulekar@careedge.in, om.tupe@careedge.in, pooja.biyani@careedge.in, Krish.hablani@careedge.in",
+      "gh_email": "jitendra.meghrajani@careedge.in, jitendra.meghrajani@gmail.com",
       "analyst_email": "om.tupe@careedge.in",
       "rh_email": "Hardik.Shah@careedge.in",
       "send_gh": true,
@@ -4517,7 +4416,6 @@
       "send_rh": true,
       "sector": "BFSI",
       "sections": [
-        "S1",
         "S2",
         "S3"
       ]
@@ -4555,7 +4453,6 @@
       "send_rh": true,
       "sector": "BFSI",
       "sections": [
-        "S1",
         "S2",
         "S3"
       ]
@@ -4566,7 +4463,7 @@
       "gh_name": "Jitendra",
       "analyst_name": "Pranjal",
       "rh_name": "Hardik",
-      "gh_email": "jitendra.meghrajani@careedge.in, pranjal.mulekar@careedge.in, om.tupe@careedge.in, pooja.biyani@careedge.in, Krish.hablani@careedge.in",
+      "gh_email": "jitendra.meghrajani@careedge.in, jitendra.meghrajani@gmail.com",
       "analyst_email": "pranjal.mulekar@careedge.in",
       "rh_email": "Hardik.Shah@careedge.in",
       "send_gh": true,
@@ -4585,7 +4482,7 @@
       "gh_name": "Jitendra",
       "analyst_name": "OM",
       "rh_name": "Hardik",
-      "gh_email": "jitendra.meghrajani@careedge.in, pranjal.mulekar@careedge.in, om.tupe@careedge.in, pooja.biyani@careedge.in, Krish.hablani@careedge.in",
+      "gh_email": "jitendra.meghrajani@careedge.in, jitendra.meghrajani@gmail.com",
       "analyst_email": "om.tupe@careedge.in",
       "rh_email": "Hardik.Shah@careedge.in",
       "send_gh": true,
@@ -4612,7 +4509,6 @@
       "send_rh": true,
       "sector": "BFSI",
       "sections": [
-        "S1",
         "S2",
         "S3"
       ]
@@ -4623,7 +4519,7 @@
       "gh_name": "Akansha",
       "analyst_name": "Hareesh",
       "rh_name": "Hardik",
-      "gh_email": "Akansha.Jain@careedge.in",
+      "gh_email": "Akansha.Jain@careedge.in, Vineet.jain@careedge.in",
       "analyst_email": "Hareesh.H@careedge.in",
       "rh_email": "Hardik.Shah@careedge.in",
       "send_gh": true,
@@ -4661,7 +4557,7 @@
       "gh_name": "Akansha",
       "analyst_name": "Pranav V",
       "rh_name": "Hardik",
-      "gh_email": "Akansha.Jain@careedge.in",
+      "gh_email": "Akansha.Jain@careedge.in, Vineet.jain@careedge.in",
       "analyst_email": "Pranav.Viswanathan@careedge.in",
       "rh_email": "Hardik.Shah@careedge.in",
       "send_gh": true,
@@ -4688,7 +4584,6 @@
       "send_rh": true,
       "sector": "BFSI",
       "sections": [
-        "S1",
         "S2",
         "S3"
       ]
@@ -4726,7 +4621,6 @@
       "send_rh": true,
       "sector": "BFSI",
       "sections": [
-        "S1",
         "S2",
         "S3"
       ]
@@ -4737,7 +4631,7 @@
       "gh_name": "Akansha",
       "analyst_name": "Hareesh",
       "rh_name": "Hardik",
-      "gh_email": "Akansha.Jain@careedge.in",
+      "gh_email": "Akansha.Jain@careedge.in, Vineet.jain@careedge.in",
       "analyst_email": "Hareesh.H@careedge.in",
       "rh_email": "Hardik.Shah@careedge.in",
       "send_gh": true,
@@ -4764,7 +4658,6 @@
       "send_rh": true,
       "sector": "BFSI",
       "sections": [
-        "S1",
         "S2",
         "S3"
       ]
@@ -4821,7 +4714,6 @@
       "send_rh": true,
       "sector": "BFSI",
       "sections": [
-        "S1",
         "S2",
         "S3"
       ]
@@ -4878,7 +4770,6 @@
       "send_rh": true,
       "sector": "BFSI",
       "sections": [
-        "S1",
         "S2",
         "S3"
       ]
@@ -4897,7 +4788,6 @@
       "send_rh": true,
       "sector": "BFSI",
       "sections": [
-        "S1",
         "S2",
         "S3"
       ]
@@ -4916,7 +4806,6 @@
       "send_rh": true,
       "sector": "BFSI",
       "sections": [
-        "S1",
         "S2",
         "S3"
       ]
@@ -4973,7 +4862,6 @@
       "send_rh": true,
       "sector": "BFSI",
       "sections": [
-        "S1",
         "S2",
         "S3"
       ]
@@ -5011,7 +4899,6 @@
       "send_rh": true,
       "sector": "BFSI",
       "sections": [
-        "S1",
         "S2",
         "S3"
       ]
@@ -5022,7 +4909,7 @@
       "gh_name": "Jitendra",
       "analyst_name": "OM",
       "rh_name": "Hardik",
-      "gh_email": "jitendra.meghrajani@careedge.in, pranjal.mulekar@careedge.in, om.tupe@careedge.in, pooja.biyani@careedge.in, Krish.hablani@careedge.in",
+      "gh_email": "jitendra.meghrajani@careedge.in, jitendra.meghrajani@gmail.com",
       "analyst_email": "om.tupe@careedge.in",
       "rh_email": "Hardik.Shah@careedge.in",
       "send_gh": true,
@@ -5041,7 +4928,7 @@
       "gh_name": "Jitendra",
       "analyst_name": "Pooja",
       "rh_name": "Hardik",
-      "gh_email": "jitendra.meghrajani@careedge.in, pranjal.mulekar@careedge.in, om.tupe@careedge.in, pooja.biyani@careedge.in, Krish.hablani@careedge.in",
+      "gh_email": "jitendra.meghrajani@careedge.in, jitendra.meghrajani@gmail.com",
       "analyst_email": "pooja.biyani@careedge.in",
       "rh_email": "Hardik.Shah@careedge.in",
       "send_gh": true,
@@ -5060,7 +4947,7 @@
       "gh_name": "Jitendra",
       "analyst_name": "OM",
       "rh_name": "Hardik",
-      "gh_email": "jitendra.meghrajani@careedge.in, pranjal.mulekar@careedge.in, om.tupe@careedge.in, pooja.biyani@careedge.in, Krish.hablani@careedge.in",
+      "gh_email": "jitendra.meghrajani@careedge.in, jitendra.meghrajani@gmail.com",
       "analyst_email": "om.tupe@careedge.in",
       "rh_email": "Hardik.Shah@careedge.in",
       "send_gh": true,
@@ -5087,7 +4974,6 @@
       "send_rh": true,
       "sector": "BFSI",
       "sections": [
-        "S1",
         "S2",
         "S3"
       ]
@@ -5106,7 +4992,6 @@
       "send_rh": true,
       "sector": "BFSI",
       "sections": [
-        "S1",
         "S2",
         "S3"
       ]
@@ -5125,7 +5010,6 @@
       "send_rh": true,
       "sector": "BFSI",
       "sections": [
-        "S1",
         "S2",
         "S3"
       ]
@@ -5144,7 +5028,6 @@
       "send_rh": true,
       "sector": "BFSI",
       "sections": [
-        "S1",
         "S2",
         "S3"
       ]
@@ -5163,7 +5046,6 @@
       "send_rh": true,
       "sector": "BFSI",
       "sections": [
-        "S1",
         "S2",
         "S3"
       ]
@@ -5182,7 +5064,6 @@
       "send_rh": true,
       "sector": "BFSI",
       "sections": [
-        "S1",
         "S2",
         "S3"
       ]
@@ -5201,7 +5082,6 @@
       "send_rh": true,
       "sector": "BFSI",
       "sections": [
-        "S1",
         "S2",
         "S3"
       ]
@@ -5353,7 +5233,6 @@
       "send_rh": true,
       "sector": "BFSI",
       "sections": [
-        "S1",
         "S2",
         "S3"
       ]
@@ -5364,7 +5243,7 @@
       "gh_name": "Akansha",
       "analyst_name": "Anushka",
       "rh_name": "Hardik",
-      "gh_email": "Akansha.Jain@careedge.in",
+      "gh_email": "Akansha.Jain@careedge.in, Vineet.jain@careedge.in",
       "analyst_email": "Anushka.Bothra@careedge.in",
       "rh_email": "Hardik.Shah@careedge.in",
       "send_gh": true,
@@ -5410,7 +5289,6 @@
       "send_rh": true,
       "sector": "BFSI",
       "sections": [
-        "S1",
         "S2",
         "S3"
       ]
@@ -5478,7 +5356,7 @@
       "gh_name": "Jitendra",
       "analyst_name": "Pooja",
       "rh_name": "Hardik",
-      "gh_email": "jitendra.meghrajani@careedge.in, pranjal.mulekar@careedge.in, om.tupe@careedge.in, pooja.biyani@careedge.in, Krish.hablani@careedge.in",
+      "gh_email": "jitendra.meghrajani@careedge.in, jitendra.meghrajani@gmail.com",
       "analyst_email": "pooja.biyani@careedge.in",
       "rh_email": "Hardik.Shah@careedge.in",
       "send_gh": true,
@@ -5497,7 +5375,7 @@
       "gh_name": "Jitendra",
       "analyst_name": "om",
       "rh_name": "Hardik",
-      "gh_email": "jitendra.meghrajani@careedge.in, pranjal.mulekar@careedge.in, om.tupe@careedge.in, pooja.biyani@careedge.in, Krish.hablani@careedge.in",
+      "gh_email": "jitendra.meghrajani@careedge.in, jitendra.meghrajani@gmail.com",
       "analyst_email": "om.tupe@careedge.in",
       "rh_email": "Hardik.Shah@careedge.in",
       "send_gh": true,
@@ -5535,7 +5413,7 @@
       "gh_name": "Jitendra",
       "analyst_name": "Pooja",
       "rh_name": "Hardik",
-      "gh_email": "jitendra.meghrajani@careedge.in, pranjal.mulekar@careedge.in, om.tupe@careedge.in, pooja.biyani@careedge.in, Krish.hablani@careedge.in",
+      "gh_email": "jitendra.meghrajani@careedge.in, jitendra.meghrajani@gmail.com",
       "analyst_email": "pooja.biyani@careedge.in",
       "rh_email": "Hardik.Shah@careedge.in",
       "send_gh": true,
@@ -5562,7 +5440,6 @@
       "send_rh": true,
       "sector": "BFSI",
       "sections": [
-        "S1",
         "S2",
         "S3"
       ]
@@ -5581,7 +5458,6 @@
       "send_rh": true,
       "sector": "BFSI",
       "sections": [
-        "S1",
         "S2",
         "S3"
       ]
@@ -5619,7 +5495,6 @@
       "send_rh": true,
       "sector": "BFSI",
       "sections": [
-        "S1",
         "S2",
         "S3"
       ]
@@ -5638,7 +5513,6 @@
       "send_rh": true,
       "sector": "BFSI",
       "sections": [
-        "S1",
         "S2",
         "S3"
       ]
@@ -5657,7 +5531,6 @@
       "send_rh": true,
       "sector": "BFSI",
       "sections": [
-        "S1",
         "S2",
         "S3"
       ]
@@ -5668,7 +5541,7 @@
       "gh_name": "Akansha",
       "analyst_name": "Anushka",
       "rh_name": "Hardik",
-      "gh_email": "Akansha.Jain@careedge.in",
+      "gh_email": "Akansha.Jain@careedge.in, Vineet.jain@careedge.in",
       "analyst_email": "Anushka.Bothra@careedge.in",
       "rh_email": "Hardik.Shah@careedge.in",
       "send_gh": true,
@@ -5763,7 +5636,7 @@
       "gh_name": "Akansha",
       "analyst_name": "Anushka",
       "rh_name": "Hardik",
-      "gh_email": "Akansha.Jain@careedge.in",
+      "gh_email": "Akansha.Jain@careedge.in, Vineet.jain@careedge.in",
       "analyst_email": "Anushka.Bothra@careedge.in",
       "rh_email": "Hardik.Shah@careedge.in",
       "send_gh": true,
@@ -5782,7 +5655,7 @@
       "gh_name": "Akansha",
       "analyst_name": "Anushka",
       "rh_name": "Hardik",
-      "gh_email": "Akansha.Jain@careedge.in",
+      "gh_email": "Akansha.Jain@careedge.in, Vineet.jain@careedge.in",
       "analyst_email": "Anushka.Bothra@careedge.in",
       "rh_email": "Hardik.Shah@careedge.in",
       "send_gh": true,
@@ -5835,7 +5708,10 @@
     },
     {
       "company": "A. K. Capital Services Limited",
-      "aliases": [],
+      "aliases": [
+        "AK Capital",
+        "A.K. Capital"
+      ],
       "gh_name": "Saleem",
       "analyst_name": "Amy",
       "rh_name": "Sudam",
@@ -5858,7 +5734,7 @@
       "gh_name": "Jitendra",
       "analyst_name": "Pranjal",
       "rh_name": "Hardik",
-      "gh_email": "jitendra.meghrajani@careedge.in, pranjal.mulekar@careedge.in, om.tupe@careedge.in, pooja.biyani@careedge.in, Krish.hablani@careedge.in",
+      "gh_email": "jitendra.meghrajani@careedge.in, jitendra.meghrajani@gmail.com",
       "analyst_email": "pranjal.mulekar@careedge.in",
       "rh_email": "Hardik.Shah@careedge.in",
       "send_gh": true,
@@ -5885,7 +5761,6 @@
       "send_rh": true,
       "sector": "BFSI",
       "sections": [
-        "S1",
         "S2",
         "S3"
       ]
@@ -5896,7 +5771,7 @@
       "gh_name": "Jitendra",
       "analyst_name": "Pooja",
       "rh_name": "Hardik",
-      "gh_email": "jitendra.meghrajani@careedge.in, pranjal.mulekar@careedge.in, om.tupe@careedge.in, pooja.biyani@careedge.in, Krish.hablani@careedge.in",
+      "gh_email": "jitendra.meghrajani@careedge.in, jitendra.meghrajani@gmail.com",
       "analyst_email": "pooja.biyani@careedge.in",
       "rh_email": "Hardik.Shah@careedge.in",
       "send_gh": true,
@@ -5917,7 +5792,7 @@
       "gh_name": "Jitendra",
       "analyst_name": "Pranjal",
       "rh_name": "Hardik",
-      "gh_email": "jitendra.meghrajani@careedge.in, pranjal.mulekar@careedge.in, om.tupe@careedge.in, pooja.biyani@careedge.in, Krish.hablani@careedge.in",
+      "gh_email": "jitendra.meghrajani@careedge.in, jitendra.meghrajani@gmail.com",
       "analyst_email": "pranjal.mulekar@careedge.in",
       "rh_email": "Hardik.Shah@careedge.in",
       "send_gh": true,
@@ -5944,7 +5819,6 @@
       "send_rh": true,
       "sector": "BFSI",
       "sections": [
-        "S1",
         "S2",
         "S3"
       ]
@@ -6058,7 +5932,6 @@
       "send_rh": true,
       "sector": "BFSI",
       "sections": [
-        "S1",
         "S2",
         "S3"
       ]
@@ -6126,7 +5999,7 @@
       "gh_name": "Jitendra",
       "analyst_name": "Pranjal",
       "rh_name": "Hardik",
-      "gh_email": "jitendra.meghrajani@careedge.in, pranjal.mulekar@careedge.in, om.tupe@careedge.in, pooja.biyani@careedge.in, Krish.hablani@careedge.in",
+      "gh_email": "jitendra.meghrajani@careedge.in, jitendra.meghrajani@gmail.com",
       "analyst_email": "pranjal.mulekar@careedge.in",
       "rh_email": "Hardik.Shah@careedge.in",
       "send_gh": true,
@@ -6145,7 +6018,7 @@
       "gh_name": "Jitendra",
       "analyst_name": "OM",
       "rh_name": "Hardik",
-      "gh_email": "jitendra.meghrajani@careedge.in, pranjal.mulekar@careedge.in, om.tupe@careedge.in, pooja.biyani@careedge.in, Krish.hablani@careedge.in",
+      "gh_email": "jitendra.meghrajani@careedge.in, jitendra.meghrajani@gmail.com",
       "analyst_email": "om.tupe@careedge.in",
       "rh_email": "Hardik.Shah@careedge.in",
       "send_gh": true,
@@ -6164,7 +6037,7 @@
       "gh_name": "Akansha",
       "analyst_name": "Hareesh",
       "rh_name": "Hardik",
-      "gh_email": "Akansha.Jain@careedge.in",
+      "gh_email": "Akansha.Jain@careedge.in, Vineet.jain@careedge.in",
       "analyst_email": "Hareesh.H@careedge.in",
       "rh_email": "Hardik.Shah@careedge.in",
       "send_gh": true,
@@ -6183,7 +6056,7 @@
       "gh_name": "Akansha",
       "analyst_name": "Pranav V",
       "rh_name": "Hardik",
-      "gh_email": "Akansha.Jain@careedge.in",
+      "gh_email": "Akansha.Jain@careedge.in, Vineet.jain@careedge.in",
       "analyst_email": "Pranav.Viswanathan@careedge.in",
       "rh_email": "Hardik.Shah@careedge.in",
       "send_gh": true,
@@ -6202,7 +6075,7 @@
       "gh_name": "Akansha",
       "analyst_name": "Pulkit Jain",
       "rh_name": "Hardik",
-      "gh_email": "Akansha.Jain@careedge.in",
+      "gh_email": "Akansha.Jain@careedge.in, Vineet.jain@careedge.in",
       "analyst_email": "Pulkit.Jain@careedge.in",
       "rh_email": "Hardik.Shah@careedge.in",
       "send_gh": true,
@@ -6221,7 +6094,7 @@
       "gh_name": "Akansha",
       "analyst_name": "Hareesh",
       "rh_name": "Hardik",
-      "gh_email": "Akansha.Jain@careedge.in",
+      "gh_email": "Akansha.Jain@careedge.in, Vineet.jain@careedge.in",
       "analyst_email": "Hareesh.H@careedge.in",
       "rh_email": "Hardik.Shah@careedge.in",
       "send_gh": true,
@@ -6240,7 +6113,7 @@
       "gh_name": "Akansha",
       "analyst_name": "Hareesh",
       "rh_name": "Hardik",
-      "gh_email": "Akansha.Jain@careedge.in",
+      "gh_email": "Akansha.Jain@careedge.in, Vineet.jain@careedge.in",
       "analyst_email": "Hareesh.H@careedge.in",
       "rh_email": "Hardik.Shah@careedge.in",
       "send_gh": true,
@@ -6267,7 +6140,6 @@
       "send_rh": true,
       "sector": "BFSI",
       "sections": [
-        "S1",
         "S2",
         "S3"
       ]
@@ -6278,7 +6150,7 @@
       "gh_name": "Akansha",
       "analyst_name": "Pranav V",
       "rh_name": "Hardik",
-      "gh_email": "Akansha.Jain@careedge.in",
+      "gh_email": "Akansha.Jain@careedge.in, Vineet.jain@careedge.in",
       "analyst_email": "Pranav.Viswanathan@careedge.in",
       "rh_email": "Hardik.Shah@careedge.in",
       "send_gh": true,
@@ -6297,7 +6169,7 @@
       "gh_name": "Akansha",
       "analyst_name": "Pranav V",
       "rh_name": "Hardik",
-      "gh_email": "Akansha.Jain@careedge.in",
+      "gh_email": "Akansha.Jain@careedge.in, Vineet.jain@careedge.in",
       "analyst_email": "Pranav.Viswanathan@careedge.in",
       "rh_email": "Hardik.Shah@careedge.in",
       "send_gh": true,
@@ -6316,7 +6188,7 @@
       "gh_name": "Akansha",
       "analyst_name": "Hareesh",
       "rh_name": "Hardik",
-      "gh_email": "Akansha.Jain@careedge.in",
+      "gh_email": "Akansha.Jain@careedge.in, Vineet.jain@careedge.in",
       "analyst_email": "Hareesh.H@careedge.in",
       "rh_email": "Hardik.Shah@careedge.in",
       "send_gh": true,
@@ -6343,7 +6215,6 @@
       "send_rh": true,
       "sector": "BFSI",
       "sections": [
-        "S1",
         "S2",
         "S3"
       ]
@@ -6400,7 +6271,6 @@
       "send_rh": true,
       "sector": "BFSI",
       "sections": [
-        "S1",
         "S2",
         "S3"
       ]
@@ -6411,7 +6281,7 @@
       "gh_name": "Jitendra",
       "analyst_name": "OM",
       "rh_name": "Hardik",
-      "gh_email": "jitendra.meghrajani@careedge.in, pranjal.mulekar@careedge.in, om.tupe@careedge.in, pooja.biyani@careedge.in, Krish.hablani@careedge.in",
+      "gh_email": "jitendra.meghrajani@careedge.in, jitendra.meghrajani@gmail.com",
       "analyst_email": "om.tupe@careedge.in",
       "rh_email": "Hardik.Shah@careedge.in",
       "send_gh": true,
@@ -6430,7 +6300,7 @@
       "gh_name": "Jitendra",
       "analyst_name": "OM",
       "rh_name": "Hardik",
-      "gh_email": "jitendra.meghrajani@careedge.in, pranjal.mulekar@careedge.in, om.tupe@careedge.in, pooja.biyani@careedge.in, Krish.hablani@careedge.in",
+      "gh_email": "jitendra.meghrajani@careedge.in, jitendra.meghrajani@gmail.com",
       "analyst_email": "om.tupe@careedge.in",
       "rh_email": "Hardik.Shah@careedge.in",
       "send_gh": true,
@@ -6449,7 +6319,7 @@
       "gh_name": "Jitendra",
       "analyst_name": "Krish H",
       "rh_name": "Hardik",
-      "gh_email": "jitendra.meghrajani@careedge.in, pranjal.mulekar@careedge.in, om.tupe@careedge.in, pooja.biyani@careedge.in, Krish.hablani@careedge.in",
+      "gh_email": "jitendra.meghrajani@careedge.in, jitendra.meghrajani@gmail.com",
       "analyst_email": "krish.hablani@careedge.in",
       "rh_email": "Hardik.Shah@careedge.in",
       "send_gh": true,
@@ -6468,7 +6338,7 @@
       "gh_name": "Jitendra",
       "analyst_name": "Pranjal",
       "rh_name": "Hardik",
-      "gh_email": "jitendra.meghrajani@careedge.in, pranjal.mulekar@careedge.in, om.tupe@careedge.in, pooja.biyani@careedge.in, Krish.hablani@careedge.in",
+      "gh_email": "jitendra.meghrajani@careedge.in, jitendra.meghrajani@gmail.com",
       "analyst_email": "pranjal.mulekar@careedge.in",
       "rh_email": "Hardik.Shah@careedge.in",
       "send_gh": true,
@@ -6495,7 +6365,6 @@
       "send_rh": true,
       "sector": "BFSI",
       "sections": [
-        "S1",
         "S2",
         "S3"
       ]
@@ -6544,7 +6413,7 @@
       "gh_name": "Jitendra",
       "analyst_name": "Pooja",
       "rh_name": "Hardik",
-      "gh_email": "jitendra.meghrajani@careedge.in, pranjal.mulekar@careedge.in, om.tupe@careedge.in, pooja.biyani@careedge.in, Krish.hablani@careedge.in",
+      "gh_email": "jitendra.meghrajani@careedge.in, jitendra.meghrajani@gmail.com",
       "analyst_email": "pooja.biyani@careedge.in",
       "rh_email": "Hardik.Shah@careedge.in",
       "send_gh": true,
@@ -6571,7 +6440,6 @@
       "send_rh": true,
       "sector": "BFSI",
       "sections": [
-        "S1",
         "S2",
         "S3"
       ]
@@ -6590,7 +6458,6 @@
       "send_rh": true,
       "sector": "BFSI",
       "sections": [
-        "S1",
         "S2",
         "S3"
       ]
@@ -6609,7 +6476,6 @@
       "send_rh": true,
       "sector": "BFSI",
       "sections": [
-        "S1",
         "S2",
         "S3"
       ]
@@ -6628,7 +6494,6 @@
       "send_rh": true,
       "sector": "BFSI",
       "sections": [
-        "S1",
         "S2",
         "S3"
       ]
@@ -6647,7 +6512,6 @@
       "send_rh": true,
       "sector": "BFSI",
       "sections": [
-        "S1",
         "S2",
         "S3"
       ]
@@ -6666,7 +6530,6 @@
       "send_rh": true,
       "sector": "BFSI",
       "sections": [
-        "S1",
         "S2",
         "S3"
       ]
@@ -6685,7 +6548,6 @@
       "send_rh": true,
       "sector": "BFSI",
       "sections": [
-        "S1",
         "S2",
         "S3"
       ]
@@ -6704,7 +6566,6 @@
       "send_rh": true,
       "sector": "BFSI",
       "sections": [
-        "S1",
         "S2",
         "S3"
       ]
@@ -7079,10 +6940,14 @@
       "asset reconstruction",
       "mutual fund",
       "insurance",
-      "small finance bank"
+      "small finance bank",
+      "securitisation (india)",
+      "structured finance (india)"
     ],
-    "Infrastructure": []
+    "Infrastructure": [],
+    "Securitisation": []
   },
   "use_ai": true,
-  "sector_keywords": []
+  "sector_keywords": [],
+  "skip_saturdays": true
 }
