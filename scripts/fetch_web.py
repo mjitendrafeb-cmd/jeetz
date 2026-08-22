@@ -626,8 +626,11 @@ def fetch_nse_rss(companies=None) -> list[str]:
             # watchlist match isn't missed purely by fetch-moment timing.
             scan_cap = 60 if tag == "NSE Circular" else 400
             count = 0
+            n_raw = len(feed.entries)
+            n_stale = 0
             for entry in feed.entries[:scan_cap]:
                 if not _entry_recent(entry, 48):
+                    n_stale += 1
                     continue
                 title = _clean(entry.get("title", "")).strip()
                 desc = _clean(entry.get("summary", entry.get("description", ""))).strip()
@@ -659,7 +662,12 @@ def fetch_nse_rss(companies=None) -> list[str]:
                 # alone, from a feed covering the whole exchange.
                 if count >= (20 if tag == "NSE Circular" else 400):
                     break
-            print(f"[fetch_web] NSE RSS {tag}: {count} items")
+            # raw = entries the feed itself returned (before any filtering);
+            # a persistent 0 kept with raw>0 means the miss is in matching
+            # (watchlist phrase / junk regex), not a dead/empty feed -- the
+            # two used to be indistinguishable from this log line alone.
+            print(f"[fetch_web] NSE RSS {tag}: {count} items "
+                  f"(raw={n_raw}, stale={n_stale})")
         except Exception as exc:
             print(f"[fetch_web] NSE RSS error ({url}): {exc}")
     # Raised 80->450 alongside the per-feed caps above -- a shared total
@@ -766,9 +774,12 @@ def fetch_bse_rss(companies=None) -> list[str]:
         # specific missed filing. Still bounded by the items[:80] cap below.
         scan_cap = 800 if watchlist_only else 80
         count = 0
+        n_raw = len(entries)
+        n_stale = 0
         for entry in entries[:scan_cap]:
             pub_str, recent = _entry_pub(entry)
             if not recent:
+                n_stale += 1
                 continue
             title = _clean(entry.get("title", "")).strip()
             desc = _clean(entry.get("summary", entry.get("description", ""))).strip()
@@ -795,7 +806,13 @@ def fetch_bse_rss(companies=None) -> list[str]:
             # admits non-watchlist T1 items on credit keywords alone.
             if count >= (400 if watchlist_only else 30):
                 break
-        print(f"[fetch_web] BSE RSS {tag}: {count} items (from {used})")
+        # raw = entries the feed itself returned (before any filtering); a
+        # persistent 0 kept with raw>0 means the miss is in matching
+        # (watchlist phrase / junk regex) or dated-out (stale), not a
+        # dead/empty feed -- the two used to be indistinguishable from
+        # this log line alone.
+        print(f"[fetch_web] BSE RSS {tag}: {count} items "
+              f"(from {used}, raw={n_raw}, stale={n_stale})")
     # Raised 80->450 alongside the per-feed caps above -- a shared total
     # across 9 feeds needs headroom to match watchlist-scale output, not a
     # leftover from when this covered 3 feeds at a much smaller per-feed cap.
