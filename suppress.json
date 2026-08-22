@@ -1,0 +1,13 @@
+{
+  "_README": [
+    "Reader feedback loop for the 7:40 mail.",
+    "Each card carries a 'not relevant?' link that opens a pre-filled email",
+    "to the admin mailbox with the item's exact headline. To make that item",
+    "type stop appearing, paste a distinctive lowercase substring of the",
+    "headline into 'patterns' below and commit.",
+    "Matching is a plain case-insensitive substring test against the title,",
+    "so keep patterns specific — 'bank' would suppress almost everything.",
+    "Prefer a phrase: 'wealth summit', 'best mutual funds to buy'."
+  ],
+  "patterns": []
+}

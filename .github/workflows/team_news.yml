@@ -1,0 +1,188 @@
+name: Team Portfolio News
+
+# Portfolio-routed watchlist news, sections classified by Claude Sonnet 5
+# (high effort). Free RSS/Google News fetch; mechanical rules pre-filter
+# junk/geography/procedural noise and fall back for classification only if
+# the Anthropic API is unavailable.
+#
+# Scheduled in the SAME morning window as the daily report so both fetch
+# Google News at nearly the same time (consistency between the two mails).
+# GitHub cron runs hours late, so several staggered ticks + a gate that
+# holds until 07:35 IST and sends at most once per day. Manual dispatch
+# (console button / Actions tab) always sends immediately.
+on:
+  schedule:
+    - cron: '57 21 * * *'  # 03:27 IST nominal
+    - cron: '42 23 * * *'  # 05:12 IST
+    - cron: '27 1 * * *'   # 06:57 IST
+    - cron: '12 3 * * *'   # 08:42 IST
+  workflow_dispatch:
+    inputs:
+      test_email:
+        description: 'One-off test: restrict this run to one or more recipient emails, comma-separated (blank = normal full send)'
+        required: false
+        type: string
+      test_sections:
+        description: 'One-off test: comma-separated sections to send (e.g. S1) — only used if test_email is set (blank = that person''s normal sections)'
+        required: false
+        type: string
+
+concurrency:
+  group: team-news
+  cancel-in-progress: false
+
+jobs:
+  send-team-news:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          fetch-depth: 0
+
+      - name: Decide whether to send
+        id: gate
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+        run: |
+          git fetch origin main --quiet && git checkout origin/main -- data/team_last_sent.json 2>/dev/null || true
+          python3 - <<'PY'
+          import os, json, datetime, subprocess
+
+          event = os.environ.get("EVENT_NAME", "")
+          IST = datetime.timezone(datetime.timedelta(hours=5, minutes=30))
+          now = datetime.datetime.now(IST)
+          today = now.date().isoformat()
+
+          def last_sent():
+              try:
+                  with open("data/team_last_sent.json", encoding="utf-8") as f:
+                      return json.load(f).get("date", "")
+              except Exception:
+                  return ""
+
+          try:
+              with open("team.json", encoding="utf-8") as f:
+                  team_enabled = json.load(f).get("scheduled_enabled", True)
+          except Exception:
+              team_enabled = True
+
+          if event == "workflow_dispatch":
+              send, why = True, "manual trigger — always send"
+          elif not team_enabled:
+              send, why = False, "team mail schedule disabled in console"
+          elif now.weekday() == 6:
+              send, why = False, "Sunday — no team mail"
+          elif now.weekday() == 5:
+              send, why = False, "Saturday — no team mail (Monday's Weekend Edition covers it)"
+          elif last_sent() == today:
+              send, why = False, f"already sent today"
+          elif (now.hour, now.minute) < (7, 35):
+              import time as _t
+              target = now.replace(hour=7, minute=35, second=0, microsecond=0)
+              wait = (target - now).total_seconds()
+              print(f"holding {wait/60:.0f} min until 07:35 IST (now {now:%H:%M} IST)")
+              _t.sleep(max(0, wait))
+              subprocess.run(["git", "fetch", "origin", "main", "--quiet"], check=False)
+              subprocess.run(["git", "checkout", "origin/main", "--", "data/team_last_sent.json"], check=False)
+              if last_sent() == today:
+                  send, why = False, "another tick sent while holding"
+              else:
+                  send, why = True, "window reached after hold"
+          else:
+              send, why = True, f"window open ({now:%H:%M} IST), not yet sent"
+
+          print(("SEND" if send else "SKIP") + f" — {why}")
+          with open(os.environ["GITHUB_OUTPUT"], "a") as f:
+              f.write(f"send={'true' if send else 'false'}\n")
+          PY
+
+      - name: Set up Python 3.11
+        if: steps.gate.outputs.send == 'true'
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        if: steps.gate.outputs.send == 'true'
+        run: |
+          # WeasyPrint renders the edition to PDF (Defender blocks .html
+          # attachments by policy). It binds to system pango/cairo, which
+          # are not guaranteed on the runner image -- install explicitly
+          # so a base-image change can't silently drop us back to .html.
+          # fonts-noto-core is explicit too -- the base image's default fonts
+          # were confirmed missing a proper Indian Rupee (₹) glyph, so PDF
+          # text like "₹160.64 crore" rendered with a wrong/garbled symbol.
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq libpango-1.0-0 libpangoft2-1.0-0 libharfbuzz0b libffi-dev fonts-noto-core
+          python -m pip install --upgrade pip
+          if [ -f scripts/requirements.txt ]; then pip install -r scripts/requirements.txt; fi
+
+      - name: Send team portfolio news
+        if: steps.gate.outputs.send == 'true'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GMAIL_USER: ${{ secrets.GMAIL_USER }}
+          GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
+          # Optional overrides. Set these to move off Gmail (corporate
+          # relay or a transactional provider) without touching code — the
+          # script falls back to the GMAIL_* pair when they are unset.
+          SMTP_HOST: ${{ secrets.SMTP_HOST }}
+          SMTP_PORT: ${{ secrets.SMTP_PORT }}
+          SMTP_USER: ${{ secrets.SMTP_USER }}
+          SMTP_PASSWORD: ${{ secrets.SMTP_PASSWORD }}
+          SMTP_FROM: ${{ secrets.SMTP_FROM }}
+          # When set, mail goes over Brevo's HTTPS API instead of SMTP —
+          # sidesteps the SMTP "authorised IPs" gate, which cannot work
+          # from a CI runner whose IP changes every run.
+          BREVO_API_KEY: ${{ secrets.BREVO_API_KEY }}
+          # Where reader feedback ("not relevant?", "Request an entity")
+          # and delivery-failure alerts go. Falls back to SMTP_FROM.
+          ADMIN_EMAIL: ${{ secrets.ADMIN_EMAIL }}
+          # From-field display name (default: "Daily News Digest"). Kept
+          # neutral while sending from a domain unrelated to careedge.in --
+          # "CareEdge Daily News" from an unaffiliated domain is a
+          # display-name-impersonation signal Microsoft Defender flags.
+          MAIL_FROM_NAME: ${{ secrets.MAIL_FROM_NAME }}
+          TELEGRAM_API_ID: ${{ secrets.TELEGRAM_API_ID }}
+          TELEGRAM_API_HASH: ${{ secrets.TELEGRAM_API_HASH }}
+          TELEGRAM_SESSION: ${{ secrets.TELEGRAM_SESSION }}
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          # GPT credit analysis for S1 Summary + email body only (see
+          # _gpt_analysis in send_team_news.py). Separate provider/switch
+          # from ANTHROPIC_API_KEY above -- fails open to the existing
+          # Anthropic/mechanical pipeline if unset or if the call fails.
+          # GEMINI_API_KEY is preferred (free tier); OPENAI_API_KEY works
+          # too if ever set instead -- see _gpt_provider().
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          TEAM_SCHEDULED: 'true'
+          TEST_EMAIL: ${{ inputs.test_email }}
+          TEST_SECTIONS: ${{ inputs.test_sections }}
+        run: python scripts/send_team_news.py
+
+      - name: Alert admin on failure
+        if: failure()
+        env:
+          GMAIL_USER: ${{ secrets.GMAIL_USER }}
+          GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+          WF_NAME: 7:40 Team Mail
+        run: |
+          python - <<'PYEOF'
+          import os, smtplib
+          from email.mime.text import MIMEText
+          user = os.environ["GMAIL_USER"]; pw = os.environ["GMAIL_APP_PASSWORD"]
+          wf = os.environ["WF_NAME"]; url = os.environ["RUN_URL"]
+          msg = MIMEText(f'<p><b>{wf} FAILED.</b></p><p>No mails may have gone out this morning.</p>'
+                         f'<p><a href="{url}">Open the run log</a></p>', "html")
+          msg["Subject"] = f"ALERT: {wf} workflow FAILED"
+          msg["From"] = user; msg["To"] = user
+          with smtplib.SMTP_SSL("smtp.gmail.com", 465) as s:
+              s.login(user, pw); s.sendmail(user, [user], msg.as_string())
+          print("failure alert sent")
+          PYEOF

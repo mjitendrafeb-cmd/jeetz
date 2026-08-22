@@ -5,15 +5,18 @@ name: Daily Credit Intelligence Report
 # the 7:15 IST window simply sleeps until 7:15, then sends; later ticks see
 # the report was already sent and no-op. Sundays are skipped.
 on:
+  # Four ticks, not eight. Every tick is a chance to send a DUPLICATE
+  # whenever the sent-marker fails to publish — which is exactly what
+  # happened on 07 and 10 Aug (4-5 reports in a morning). The first tick to
+  # fire holds until the 07:15 IST window and sends; the rest see the
+  # marker and no-op. Four is still ample cover for GitHub's habitual
+  # 3-hour cron lateness while halving the worst case if the marker is
+  # ever unpublishable again.
   schedule:
     - cron: '52 21 * * *'  # 03:22 IST nominal
-    - cron: '37 22 * * *'  # 04:07 IST
     - cron: '22 23 * * *'  # 04:52 IST
-    - cron: '7 0 * * *'    # 05:37 IST
     - cron: '52 0 * * *'   # 06:22 IST
-    - cron: '37 1 * * *'   # 07:07 IST
     - cron: '22 2 * * *'   # 07:52 IST
-    - cron: '7 3 * * *'    # 08:37 IST
   workflow_dispatch:
     inputs:
       weekly:
@@ -76,10 +79,18 @@ jobs:
 
           last_sent = read_last_sent()
 
+          try:
+              with open("config.json", encoding="utf-8") as f:
+                  report_enabled = json.load(f).get("daily_report_enabled", True)
+          except Exception:
+              report_enabled = True
+
           if schedule == "30 10 * * 5":
               send, why = True, "Friday weekly digest cron"
           elif event == "workflow_dispatch" and force != "false":
               send, why = True, "manual trigger (force)"
+          elif event == "schedule" and not report_enabled:
+              send, why = False, "daily report disabled in config (console toggle)"
           elif now.weekday() == 6:
               send, why = False, "Sunday — no daily report"
           elif last_sent == today:
@@ -133,3 +144,25 @@ jobs:
           TELEGRAM_SESSION: ${{ secrets.TELEGRAM_SESSION }}
           WEEKLY_DIGEST: ${{ github.event.schedule == '30 10 * * 5' && 'true' || inputs.weekly || 'false' }}
         run: python scripts/send_credit_report.py
+
+      - name: Alert admin on failure
+        if: failure()
+        env:
+          GMAIL_USER: ${{ secrets.GMAIL_USER }}
+          GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+          WF_NAME: 7:30 Daily Credit Report
+        run: |
+          python - <<'PYEOF'
+          import os, smtplib
+          from email.mime.text import MIMEText
+          user = os.environ["GMAIL_USER"]; pw = os.environ["GMAIL_APP_PASSWORD"]
+          wf = os.environ["WF_NAME"]; url = os.environ["RUN_URL"]
+          msg = MIMEText(f'<p><b>{wf} FAILED.</b></p><p>No mails may have gone out this morning.</p>'
+                         f'<p><a href="{url}">Open the run log</a></p>', "html")
+          msg["Subject"] = f"ALERT: {wf} workflow FAILED"
+          msg["From"] = user; msg["To"] = user
+          with smtplib.SMTP_SSL("smtp.gmail.com", 465) as s:
+              s.login(user, pw); s.sendmail(user, [user], msg.as_string())
+          print("failure alert sent")
+          PYEOF

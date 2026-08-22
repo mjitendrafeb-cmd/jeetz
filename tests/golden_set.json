@@ -1,0 +1,1000 @@
+{
+  "_README": [
+    "Regression suite for the 7:40 classifier. Every case here is a REAL",
+    "item that was reported as wrong, or a real item that must keep working.",
+    "Run: python3 tests/run_golden.py",
+    "",
+    "expect = the section the item belongs in, or null to mean 'must be",
+    "dropped entirely'. 'why' records the incident so a future reader knows",
+    "what breaks if the case is deleted.",
+    "",
+    "Add a case every time a miscategorisation is reported. Without this the",
+    "only feedback loop is someone spotting it in their inbox.",
+    "",
+    "expect      = section from _classify() -- the FIVE-section taxonomy the 7:30 fallback report still uses.",
+    "expect_team = section from _classify_team() -- the THREE-section taxonomy the 7:40 mail uses (old S3 folds into S2; old S4+S5 become S3)."
+  ],
+  "cases": [
+    {
+      "title": "Godfrey Phillips shares jump 7% as Samir Modi seeks peace with mother Bina Modi",
+      "expect": null,
+      "why": "individual-company share move, non-financial issuer",
+      "expect_team": null
+    },
+    {
+      "title": "Epack Prefab Technologies shares rally 10% after Q1 revenue jumps 24%",
+      "expect": null,
+      "why": "share move; 'Q1' must not rescue it",
+      "expect_team": null
+    },
+    {
+      "title": "Dabur shares drop 3% after FSSAI bars FMCG major from selling products with '100%' guarantee claims",
+      "expect": null,
+      "why": "share move; FMCG regulator is not a financial regulator",
+      "expect_team": null
+    },
+    {
+      "title": "Thangamayil share selloff continues: Stock drops 5% despite Rs 344 crore sales",
+      "expect": null,
+      "why": "selloff wording",
+      "expect_team": null
+    },
+    {
+      "title": "Zydus Wellness Share Price Falls Over 3% After Q1 Net Profit Declines",
+      "expect": null,
+      "why": "'Share Price Falls' — the one that survived the first fix",
+      "expect_team": null
+    },
+    {
+      "title": "Auxilo Finserve Number of Employees 2026",
+      "source": "reveliolabs.com",
+      "expect": null,
+      "why": "HR headcount scraper page, not news",
+      "expect_team": null
+    },
+    {
+      "title": "Abraxas Capital Moves $61.2M USDT To Bitfinex, Supplies 40,000 ETH To Spark",
+      "source": "bitcoinworld.co.in",
+      "expect": null,
+      "why": "crypto; reached S1 via a loose 'Spark' name match",
+      "expect_team": null
+    },
+    {
+      "title": "IPO Corner: Juniper Green Energy Limited",
+      "expect": null,
+      "why": "recurring IPO filler",
+      "expect_team": null
+    },
+    {
+      "title": "What Is ICRA? Why Its Credit Ratings Matter To Investors",
+      "expect": null,
+      "why": "explainer",
+      "expect_team": null
+    },
+    {
+      "title": "Summary of financial markets from last week: Indian equities outperformed",
+      "expect": null,
+      "why": "weekly market recap",
+      "expect_team": null
+    },
+    {
+      "title": "Buy Indostar Capital Finance; target of Rs 310: Motilal Oswal",
+      "expect": null,
+      "why": "broker target-price call",
+      "expect_team": null
+    },
+    {
+      "title": "Golden Cross Forms in Manba Finance Ltd",
+      "expect": null,
+      "why": "technical-analysis noise",
+      "expect_team": null
+    },
+    {
+      "title": "Hyundai Motor India | Motilal Oswal View",
+      "expect": null,
+      "why": "broker note dodging the target-price pattern",
+      "expect_team": null
+    },
+    {
+      "title": "HillCrest quotes N11.73bn Commercial Paper on FMDQ Exchange",
+      "expect": null,
+      "why": "Nigerian market, no India angle",
+      "expect_team": null
+    },
+    {
+      "title": "बैंक ऋण वृद्धि जून में 18.6 प्रतिशत रही",
+      "expect": null,
+      "why": "Hindi copy",
+      "expect_team": null
+    },
+    {
+      "title": "RBI imposes monetary penalty of Rs 2 crore on ABC Bank",
+      "expect": "S3",
+      "why": "penalties are ALWAYS S3, never S2",
+      "expect_team": "S2"
+    },
+    {
+      "title": "SEBI tightens disclosure norms for debenture trustees",
+      "expect": "S3",
+      "why": "regulator circular ABOUT debentures is S3, not S4",
+      "expect_team": "S2"
+    },
+    {
+      "title": "RBI allows banks to issue shares to foreign portfolio investors",
+      "expect": "S3",
+      "why": "regulator decision reported by press still routes to S3",
+      "expect_team": "S2"
+    },
+    {
+      "title": "RBI issues revised norms for commercial paper issuance",
+      "expect": "S3",
+      "why": "same, with an S4 keyword present",
+      "expect_team": "S2"
+    },
+    {
+      "title": "RBI announces surprise rate cut of 25 bps",
+      "expect": "S5",
+      "why": "monetary policy is macro, must outrank the regulator-action rule",
+      "expect_team": "S3"
+    },
+    {
+      "title": "RBI revises GDP growth forecast to 7 percent",
+      "expect": "S5",
+      "why": "'revises' must not drag a macro story into S3",
+      "expect_team": "S3"
+    },
+    {
+      "title": "India's economic growth seen at 6.8% this fiscal, says economic survey",
+      "expect": "S5",
+      "why": "widened macro vocabulary",
+      "expect_team": "S3"
+    },
+    {
+      "title": "IMF raises India growth forecast to 7%",
+      "expect": "S5",
+      "why": "IMF is macro",
+      "expect_team": "S3"
+    },
+    {
+      "title": "Monsoon deficit may hit rural demand, say economists",
+      "expect": "S5",
+      "why": "macro with no classic keyword",
+      "expect_team": "S3"
+    },
+    {
+      "title": "Latest data release on money supply and reserves",
+      "source": "RBI-DBIE",
+      "expect": "S5",
+      "why": "macro-only source must not be caught by the generic rbi->S3 rule",
+      "expect_team": "S3"
+    },
+    {
+      "title": "Corporate bond yields harden ahead of the weekly G-sec auction",
+      "expect": "S4",
+      "why": "genuine bond-market item",
+      "expect_team": "S3"
+    },
+    {
+      "title": "TPG, GIC and ICICI Bank acquire Aseem Infrastructure Finance for Rs 5,000 crore",
+      "expect": "S2",
+      "why": "an acquisition of one company is entity news in the 3-section scheme — S1 if any party is tracked, dropped otherwise",
+      "expect_team": null
+    },
+    {
+      "title": "India Inc credit ratio declines in H2FY26, outlook stable but cautious: Crisil",
+      "expect": "S5",
+      "why": "economy-wide credit study is MACRO, not one sector's news — and must survive the rating-agency name being removed from the S2 gate",
+      "expect_team": "S3"
+    },
+    {
+      "title": "India's bank credit growth remains robust at 18.6% in June 2026",
+      "expect": "S2",
+      "why": "sector data",
+      "expect_team": "S2"
+    },
+    {
+      "title": "RBI data shows bank credit growth at 18.6% in June",
+      "expect": "S2",
+      "why": "citing RBI data is not a regulatory action",
+      "expect_team": "S2"
+    },
+    {
+      "title": "Bank of India raises Rs 500 crore via share sale to institutional investors",
+      "expect": "S2",
+      "why": "'share sale' must survive the share-move filter",
+      "expect_team": "S2"
+    },
+    {
+      "title": "Bajaj Finance Q1 net profit rises 20% on strong loan growth",
+      "expect": "S2",
+      "why": "one company's results are entity news in the 3-section scheme — S1 if tracked, dropped otherwise",
+      "expect_team": null
+    },
+    {
+      "title": "BEL-Thales Systems Ltd",
+      "tags": "RATING — ICRA",
+      "expect": null,
+      "why": "CRA press page for a non-watchlist, non-financial issuer",
+      "expect_team": null
+    },
+    {
+      "title": "Indostar reports Q1 results",
+      "tags": "WATCHLIST — Indostar Capital Finance Limited",
+      "expect": "S1",
+      "why": "watchlist tag wins over everything",
+      "expect_team": "S1"
+    },
+    {
+      "title": "Bharti Airtel raises Rs 5,000 crore via non-convertible debentures",
+      "expect": "S4",
+      "why": "single issuer's NCD raise is entity news — S1 if tracked, dropped otherwise; never macro",
+      "expect_team": null
+    },
+    {
+      "title": "Airtel reports 12% rise in Q1 net profit on tariff hikes",
+      "expect": null,
+      "why": "reported Airtel leak: telecom results are not NBFC/FI sector news",
+      "expect_team": null
+    },
+    {
+      "title": "Aircel lenders approve resolution plan after prolonged insolvency",
+      "expect": null,
+      "why": "reported Aircel leak: telecom subject, 'lenders' alone is not an FI signal",
+      "expect_team": null
+    },
+    {
+      "title": "EPL media rights deal valued at Rs 12,000 crore",
+      "expect": null,
+      "why": "reported EPL leak: sport, whatever finance vocabulary it carries",
+      "expect_team": null
+    },
+    {
+      "title": "IPL franchise valuations surge as investors line up",
+      "expect": null,
+      "why": "sport/business crossover must not reach S2",
+      "expect_team": null
+    },
+    {
+      "title": "Airtel Payments Bank launches savings product for rural customers",
+      "expect": "S2",
+      "why": "telecom PARENT but the subject is a payments bank - a genuine FI",
+      "expect_team": "S2"
+    },
+    {
+      "title": "Maruti Suzuki Q1 profit rises on higher passenger vehicle sales",
+      "expect": null,
+      "why": "auto results",
+      "expect_team": null
+    },
+    {
+      "title": "Sun Pharma completes acquisition of a US drug maker",
+      "expect": null,
+      "why": "pharma M&A - 'acquisition' alone must not qualify",
+      "expect_team": null
+    },
+    {
+      "title": "Muthoot Finance reports 18% growth in gold loan AUM",
+      "expect": "S2",
+      "why": "genuine NBFC results must still pass the tightened gate",
+      "expect_team": "S2"
+    },
+    {
+      "title": "Fintech startup raises $50 million to expand its NBFC lending arm",
+      "expect": "S2",
+      "why": "funding story with a real FI signal",
+      "expect_team": "S2"
+    },
+    {
+      "title": "CRISIL upgrades Shree Cement to AA+/Stable",
+      "expect": null,
+      "expect_team": null,
+      "why": "rating action on a non-BFSI, non-watchlist issuer — an agency name must not make it sector news"
+    },
+    {
+      "title": "NBFC asset quality to improve in FY27, says CRISIL",
+      "expect": "S2",
+      "expect_team": "S2",
+      "why": "qualifies on 'nbfc', not on the agency name"
+    },
+    {
+      "title": "Buy, Sell or Hold: Citi recommends 'Sell' on United Breweries; Goldman Sachs maintains 'Buy' on Metro Brands",
+      "expect": null,
+      "expect_team": null,
+      "why": "reported S3 leak: broker stock calls with quoted ratings dodged the maintains/recommends pattern"
+    },
+    {
+      "title": "Motilal Oswal sees private banks delivering 18-20% earnings growth in FY27",
+      "expect": null,
+      "expect_team": null,
+      "why": "reported S2 leak: broker-house sector forecast is research opinion, not sector news"
+    },
+    {
+      "title": "Appeal No. 6967 of 2026 filed by Jatin against the order of NCLT Mumbai",
+      "source": "NCLAT",
+      "expect": null,
+      "expect_team": null,
+      "why": "reported S2 leak: tribunal cause-list entry, procedural noise"
+    },
+    {
+      "title": "Company Appeal (AT) No. 142 of 2026 in the matter of ABC Textiles",
+      "expect": null,
+      "expect_team": null,
+      "why": "tribunal case-number variant with bracketed bench code"
+    },
+    {
+      "title": "RBI asks banks to strengthen cyber security frameworks",
+      "expect": "S2",
+      "expect_team": "S2",
+      "why": "genuine regulator direction must survive the tribunal/broker additions"
+    },
+    {
+      "title": "Suraj Estate Developers board meets Aug 10 for Rs 165 cr NCD plan",
+      "expect": "S4",
+      "expect_team": null,
+      "why": "reported S3 leak: one issuer's board meeting on an NCD plan is entity news, not macro"
+    },
+    {
+      "title": "Veefin Solutions allots Rs 20 crore NCDs at 15% coupon rate",
+      "expect": "S4",
+      "expect_team": null,
+      "why": "reported S3 leak: single-issuer NCD allotment"
+    },
+    {
+      "title": "Muthoot Microfin allots Rs 35 crore Commercial Paper at 9.4% yield",
+      "expect": "S4",
+      "expect_team": null,
+      "why": "reported S3 leak: 'commercial paper' is a macro keyword but a single allotment is entity news"
+    },
+    {
+      "title": "Afcons Infrastructure redeems Rs 50 crore commercial paper on maturity",
+      "expect": "S4",
+      "expect_team": null,
+      "why": "reported S3 leak: single-issuer CP redemption"
+    },
+    {
+      "title": "PB Fintech Q1 Results: Net Profit Surges 92% YoY to Rs 163 Crore",
+      "expect": "S2",
+      "expect_team": null,
+      "why": "reported S2 leak: one company's quarterly results are entity news, not sector news"
+    },
+    {
+      "title": "Release order for Recovery Certificate No. 1969 of 2019-Kontala Krishnaveni in the matter of Covidh Technologies Ltd",
+      "expect": null,
+      "expect_team": null,
+      "why": "reported S2 leak: recovery-officer procedural notice"
+    },
+    {
+      "title": "Notice(s) of Attachment dated August 05, 2026 issued under RC No. 1969 of 2019",
+      "expect": null,
+      "expect_team": null,
+      "why": "reported S2 leak: attachment notice, procedural"
+    },
+    {
+      "title": "NBFCs' NCD issuance rose 40% in the first half of FY27",
+      "expect": "S4",
+      "expect_team": "S3",
+      "why": "collective/sector-wide debt-market story must survive the entity-story rule"
+    },
+    {
+      "title": "Can Tips Music's Rs 44 crore share buyback boost its share price? Here's what JM Financial says",
+      "expect": null,
+      "expect_team": null,
+      "why": "reported S2 leak: broker commentary on one company's buyback"
+    },
+    {
+      "title": "Settlement Order in respect of Mr. Raghav Raj Kanoria in the matter of India Power Corporation Limited",
+      "expect": null,
+      "expect_team": null,
+      "why": "reported S2 leak: SEBI settlement order naming an individual — procedural"
+    },
+    {
+      "title": "Veritas to acquire environmental consultant Trinity Consultants from Oak Hill",
+      "expect": null,
+      "expect_team": null,
+      "why": "reported S2 leak: foreign single-company M&A, no watchlist party"
+    },
+    {
+      "title": "IIFL Capital partners with Flytxt to leverage Agentic AI for AUM growth",
+      "expect": "S2",
+      "expect_team": null,
+      "why": "reported S2 leak: one company's partnership PR is entity news"
+    },
+    {
+      "title": "KKR-backed FGS scoops up government affairs firm Rich Feuer Anderson",
+      "expect": null,
+      "expect_team": null,
+      "why": "reported S2 leak: foreign PE deal"
+    },
+    {
+      "title": "Mergers among small finance banks likely as RBI eases norms, say analysts",
+      "expect": "S3",
+      "expect_team": "S2",
+      "why": "sector-wide consolidation story must survive the M&A entity pattern via the collective guard"
+    },
+    {
+      "title": "NCLT Admits PNB's Rs 294.65 Crore Claim Against TV Vision, Holds OTS Proposals Extend Limitation Period",
+      "expect": null,
+      "expect_team": null,
+      "why": "reported S2 leak: one creditor's insolvency claim against one company is entity news"
+    },
+    {
+      "title": "Pune E-Stock Broking appoints Viral Patel as independent director",
+      "expect": "S2",
+      "expect_team": null,
+      "why": "reported S2 leak: one company's board appointment"
+    },
+    {
+      "title": "Tata Sons remains an 'upper-layer NBFC', RBI says deregistration pending",
+      "expect": "S2",
+      "expect_team": null,
+      "why": "reported S2 leak: one company's regulatory classification is entity news"
+    },
+    {
+      "title": "General Remittance Order dated August 05, 2026 issued under RC No",
+      "expect": null,
+      "expect_team": null,
+      "why": "reported S2 leak: recovery-officer remittance order, procedural"
+    },
+    {
+      "title": "Listing of units issued by Motilal Oswal Asset Management Company Limited (Motilal Oswal Nifty Metal ETF and Motilal Oswal Nifty Oil & Gas ETF)",
+      "expect": null,
+      "expect_team": null,
+      "why": "reported S2 leak: exchange listing notice for fund units"
+    },
+    {
+      "title": "OB Extends Rs 75 Crore Project Finance to Assotech World Avenue 07, Signaling Continued Institutional Confidence",
+      "expect": "S2",
+      "expect_team": null,
+      "why": "reported S2 leak: one lender's project-finance deal with one borrower"
+    },
+    {
+      "title": "Kotak Bond - Short Term Fund - Regular (G)",
+      "expect": null,
+      "expect_team": null,
+      "why": "reported S2 leak: mutual-fund scheme page, not news"
+    },
+    {
+      "title": "MV Electrosystems makes a strong debut with 22% premium. Should investors book profits or stay invested?",
+      "expect": null,
+      "expect_team": null,
+      "why": "reported S2 leak: IPO listing-pop story with investor advice"
+    },
+    {
+      "title": "RBI appoints new deputy governor to oversee regulation",
+      "expect": "S2",
+      "expect_team": "S2",
+      "why": "regulator appointment is not a corporate-officer appointment — must survive the appointment pattern"
+    },
+    {
+      "title": "1. Fixed Rate 2. Variable Rate& (a) Repo Operation (b) Reverse Repo Operation 3. MSF# Wed, 05/08/2026 1 Thu, 06/08/2026 171.00 5.50 4. SDF",
+      "expect": null,
+      "expect_team": null,
+      "why": "reported S3 leak: RBI daily money-market operations table scraped as text — data, not news"
+    },
+    {
+      "title": "RBI conducts variable rate repo auction to inject liquidity",
+      "expect": "S4",
+      "expect_team": "S3",
+      "why": "a real money-market operations STORY must survive the table-scrape drop"
+    },
+    {
+      "title": "RBI imposes monetary penalty on Kedarnath Urban Co-operative Bank Ltd., Latur",
+      "expect": "S3",
+      "expect_team": "S2",
+      "why": "AI classifier wrongly dropped this as single-entity — a regulator's enforcement action is sector news even when it names one institution"
+    },
+    {
+      "title": "Directions under Section 35A read with Section 56 of the Banking Regulation Act, 1949",
+      "expect": "S2",
+      "expect_team": "S2",
+      "why": "AI classifier wrongly dropped this — an RBI direction under a named statute is supervisory news for the whole desk"
+    },
+    {
+      "title": "Will Upgrade Infras, Equipment, Technology: Medicover Hospitals India ED",
+      "summary": "cashless insurance claims processing to be upgraded",
+      "expect": "S2",
+      "expect_team": null,
+      "why": "reported S2 leak: 'insurance' appeared only in the RSS summary; a shared section must be justified by the headline"
+    },
+    {
+      "title": "RedBird's Affinia adds Wilson Partners in UK accounting tie-up",
+      "summary": "expands its wealth and asset management advisory arm",
+      "expect": "S2",
+      "expect_team": null,
+      "why": "reported S2 leak: sector words only in the summary, and no watchlist party"
+    },
+    {
+      "title": "NBFC FD rates 2026: Muthoot Capital, Manipal Housing offer up to 8.50%; check top rates",
+      "expect": null,
+      "expect_team": null,
+      "why": "reported S2 leak: deposit-rate comparison listicle, not news"
+    },
+    {
+      "title": "Kenneth Andrade, founder and chief investment officer, Old Bridge Mutual Fund, is known for his high-conviction stock-picking",
+      "expect": null,
+      "expect_team": null,
+      "why": "reported S2 leak: fund-manager personality profile"
+    },
+    {
+      "title": "Garuda Aerospace, Naini Papers, Adroit Industries receive SEBI approval to launch IPOs",
+      "expect": null,
+      "expect_team": null,
+      "why": "reported S2 leak: IPO pipeline filler"
+    },
+    {
+      "title": "Kalyan Jewellers among 5 F&O stocks with a sharp rise in futures open interest",
+      "expect": null,
+      "expect_team": null,
+      "why": "reported S3 leak: F&O positioning table, market-structure noise"
+    },
+    {
+      "title": "Market wrap: TCS, SBI, M&M, Trent among top gainers and losers on Nifty and Sensex on Friday",
+      "expect": null,
+      "expect_team": null,
+      "why": "reported S3 leak: daily market wrap"
+    },
+    {
+      "title": "Grasim Industries repays Rs 750 crore in matured commercial papers",
+      "expect": null,
+      "expect_team": null,
+      "why": "reported S3 leak: one issuer's own CP repayment is entity news; 7:30's gate also drops it as a non-FI subject"
+    },
+    {
+      "title": "Part Redemption (Revised) of Debentures of ADANI AIRPORT HOLDINGS LIMITED",
+      "expect": "S4",
+      "expect_team": null,
+      "why": "reported S3 leak: single-issuer debenture redemption notice"
+    },
+    {
+      "title": "Eir Partners invests in ClaimsBridge, supports add-on of DialysisPPO",
+      "source": "Bond Markets",
+      "expect": "S4",
+      "expect_team": null,
+      "why": "reported S3 leak: _classify matches its bond regex against the SOURCE NAME, so every item from the 'Bond Markets' feed became macro news whatever it said"
+    },
+    {
+      "title": "Partners Group in talks to buy beauty biz Aroma-Zone from Eurazeo; CVC, Veritas Capital vie for Bodycote",
+      "source": "Bond Markets",
+      "expect": "S4",
+      "expect_team": null,
+      "why": "reported S3 leak: foreign PE deal carried by the bond feed"
+    },
+    {
+      "title": "Accel-KKR, Bain, Knox Lane bet on clinical workforce services",
+      "source": "Bond Markets",
+      "expect": "S4",
+      "expect_team": null,
+      "why": "reported S3 leak: PE healthcare deal, no macro or bond content in the headline"
+    },
+    {
+      "title": "Aurobindo Pharma among 8 stocks hitting 52-week highs; surge up to 20% in a month",
+      "source": "Bond Markets",
+      "expect": null,
+      "expect_team": null,
+      "why": "reported S3 leak: stock-list listicle; plural '52-week highs' also escaped the old singular-only pattern"
+    },
+    {
+      "title": "Reliance Industries, ITC among 10 stocks that saw highest buying by LIC in Q1. See full list",
+      "source": "Bond Markets",
+      "expect": null,
+      "expect_team": null,
+      "why": "reported S3 leak: 'among N stocks' holdings listicle"
+    },
+    {
+      "title": "Corporate bond yields ease after the weekly G-sec auction",
+      "source": "Bond Markets",
+      "expect": "S4",
+      "expect_team": "S3",
+      "why": "genuine bond-market story from the same feed must survive the source-name gate"
+    },
+    {
+      "title": "Kashmir Life Centre Says KCC, MUDRA, PMEGP, Vishwakarma, SVANidhi Loans Available in Jammu Kashmir",
+      "tags": "WATCHLIST — Micro Units Development and Refinance Agency Limited",
+      "expect": "S1",
+      "expect_team": "S1",
+      "why": "reported miss: the mailer's acronym included 'Limited' ('mudral'), so it rejected its own fetcher's MUDRA tag and dropped a real watchlist story that 7:30 kept"
+    },
+    {
+      "title": "SIDBI expands network with 71 new branches",
+      "tags": "WATCHLIST — Small Industries Development Bank of India",
+      "expect": "S1",
+      "expect_team": "S1",
+      "why": "guard: dropping legal suffixes from the acronym must not break SIDBI, whose acronym legitimately ends in 'India'"
+    },
+    {
+      "title": "The Ramco Cements Hold TP 1050",
+      "expect": null,
+      "expect_team": null,
+      "why": "reported leak: abbreviated broker call — 'target price' was filtered but the TP shorthand was not"
+    },
+    {
+      "title": "HDFC Bank Buy TP 2100",
+      "expect": null,
+      "expect_team": null,
+      "why": "the TP shorthand on a FINANCIAL issuer reached S2, because it carries a real FI signal — the cement version was only saved by having none"
+    },
+    {
+      "title": "IRDAI revises motor TP premium rates for FY27",
+      "expect": "S3",
+      "expect_team": "S2",
+      "why": "guard: 'TP' as third-party motor insurance must not be junked as a price target — the pattern requires a digit after TP"
+    },
+    {
+      "title": "Unifiz Capital to consider raising NCD",
+      "expect": "S4",
+      "expect_team": null,
+      "why": "reported S3 leak: one issuer considering an NCD raise is entity news — S1 if tracked, dropped otherwise"
+    },
+    {
+      "title": "Navi Mumbai civic body clears Rs 500 crore infrastructure plan",
+      "tags": "WATCHLIST — Navi Limited",
+      "expect": "S1",
+      "expect_team": null,
+      "why": "reported S1 leak: 'Navi Limited' matched the city Navi Mumbai on the word 'navi'. 7:30 still says S1 because _classify trusts the WATCHLIST tag and has no re-verification step — that is its design and is not changed here; 7:40 re-verifies, rejects the tag and correctly drops the story"
+    },
+    {
+      "title": "Navi Finserv raises Rs 300 crore via NCDs",
+      "tags": "WATCHLIST — Navi Finserv Limited",
+      "expect": "S1",
+      "expect_team": "S1",
+      "why": "guard: stripping the 'Navi Mumbai' phrase must not stop genuine Navi Finserv news matching"
+    },
+    {
+      "title": "Recent developments in the bond market",
+      "tags": "WATCHLIST — REC Limited",
+      "expect": "S1",
+      "expect_team": "S3",
+      "why": "name words were plain substrings, so short names like REC matched 'recent'/'recovery'/'record'. 7:40 now rejects the tag and judges the story on its merits (a bond-market item -> S3) instead of filing it under REC; 7:30 keeps S1 because it trusts the tag by design"
+    },
+    {
+      "title": "REC Limited raises Rs 2000 crore via bonds",
+      "tags": "WATCHLIST — REC Limited",
+      "expect": "S1",
+      "expect_team": "S1",
+      "why": "guard: word-boundary matching must still match REC by its real name"
+    },
+    {
+      "title": "Fusion Finance turns corner, logs Rs 62 crore profit",
+      "tags": "WATCHLIST — Fusion Finance Limited",
+      "expect": "S1",
+      "expect_team": "S1",
+      "why": "reported duplication: eight outlets' versions of one Q1 result shipped as eight S1 cards because they agreed only on 'fusion' — same-entity/same-theme merging now collapses them; this case guards that the surviving card still classifies S1"
+    },
+    {
+      "title": "Bank holidays in August 2026: Banks to remain closed for 12 days; check full list",
+      "expect": null,
+      "expect_team": null,
+      "why": "reported S2 leak: branch opening hours are not a credit event, but holiday calendars mention banks constantly"
+    },
+    {
+      "title": "RBI cancels the licence of Karad Janata Co-operative Bank",
+      "expect": "S2",
+      "expect_team": "S2",
+      "why": "guard: the bank-holiday filter requires holiday context, so a genuine licence cancellation must survive — it does, reaching S2 in both reports. 7:30 says S2 rather than S3 because its regulator-action rule does not list 'cancels'; that is pre-existing behaviour and is not changed here"
+    },
+    {
+      "title": "Research Analyst SEBI Registration Number INH100008593 disclosure",
+      "expect": "S2",
+      "expect_team": null,
+      "why": "reported S2 leak: a SEBI registration number identifies ONE registered intermediary, so it is that entity's disclosure — 7:40 now sends it to S1 when the entity is tracked and drops it otherwise. 7:30 still says S2; its five-section classifier has no entity-story rule and is not changed here"
+    },
+    {
+      "title": "Price to sales forward of NuEnergy Holdings Bhd – MYX:NHB",
+      "source": "Bond Markets",
+      "expect": null,
+      "expect_team": null,
+      "why": "reported S3 leak: foreign valuation-metric page — the MYX:NHB ticker collided with \\bnhb\\b (National Housing Bank)"
+    },
+    {
+      "title": "Each bank or Primary Dealer (PD) on the basis of firm orders received from their constituents will submit a single consolidated non-competitive bid",
+      "source": "Bond Markets",
+      "expect": null,
+      "expect_team": null,
+      "why": "reported S3 leak: RBI Retail Direct scheme boilerplate scraped as text — 'primary dealer' is a bond keyword"
+    },
+    {
+      "title": "I Squared Capital agrees $631m buyout of Australia's OohMedia",
+      "expect": null,
+      "expect_team": null,
+      "why": "reported S2 leak: foreign PE buyout, no watchlist party"
+    },
+    {
+      "title": "NHB raises refinance limits for housing finance companies",
+      "expect": "S2",
+      "expect_team": "S2",
+      "why": "guard: killing the MYX:NHB ticker must not kill genuine National Housing Bank news — it reaches S2 in both reports. 7:30 says S2 rather than S3 because 'raises' is not in its regulator-action verb list; pre-existing, not changed"
+    },
+    {
+      "title": "Bharti Airtel Q1 profit rises 12% on tariff hikes",
+      "tags": "WATCHLIST — Bharti Axa Life Insurance Company Limited",
+      "expect": "S1",
+      "expect_team": null,
+      "why": "reported: Bharti Axa showed 31 S1 items because 'bharti' alone matched — every Bharti Airtel/Hexacom/Enterprises story became insurance news. 7:40 now rejects the tag and drops it; 7:30 still says S1 because _classify trusts a WATCHLIST tag without re-verifying it, which is its design and is not changed here"
+    },
+    {
+      "title": "Bharti Axa Life Insurance launches new term plan",
+      "tags": "WATCHLIST — Bharti Axa Life Insurance Company Limited",
+      "expect": "S1",
+      "expect_team": "S1",
+      "why": "guard: the group-prefix rule must not stop genuine Bharti Axa news matching"
+    },
+    {
+      "title": "Tata Motors Q1 profit rises on higher SUV sales",
+      "tags": "WATCHLIST — Tata Capital Limited",
+      "expect": "S1",
+      "expect_team": null,
+      "why": "same class as Bharti: a group prefix identifies the GROUP, not the entity — 23 live entities sit under one. 7:40 rejects the tag and drops the story; 7:30 still says S1 because _classify trusts a WATCHLIST tag without re-verifying it, which is its design and is not changed here"
+    },
+    {
+      "title": "A Hair of the Dog that Bit You: Ubud Hotel Finds Itself in a Legal Conundrum",
+      "tags": "WATCHLIST — Tourism Finance Corporation of India Limited",
+      "expect": "S1",
+      "expect_team": null,
+      "why": "7:30's _classify trusts the WATCHLIST tag without re-verifying it (same as the Tata/Bharti cases above), so 7:30 still says S1; 'tourism' alone matched as the lone significant word (>=7 chars) for Tourism Finance Corporation of India, pulling in unrelated Bali hospitality stories (Bali Discovery, Travel and Leisure Asia, Mshale). 'tourism'/'travel'/'leisure'/'hospitality' added to the generic-word list in both fetch_news._GENERIC_NAME_WORD and send_team_news._COMMON so a lone hit no longer counts as evidence"
+    },
+    {
+      "title": "Tourism Finance Corporation of India reports strong Q1 results",
+      "tags": "WATCHLIST — Tourism Finance Corporation of India Limited",
+      "expect": "S1",
+      "expect_team": "S1",
+      "why": "guard: a genuine Tourism Finance Corporation of India story (two significant words matched, 'tourism' and 'finance') must still classify as S1 after the generic-word fix"
+    },
+    {
+      "title": "Bali Utd vs Sabah - Live Score",
+      "source": "Football365",
+      "summary": "Live coverage of the match.",
+      "expect": null,
+      "expect_team": null,
+      "why": "S2/S3 relevance-architecture regression test (11 Aug audit): a generic sports-fixture pattern, not a 'Bali' keyword blacklist, so it also rejects fixtures for any other team name"
+    },
+    {
+      "title": "Sahiba Bali stuns fans with new look at the awards night",
+      "source": "Filmfare",
+      "summary": "",
+      "expect": null,
+      "expect_team": null,
+      "why": "S2/S3 relevance-architecture regression test: celebrity/awards-night content, caught by topic (awards night, celebrity) not by the name 'Bali'"
+    },
+    {
+      "title": "French Elegance Meets Balinese Soul at Sofitel Bali Nusa Dua Beach Resort",
+      "source": "Bali Discovery",
+      "summary": "",
+      "expect": null,
+      "expect_team": null,
+      "why": "S2/S3 relevance-architecture regression test: hospitality/resort content caught by topic (beach resort), not by blacklisting the source name"
+    },
+    {
+      "title": "Karkidaka Vavu Bali ritual draws thousands of devotees",
+      "source": "Mshale",
+      "summary": "",
+      "expect": null,
+      "expect_team": null,
+      "why": "S2/S3 relevance-architecture regression test: religious-ritual content caught by topic (ritual/vavu), not by blacklisting the source name"
+    },
+    {
+      "title": "GAME NIGHT: catch all the action from the arena",
+      "source": "ESPN",
+      "summary": "",
+      "expect": null,
+      "expect_team": null,
+      "why": "S2/S3 relevance-architecture regression test: generic sports-event filler"
+    },
+    {
+      "title": "NuEnergy Holdings Bhd Options Chain - Yahoo Finance",
+      "source": "Yahoo Finance",
+      "summary": "",
+      "expect": null,
+      "expect_team": null,
+      "why": "S2/S3 relevance-architecture regression test: a financial DATA/quote page (options chain), not news — same underlying category as the earlier 'Price to sales forward' ticker-page bug, generalised rather than patched per-site"
+    },
+    {
+      "title": "time to time.Investment by Non-Residents23",
+      "source": "RBI",
+      "summary": "",
+      "expect": null,
+      "expect_team": null,
+      "why": "headline-quality gate: a scraped RBI circular body fragment with a page-number artifact glued on ('...time23'). Previously reached S2 unfiltered because a TRUSTED SOURCE (RBI) routes straight to a section with no headline-quality check"
+    },
+    {
+      "title": "rather than after the loss has crystallised",
+      "source": "Business Standard",
+      "summary": "",
+      "expect": null,
+      "expect_team": null,
+      "why": "headline-quality gate: a mid-sentence fragment with no understandable subject"
+    },
+    {
+      "title": "RBI draft revolving-credit norms could raise NBFC funding costs",
+      "source": "Economic Times",
+      "summary": "",
+      "expect": "S3",
+      "expect_team": "S2",
+      "why": "must-keep S2 example (11 Aug audit): sector-wide regulatory development, correctly survives the tightened relevance gates"
+    },
+    {
+      "title": "NBFC sector loan growth moderates to 15% in Q1: report",
+      "source": "Business Standard",
+      "summary": "",
+      "expect": "S2",
+      "expect_team": "S2",
+      "why": "must-keep S2 example: sector-wide credit-growth data"
+    },
+    {
+      "title": "Gold-loan NBFCs see asset quality stress as prices correct",
+      "source": "Livemint",
+      "summary": "",
+      "expect": "S2",
+      "expect_team": "S2",
+      "why": "must-keep S2 example: sector-wide gold-loan asset-quality trend"
+    },
+    {
+      "title": "Microfinance sector asset quality improves in June quarter",
+      "source": "Moneycontrol",
+      "summary": "",
+      "expect": "S2",
+      "expect_team": "S2",
+      "why": "must-keep S2 example: sector-wide microfinance asset-quality trend"
+    },
+    {
+      "title": "Non-life insurance premium growth picks up in July",
+      "source": "Business Standard",
+      "summary": "",
+      "expect": "S2",
+      "expect_team": "S2",
+      "why": "must-keep S2 example: sector-wide non-life insurance premium trend"
+    },
+    {
+      "title": "UPI monthly transaction value crosses Rs 20 lakh crore as MDR debate resurfaces",
+      "source": "Economic Times",
+      "summary": "",
+      "expect": "S2",
+      "expect_team": "S2",
+      "why": "must-keep S2 example: UPI/MDR is a material fintech-payments development, now recognised by the shared _FI_SIGNAL_RE relevance gate ('upi'/'mdr'/'digital payments') so both 7:30 and 7:40 correctly treat it as sector-relevant instead of dropping it for having no finance-vocabulary match"
+    },
+    {
+      "title": "RBI keeps repo rate unchanged at 5.25%, holds accommodative stance",
+      "source": "RBI",
+      "summary": "",
+      "expect": "S3",
+      "expect_team": "S3",
+      "why": "must-keep S3 example: policy-rate decision"
+    },
+    {
+      "title": "Rupee falls to record low against dollar as crude oil surges",
+      "source": "Economic Times",
+      "summary": "",
+      "expect": "S5",
+      "expect_team": "S3",
+      "why": "must-keep S3 example: INR movement tied to crude/dollar"
+    },
+    {
+      "title": "IRDAI issues new solvency margin norms for general insurers",
+      "source": "IRDAI",
+      "summary": "",
+      "expect": "S3",
+      "expect_team": "S2",
+      "why": "must-move-from-S3-to-S2 example (spec item 7): IRDAI/insurance regulatory news belongs in S2, not S3. Already correct pre-existing routing -- _S3_SOURCES/_TEAM_SECTION_MAP already sends the regulator's own five-section 'S3' (regulatory circular) to the three-section 'S2' (sector & regulation); this case locks that mapping in as a named regression test per the spec's explicit MUST-MOVE requirement"
+    },
+    {
+      "title": "Embassy Office Parks REIT approves ₹400 Cr CP issuance",
+      "source": "Business Standard",
+      "summary": "",
+      "expect": "S4",
+      "expect_team": null,
+      "why": "real 11 Aug replay finding: one issuer's OWN CP/NCD/bond decision must never reach S3 macro, per spec item 7 -- the existing board-approval pattern required the literal word 'board', and the CP instrument list required the spelled-out 'commercial paper', so an issuer approving its own CP issuance ('REIT approves...CP issuance', no 'board', bare 'CP') slipped past both and reached S3. Untracked entity, so the correct outcome is DROP, not S1"
+    },
+    {
+      "title": "L&T Finance Share Price, L&T Finance Stock Price, L&T Finance Ltd",
+      "source": "MarketsMojo",
+      "summary": "",
+      "expect": null,
+      "expect_team": null,
+      "why": "real 11 Aug replay finding: an aggregator stock-quote page (same metric listed twice in the title) reached S2 because the existing _DATA_PAGE_RE only matched a single mention of each phrase"
+    },
+    {
+      "title": "Dollar Index and Its Impact on the Indian Economy",
+      "source": "Telegram",
+      "summary": "",
+      "expect": null,
+      "expect_team": null,
+      "why": "spec item 7 named example: a generic personal-finance/macro EXPLAINER with no new development must be excluded"
+    },
+    {
+      "title": "We are starting a bond market jargon series …..learn more….share more 👍",
+      "source": "Telegram",
+      "summary": "",
+      "expect": null,
+      "expect_team": null,
+      "why": "real 11 Aug replay finding: Telegram engagement-bait/educational filler with no news content, reached S3 via bond-market keywords"
+    },
+    {
+      "title": "(Press Release dated January 16, 2025 (",
+      "source": "SEBI",
+      "summary": "",
+      "expect": null,
+      "expect_team": null,
+      "why": "real 11 Aug replay finding: a scraped date/citation fragment with an unclosed parenthesis, not a headline -- headline-quality gate extended to catch this shape (the earlier fragment checks only covered lowercase-start and glued-sentence patterns)"
+    },
+    {
+      "title": "Insolvency and Bankruptcy Board of India - ibbi.gov.in",
+      "source": "IBBI",
+      "summary": "",
+      "expect": null,
+      "expect_team": null,
+      "why": "real 11 Aug replay finding: a bare scraped page title ('Org Name - domain'), not a story about an event -- a trusted regulator source (IBBI) routed it straight to S2 with no headline-quality check"
+    },
+    {
+      "title": "Government Stock - Full Auction Results",
+      "source": "Telegram",
+      "summary": "",
+      "expect": "S4",
+      "expect_team": "S3",
+      "why": "real 11 Aug replay finding: RBI's own term for a G-Sec auction result ('Government Stock') was not recognised by the bond/macro keyword list, which only had the more common 'G-Sec' phrasing -- misrouted to S2 instead of S3 (a taxonomy-accuracy fix, not a false-positive removal: the item is real regulatory-desk-relevant news, just in the wrong of the two legitimate sections)"
+    },
+    {
+      "title": "Fusion Finance Limited: Notice of Attachment of Bank Accounts and Demat Accounts with AP No: 1234",
+      "tags": "WATCHLIST — Fusion Finance Limited",
+      "expect": "S1",
+      "expect_team": "S1",
+      "why": "user-reported: a procedural bank/demat-account attachment notice against ONE named entity must never be generic S2 sector news. Two bugs found: (1) _ENTITY_STORY_RE/_TRIBUNAL_LISTING_RE both had a regex typo (notice\\(?s\\)? of attachment required the literal 's' -- 'Notice of Attachment' singular never matched), fixed to notices?; (2) the pattern was only in _TRIBUNAL_LISTING_RE (pre-classification junk filter, which only fires when NO watchlist tag is present) and missing from _ENTITY_STORY_RE, so once the tag is verified (title names the entity) it still needs to route to S1, not fall through the entity check into generic S2 via the bare word 'bank'"
+    },
+    {
+      "title": "Notice of Attachment of Bank Accounts and Demat Accounts with AP No: 1234",
+      "tags": "",
+      "expect": null,
+      "expect_team": null,
+      "why": "same notice with no watchlist tag at all -- must be dropped, never generic S2/S3 sector news"
+    },
+    {
+      "title": "Ugro Capital allots Rs 48.9 crore commercial paper for 91 days tenure",
+      "tags": "WATCHLIST — Ugro Capital Limited",
+      "expect": "S1",
+      "expect_team": "S1",
+      "why": "user-reported: the entity's own CP allotment leaked to S3. Root cause was SYSTEMIC, not local to this pattern: [^.|] (the shared 'same clause' gap used 23 times across this file) excludes every literal period, including the decimal point in a rupee amount -- 'allots' and 'commercial paper' are only 15 chars apart but the '.' in '48.9' was an impassable wall inside {0,60}, so the match failed and the story fell to the generic S3 default. Fixed by allowing a digit.digit decimal through the gap everywhere it is used, not just here"
+    },
+    {
+      "title": "Ugro Capital allots Rs 48.9 crore commercial paper for 91 days tenure",
+      "tags": "",
+      "expect": "S4",
+      "expect_team": null,
+      "why": "same headline, untracked entity -- 7:40 correctly drops it. 7:30's five-section _classify has no entity-vs-sector concept and reads the bare 'commercial paper' keyword as S4 bond-market news -- pre-existing 5-section behaviour, unchanged"
+    },
+    {
+      "title": "Anupam Rasayan promoter pledges 2 lakh shares for NCD cover",
+      "tags": "WATCHLIST — Anupam Rasayan India Limited",
+      "expect": "S1",
+      "expect_team": "S1",
+      "why": "user-reported: a promoter's own share pledge is entity-level disclosure, never sector or macro news -- _ENTITY_STORY_RE had no pattern for 'pledge' at all. 7:30's _classify trusts any WATCHLIST tag immediately and never reaches the pledge/NCD wording, so it already reads S1 here -- pre-existing behaviour, unchanged by this fix"
+    },
+    {
+      "title": "Anupam Rasayan promoter pledges 2 lakh shares for NCD cover",
+      "tags": "",
+      "expect": "S4",
+      "expect_team": null,
+      "why": "same headline, untracked entity -- 7:40 correctly drops it (no entity-vs-sector concept exists for 'pledge' outside _classify_team). 7:30's five-section _classify has no such concept at all and reads the bare 'NCD' keyword as S4 bond-market news -- pre-existing 5-section behaviour, not something this task touches"
+    },
+    {
+      "title": "NBFC promoter pledges across the sector rise to 3-year high",
+      "tags": "",
+      "expect": "S2",
+      "expect_team": "S2",
+      "why": "guard: a genuinely SECTOR-WIDE pledge story ('across the sector') must survive the new pledge pattern via _SECTOR_WIDE_RE, exactly like the existing entity-vs-sector guards for CP/NCD/M&A wording"
+    },
+    {
+      "title": "Some Bali travel story with a company mention",
+      "source": "Mshale",
+      "tags": "",
+      "expect": null,
+      "expect_team": null,
+      "why": "user-reported: Mshale (a Minnesota African-diaspora community paper) has zero credit relevance -- blocked as a junk source, same treatment as reveliolabs/bitcoinworld/etc."
+    },
+    {
+      "title": "Sensex, Nifty end flat; top 5 stocks to watch tomorrow",
+      "source": "Upstox",
+      "tags": "",
+      "expect": null,
+      "expect_team": null,
+      "why": "user-reported: Upstox's own blog/market-commentary content is broker-published noise -- blocked as a junk source, same treatment as @brokerage_report/Mshale/etc."
+    }
+  ]
+}

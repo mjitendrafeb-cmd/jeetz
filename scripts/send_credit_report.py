@@ -17,7 +17,8 @@ from email import encoders
 
 import anthropic
 
-from fetch_news import fetch_all_news
+from fetch_news import fetch_all_news, load_watchlist
+from send_team_news import _parse_item, _classify, _phrase
 
 
 def _msg_text(message) -> str:
@@ -59,12 +60,13 @@ def _load_seen_headlines() -> set[str]:
 def _save_seen_headlines(news_text: str) -> None:
     """Persist normalised keys using 30-day rolling window."""
     import re as _re
+    from fetch_news import _normalise_key
     keys = []
     for line in news_text.splitlines():
         line = _re.sub(r"^\d+\.\s*", "", line)
-        line = _re.sub(r"^\[[^\]]+\]\s*", "", line)
-        line = _re.sub(r"^\[T\d\]", "", line)
-        key = line.lower().strip()[:120]
+        # Must produce the SAME key fetch_news filters with, or the
+        # dedup never matches and republished old items recur daily.
+        key = _normalise_key(line)
         if key:
             keys.append(key)
 
@@ -84,17 +86,42 @@ def _save_seen_headlines(news_text: str) -> None:
     cutoff = str(datetime.date.today() - datetime.timedelta(days=30))
     days = {d: v for d, v in days.items() if d >= cutoff}
 
+    payload = json.dumps({"days": days}, indent=2)
     with open(_SEEN_PATH, "w", encoding="utf-8") as f:
-        json.dump({"days": days}, f, indent=2)
+        f.write(payload)
 
-    if _git_commit_push([_SEEN_PATH], f"chore: update seen headlines {datetime.date.today()}"):
+    if _git_commit_push([_SEEN_PATH],
+                        f"chore: update seen headlines {datetime.date.today()}",
+                        contents={_SEEN_PATH: payload}):
         print(f"[seen_headlines] Saved {len(keys)} keys (30-day window) and pushed to repo")
 
 
-def _git_commit_push(paths: list[str], message: str) -> bool:
-    """Commit the given paths and push to main. Returns True if a commit was pushed."""
+def _git_commit_push(paths: list[str], message: str, contents: dict | None = None) -> bool:
+    """Publish state files to main. Returns True once the push lands.
+
+    These are STATE files (last_sent.json, seen headlines), not source: the
+    right resolution for a conflict is "mine wins", never a merge. The
+    previous version rebased and retried, which cannot converge — a rebase
+    of a conflicting change to the same generated file conflicts identically
+    every attempt, so 8 retries were 8 copies of one failure. That is what
+    happened: origin/main still held {"date": "2026-08-07"} on 10 Aug, every
+    tick read a stale marker, and the report went out four times in a
+    morning.
+
+    So instead of rebasing: fetch, move onto origin/main, re-write our
+    content on top, commit, push. Re-writing after the reset is what makes
+    it converge — each attempt starts from whatever is currently on main and
+    reapplies our value, so a competing push just means one more cheap loop.
+
+    contents maps path -> text to (re)write on each attempt. Callers that
+    pass it get the convergent path; callers that omit it fall back to
+    committing whatever is already on disk.
+    """
+    import subprocess
+    import time as _time
+    import random as _random
+
     try:
-        import subprocess
         token = os.environ.get("GITHUB_TOKEN", "")
         if token:
             subprocess.run(
@@ -106,19 +133,66 @@ def _git_commit_push(paths: list[str], message: str) -> bool:
                        cwd=_REPO_ROOT, check=True, capture_output=True)
         subprocess.run(["git", "config", "user.name", "github-actions[bot]"],
                        cwd=_REPO_ROOT, check=True, capture_output=True)
-        subprocess.run(["git", "add", *paths], cwd=_REPO_ROOT, check=True, capture_output=True)
-        result = subprocess.run(["git", "commit", "-m", message],
-                                cwd=_REPO_ROOT, capture_output=True)
-        if result.returncode != 0:
-            print(f"[git] Nothing to commit for: {message}")
-            return False
-        subprocess.run(["git", "pull", "--rebase", "origin", "main"],
-                       cwd=_REPO_ROOT, capture_output=True)
-        subprocess.run(["git", "push", "origin", "HEAD:main"],
-                       cwd=_REPO_ROOT, check=True, capture_output=True)
-        return True
     except Exception as exc:
-        print(f"[git] Push failed (non-fatal): {exc}")
+        print(f"[git] Setup failed (non-fatal): {exc}")
+        return False
+
+    attempts = 8
+    for attempt in range(1, attempts + 1):
+        try:
+            subprocess.run(["git", "fetch", "origin", "main"],
+                           cwd=_REPO_ROOT, capture_output=True, timeout=60)
+            # --mixed: HEAD moves to the current tip, working tree is left
+            # alone. No conflict is possible because nothing is being merged.
+            subprocess.run(["git", "reset", "--mixed", "origin/main"],
+                           cwd=_REPO_ROOT, capture_output=True)
+            # Re-assert our content on top of whatever just arrived.
+            for path, text in (contents or {}).items():
+                os.makedirs(os.path.dirname(path), exist_ok=True)
+                with open(path, "w", encoding="utf-8") as f:
+                    f.write(text)
+            subprocess.run(["git", "add", *paths], cwd=_REPO_ROOT, capture_output=True)
+            committed = subprocess.run(["git", "commit", "-m", message],
+                                       cwd=_REPO_ROOT, capture_output=True)
+            if committed.returncode != 0:
+                # Identical to what is already on main — the value we wanted
+                # is published, which is success for a state file.
+                print(f"[git] Already up to date on main: {message}")
+                return True
+            push = subprocess.run(["git", "push", "origin", "HEAD:main"],
+                                  cwd=_REPO_ROOT, capture_output=True, timeout=120)
+            if push.returncode == 0:
+                if attempt > 1:
+                    print(f"[git] Push succeeded on attempt {attempt}/{attempts}: {message}")
+                return True
+            print(f"[git] Push attempt {attempt}/{attempts} rejected: {message} "
+                  f"({push.stderr.decode(errors='replace').strip()[:160]})")
+        except Exception as exc:
+            print(f"[git] Push attempt {attempt}/{attempts} errored: {exc}")
+        _time.sleep(2 * attempt + _random.uniform(0, 2))
+    print(f"[git] PUSH FAILED after {attempts} attempts: {message} "
+          f"— duplicate-send guard is NOT protected for this run")
+    return False
+
+
+def _already_sent_today() -> bool:
+    """Fresh check against origin/main, not the local checkout — a run that
+    has been fetching news for several minutes needs to know what landed on
+    main just now, not what main looked like when the job started."""
+    import subprocess
+    ist = datetime.timezone(datetime.timedelta(hours=5, minutes=30))
+    today_ist = datetime.datetime.now(ist).date().isoformat()
+    try:
+        subprocess.run(["git", "fetch", "origin", "main", "--quiet"],
+                       cwd=_REPO_ROOT, timeout=30, capture_output=True)
+        result = subprocess.run(
+            ["git", "show", "origin/main:data/last_sent.json"],
+            cwd=_REPO_ROOT, capture_output=True, text=True, timeout=10)
+        if result.returncode != 0:
+            return False
+        return json.loads(result.stdout).get("date") == today_ist
+    except Exception as exc:
+        print(f"[dup-guard] check failed (non-fatal, proceeding): {exc}")
         return False
 
 
@@ -128,10 +202,15 @@ def _mark_sent_today() -> None:
     today_ist = datetime.datetime.now(ist).date().isoformat()
     path = os.path.join(_REPO_ROOT, "data", "last_sent.json")
     os.makedirs(os.path.dirname(path), exist_ok=True)
+    payload = json.dumps({"date": today_ist})
     with open(path, "w", encoding="utf-8") as f:
-        json.dump({"date": today_ist}, f)
-    if _git_commit_push([path], f"chore: mark report sent {today_ist}"):
+        f.write(payload)
+    if _git_commit_push([path], f"chore: mark report sent {today_ist}",
+                        contents={path: payload}):
         print(f"[last_sent] Marked report sent for {today_ist}")
+    else:
+        print(f"[last_sent] WARNING: could not publish the sent-marker for "
+              f"{today_ist} — a later tick may send a duplicate")
 
 
 def _get_recipients() -> list[str]:
@@ -281,6 +360,84 @@ OUTPUT RULES:
 # Claude API call
 # ---------------------------------------------------------------------------
 
+# ---------------------------------------------------------------------------
+# Fallback report — used when the Claude API call fails (e.g. credits
+# exhausted). Produces the SAME id="s1".."s5" / id="takeaways" markup
+# contract generate_report's real output uses, via plain rule-based
+# classification (reuses send_team_news.py's free classifier) — so
+# split_parts/build_attachment/build_email all work completely unchanged.
+# No credit implications or cross-source dedup (that needs the AI step),
+# but every fetched headline is still delivered instead of an empty report.
+# ---------------------------------------------------------------------------
+
+_FALLBACK_SECTIONS = [
+    ("s1", "sb1", "&#9733; S1 &mdash; MY RATED ENTITIES &amp; WATCHLIST"),
+    ("s2", "sb2", "S2 &mdash; NBFC, HFC, BROKING, FINTECH, FI SECTORS"),
+    ("s3", "sb3", "S3 &mdash; RBI, SEBI, NHB REGULATIONS"),
+    ("s4", "sb4", "S4 &mdash; BOND &amp; MONEY MARKETS"),
+    ("s5", "sb5", "S5 &mdash; MACROECONOMIC DEVELOPMENTS"),
+]
+
+
+def _fallback_item_card(it: dict, hero: bool = False) -> str:
+    cls = "art hero" if hero else "art"
+    link = f'<a class="rm" href="{it["url"]}" target="_blank">Read more &#8594;</a>' if it["url"] else ""
+    meta = " &bull; ".join(x for x in (it["source"], it["pub"]) if x)
+    return (f'<div class="{cls}"><p class="src">{meta}</p>'
+            f'<p class="hl">{it["title"]}</p>'
+            f'<p class="wh">{it["summary"] or "No summary available."}</p>{link}</div>')
+
+
+def _fallback_item_brief(it: dict) -> str:
+    link = f'<a href="{it["url"]}" target="_blank">&#8594;</a>' if it["url"] else ""
+    return f'<p class="ib">&#8226; {it["title"]} ({it["source"]}) {link}</p>'
+
+
+def build_fallback_report(news_text: str, today: datetime.date, error_msg: str = "") -> str:
+    watchlist = load_watchlist()
+    phrases = [_phrase(c) for c in watchlist]
+
+    items = [_parse_item(ln) for ln in news_text.splitlines() if ln.strip()]
+    by_section: dict[str, list[dict]] = {s: [] for s, _, _ in _FALLBACK_SECTIONS}
+    for it in items:
+        section = _classify(it, phrases)
+        if section is not None:
+            by_section[section.lower()].append(it)
+
+    parts = []
+    for sid, sbcls, title in _FALLBACK_SECTIONS:
+        parts.append(f'<div id="{sid}" data-section="banner" class="sb {sbcls}">{title}</div>')
+        sec_items = by_section[sid]
+        if not sec_items:
+            parts.append('<div class="empty">No items today.</div>')
+            continue
+        cards, brief = sec_items[:6], sec_items[6:20]
+        for i, it in enumerate(cards):
+            parts.append(_fallback_item_card(it, hero=(i == 0)))
+        if brief:
+            parts.append('<p class="ibh">In brief</p>')
+            parts.extend(_fallback_item_brief(it) for it in brief)
+
+    body = "\n".join(parts)
+
+    top5 = (by_section["s1"] + by_section["s2"] + by_section["s3"]
+            + by_section["s4"] + by_section["s5"])[:5]
+    takeaway_rows = "".join(
+        f'<tr><td style="padding:10px 16px;border-bottom:1px solid #333;color:#eee;'
+        f'font-size:12px;">{i+1}. {it["title"]} '
+        f'<span style="color:#888;font-size:10px;">&mdash; {it["source"]}</span></td></tr>'
+        for i, it in enumerate(top5)
+    ) or '<tr><td style="padding:10px 16px;color:#eee;">No items fetched today.</td></tr>'
+
+    part_c = f"""<table id="takeaways" width="100%" cellpadding="0" cellspacing="0" style="background:#1a1a1a;">
+<tr><td style="padding:8px 16px;font-size:9px;font-weight:800;letter-spacing:3px;text-transform:uppercase;color:#fff;">&#9679; TOP HEADLINES (AI ANALYSIS UNAVAILABLE)</td></tr>
+<tr><td style="padding:4px 16px 10px;font-size:11px;color:#f59e0b;">Anthropic API unavailable ({error_msg[:150] or 'unknown error'}) &mdash; this report was generated in free/fallback mode: headlines only, no credit-implication analysis, no cross-source deduplication. Top up API credits to restore the full AI report.</td></tr>
+{takeaway_rows}
+</table>"""
+
+    return body + "\n" + part_c
+
+
 def generate_report(news_text: str, today: datetime.date, api_key: str) -> str:
     day_str = today.strftime("%A")
     date_str = today.strftime("%d %B %Y")
@@ -300,7 +457,7 @@ def generate_report(news_text: str, today: datetime.date, api_key: str) -> str:
             # Haiku has no effort param; use an explicit thinking budget instead.
             extra["thinking"] = {"type": "enabled", "budget_tokens": 8000}
         else:
-            extra["output_config"] = {"effort": "medium"}
+            extra["output_config"] = {"effort": "high"}
         with client.messages.stream(
             model=model,
             max_tokens=64000,
@@ -313,11 +470,8 @@ def generate_report(news_text: str, today: datetime.date, api_key: str) -> str:
         return _msg_text(message)
     except Exception as exc:
         print(f"[generate_report] Claude API error: {exc}")
-        return f"""<table width="100%" cellpadding="0" cellspacing="0" style="background:#1a1a1a;">
-<tr><td style="padding:8px 16px;font-size:9px;font-weight:800;letter-spacing:3px;text-transform:uppercase;color:#fff;">&#9679; TOP 5 CREDIT TAKEAWAYS</td></tr></table>
-<table width="100%" cellpadding="0" cellspacing="0" style="border:1px solid #e5e5e5;border-top:none;">
-<tr><td style="padding:16px;font-size:13px;color:#cc0000;">Report generation failed: {str(exc)[:200]}</td></tr>
-</table>"""
+        print("[generate_report] Falling back to rule-based report (no AI, no credit implications)")
+        return build_fallback_report(news_text, today, str(exc))
 
 
 # ---------------------------------------------------------------------------
@@ -625,7 +779,10 @@ def send_email(subject: str, html_body: str, gmail_user: str, gmail_password: st
     recipients = _get_recipients()
     msg = MIMEMultipart("mixed")
     msg["Subject"] = subject
-    msg["From"] = gmail_user
+    # A bare From address (no display name) from a low-reputation sender is a
+    # common spam signal at corporate mail gateways -- the 7:40 mail (which
+    # never had this problem) always sends "Display Name <addr>". Match it.
+    msg["From"] = f"Credit Intelligence News <{gmail_user}>"
     msg["To"] = ", ".join(recipients)
 
     body_part = MIMEMultipart("alternative")
@@ -738,6 +895,51 @@ def build_weekly_email(html: str, today: datetime.date) -> str:
 # Entry point
 # ---------------------------------------------------------------------------
 
+_TEAM_JSON_PATH = os.path.join(_REPO_ROOT, "team.json")
+_WATCHLIST_PATH = os.path.join(_REPO_ROOT, "watchlist.txt")
+
+
+def _sync_watchlist_from_team(name_contains: str = "jitendra") -> int:
+    """Regenerate watchlist.txt (this report's S1 source) from team.json —
+    every company where GH Name contains `name_contains`. Local file write
+    only, never committed: the 7:40 team mail owns team.json and is never
+    touched here; this report owns watchlist.txt and is never touched by
+    the team console. On any problem, leave the existing watchlist.txt
+    untouched so a bad sync never blanks S1.
+    """
+    try:
+        with open(_TEAM_JSON_PATH, encoding="utf-8") as f:
+            team = json.load(f)
+        companies = sorted({
+            r["company"].strip()
+            for r in team.get("rows", [])
+            if r.get("company", "").strip()
+            and name_contains in r.get("gh_name", "").strip().lower()
+        })
+        if not companies:
+            print(f"[watchlist-sync] no team.json rows with GH Name containing "
+                  f"'{name_contains}' — keeping existing watchlist.txt")
+            return 0
+        header = (
+            "# ============================================================\n"
+            "# COMPANY WATCHLIST — Daily Credit Intelligence Report\n"
+            "# ============================================================\n"
+            f"# Auto-generated each run from team.json rows where GH Name\n"
+            f"# contains '{name_contains}'. Edit GH Name assignments at\n"
+            "# docs/team.html to change this list — do not edit this file\n"
+            "# directly, it is overwritten on the next run.\n"
+            "# ============================================================\n\n"
+        )
+        with open(_WATCHLIST_PATH, "w", encoding="utf-8") as f:
+            f.write(header + "\n".join(companies) + "\n")
+        print(f"[watchlist-sync] watchlist.txt regenerated from team.json: "
+              f"{len(companies)} companies (GH Name contains '{name_contains}')")
+        return len(companies)
+    except Exception as exc:
+        print(f"[watchlist-sync] skipped (non-fatal): {exc} — keeping existing watchlist.txt")
+        return 0
+
+
 def main() -> None:
     gmail_user = os.environ["GMAIL_USER"]
     gmail_password = os.environ["GMAIL_APP_PASSWORD"]
@@ -746,6 +948,8 @@ def main() -> None:
     is_weekly = os.environ.get("WEEKLY_DIGEST", "").lower() == "true"
 
     today = datetime.date.today()
+
+    _sync_watchlist_from_team()
 
     try:
         print("Fetching news...")
@@ -767,17 +971,38 @@ def main() -> None:
             prompt = _build_weekly_prompt(news_text, day_str, date_str)
             client = anthropic.Anthropic(api_key=anthropic_api_key)
             _model = _load_config().get("model", "claude-sonnet-5")
+            _extra = {}
+            if not _model.startswith("claude-haiku"):
+                _extra["output_config"] = {"effort": "high"}
             with client.messages.stream(model=_model, max_tokens=24000,
-                                        messages=[{"role": "user", "content": prompt}]) as _s:
+                                        messages=[{"role": "user", "content": prompt}],
+                                        **_extra) as _s:
                 msg = _s.get_final_message()
             weekly_html = _msg_text(msg)
             email_html = build_weekly_email(weekly_html, today)
-            subject = f"Weekly Credit Intelligence Digest — Week ending {date_str}"
+            subject = f"Credit Intelligence News (AI Weekly) — Week ending {date_str}"
             print("Sending weekly digest...")
             send_email(subject, email_html, gmail_user, gmail_password)
             return
 
-        subject = f"Credit Intelligence News — {today.strftime('%d %B %Y')}"
+        subject = f"Credit Intelligence News (AI Report) — {today.strftime('%d %B %Y')}"
+
+        # Second, closer-to-the-wire duplicate check. The workflow's own
+        # bash gate reads last_sent.json ONCE, ~15 minutes before this
+        # point (through the full fetch above) — if another tick's push
+        # of that marker landed on main anywhere in that window, this run
+        # has been generating a report nobody asked for. 07 Aug: 5 separate
+        # full sends in one morning, each because its own gate check came
+        # first and the marker from an earlier run hadn't landed yet when
+        # it looked. Re-reading the freshest possible copy right before the
+        # expensive Claude call (rather than trusting a bash step's read
+        # from 15 minutes ago) shrinks that race window from ~15 minutes to
+        # the few seconds a git fetch takes.
+        if _already_sent_today():
+            print("[dup-guard] last_sent.json on origin/main already shows today's date "
+                  "— another run sent this report while this one was fetching. Aborting "
+                  "before the Claude call.")
+            return
 
         print("Calling Claude API...")
         full_html = generate_report(news_text, today, anthropic_api_key)
@@ -812,7 +1037,7 @@ def main() -> None:
             recipients = _get_recipients()
             msg = MIMEText(fail_body, "plain", "utf-8")
             msg["Subject"] = fail_subject
-            msg["From"] = gmail_user
+            msg["From"] = f"Credit Intelligence News <{gmail_user}>"
             msg["To"] = ", ".join(recipients)
             with smtplib.SMTP_SSL("smtp.gmail.com", 465) as server:
                 server.login(gmail_user, gmail_password)

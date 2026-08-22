@@ -1,8 +1,8 @@
 {
-  "model": "claude-sonnet-4-6",
-  "recipient": "jitendra.meghrajani@gmail.com",
+  "model": "claude-sonnet-5",
+  "recipient": "Jitendra.Meghrajani@gmail.com",
   "recipients": [
-    "jitendra.meghrajani@gmail.com"
+    "Jitendra.Meghrajani@gmail.com"
   ],
   "sources": {
     "rbi_rss": true,
@@ -11,22 +11,16 @@
     "newsapi": false,
     "company_watchlist": true,
     "bse_announcements": true,
-    "rating_agencies": true,
+    "rating_agencies": false,
     "telegram": true,
     "web_scraper": true
   },
-  "custom_scrape_urls": [
-    "https://bfsi.economictimes.indiatimes.com/",
-    "https://www.livemint.com/industry/banking",
-    "https://www.business-standard.com/finance",
-    "https://www.financialexpress.com/business/banking-finance/",
-    "https://www.moneycontrol.com/news/business/banks/"
-  ],
+  "custom_scrape_urls": [],
   "web_sources": {
-    "careedge": true,
-    "crisil": true,
-    "icra": true,
-    "india_ratings": true,
+    "careedge": false,
+    "crisil": false,
+    "icra": false,
+    "india_ratings": false,
     "bse": true,
     "nse": true,
     "fimmda": true,
@@ -36,10 +30,10 @@
     "bond_issuances": true,
     "mca_charges": true,
     "nsdl_defaults": true,
-    "macro_releases": true
+    "macro_releases": true,
+    "extra_rss": true
   },
   "telegram_channels": [
-    "@bank_nbfc_fintech",
     "@researchreportss",
     "@livemint",
     "@rockfortfincapllp",
@@ -53,5 +47,6 @@
     "RBI, SEBI, NHB Regulations",
     "Bond and Money Markets",
     "Macroeconomic Developments"
-  ]
+  ],
+  "daily_report_enabled": false
 }

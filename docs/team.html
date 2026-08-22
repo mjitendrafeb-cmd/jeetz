@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Team &amp; News Routing — Management</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+<script src="https://cdn.sheetjs.com/xlsx-0.20.2/package/dist/xlsx.full.min.js"></script>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#d4d4d4;font-family:'Inter',Arial,sans-serif;color:#1a1a1a;padding:16px 0 40px;min-height:100vh}
+.wrap{max-width:1500px;margin:0 auto;background:#fff;box-shadow:0 4px 20px rgba(0,0,0,.2)}
+.bar{background:#cc0000;height:5px}
+.mast{padding:14px 24px 10px;border-bottom:3px solid #1a1a1a;display:flex;align-items:flex-start;justify-content:space-between;gap:16px;flex-wrap:wrap}
+.mast h1{font-family:'Playfair Display',Georgia,serif;font-size:26px;font-weight:900;letter-spacing:-1px}
+.mast p{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:#999;margin-bottom:4px}
+.run-btn{background:#15803d;color:#fff;border:none;border-radius:3px;padding:10px 18px;font-size:11px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;cursor:pointer;align-self:center}
+.run-btn:hover{background:#166534}.run-btn:disabled{background:#aaa;cursor:not-allowed}
+nav{background:#1a1a1a;border-bottom:3px solid #cc0000;display:flex;flex-wrap:wrap}
+nav a{padding:9px 15px;font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#bbb;border-right:1px solid #333;text-decoration:none;cursor:pointer}
+nav a.active,nav a:hover{color:#fff;background:#333}
+.tab{display:none;padding:20px 24px}.tab.active{display:block}
+.token-bar{background:#fff8e1;border:1px solid #f59e0b;border-radius:4px;padding:10px 16px;margin:14px 24px 0;display:flex;align-items:center;gap:10px;flex-wrap:wrap;font-size:12px;font-weight:600}
+.token-bar.ok{background:#f0fdf4;border-color:#16a34a}
+.dot{width:9px;height:9px;border-radius:50%;background:#f59e0b;flex-shrink:0}.dot.ok{background:#16a34a}
+.btn{padding:8px 16px;font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;border:none;border-radius:3px;cursor:pointer}
+.btn-red{background:#cc0000;color:#fff}.btn-red:hover{background:#aa0000}
+.btn-grey{background:#e5e5e5;color:#555}.btn-grey:hover{background:#ccc}
+.btn-green{background:#15803d;color:#fff}.btn-green:hover{background:#166534}
+.ib{background:#f8f8f8;border-left:3px solid #cc0000;padding:10px 14px;font-size:12px;color:#555;margin-bottom:16px;line-height:1.6}
+table{width:100%;border-collapse:collapse;font-size:11px}
+th{background:#1a1a1a;color:#fff;padding:7px 5px;font-size:8.5px;letter-spacing:.5px;text-transform:uppercase;text-align:left;position:sticky;top:0;white-space:nowrap}
+th.c,td.c{text-align:center}
+td{padding:4px 3px;border-bottom:1px solid #eee;vertical-align:middle}
+input[type=text],input[type=email]{width:100%;padding:6px 7px;font-size:11px;border:1px solid #ddd;border-radius:3px;font-family:inherit}
+input:focus{outline:none;border-color:#cc0000}
+input.company{font-weight:700;min-width:180px}
+input.nm{min-width:75px}input.em{min-width:140px}
+input[type=checkbox]{width:15px;height:15px;accent-color:#15803d;cursor:pointer}
+.del{background:none;border:none;color:#cc0000;font-size:15px;cursor:pointer;padding:2px 6px}
+.del:hover{background:#fee}
+.savebar{display:flex;gap:10px;align-items:center;margin-top:16px;flex-wrap:wrap}
+#status{font-size:12px;font-weight:600}
+.ok{color:#15803d}.err{color:#cc0000}
+.legend{font-size:10px;color:#888;margin:8px 0 0}
+.field{flex:1;min-width:260px;padding:8px 10px;font-size:12px;font-family:monospace;border:1px solid #ddd;border-radius:3px}
+.scroll{max-height:66vh;overflow:auto;border:1px solid #eee}
+#gate{position:fixed;inset:0;background:#0e2e4e;display:flex;align-items:center;justify-content:center;z-index:999;font-family:Arial,Helvetica,sans-serif}
+#gate .box{background:#fff;border-radius:6px;padding:32px 36px;width:280px;text-align:center;box-shadow:0 10px 40px rgba(0,0,0,.35)}
+#gate h2{font-size:15px;margin-bottom:14px;color:#0e2e4e}
+#gate input{width:100%;padding:9px 10px;font-size:13px;border:1px solid #ccc;border-radius:4px;box-sizing:border-box;text-align:center}
+#gate button{width:100%;margin-top:10px;padding:9px;font-size:13px;font-weight:700;background:#0e2e4e;color:#fff;border:none;border-radius:4px;cursor:pointer}
+#gate .gerr{color:#cc0000;font-size:11px;margin-top:8px;min-height:14px}
+#appwrap{display:none}
+</style>
+</head>
+<body>
+<!-- Client-side gate only -- the hash below is recoverable from view-source
+     by anyone who tries; this stops casual browsing by people who have the
+     link, not a determined visitor. Real access control needs a server-side
+     proxy holding the GitHub token, which this static page does not have. -->
+<div id="gate">
+  <div class="box">
+    <h2>&#128274; Team Console</h2>
+    <input type="password" id="gatePin" placeholder="Password" autofocus>
+    <button onclick="tryGate()">Enter</button>
+    <div class="gerr" id="gateErr"></div>
+  </div>
+</div>
+<div id="appwrap">
+<div class="wrap">
+  <div class="bar"></div>
+  <div class="mast">
+    <div>
+      <p>Credit Intelligence &mdash; Team Management</p>
+      <h1>Entities, People &amp; News Routing</h1>
+    </div>
+    <button class="run-btn" id="runBtn" onclick="runNow()">&#9993; Send Team News Now</button>
+    <button class="run-btn" id="testRunBtn" style="background:#5b7285;margin-left:8px" onclick="testRunNow()">&#9993; Test Send To Me Only</button>
+  </div>
+  <div class="token-bar" id="tokenBar">
+    <span class="dot" id="tokenDot"></span>
+    <span id="tokenStatus">Viewing live data &mdash; set a token to save changes or send mails</span>
+  </div>
+  <nav>
+    <a class="active" onclick="showTab('ent',this)">&#127970; Entities &amp; Routing</a>
+    <a onclick="showTab('token',this)">&#128274; Token</a>
+  </nav>
+
+  <div class="tab active" id="tab-ent">
+    <div style="display:flex;gap:24px;flex-wrap:wrap;background:#1a1a1a;padding:12px 16px;margin-bottom:16px;border-radius:4px;border-left:4px solid #cc0000">
+      <label style="display:flex;align-items:center;gap:8px;color:#fff;font-size:12px;font-weight:700;cursor:pointer">
+        <input type="checkbox" id="tglReport" onchange="cfgDailyEnabled=this.checked" style="width:17px;height:17px;accent-color:#cc0000">
+        7:30 Daily Report &mdash; "old is gold" (AI newspaper, needs API credits)
+      </label>
+      <label style="display:flex;align-items:center;gap:8px;color:#fff;font-size:12px;font-weight:700;cursor:pointer">
+        <input type="checkbox" id="tglTeam" onchange="team.scheduled_enabled=this.checked" style="width:17px;height:17px;accent-color:#15803d">
+        7:40 Team Mail (per-person watchlist, free)
+      </label>
+      <label style="display:flex;align-items:center;gap:8px;color:#fff;font-size:12px;font-weight:700;cursor:pointer">
+        <input type="checkbox" id="tglSunday" onchange="team.skip_sundays=this.checked" style="width:17px;height:17px;accent-color:#b45309">
+        Skip Sundays
+      </label>
+      <label style="display:flex;align-items:center;gap:8px;color:#fff;font-size:12px;font-weight:700;cursor:pointer">
+        <input type="checkbox" id="tglSaturday" onchange="team.skip_saturdays=this.checked" style="width:17px;height:17px;accent-color:#b45309">
+        Skip Saturdays (Monday becomes the Weekend Edition)
+      </label>
+      <label style="display:flex;align-items:center;gap:8px;color:#fff;font-size:12px;font-weight:700">
+        Holidays:
+        <input type="text" id="txtHolidays" placeholder="2026-08-15, 2026-10-02"
+          title="Comma-separated dates (YYYY-MM-DD) when the 7:40 mail should not go out"
+          onchange="team.holidays=this.value.split(/[\s,;]+/).filter(function(x){return /^\d{4}-\d{2}-\d{2}$/.test(x)})"
+          style="width:220px;padding:5px 7px;font-size:11px;border:1px solid #444;border-radius:3px;background:#2a2a2a;color:#fff">
+      </label>
+      <span style="color:#888;font-size:10px;align-self:center">Untick to stop that morning mail &mdash; then Save All Changes. Manual sends always work (incl. Sundays/holidays).</span>
+    </div>
+    <div class="ib">
+      One row per <strong>company</strong>: GH / Analyst / RH names &amp; emails, then
+      <strong>Send?</strong> ticks (only ticked people receive mails), then a separate <strong>S1&ndash;S3</strong> group per role (GH / Analyst / RH) =
+      which report sections that specific person on that row receives &mdash; each role's ticks are independent, so unticking a section for one role no longer affects the others on the same row.
+      <em>S1 = their own companies' news &middot; S2 = sector &amp; regulation &middot; S3 = macroeconomic &amp; markets.</em>
+      A person on multiple rows gets the union of their ticked sections across those rows. <strong>7:30 AI report:</strong> its watchlist is auto-built each morning from every row whose <strong>GH Name contains "Jitendra"</strong> &mdash; edit GH Name here to add/remove companies from that report. <strong>7:40 Team Mail:</strong> uses this whole table with the Send/S1&ndash;S3 ticks, per role, for everyone. No API credits used for the 7:40 mail.
+    </div>
+    <div style="display:flex;gap:18px;flex-wrap:wrap;background:#faf8f4;border:1px solid #e2ddd2;padding:12px 14px;margin-bottom:14px;border-radius:4px">
+      <div style="flex:1;min-width:330px">
+        <label style="display:block;font-size:11px;font-weight:700;color:#b45309;margin-bottom:4px">
+          S2 &mdash; Sectors &amp; their keywords</label>
+        <div id="sectorRows"></div>
+        <button onclick="addSector()" style="margin-top:6px;padding:4px 9px;font-size:11px;background:#fff;border:1px solid #b45309;color:#b45309;border-radius:3px;cursor:pointer">+ Add sector</button>
+        <div style="font-size:10px;color:#999;margin-top:4px">Each entity's Sector column decides which of these its people receive.</div>
+      </div>
+      <div style="flex:1;min-width:290px">
+        <label style="display:block;font-size:11px;font-weight:700;color:#1e3a8a;margin-bottom:4px">
+          S3 &mdash; Macroeconomic keywords</label>
+        <textarea id="txtMacroKw" rows="2" placeholder="gdp, inflation, repo rate, bond yield, g-sec"
+          title="Comma-separated. A story matching any of these goes to S3."
+          onchange="team.macro_keywords=this.value.split(',').map(function(x){return x.trim()}).filter(Boolean)"
+          style="width:100%;padding:6px 7px;font-size:11px;border:1px solid #ddd;border-radius:3px;font-family:inherit"></textarea>
+        <div style="font-size:10px;color:#999;margin-top:3px">Economy and markets &mdash; bonds and money markets now live here too.</div>
+      </div>
+      <div style="flex-basis:100%;font-size:10px;color:#888">
+        Checked before the built-in rules, so a keyword wins. Matching is a plain
+        case-insensitive substring test &mdash; keep terms specific.
+      </div>
+    </div>
+    <datalist id="sectorList"></datalist>
+    <div class="scroll">
+    <table id="entTable">
+      <thead><tr>
+        <th style="min-width:180px">Company</th>
+        <th style="min-width:150px" title="Short names the press actually uses, comma-separated — e.g. BOI, Bank of India | Alpha Alternatives | HDFC Life. Each one is searched as its own phrase, so news that never spells out the full registered name is still found.">Aliases / Short names</th>
+        <th>GH Name</th><th>Analyst Name</th><th>RH Name</th>
+        <th>GH Email</th><th>Analyst Email</th><th>RH Email</th>
+        <th class="c">Send GH</th><th class="c">Send Analyst</th><th class="c">Send RH</th>
+        <th title="Which sector this entity operates in — drives which S2 news its people get">Sector</th>
+        <th class="c" title="GH: entity news on this row's company">GH S1</th><th class="c" title="GH: sector &amp; regulation">GH S2</th><th class="c" title="GH: macroeconomic &amp; markets">GH S3</th>
+        <th class="c" title="Analyst: entity news on this row's company">An S1</th><th class="c" title="Analyst: sector &amp; regulation">An S2</th><th class="c" title="Analyst: macroeconomic &amp; markets">An S3</th>
+        <th class="c" title="RH: entity news on this row's company">RH S1</th><th class="c" title="RH: sector &amp; regulation">RH S2</th><th class="c" title="RH: macroeconomic &amp; markets">RH S3</th>
+        <th></th>
+      </tr></thead>
+      <tbody id="entBody"></tbody>
+    </table>
+    </div>
+    <div class="savebar">
+      <button class="btn btn-grey" onclick="addRow()">+ Add Company</button>
+      <button class="btn btn-green" onclick="downloadExcel()">&#8681; Download Excel</button>
+      <button class="btn btn-green" onclick="document.getElementById('xlUp').click()">&#8679; Upload Excel</button>
+      <input type="file" id="xlUp" accept=".xlsx,.xls,.csv" style="display:none" onchange="uploadExcel(this)">
+      <button class="btn btn-red" onclick="saveAll()">Save All Changes</button>
+      <span id="status"></span>
+    </div>
+    <div class="legend">Excel columns: company, gh_name, analyst_name, rh_name, gh_email, analyst_email, rh_email, send_gh (Y/N), send_analyst (Y/N), send_rh (Y/N), sector, GH_S1/S2/S3, An_S1/S2/S3, RH_S1/S2/S3 (Y/N, one triplet per role).
+    Download &rarr; edit in Excel &rarr; upload &rarr; review &rarr; <strong>Save All Changes</strong>.</div>
+  </div>
+
+  <div class="tab" id="tab-token">
+    <div class="ib"><strong>GitHub Personal Access Token</strong> &mdash; required to save changes and trigger mails. Stored only in your browser (localStorage), sent only to the GitHub API. Create at github.com &rarr; Settings &rarr; Developer settings &rarr; Personal access tokens (needs <em>repo</em> + <em>workflow</em> scope).</div>
+    <div style="display:flex;gap:10px;flex-wrap:wrap">
+      <input class="field" id="tokenInput" type="password" placeholder="ghp_xxxxxxxxxxxxxxxx" />
+      <button class="btn btn-green" onclick="saveToken()">Save Token</button>
+      <button class="btn btn-grey" onclick="clearToken()">Clear</button>
+    </div>
+  </div>
+</div>
+</div><!-- /#appwrap -->
+
+<script>
+const OWNER='mjitendrafeb-cmd', REPO='jeetz', BRANCH='main';
+const SECS=['S1','S2','S3'];  // S1 entity | S2 sector | S3 macro
+// Legacy rows ticked S4/S5; both now live in S3.
+const SEC_MIGRATE={S4:'S3',S5:'S3'};  // only legacy ticks; S1-S3 are already the new scheme
+let team={rows:[],send_empty_mail:false};
+let sha=null, cfgSha=null, cfgObj=null, cfgDailyEnabled=true;
+
+function getToken(){return localStorage.getItem('gh_pat')||'';}
+function saveToken(){const t=document.getElementById('tokenInput').value.trim();if(t){localStorage.setItem('gh_pat',t);refreshTokenBar();alert('Token saved in this browser.');}}
+function clearToken(){localStorage.removeItem('gh_pat');refreshTokenBar();}
+function refreshTokenBar(){const ok=!!getToken();document.getElementById('tokenBar').className='token-bar'+(ok?' ok':'');document.getElementById('tokenDot').className='dot'+(ok?' ok':'');document.getElementById('tokenStatus').textContent=ok?'Token set — you can save changes and send mails':'Viewing live data — set a token (Token tab) to save changes or send mails';}
+function showTab(id,el){document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));document.querySelectorAll('nav a').forEach(a=>a.classList.remove('active'));document.getElementById('tab-'+id).classList.add('active');el.classList.add('active');}
+
+async function ghGet(path){
+  // Was unauthenticated even when a token was set in the Token tab --
+  // GitHub caps ANONYMOUS API requests at 60/hour per IP (vs 5000/hour
+  // authenticated). Everyone opening this console from the office shares
+  // one public IP for that limit, so the team occasionally reloading the
+  // page in the same hour was enough to exhaust it -- surfaced as a bare
+  // "Load failed: team.json: 403" with no further explanation. ghPut()
+  // already sent the token correctly; this brings ghGet() in line.
+  const t=getToken();
+  const headers={Accept:'application/vnd.github+json'};
+  if(t)headers.Authorization='Bearer '+t;
+  const r=await fetch(`https://api.github.com/repos/${OWNER}/${REPO}/contents/${path}?ref=${BRANCH}&_=${Date.now()}`,{headers});
+  if(!r.ok)throw new Error(path+': '+r.status);
+  const j=await r.json();
+  return {sha:j.sha,text:decodeURIComponent(escape(atob(j.content.replace(/\n/g,''))))};
+}
+async function ghPutOnce(path,content,fileSha,msg){
+  const body={message:msg,branch:BRANCH,content:btoa(unescape(encodeURIComponent(content)))};
+  if(fileSha)body.sha=fileSha;
+  const r=await fetch(`https://api.github.com/repos/${OWNER}/${REPO}/contents/${path}`,{method:'PUT',headers:{Authorization:'Bearer '+getToken(),Accept:'application/vnd.github+json'},body:JSON.stringify(body)});
+  if(!r.ok){const e=await r.json().catch(()=>({}));const err=new Error(path+': '+r.status+' '+(e.message||''));err.status=r.status;throw err;}
+  return (await r.json()).content.sha;
+}
+
+// A 409 means the file changed on GitHub since this page loaded it (another
+// save, or a deploy) — the sha we hold is stale. Re-read the file, and only
+// overwrite after telling the user what changed, so a concurrent edit is
+// never silently clobbered.
+async function ghPut(path,content,fileSha,msg){
+  try{
+    return await ghPutOnce(path,content,fileSha,msg);
+  }catch(e){
+    if(e.status!==409)throw e;
+    const cur=await ghGet(path);
+    let proceed=true;
+    if(path==='team.json'){
+      let n='?';
+      try{n=(JSON.parse(cur.text).rows||[]).length;}catch(_){}
+      proceed=confirm(
+        'team.json was changed on GitHub after this page loaded '+
+        '(the server copy now has '+n+' rows).\n\n'+
+        'OK  = overwrite with what you see on screen ('+team.rows.length+' rows)\n'+
+        'Cancel = keep the server version (reload the page to see it)'
+      );
+    }
+    if(!proceed)throw new Error('Save cancelled — reload the page to load the latest version.');
+    return await ghPutOnce(path,content,cur.sha,msg);
+  }
+}
+function esc(s){return (s||'').replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;');}
+
+function txt(i,field,cls){const em=field.includes('email');return `<td><input type="${em?'email':'text'}"${em?' multiple title="One or more emails, comma-separated"':''} class="${cls}" value="${esc(team.rows[i][field])}" onchange="team.rows[this.closest('tr').dataset.i]['${field}']=this.value"></td>`;}
+function chk(i,field){return `<td class="c"><input type="checkbox" ${team.rows[i][field]?'checked':''} onchange="team.rows[this.closest('tr').dataset.i]['${field}']=this.checked"></td>`;}
+const ROLE_SECS={gh:'gh_sections',analyst:'analyst_sections',rh:'rh_sections'};
+function secChk(i,role,s){const f=ROLE_SECS[role];const on=(team.rows[i][f]||[]).includes(s);return `<td class="c"><input type="checkbox" ${on?'checked':''} onchange="toggleSec(this.closest('tr').dataset.i,'${role}','${s}',this.checked)"></td>`;}
+function toggleSec(i,role,s,on){const f=ROLE_SECS[role];const r=team.rows[i];if(!r[f])r[f]=[];const a=r[f];const k=a.indexOf(s);if(on&&k<0)a.push(s);if(!on&&k>=0)a.splice(k,1);}
+
+function render(){
+  document.getElementById('entBody').innerHTML=team.rows.map((r,i)=>`<tr data-i="${i}">
+    <td><input type="text" class="company" value="${esc(r.company)}" onchange="team.rows[this.closest('tr').dataset.i].company=this.value"></td>
+    <td><input type="text" value="${esc((r.aliases||[]).join(', '))}" placeholder="BOI, Bank of India"
+      title="Comma-separated. Each is searched as its own phrase."
+      onchange="team.rows[this.closest('tr').dataset.i].aliases=this.value.split(',').map(x=>x.trim()).filter(Boolean)"
+      style="width:100%;padding:6px 7px;font-size:11px;border:1px solid #ddd;border-radius:3px;font-family:inherit"></td>
+    ${txt(i,'gh_name','nm')}${txt(i,'analyst_name','nm')}${txt(i,'rh_name','nm')}
+    ${txt(i,'gh_email','em')}${txt(i,'analyst_email','em')}${txt(i,'rh_email','em')}
+    ${chk(i,'send_gh')}${chk(i,'send_analyst')}${chk(i,'send_rh')}
+    <td><input list="sectorList" value="${esc(team.rows[i].sector||'BFSI')}"
+      onchange="team.rows[this.closest('tr').dataset.i].sector=this.value.trim()||'BFSI'"
+      style="width:100%;padding:6px 7px;font-size:11px;border:1px solid #ddd;border-radius:3px;font-family:inherit"></td>
+    ${SECS.map(s=>secChk(i,'gh',s)).join('')}${SECS.map(s=>secChk(i,'analyst',s)).join('')}${SECS.map(s=>secChk(i,'rh',s)).join('')}
+    <td><button class="del" title="Remove company" onclick="team.rows.splice(this.closest('tr').dataset.i,1);render()">&#10006;</button></td>
+  </tr>`).join('');
+}
+function renderSectors(){
+  var names=Object.keys(team.sectors);
+  document.getElementById('sectorRows').innerHTML=names.map(function(n,idx){
+    return '<div style="display:flex;gap:6px;margin-bottom:5px;align-items:flex-start">'+
+      '<input value="'+esc(n)+'" onchange="renameSector('+idx+',this.value)" '+
+        'style="width:120px;padding:5px 6px;font-size:11px;border:1px solid #ddd;border-radius:3px;font-family:inherit" placeholder="Sector">'+
+      '<textarea rows="2" onchange="setSectorKw('+idx+',this.value)" placeholder="nbfc, broking, housing finance" '+
+        'style="flex:1;padding:5px 6px;font-size:11px;border:1px solid #ddd;border-radius:3px;font-family:inherit">'+
+        esc((team.sectors[n]||[]).join(', '))+'</textarea>'+
+      (names.length>1?'<button onclick="delSector('+idx+')" title="Remove sector" style="padding:4px 7px;font-size:11px;background:#fff;border:1px solid #ddd;border-radius:3px;cursor:pointer">&times;</button>':'')+
+      '</div>';
+  }).join('');
+  document.getElementById('sectorList').innerHTML=names.map(function(n){return '<option value="'+esc(n)+'">';}).join('');
+}
+function renameSector(idx,val){
+  var names=Object.keys(team.sectors),old=names[idx];val=(val||'').trim()||old;
+  if(val===old)return;
+  var out={};names.forEach(function(n){out[n===old?val:n]=team.sectors[n];});
+  team.sectors=out;
+  // keep entity rows pointing at the renamed sector
+  team.rows.forEach(function(r){if((r.sector||'')===old)r.sector=val;});
+  renderSectors();render();
+}
+function setSectorKw(idx,val){
+  var n=Object.keys(team.sectors)[idx];
+  team.sectors[n]=val.split(',').map(function(x){return x.trim();}).filter(Boolean);
+}
+function delSector(idx){
+  var names=Object.keys(team.sectors),n=names[idx];
+  var used=team.rows.filter(function(r){return (r.sector||'BFSI')===n;}).length;
+  if(used&&!confirm(n+' is assigned to '+used+' entit'+(used===1?'y':'ies')+
+     '. They will fall back to the first remaining sector. Remove anyway?'))return;
+  delete team.sectors[n];
+  var fallback=Object.keys(team.sectors)[0]||'BFSI';
+  team.rows.forEach(function(r){if((r.sector||'')===n)r.sector=fallback;});
+  renderSectors();render();
+}
+function addSector(){
+  var n='New Sector',i=2;while(team.sectors[n]){n='New Sector '+(i++);}
+  team.sectors[n]=[];renderSectors();
+}
+function addRow(){
+  team.rows.push({company:'',aliases:[],gh_name:'',analyst_name:'',rh_name:'',gh_email:'',analyst_email:'',rh_email:'',send_gh:false,send_analyst:false,send_rh:false,sector:'BFSI',gh_sections:['S1'],analyst_sections:['S1'],rh_sections:['S1']});
+  render();
+  const rows=document.querySelectorAll('#entBody tr');rows[rows.length-1].scrollIntoView();rows[rows.length-1].querySelector('input').focus();
+}
+
+async function load(){
+  try{
+    const t=await ghGet('team.json');sha=t.sha;team=JSON.parse(t.text);
+    if(!team.rows)team={rows:[],send_empty_mail:false};
+    try{const c=await ghGet('config.json');cfgSha=c.sha;cfgObj=JSON.parse(c.text);
+        cfgDailyEnabled=cfgObj.daily_report_enabled!==false;}catch(e){cfgObj=null;}
+    if(team.scheduled_enabled===undefined)team.scheduled_enabled=true;
+    // Fold any legacy S4/S5 ticks onto S3 so old rows keep working.
+    team.rows.forEach(function(r){r.sections=Array.from(new Set((r.sections||[])
+      .map(function(x){return SEC_MIGRATE[x]||x;})));});
+    // Rows used to share ONE sections list across GH/Analyst/RH, so
+    // unticking a section for one role silently unticked it for everyone
+    // else on that row too. Give each role its own list, seeded from the
+    // old shared one the first time a row is loaded post-migration; once
+    // a role field exists it's never re-seeded from the legacy field again.
+    team.rows.forEach(function(r){
+      ['gh_sections','analyst_sections','rh_sections'].forEach(function(f){
+        if(!Array.isArray(r[f]))r[f]=(r.sections||[]).slice();
+      });
+    });
+    if(!Array.isArray(team.sector_keywords))team.sector_keywords=[];
+    if(!Array.isArray(team.macro_keywords))team.macro_keywords=[];
+    // txtSectorKw was a single flat textarea for sector keywords; it was
+    // replaced by the per-sector UI (renderSectors(), below) which reads
+    // team.sectors instead. This line kept writing to the now-removed
+    // element on every load, crashing before render() ever ran -- the
+    // page looked "broken" (empty table, "Load failed" banner) even
+    // though team.json loaded fine and edits/Excel export still worked.
+    if(!team.sectors||typeof team.sectors!=='object'||Array.isArray(team.sectors)){
+      team.sectors={BFSI:(team.sector_keywords||[])};delete team.sector_keywords;}
+    if(!Object.keys(team.sectors).length)team.sectors={BFSI:[]};
+    team.rows.forEach(function(r){if(!r.sector)r.sector='BFSI';});
+    document.getElementById('txtMacroKw').value=team.macro_keywords.join(', ');
+    renderSectors();
+    if(team.skip_sundays===undefined)team.skip_sundays=true;
+    if(team.skip_saturdays===undefined)team.skip_saturdays=true;
+    if(!Array.isArray(team.holidays))team.holidays=[];
+    document.getElementById('tglSunday').checked=team.skip_sundays!==false;
+    document.getElementById('tglSaturday').checked=team.skip_saturdays!==false;
+    document.getElementById('txtHolidays').value=(team.holidays||[]).join(', ');
+    document.getElementById('tglReport').checked=cfgDailyEnabled;
+    document.getElementById('tglTeam').checked=team.scheduled_enabled!==false;
+    render();
+  }catch(e){document.getElementById('status').innerHTML='<span class="err">Load failed: '+e.message+'</span>';}
+}
+
+async function saveAll(){
+  if(!getToken()){alert('Set a GitHub token first (Token tab).');return;}
+  const s=document.getElementById('status');s.innerHTML='Saving…';
+  try{
+    team.rows=team.rows.filter(r=>r.company.trim());
+    sha=await ghPut('team.json',JSON.stringify(team,null,2),sha,'Update team & routing via management console');
+    // NOTE: watchlist.txt is the 7:30 AI report's own list and is intentionally
+    // NOT written here — this console only manages the 7:40 team mail's
+    // team.json. Edit watchlist.txt directly on GitHub to change the 7:30 list.
+    if(cfgObj && cfgObj.daily_report_enabled!==cfgDailyEnabled){
+      cfgObj.daily_report_enabled=cfgDailyEnabled;
+      cfgSha=await ghPut('config.json',JSON.stringify(cfgObj,null,2),cfgSha,'Toggle 7:30 daily report via console');
+    }
+    s.innerHTML='<span class="ok">&#10003; Saved — takes effect from the next run</span>';
+    render();
+  }catch(e){s.innerHTML='<span class="err">Save failed: '+e.message+'</span>';}
+}
+
+async function runNow(){
+  if(!getToken()){alert('Set a GitHub token first (Token tab).');return;}
+  const b=document.getElementById('runBtn');b.disabled=true;b.textContent='Triggering…';
+  try{
+    const r=await fetch(`https://api.github.com/repos/${OWNER}/${REPO}/actions/workflows/team_news.yml/dispatches`,{method:'POST',headers:{Authorization:'Bearer '+getToken(),Accept:'application/vnd.github+json'},body:JSON.stringify({ref:BRANCH})});
+    if(!r.ok)throw new Error('HTTP '+r.status);
+    b.textContent='✓ Triggered — mails in ~5-10 min';
+  }catch(e){b.textContent='Failed: '+e.message;b.disabled=false;return;}
+  setTimeout(()=>{b.textContent='✉ Send Team News Now';b.disabled=false;},15000);
+}
+
+// This still runs a real send (same content, same section rules) but
+// restricts recipients to whatever address is typed here -- the
+// workflow's test_email input overrides the normal team.json routing
+// for this one run only, so nobody else on the distribution list gets
+// mail. Does not touch team.json or affect the next scheduled send.
+// Looks up the actual email(s) sitting in team.json against a given GH/
+// Analyst/RH name, instead of a hardcoded address -- so this stays correct
+// if that person's routing email ever changes in the console.
+function emailForName(name){
+  const want=(name||'').trim().toLowerCase();
+  if(!want)return '';
+  for(const r of (team.rows||[])){
+    for(const [nameField,emailField] of [['gh_name','gh_email'],['analyst_name','analyst_email'],['rh_name','rh_email']]){
+      if((r[nameField]||'').trim().toLowerCase()===want){
+        const addrs=(r[emailField]||'').split(/[,;]/).map(s=>s.trim()).filter(Boolean);
+        const own=addrs.find(a=>a.toLowerCase().includes(want.split(/\s+/)[0]));
+        return own||addrs[0]||'';
+      }
+    }
+  }
+  return '';
+}
+
+async function testRunNow(){
+  if(!getToken()){alert('Set a GitHub token first (Token tab).');return;}
+  const who=prompt('Send a test copy to which GH/Analyst/RH name (as it appears in the console)?','Jitendra');
+  if(!who)return;
+  const email=emailForName(who);
+  if(!email){alert(`No email found in team.json against "${who}".`);return;}
+  if(!confirm(`Send a test copy to ${email} (looked up for "${who}")?`))return;
+  const b=document.getElementById('testRunBtn');b.disabled=true;b.textContent='Triggering…';
+  try{
+    const r=await fetch(`https://api.github.com/repos/${OWNER}/${REPO}/actions/workflows/team_news.yml/dispatches`,{method:'POST',headers:{Authorization:'Bearer '+getToken(),Accept:'application/vnd.github+json'},body:JSON.stringify({ref:BRANCH,inputs:{test_email:email.trim()}})});
+    if(!r.ok)throw new Error('HTTP '+r.status);
+    b.textContent='✓ Triggered — test mail in ~5-10 min';
+  }catch(e){b.textContent='Failed: '+e.message;b.disabled=false;return;}
+  setTimeout(()=>{b.textContent='✉ Test Send To Me Only';b.disabled=false;},15000);
+}
+
+/* ---------------- Excel download / upload ---------------- */
+const YN=v=>v?'Y':'N';
+const isYes=v=>['yes','y','true','1'].includes(String(v||'').trim().toLowerCase());
+const COLS=['company','aliases','gh_name','analyst_name','rh_name','gh_email','analyst_email','rh_email','send_gh','send_analyst','send_rh','sector',
+  'GH_S1','GH_S2','GH_S3','An_S1','An_S2','An_S3','RH_S1','RH_S2','RH_S3'];
+
+function downloadExcel(){
+  const rows=team.rows.map(r=>({
+    company:r.company,aliases:(r.aliases||[]).join(', '),
+    gh_name:r.gh_name,analyst_name:r.analyst_name,rh_name:r.rh_name,
+    gh_email:r.gh_email,analyst_email:r.analyst_email,rh_email:r.rh_email,
+    send_gh:YN(r.send_gh),send_analyst:YN(r.send_analyst),send_rh:YN(r.send_rh),
+    sector:r.sector||'BFSI',
+    GH_S1:YN((r.gh_sections||[]).includes('S1')),GH_S2:YN((r.gh_sections||[]).includes('S2')),GH_S3:YN((r.gh_sections||[]).includes('S3')),
+    An_S1:YN((r.analyst_sections||[]).includes('S1')),An_S2:YN((r.analyst_sections||[]).includes('S2')),An_S3:YN((r.analyst_sections||[]).includes('S3')),
+    RH_S1:YN((r.rh_sections||[]).includes('S1')),RH_S2:YN((r.rh_sections||[]).includes('S2')),RH_S3:YN((r.rh_sections||[]).includes('S3')),
+  }));
+  const wb=XLSX.utils.book_new();
+  const ws=XLSX.utils.json_to_sheet(rows,{header:COLS});
+  ws['!cols']=[{wch:42},{wch:28},{wch:14},{wch:14},{wch:14},{wch:26},{wch:26},{wch:26},{wch:8},{wch:12},{wch:8},{wch:12},
+    {wch:6},{wch:6},{wch:6},{wch:6},{wch:6},{wch:6},{wch:6},{wch:6},{wch:6}];
+  XLSX.utils.book_append_sheet(wb,ws,'Team');
+  XLSX.writeFile(wb,'team_management.xlsx');
+}
+
+function uploadExcel(inp){
+  const f=inp.files[0]; if(!f)return;
+  const reader=new FileReader();
+  reader.onload=ev=>{
+    try{
+      const wb=XLSX.read(ev.target.result,{type:'array'});
+      const ws=wb.Sheets[wb.SheetNames[0]];
+      const rows=XLSX.utils.sheet_to_json(ws,{defval:''});
+      const newRows=rows.filter(r=>String(r.company||'').trim()).map(r=>({
+        company:String(r.company).trim(),
+        aliases:String(r.aliases||'').split(',').map(x=>x.trim()).filter(Boolean),
+        gh_name:String(r.gh_name||'').trim(),analyst_name:String(r.analyst_name||'').trim(),rh_name:String(r.rh_name||'').trim(),
+        gh_email:String(r.gh_email||'').trim(),analyst_email:String(r.analyst_email||'').trim(),rh_email:String(r.rh_email||'').trim(),
+        send_gh:isYes(r.send_gh),send_analyst:isYes(r.send_analyst),send_rh:isYes(r.send_rh),
+        sector:(r.sector||'BFSI').toString().trim()||'BFSI',
+        gh_sections:SECS.filter(s=>isYes(r['GH_'+s])),
+        analyst_sections:SECS.filter(s=>isYes(r['An_'+s])),
+        rh_sections:SECS.filter(s=>isYes(r['RH_'+s])),
+      }));
+      if(!newRows.length){alert('No rows found. Keep the same column headers as the downloaded file (company, gh_name, ...).');inp.value='';return;}
+      team.rows=newRows;
+      render();
+      document.getElementById('status').innerHTML='<span class="ok">&#10003; Excel loaded — '+newRows.length+' companies. Review, then click <strong>Save All Changes</strong> to make it live.</span>';
+    }catch(e){alert('Could not read file: '+e.message);}
+    inp.value='';
+  };
+  reader.readAsArrayBuffer(f);
+}
+
+document.getElementById('tokenInput').value=getToken();
+
+/* ---------------- client-side gate ---------------- */
+// SHA-256 of the password, not the password itself, so a glance at
+// view-source doesn't hand it over outright. Still fully recoverable by
+// anyone who opens dev tools and reads this script -- see the comment
+// above the #gate markup. Real access control needs a server-side proxy.
+const GATE_HASH='2cf24dba5fb0a30e26e83b2ac5b9e29e1b161e5c1fa7425e73043362938b9824';
+async function sha256Hex(s){
+  const buf=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(s));
+  return Array.from(new Uint8Array(buf)).map(b=>b.toString(16).padStart(2,'0')).join('');
+}
+function unlockApp(){
+  document.getElementById('gate').style.display='none';
+  document.getElementById('appwrap').style.display='block';
+  refreshTokenBar();load();
+}
+async function tryGate(){
+  const pin=document.getElementById('gatePin').value;
+  if(await sha256Hex(pin)===GATE_HASH){
+    sessionStorage.setItem('team_console_unlocked','1');
+    unlockApp();
+  }else{
+    document.getElementById('gateErr').textContent='Incorrect password.';
+    document.getElementById('gatePin').value='';
+    document.getElementById('gatePin').focus();
+  }
+}
+document.getElementById('gatePin').addEventListener('keydown',e=>{if(e.key==='Enter')tryGate();});
+if(sessionStorage.getItem('team_console_unlocked')==='1'){unlockApp();}
+</script>
+</body>
+</html>

@@ -83,8 +83,86 @@ _SKIP_PATTERNS = re.compile(
 )
 
 
+# ---------------------------------------------------------------------------
+# Language filter — English-only desk
+# ---------------------------------------------------------------------------
+# Script blocks for the Indian languages that actually show up in these feeds,
+# plus Arabic (Urdu). Matching on script is far more reliable than word lists:
+# a headline in Devanagari is unambiguous, whereas transliterated Hindi in
+# Latin script is rare in these sources.
+_INDIC_SCRIPT_RE = re.compile(
+    "["
+    "\u0900-\u097F"   # Devanagari  — Hindi, Marathi, Nepali
+    "\u0980-\u09FF"   # Bengali / Assamese
+    "\u0A00-\u0A7F"   # Gurmukhi    — Punjabi
+    "\u0A80-\u0AFF"   # Gujarati
+    "\u0B00-\u0B7F"   # Odia
+    "\u0B80-\u0BFF"   # Tamil
+    "\u0C00-\u0C7F"   # Telugu
+    "\u0C80-\u0CFF"   # Kannada
+    "\u0D00-\u0D7F"   # Malayalam
+    "\u0D80-\u0DFF"   # Sinhala
+    "\u0600-\u06FF"   # Arabic      — Urdu
+    "]"
+)
+
+# Regional-language mastheads. Their copy is occasionally syndicated in Latin
+# script, so the script test alone would miss them.
+_REGIONAL_DOMAIN_RE = re.compile(
+    r"(navbharattimes|maharashtratimes|amarujala|jagran|bhaskar|livehindustan|"
+    r"patrika|lokmat|loksatta|abplive\.com/hindi|aajtak|zeenews\.india\.com/hindi|"
+    r"hindi\.|/hindi/|marathi\.|/marathi/|tamil\.|/tamil/|telugu\.|/telugu/|"
+    r"kannada\.|/kannada/|malayalam\.|/malayalam/|bangla\.|/bangla/|gujarati\.|"
+    r"/gujarati/|eenadu|sakshi\.com|dinamalar|dinakaran|mathrubhumi|manoramaonline|"
+    r"anandabazar|prabhatkhabar|divyabhaskar|sandesh\.com|gujaratsamachar)",
+    re.IGNORECASE,
+)
+
+
+def _is_non_english(item: str) -> bool:
+    """True when a fetched line is regional-language content."""
+    if _REGIONAL_DOMAIN_RE.search(item):
+        return True
+    # Ignore the URL when script-testing: percent-encoding never carries
+    # Indic characters, but a slug might, and that is not the headline.
+    text = re.sub(r"\|\s*URL:\S+", " ", item)
+    hits = len(_INDIC_SCRIPT_RE.findall(text))
+    if not hits:
+        return False
+    letters = sum(1 for c in text if c.isalpha()) or 1
+    # A stray glyph in an otherwise English headline (a rupee-adjacent
+    # transliteration, a quoted name) should not condemn the item.
+    return hits / letters > 0.15
+
+
+# Individual-company share-price moves. S2-S5 are the industry / sector /
+# economy sections — an entity's intraday move belongs in none of them, and
+# the 7:30 prompt already lists this under SKIP ("intraday moves, top
+# gainers/losers"). The existing _SKIP_PATTERNS only caught index-level moves
+# (Sensex/Nifty), so company-level ones walked straight through:
+#   "Godfrey Phillips shares jump 7% as Samir Modi seeks peace with mother"
+#   "Zydus Wellness Share Price Falls Over 3% After Q1 Net Profit Declines"
+# Deliberately requires a shares/stock token NEAR a move verb, so "raises Rs
+# 500 crore via share sale" and "RBI allows banks to issue shares" survive.
+_STOCK_MOVE_RE = re.compile(
+    r"\b(shares?|stock|share price|scrip|m-?cap)\b[^.|]{0,40}?\b"
+    r"(jump|rall(y|ies|ied)|surg|soar|zoom|spike|climb|gain|rise|rises|risen|"
+    r"advanc|drop|fall|fell|slip|slid|declin|tank|plunge|crash|slump|tumbl|"
+    r"sink|sank|dip)\w*"
+    r"|\b(jump|rall(y|ies)|surg|soar|zoom|spike|climb|gain|drop|fall|slip|"
+    r"declin|tank|plunge|crash|slump|tumbl)\w*\b[^.|]{0,25}\b(shares?|stock|share price)\b"
+    r"|\bsell[- ]?off\b"
+    r"|\bshares?\s+(up|down)\s+\d"
+    r"|\b(hits?|touch\w*|scal\w*)\s+(52[- ]week|record|all[- ]time|lifetime)\s+(high|low)\b",
+    re.IGNORECASE,
+)
+
+
 def _is_market_ticker(title: str, summary: str = "") -> bool:
-    return bool(_SKIP_PATTERNS.search(title) or _SKIP_PATTERNS.search(summary))
+    # Stock-move framing is tested on the HEADLINE only — a summary that
+    # mentions a share move in passing should not condemn a real story.
+    return bool(_SKIP_PATTERNS.search(title) or _SKIP_PATTERNS.search(summary)
+                or _STOCK_MOVE_RE.search(title))
 
 
 def _fmt(source: str, title: str, summary: str, url: str = "", body: str = "", pub_date: str = "") -> str:
@@ -328,22 +406,23 @@ def _parse_gnews(url: str, label: str):
     return feed
 
 
-def fetch_google_news() -> list[str]:
+def fetch_google_news(days_back: int = 2) -> list[str]:
     items = []
     seen_titles: set[str] = set()
+    alias_map = _load_aliases()
 
     for (tag, query) in _GOOGLE_QUERIES:
         try:
             url = (
                 f"https://news.google.com/rss/search"
-                f"?q={requests.utils.quote(query + ' when:2d')}&hl=en-IN&gl=IN&ceid=IN:en"
+                f"?q={requests.utils.quote(query + f' when:{days_back}d')}&hl=en-IN&gl=IN&ceid=IN:en"
             )
             feed = _parse_gnews(url, query)
             count = 0
             for entry in feed.entries:
                 if count >= 3:
                     break
-                if not _is_recent(entry, 48, assume=False):
+                if not _is_recent(entry, 24 * max(1, days_back), assume=False):
                     continue
                 raw_title = _clean(entry.get("title", "")).strip()
                 if not raw_title or raw_title in seen_titles:
@@ -425,13 +504,336 @@ def fetch_newsapi_news(api_key: str) -> list[str]:
         return []
 
 
-def fetch_company_news() -> list[str]:
-    companies = load_watchlist()
+# ---------------------------------------------------------------------------
+# Entity naming — query construction and verification
+# ---------------------------------------------------------------------------
+# The old query was the first TWO words of the company name, unquoted:
+#   "Small Industries Development Bank of India" -> "Small Industries"
+#   "Micro Units Development and Refinance Agency" -> "Micro Units"
+#   "Bank of India" / "Bank of Baroda" / "Bank of Maharashtra" -> "Bank of"
+# Measured on the live 370-entity list: 30 entities shared a query with at
+# least one other entity, and ~9 queried a common English phrase. That is the
+# root cause of the recurring mis-attribution warnings — SIDBI collecting
+# "small business" stories, MUDRA collecting "micro-businesses". The guard in
+# the team mailer then discarded them, so the entity burned a request and got
+# NO coverage at all.
+#
+# Now: quote the full core name (so "Bank of India" cannot match Baroda) and
+# OR in an auto-derived acronym, which handles exactly the worst cases —
+# SIDBI and MUDRA fall out of the initials with no manual data entry.
+
+_LEGAL_SUFFIX_RE = re.compile(
+    r"\b(limited|ltd|private|pvt|public|company|co|corporation|corp|"
+    r"incorporated|inc|llp|plc)\b\.?", re.IGNORECASE)
+_PAREN_CODE_RE = re.compile(r"\([^)]*\)")          # "(BLR)", "(CQR)"
+_TRAILING_CODE_RE = re.compile(r"\s*[-–]\s*[A-Za-z]{1,4}\s*$")   # "- MA"
+_NAME_STOP = {"of", "and", "the", "for", "&", "in"}
+# Words too common in BFSI names to identify a firm on their own — a lone
+# hit on one of these is not evidence the story is about that entity.
+_GENERIC_NAME_WORD = {
+    "finance", "financial", "services", "capital", "housing", "credit",
+    "investment", "investments", "securities", "insurance", "banking",
+    "national", "india", "indian", "industries", "development", "holdings",
+    "enterprises", "solutions", "resources", "ventures", "partners",
+    "management", "asset", "assets", "microfin", "microfinance", "general",
+    "tourism", "travel", "leisure", "hospitality",
+}
+
+
+def _core_name(company: str) -> str:
+    """Strip legal suffixes and branch codes: the searchable core."""
+    s = _PAREN_CODE_RE.sub(" ", company or "")
+    s = _TRAILING_CODE_RE.sub("", s)
+    s = _LEGAL_SUFFIX_RE.sub(" ", s)
+    s = " ".join(s.split()).strip(" ,.-")
+    # Never strip a name down to nothing ("India Limited" -> "India").
+    return s or " ".join((company or "").split()[:3])
+
+
+def _name_acronym(core: str) -> str:
+    """SIDBI / MUDRA / NABARD style initialism. Only for names long enough
+    that the acronym is meaningful — a 2-word name's initials are noise."""
+    words = [w for w in core.split() if w.lower() not in _NAME_STOP and w[:1].isalpha()]
+    return "".join(w[0].upper() for w in words) if len(words) >= 4 else ""
+
+
+# Some derived acronyms collide with unrelated words/entities: "MUDRA" is
+# also the Hindi word for a hand gesture/currency, a yoga term, and the
+# name of an unrelated ad agency ("Mudra Communications"). A bare acronym
+# match on these needs nearby context confirming the story is actually
+# about the India refinance agency/scheme. Mirrors
+# send_team_news._AMBIGUOUS_ALIAS_CONTEXT — kept as a separate copy since
+# the two modules don't share state, but must stay in sync if extended.
+_AMBIGUOUS_ACRONYM_CONTEXT = {
+    "MUDRA": re.compile(
+        r"\b(india|pmmy|pradhan mantri|refinanc|shishu|kishor(?:\W|$)|tarun|"
+        r"micro units?|msme loan|small business loan|mudra loan|"
+        r"pmegp|svanidhi|\bkcc\b|kisan credit card|vishwakarma|yojana|"
+        r"loan scheme)\b", re.IGNORECASE),
+}
+
+
+def _load_aliases() -> dict:
+    """Optional manual overrides: aliases.json maps company -> [alias, ...].
+    Auto-acronyms cover most cases; this is for names the rules cannot
+    derive (Pinelabs -> "Pine Labs", tickers, former names)."""
+    base = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    try:
+        with open(os.path.join(base, "aliases.json"), encoding="utf-8") as f:
+            data = json.load(f)
+        return {k.strip().lower(): [str(a) for a in v if str(a).strip()]
+                for k, v in data.items()}
+    except Exception:
+        return {}
+
+
+# Business-descriptor words that trail an Indian financial entity's
+# REGISTERED name but are routinely dropped in press coverage. "Alpha
+# Alternatives Financial Services Private Limited" is reported as "Alpha
+# Alternatives"; "Bharti Axa Life Insurance" as "Bharti Axa". Because the
+# query is a QUOTED exact phrase, the registered form matches neither, and
+# the story is never fetched at all — measured on the live list, 87 of 370
+# entities (~24%) carry a 4+ word core name with no alias to rescue them.
+_NAME_TAIL_DESCRIPTOR = {
+    "financial", "finance", "services", "service", "capital", "housing",
+    "home", "mutual", "fund", "funds", "asset", "assets", "management",
+    "managers", "life", "general", "insurance", "assurance", "bank",
+    "banking", "india", "broking", "brokers", "broker", "securities",
+    "investment", "investments", "credit", "advisors", "advisory",
+    "holdings", "enterprises", "corporation", "trust", "trustee",
+    "stock", "stocks", "share", "shares", "company", "co", "private",
+    "solutions", "ventures", "partners", "fincorp", "finserve",
+    "and", "&",
+}
+
+
+# A shortened name starting with one of these is a description of an
+# institution rather than a name for one. "Central Bank of India" would
+# shorten to "Central Bank" — and the RBI is called "India's central bank"
+# in practically every monetary-policy story ever written, so that query
+# would hand the whole of S3's RBI coverage to one watchlist row. Same
+# family as _ENTITY_PREFIX_BLOCK_RE below, which catches this at
+# verification time; blocking it here stops it being SEARCHED for at all.
+_SHORT_NAME_BLOCK_HEAD = {
+    "bank", "state", "central", "union", "federal", "reserve", "exim",
+    "world", "punjab", "small", "new", "first", "the",
+}
+
+# Full short-form phrases blocked outright, checked after descriptor
+# stripping. _SHORT_NAME_BLOCK_HEAD catches an over-broad FIRST word; this
+# catches an over-broad WHOLE phrase that survives because neither word is
+# individually generic. Reported case: "Red Fort Capital Finance Company
+# Private Limited" -> "Red Fort" after stripping "Capital"/"Finance" as
+# descriptors — a real short form, but one that collides with the Delhi
+# monument (constant news volume, especially every Independence Day).
+# Named Indian landmarks are exactly this trap: two ordinary words that
+# are individually fine but name something world-famous together.
+_SHORT_NAME_BLOCK_PHRASE = {
+    "red fort", "india gate", "gateway of india", "taj mahal",
+    "golden temple", "lotus temple", "charminar", "hawa mahal",
+    "victoria memorial", "howrah bridge",
+}
+
+
+def _short_name(core: str) -> str:
+    """The distinctive head of a long registered name, or "" when it cannot
+    be shortened safely.
+
+    Trailing business descriptors are stripped one at a time and the result
+    is never taken below two words, so "Alpha Alternatives Financial
+    Services" -> "Alpha Alternatives" while "Alpha" alone (far too broad)
+    is never produced. A short form whose first word is itself tiny or
+    generic is rejected outright: "Au Small Finance Bank" would reduce to
+    "Au Small", which would pull in every story containing those words.
+    """
+    words = core.split()
+    if len(words) < 3:
+        return ""                       # already short; nothing to gain
+
+    # Phase 1 — drop trailing business descriptors, never below two words,
+    # so "HDFC Life Insurance" keeps the press form "HDFC Life" instead of
+    # being stripped all the way down to "HDFC".
+    while len(words) > 2 and words[-1].lower().strip(".,") in _NAME_TAIL_DESCRIPTOR:
+        words = words[:-1]
+    # Phase 2 — a trailing connective is never a name ending. This one MAY
+    # take the result below two words, and that is the point: it is what
+    # forces "Bank of India" to give up rather than become "Bank of".
+    while words and words[-1].lower().strip(".,") in _NAME_STOP:
+        words = words[:-1]
+    if len(words) == len(core.split()):
+        return ""                       # nothing was stripped
+    # Two words minimum. Stripping a trailing connective is what stops
+    # "Bank of India" collapsing to the catastrophic "Bank of" — that
+    # phrase would match every Bank of Baroda/Maharashtra story ever
+    # written, which is the exact failure _ENTITY_PREFIX_BLOCK_RE exists
+    # to catch downstream. Better to give up on shortening than to widen
+    # the net that far.
+    if len(words) < 2:
+        return ""
+    head = words[0].lower().strip(".,")
+    if len(head) < 3 or head in _GENERIC_NAME_WORD or head in _SHORT_NAME_BLOCK_HEAD:
+        return ""                       # "Au Small", "Central Bank" — too broad
+    phrase = " ".join(w.lower().strip(".,") for w in words)
+    if phrase in _SHORT_NAME_BLOCK_PHRASE:
+        return ""                       # "Red Fort" — a famous landmark, not a company name
+    return " ".join(words)
+
+
+def _company_query(company: str, aliases: list[str], broad: bool = False) -> str:
+    """Quoted phrase OR acronym OR aliases — precision over recall.
+
+    broad=True additionally ORs in the shortened press form of a long
+    registered name (see _short_name). Opt-in, and used only by the 7:40
+    team mail: the 7:30 report's query construction is deliberately left
+    byte-identical. Recall widens, but precision does not depend on the
+    query — every fetched story is still put through
+    _story_mentions_entity() before it is tagged to the entity.
+    """
+    core = _core_name(company)
+    parts = [f'"{core}"']
+    ac = _name_acronym(core)
+    if ac:
+        parts.append(ac)
+    if broad:
+        short = _short_name(core)
+        if short and short.lower() != core.lower():
+            parts.append(f'"{short}"')
+    for a in aliases:
+        a = a.strip()
+        if a:
+            parts.append(f'"{a}"' if " " in a else a)
+    # A console alias often IS the auto-derived short form ("Alpha
+    # Alternatives"); repeating it in the query wastes characters and looks
+    # broken in the logs. Case-insensitive, order preserved.
+    seen, uniq = set(), []
+    for pt in parts:
+        k = pt.lower()
+        if k not in seen:
+            seen.add(k)
+            uniq.append(pt)
+    return " OR ".join(uniq)
+
+
+# A short entity name is a substring of longer, unrelated names — "Bank of
+# India" matches inside "Reserve Bank of India", "State Bank of India",
+# "Central Bank of India". A plain `in` test let an RBI story get tagged
+# [WATCHLIST — Bank of India] the moment such a short name is on the list
+# (this exact class of bug reached production in the team mailer's own
+# matcher before being fixed there). Neither watchlist.txt's 41 names nor
+# team.json's 370 currently include a bare "Bank of India"-style short name,
+# but the check is shared code and the list is edited over time, so the
+# guard belongs here rather than depending on today's list staying safe.
+_ENTITY_PREFIX_BLOCK_RE = re.compile(
+    r"(?:\breserve|\bstate|\bcentral|\bunion|\bfederal|\bexim|"
+    r"export[- ]import|\bworld|\bpunjab national)\s+$",
+    re.IGNORECASE,
+)
+
+
+def _text_contains_name(text: str, phrase: str) -> bool:
+    """Word-boundary substring match that rejects a hit sitting inside a
+    longer institution name."""
+    if not phrase:
+        return False
+    for m in re.finditer(re.escape(phrase), text):
+        if m.start() and text[m.start() - 1].isalnum():
+            continue
+        if m.end() < len(text) and text[m.end()].isalnum():
+            continue
+        if _ENTITY_PREFIX_BLOCK_RE.search(text[:m.start()]):
+            continue
+        return True
+    return False
+
+
+def _story_mentions_entity(company: str, aliases: list[str], text: str) -> bool:
+    """Verify the story actually concerns this entity. Replaces the old
+    first-word test, which passed anything starting with 'Small', 'Bank',
+    'National'..."""
+    t = (text or "").lower()
+    core = _core_name(company)
+    if core and _text_contains_name(t, core.lower()):
+        return True
+    ac = _name_acronym(core)
+    if ac and re.search(rf"\b{re.escape(ac)}\b", text or "", re.IGNORECASE):
+        guard = _AMBIGUOUS_ACRONYM_CONTEXT.get(ac)
+        if not guard or guard.search(text or ""):
+            return True
+    for a in aliases:
+        a = a.strip()
+        if not a or not _text_contains_name(t, a.lower()):
+            continue
+        guard = _AMBIGUOUS_ACRONYM_CONTEXT.get(a.upper())
+        if not guard or guard.search(text or ""):
+            return True
+    # If the full core name literally appears in the text but only inside a
+    # longer institution name (the prefix-block case above), that is strong
+    # evidence the story is about the LONGER entity — the word-level fallback
+    # below must not use the same words to reach the opposite conclusion.
+    if core and core.lower() in t:
+        return False
+    # Requiring the first THREE significant words all be present rejected
+    # genuine stories: "Anand Rathi seeks higher borrowing limits" failed
+    # for 'Anand Rathi Share and Stock Brokers' because the headline has no
+    # "share". Match on the first two significant words instead, which is
+    # how the mailer's own _mentions_company already works.
+    sig = [w.lower() for w in core.split()
+           if len(w) > 3 and w.lower() not in _NAME_STOP]
+    if not sig:
+        return False
+    matched = [w for w in sig[:2] if w in t]
+    if len(matched) >= 2:
+        return True
+    # A lone word only counts when it is long enough to identify the firm on
+    # its own — "indostar" or "profectus" do, "tata" does not (it would pull
+    # in every other Tata company's news).
+    return bool(matched and len(matched[0]) >= 7 and matched[0] not in _GENERIC_NAME_WORD)
+
+
+def fetch_company_news(per_company_cap: int = 3, companies=None, days_back: int = 2,
+                       broad_queries: bool = False, extra_aliases=None) -> list[str]:
+    """per_company_cap: how many stories to keep from each company's
+    Google News results. Default 3 = the 7:30 report's long-standing
+    behaviour (do not change). The 7:40 team mail passes a wider value
+    because it has its own mechanical junk filter to absorb the noise.
+
+    companies: which entities to query. Defaults to watchlist.txt, which is
+    the 7:30 report's own 41-name list. The 7:40 mail passes its 370
+    team.json entities instead — those are managed in the web console and
+    were NEVER being queried, so 332 of the desk's entities could not
+    produce S1 news at all however much was published about them."""
+    companies = companies or load_watchlist()
     if not companies:
         return []
 
     items = []
     seen_titles: set[str] = set()
+    # Was read from a name that only exists inside fetch_google_news(), so
+    # EVERY company's query died with a NameError before it was ever sent —
+    # the whole per-entity watchlist fetch silently returned nothing.
+    alias_map = _load_aliases()
+    # Console-supplied aliases (team.json's per-row "Aliases / Short names"
+    # column) are merged on top of aliases.json. The desk knows the market
+    # name for its own entities — "BOI", "Alpha Alternatives", "HDFC Life" —
+    # far better than any rule can derive it, and this lets them fix a
+    # missed entity themselves instead of waiting on a code change. Merged
+    # rather than replacing so the hand-maintained aliases.json still counts.
+    if extra_aliases:
+        for co, al in extra_aliases.items():
+            key = str(co).strip().lower()
+            if not key:
+                continue
+            merged = list(alias_map.get(key, []))
+            for a in al or []:
+                a = str(a).strip()
+                if a and a.lower() not in {x.lower() for x in merged}:
+                    merged.append(a)
+            alias_map[key] = merged
+    # Where watchlist results actually go. Without this the loop was a black
+    # box: a company whose feed had entries logged nothing at all, so an
+    # over-strict filter looked identical to Google returning no news.
+    _stats = {"entries": 0, "cos_with_entries": 0, "drop_old": 0,
+              "drop_dup": 0, "drop_ticker": 0, "drop_name": 0}
 
     # Query EVERY company (no global early-break) so a long watchlist isn't
     # starved — with 340 names the old `len(items) >= 60` cap stopped after
@@ -440,13 +842,13 @@ def fetch_company_news() -> list[str]:
     empty_streak = 0
     for company in companies:
         try:
-            short_name = " ".join(company.split()[:2])
-            query = f"{short_name} India finance"
+            aliases = alias_map.get(company.strip().lower(), [])
+            query = _company_query(company, aliases, broad=broad_queries)
             url = (
                 f"https://news.google.com/rss/search"
-                f"?q={requests.utils.quote(query + ' when:2d')}&hl=en-IN&gl=IN&ceid=IN:en"
+                f"?q={requests.utils.quote(query + f' when:{days_back}d')}&hl=en-IN&gl=IN&ceid=IN:en"
             )
-            feed = _parse_gnews(url, short_name)
+            feed = _parse_gnews(url, _core_name(company))
             # Google throttles rapid-fire requests by returning empty feeds.
             # If many queries come back empty in a row, back off harder.
             if not feed.entries:
@@ -457,19 +859,33 @@ def fetch_company_news() -> list[str]:
             else:
                 empty_streak = 0
             count = 0
+            _stats["entries"] += len(feed.entries)
+            if feed.entries:
+                _stats["cos_with_entries"] += 1
             for entry in feed.entries:
-                if count >= 2:
+                # Google often ranks technical-chart noise above the real
+                # story, so a tight cap can drop genuine results (this lost an
+                # Indostar Q1 item). A wider cap costs no extra requests —
+                # same one query per company, we just keep more of its results.
+                if count >= per_company_cap:
                     break
-                if not _is_recent(entry, 48, assume=False):
+                if not _is_recent(entry, 24 * max(1, days_back), assume=False):
+                    _stats["drop_old"] += 1
                     continue
                 raw_title = _clean(entry.get("title", "")).strip()
                 if not raw_title or raw_title in seen_titles:
+                    _stats["drop_dup"] += 1
                     continue
                 summary = _clean(entry.get("summary", entry.get("description", ""))).strip()
                 if _is_market_ticker(raw_title, summary):
+                    _stats["drop_ticker"] += 1
                     continue
-                first_word = company.lower().split()[0]
-                if first_word not in (raw_title + " " + summary).lower():
+                if not _story_mentions_entity(company, aliases,
+                                              raw_title + " " + summary):
+                    _stats["drop_name"] += 1
+                    if _stats["drop_name"] <= 12:
+                        print(f"[watchlist] name-check rejected for '{company[:34]}': "
+                              f"{raw_title[:76]}")
                     continue
                 seen_titles.add(raw_title)
                 source = "Google News"
@@ -493,6 +909,11 @@ def fetch_company_news() -> list[str]:
         except Exception as exc:
             print(f"[fetch_news] Company news error for '{company}': {exc}")
 
+    print(f"[watchlist] {len(companies)} companies queried, "
+          f"{_stats['cos_with_entries']} returned results, "
+          f"{_stats['entries']} raw entries -> {len(items)} kept | dropped: "
+          f"old={_stats['drop_old']} dup={_stats['drop_dup']} "
+          f"ticker={_stats['drop_ticker']} name-check={_stats['drop_name']}")
     return items
 
 
@@ -502,7 +923,12 @@ def _normalise_key(item: str) -> str:
     return text.split(" — ")[0].lower().strip()[:120]
 
 
-def fetch_all_news(newsapi_key: str = "") -> tuple[str, dict]:
+def fetch_all_news(newsapi_key: str = "", apply_seen: bool = True,
+                   per_company_cap: int = 3, companies=None,
+                   max_items: int = 200, days_back: int = 2,
+                   telegram_days_back: int | None = None,
+                   broad_company_queries: bool = False,
+                   extra_aliases=None) -> tuple[str, dict]:
     """Returns (news_text, source_summary) where source_summary maps source name → item count."""
     cfg = load_config()
     sources = cfg.get("sources", {})
@@ -523,9 +949,12 @@ def fetch_all_news(newsapi_key: str = "") -> tuple[str, dict]:
         if "days" in data:
             for d, keys in data["days"].items():
                 if d < today_str:
-                    seen_keys.update(keys)
+                    # Re-normalise on load: legacy keys included the summary
+                    # text after " — ", which _normalise_key strips — without
+                    # this the filter never matched and old items recurred.
+                    seen_keys.update(_normalise_key(k) for k in keys)
         elif data.get("date", "") < today_str:
-            seen_keys = set(data.get("keys", []))
+            seen_keys = {_normalise_key(k) for k in data.get("keys", [])}
     except Exception:
         pass
 
@@ -556,18 +985,24 @@ def fetch_all_news(newsapi_key: str = "") -> tuple[str, dict]:
             print(f"[fetch_news] Rating agencies error: {exc}")
 
     if src_on("google_news"):
-        _add("Google News", fetch_google_news())
+        _add("Google News", fetch_google_news(days_back))
 
     if src_on("newsapi"):
         _add("NewsAPI", fetch_newsapi_news(newsapi_key))
 
     if src_on("company_watchlist"):
-        _add("Watchlist (Google)", fetch_company_news())
+        _add("Watchlist (Google)", fetch_company_news(per_company_cap, companies, days_back,
+                                                      broad_queries=broad_company_queries,
+                                                      extra_aliases=extra_aliases))
         try:
-            from fetch_bse import fetch_bse_announcements, fetch_bse_financials
+            # fetch_bse.fetch_bse_announcements (the JSON-API path) removed --
+            # confirmed dead on every run ("JSON decode failed", 0 rows from
+            # both endpoints), superseded by the working fetch_web.fetch_bse_rss
+            # RSS path already folded into "Web Scraper" below.
+            # fetch_bse_financials stays: Monday-only by design (returns []
+            # every other day), not broken.
+            from fetch_bse import fetch_bse_financials
             watchlist = load_watchlist()
-            if src_on("bse_announcements"):
-                _add("BSE Announcements", fetch_bse_announcements(watchlist))
             _add("BSE Financials", fetch_bse_financials(watchlist))
         except Exception as exc:
             summary["BSE"] = 0
@@ -576,7 +1011,10 @@ def fetch_all_news(newsapi_key: str = "") -> tuple[str, dict]:
     if src_on("telegram"):
         channels = cfg.get("telegram_channels", [])
         if channels:
-            _add("Telegram", fetch_telegram_channels(channels))
+            # Defaults to 1 (24h) so the 7:30 report's Telegram intake is
+            # exactly what it has always been; the team mail passes its own
+            # window so Friday's posts survive to Monday's edition.
+            _add("Telegram", fetch_telegram_channels(channels, telegram_days_back or 1))
         else:
             summary["Telegram"] = 0
 
@@ -585,10 +1023,21 @@ def fetch_all_news(newsapi_key: str = "") -> tuple[str, dict]:
             _add("Web Scraper", fetch_all_web(
                 cfg.get("web_sources", {}),
                 cfg.get("custom_scrape_urls", []),
+                days_back=days_back,
+                companies=companies,
             ))
         except Exception as exc:
             summary["Web Scraper"] = 0
             print(f"[fetch_news] Web scraper error: {exc}")
+
+    # Drop non-English items before anything else looks at them. Google News
+    # India and several aggregator feeds mix in Hindi/Marathi/Tamil/Bengali
+    # copy, which this desk does not read. Applied here, at the one point
+    # every fetcher converges, so both the 7:30 and 7:40 mails are covered.
+    pre_lang = len(all_items)
+    all_items = [i for i in all_items if not _is_non_english(i)]
+    if pre_lang != len(all_items):
+        print(f"[fetch_news] Dropped {pre_lang - len(all_items)} non-English/regional items")
 
     # Deduplicate within this batch
     dedup_seen: set[str] = set()
@@ -600,13 +1049,24 @@ def fetch_all_news(newsapi_key: str = "") -> tuple[str, dict]:
         if key not in dedup_seen:
             dedup_seen.add(key)
             unique.append(item)
-        if len(unique) >= 200:
+        # 200 is the 7:30 report's long-standing ceiling, sized for its AI
+        # prompt. The 7:40 mail passes None: its volume is spread across
+        # ~60 recipients who each see only their own entities, so a global
+        # count limits nobody's inbox — it just deletes news. And because
+        # the entity list is alphabetical, a binding cap would drop the
+        # same alphabetically-last entities every day, silently. Recency
+        # (48h) and relevance are the real filters.
+        if max_items is not None and len(unique) >= max_items:
+            print(f"[fetch_news] item cap {max_items} reached — "
+                  f"{len(all_items) - len(unique)} later items not considered")
             break
 
     pre_dedup = len(unique)
+    if not apply_seen:
+        seen_keys = set()  # caller keeps its own memory (e.g. team mailer)
     if seen_keys:
         unique = [item for item in unique if _normalise_key(item) not in seen_keys]
-        print(f"[fetch_news] After 5-day dedup filter: {len(unique)} items (was {pre_dedup})")
+        print(f"[fetch_news] After 30-day dedup filter: {len(unique)} items (was {pre_dedup})")
 
     summary["__total__"] = len(unique)
     summary["__pre_dedup__"] = pre_dedup

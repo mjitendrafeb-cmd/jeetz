@@ -1,6 +1,8 @@
 anthropic
+openai
 requests
 feedparser
 beautifulsoup4
 telethon
 pdfplumber
+weasyprint
