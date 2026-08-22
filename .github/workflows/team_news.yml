@@ -114,8 +114,11 @@ jobs:
           # attachments by policy). It binds to system pango/cairo, which
           # are not guaranteed on the runner image -- install explicitly
           # so a base-image change can't silently drop us back to .html.
+          # fonts-noto-core is explicit too -- the base image's default fonts
+          # were confirmed missing a proper Indian Rupee (₹) glyph, so PDF
+          # text like "₹160.64 crore" rendered with a wrong/garbled symbol.
           sudo apt-get update -qq
-          sudo apt-get install -y -qq libpango-1.0-0 libpangoft2-1.0-0 libharfbuzz0b libffi-dev
+          sudo apt-get install -y -qq libpango-1.0-0 libpangoft2-1.0-0 libharfbuzz0b libffi-dev fonts-noto-core
           python -m pip install --upgrade pip
           if [ -f scripts/requirements.txt ]; then pip install -r scripts/requirements.txt; fi
 

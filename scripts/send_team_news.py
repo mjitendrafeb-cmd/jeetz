@@ -4433,7 +4433,7 @@ def _np_build_attachment(part_b_html: str, today, for_name: str = "",
   @page {{ size: A4; margin: 1.2cm 1.4cm; }}
   @page :first {{ margin-top: 0.5cm; }}
   *{{box-sizing:border-box;margin:0;padding:0}}
-  body{{background:#eef1f4;font-family:'PT Serif',Georgia,serif;color:{_NP_INK};font-size:11px}}
+  body{{background:#eef1f4;font-family:'PT Serif',Georgia,'Noto Serif',serif;color:{_NP_INK};font-size:11px}}
   .newspaper{{max-width:960px;margin:20px auto}}
   .news-page{{background:#ffffff;box-shadow:0 2px 24px rgba(0,0,0,.18);margin-bottom:28px;padding-bottom:20px;break-before:page;page-break-before:always}}
   .front-page{{break-before:auto;page-break-before:auto}}
