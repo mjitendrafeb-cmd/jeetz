@@ -2270,19 +2270,30 @@ def _gpt_validate(data, require_body: bool = True) -> bool:
 
 
 def _gpt_analysis(s1_items: list[dict], s2_items: list[dict],
-                  s3_items: list[dict], today) -> tuple[dict, list[dict], list[dict], list[dict]] | None:
+                  s3_items: list[dict], today
+                  ) -> tuple[dict, list[dict], list[dict], list[dict], bool] | None:
     """Batched requests per run. Returns (validated data dict, s1_sent,
-    s2_sent, s3_sent) on success, or None on any failure -- caller falls
-    back to the existing Anthropic/mechanical paths exactly as if GPT were
-    never called. Each *_sent list is the exact order-preserved list its
-    section's item_indices resolve against.
+    s2_sent, s3_sent, s2s3_evaluated) on success, or None on any failure --
+    caller falls back to the existing Anthropic/mechanical paths exactly
+    as if GPT were never called. Each *_sent list is the exact
+    order-preserved list its section's item_indices resolve against.
 
     S1 is split into _GPT_S1_BATCH-sized calls run concurrently and merged
     (see _GPT_S1_BATCH for why). The "i" indices in the payload are global
     positions in s1_sent and are NOT re-based per batch, so merging the
     per-batch s1_summary lists is a plain concatenation -- every index
     still resolves against the same s1_sent list the caller holds.
-    Only the first batch is asked for email_body/s2/s3."""
+    Only the first batch is asked for email_body/s2/s3.
+
+    s2s3_evaluated: False when batch 0 (the only batch carrying S2/S3)
+    failed. The caller MUST check this before treating an empty
+    s2_summary/s3_summary as "GPT judged everything not material" --
+    without it, "GPT never got to look" and "GPT looked and rejected
+    everything" are indistinguishable (both are an empty list), and a
+    failed batch 0 silently deletes every S2/S3 row from the table
+    instead of falling back to the mechanical view per item like S1
+    already does. Confirmed live: batch 0 failed on every provider and
+    31/31 S2+S3 items were wrongly wiped, not just left unanalysed."""
     if not _gpt_on() or not s1_items:
         return None
     import time as _time
@@ -2340,7 +2351,8 @@ def _gpt_analysis(s1_items: list[dict], s2_items: list[dict],
         print("[gpt] analysis failed (non-fatal, falling back to existing pipeline): "
               "no batch returned usable output")
         return None
-    if results[0] is not None:
+    s2s3_evaluated = results[0] is not None
+    if s2s3_evaluated:
         data = results[0]
         rest = results[1:]
     else:
@@ -2368,7 +2380,7 @@ def _gpt_analysis(s1_items: list[dict], s2_items: list[dict],
           f"{len(data.get('s3_summary', []))} S3 entries, "
           f"{len(data['email_body'].get('key_takeaways', []))} key takeaways, "
           f"{len(data['email_body'].get('watchlist_attention', []))} watchlist entries")
-    return data, s1_sent, s2_sent, s3_sent
+    return data, s1_sent, s2_sent, s3_sent, s2s3_evaluated
 
 
 def _gpt_retry_after(exc) -> float | None:
@@ -5507,7 +5519,7 @@ def main() -> None:
         gpt_result = _gpt_analysis(gpt_s1_items, by_section.get("S2", []),
                                     by_section.get("S3", []), today)
         if gpt_result:
-            gpt_data, gpt_s1_sent, gpt_s2_sent, gpt_s3_sent = gpt_result
+            gpt_data, gpt_s1_sent, gpt_s2_sent, gpt_s3_sent, s2s3_evaluated = gpt_result
             gpt_s1_map = _gpt_map_s1(gpt_data, gpt_s1_sent)
             gpt_s2_map = _gpt_map_cat(gpt_data, "s2_summary", gpt_s2_sent)
             gpt_s3_map = _gpt_map_cat(gpt_data, "s3_summary", gpt_s3_sent)
@@ -5521,15 +5533,31 @@ def main() -> None:
             # per-run cap were never shown to GPT at all and must not be
             # swept into this set -- they stay in the table with the
             # mechanical fallback exactly as before.
-            gpt_excluded = ({_key(it) for it in gpt_s2_sent} - set(gpt_s2_map)) | \
-                           ({_key(it) for it in gpt_s3_sent} - set(gpt_s3_map))
+            #
+            # Gated on s2s3_evaluated: when the primary batch (the only one
+            # carrying S2/S3) fails, gpt_s2_map/gpt_s3_map are empty not
+            # because Gemini judged everything unworthy, but because it
+            # never got to look at all -- an empty map means the same
+            # thing either way, so without this check EVERY S2/S3 item
+            # gets treated as "actively rejected" and silently deleted
+            # from the table. Confirmed live: a failed primary batch wiped
+            # 31/31 S2+S3 rows in one edition. When ungated, S2/S3 items
+            # simply keep whatever mechanical/Anthropic view
+            # section_takeaways already held -- same as before GPT-based
+            # S2/S3 filtering existed at all.
+            if s2s3_evaluated:
+                gpt_excluded = ({_key(it) for it in gpt_s2_sent} - set(gpt_s2_map)) | \
+                               ({_key(it) for it in gpt_s3_sent} - set(gpt_s3_map))
             gpt_exec_summary, gpt_watchlist_html = _gpt_map_email_body(gpt_data)
+            not_eval_note = ("" if s2s3_evaluated else
+                              ", S2/S3 NOT evaluated -- primary batch failed, "
+                              "keeping mechanical view for all")
             print(f"[gpt] {len(gpt_s1_map)}/{len(gpt_s1_sent)} S1 items, "
                   f"{len(gpt_s2_map)}/{len(gpt_s2_sent)} S2 items, "
                   f"{len(gpt_s3_map)}/{len(gpt_s3_sent)} S3 items carry a "
                   f"GPT credit view ({len(gpt_excluded)} S2/S3 items filtered "
-                  f"out as not material); email body "
-                  f"{'set' if gpt_exec_summary else 'not set'} from GPT")
+                  f"out as not material{not_eval_note}); "
+                  f"email body {'set' if gpt_exec_summary else 'not set'} from GPT")
 
     # First pass: build everyone's part B / Top-5 with no per-person AI call
     # involved (cheap, deterministic — section_takeaways above is the one
