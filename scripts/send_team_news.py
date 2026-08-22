@@ -1929,8 +1929,14 @@ def _gpt_providers() -> list[dict]:
     for name, cfg in _GPT_PROVIDERS.items():
         key = os.environ.get(cfg["env_key"], "").strip()
         if key:
+            # "or default", NOT os.environ.get(name, default): an unset
+            # GitHub Actions `vars.X` is injected as an EMPTY STRING, not
+            # left absent, so .get()'s default never fires and the model
+            # resolved to "" -- every call then 404'd with "The model ``
+            # does not exist". Observed live on the first Groq run.
             out.append({**cfg, "name": name, "api_key": key,
-                        "model": os.environ.get(cfg["model_env"], cfg["default_model"])})
+                        "model": os.environ.get(cfg["model_env"], "").strip()
+                                 or cfg["default_model"]})
     return out
 
 
