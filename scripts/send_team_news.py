@@ -4279,8 +4279,8 @@ def _np_partc(top5: list[dict], date_str: str, takeaways: dict | None = None,
                    f'font-size:8px;font-weight:800;letter-spacing:0.5px;">{ev_label}</span>'
                    if ev_key != "OTHER" else "")
         why = takeaways.get(_key(it), "")
-        why_html = (f'<p style="margin:4px 0 0;font-size:11px;color:#666;'
-                   f'line-height:1.5;font-style:italic;">{_esc(why)}</p>' if why else "")
+        why_html = (f'<p style="margin:4px 0 0;font-size:11.5px;color:#444;'
+                   f'line-height:1.55;font-style:italic;">{_esc(why)}</p>' if why else "")
         rows += (
             f'<tr valign="top">'
             f'<td style="padding:10px 8px 10px 16px;font-size:28px;font-weight:900;'
@@ -4304,9 +4304,10 @@ def _np_partc(top5: list[dict], date_str: str, takeaways: dict | None = None,
     )
     summary_block = (
         f'<table width="100%" cellpadding="0" cellspacing="0" '
-        f'style="border:1px solid #e5e5e5;border-bottom:none;background:#fbfaf7;">'
+        f'style="border:1px solid #e5e5e5;border-left:3px solid #b45309;'
+        f'border-bottom:none;background:#fbf7ef;">'
         f'<tr><td style="padding:14px 16px 12px;">'
-        f'<p style="margin:0 0 4px;font-size:9px;font-weight:800;letter-spacing:2px;'
+        f'<p style="margin:0 0 5px;font-size:9.5px;font-weight:800;letter-spacing:2px;'
         f'text-transform:uppercase;color:#b45309;">&#9679; TODAY AT A GLANCE</p>'
         f'<p style="margin:0;font-size:12.5px;color:#333;line-height:1.65;'
         f'font-family:Georgia,serif;">{_esc(exec_summary)}</p>'
@@ -4517,6 +4518,26 @@ def _np_rebrand(html: str) -> str:
     repo-edit links; this mail is branded CareEdge Daily News and managed
     from the team console."""
     html = html.replace("Credit Intelligence News", "CareEdge Daily News")
+    # Masthead redesign: send_credit_report.py's build_email() renders a
+    # plain white nameplate (near-black text, #999 grey eyebrow) which
+    # reads flat next to the red top bar -- per reader feedback. Styled
+    # via post-processing string replacement rather than editing
+    # build_email() itself, since that file is shared with the 7:30
+    # report and must not change. Both replaced strings are unique to
+    # the masthead block within build_email()'s output.
+    html = html.replace(
+        '<td style="padding:12px 20px 10px;">\n  <p style="margin:0 0 3px;'
+        'font-size:9px;letter-spacing:2px;text-transform:uppercase;color:#999;">',
+        '<td style="padding:18px 20px 16px;background:#1a1a1a;">\n  '
+        '<p style="margin:0 0 4px;font-size:9px;letter-spacing:2px;'
+        'text-transform:uppercase;color:#e8a33d;">',
+    )
+    html = html.replace(
+        'font-size:28px;font-weight:900;color:#1a1a1a;letter-spacing:-1px;'
+        'line-height:1;font-family:Georgia,serif;">CareEdge Daily News</p>',
+        'font-size:30px;font-weight:900;color:#fff;letter-spacing:-0.5px;'
+        'line-height:1;font-family:Georgia,serif;">CareEdge Daily News</p>',
+    )
     for stale in (
         "https://github.com/mjitendrafeb-cmd/jeetz/edit/main/config.json",
         "https://github.com/mjitendrafeb-cmd/jeetz/edit/main/watchlist.txt",
