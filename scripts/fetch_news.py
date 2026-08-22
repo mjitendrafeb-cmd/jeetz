@@ -995,10 +995,14 @@ def fetch_all_news(newsapi_key: str = "", apply_seen: bool = True,
                                                       broad_queries=broad_company_queries,
                                                       extra_aliases=extra_aliases))
         try:
-            from fetch_bse import fetch_bse_announcements, fetch_bse_financials
+            # fetch_bse.fetch_bse_announcements (the JSON-API path) removed --
+            # confirmed dead on every run ("JSON decode failed", 0 rows from
+            # both endpoints), superseded by the working fetch_web.fetch_bse_rss
+            # RSS path already folded into "Web Scraper" below.
+            # fetch_bse_financials stays: Monday-only by design (returns []
+            # every other day), not broken.
+            from fetch_bse import fetch_bse_financials
             watchlist = load_watchlist()
-            if src_on("bse_announcements"):
-                _add("BSE Announcements", fetch_bse_announcements(watchlist))
             _add("BSE Financials", fetch_bse_financials(watchlist))
         except Exception as exc:
             summary["BSE"] = 0

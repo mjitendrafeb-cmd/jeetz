@@ -906,11 +906,6 @@ _EXTRA_RSS_FEEDS = [
     # direct-URL guess. Go straight to the proven Google News path instead
     # of stacking more unverifiable .gov.in guesses.
     ("IBBI", "T1", 8, [_gnews_site_feed("site:ibbi.gov.in OR insolvency IBBI CIRP order India")]),
-    ("NHB", "T1", 6, [
-        "https://nhb.org.in/rss.xml",
-        "https://nhb.org.in/feed/",
-        _gnews_site_feed("National Housing Bank NHB India notification"),
-    ]),
     ("IRDAI", "T1", 6, [_gnews_site_feed("IRDAI insurance regulator India circular OR notification")]),
     ("MOSPI", "T1", 6, [_gnews_site_feed("MOSPI India GDP CPI IIP data release")]),
     ("PIB", "T1", 10, [
@@ -963,12 +958,6 @@ _EXTRA_RSS_FEEDS = [
     ("Livemint Companies", "T2", 8, [
         "https://www.livemint.com/rss/companies",
         _gnews_site_feed("site:livemint.com companies results"),
-    ]),
-    ("Moneycontrol", "T2", 10, [
-        "https://www.moneycontrol.com/rss/business.xml",
-        "https://www.moneycontrol.com/rss/latestnews.xml",
-        "https://www.moneycontrol.com/rss/economy.xml",
-        _gnews_site_feed("site:moneycontrol.com banking finance NBFC"),
     ]),
     ("Hindu BusinessLine", "T2", 10, [
         "https://www.thehindubusinessline.com/money-and-banking/feeder/default.rss",
@@ -1031,10 +1020,6 @@ _EXTRA_RSS_FEEDS = [
         "https://bfsi.economictimes.indiatimes.com/rss/articles",
         "https://bfsi.economictimes.indiatimes.com/rss",
         _gnews_site_feed("site:bfsi.economictimes.indiatimes.com"),
-    ]),
-    ("Medianama", "T2", 5, [
-        "https://www.medianama.com/feed/",
-        _gnews_site_feed("site:medianama.com fintech NBFC RBI"),
     ]),
 ]
 
@@ -1501,14 +1486,18 @@ def fetch_all_web(sources: dict | None = None, custom_urls: list[str] | None = N
         time.sleep(1)
 
     if on("bse"):
-        print("[fetch_web] Fetching BSE announcements...")
-        all_items.extend(fetch_bse_announcements())
+        # fetch_bse_announcements() (the generic JSON-API path, capped at 15
+        # total across the whole exchange) removed -- confirmed dead on every
+        # run (0 rows from both endpoints, "JSON decode failed"). Superseded
+        # by fetch_bse_rss below, which is the working path.
         print("[fetch_web] Fetching BSE corporate actions...")
         all_items.extend(fetch_bse_corporate_actions())
 
     if on("nse"):
-        print("[fetch_web] Fetching NSE corporate actions...")
-        all_items.extend(fetch_nse_corporate_actions())
+        # fetch_nse_corporate_actions() removed -- confirmed dead every run
+        # ("JSON decode failed", same bot-block/endpoint-change pattern as
+        # the BSE JSON APIs above). fetch_nse_rss below already covers NSE
+        # announcements/circulars via a working path.
         print("[fetch_web] Fetching NSE RSS feeds...")
         all_items.extend(fetch_nse_rss(companies))
 
