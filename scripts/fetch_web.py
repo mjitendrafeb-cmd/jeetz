@@ -738,8 +738,13 @@ def fetch_bse_rss(companies=None) -> list[str]:
         # the ~370 on the watchlist -- 80 most-recent entries could easily
         # contain zero watchlist matches purely on timing. Scanning further
         # back raises the odds of catching one without touching the output
-        # cap (still 12/feed) or the recency filter below.
-        scan_cap = 400 if watchlist_only else 80
+        # cap (still 12/feed) or the recency filter below. Raised 400->800
+        # after confirming directly (via [fetch_web] BSE RSS counts in a
+        # real run) that only 3-7 items per feed were matching across the
+        # entire 370-company watchlist -- doubling the window is cheap
+        # (still one feed parse) and roughly doubles the odds a given
+        # company's filing falls inside the scanned slice that morning.
+        scan_cap = 800 if watchlist_only else 80
         count = 0
         for entry in entries[:scan_cap]:
             pub_str, recent = _entry_pub(entry)
