@@ -1,79 +1,6 @@
 [
  {
   "date": "2026-08-20",
-  "fetched": 3721,
-  "delivered_pool": 347,
-  "junk": 931,
-  "geo": 125,
-  "stale": 638,
-  "dup": 1375,
-  "sections": {
-   "S1": 297,
-   "S2": 33,
-   "S3": 17
-  },
-  "mails": 2,
-  "failed": [],
-  "source_summary": {
-   "RBI RSS": 19,
-   "RBI Enforcement": 0,
-   "SEBI RSS": 20,
-   "Google News": 24,
-   "Watchlist (Google)": 907,
-   "BSE Announcements": 0,
-   "BSE Financials": 0,
-   "Telegram": 54,
-   "Web Scraper": 169
-  },
-  "dropped_samples": {
-   "relevance": [
-    "Premature redemption under Sovereign Gold Bond (SGB) Scheme - Redemption Price for premature redemption of SGB",
-    "Developments in India\u2019s Balance of Payments for the Month of June 2026",
-    "Relaxations in Know Your Client (KYC) norms for individual Persons Resident Outside India (i.e",
-    "Framework for Calculation of Net Distributable Cash Flows for InvITs",
-    "Anantam Highways Trust hosts Q4FY26 earnings call on Aug 17",
-    "Petronet LNG Q1 Results: Earnings call scheduled for Aug 13, 2026",
-    "Balrampur Chini Mills reports consolidated profit of Rs 44.15 crore in June quarter, appoints new independent ",
-    "VRL Logistics Q1 Results: Earnings Call Scheduled for Aug 5",
-    "Bhanu Infrabuild Pvt reports standalone net loss of Rs 21.19 crore in the June 2026 quarter",
-    "3M India Q1 Results: Net Profit Surges 31% YoY, But EBITDA Margin Narrows To 16.7%",
-    "Systematix sees 12% UPSIDE in Page Industries Ltd- Demand holds up; margin recovery remains a key monitorable",
-    "Systematix Initiating Coverage on Deepak Fertilisers & Petrochemicals Corp Ltd, with 30% UPSIDE- The ammonia k",
-    "Systematix sees 33% UPSIDE in NMDC Ltd- Earnings in line; production ramp up to drive growth",
-    "Indo Count Inds, with 41% UPSIDE- New business drives growth; expect core to bounce back Midwest, with 16% UPS",
-    "Motilal Oswal\u2019s Morning India- Today\u2019s top research idea (14-Aug-26)",
-    "Systematix Update on GHCL Textiles Ltd- Moving up the value chain",
-    "Systematix sees 12% UPSIDE in Gujarat Energy Ltd- Strong Quarter, but Propane Competition Overhang to Persist",
-    "MNCL sees 26% UPSIDE in La Opala- Cautiously optimistic",
-    "PL Capital sees 33% UPSIDE in CESC- RE guidance upgraded",
-    "PL Capital sees 16% UPSIDE in Apollo Hospitals Enterprise- Strong show in hospital segment"
-   ],
-   "junk": [
-    "General Remittance Order dated 14.08.2026 in Recovery Certificate No",
-    "General Remittance Order dated 14.08.2026 in Recovery Certificate No",
-    "General Remittance Order dated 14.08.2026 in Recovery Certificate No",
-    "General Remittance Order dated 14.08.2026 in Recovery Certificate No",
-    "Completion of Recovery Certificate No",
-    "Appeal No. 6992 of 2026 filed by Rakesh Mohan Rai",
-    "Appeal No. 6991 of 2026 filed by Parivesh Shukla",
-    "Appeal No. 6990 of 2026 filed by Vikas Jain",
-    "Appeal No. 6989 of 2026 filed by Valji Narayan Bhadra",
-    "Appeal No. 6988 of 2026 filed by Neeraj Sisodia",
-    "Appeal No. 6987 of 2026 filed by Sunil Rohilla",
-    "Appeal No. 6980 of 2026 filed by Ebenezer R",
-    "Appeal No. 6983 of 2026 filed by Anivesh Kumar Pandey",
-    "Adjudication Order in respect of Fatmabibi Yusufbhai Rangwala in the matter of Illiquid Stock Options at BSE",
-    "Top stock picks: Analysts recommend Bosch, Tata Power, Adani Ports, 360 One WAM, L&T, BEL",
-    "Buy Star Cement; target of Rs 265: Anand Rathi",
-    "Buy Fine Organic Industries; target of Rs 6000: Anand Rathi",
-    "Buy TD Power Systems; target of Rs 1751: Anand Rathi",
-    "Angel One Share Price - Live NSE: ANGELONE Stock Price & Chart",
-    "Aptus Value Housing Number of Employees 2026"
-   ]
-  }
- },
- {
-  "date": "2026-08-20",
   "fetched": 3760,
   "delivered_pool": 376,
   "junk": 932,
@@ -2140,6 +2067,78 @@
    "BSE Financials": 0,
    "Telegram": 58,
    "Web Scraper": 218
+  },
+  "dropped_samples": {
+   "relevance": [
+    "Result of the second Overnight Variable Rate Reverse Repo (VRRR) auction held on August 18, 2026",
+    "Certificate No. RC9282 of 2026 Notice of Demand in respect of Atit Commercial Company Private Limited (Transfe",
+    "General Remittance Advice against: Sunil Singh (Proprietor of Alfa Finsec) [Defaulter] (PAN: BDGPS0774K) in th",
+    "Order in Enquiry Proceedings respect of Corporate Capital Ventures Private Limited",
+    "Relaxations in Know Your Client (KYC) norms for individual Persons Resident Outside India (i.e",
+    "Why Gaja Alternative IPO stands out among three ongoing public offers",
+    "MNCL sees 28% UPSIDE in Goldiam International- Strong B2B Execution; ORIGEM Expansion Turns Calibrated",
+    "PL Capital sees 4% UPSIDE in Elgi Equipments- Healthy Q1, Demand Match gains traction",
+    "PL Capital sees 6% UPSIDE in JSW Cement- Nagaur ramp up to aid H2; execution on track",
+    "PL Capital sees 4% DOWNSIDE in KNR Constructions- Order book build up continues",
+    "PL Capital Update on Voltas- UCP margins on a steady recovery path",
+    "PL Capital sees 27% UPSIDE in Amber Enterprises India- Margin Pressures Temporary; Growth Remains Intact",
+    "PL Capital sees 16% UPSIDE in Praj Industries- Mixed Q1; GenX orders to support margin recovery",
+    "PL Capital sees 20% UPSIDE in Engineers India- Strong Q1; Higher Consultancy share to drive profit",
+    "US-Iran War LIVE: Iran says \u2018\u2026will correct delusions\u2019 as Trump backs down on Hormuz as US territory",
+    "Tata Sons AGM adjourned for first time Why was the Tata Sons AGM adjourned",
+    "AAP leader Satyendar Jain arrested in connection with alleged corruption in Delhi Jal Board during previous go",
+    "Does an NRI get taxed for gifting savings to his father's HUF",
+    "The PM CARES Fund corpus rose to a record \u20b98,452 crore in 2024-25 from \u20b97,173 crore in 2023-24, according to i",
+    "\"Will AI take my job? is one of the most searched career questions globally"
+   ],
+   "junk": [
+    "General Remittance Order dated August 18, 2026 issued under RC No",
+    "Final Order in the matter of Alliance Research - Proprietor Mr. Mudassir Hasan",
+    "General Remittance Order dated 14.08.2026 in Recovery Certificate No",
+    "General Remittance Order dated 14.08.2026 in Recovery Certificate No",
+    "General Remittance Order dated 14.08.2026 in Recovery Certificate No",
+    "General Remittance Order dated 14.08.2026 in Recovery Certificate No",
+    "Completion of Recovery Certificate No",
+    "Appeal No. 6992 of 2026 filed by Rakesh Mohan Rai",
+    "Appeal No. 6991 of 2026 filed by Parivesh Shukla",
+    "Appeal No. 6990 of 2026 filed by Vikas Jain",
+    "Appeal No. 6989 of 2026 filed by Valji Narayan Bhadra",
+    "Appeal No. 6988 of 2026 filed by Neeraj Sisodia",
+    "Appeal No. 6987 of 2026 filed by Sunil Rohilla",
+    "Appeal No. 6980 of 2026 filed by Ebenezer R",
+    "Buy Max Healthcare; target of Rs 1220: Anand Rathi",
+    "Shankesh Jewellers IPO Opens Today: 10 Key Things To Know Before You Subscribe",
+    "Buy Hindustan Copper; target of Rs 715: Anand Rathi",
+    "Buy Sudarshan Chemical Industries; target of Rs 1450: Anand Rathi",
+    "Max Healthcare Rated 'Buy' by Anand Rathi With Rs 1,220 Target",
+    "Hindustan Copper Gets 'Buy' Rating From Anand Rathi With Rs 715 Target"
+   ]
+  }
+ },
+ {
+  "date": "2026-08-22",
+  "fetched": 3464,
+  "delivered_pool": 279,
+  "junk": 924,
+  "geo": 101,
+  "stale": 983,
+  "dup": 880,
+  "sections": {
+   "S1": 249,
+   "S2": 23,
+   "S3": 7
+  },
+  "mails": 2,
+  "failed": [],
+  "source_summary": {
+   "RBI RSS": 19,
+   "RBI Enforcement": 0,
+   "SEBI RSS": 20,
+   "Google News": 28,
+   "Watchlist (Google)": 853,
+   "BSE Financials": 0,
+   "Telegram": 55,
+   "Web Scraper": 216
   },
   "dropped_samples": {
    "relevance": [
