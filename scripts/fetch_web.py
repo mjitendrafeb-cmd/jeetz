@@ -737,13 +737,24 @@ def fetch_bse_rss(companies=None) -> list[str]:
         # These feeds cover EVERY BSE-listed company (thousands), not just
         # the ~370 on the watchlist -- 80 most-recent entries could easily
         # contain zero watchlist matches purely on timing. Scanning further
-        # back raises the odds of catching one without touching the output
-        # cap (still 12/feed) or the recency filter below. Raised 400->800
-        # after confirming directly (via [fetch_web] BSE RSS counts in a
-        # real run) that only 3-7 items per feed were matching across the
-        # entire 370-company watchlist -- doubling the window is cheap
-        # (still one feed parse) and roughly doubles the odds a given
-        # company's filing falls inside the scanned slice that morning.
+        # back raises the odds of catching one without touching the recency
+        # filter below. Raised 400->800 after confirming directly (via
+        # [fetch_web] BSE RSS counts in a real run) that only 3-7 items per
+        # feed were matching across the entire 370-company watchlist --
+        # doubling the window is cheap (still one feed parse) and roughly
+        # doubles the odds a given company's filing falls inside the
+        # scanned slice that morning.
+        #
+        # Per-feed OUTPUT cap raised 12->30 after confirming a real run hit
+        # the old 12-item cap on "BSE Announcement" exactly -- meaning more
+        # than 12 watchlist companies had a filing in the scanned window
+        # that morning, and any company whose filing appeared after the
+        # 12th match (in feed order, not priority order) was silently
+        # dropped even though it WAS found. A routine, high-volume filing
+        # type (e.g. SEBI LODR Reg 57(1) NCD interest-certificate filings,
+        # which every NCD issuer files every period) makes this collision
+        # more likely, not less -- confirmed as the traced cause for one
+        # specific missed filing. Still bounded by the items[:80] cap below.
         scan_cap = 800 if watchlist_only else 80
         count = 0
         for entry in entries[:scan_cap]:
@@ -766,7 +777,7 @@ def fetch_bse_rss(companies=None) -> list[str]:
             url_part = f" | URL:{link}" if link else ""
             items.append(f"{prefix}{tag}: {title} — {desc[:150]}{date_part}{url_part}")
             count += 1
-            if count >= 12:
+            if count >= 30:
                 break
         print(f"[fetch_web] BSE RSS {tag}: {count} items (from {used})")
     # Raised from 30 now that there are 9 feeds (was 3) -- the old cap could
