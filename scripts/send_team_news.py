@@ -25,6 +25,7 @@ from email.mime.base import MIMEBase
 from email import encoders
 
 from fetch_news import fetch_all_news
+import fetch_nsdl_issuance
 
 _REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 _TEAM_PATH = os.path.join(_REPO_ROOT, "team.json")
@@ -2914,6 +2915,70 @@ def _match_companies(it: dict, rows: list[dict]) -> list[str]:
     return hits
 
 
+_NSDL_URL = "https://www.indiabondinfo.nsdl.com/CBDServices/"
+
+
+def _nsdl_s1_items(rows: list[dict], today_d, lookback_days: int) -> list[dict]:
+    """New NCD/bond allotments (NSDL's public issuance feed), matched to
+    watchlist entities and shaped as ordinary S1 items so they flow through
+    the same analysis/rendering path as any news story.
+
+    Real per-ISIN data (issuer, amount, coupon, tenure), not AI-inferred —
+    complements rather than duplicates the press-coverage-based fetch above.
+    Fails open: any error here costs only this source, never the run.
+    """
+    try:
+        issues = fetch_nsdl_issuance.fetch_new_issuances(isin_details=False)
+    except Exception as exc:
+        print(f"[nsdl] fetch failed, skipping this source: {exc}")
+        return []
+    print(f"[nsdl] {len(issues)} recent allotment(s) on NSDL's public feed")
+
+    items = []
+    for iss in issues:
+        allot = iss.get("allotment_date")
+        if not allot or (today_d - allot).days > lookback_days:
+            continue
+        probe = {"title": iss["issuer"], "summary": "", "wl_company": ""}
+        companies = _match_companies(probe, rows)
+        if not companies:
+            continue
+        try:
+            detail = fetch_nsdl_issuance.fetch_issue_detail(iss["isin"])
+        except Exception as exc:
+            print(f"[nsdl] detail lookup failed for {iss['isin']}: {exc}")
+            detail = {}
+        amount = f"{iss['issue_size_cr']:,.0f}" if iss["issue_size_cr"] else ""
+        coupon = detail.get("coupon")
+        coupon_str = f"{coupon:g}% coupon" if coupon else (detail.get("coupon_text") or "")
+        tenure = iss.get("tenure_years")
+        tenure_str = f"{tenure:g}Y tenure" if tenure else ""
+        bits = ", ".join(x for x in (
+            f"₹{amount} Cr" if amount else "", coupon_str, tenure_str) if x)
+        title = f"{iss['issuer']} allots NCDs" + (f" — {bits}" if bits else "")
+        summary_bits = []
+        if detail.get("secured"):
+            summary_bits.append(str(detail["secured"]).title())
+        if detail.get("rated"):
+            summary_bits.append(detail["rated"])
+        summary_bits.append("via private placement")
+        if detail.get("ratings"):
+            summary_bits.append("rated " + ", ".join(detail["ratings"][:3]))
+        if iss.get("maturity_date"):
+            summary_bits.append(f"maturity {iss['maturity_date'].strftime('%d %b %Y')}")
+        summary_bits.append(f"ISIN {iss['isin']}")
+        items.append({
+            "tags": "WATCHLIST",
+            "wl_company": companies[0],
+            "source": "NSDL Bond Info",
+            "title": title,
+            "summary": "; ".join(summary_bits)[:220],
+            "url": _NSDL_URL,
+            "pub": allot.strftime("%d %b %Y"),
+        })
+    return items
+
+
 def _row_aliases(rows: list[dict]) -> dict:
     """{company: [alias, ...]} from the console's per-row Aliases column.
     Blank entries are dropped so an untouched column costs nothing."""
@@ -5320,6 +5385,13 @@ def main() -> None:
     # headlines are all about one company's quarterly results.
     for it in items:
         it["companies"] = _match_companies(it, rows)
+
+    nsdl_items = _nsdl_s1_items(rows, today_d, lookback_days)
+    if nsdl_items:
+        for it in nsdl_items:
+            it["companies"] = [it["wl_company"]]
+        print(f"[nsdl] {len(nsdl_items)} new-issuance item(s) matched to watchlist entities")
+        items.extend(nsdl_items)
 
     pre_dup = len(items)
     items = _dedup_cross_source(items)
