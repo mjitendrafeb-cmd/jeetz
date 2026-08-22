@@ -649,14 +649,23 @@ def fetch_nse_rss(companies=None) -> list[str]:
                 url_part = f" | URL:{link}" if link else ""
                 items.append(f"{prefix}{tag}: {title} — {desc[:150]}{url_part}")
                 count += 1
-                if count >= 10:
+                # Every feed except NSE Circular is watchlist_only=True --
+                # already filtered down to the ~370 tracked companies, so
+                # there is no reason to cap output below that count: doing
+                # so silently drops real matches on a busy filing day (all
+                # 370 entities filing something the same morning would only
+                # ever surface ~10 of them). NSE Circular stays modest since
+                # it also admits non-watchlist T1 items on credit keywords
+                # alone, from a feed covering the whole exchange.
+                if count >= (20 if tag == "NSE Circular" else 400):
                     break
             print(f"[fetch_web] NSE RSS {tag}: {count} items")
         except Exception as exc:
             print(f"[fetch_web] NSE RSS error ({url}): {exc}")
-    # Raised from 20 now that there are 13 feeds (was 3) -- the old cap
-    # could silently starve the later feeds if the first couple filled it.
-    return items[:80]
+    # Raised 80->450 alongside the per-feed caps above -- a shared total
+    # across 13 feeds needs headroom to match, not a leftover from when
+    # this covered 3 feeds at 20 each.
+    return items[:450]
 
 
 def fetch_bse_rss(companies=None) -> list[str]:
@@ -777,13 +786,20 @@ def fetch_bse_rss(companies=None) -> list[str]:
             url_part = f" | URL:{link}" if link else ""
             items.append(f"{prefix}{tag}: {title} — {desc[:150]}{date_part}{url_part}")
             count += 1
-            if count >= 30:
+            # watchlist_only feeds are already filtered to the ~370 tracked
+            # companies, so capping output below that count silently drops
+            # real matches on a busy filing day -- confirmed directly: all
+            # 370 entities filing something the same morning would only
+            # ever surface 30 of them under the old cap, in feed order, not
+            # by materiality. "BSE Notice" stays modest since it also
+            # admits non-watchlist T1 items on credit keywords alone.
+            if count >= (400 if watchlist_only else 30):
                 break
         print(f"[fetch_web] BSE RSS {tag}: {count} items (from {used})")
-    # Raised from 30 now that there are 9 feeds (was 3) -- the old cap could
-    # silently starve the later feeds (Insider Trading, Shareholding
-    # Pattern, etc) if the first couple already filled it.
-    return items[:80]
+    # Raised 80->450 alongside the per-feed caps above -- a shared total
+    # across 9 feeds needs headroom to match watchlist-scale output, not a
+    # leftover from when this covered 3 feeds at a much smaller per-feed cap.
+    return items[:450]
 
 
 # ─────────────────────────────────────────────────────────────────────────────
