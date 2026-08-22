@@ -2206,14 +2206,38 @@ Respond with ONLY this JSON structure, no markdown fences, no extra commentary:
         from openai import OpenAI
         client = OpenAI(api_key=provider["api_key"], base_url=provider["base_url"],
                          timeout=240, max_retries=1)
-        resp = client.chat.completions.create(
-            model=provider["model"],
-            response_format={"type": "json_object"},
-            messages=[
-                {"role": "system", "content": _GPT_SYSTEM_PROMPT},
-                {"role": "user", "content": user_prompt},
-            ],
-        )
+        # A transient overload (Gemini 503 "high demand", a rate limit) is
+        # common enough to be worth a couple of short retries -- confirmed
+        # directly: a run that failed outright on a bare call succeeded a
+        # few minutes later with no code change. But this must stay
+        # bounded, not open-ended: this call sits in the path of the whole
+        # team's 7:40 mail, so waiting indefinitely for Gemini to recover
+        # would hold every recipient's mail hostage to Google's outage.
+        # Three attempts with a short, doubling gap catches the common
+        # "back within seconds/tens of seconds" case; anything longer
+        # still falls through to the existing mechanical-pipeline fallback
+        # below so nobody's mail is ever blocked on this.
+        resp = None
+        last_exc = None
+        for attempt in range(3):
+            try:
+                resp = client.chat.completions.create(
+                    model=provider["model"],
+                    response_format={"type": "json_object"},
+                    messages=[
+                        {"role": "system", "content": _GPT_SYSTEM_PROMPT},
+                        {"role": "user", "content": user_prompt},
+                    ],
+                )
+                break
+            except Exception as exc:
+                last_exc = exc
+                if attempt < 2:
+                    wait = 15 * (2 ** attempt)
+                    print(f"[gpt] attempt {attempt + 1}/3 failed ({exc}), retrying in {wait}s")
+                    _time.sleep(wait)
+        if resp is None:
+            raise last_exc
         text = resp.choices[0].message.content
         data = json.loads(text)
         elapsed = _time.time() - t0
