@@ -1892,6 +1892,21 @@ _GPT_PROVIDERS = {
         "default_model": "gemini-3.6-flash",
         "model_env": "GEMINI_MODEL",
     },
+    # Groq is OpenAI-API-compatible, so it needs no client changes -- only
+    # a base_url swap, same as Gemini. Kept BELOW Gemini deliberately: it
+    # serves open-weight models, which are weaker at the credit-transmission
+    # reasoning the S2/S3 spec asks for, and its per-minute token limits are
+    # tighter than Gemini's -- a concern now that S1 runs ~9 concurrent
+    # batches. It earns its place as failover, not as the primary engine.
+    # GROQ_MODEL must be set to a model the account actually serves; the
+    # default here is a guess and will 404 if that model has been retired
+    # (exactly how gemini-2.0-flash broke this pipeline once before).
+    "groq": {
+        "env_key": "GROQ_API_KEY",
+        "base_url": "https://api.groq.com/openai/v1",
+        "default_model": "llama-3.3-70b-versatile",
+        "model_env": "GROQ_MODEL",
+    },
     "openai": {
         "env_key": "OPENAI_API_KEY",
         "base_url": None,  # openai package default
@@ -1901,15 +1916,28 @@ _GPT_PROVIDERS = {
 }
 
 
-def _gpt_provider() -> dict | None:
-    """First configured provider, Gemini preferred. None if neither
-    GEMINI_API_KEY nor OPENAI_API_KEY is set."""
+def _gpt_providers() -> list[dict]:
+    """Every configured provider, in preference order (Gemini, Groq,
+    OpenAI). Empty when none is configured.
+
+    Returns a LIST, not just the first match: a single-provider lookup
+    meant that when Gemini returned 503 "high demand" -- observed live --
+    the whole edition fell back to mechanical placeholder text even
+    though another provider was configured and idle. Callers walk this
+    list so a provider outage costs a retry, not the day's analysis."""
+    out = []
     for name, cfg in _GPT_PROVIDERS.items():
-        if os.environ.get(cfg["env_key"], "").strip():
-            return {**cfg, "name": name,
-                     "api_key": os.environ[cfg["env_key"]].strip(),
-                     "model": os.environ.get(cfg["model_env"], cfg["default_model"])}
-    return None
+        key = os.environ.get(cfg["env_key"], "").strip()
+        if key:
+            out.append({**cfg, "name": name, "api_key": key,
+                        "model": os.environ.get(cfg["model_env"], cfg["default_model"])})
+    return out
+
+
+def _gpt_provider() -> dict | None:
+    """First configured provider, Gemini preferred. None if none is set."""
+    providers = _gpt_providers()
+    return providers[0] if providers else None
 
 
 # S2/S3 are sent only as context for the email body's cross-cutting
@@ -2253,9 +2281,10 @@ def _gpt_analysis(s1_items: list[dict], s2_items: list[dict],
         return None
     import time as _time
     payload, s1_sent, s2_sent, s3_sent = _gpt_build_payload(s1_items, s2_items, s3_items, today)
-    provider = _gpt_provider()
-    if not provider:
+    providers = _gpt_providers()
+    if not providers:
         return None
+    provider = providers[0]
     t0 = _time.time()
     s1_all = payload.get("s1") or []
     chunks = [s1_all[i:i + _GPT_S1_BATCH]
@@ -2272,12 +2301,18 @@ def _gpt_analysis(s1_items: list[dict], s2_items: list[dict],
         }))
     try:
         from openai import OpenAI
-        client = OpenAI(api_key=provider["api_key"], base_url=provider["base_url"],
-                        timeout=240, max_retries=1)
+        # One client per configured provider, in preference order. A batch
+        # walks this list, so a provider that is rate-limited or down costs
+        # a retry elsewhere rather than that batch's items -- measured
+        # need: a run hit Gemini's free-tier ceiling ("limit: 20" requests
+        # /min) and lost a whole batch with no second provider to take it.
+        clients = [(p, OpenAI(api_key=p["api_key"], base_url=p["base_url"],
+                              timeout=240, max_retries=1))
+                   for p in providers]
         from concurrent.futures import ThreadPoolExecutor
         with ThreadPoolExecutor(max_workers=min(4, len(jobs))) as ex:
             results = list(ex.map(
-                lambda job: _gpt_one_call(client, provider, job[1], job[0] == 0), jobs))
+                lambda job: _gpt_one_call(clients, job[1], job[0] == 0), jobs))
     except Exception as exc:
         print(f"[gpt] analysis failed (non-fatal, falling back to existing pipeline): {exc}")
         return None
@@ -2324,10 +2359,39 @@ def _gpt_analysis(s1_items: list[dict], s2_items: list[dict],
     return data, s1_sent, s2_sent, s3_sent
 
 
-def _gpt_one_call(client, provider: dict, payload: dict, with_body: bool):
-    """One Gemini/OpenAI request for a single S1 batch. Returns the
-    validated dict, or None on any failure -- a failed follow-on batch
-    costs only its own items' analysis, never the whole run."""
+def _gpt_retry_after(exc) -> float | None:
+    """The provider's OWN suggested retry delay, in seconds, if it gave
+    one. Gemini's 429 body carries "Please retry in 1.36394978s" -- a
+    fixed 15s/30s backoff both wastes most of that recovery window and
+    risks landing the retry inside the same congested minute, so honour
+    the server's number when it offers one."""
+    m = re.search(r"retry in ([\d.]+)s", str(exc))
+    if not m:
+        return None
+    try:
+        # Small pad, and never sit longer than the fixed backoff would.
+        return min(float(m.group(1)) + 1.0, 30.0)
+    except ValueError:
+        return None
+
+
+def _gpt_one_call(clients: list, payload: dict, with_body: bool):
+    """One S1 batch, tried against each configured provider in turn.
+    Returns the validated dict, or None once every provider has failed --
+    a failed batch costs only its own items' analysis, never the run."""
+    import time as _time
+    for provider, client in clients:
+        out = _gpt_try_provider(client, provider, payload, with_body)
+        if out is not None:
+            return out
+        if len(clients) > 1:
+            print(f"[gpt] {provider['name']} failed for this batch, "
+                  f"trying the next configured provider")
+    return None
+
+
+def _gpt_try_provider(client, provider: dict, payload: dict, with_body: bool):
+    """One S1 batch against ONE provider."""
     import time as _time
     user_prompt = f"""Analyse today's collected news for an internal CareEdge-style credit-intelligence newsletter.
 
@@ -2409,8 +2473,13 @@ Respond with ONLY this JSON structure, no markdown fences, no extra commentary:
             except Exception as exc:
                 last_exc = exc
                 if attempt < 2:
-                    wait = 15 * (2 ** attempt)
-                    print(f"[gpt] attempt {attempt + 1}/3 failed ({exc}), retrying in {wait}s")
+                    # Prefer the provider's own hint over the fixed
+                    # backoff: a rate-limit that clears in ~1.4s should
+                    # not cost 15s, and waiting the full 15/30s can push
+                    # the retry into the next congested window anyway.
+                    wait = _gpt_retry_after(exc) or 15 * (2 ** attempt)
+                    print(f"[gpt] {provider['name']} attempt {attempt + 1}/3 failed "
+                          f"({str(exc)[:120]}), retrying in {wait:.1f}s")
                     _time.sleep(wait)
         if resp is None:
             raise last_exc
