@@ -3105,11 +3105,59 @@ _EVENTS = [
         r"net interest income|earnings|results?\b|gross npa|net npa)", re.IGNORECASE)),
 ]
 
+# S2/S3 items are sector/macro stories, not tied to one watchlist entity, so
+# _EVENTS above never fires for them: it always misses the +2 "companies"
+# bonus _materiality() gives S1 rows, and its patterns are written for
+# entity-specific corporate actions ("downgrades X's rating", "SEBI order
+# against Y") -- a genuinely major sector/macro headline ("RBI flags
+# systemic cyber risk at UCBs", "MPC holds repo rate") never matches any of
+# them and silently scores OTHER=1, so S2/S3 could never turn red no matter
+# how material the story actually was. This is a parallel, S2/S3-scoped
+# table so real significance there can surface the same way it does in S1.
+_S2S3_EVENTS = [
+    # (key, label, score, colour, regex)
+    ("SOVEREIGN", "SOVEREIGN RATING", 9, "#b91c1c", re.compile(
+        r"\b(moody'?s|s&p|fitch|crisil|icra)\b.{0,40}\b(upgrades?|downgrades?|"
+        r"affirms?|revises? outlook)\b.{0,30}\bindia\b|india'?s sovereign rating|"
+        r"sovereign (rating|outlook)", re.IGNORECASE)),
+    ("SYSTEMIC_RISK", "SYSTEMIC RISK", 9, "#b91c1c", re.compile(
+        r"\b(systemic risk|financial stability risk|contagion risk|bank run|"
+        r"crisis in the (nbfc|banking|microfinance|co-?operative) sector|"
+        r"sector-wide (risk|stress|vulnerabilit))\b", re.IGNORECASE)),
+    # A named regulator's own top official (not just the regulator generically)
+    # flagging risk/vulnerability is a real signal even without one of the
+    # SYSTEMIC_RISK phrases above -- e.g. "Small UCBs face risks bigger than
+    # their size due to cyber threats: RBI Dy Governor" mentions neither
+    # "systemic" nor "sector-wide" but is exactly this category. Two
+    # lookaheads instead of a fixed order, since the headline can name the
+    # official before or after (often after, as an attribution) the actual
+    # warning content.
+    ("REGULATOR_WARNING", "REGULATOR WARNING", 8, "#b45309", re.compile(
+        r"(?=.*\b(rbi|sebi|irdai|pfrda)\b.{0,20}\b(governor|deputy governor|"
+        r"chairman|chairperson|whole[- ]time member)\b)"
+        r"(?=.*\b(risks?|vulnerab\w*|warns?|flags?|cautions?|threats?)\b)",
+        re.IGNORECASE)),
+    ("POLICY_ACTION", "REGULATORY ACTION", 8, "#b45309", re.compile(
+        r"\b(rbi|sebi|irdai|pfrda)\b.{0,50}\b(bars?|bans?|revokes?|cancels?|"
+        r"imposes? (a )?(monetary )?penalt|enforcement action|show cause notice|"
+        r"debarr|cease and desist|compounding order)\b", re.IGNORECASE)),
+    ("RATE_DECISION", "RATE DECISION", 8, "#1e3a8a", re.compile(
+        r"\b(mpc|monetary policy committee)\b.{0,40}\b(cuts?|hikes?|raises?|"
+        r"holds?|keeps? unchanged|leaves? unchanged)\b|"
+        r"repo rate (cut|hike|unchanged|raised|lowered|held)", re.IGNORECASE)),
+    ("MARKET_SHOCK", "MARKET SHOCK", 7, "#7c3aed", re.compile(
+        r"\b(rupee (plunges?|crashes?|hits? (a )?record low)|"
+        r"sensex (crashes?|plunges?|tanks?)|bond yields? (spike|surge)|"
+        r"market (crash|meltdown|sell-?off))\b", re.IGNORECASE)),
+]
+
 
 def _event_of(it: dict) -> tuple[str, str, int, str]:
-    """(key, label, score, colour). Highest-materiality match wins."""
+    """(key, label, score, colour). Highest-materiality match wins.
+    S2/S3 items use their own event table -- see _S2S3_EVENTS."""
     text = f'{it.get("title","")} {it.get("summary","")}'
-    for key, label, score, colour, rx in _EVENTS:
+    table = _S2S3_EVENTS if it.get("section") in ("S2", "S3") else _EVENTS
+    for key, label, score, colour, rx in table:
         if rx.search(text):
             return key, label, score, colour
     return "OTHER", "", 1, "#9ca3af"
