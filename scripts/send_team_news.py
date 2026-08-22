@@ -160,6 +160,19 @@ _TEAM_JUNK_RE = re.compile(
     r"\b(buy|sell|hold|accumulate|reduce|add|neutral|not rated)\b(?:\d\.\d|[^.|]){0,70}\btarget\b"
     r"|\bfor the target\b"
     r"|\btarget (price|rs\.?)\b"
+    # "<Company> Share Price Target at Rs 1,220: Anand Rathi" -- reversed
+    # word order ("Price Target" not "Target Price") with the brokerage
+    # named only at the very end, so it slipped past every pattern above.
+    # Reported directly: this exact headline shape reached S1 tagged to
+    # "Anand Rathi Share and Stock Brokers Limited" (the brokerage
+    # ISSUING the call, not its subject) purely because its own name is a
+    # watchlist entity and appeared in the text -- the target-price call
+    # was about Max Healthcare, unrelated to Anand Rathi itself. This is
+    # already meant to be dropped regardless of which company issues or
+    # is issued it, per the 7:30 SKIP rule this file already mirrors
+    # ("stock tips, target price calls") -- this just closes the one word
+    # order that rule hadn't covered.
+    r"|\bshare price target\b"
     # Abbreviated broker calls: "The Ramco Cements Hold TP 1050", "HDFC Bank
     # Buy TP 2100". The spelled-out "target price" was caught but the TP/TGT
     # shorthand was not — harmless for a cement issuer (no FI signal, so it
