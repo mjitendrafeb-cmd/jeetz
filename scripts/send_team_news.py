@@ -4521,20 +4521,18 @@ def _from_display_name() -> str:
     """The name shown in the reader's From field, used for the subject
     line and attachment filename too.
 
-    Neutralised to "Daily News Digest" while sending from a domain
-    (mailalerts.in) with no relationship to careedge.in -- a textbook
-    display-name-impersonation signal ("claims to be a known brand, sent
-    from a domain that isn't theirs"), which is what Microsoft Defender's
-    anti-phishing policies are specifically built to catch. Was briefly
-    restored to "CareEdge Daily News" after IT reported the sending
-    domain whitelisted and mail did land at careedge.in for one test --
-    but the block recurred on a later test send to the same address
-    (message accepted by our SMTP, never arrived), so the whitelist
-    either didn't stick or doesn't cover Defender's impersonation scoring
-    specifically. Neutralised again until IT confirms via message trace
-    (not just "should be allowed") that this exact signal is cleared.
+    Was neutralised to "Daily News Digest" more than once suspecting a
+    Defender impersonation block, most recently after a test send to
+    careedge.in was accepted by our SMTP but appeared not to arrive --
+    but that mail turned up later, just delayed in the relay/queue, not
+    blocked. So the branding was never actually the problem; restored to
+    "CareEdge Daily News" accordingly. If a future test looks like a
+    block again, wait for late delivery before re-neutralising this --
+    confirm an actual rejection (bounce, quarantine, message-trace
+    "blocked") before assuming impersonation scoring, not just slow
+    arrival.
     """
-    return os.environ.get("MAIL_FROM_NAME", "Daily News Digest").strip() or "Daily News Digest"
+    return os.environ.get("MAIL_FROM_NAME", "CareEdge Daily News").strip() or "CareEdge Daily News"
 
 
 def _admin_addr() -> str:
