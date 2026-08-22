@@ -4216,11 +4216,31 @@ def _mech_digest(person_items: list[dict], n_entities: int) -> str:
         return ""
     counts: dict = {}
     for it in person_items:
-        key, label, _s, _c = _event_of(it)
+        key, _label, _s, _c = _event_of(it)
         if key != "OTHER":
-            counts[label] = counts.get(label, 0) + 1
-    order = [lbl for _k, lbl, _s, _c, _rx in _EVENTS]
-    parts = [f"{counts[l]} {l.lower().replace('&amp;', '&')}" for l in order if counts.get(l)]
+            counts[key] = counts.get(key, 0) + 1
+    # Bare lowercased labels read wrong at both counts: RESULTS is already
+    # plural ("1 results"), the rest are bare adjectives/singular nouns
+    # with no plural form ("3 rating", "2 funding") -- confirmed directly
+    # from a delivered digest line. Explicit singular/plural noun phrases
+    # per event, matched by count.
+    _NOUNS = {
+        "DEFAULT": ("default", "defaults"),
+        "RATING": ("rating action", "rating actions"),
+        "REGULATORY": ("regulatory action", "regulatory actions"),
+        "MANAGEMENT": ("management change", "management changes"),
+        "FUNDING": ("funding update", "funding updates"),
+        "M&A": ("M&A update", "M&A updates"),
+        "RESULTS": ("result", "results"),
+    }
+    order = [key for key, _lbl, _s, _c, _rx in _EVENTS]
+    parts = []
+    for key in order:
+        n_key = counts.get(key)
+        if not n_key:
+            continue
+        sing, plur = _NOUNS[key]
+        parts.append(f"{n_key} {sing if n_key == 1 else plur}")
     n = len(person_items)
     head = f"{n} item{'s' if n != 1 else ''} across your {n_entities} entit{'ies' if n_entities != 1 else 'y'}"
     return f"{head} — {', '.join(parts)}." if parts else f"{head}."
