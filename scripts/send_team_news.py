@@ -1993,9 +1993,23 @@ def _gpt_s1_payload_indexed(s1_items: list[dict], article_texts: dict | None = N
 # heavy day (200+ items x several seconds each) -- bounded to the
 # highest-priority items by materiality, fetched concurrently so the total
 # wait stays reasonable regardless of how many items are eligible.
-_GPT_ARTICLE_FETCH_CAP = 40
+# Raised 40 -> 120: only the top 40 by materiality got real article text, so
+# the other ~200+ S1 items were analysed from a headline plus a 220-char feed
+# snippet -- structurally why so much S1 analysis read thin even when Gemini
+# did write it. Affordable now that the S1 analysis call is batched (each
+# batch carries only its own slice's article text, so per-call input stays
+# roughly where it was), and the fetch itself is concurrent.
+_GPT_ARTICLE_FETCH_CAP = 120
 _GPT_ARTICLE_FETCH_TIMEOUT = 6
 _GPT_ARTICLE_TEXT_CAP = 2500
+# S1 items per Gemini call. Measured directly: a single call sent 266 S1
+# items and got back exactly 100 entries -- no max_tokens was set, so the
+# response was being truncated at the API default and everything past
+# ~entry 100 was silently never written, however emphatically the prompt
+# demanded full coverage. Batching keeps each response comfortably inside
+# the output budget; batches run concurrently so wall-clock stays ~one call.
+_GPT_S1_BATCH = 70
+_GPT_MAX_OUTPUT_TOKENS = 16000
 
 
 def _gpt_fetch_article_text(url: str) -> str:
@@ -2032,7 +2046,7 @@ def _gpt_fetch_article_texts(items: list[dict]) -> dict:
         return {}
     from concurrent.futures import ThreadPoolExecutor
     out = {}
-    with ThreadPoolExecutor(max_workers=10) as ex:
+    with ThreadPoolExecutor(max_workers=16) as ex:
         futures = {ex.submit(_gpt_fetch_article_text, it["url"]): it for it in candidates}
         # requests' timeout is a per-read-chunk timeout, not a total-time
         # cap -- a pathologically slow response can still take far longer
@@ -2102,30 +2116,37 @@ def _gpt_build_payload(s1_items: list[dict], s2_items: list[dict],
     return payload, s1, s2, s3
 
 
-def _gpt_validate(data) -> bool:
+def _gpt_validate(data, require_body: bool = True) -> bool:
     """Structural check before anything from this response touches HTML.
     Deliberately strict -- a malformed or partially-hallucinated response
-    is treated as a full failure (caller falls back), not patched up."""
+    is treated as a full failure (caller falls back), not patched up.
+
+    require_body=False for the follow-on S1 batches: only the first batch
+    is asked for email_body/s2/s3, so the rest legitimately return
+    s1_summary alone and must not be failed for the absence."""
     if not isinstance(data, dict):
         return False
-    eb = data.get("email_body")
     s1 = data.get("s1_summary")
-    if not isinstance(eb, dict) or not isinstance(s1, list):
+    if not isinstance(s1, list):
         return False
-    kt = eb.get("key_takeaways")
-    if not isinstance(kt, list):
-        return False
-    for row in kt:
-        if not isinstance(row, dict) or not str(row.get("title") or "").strip() \
-                or not str(row.get("text") or "").strip():
+    if require_body:
+        eb = data.get("email_body")
+        if not isinstance(eb, dict):
             return False
-    wa = eb.get("watchlist_attention", [])
-    if not isinstance(wa, list):
-        return False
-    for row in wa:
-        if not isinstance(row, dict) or not str(row.get("entity") or "").strip() \
-                or not str(row.get("text") or "").strip():
+        kt = eb.get("key_takeaways")
+        if not isinstance(kt, list):
             return False
+        for row in kt:
+            if not isinstance(row, dict) or not str(row.get("title") or "").strip() \
+                    or not str(row.get("text") or "").strip():
+                return False
+        wa = eb.get("watchlist_attention", [])
+        if not isinstance(wa, list):
+            return False
+        for row in wa:
+            if not isinstance(row, dict) or not str(row.get("entity") or "").strip() \
+                    or not str(row.get("text") or "").strip():
+                return False
     for row in s1:
         if not isinstance(row, dict) or not str(row.get("entity") or "").strip() \
                 or not str(row.get("analysis") or "").strip():
@@ -2160,15 +2181,86 @@ def _gpt_validate(data) -> bool:
 
 def _gpt_analysis(s1_items: list[dict], s2_items: list[dict],
                   s3_items: list[dict], today) -> tuple[dict, list[dict], list[dict], list[dict]] | None:
-    """One request per run. Returns (validated data dict, s1_sent, s2_sent,
-    s3_sent) on success, or None on any failure -- caller falls back to the
-    existing Anthropic/mechanical paths exactly as if GPT were never
-    called. Each *_sent list is the exact order-preserved list its
-    section's item_indices resolve against."""
+    """Batched requests per run. Returns (validated data dict, s1_sent,
+    s2_sent, s3_sent) on success, or None on any failure -- caller falls
+    back to the existing Anthropic/mechanical paths exactly as if GPT were
+    never called. Each *_sent list is the exact order-preserved list its
+    section's item_indices resolve against.
+
+    S1 is split into _GPT_S1_BATCH-sized calls run concurrently and merged
+    (see _GPT_S1_BATCH for why). The "i" indices in the payload are global
+    positions in s1_sent and are NOT re-based per batch, so merging the
+    per-batch s1_summary lists is a plain concatenation -- every index
+    still resolves against the same s1_sent list the caller holds.
+    Only the first batch is asked for email_body/s2/s3."""
     if not _gpt_on() or not s1_items:
         return None
     import time as _time
     payload, s1_sent, s2_sent, s3_sent = _gpt_build_payload(s1_items, s2_items, s3_items, today)
+    provider = _gpt_provider()
+    if not provider:
+        return None
+    t0 = _time.time()
+    s1_all = payload.get("s1") or []
+    chunks = [s1_all[i:i + _GPT_S1_BATCH]
+              for i in range(0, len(s1_all), _GPT_S1_BATCH)] or [[]]
+    jobs = []
+    for bi, chunk in enumerate(chunks):
+        jobs.append((bi, {
+            "date": payload["date"],
+            "s1": chunk,
+            # Only batch 0 carries S2/S3; the others are S1-only so their
+            # output budget goes entirely to S1 coverage.
+            "s2": payload.get("s2", []) if bi == 0 else [],
+            "s3": payload.get("s3", []) if bi == 0 else [],
+        }))
+    try:
+        from openai import OpenAI
+        client = OpenAI(api_key=provider["api_key"], base_url=provider["base_url"],
+                        timeout=240, max_retries=1)
+        from concurrent.futures import ThreadPoolExecutor
+        with ThreadPoolExecutor(max_workers=min(4, len(jobs))) as ex:
+            results = list(ex.map(
+                lambda job: _gpt_one_call(client, provider, job[1], job[0] == 0), jobs))
+    except Exception as exc:
+        print(f"[gpt] analysis failed (non-fatal, falling back to existing pipeline): {exc}")
+        return None
+    # Batch 0 carries the email body and S2/S3; without it there is no
+    # usable response at all. A failed FOLLOW-ON batch only costs its own
+    # slice of S1 coverage (those rows fall back to the mechanical view),
+    # which is strictly better than discarding the whole run.
+    if not results or results[0] is None:
+        print("[gpt] analysis failed (non-fatal, falling back to existing pipeline): "
+              "primary batch returned nothing")
+        return None
+    data = results[0]
+    ok_batches = 1
+    for r in results[1:]:
+        if r is None:
+            continue
+        ok_batches += 1
+        data["s1_summary"].extend(r.get("s1_summary") or [])
+    covered = len({i for row in data["s1_summary"]
+                   for i in (row.get("item_indices") or [])})
+    print(f"[gpt] provider={provider['name']} model={provider['model']} "
+          f"elapsed={_time.time() - t0:.1f}s batches={ok_batches}/{len(jobs)} "
+          f"s1_sent={len(s1_all)} s1_entries={len(data['s1_summary'])} "
+          f"s1_items_covered={covered} "
+          f"s2_sent={len(payload.get('s2', []))} s3_sent={len(payload.get('s3', []))}")
+    print(f"[gpt] analysis ok: {len(data['s1_summary'])} S1 entries "
+          f"(of {len(s1_all)} sent), "
+          f"{len(data.get('s2_summary', []))} S2 entries, "
+          f"{len(data.get('s3_summary', []))} S3 entries, "
+          f"{len(data['email_body'].get('key_takeaways', []))} key takeaways, "
+          f"{len(data['email_body'].get('watchlist_attention', []))} watchlist entries")
+    return data, s1_sent, s2_sent, s3_sent
+
+
+def _gpt_one_call(client, provider: dict, payload: dict, with_body: bool):
+    """One Gemini/OpenAI request for a single S1 batch. Returns the
+    validated dict, or None on any failure -- a failed follow-on batch
+    costs only its own items' analysis, never the whole run."""
+    import time as _time
     user_prompt = f"""Analyse today's collected news for an internal CareEdge-style credit-intelligence newsletter.
 
 INPUT (JSON):
@@ -2190,35 +2282,33 @@ INSTRUCTIONS:
 - Do not invent facts, numbers, ratios or company financials not present in the supplied news.
 - Some S1 items include "article_text": the full scraped article body, not just the headline/existing_summary. When present, ground the analysis in it -- actual instrument details, amounts, tenor, quoted management commentary, etc -- instead of writing generically off the headline alone. When article_text is empty (not every item has it), work from headline + existing_summary as before; do not pretend to know more than what was supplied. S2/S3 items never have article_text -- work from headline + existing_summary only.
 
+- The "i" values in this batch's s1 list are GLOBAL positions and do NOT start at 0 -- use each item's own "i" exactly as given in item_indices. Never renumber them.
+{"" if with_body else '- This batch is S1 ONLY. Return "s1_summary" alone: no "email_body", no "s2_summary", no "s3_summary" (they are handled in a separate request and duplicating them here wastes your output budget).'}
+- STRONGLY PREFER one s1_summary entry per "i" value, each written about that one article. You have ample output budget for this batch, so there is no reason to lump items together to save space. Merge two indices into a single entry ONLY when both articles genuinely report the SAME underlying event (e.g. two wire reports of one bond issue); never to cover more ground quickly.
+
 Respond with ONLY this JSON structure, no markdown fences, no extra commentary:
 {{
-  "email_body": {{
+{'''  "email_body": {
     "headline": "Daily Credit Intelligence",
-    "key_takeaways": [{{"title": "...", "credit_view": "Positive|Negative|Neutral|Mixed|Monitor", "text": "..."}}],
-    "watchlist_attention": [{{"entity": "...", "action": "...", "text": "..."}}]
-  }},
-  "s1_summary": [
-    {{"entity": "...", "event": "...", "item_indices": [0, 3],
+    "key_takeaways": [{"title": "...", "credit_view": "Positive|Negative|Neutral|Mixed|Monitor", "text": "..."}],
+    "watchlist_attention": [{"entity": "...", "action": "...", "text": "..."}]
+  },
+''' if with_body else ''}  "s1_summary": [
+    {{"entity": "...", "event": "...", "item_indices": [0],
       "credit_view": "Positive|Negative|Neutral|Mixed|Monitor",
       "materiality": "High|Medium|Low",
       "analyst_action": "Immediate Review|Seek Management Clarification|Review|Monitor|No Action",
       "analysis": "...", "watch": "..."}}
-  ],
+  ]{''',
   "s2_summary": [
-    {{"item_indices": [0], "analysis": "..."}}
+    {"item_indices": [0], "analysis": "..."}
   ],
   "s3_summary": [
-    {{"item_indices": [1, 2], "analysis": "..."}}
-  ]
+    {"item_indices": [1, 2], "analysis": "..."}
+  ]''' if with_body else ''}
 }}"""
-    provider = _gpt_provider()
-    if not provider:
-        return None
     t0 = _time.time()
     try:
-        from openai import OpenAI
-        client = OpenAI(api_key=provider["api_key"], base_url=provider["base_url"],
-                         timeout=240, max_retries=1)
         # A transient overload (Gemini 503 "high demand", a rate limit) is
         # common enough to be worth a couple of short retries -- confirmed
         # directly: a run that failed outright on a bare call succeeded a
@@ -2237,6 +2327,11 @@ Respond with ONLY this JSON structure, no markdown fences, no extra commentary:
                 resp = client.chat.completions.create(
                     model=provider["model"],
                     response_format={"type": "json_object"},
+                    # Was unset, so the response was capped at the API
+                    # default and silently truncated mid-answer -- the
+                    # measured cause of S1 coverage stalling at ~100
+                    # entries no matter how many items were sent.
+                    max_tokens=_GPT_MAX_OUTPUT_TOKENS,
                     messages=[
                         {"role": "system", "content": _GPT_SYSTEM_PROMPT},
                         {"role": "user", "content": user_prompt},
@@ -2251,27 +2346,22 @@ Respond with ONLY this JSON structure, no markdown fences, no extra commentary:
                     _time.sleep(wait)
         if resp is None:
             raise last_exc
-        text = resp.choices[0].message.content
-        data = json.loads(text)
-        elapsed = _time.time() - t0
+        finish = getattr(resp.choices[0], "finish_reason", "")
+        if finish == "length":
+            print(f"[gpt] WARNING: batch hit the {_GPT_MAX_OUTPUT_TOKENS}-token "
+                  f"output cap (finish_reason=length) -- some items in this "
+                  f"batch will fall back to the mechanical view")
+        data = json.loads(resp.choices[0].message.content)
         usage = getattr(resp, "usage", None)
-        # Debug/dev record only -- never surfaced in the newsletter itself.
-        print(f"[gpt] provider={provider['name']} model={provider['model']} "
-              f"elapsed={elapsed:.1f}s tokens={getattr(usage, 'total_tokens', 'n/a')} "
-              f"s1_sent={len(payload['s1'])} s2_sent={len(payload['s2'])} "
-              f"s3_sent={len(payload['s3'])}")
-        if not _gpt_validate(data):
-            print("[gpt] response failed schema validation (non-fatal), falling back")
+        if not _gpt_validate(data, require_body=with_body):
+            print("[gpt] batch failed schema validation (non-fatal), skipping this batch")
             return None
-        print(f"[gpt] analysis ok: {len(data['s1_summary'])} S1 entries "
-              f"(of {len(payload['s1'])} sent), "
-              f"{len(data.get('s2_summary', []))} S2 entries (of {len(payload['s2'])} sent), "
-              f"{len(data.get('s3_summary', []))} S3 entries (of {len(payload['s3'])} sent), "
-              f"{len(data['email_body'].get('key_takeaways', []))} key takeaways, "
-              f"{len(data['email_body'].get('watchlist_attention', []))} watchlist entries")
-        return data, s1_sent, s2_sent, s3_sent
+        print(f"[gpt] batch ok: {len(data.get('s1_summary') or [])} S1 entries "
+              f"of {len(payload.get('s1') or [])} sent in "
+              f"{_time.time() - t0:.1f}s, tokens={getattr(usage, 'total_tokens', 'n/a')}")
+        return data
     except Exception as exc:
-        print(f"[gpt] analysis failed (non-fatal, falling back to existing pipeline): {exc}")
+        print(f"[gpt] batch failed (non-fatal): {exc}")
         return None
 
 
@@ -2304,29 +2394,45 @@ def _gpt_map_s1(data: dict, s1_sent: list[dict]) -> dict:
             commentary += f" Watch: {watch}."
         view = {"variable": "other", "implication": analysis,
                 "why": watch, "commentary": commentary}
-        # Defence-in-depth against the exact failure the prompt instruction
-        # above asks Gemini not to do, and it still sometimes does under
-        # coverage pressure: merging several DIFFERENT same-company events
-        # (a pledge release, a product launch, a revenue update) into one
-        # entry and pointing every "i" at it -- confirmed directly, three
-        # unrelated Nisus Finance stories all showing identical text, one
-        # of them not even mentioning what its own headline was about.
-        # Applying the anchor item's text to every index is only safe when
-        # those headlines actually look like the same story. Company-name
-        # tokens (row["entity"]) are excluded first since every headline
-        # about a company trivially "matches" on its own name.
+        # Guards a merged entry (one analysis pointed at several items).
+        #
+        # This previously required >= 2 shared title words after removing
+        # the company name, and it was far too strict: measured on a real
+        # run it stripped the analysis off 145 S1 items in a single
+        # edition. Different write-ups of ONE event routinely share only
+        # one word -- "HDFC Bank raises $1.75 billion in biggest overseas
+        # fundraise" vs "HDFC Bank gets BBB rating from S&P for $1.75bn
+        # bond" share nothing but "bond" once the entity is removed, yet
+        # are plainly the same bond issue. Every false drop costs that row
+        # its analysis and shows generic placeholder text instead, so at
+        # 145/run the guard was doing far more damage than the cross-event
+        # bleed it was added to prevent.
+        #
+        # The bleed it targeted (three unrelated Nisus Finance stories all
+        # showing identical text) was driven by output-budget pressure --
+        # Gemini lumping items to fit a truncated response. That pressure
+        # is gone now that S1 is batched with an explicit token budget and
+        # the prompt asks for one entry per item, so merges should be rare
+        # and genuine. What remains here is the narrow check for the worst
+        # failure only: an entry spanning MORE THAN ONE COMPANY, where the
+        # text cannot possibly be right for all of them. Same-company
+        # merges are trusted and logged, so a regression is visible in the
+        # run log rather than silent.
         if len(idx) > 1:
-            entity_toks = _title_toks(str(row.get("entity") or ""))
-            anchor_toks = _title_toks(s1_sent[idx[0]]["title"]) - entity_toks
+            anchor_co = (s1_sent[idx[0]].get("companies") or [None])[0]
             kept = [idx[0]]
             for i in idx[1:]:
-                other_toks = _title_toks(s1_sent[i]["title"]) - entity_toks
-                if anchor_toks and other_toks and len(anchor_toks & other_toks) >= 2:
-                    kept.append(i)
-                else:
-                    print(f"[gpt] dropped merged entry for unrelated headline: "
-                          f"'{s1_sent[i]['title'][:70]}' doesn't match "
-                          f"'{s1_sent[idx[0]]['title'][:70]}' -- falls back to mechanical view")
+                other_co = (s1_sent[i].get("companies") or [None])[0]
+                if anchor_co and other_co and anchor_co != other_co:
+                    print(f"[gpt] dropped cross-company merge: "
+                          f"'{s1_sent[i]['title'][:60]}' ({other_co}) merged with "
+                          f"'{s1_sent[idx[0]]['title'][:60]}' ({anchor_co}) "
+                          f"-- falls back to mechanical view")
+                    continue
+                kept.append(i)
+            if len(kept) > 1:
+                print(f"[gpt] merged entry kept for {len(kept)} same-company items: "
+                      f"'{s1_sent[idx[0]]['title'][:70]}'")
             idx = kept
         for i in idx:
             out[_key(s1_sent[i])] = view
