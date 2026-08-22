@@ -2285,6 +2285,12 @@ def _gpt_analysis(s1_items: list[dict], s2_items: list[dict],
     if not providers:
         return None
     provider = providers[0]
+    # Which providers are actually reachable this run, primary first. A
+    # failover provider only gets exercised when the primary fails a
+    # batch, so without this line a correctly-configured key and a
+    # missing one look identical in the log on any healthy run.
+    print("[gpt] providers configured: "
+          + ", ".join(f"{p['name']}({p['model']})" for p in providers))
     t0 = _time.time()
     s1_all = payload.get("s1") or []
     chunks = [s1_all[i:i + _GPT_S1_BATCH]
