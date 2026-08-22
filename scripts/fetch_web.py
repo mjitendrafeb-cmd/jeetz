@@ -1054,6 +1054,10 @@ _EXTRA_RSS_FEEDS = [
         "https://bfsi.economictimes.indiatimes.com/rss/lateststories",
         _gnews_site_feed("site:bfsi.economictimes.indiatimes.com"),
     ]),
+    ("ET BFSI Editors View", "T2", 8, [
+        "https://bfsi.economictimes.indiatimes.com/rss/editors-view",
+        _gnews_site_feed("site:bfsi.economictimes.indiatimes.com editor's view"),
+    ]),
 ]
 
 
