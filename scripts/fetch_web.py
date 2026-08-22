@@ -1038,14 +1038,20 @@ _EXTRA_RSS_FEEDS = [
     ]),
     # Previously only reached via the generic HTML scraper (fetch_custom_url):
     # capped at 15 headlines/day, one fetch/day, no publish date so it never
-    # got the 48h recency check the RSS sources below get. Both feed URLs
-    # were supplied directly by the user (the second is confirmed the live
-    # "recent stories" feed); the Google News fallback stays behind them as
-    # a safety net, same pattern as every other entry in this list.
+    # got the 48h recency check the RSS sources below get. All feed URLs
+    # were supplied directly by the user. "recentstories" and "lateststories"
+    # are two distinct, separately-updated feeds on the site (not one feed
+    # under two names) -- kept as two entries rather than one-with-fallback
+    # so both are actually fetched instead of "lateststories" sitting dormant
+    # behind a working "recentstories".
     ("ET BFSI", "T2", 10, [
         "https://bfsi.economictimes.indiatimes.com/rss/recentstories",
         "https://bfsi.economictimes.indiatimes.com/rss/articles",
         "https://bfsi.economictimes.indiatimes.com/rss",
+        _gnews_site_feed("site:bfsi.economictimes.indiatimes.com"),
+    ]),
+    ("ET BFSI Latest", "T2", 10, [
+        "https://bfsi.economictimes.indiatimes.com/rss/lateststories",
         _gnews_site_feed("site:bfsi.economictimes.indiatimes.com"),
     ]),
 ]
