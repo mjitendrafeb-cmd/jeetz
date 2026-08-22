@@ -2008,7 +2008,13 @@ _GPT_ARTICLE_TEXT_CAP = 2500
 # ~entry 100 was silently never written, however emphatically the prompt
 # demanded full coverage. Batching keeps each response comfortably inside
 # the output budget; batches run concurrently so wall-clock stays ~one call.
-_GPT_S1_BATCH = 70
+#
+# 70 was the first attempt and was still too big: two of four batches hit
+# the 16k cap (finish_reason=length) and, because a truncated response is
+# invalid JSON, lost ALL their entries rather than just the tail. Measured
+# ~230 output tokens per S1 entry, so 30 items/batch lands around 7k --
+# comfortably inside the cap with roughly 2x headroom for a verbose day.
+_GPT_S1_BATCH = 30
 _GPT_MAX_OUTPUT_TOKENS = 16000
 
 
@@ -2114,6 +2120,56 @@ def _gpt_build_payload(s1_items: list[dict], s2_items: list[dict],
         "s3": _gpt_cat_payload_indexed(s3),
     }
     return payload, s1, s2, s3
+
+
+def _gpt_salvage_json(text: str):
+    """json.loads, falling back to recovering the complete array elements
+    from a response truncated mid-write.
+
+    A response cut off at the output cap is invalid JSON, so a plain
+    json.loads throws and the entire batch is lost -- including the dozens
+    of entries that were written perfectly before the cut. Measured on a
+    real run: two batches hit the cap and each lost all ~70 of its items
+    when most of them were intact. This walks the text tracking bracket
+    depth (string- and escape-aware so braces inside analysis prose don't
+    confuse it), finds the end of the last COMPLETE element, and closes
+    the structure there."""
+    try:
+        return json.loads(text)
+    except Exception:
+        pass
+    depth, in_str, esc, last_elem_end = 0, False, False, None
+    for i, ch in enumerate(text):
+        if esc:
+            esc = False
+            continue
+        if ch == "\\":
+            esc = True
+            continue
+        if ch == '"':
+            in_str = not in_str
+            continue
+        if in_str:
+            continue
+        if ch in "{[":
+            depth += 1
+        elif ch in "}]":
+            depth -= 1
+            # {"s1_summary": [ {...} ]} -- an object closing back to depth
+            # 2 is one finished element of the section array.
+            if ch == "}" and depth == 2:
+                last_elem_end = i
+    if last_elem_end is None:
+        return None
+    for suffix in ("]}", "]"):
+        try:
+            out = json.loads(text[:last_elem_end + 1] + suffix)
+            print(f"[gpt] salvaged {sum(len(v) for v in out.values() if isinstance(v, list))} "
+                  f"complete entries from a truncated response")
+            return out
+        except Exception:
+            continue
+    return None
 
 
 def _gpt_validate(data, require_body: bool = True) -> bool:
@@ -2225,20 +2281,32 @@ def _gpt_analysis(s1_items: list[dict], s2_items: list[dict],
     except Exception as exc:
         print(f"[gpt] analysis failed (non-fatal, falling back to existing pipeline): {exc}")
         return None
-    # Batch 0 carries the email body and S2/S3; without it there is no
-    # usable response at all. A failed FOLLOW-ON batch only costs its own
-    # slice of S1 coverage (those rows fall back to the mechanical view),
-    # which is strictly better than discarding the whole run.
-    if not results or results[0] is None:
+    # Batch 0 additionally carries the email body and S2/S3. It used to be
+    # treated as all-or-nothing -- if it failed, the whole run fell back to
+    # the mechanical pipeline and every other batch's S1 analysis was
+    # thrown away with it. Observed live: batch 0 truncated, and an
+    # otherwise-good edition went out fully mechanical. Now a failed batch
+    # 0 costs only the email body and S2/S3; every S1 batch that succeeded
+    # still lands. The run only gives up when NO batch returned anything.
+    ok = [r for r in results if r is not None]
+    if not ok:
         print("[gpt] analysis failed (non-fatal, falling back to existing pipeline): "
-              "primary batch returned nothing")
+              "no batch returned usable output")
         return None
-    data = results[0]
-    ok_batches = 1
-    for r in results[1:]:
+    if results[0] is not None:
+        data = results[0]
+        rest = results[1:]
+    else:
+        print("[gpt] primary batch failed -- keeping S1 analysis from the other "
+              "batches, email body and S2/S3 fall back to the mechanical path")
+        data = {"email_body": {"key_takeaways": [], "watchlist_attention": []},
+                "s1_summary": [], "s2_summary": [], "s3_summary": []}
+        rest = results
+    data.setdefault("s1_summary", [])
+    ok_batches = len(ok)
+    for r in rest:
         if r is None:
             continue
-        ok_batches += 1
         data["s1_summary"].extend(r.get("s1_summary") or [])
     covered = len({i for row in data["s1_summary"]
                    for i in (row.get("item_indices") or [])})
@@ -2351,7 +2419,10 @@ Respond with ONLY this JSON structure, no markdown fences, no extra commentary:
             print(f"[gpt] WARNING: batch hit the {_GPT_MAX_OUTPUT_TOKENS}-token "
                   f"output cap (finish_reason=length) -- some items in this "
                   f"batch will fall back to the mechanical view")
-        data = json.loads(resp.choices[0].message.content)
+        data = _gpt_salvage_json(resp.choices[0].message.content)
+        if data is None:
+            print("[gpt] batch response was truncated beyond recovery, skipping this batch")
+            return None
         usage = getattr(resp, "usage", None)
         if not _gpt_validate(data, require_body=with_body):
             print("[gpt] batch failed schema validation (non-fatal), skipping this batch")
