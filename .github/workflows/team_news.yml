@@ -156,9 +156,17 @@ jobs:
           # _gpt_analysis in send_team_news.py). Separate provider/switch
           # from ANTHROPIC_API_KEY above -- fails open to the existing
           # Anthropic/mechanical pipeline if unset or if the call fails.
-          # GEMINI_API_KEY is preferred (free tier); OPENAI_API_KEY works
-          # too if ever set instead -- see _gpt_provider().
+          # GEMINI_API_KEY is preferred (free tier); GROQ_API_KEY is the
+          # failover and OPENAI_API_KEY works too -- see _gpt_providers(),
+          # which tries them in that order per batch. Groq matters
+          # specifically because Gemini's free tier caps at 20 requests
+          # /minute and the batched S1 analysis brushes that ceiling; Groq
+          # is a separate quota pool, so an overflowing batch lands there
+          # instead of losing its items. GROQ_MODEL optionally overrides
+          # the model (set it to one the account actually serves).
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
+          GROQ_MODEL: ${{ vars.GROQ_MODEL }}
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
           TEAM_SCHEDULED: 'true'
           TEST_EMAIL: ${{ inputs.test_email }}
