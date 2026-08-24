@@ -2,79 +2,6 @@
  {
   "date": "2026-08-20",
   "fetched": 3807,
-  "delivered_pool": 422,
-  "junk": 964,
-  "geo": 118,
-  "stale": 638,
-  "dup": 1332,
-  "sections": {
-   "S1": 364,
-   "S2": 37,
-   "S3": 21
-  },
-  "mails": 2,
-  "failed": [],
-  "source_summary": {
-   "RBI RSS": 19,
-   "RBI Enforcement": 0,
-   "SEBI RSS": 20,
-   "Google News": 25,
-   "Watchlist (Google)": 868,
-   "BSE Announcements": 0,
-   "BSE Financials": 0,
-   "Telegram": 63,
-   "Web Scraper": 202
-  },
-  "dropped_samples": {
-   "relevance": [
-    "Premature redemption under Sovereign Gold Bond (SGB) Scheme - Redemption Price for premature redemption of SGB",
-    "Developments in India\u2019s Balance of Payments for the Month of June 2026",
-    "Relaxations in Know Your Client (KYC) norms for individual Persons Resident Outside India (i.e",
-    "Framework for Calculation of Net Distributable Cash Flows for InvITs",
-    "Anantam Highways Trust hosts Q4FY26 earnings call on Aug 17",
-    "Petronet LNG Q1 Results: Earnings call scheduled for Aug 13, 2026",
-    "Balrampur Chini Mills reports consolidated profit of Rs 44.15 crore in June quarter, appoints new independent ",
-    "VRL Logistics Q1 Results: Earnings Call Scheduled for Aug 5",
-    "Bhanu Infrabuild Pvt reports standalone net loss of Rs 21.19 crore in the June 2026 quarter",
-    "3M India Q1 Results: Net Profit Surges 31% YoY, But EBITDA Margin Narrows To 16.7%",
-    "Systematix sees 12% UPSIDE in Page Industries Ltd- Demand holds up; margin recovery remains a key monitorable",
-    "Systematix Initiating Coverage on Deepak Fertilisers & Petrochemicals Corp Ltd, with 30% UPSIDE- The ammonia k",
-    "Systematix sees 33% UPSIDE in NMDC Ltd- Earnings in line; production ramp up to drive growth",
-    "Indo Count Inds, with 41% UPSIDE- New business drives growth; expect core to bounce back Midwest, with 16% UPS",
-    "Motilal Oswal\u2019s Morning India- Today\u2019s top research idea (14-Aug-26)",
-    "Systematix Update on GHCL Textiles Ltd- Moving up the value chain",
-    "Systematix sees 12% UPSIDE in Gujarat Energy Ltd- Strong Quarter, but Propane Competition Overhang to Persist",
-    "MNCL sees 26% UPSIDE in La Opala- Cautiously optimistic",
-    "PL Capital sees 33% UPSIDE in CESC- RE guidance upgraded",
-    "PL Capital sees 16% UPSIDE in Apollo Hospitals Enterprise- Strong show in hospital segment"
-   ],
-   "junk": [
-    "General Remittance Order dated 14.08.2026 in Recovery Certificate No",
-    "General Remittance Order dated 14.08.2026 in Recovery Certificate No",
-    "General Remittance Order dated 14.08.2026 in Recovery Certificate No",
-    "General Remittance Order dated 14.08.2026 in Recovery Certificate No",
-    "Completion of Recovery Certificate No",
-    "Appeal No. 6992 of 2026 filed by Rakesh Mohan Rai",
-    "Appeal No. 6991 of 2026 filed by Parivesh Shukla",
-    "Appeal No. 6990 of 2026 filed by Vikas Jain",
-    "Appeal No. 6989 of 2026 filed by Valji Narayan Bhadra",
-    "Appeal No. 6988 of 2026 filed by Neeraj Sisodia",
-    "Appeal No. 6987 of 2026 filed by Sunil Rohilla",
-    "Appeal No. 6980 of 2026 filed by Ebenezer R",
-    "Appeal No. 6983 of 2026 filed by Anivesh Kumar Pandey",
-    "Adjudication Order in respect of Fatmabibi Yusufbhai Rangwala in the matter of Illiquid Stock Options at BSE",
-    "Top stock picks: Analysts recommend Bosch, Tata Power, Adani Ports, 360 One WAM, L&T, BEL",
-    "Buy Star Cement; target of Rs 265: Anand Rathi",
-    "Buy Fine Organic Industries; target of Rs 6000: Anand Rathi",
-    "Buy TD Power Systems; target of Rs 1751: Anand Rathi",
-    "Angel One Share Price - Live NSE: ANGELONE Stock Price & Chart",
-    "Aptus Value Housing Number of Employees 2026"
-   ]
-  }
- },
- {
-  "date": "2026-08-20",
-  "fetched": 3807,
   "delivered_pool": 433,
   "junk": 960,
   "geo": 118,
@@ -2179,6 +2106,78 @@
     "Buy Sudarshan Chemical Industries; target of Rs 1450: Anand Rathi",
     "Max Healthcare Rated 'Buy' by Anand Rathi With Rs 1,220 Target",
     "Hindustan Copper Gets 'Buy' Rating From Anand Rathi With Rs 715 Target"
+   ]
+  }
+ },
+ {
+  "date": "2026-08-24",
+  "fetched": 2337,
+  "delivered_pool": 398,
+  "junk": 553,
+  "geo": 30,
+  "stale": 170,
+  "dup": 912,
+  "sections": {
+   "S1": 356,
+   "S2": 29,
+   "S3": 13
+  },
+  "mails": 40,
+  "failed": [],
+  "source_summary": {
+   "RBI RSS": 19,
+   "RBI Enforcement": 0,
+   "SEBI RSS": 20,
+   "Google News": 27,
+   "Watchlist (Google)": 1102,
+   "BSE Financials": 20,
+   "Telegram": 111,
+   "Web Scraper": 182
+  },
+  "dropped_samples": {
+   "relevance": [
+    "Result of the Second Overnight Variable Rate Reverse Repo (VRRR) auction held on August 20, 2026",
+    "Ease of onboarding for FPIs \u2013 Acceptance of digitally signed Power of Attorney",
+    "Adjudication Proceedings in the matter of front running activities by Mr. Bhavik Indravadan Shah and others",
+    "Indosolar Ltd Nine Monthly Results, Nine Monthly Earnings for Indosolar Ltd",
+    "Zerodha CEO Kamath Sees AI Making Broker Apps Obsolete",
+    "Avenue Supermarts opens new store in Navsari, Amravati",
+    "Dancing partners from Ards and Lisbane win gold for Northern Ireland",
+    "Strong pre-season opener for Ards Rugby",
+    "Ards FC make it three games unbeaten to the top table",
+    "Bajaj Chetak Crosses 50,000 Customers in Kerala; EV Network Expands to 103 Touchpoints",
+    "Tata Steel, Adani Ports among top 10 stocks downgraded by Motilal Oswal after Q1 results",
+    "Paisalo Digital Raises \u20b9294.92 Crore via Secured NCDs - DebtCircle",
+    "27,709 Shares in Bright Horizons Family Solutions Inc. $BFAM Acquired by Aurora Investment Counsel",
+    "$300 Million Investor Fraud: Fashion Tech Founder Christine Hunsicker Sentenced To Five Years In Prison",
+    "How to find the best mortgage: Compare home loan rates of leading Indian banks",
+    "India sees $80 billion in flows via subsidised swap windows, cenbank governor tells FE",
+    "Breaking News, Latest News and Videos: Swiss tourist sentenced to a year in jail for insulting Bali's sacred D",
+    "Congress divided Vande Mataram, now dividing national sentiment: Bali Bhagat",
+    "Bali Risks Drought In Top Tourism Destinations: Here\u2019s What Tourists Need To Know",
+    "Bali\u00ae Flawless Fit Collection Delivers Engineered Comfort with LYCRA\u00ae ADAPTIV Fiber"
+   ],
+   "junk": [
+    "Remittance order in Recovery Certificate No",
+    "Remittance order in Recovery Certificate No",
+    "Adjudication Order in respect of National Steel and Agro Industries Limited in the matter of trading in Illiqu",
+    "Notice of Demand dated 19.08.2026 in RC No. 9287 of 2026",
+    "Notice of Demand dated 19.08.2026 in RC No. 9286 of 2026",
+    "Notice of Attachment of Demat account dated 19.08.2026 in RC No. 9249 of 2026",
+    "Notice of Attachment of Demat account dated 19.08.2026 in RC No. 9248 of 2026",
+    "Notice of Attachment of Demat account dated 19.08.2026 in RC No. 9241 of 2026",
+    "Notice of Attachment of Bank account dated 19.08.2026 in RC No. 9249 of 2026",
+    "Notice of Attachment of Bank account dated 19.08.2026 in RC No. 9248 of 2026",
+    "Notice of Attachment of Bank account dated 19.08.2026 in RC No. 9241 of 2026",
+    "Notice of Demand under Recovery Certificate number 9285 of 2026 dated August 19, 2026, issued to VIKRAM ANAND ",
+    "Ex-Parte Interim Order in the matter of manipulative trades during CAS on SENSEX expiry at BSE- August 13, 202",
+    "Interim order in the matter of Dhenu Buildcon Infra Limited",
+    "Completion of Recovery Certificate No",
+    "RBI clears bigger LIC stake in HDFC Bank shares (NYSE: HDB)",
+    "Why Jefferies sees limited upside in Bajaj Housing Finance despite its fast-growing loan book",
+    "360 One Wam Ltd. Share Price Today: Finance Stock Focus",
+    "360 ONE WAM Ltd Sees Significant Open Interest Surge Signalling Bullish Market Positioning",
+    "5Paisa Capital Ltd. Share Price Today: Within 2% of 52-Week High"
    ]
   }
  }
