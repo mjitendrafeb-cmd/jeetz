@@ -1,0 +1,941 @@
+#!/usr/bin/env python3
+"""NSDL New Debt Issuance Report — daily email.
+
+Pulls fresh primary-market debt issuances (tenure, amount, coupon where
+disclosed) from NSDL India Bond Info's public CBDServices API, flags watchlist
+entities, adds computed borrowing-cost and relative-value analysis (all
+rule-based, no AI API), and emails it to the recipients in config.json.
+
+Env: GMAIL_USER, GMAIL_APP_PASSWORD,
+     optional NSDL_DEBUG=true (dump raw per-ISIN JSON to logs).
+"""
+
+import datetime
+import json
+import os
+import re
+import smtplib
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
+
+from fetch_nsdl_issuance_full import fetch_new_issuances
+from fetch_nsdl_debt_list import fetch_debt_list
+
+_REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+
+def _load_config() -> dict:
+    try:
+        with open(os.path.join(_REPO_ROOT, "config.json"), encoding="utf-8") as f:
+            return json.load(f)
+    except Exception:
+        return {}
+
+
+def _recipients() -> list[str]:
+    cfg = _load_config()
+    recs = cfg.get("recipients") or [cfg.get("recipient")] or []
+    return [r for r in recs if r]
+
+
+_STOP = re.compile(r"\b(limited|ltd|private|pvt|company|co|corporation|corp|india|the)\b\.?",
+                   re.IGNORECASE)
+
+
+def _norm(name: str) -> str:
+    return re.sub(r"\s+", " ", _STOP.sub("", name.lower()).replace(".", " ")).strip()
+
+
+def _load_watchlist() -> list[tuple[str, str]]:
+    out = []
+    try:
+        with open(os.path.join(_REPO_ROOT, "watchlist.txt"), encoding="utf-8") as f:
+            for line in f:
+                line = line.strip()
+                if line and not line.startswith("#"):
+                    out.append((line, _norm(line)))
+    except Exception:
+        pass
+    return out
+
+
+def _watchlist_hit(issuer: str, watchlist) -> str:
+    n = _norm(issuer)
+    if not n:
+        return ""
+    for original, wn in watchlist:
+        if wn and (wn in n or n in wn):
+            return original
+    return ""
+
+
+def _fmt_cr(v: float) -> str:
+    return f"{v:,.0f}" if v >= 10 else f"{v:,.1f}"
+
+
+def _fmt_date(d) -> str:
+    return d.strftime("%d-%b-%Y") if d else "—"
+
+
+def _coupon_str(i: dict) -> str:
+    if i.get("coupon"):
+        return f"{i['coupon']:.2f}%"
+    if i.get("coupon_text"):
+        return i["coupon_text"]
+    return "—"
+
+
+def _rating_str(i: dict) -> str:
+    r = i.get("ratings") or []
+    return "; ".join(r[:2]) if r else "—"
+
+
+_RATING_TOKEN = re.compile(
+    r"\b(AAA|AA\+|AA-|AA|A\+|A-|BBB\+|BBB-|BBB|BB\+|BB-|BB|B\+|B-|"
+    r"A1\+|A1|A2\+|A2|A3\+|A3|A4\+|A4|C|D|A)(?=[\s(/;)]|$)")
+
+_BANDS = ["AAA", "AA band (AA+/AA/AA-)", "A band (A+/A/A-)", "BBB band",
+          "Below investment grade", "Short-term (A1+/A1/...)",
+          "Not rated / available"]
+
+
+def _rating_band(i: dict) -> str:
+    tokens = []
+    for r in i.get("ratings") or []:
+        tokens += _RATING_TOKEN.findall(r.upper().replace("(", " ").replace(")", " "))
+    for t in tokens:
+        if t == "AAA":
+            return _BANDS[0]
+    for t in tokens:
+        if t in ("AA+", "AA", "AA-"):
+            return _BANDS[1]
+    for t in tokens:
+        if t in ("A+", "A", "A-"):
+            return _BANDS[2]
+    for t in tokens:
+        if t in ("BBB+", "BBB", "BBB-"):
+            return _BANDS[3]
+    for t in tokens:
+        if t in ("BB+", "BB", "BB-", "B+", "B-", "C", "D"):
+            return _BANDS[4]
+    for t in tokens:
+        if t.startswith(("A1", "A2", "A3", "A4")):
+            return _BANDS[5]
+    return _BANDS[6]
+
+
+def _type_str(i: dict) -> str:
+    parts = []
+    if i.get("issuer_nature") and i["issuer_nature"] != "Other":
+        parts.append(i["issuer_nature"])
+    elif i.get("sector"):
+        parts.append(i["sector"])
+    if i.get("ownership") and "psu" in i["ownership"].lower().replace(" ", ""):
+        parts.append(i["ownership"])
+    if i.get("secured"):
+        parts.append(i["secured"])
+    if i.get("rated"):
+        parts.append(i["rated"])
+    if i.get("ratings"):
+        parts.append("; ".join(i["ratings"][:1]))
+    if i.get("discount_pct"):
+        parts.append(f"issued at {i['discount_pct']}% discount")
+    return " · ".join(parts) if parts else "—"
+
+
+def _gsec_match(gsec: dict | None, tenure):
+    """Closest curve tenor for an issue's tenure -> (tenor_years, yield) or None."""
+    curve = (gsec or {}).get("curve") or {}
+    if not curve or not tenure:
+        return None
+    tenor = min(curve, key=lambda t: abs(t - tenure))
+    return tenor, curve[tenor]
+
+
+def _spread_bps(i: dict, gsec) -> tuple[int, int] | None:
+    """(spread_bps, matched_tenor) vs closest-tenor G-sec, or None."""
+    if not i.get("coupon"):
+        return None
+    m = _gsec_match(gsec, i.get("tenure_years"))
+    if not m:
+        return None
+    tenor, y = m
+    return round((i["coupon"] - y) * 100), tenor
+
+
+_SEGMENTS = ["PSU", "Bank/FI", "NBFC/HFC", "Corporate"]
+
+# name-based PSU detection for sources that don't carry ownership/CIN
+# (e.g. the entire-list debt instruments file)
+_PSU_NAME_RE = re.compile(
+    r"\b(power finance corporation|rec limited|rural electrification|"
+    r"indian railway finance|irfc|nabard|national bank for agriculture|"
+    r"small industries development bank|sidbi|housing and urban development|"
+    r"hudco|national housing bank|export.import bank|exim bank|ntpc|nhpc|"
+    r"power grid|grid corporation|steel authority|sail limited|gail|"
+    r"oil and natural gas|indian oil|bharat petroleum|hindustan petroleum|"
+    r"indian renewable energy|ireda|nuclear power corporation|sjvn|thdc|"
+    r"neepco|food corporation of india|national highways|nhai)\b")
+
+
+def _segment(i: dict) -> str:
+    """Issuer cohort: PSU, Bank/FI, NBFC/HFC or Corporate — from ownership,
+    CIN (GOI = government promoted), issuer nature and name."""
+    own = (i.get("ownership") or "").strip().lower()
+    cin = (i.get("cin") or "").upper()
+    nature = (i.get("issuer_nature") or "").strip().lower()
+    name = (i.get("issuer") or "").lower()
+    if ("psu" in own and "non" not in own) or "GOI" in cin \
+            or _PSU_NAME_RE.search(name):
+        return "PSU"
+    if "bank" in nature or re.search(r"\bbank\b", name):
+        return "Bank/FI"
+    if "nbfc" in nature or "hfc" in nature or "housing finance" in name \
+            or "home finance" in name or re.search(r"\bfinance\b|\bfinserv\b|\bfincorp\b|"
+                                                   r"\bfincare\b|\bfinvest\b|\bmicrofinance\b|"
+                                                   r"\bleasing\b|\bcapital\b|\bcredit\b", name):
+        return "NBFC/HFC"
+    return "Corporate"
+
+
+_TENOR_BUCKETS = [(0, 1, "≤1y"), (1, 3, "1–3y"), (3, 5, "3–5y"),
+                  (5, 10, "5–10y"), (10, 1000, ">10y")]
+
+
+def _tenor_bucket(t) -> str | None:
+    if t is None:
+        return None
+    for lo, hi, label in _TENOR_BUCKETS:
+        if lo <= t < hi:
+            return label
+    return None
+
+
+def _peer_pricing(i: dict, history, gsec, days: int = 90):
+    """How a fresh deal priced vs its peer cohort: same rating band, issuer
+    segment and tenor bucket, allotted in the trailing `days`.
+    Returns (deal_spread_bps, peer_median_bps, n_peers) or None."""
+    sp = _spread_bps(i, gsec)
+    if not sp or not i.get("allotment_date"):
+        return None
+    band, seg = _rating_band(i), _segment(i)
+    tb = _tenor_bucket(i.get("tenure_years"))
+    if band == _BANDS[6] or not tb:
+        return None
+    lo = (i["allotment_date"] - datetime.timedelta(days=days)).isoformat()
+    hi = i["allotment_date"].isoformat()
+    peers = sorted(r["spread_bps"] for r in history or []
+                   if r.get("spread_bps") is not None and r.get("isin") != i.get("isin")
+                   and lo <= r["allotment_date"] <= hi
+                   and r["band"] == band and r["segment"] == seg
+                   and _tenor_bucket(r.get("tenure_years")) == tb)
+    if len(peers) < 3:
+        return None
+    n = len(peers)
+    median = peers[n // 2] if n % 2 else (peers[n // 2 - 1] + peers[n // 2]) / 2
+    return sp[0], median, n
+
+
+def _peer_verdict(i: dict, history, gsec):
+    """(delta_bps, text, color, n) vs peer median, or None."""
+    p = _peer_pricing(i, history, gsec)
+    if not p:
+        return None
+    d = p[0] - p[1]
+    if d <= -10:
+        return d, f"{-d:.0f} bps inside peers", "#1a6b1a", p[2]
+    if d >= 10:
+        return d, f"+{d:.0f} bps over peers", "#b30000", p[2]
+    return d, "in line with peers", "#666666", p[2]
+
+
+_GSEC_HISTORY_PATH = os.path.join(_REPO_ROOT, "data", "gsec_history.json")
+
+
+def _update_gsec_history(gsec, today) -> dict:
+    """Append today's G-sec curve to the daily snapshot file. Snapshots let
+    historical spreads use the curve of the deal's own date over time."""
+    try:
+        with open(_GSEC_HISTORY_PATH, encoding="utf-8") as f:
+            hist = json.load(f)
+    except Exception:
+        hist = {}
+    curve = (gsec or {}).get("curve") or {}
+    if curve:
+        hist[today.isoformat()] = {str(k): v for k, v in curve.items()}
+        try:
+            os.makedirs(os.path.dirname(_GSEC_HISTORY_PATH), exist_ok=True)
+            with open(_GSEC_HISTORY_PATH, "w", encoding="utf-8") as f:
+                json.dump(hist, f, indent=1, sort_keys=True)
+        except Exception as exc:
+            print(f"[nsdl_issuance] gsec history save failed: {exc}")
+    return hist
+
+
+def _make_curve_lookup(gsec_hist, fallback_curve):
+    """date_iso -> G-sec curve: nearest stored snapshot within 10 days, else
+    the fallback (current) curve."""
+    import bisect
+    dates = sorted(gsec_hist or {})
+    parsed = {d: {int(k): v for k, v in c.items()} for d, c in (gsec_hist or {}).items()}
+
+    def lookup(date_iso: str):
+        if dates:
+            pos = bisect.bisect_left(dates, date_iso)
+            best = None
+            target = datetime.date.fromisoformat(date_iso)
+            for j in (pos - 1, pos):
+                if 0 <= j < len(dates):
+                    delta = abs((datetime.date.fromisoformat(dates[j]) - target).days)
+                    if delta <= 10 and (best is None or delta < best[0]):
+                        best = (delta, dates[j])
+            if best:
+                return parsed[best[1]]
+        return fallback_curve
+    return lookup
+
+
+_ISSUER_META_PATH = os.path.join(_REPO_ROOT, "data", "issuer_meta.json")
+
+
+def _load_issuer_meta() -> dict:
+    try:
+        with open(_ISSUER_META_PATH, encoding="utf-8") as f:
+            return json.load(f)
+    except Exception:
+        return {}
+
+
+def _update_issuer_meta(meta: dict, issues, today) -> dict:
+    """Cache each issuer's segment from the rich per-ISIN feed (ownership,
+    nature, CIN) so entire-list rows can use it instead of name heuristics."""
+    for i in issues:
+        key = _norm(i.get("issuer") or "")
+        if key:
+            meta[key] = {"segment": _segment(i), "updated": today.isoformat()}
+    try:
+        os.makedirs(os.path.dirname(_ISSUER_META_PATH), exist_ok=True)
+        with open(_ISSUER_META_PATH, "w", encoding="utf-8") as f:
+            json.dump(meta, f, indent=1, sort_keys=True)
+    except Exception as exc:
+        print(f"[nsdl_issuance] issuer meta save failed: {exc}")
+    return meta
+
+
+_HISTORY_PATH = os.path.join(_REPO_ROOT, "data", "nsdl_issuance_history.json")
+
+
+def _fy_start(today=None) -> datetime.date:
+    today = today or datetime.date.today()
+    year = today.year if today.month >= 4 else today.year - 1
+    return datetime.date(year, 4, 1)
+
+
+def _update_history(issues, gsec) -> list[dict]:
+    """Merge today's issues into the rolling history file (deduped by ISIN,
+    pruned to _HISTORY_DAYS) and return the trailing records."""
+    try:
+        with open(_HISTORY_PATH, encoding="utf-8") as f:
+            hist = {r["isin"]: r for r in json.load(f).get("records", [])}
+    except Exception:
+        hist = {}
+    for i in issues:
+        if not i.get("allotment_date"):
+            continue
+        sp = _spread_bps(i, gsec)
+        hist[i["isin"]] = {
+            "isin": i["isin"],
+            "issuer": i["issuer"],
+            "allotment_date": i["allotment_date"].isoformat(),
+            "amount_cr": i["issue_size_cr"],
+            "coupon": i.get("coupon"),
+            "tenure_years": i.get("tenure_years"),
+            "band": _rating_band(i),
+            "segment": _segment(i),
+            "spread_bps": sp[0] if sp else None,
+            "ratings": i.get("ratings") or [],
+        }
+    cutoff = _fy_start().isoformat()
+    records = sorted((r for r in hist.values() if r["allotment_date"] >= cutoff),
+                     key=lambda r: r["allotment_date"], reverse=True)
+    try:
+        os.makedirs(os.path.dirname(_HISTORY_PATH), exist_ok=True)
+        with open(_HISTORY_PATH, "w", encoding="utf-8") as f:
+            json.dump({"records": records}, f, indent=1)
+    except Exception as exc:
+        print(f"[nsdl_issuance] history save failed: {exc}")
+    return records
+
+
+def _debt_list_history(dl: dict, gsec, issuer_meta=None, gsec_hist=None) -> list[dict]:
+    """Convert entire-list records into history-format dicts (newest first)
+    so the cohort matrix and prev-issuance lookup can run off the full NSDL
+    file instead of the self-accumulated daily history. Segments come from
+    the issuer-meta cache where known (built from the rich per-ISIN feed);
+    spreads use the G-sec curve snapshot nearest each deal's allotment date
+    where one exists, else the current curve."""
+    fallback_curve = (gsec or {}).get("curve") or {}
+    curve_for = _make_curve_lookup(gsec_hist, fallback_curve)
+    issuer_meta = issuer_meta or {}
+    records = []
+    for r in (dl or {}).get("records") or []:
+        rec = {
+            "isin": r["isin"],
+            "issuer": r["issuer"],
+            "allotment_date": r["allotment_date"].isoformat(),
+            "amount_cr": r.get("amount_cr") or 0,
+            "coupon": r.get("coupon"),
+            "tenure_years": r.get("tenure_years"),
+            "ratings": [f"{r.get('rating_agency') or ''} {r['rating']}".strip()]
+            if r.get("rating") else [],
+        }
+        rec["band"] = _rating_band(rec)
+        cached = issuer_meta.get(_norm(r["issuer"]))
+        rec["segment"] = (cached or {}).get("segment") or _segment(rec)
+        sp = _spread_bps(rec, {"curve": curve_for(rec["allotment_date"])})
+        rec["spread_bps"] = sp[0] if sp else None
+        records.append(rec)
+    records.sort(key=lambda r: r["allotment_date"], reverse=True)
+    return records
+
+
+def _prev_issuance(i: dict, history) -> dict | None:
+    """Most recent earlier issuance by the same issuer from the rolling history."""
+    key = _norm(i.get("issuer") or "")
+    cur = i.get("allotment_date")
+    if not key or not cur:
+        return None
+    cur_iso = cur.isoformat()
+    for r in history or []:
+        if r.get("coupon") and _norm(r.get("issuer") or "") == key \
+                and (r["allotment_date"] < cur_iso or
+                     (r["allotment_date"] == cur_iso and r["isin"] != i.get("isin"))):
+            if r["allotment_date"] < cur_iso:
+                return r
+    return None
+
+
+def _cohort_matrix_html(records, source_note=None) -> str:
+    """Borrowing-cost matrix since FY start: rating band rows × issuer
+    segment columns; each cell = weighted avg coupon, avg spread, amount and
+    deal count. Rated deals only, per user preference."""
+    cutoff = _fy_start().isoformat()
+    today_iso = datetime.date.today().isoformat()
+    window = [r for r in records
+              if cutoff <= r["allotment_date"] <= today_iso and r.get("coupon")
+              and r.get("amount_cr") and r["band"] != _BANDS[6]]
+    if not window:
+        return ""
+
+    cells: dict[tuple[str, str], list] = {}
+    for r in window:
+        cells.setdefault((r["band"], r["segment"]), []).append(r)
+
+    used_segments = [s for s in _SEGMENTS if any(k[1] == s for k in cells)]
+    used_bands = [b for b in _BANDS if any(k[0] == b for k in cells)]
+    if not used_segments:
+        return ""
+
+    header = "".join(f'<th style="padding:7px 10px;">{s}</th>' for s in used_segments)
+    rows_html = ""
+    for band in used_bands:
+        row = (f'<td style="padding:7px 10px;border-bottom:1px solid #eee;'
+               f'font-weight:700;">{band.split(" (")[0]}</td>')
+        for seg in used_segments:
+            g = cells.get((band, seg))
+            if not g:
+                row += ('<td style="padding:7px 10px;border-bottom:1px solid #eee;'
+                        'text-align:center;color:#bbb;">—</td>')
+                continue
+            amt = sum(x["amount_cr"] for x in g)
+            wac = sum(x["coupon"] * x["amount_cr"] for x in g) / amt
+            sps = [(x["spread_bps"], x["amount_cr"]) for x in g if x.get("spread_bps") is not None]
+            sp_txt = ""
+            if sps:
+                wsp = sum(s * w for s, w in sps) / sum(w for _, w in sps)
+                sp_txt = f"<br><span style='color:#888;font-size:10.5px;'>{wsp:+.0f} bps vs G-sec</span>"
+            row += (f'<td style="padding:7px 10px;border-bottom:1px solid #eee;'
+                    f'text-align:center;"><b>{wac:.2f}%</b>{sp_txt}'
+                    f"<br><span style='color:#888;font-size:10.5px;'>₹{_fmt_cr(amt)} cr · "
+                    f"{len(g)} deal{'s' if len(g) > 1 else ''}</span></td>")
+        rows_html += f"<tr>{row}</tr>"
+
+    return f"""
+<tr><td style="padding:14px 20px 4px;">
+  <div style="font-size:13px;font-weight:700;color:#cc0000;border-bottom:2px solid #cc0000;padding-bottom:4px;">WHO BORROWS AT WHAT RATE — SINCE {_fy_start().strftime('%b %Y').upper()}</div>
+  <div style="margin-top:5px;font-family:Arial,sans-serif;font-size:11.5px;color:#666;">
+  Value-weighted avg coupon by rating band × issuer segment since {_fy_start().strftime('%d-%b-%Y')},
+  with spread over tenor-matched G-sec ({len(window)} rated deals tracked{'; ' + source_note if source_note else ''}).</div>
+</td></tr>
+<tr><td style="padding:8px 20px;">
+<table width="100%" cellpadding="0" cellspacing="0" style="font-family:Arial,Helvetica,sans-serif;font-size:12px;border:1px solid #e5e5e5;">
+<tr style="background:#1a1a1a;color:#fff;"><th style="padding:7px 10px;text-align:left;">Rating band</th>{header}</tr>
+{rows_html}
+</table>
+</td></tr>"""
+
+
+def _fy_quarter(d: datetime.date) -> tuple[int, int]:
+    """(FY end-year, quarter no) for an Indian-FY quarter: Q1 = Apr-Jun."""
+    fy = d.year + 1 if d.month >= 4 else d.year
+    q = (d.month - 4) % 12 // 3 + 1
+    return fy, q
+
+
+def _quarter_start(fy: int, q: int) -> datetime.date:
+    month = 4 + (q - 1) * 3
+    if month > 12:
+        return datetime.date(fy, month - 12, 1)
+    return datetime.date(fy - 1, month, 1)
+
+
+def _spread_trend_html(records, today=None) -> str:
+    """Quarter-by-quarter trend of value-weighted spread over tenor-matched
+    G-sec for the last year (4 trailing quarters + current quarter-to-date),
+    one row per rating band × issuer segment cohort (AAA PSU, AAA NBFC/HFC,
+    AA Corporate, ...). Spreads are computed against the current G-sec curve
+    (historical daily curves aren't available from the public sources used)."""
+    today = today or datetime.date.today()
+    cur_fy, cur_q = _fy_quarter(today)
+    quarters = []
+    fy, q = cur_fy, cur_q
+    for _ in range(5):
+        quarters.append((fy, q))
+        q -= 1
+        if q == 0:
+            fy, q = fy - 1, 4
+    quarters.reverse()
+    cutoff = _quarter_start(*quarters[0]).isoformat()
+
+    window = [r for r in records
+              if cutoff <= r["allotment_date"] <= today.isoformat()
+              and r.get("spread_bps") is not None
+              and r.get("amount_cr") and r["band"] != _BANDS[6]]
+    if not window:
+        return ""
+    by_q: dict[tuple[int, int], list] = {}
+    for r in window:
+        by_q.setdefault(_fy_quarter(datetime.date.fromisoformat(r["allotment_date"])),
+                        []).append(r)
+    quarters = [qk for qk in quarters if qk in by_q]
+    if len(quarters) < 2:
+        return ""  # a single quarter is no trend — the matrix already covers it
+
+    def q_label(qk):
+        fy, q = qk
+        lab = f"Q{q} FY{str(fy)[-2:]}"
+        return lab + " (QTD)" if qk == (cur_fy, cur_q) else lab
+
+    # grouped by issuer segment first (all NBFC rows, then banks, then
+    # corporates, then PSU), rating bands high-to-low within each group
+    seg_order = ["NBFC/HFC", "Bank/FI", "Corporate", "PSU"]
+    rows_html = ""
+    for seg in seg_order:
+        seg_rows = ""
+        for band in _BANDS[:6]:
+            grp = [r for r in window if r["band"] == band and r["segment"] == seg]
+            if not grp:
+                continue
+            row = (f'<td style="padding:7px 10px;border-bottom:1px solid #eee;'
+                   f'font-weight:700;white-space:nowrap;">{band.split(" (")[0]}</td>')
+            prev_sp = None
+            for qk in quarters:
+                g = [r for r in by_q[qk]
+                     if r["band"] == band and r["segment"] == seg]
+                if not g:
+                    row += ('<td style="padding:7px 10px;border-bottom:1px solid #eee;'
+                            'text-align:center;color:#bbb;">—</td>')
+                    continue
+                w = sum(x["amount_cr"] for x in g)
+                sp = sum(x["spread_bps"] * x["amount_cr"] for x in g) / w
+                arrow = ""
+                if prev_sp is not None and abs(sp - prev_sp) >= 5:
+                    up = sp > prev_sp
+                    arrow = (f" <span style='color:{'#b30000' if up else '#1a6b1a'};"
+                             f"font-size:10px;'>{'▲' if up else '▼'}{abs(sp - prev_sp):.0f}</span>")
+                prev_sp = sp
+                row += (f'<td style="padding:7px 10px;border-bottom:1px solid #eee;'
+                        f'text-align:center;"><b>{sp:+.0f}</b>{arrow}'
+                        f"<br><span style='color:#888;font-size:10.5px;'>"
+                        f"{len(g)} deal{'s' if len(g) > 1 else ''}</span></td>")
+            seg_rows += f"<tr>{row}</tr>"
+        if seg_rows:
+            rows_html += (f'<tr><td colspan="{len(quarters) + 1}" style="background:#f4f4f4;'
+                          f'padding:5px 10px;font-weight:700;color:#555;font-size:11px;'
+                          f'letter-spacing:0.5px;">{seg.upper()}</td></tr>' + seg_rows)
+
+    header = "".join(f'<th style="padding:7px 10px;">{q_label(qk)}</th>' for qk in quarters)
+    return f"""
+<tr><td style="padding:14px 20px 4px;">
+  <div style="font-size:13px;font-weight:700;color:#cc0000;border-bottom:2px solid #cc0000;padding-bottom:4px;">SPREAD TREND OVER G-SEC — QUARTERLY (bps)</div>
+  <div style="margin-top:5px;font-family:Arial,sans-serif;font-size:11.5px;color:#666;">
+  Value-weighted avg spread of rated deals over tenor-matched G-sec, last 4 quarters plus the
+  current quarter-to-date, per rating band × issuer segment cohort. ▲/▼ = change vs prior quarter.
+  Spreads use the stored G-sec curve nearest each deal's date where available (snapshots
+  accumulate daily), else the current curve.</div>
+</td></tr>
+<tr><td style="padding:8px 20px;">
+<table width="100%" cellpadding="0" cellspacing="0" style="font-family:Arial,Helvetica,sans-serif;font-size:12px;border:1px solid #e5e5e5;">
+<tr style="background:#1a1a1a;color:#fff;"><th style="padding:7px 10px;text-align:left;">Rating band</th>{header}</tr>
+{rows_html}
+</table>
+</td></tr>"""
+
+
+def _computed_analysis(issues, fy_total, quarters, prev_total=None, gsec=None) -> list[str]:
+    if not issues:
+        return []
+    lines = []
+    # per-deal coupons/spreads and band groupings live in the tables above —
+    # keep this section to context the tables can't show (curve, FY run-rate)
+    curve = (gsec or {}).get("curve") or {}
+    if curve:
+        pts = " · ".join(f"{t}Y {curve[t]:.2f}%" for t in sorted(curve))
+        lines.append(f"G-sec curve: {pts} (source: {gsec.get('source', 'n/a')}). "
+                     f"Spreads use the closest tenor to each ISIN.")
+
+    # FY-to-date vs last FY
+    if fy_total and fy_total.get("issueSize"):
+        fy_line = (f"Corporate bond issuance FY{fy_total.get('dataForYear', '')} so far: "
+                   f"₹{_fmt_cr(float(fy_total['issueSize']))} cr "
+                   f"({fy_total.get('noOfIsin', '?')} ISINs)")
+        if prev_total and prev_total.get("issueSize"):
+            fy_line += (f" vs FY{prev_total.get('dataForYear', '')} total "
+                        f"₹{_fmt_cr(float(prev_total['issueSize']))} cr "
+                        f"({prev_total.get('noOfIsin', '?')} ISINs)")
+        lines.append(fy_line + ". (Source: NSDL)")
+    return lines
+
+
+def _computed_commentary(issues, watchlist_hits, history, gsec) -> list[str]:
+    """Rule-based analyst bullets — computed from today's pricing vs peer
+    cohorts, no AI/API involved."""
+    bullets = []
+    rated = [i for i in issues if i.get("coupon")]
+    if not rated:
+        return bullets
+
+    # 1) sharpest relative-value signal vs peer cohort
+    best = None
+    for i in rated:
+        v = _peer_verdict(i, history, gsec)
+        if v and (best is None or abs(v[0]) > abs(best[1][0])):
+            best = (i, v)
+    if best:
+        i, (_, vtxt, _, n) = best
+        band = _rating_band(i).split(" (")[0]
+        bullets.append(f"{i['issuer'].title()} {i['coupon']:.2f}% priced {vtxt} — "
+                       f"sharpest signal vs its {band} · {_segment(i)} cohort ({n} peers, 90d).")
+
+    # 2) biggest premium payer of the day
+    with_sp = [(i, _spread_bps(i, gsec)) for i in rated]
+    with_sp = [(i, s) for i, s in with_sp if s]
+    if with_sp:
+        i, s = max(with_sp, key=lambda x: x[1][0])
+        bullets.append(f"Widest spread: {i['issuer'].title()} at +{s[0]} bps over {s[1]}Y G-sec "
+                       f"({i['coupon']:.2f}%, ₹{_fmt_cr(i['issue_size_cr'])} cr, "
+                       f"{i.get('tenure_years') or '?'}y).")
+
+    # 3) batch mix takeaway
+    total = sum(i["issue_size_cr"] for i in issues)
+    if total:
+        fin = sum(i["issue_size_cr"] for i in issues
+                  if _segment(i) in ("NBFC/HFC", "Bank/FI"))
+        line = (f"Financials took {fin / total * 100:.0f}% of today's ₹{_fmt_cr(total)} cr "
+                f"across {len(issues)} deal{'s' if len(issues) > 1 else ''}")
+        if watchlist_hits:
+            line += f"; watchlist active: {', '.join(sorted(set(watchlist_hits))[:3])}"
+        bullets.append(line + ".")
+    return bullets
+
+
+def build_email(issues, fy_total, quarters, watchlist, today,
+                prev_total=None, gsec=None, history=None,
+                matrix_source=None) -> str:
+    date_str = today.strftime("%d %B %Y")
+    watchlist_hits = []
+    unrated = [i for i in issues if _rating_band(i) == _BANDS[-1]]
+    issues = [i for i in issues if _rating_band(i) != _BANDS[-1]]
+    banded: dict[str, list] = {}
+    for i in issues:
+        banded.setdefault(_rating_band(i), []).append(i)
+
+    rows_html = ""
+    for band in _BANDS:
+        group = banded.get(band)
+        if not group:
+            continue
+        group.sort(key=lambda x: -x["issue_size_cr"])
+        band_total = sum(g["issue_size_cr"] for g in group)
+        rows_html += f"""<tr style="background:#3d3d3d;color:#fff;">
+<td colspan="6" style="padding:6px 10px;font-weight:700;font-size:12px;letter-spacing:0.5px;">
+{band.upper()} &nbsp;·&nbsp; {len(group)} issue{'s' if len(group) > 1 else ''} · ₹{_fmt_cr(band_total)} cr</td></tr>"""
+        for i in group:
+            hit = _watchlist_hit(i["issuer"], watchlist)
+            if hit:
+                watchlist_hits.append(i["issuer"].title())
+            star = " ⭐" if hit else ""
+            row_bg = "#fff8e1" if hit else "#ffffff"
+            rating = "; ".join((i.get("ratings") or [])[:2]) or "Not rated / available"
+            sp = _spread_bps(i, gsec)
+            spread_html = (f"<div style='font-size:10px;color:#888;'>{sp[0]:+d} bps vs {sp[1]}Y G-sec</div>"
+                           if sp else "")
+            verdict = _peer_verdict(i, history, gsec)
+            if verdict:
+                _, vtxt, vcol, vn = verdict
+                spread_html += (f"<div style='font-size:10px;color:{vcol};font-weight:700;'>"
+                                f"{vtxt} (n={vn})</div>")
+            prev = _prev_issuance(i, history)
+            if prev:
+                pd = datetime.date.fromisoformat(prev["allotment_date"]).strftime("%d-%b-%y")
+                prev_line = (f"prev {prev['coupon']:.2f}% · "
+                             f"{prev.get('tenure_years') or '?'}y · {pd}")
+                if i.get("coupon"):
+                    d = (i["coupon"] - prev["coupon"]) * 100
+                    if abs(d) >= 5:
+                        prev_line += f" → {abs(d):.0f} bps {'costlier' if d > 0 else 'cheaper'}"
+                        tp, tc = prev.get("tenure_years"), i.get("tenure_years")
+                        if tp and tc and abs(tc - tp) >= 1:
+                            prev_line += f" on {'longer' if tc > tp else 'shorter'} tenor"
+                spread_html += f"<div style='font-size:10px;color:#1a6b1a;'>{prev_line}</div>"
+            rows_html += f"""<tr style="background:{row_bg};">
+<td style="padding:7px 10px;border-bottom:1px solid #eee;font-weight:600;">{i['issuer'].title()}{star}</td>
+<td style="padding:7px 10px;border-bottom:1px solid #eee;font-family:monospace;font-size:11px;">{i['isin']}</td>
+<td style="padding:7px 10px;border-bottom:1px solid #eee;text-align:right;">{_fmt_cr(i['issue_size_cr'])}</td>
+<td style="padding:7px 10px;border-bottom:1px solid #eee;text-align:center;">{_coupon_str(i)}{spread_html}</td>
+<td style="padding:7px 10px;border-bottom:1px solid #eee;text-align:center;">{i.get('tenure_years') or '—'}</td>
+<td style="padding:7px 10px;border-bottom:1px solid #eee;font-size:11px;">{rating}</td>
+</tr>"""
+
+    allot_dates = sorted({i["allotment_date"] for i in issues if i.get("allotment_date")})
+    allot_str = ""
+    if allot_dates:
+        allot_str = " — ALLOTMENT " + _fmt_date(allot_dates[-1]).upper()
+        if len(allot_dates) > 1:
+            allot_str = (" — ALLOTMENT " + _fmt_date(allot_dates[0]).upper()
+                         + " TO " + _fmt_date(allot_dates[-1]).upper())
+
+    analysis_items = _computed_analysis(issues, fy_total, quarters, prev_total, gsec)
+    analysis_html = "".join(f"<li style='padding:3px 0;'>{a}</li>" for a in analysis_items)
+
+    commentary_items = _computed_commentary(issues, watchlist_hits, history, gsec)
+    commentary_html = ""
+    if commentary_items:
+        bullets = "".join(f"<li style='padding:3px 0;'>{b}</li>" for b in commentary_items)
+        commentary_html = f"""
+<tr><td style="padding:14px 20px 4px;">
+  <div style="font-size:13px;font-weight:700;color:#cc0000;border-bottom:2px solid #cc0000;padding-bottom:4px;">ANALYST COMMENTARY</div>
+  <ul style="margin:8px 0 0;padding-left:18px;font-family:Arial,sans-serif;font-size:13px;color:#333;">{bullets}</ul>
+  <div style="margin-top:4px;font-family:Arial,sans-serif;font-size:10px;color:#999;">Auto-computed from today's pricing vs peer cohorts — no AI involved.</div>
+</td></tr>"""
+
+    wl_note = ""
+    if watchlist_hits:
+        wl_note = (f"<div style='margin-top:6px;font-size:12px;color:#8a6d00;'>⭐ Watchlist issuer(s) "
+                   f"in today's batch: <b>{', '.join(sorted(set(watchlist_hits)))}</b></div>")
+
+    empty_html = ""
+    if not issues:
+        empty_html = """<tr><td colspan="6" style="padding:20px;text-align:center;color:#666;font-size:13px;">
+No fresh issuances reported on NSDL India Bond Info for this run.</td></tr>"""
+    excluded_note = ""
+    if unrated:
+        un_total = sum(u["issue_size_cr"] for u in unrated)
+        un_names = ", ".join(u["issuer"].title() for u in unrated[:3])
+        if len(unrated) > 3:
+            un_names += f" +{len(unrated) - 3} more"
+        excluded_note = (f"<div style='margin-top:6px;font-family:Arial,sans-serif;font-size:11px;"
+                         f"color:#888;'>Not rated / rating unavailable (excluded from table): "
+                         f"{len(unrated)} issue{'s' if len(unrated) > 1 else ''} totalling "
+                         f"₹{_fmt_cr(un_total)} cr — {un_names}.</div>")
+
+    return f"""<html><body style="margin:0;padding:0;background:#f0f0f0;font-family:Georgia,'Times New Roman',serif;">
+<div style="max-width:760px;margin:0 auto;background:#ffffff;">
+<table width="100%" cellpadding="0" cellspacing="0" style="background:#1a1a1a;">
+<tr><td style="padding:16px 20px;text-align:center;">
+  <div style="font-size:24px;font-weight:700;color:#ffffff;letter-spacing:1px;">NSDL NEW DEBT ISSUANCES</div>
+  <div style="font-size:12px;color:#cccccc;padding-top:4px;">Primary market — who borrowed, how much, at what rate &nbsp;·&nbsp; {date_str}</div>
+</td></tr>
+</table>
+
+<table width="100%" cellpadding="0" cellspacing="0">
+<tr><td style="padding:16px 20px 4px;">
+  <div style="font-size:13px;font-weight:700;color:#cc0000;border-bottom:2px solid #cc0000;padding-bottom:4px;">FRESH ISSUANCES{allot_str} (SOURCE: NSDL INDIA BOND INFO)</div>
+  {wl_note}
+</td></tr>
+<tr><td style="padding:8px 20px;">
+<table width="100%" cellpadding="0" cellspacing="0" style="font-family:Arial,Helvetica,sans-serif;font-size:12.5px;border:1px solid #e5e5e5;">
+<tr style="background:#1a1a1a;color:#fff;">
+  <th style="padding:8px 10px;text-align:left;">Issuer</th>
+  <th style="padding:8px 10px;text-align:left;">ISIN</th>
+  <th style="padding:8px 10px;text-align:right;">₹ cr</th>
+  <th style="padding:8px 10px;">Coupon</th>
+  <th style="padding:8px 10px;">Tenor (y)</th>
+  <th style="padding:8px 10px;text-align:left;">Rating / Type</th>
+</tr>
+{rows_html}{empty_html}
+</table>
+{excluded_note}
+</td></tr>
+
+<tr><td style="padding:14px 20px 4px;">
+  <div style="font-size:13px;font-weight:700;color:#cc0000;border-bottom:2px solid #cc0000;padding-bottom:4px;">MARKET SNAPSHOT</div>
+  <ul style="margin:8px 0 0;padding-left:18px;font-family:Arial,sans-serif;font-size:13px;color:#333;">{analysis_html}</ul>
+</td></tr>
+{_cohort_matrix_html(history or [], source_note=matrix_source)}
+{_spread_trend_html(history or [])}
+{commentary_html}
+
+<tr><td style="padding:16px 20px;font-family:Arial,sans-serif;font-size:10px;color:#999;">
+Source: NSDL India Bond Info (indiabondinfo.nsdl.com) public corporate bond database. Coupon/rating
+shown where disclosed via the ISIN detail feed; “—” means not yet published. Amounts in ₹ crore.
+</td></tr>
+</table>
+
+<table width="100%" cellpadding="0" cellspacing="0" style="background:#1a1a1a;">
+<tr><td style="padding:8px 20px;text-align:center;font-size:10px;color:#555;">
+  <span style="color:#cc0000;font-weight:700;">NSDL Issuance Tracker</span> — {date_str}<br>
+  <em>&#128274; Confidential — Internal Use Only</em>
+</td></tr>
+</table>
+</div></body></html>"""
+
+
+def _build_xlsx(history, today) -> bytes | None:
+    """All deals since FY start as an xlsx for offline pivoting; None if
+    openpyxl is unavailable or there is nothing to export."""
+    try:
+        import io
+        from openpyxl import Workbook
+    except ImportError:
+        print("[nsdl_issuance] openpyxl not installed — skipping xlsx attachment")
+        return None
+    cutoff = _fy_start().isoformat()
+    rows = [r for r in history or []
+            if cutoff <= r["allotment_date"] <= today.isoformat()]
+    if not rows:
+        return None
+    wb = Workbook()
+    ws = wb.active
+    ws.title = "Issuances FY"
+    ws.append(["ISIN", "Issuer", "Allotment", "Amount (₹ cr)", "Coupon %",
+               "Tenor (y)", "Tenor bucket", "Rating band", "Segment",
+               "Spread (bps)", "Ratings"])
+    for r in sorted(rows, key=lambda x: x["allotment_date"], reverse=True):
+        ws.append([r["isin"], r["issuer"].title(), r["allotment_date"],
+                   r.get("amount_cr"), r.get("coupon"), r.get("tenure_years"),
+                   _tenor_bucket(r.get("tenure_years")) or "",
+                   r["band"].split(" (")[0], r["segment"], r.get("spread_bps"),
+                   "; ".join(r.get("ratings") or [])])
+    ws.freeze_panes = "A2"
+    buf = io.BytesIO()
+    wb.save(buf)
+    return buf.getvalue()
+
+
+def send_email(subject: str, html_body: str, gmail_user: str, gmail_password: str,
+               attachment: tuple[bytes, str] | None = None) -> None:
+    recipients = _recipients()
+    msg = MIMEMultipart("mixed")
+    msg["Subject"] = subject
+    msg["From"] = gmail_user
+    msg["To"] = ", ".join(recipients)
+    alt = MIMEMultipart("alternative")
+    alt.attach(MIMEText(html_body, "html", "utf-8"))
+    msg.attach(alt)
+    if attachment:
+        from email.mime.application import MIMEApplication
+        part = MIMEApplication(
+            attachment[0],
+            _subtype="vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+        part.add_header("Content-Disposition", "attachment", filename=attachment[1])
+        msg.attach(part)
+    with smtplib.SMTP_SSL("smtp.gmail.com", 465) as server:
+        server.login(gmail_user, gmail_password)
+        server.sendmail(gmail_user, recipients, msg.as_string())
+    print(f"[nsdl_issuance] Email sent to {', '.join(recipients)}"
+          + (" (with xlsx attachment)" if attachment else ""))
+
+
+def main() -> None:
+    gmail_user = os.environ["GMAIL_USER"]
+    gmail_password = os.environ["GMAIL_APP_PASSWORD"]
+    debug = os.environ.get("NSDL_DEBUG", "").lower() == "true"
+    today = datetime.date.today()
+
+    print("[nsdl_issuance] Fetching NSDL new issuance data...")
+    data = fetch_new_issuances(debug=debug)
+    issues = data["issues"]
+    print(f"[nsdl_issuance] {len(issues)} issuances fetched")
+    for i in issues:
+        print(f"  {i['issuer']} | ₹{i['issue_size_cr']} cr | {_coupon_str(i)} | "
+              f"allot {_fmt_date(i['allotment_date'])} | tenor {i.get('tenure_years')}y")
+
+    watchlist = _load_watchlist()
+    gsec = data.get("gsec")
+    gsec_hist = _update_gsec_history(gsec, today)
+    issuer_meta = _update_issuer_meta(_load_issuer_meta(), issues, today)
+
+    # the entire-list file gives full since-April coverage for the matrix,
+    # years of prior deals for the prev-issuance/peer lookups, and a second
+    # rating source for fresh ISINs the rating-actions feed missed; the
+    # self-accumulated history file is the fallback when that fetch fails
+    matrix_source = None
+    dl = None
+    try:
+        dl = fetch_debt_list(debug=debug)
+    except Exception as exc:
+        print(f"[nsdl_issuance] debt list fetch failed (using daily history): {exc}")
+
+    if dl and dl.get("records"):
+        by_isin = {r["isin"]: r for r in dl["records"] if r.get("rating")}
+        by_issuer: dict[str, dict] = {}
+        for r in dl["records"]:
+            if r.get("rating"):
+                k = _norm(r["issuer"])
+                if k not in by_issuer or r["allotment_date"] > by_issuer[k]["allotment_date"]:
+                    by_issuer[k] = r
+        filled = 0
+        for i in issues:
+            if i.get("ratings"):
+                continue
+            src = by_isin.get(i["isin"])
+            if not src:
+                cand = by_issuer.get(_norm(i["issuer"]))
+                if cand and (today - cand["allotment_date"]).days <= 400:
+                    src = cand
+            if src:
+                i["ratings"] = [f"{src.get('rating_agency') or ''} {src['rating']}".strip()]
+                filled += 1
+        if filled:
+            print(f"[nsdl_issuance] ratings backfilled from debt list: {filled}")
+
+    history = _update_history(issues, gsec)
+    print(f"[nsdl_issuance] history: {len(history)} records in trailing window")
+
+    if dl and dl.get("records"):
+        dl_history = _debt_list_history(dl, gsec, issuer_meta=issuer_meta,
+                                        gsec_hist=gsec_hist)
+        if dl_history:
+            history = dl_history
+            matrix_source = (f"source: NSDL detailed list of debt instruments "
+                             f"as on {dl.get('as_on') or 'latest'}")
+            print(f"[nsdl_issuance] debt list: {len(dl_history)} records "
+                  f"as on {dl.get('as_on')}")
+
+    html = build_email(issues, data["fy_total"], data["quarters"], watchlist, today,
+                       prev_total=data.get("prev_total"), gsec=gsec,
+                       history=history, matrix_source=matrix_source)
+    xlsx = _build_xlsx(history, today)
+    attachment = None
+    if xlsx:
+        fy = _fy_start().year + 1
+        attachment = (xlsx, f"nsdl_issuances_FY{str(fy)[-2:]}_{today.isoformat()}.xlsx")
+    subject = f"NSDL New Debt Issuances — {today.strftime('%d %b %Y')}"
+    if not issues:
+        subject += " (no fresh issues)"
+    send_email(subject, html, gmail_user, gmail_password, attachment=attachment)
+
+
+if __name__ == "__main__":
+    main()
