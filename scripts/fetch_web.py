@@ -756,17 +756,24 @@ def fetch_bse_rss(companies=None) -> list[str]:
         # doubles the odds a given company's filing falls inside the
         # scanned slice that morning.
         #
-        # Per-feed OUTPUT cap raised 12->30 after confirming a real run hit
-        # the old 12-item cap on "BSE Announcement" exactly -- meaning more
-        # than 12 watchlist companies had a filing in the scanned window
-        # that morning, and any company whose filing appeared after the
-        # 12th match (in feed order, not priority order) was silently
-        # dropped even though it WAS found. A routine, high-volume filing
+        # Per-feed OUTPUT cap history: 12->30->400, each raise re-hit by real
+        # volume. Confirmed directly again via the raw= diagnostic: a real
+        # run had raw=1040 entries for "BSE Announcement" (already above the
+        # 800 scan_cap) and kept EXACTLY 400 -- the output cap, not the scan
+        # window, truncated it, dropping genuine watchlist matches (traced:
+        # an Earlysalary NCD-interest bounce notice and a Hiranandani Reg.
+        # 57(1) certificate, both real S1 news, both missing that day) in
+        # feed order rather than by priority. A routine, high-volume filing
         # type (e.g. SEBI LODR Reg 57(1) NCD interest-certificate filings,
         # which every NCD issuer files every period) makes this collision
-        # more likely, not less -- confirmed as the traced cause for one
-        # specific missed filing. Still bounded by the items[:80] cap below.
-        scan_cap = 800 if watchlist_only else 80
+        # more likely, not less. Since watchlist_only feeds are already
+        # filtered to the ~370 tracked companies, there is no reason for the
+        # output cap to sit below the scan window at all -- raised the scan
+        # window itself to comfortably clear the observed 1040 (with
+        # headroom for growth) and made the output cap equal to it, so the
+        # only limit left is "did we scan far enough back", not an arbitrary
+        # second cut after matching already narrowed the set.
+        scan_cap = 1500 if watchlist_only else 80
         count = 0
         n_raw = len(entries)
         n_stale = 0
@@ -798,7 +805,7 @@ def fetch_bse_rss(companies=None) -> list[str]:
             # ever surface 30 of them under the old cap, in feed order, not
             # by materiality. "BSE Notice" stays modest since it also
             # admits non-watchlist T1 items on credit keywords alone.
-            if count >= (400 if watchlist_only else 30):
+            if count >= (1500 if watchlist_only else 30):
                 break
         # raw = entries the feed itself returned (before any filtering); a
         # persistent 0 kept with raw>0 means the miss is in matching
@@ -807,10 +814,11 @@ def fetch_bse_rss(companies=None) -> list[str]:
         # this log line alone.
         print(f"[fetch_web] BSE RSS {tag}: {count} items "
               f"(from {used}, raw={n_raw}, stale={n_stale})")
-    # Raised 80->450 alongside the per-feed caps above -- a shared total
-    # across 9 feeds needs headroom to match watchlist-scale output, not a
-    # leftover from when this covered 3 feeds at a much smaller per-feed cap.
-    return items[:450]
+    # Raised 80->450->2000 alongside the per-feed caps above -- "BSE
+    # Announcement" alone hit 400/450 on a real run (raw=1040), so the
+    # shared total across all 9 feeds needed headroom well beyond one
+    # feed's old per-feed cap, not just a small bump.
+    return items[:2000]
 
 
 # ─────────────────────────────────────────────────────────────────────────────
