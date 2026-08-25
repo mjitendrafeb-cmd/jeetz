@@ -622,6 +622,7 @@ def fetch_nse_rss(companies=None) -> list[str]:
             count = 0
             n_raw = len(feed.entries)
             n_stale = 0
+            sample_titles = []
             for entry in feed.entries[:scan_cap]:
                 if not _entry_recent(entry, 48):
                     n_stale += 1
@@ -630,6 +631,8 @@ def fetch_nse_rss(companies=None) -> list[str]:
                 desc = _clean(entry.get("summary", entry.get("description", ""))).strip()
                 if not title:
                     continue
+                if len(sample_titles) < 3:
+                    sample_titles.append(title)
                 combined = (title + " " + desc).lower()
                 if tag == "NSE Circular":
                     keep, is_watch = _exchange_keep(combined, watch)
@@ -662,6 +665,13 @@ def fetch_nse_rss(companies=None) -> list[str]:
             # two used to be indistinguishable from this log line alone.
             print(f"[fetch_web] NSE RSS {tag}: {count} items "
                   f"(raw={n_raw}, stale={n_stale})")
+            # 0 kept despite raw>0 needs a sample of what the feed's <title>
+            # actually looks like to diagnose further -- e.g. confirming
+            # whether the company name is even present in a matchable form,
+            # as opposed to a scrip code or a filing-type-only string.
+            if count == 0 and sample_titles:
+                print(f"[fetch_web] NSE RSS {tag}: sample raw titles: "
+                      f"{sample_titles}")
         except Exception as exc:
             print(f"[fetch_web] NSE RSS error ({url}): {exc}")
     # Raised 80->450 alongside the per-feed caps above -- a shared total
@@ -777,6 +787,7 @@ def fetch_bse_rss(companies=None) -> list[str]:
         count = 0
         n_raw = len(entries)
         n_stale = 0
+        sample_titles = []
         for entry in entries[:scan_cap]:
             pub_str, recent = _entry_pub(entry)
             if not recent:
@@ -786,6 +797,8 @@ def fetch_bse_rss(companies=None) -> list[str]:
             desc = _clean(entry.get("summary", entry.get("description", ""))).strip()
             if not title:
                 continue
+            if len(sample_titles) < 3:
+                sample_titles.append(title)
             combined = (title + " " + desc).lower()
             keep, is_watch = _exchange_keep(combined, watch, watchlist_only=watchlist_only)
             if not keep:
@@ -814,6 +827,8 @@ def fetch_bse_rss(companies=None) -> list[str]:
         # this log line alone.
         print(f"[fetch_web] BSE RSS {tag}: {count} items "
               f"(from {used}, raw={n_raw}, stale={n_stale})")
+        if count == 0 and sample_titles:
+            print(f"[fetch_web] BSE RSS {tag}: sample raw titles: {sample_titles}")
     # Raised 80->450->2000 alongside the per-feed caps above -- "BSE
     # Announcement" alone hit 400/450 on a real run (raw=1040), so the
     # shared total across all 9 feeds needed headroom well beyond one
