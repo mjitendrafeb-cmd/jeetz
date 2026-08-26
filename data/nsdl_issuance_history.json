@@ -1,0 +1,230 @@
+{
+ "records": [
+  {
+   "isin": "INE01CYA7476",
+   "issuer": "ICL FINCORP LIMITED",
+   "allotment_date": "2026-08-25",
+   "amount_cr": 0.0,
+   "coupon": 10.75,
+   "tenure_years": 2.0,
+   "band": "BBB band",
+   "segment": "NBFC/HFC",
+   "spread_bps": 465,
+   "ratings": [
+    "Acuit\u00e9 BBB-"
+   ]
+  },
+  {
+   "isin": "INE01CYA7468",
+   "issuer": "ICL FINCORP LIMITED",
+   "allotment_date": "2026-08-25",
+   "amount_cr": 1.0,
+   "coupon": 11.25,
+   "tenure_years": 3.0,
+   "band": "BBB band",
+   "segment": "NBFC/HFC",
+   "spread_bps": 500,
+   "ratings": [
+    "Acuit\u00e9 BBB-"
+   ]
+  },
+  {
+   "isin": "INE01CYA7484",
+   "issuer": "ICL FINCORP LIMITED",
+   "allotment_date": "2026-08-25",
+   "amount_cr": 3.0,
+   "coupon": null,
+   "tenure_years": 3.0,
+   "band": "BBB band",
+   "segment": "NBFC/HFC",
+   "spread_bps": null,
+   "ratings": [
+    "Acuit\u00e9 BBB-"
+   ]
+  },
+  {
+   "isin": "INE01CYA7492",
+   "issuer": "ICL FINCORP LIMITED",
+   "allotment_date": "2026-08-25",
+   "amount_cr": 4.0,
+   "coupon": null,
+   "tenure_years": 2.0,
+   "band": "BBB band",
+   "segment": "NBFC/HFC",
+   "spread_bps": null,
+   "ratings": [
+    "Acuit\u00e9 BBB-"
+   ]
+  },
+  {
+   "isin": "INE01CYA7534",
+   "issuer": "ICL FINCORP LIMITED",
+   "allotment_date": "2026-08-25",
+   "amount_cr": 5.0,
+   "coupon": 10.5,
+   "tenure_years": 2.0,
+   "band": "BBB band",
+   "segment": "NBFC/HFC",
+   "spread_bps": 440,
+   "ratings": [
+    "Acuit\u00e9 BBB-"
+   ]
+  },
+  {
+   "isin": "INE01CYA7443",
+   "issuer": "ICL FINCORP LIMITED",
+   "allotment_date": "2026-08-25",
+   "amount_cr": 8.0,
+   "coupon": null,
+   "tenure_years": 6.0,
+   "band": "BBB band",
+   "segment": "NBFC/HFC",
+   "spread_bps": null,
+   "ratings": [
+    "Acuit\u00e9 BBB-"
+   ]
+  },
+  {
+   "isin": "INE01CYA7526",
+   "issuer": "ICL FINCORP LIMITED",
+   "allotment_date": "2026-08-25",
+   "amount_cr": 12.0,
+   "coupon": 11.0,
+   "tenure_years": 3.0,
+   "band": "BBB band",
+   "segment": "NBFC/HFC",
+   "spread_bps": 475,
+   "ratings": [
+    "Acuit\u00e9 BBB-"
+   ]
+  },
+  {
+   "isin": "INE01CYA7518",
+   "issuer": "ICL FINCORP LIMITED",
+   "allotment_date": "2026-08-25",
+   "amount_cr": 12.0,
+   "coupon": 11.5,
+   "tenure_years": 5.0,
+   "band": "BBB band",
+   "segment": "NBFC/HFC",
+   "spread_bps": 504,
+   "ratings": [
+    "Acuit\u00e9 BBB-"
+   ]
+  },
+  {
+   "isin": "INE01CYA7542",
+   "issuer": "ICL FINCORP LIMITED",
+   "allotment_date": "2026-08-25",
+   "amount_cr": 13.0,
+   "coupon": 10.0,
+   "tenure_years": 1.1,
+   "band": "BBB band",
+   "segment": "NBFC/HFC",
+   "spread_bps": 421,
+   "ratings": [
+    "Acuit\u00e9 BBB-"
+   ]
+  },
+  {
+   "isin": "INE01CYA7500",
+   "issuer": "ICL FINCORP LIMITED",
+   "allotment_date": "2026-08-25",
+   "amount_cr": 15.0,
+   "coupon": null,
+   "tenure_years": 1.1,
+   "band": "BBB band",
+   "segment": "NBFC/HFC",
+   "spread_bps": null,
+   "ratings": [
+    "Acuit\u00e9 BBB-"
+   ]
+  },
+  {
+   "isin": "INE786X07BM8",
+   "issuer": "ORANGE RETAIL FINANCE INDIA PRIVATE LIMITED",
+   "allotment_date": "2026-08-25",
+   "amount_cr": 50.0,
+   "coupon": 11.5,
+   "tenure_years": 2.0,
+   "band": "BBB band",
+   "segment": "NBFC/HFC",
+   "spread_bps": 540,
+   "ratings": [
+    "ICRA BBB-"
+   ]
+  },
+  {
+   "isin": "INE0DG907388",
+   "issuer": "RUPEEK CAPITAL PRIVATE LIMITED",
+   "allotment_date": "2026-08-25",
+   "amount_cr": 75.0,
+   "coupon": 11.0,
+   "tenure_years": 1.5,
+   "band": "BBB band",
+   "segment": "NBFC/HFC",
+   "spread_bps": 521,
+   "ratings": [
+    "IND-Ra BBB+"
+   ]
+  },
+  {
+   "isin": "INE07HK07882",
+   "issuer": "KRAZYBEE SERVICES LIMITED",
+   "allotment_date": "2026-08-25",
+   "amount_cr": 150.0,
+   "coupon": 9.9,
+   "tenure_years": 2.0,
+   "band": "A band (A+/A/A-)",
+   "segment": "NBFC/HFC",
+   "spread_bps": 380,
+   "ratings": [
+    "CRISIL A+"
+   ]
+  },
+  {
+   "isin": "INE523L07AY7",
+   "issuer": "NUVAMA WEALTH AND INVESTMENT LIMITED",
+   "allotment_date": "2026-08-25",
+   "amount_cr": 150.0,
+   "coupon": null,
+   "tenure_years": 9.9,
+   "band": "AA band (AA+/AA/AA-)",
+   "segment": "Corporate",
+   "spread_bps": null,
+   "ratings": [
+    "Acuit\u00e9 AA",
+    "CareEdge AA"
+   ]
+  },
+  {
+   "isin": "INE729N08121",
+   "issuer": "TVS CREDIT SERVICES LIMITED",
+   "allotment_date": "2026-08-25",
+   "amount_cr": 500.0,
+   "coupon": 8.7,
+   "tenure_years": 6.0,
+   "band": "AA band (AA+/AA/AA-)",
+   "segment": "NBFC/HFC",
+   "spread_bps": 224,
+   "ratings": [
+    "ICRA AA+"
+   ]
+  },
+  {
+   "isin": "INE134E08OD1",
+   "issuer": "POWER FINANCE CORPORATION LIMITED",
+   "allotment_date": "2026-08-25",
+   "amount_cr": 2500.0,
+   "coupon": 7.55,
+   "tenure_years": 15.0,
+   "band": "AAA",
+   "segment": "PSU",
+   "spread_bps": 70,
+   "ratings": [
+    "CRISIL AAA",
+    "ICRA AAA"
+   ]
+  }
+ ]
+}

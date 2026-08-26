@@ -1,0 +1,30 @@
+{
+ "icl fincorp": {
+  "segment": "NBFC/HFC",
+  "updated": "2026-08-26"
+ },
+ "krazybee services": {
+  "segment": "NBFC/HFC",
+  "updated": "2026-08-26"
+ },
+ "nuvama wealth and investment": {
+  "segment": "Corporate",
+  "updated": "2026-08-26"
+ },
+ "orange retail finance": {
+  "segment": "NBFC/HFC",
+  "updated": "2026-08-26"
+ },
+ "power finance": {
+  "segment": "PSU",
+  "updated": "2026-08-26"
+ },
+ "rupeek capital": {
+  "segment": "NBFC/HFC",
+  "updated": "2026-08-26"
+ },
+ "tvs credit services": {
+  "segment": "NBFC/HFC",
+  "updated": "2026-08-26"
+ }
+}
