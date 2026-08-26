@@ -1,79 +1,6 @@
 [
  {
   "date": "2026-08-20",
-  "fetched": 3822,
-  "delivered_pool": 445,
-  "junk": 964,
-  "geo": 117,
-  "stale": 638,
-  "dup": 1323,
-  "sections": {
-   "S1": 382,
-   "S2": 41,
-   "S3": 22
-  },
-  "mails": 2,
-  "failed": [],
-  "source_summary": {
-   "RBI RSS": 19,
-   "RBI Enforcement": 0,
-   "SEBI RSS": 20,
-   "Google News": 25,
-   "Watchlist (Google)": 873,
-   "BSE Announcements": 0,
-   "BSE Financials": 0,
-   "Telegram": 63,
-   "Web Scraper": 208
-  },
-  "dropped_samples": {
-   "relevance": [
-    "Premature redemption under Sovereign Gold Bond (SGB) Scheme - Redemption Price for premature redemption of SGB",
-    "Developments in India\u2019s Balance of Payments for the Month of June 2026",
-    "Relaxations in Know Your Client (KYC) norms for individual Persons Resident Outside India (i.e",
-    "Framework for Calculation of Net Distributable Cash Flows for InvITs",
-    "Anantam Highways Trust hosts Q4FY26 earnings call on Aug 17",
-    "Petronet LNG Q1 Results: Earnings call scheduled for Aug 13, 2026",
-    "Balrampur Chini Mills reports consolidated profit of Rs 44.15 crore in June quarter, appoints new independent ",
-    "VRL Logistics Q1 Results: Earnings Call Scheduled for Aug 5",
-    "Bhanu Infrabuild Pvt reports standalone net loss of Rs 21.19 crore in the June 2026 quarter",
-    "3M India Q1 Results: Net Profit Surges 31% YoY, But EBITDA Margin Narrows To 16.7%",
-    "Systematix sees 12% UPSIDE in Page Industries Ltd- Demand holds up; margin recovery remains a key monitorable",
-    "Systematix Initiating Coverage on Deepak Fertilisers & Petrochemicals Corp Ltd, with 30% UPSIDE- The ammonia k",
-    "Systematix sees 33% UPSIDE in NMDC Ltd- Earnings in line; production ramp up to drive growth",
-    "Indo Count Inds, with 41% UPSIDE- New business drives growth; expect core to bounce back Midwest, with 16% UPS",
-    "Motilal Oswal\u2019s Morning India- Today\u2019s top research idea (14-Aug-26)",
-    "Systematix Update on GHCL Textiles Ltd- Moving up the value chain",
-    "Systematix sees 12% UPSIDE in Gujarat Energy Ltd- Strong Quarter, but Propane Competition Overhang to Persist",
-    "MNCL sees 26% UPSIDE in La Opala- Cautiously optimistic",
-    "PL Capital sees 33% UPSIDE in CESC- RE guidance upgraded",
-    "PL Capital sees 16% UPSIDE in Apollo Hospitals Enterprise- Strong show in hospital segment"
-   ],
-   "junk": [
-    "General Remittance Order dated 14.08.2026 in Recovery Certificate No",
-    "General Remittance Order dated 14.08.2026 in Recovery Certificate No",
-    "General Remittance Order dated 14.08.2026 in Recovery Certificate No",
-    "General Remittance Order dated 14.08.2026 in Recovery Certificate No",
-    "Completion of Recovery Certificate No",
-    "Appeal No. 6992 of 2026 filed by Rakesh Mohan Rai",
-    "Appeal No. 6991 of 2026 filed by Parivesh Shukla",
-    "Appeal No. 6990 of 2026 filed by Vikas Jain",
-    "Appeal No. 6989 of 2026 filed by Valji Narayan Bhadra",
-    "Appeal No. 6988 of 2026 filed by Neeraj Sisodia",
-    "Appeal No. 6987 of 2026 filed by Sunil Rohilla",
-    "Appeal No. 6980 of 2026 filed by Ebenezer R",
-    "Appeal No. 6983 of 2026 filed by Anivesh Kumar Pandey",
-    "Adjudication Order in respect of Fatmabibi Yusufbhai Rangwala in the matter of Illiquid Stock Options at BSE",
-    "Top stock picks: Analysts recommend Bosch, Tata Power, Adani Ports, 360 One WAM, L&T, BEL",
-    "Buy Star Cement; target of Rs 265: Anand Rathi",
-    "Buy Fine Organic Industries; target of Rs 6000: Anand Rathi",
-    "Buy TD Power Systems; target of Rs 1751: Anand Rathi",
-    "Angel One Share Price - Live NSE: ANGELONE Stock Price & Chart",
-    "Aptus Value Housing Number of Employees 2026"
-   ]
-  }
- },
- {
-  "date": "2026-08-20",
   "fetched": 3833,
   "delivered_pool": 462,
   "junk": 973,
@@ -2177,6 +2104,78 @@
     "Subscribe for Augmont Enterprises Ltd IPO; Anand Rathi",
     "Subscribe for Hy Tech Engineers Ltd IPO; Anand Rathi",
     "Augmont Enterprises IPO Opens Today: 10 Key Things To Know Before You Subscribe"
+   ]
+  }
+ },
+ {
+  "date": "2026-08-26",
+  "fetched": 2682,
+  "delivered_pool": 124,
+  "junk": 1133,
+  "geo": 17,
+  "stale": 433,
+  "dup": 770,
+  "sections": {
+   "S1": 102,
+   "S2": 17,
+   "S3": 5
+  },
+  "mails": 40,
+  "failed": [],
+  "source_summary": {
+   "RBI RSS": 20,
+   "RBI Enforcement": 0,
+   "SEBI RSS": 20,
+   "Google News": 0,
+   "Watchlist (Google)": 0,
+   "BSE Financials": 0,
+   "Telegram": 57,
+   "Web Scraper": 959
+  },
+  "dropped_samples": {
+   "relevance": [
+    "General Remittance Advice against: Madhu Gupta (PAN: ABUPG9329D) [Defaulter] in the matter of dealing in Illiq",
+    "Appeal No. 6994 & 6995 of 2026 filed by Kotha Mahendar Reddy",
+    "Ease of onboarding for FPIs \u2013 Acceptance of digitally signed Power of Attorney",
+    "IIFCL Raises $200 Million Through Two ECB Transactions - DebtCircle",
+    "Shriram bullish on CV growth despite recent price hikes",
+    "Anantam Highways Trust releases Q1FY27 earnings call transcript",
+    "Indian Energy Exchange hosts analyst and investor meetings on August 18",
+    "Bharti Airtel Q1 preview: Analysts see 15% revenue growth; ARPU may rise 2%",
+    "Balrampur Chini Mills profit falls 10% in Q1FY27; appoints Vartika Shukla",
+    "Maxgrow India consolidated net profit rises 190.19% in the June 2026 quarter",
+    "VRL Logistics Q1 Results: Earnings Call Scheduled for Aug 5",
+    "Jharkhand Road Projects Implementation Co standalone net profit declines 43.41% in the June 2026 quarter",
+    "Stellantis Reports Q2 2026 Financial Results",
+    "Sun Pharma update on Lipitor antitrust litigation in US court",
+    "SBI Securities sees 36% UPSIDE in KPI Green Energy Ltd.- Growth impacted by project billing delays; underlying",
+    "PL Capital sees 6% UPSIDE in Navin Fluorine International- Advance material to be 10%-15% of topline by FY30",
+    "Emkay Initiating Coverage on Pearl Global Industries, with 15% UPSIDE- Stars are aligned; initiate with BUY",
+    "Midas Research sees 33% UPSIDE in Kilburn Engineering Ltd",
+    "Systematix Update on Kalpataru Projects International Ltd- Resilience in rough weather",
+    "Iran war news LIVE Updates: Bessent to announce new US sanctions against Iran on Monday"
+   ],
+   "junk": [
+    "Final Order in the matter of Modex International Securities Ltd.",
+    "Appeal No. 7001 of 2026 filed by Prakash Singh",
+    "Appeal No. 7000 of 2026 filed by R N Rajan",
+    "Appeal No. 6999 of 2026 filed by T Velsankar",
+    "Appeal No. 6998 of 2026 filed by Keshaw Prajapati",
+    "Appeal No. 6997 of 2026 filed by Rajeev Bakshi",
+    "Appeal No. 6996 of 2026 filed by Savita",
+    "Appeal No. 6993 of 2026 filed by Virendra Kumar",
+    "Order in the matter of certain Investment Advisers",
+    "Release Order for RC 7522 of 2024 against Kapil Kumar Wadhawan (PAN \u2013 AAOPW6145L) in the matter of Transaction",
+    "Final Order in respect of Trade Nexa Research Investment Advisor Prop-Minakshi Asavani",
+    "Remittance order in Recovery Certificate No",
+    "Remittance order in Recovery Certificate No",
+    "Federal Bank Ltd Share Price Today,, FEDERALBNK Share Price NSE, BSE",
+    "SEBI F&O Curbs Cut Active Trader Participation by 20% in FY26, Yet Aggregate Losses Reach \u20b991,685 Crore - Non-",
+    "360 One Wam Ltd. Share Price Today: Finance Stock Focus",
+    "Subscribe for Augmont Enterprises Ltd IPO; Anand Rathi",
+    "Augmont Enterprises IPO Opens Today: 10 Key Things To Know Before You Subscribe",
+    "Tempsens Instruments IPO Opens Today: 10 Key Things To Know Before You Subscribe",
+    "Max Healthcare Share Price Target at Rs 1,220: Anand Rathi"
    ]
   }
  }
