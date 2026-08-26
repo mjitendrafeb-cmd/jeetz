@@ -2934,7 +2934,7 @@ def _nsdl_s1_items(rows: list[dict], today_d, lookback_days: int) -> list[dict]:
         return []
     print(f"[nsdl] {len(issues)} recent allotment(s) on NSDL's public feed")
 
-    items = []
+    matched = []
     for iss in issues:
         allot = iss.get("allotment_date")
         if not allot or (today_d - allot).days > lookback_days:
@@ -2943,11 +2943,25 @@ def _nsdl_s1_items(rows: list[dict], today_d, lookback_days: int) -> list[dict]:
         companies = _match_companies(probe, rows)
         if not companies:
             continue
-        try:
-            detail = fetch_nsdl_issuance.fetch_issue_detail(iss["isin"])
-        except Exception as exc:
-            print(f"[nsdl] detail lookup failed for {iss['isin']}: {exc}")
-            detail = {}
+        matched.append((iss, companies))
+
+    # Detail lookups (coupon/rating/secured) go out CONCURRENTLY over one
+    # shared session, each hard-bounded by its own timeout -- doing this
+    # sequentially, one fetch_issue_detail() call (3 blocking HTTP requests
+    # each) per matched entity, cost up to ~120s/entity worst-case with
+    # nothing capping the total and was observed live as a 40+ minute
+    # stuck run on a day NSDL's site was slow. A dropped detail lookup
+    # costs only that entity's coupon/rating text, never the run.
+    try:
+        details = fetch_nsdl_issuance.fetch_issue_details_parallel(
+            [iss["isin"] for iss, _ in matched])
+    except Exception as exc:
+        print(f"[nsdl] detail lookups failed, proceeding without them: {exc}")
+        details = {}
+
+    items = []
+    for iss, companies in matched:
+        detail = details.get(iss["isin"], {})
         amount = f"{iss['issue_size_cr']:,.0f}" if iss["issue_size_cr"] else ""
         coupon = detail.get("coupon")
         coupon_str = f"{coupon:g}% coupon" if coupon else (detail.get("coupon_text") or "")
