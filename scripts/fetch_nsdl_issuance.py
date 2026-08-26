@@ -19,6 +19,7 @@ Run standalone for a console dump: python fetch_nsdl_issuance.py
 import datetime
 import json
 import re
+from concurrent.futures import ThreadPoolExecutor
 
 import requests
 
@@ -217,6 +218,38 @@ def fetch_issue_detail(isin: str, debug: bool = False) -> dict:
     session = _session()
     prefix = _api_prefix(session)
     return _isin_details(session, prefix, isin, debug=debug)
+
+
+def fetch_issue_details_parallel(isins: list[str], max_workers: int = 8,
+                                  per_call_timeout: float = 15,
+                                  debug: bool = False) -> dict:
+    """{isin: detail} for several ISINs, fetched concurrently over ONE
+    shared session/API-prefix lookup rather than each isin re-deriving its
+    own (a real hang: fetch_issue_detail() alone does 3 sequential HTTP
+    calls -- portal-config + instruments + isins -- so calling it once per
+    matched watchlist entity in a plain loop cost up to ~120s per entity
+    worst-case with nothing bounding the total; observed live as a 40+
+    minute stuck run). per_call_timeout hard-bounds each entity's lookup
+    via future.result(timeout=...) -- a slow/hanging NSDL response drops
+    that one entity's extra detail (coupon/rating/secured) rather than
+    blocking the whole run; the entity's core allotment data (issuer,
+    amount, tenure) came from the cheap list call and is unaffected."""
+    if not isins:
+        return {}
+    session = _session()
+    prefix = _api_prefix(session)
+    out = {}
+    with ThreadPoolExecutor(max_workers=max_workers) as ex:
+        futures = {ex.submit(_isin_details, session, prefix, isin, debug): isin
+                   for isin in isins}
+        for fut, isin in futures.items():
+            try:
+                out[isin] = fut.result(timeout=per_call_timeout)
+            except Exception as exc:
+                if debug:
+                    print(f"[nsdl_issuance] detail lookup for {isin} failed/timed out: {exc}")
+                out[isin] = {}
+    return out
 
 
 if __name__ == "__main__":
