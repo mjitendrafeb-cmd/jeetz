@@ -598,13 +598,19 @@ def _computed_analysis(issues, fy_total, quarters, prev_total=None, gsec=None) -
         lines.append(f"G-sec curve: {pts} (source: {gsec.get('source', 'n/a')}). "
                      f"Spreads use the closest tenor to each ISIN.")
 
-    # FY-to-date vs last FY
+    # FY-to-date vs last FY. Indian financial year (Apr-Mar), labelled by its
+    # END year (e.g. "FY2027" = Apr 2026-Mar 2027) to match the quarterly
+    # trend table below -- NSDL's own "dataForYear" field uses START-year
+    # labelling instead, so it is not used for the caption, only the totals.
     if fy_total and fy_total.get("issueSize"):
-        fy_line = (f"Corporate bond issuance FY{fy_total.get('dataForYear', '')} so far: "
+        cur_start = _fy_start()
+        cur_label = f"FY{cur_start.year + 1} (Apr {cur_start.year}-Mar {cur_start.year + 1})"
+        fy_line = (f"Corporate bond issuance {cur_label} so far: "
                    f"₹{_fmt_cr(float(fy_total['issueSize']))} cr "
                    f"({fy_total.get('noOfIsin', '?')} ISINs)")
         if prev_total and prev_total.get("issueSize"):
-            fy_line += (f" vs FY{prev_total.get('dataForYear', '')} total "
+            prev_label = f"FY{cur_start.year} (Apr {cur_start.year - 1}-Mar {cur_start.year})"
+            fy_line += (f" vs {prev_label} total "
                         f"₹{_fmt_cr(float(prev_total['issueSize']))} cr "
                         f"({prev_total.get('noOfIsin', '?')} ISINs)")
         lines.append(fy_line + ". (Source: NSDL)")
