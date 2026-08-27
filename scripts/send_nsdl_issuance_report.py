@@ -33,8 +33,12 @@ def _load_config() -> dict:
 
 
 def _recipients() -> list[str]:
+    # "nsdl_recipients" is dedicated to this report so it stays independent
+    # of the shared "recipients"/"recipient" keys, which send_credit_report.py
+    # (the 7:30 report) also reads -- changing those would silently redirect
+    # that report's mail too.
     cfg = _load_config()
-    recs = cfg.get("recipients") or [cfg.get("recipient")] or []
+    recs = cfg.get("nsdl_recipients") or cfg.get("recipients") or [cfg.get("recipient")] or []
     return [r for r in recs if r]
 
 

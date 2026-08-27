@@ -4,6 +4,9 @@
   "recipients": [
     "Jitendra.Meghrajani@gmail.com"
   ],
+  "nsdl_recipients": [
+    "jitendra.meghrajani@careedge.in"
+  ],
   "sources": {
     "rbi_rss": true,
     "sebi_rss": true,
