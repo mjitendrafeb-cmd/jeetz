@@ -3,10 +3,11 @@ name: NSDL New Issuance Report
 # Daily email of fresh corporate debt issuances (issuer, amount, coupon,
 # tenor) from NSDL India Bond Info, with watchlist flags and analysis.
 # NSDL's "Recent Issues" feed carries the latest allotment date (usually
-# the previous business day), so the report runs in the evening IST.
+# the previous business day), so a morning run typically reports on
+# yesterday's allotments.
 on:
   schedule:
-    - cron: '30 13 * * 1-6'   # 19:00 IST, Mon-Sat
+    - cron: '30 3 * * 1-6'   # 09:00 IST, Mon-Sat
   workflow_dispatch:
 
 concurrency:
