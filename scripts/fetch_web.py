@@ -744,12 +744,23 @@ def fetch_bse_rss(companies=None) -> list[str]:
     ]
     watch = _load_watchlist_phrases(companies)
     items: list[str] = []
+    # A feed candidate that returns SOME entries isn't necessarily a good
+    # response -- confirmed live: "BSE Announcement" (which normally scans
+    # 600-1000+ raw entries) came back with raw=7 on a real run, and the
+    # old "first non-empty URL wins" logic stopped right there since 7 is
+    # not empty. Two real watchlist filings (Auxilo, Infinity Fincorp) were
+    # simply never in that 7-entry response to begin with -- not a
+    # filtering bug, a bad response mistaken for a good one. Below this
+    # floor, keep trying the remaining candidate URLs and take whichever
+    # response is largest rather than stopping at the first non-empty one.
+    _MIN_HEALTHY_RAW = 100
     for tag, watchlist_only, urls in feeds:
         entries, used = [], ""
         for u in urls:
-            entries = _feed_entries(u)
-            if entries:
-                used = u
+            candidate = _feed_entries(u)
+            if len(candidate) > len(entries):
+                entries, used = candidate, u
+            if len(entries) >= _MIN_HEALTHY_RAW:
                 break
         if not entries:
             print(f"[fetch_web] BSE RSS {tag}: no data (tried {len(urls)} url(s))")
