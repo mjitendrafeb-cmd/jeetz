@@ -5631,7 +5631,29 @@ def main() -> None:
             # simply keep whatever mechanical/Anthropic view
             # section_takeaways already held -- same as before GPT-based
             # S2/S3 filtering existed at all.
-            if s2s3_evaluated:
+            # A batch that succeeded but came back with s2_summary AND
+            # s3_summary BOTH completely empty is a second way to reach the
+            # same "wipe every S2/S3 row" outcome the s2s3_evaluated gate
+            # above was built for -- this time because the model rejected
+            # every single candidate rather than because it never ran.
+            # Confirmed live: 0/31 S2 and 0/19 S3 accepted in one edition,
+            # the day after the same pipeline accepted 12/26 and 10/17 --
+            # a 100% rejection across two independent categories on a
+            # normal-volume day reads as the model being over-aggressive
+            # (likely the duplicate-check pass cascading), not 50
+            # consecutive genuine non-events. A handful of candidates
+            # legitimately landing at 0 kept (a thin day) is not touched by
+            # this -- it only fires once the sample is large enough that
+            # total rejection stops being plausible.
+            suspicious_total_rejection = (
+                s2s3_evaluated and not gpt_s2_map and not gpt_s3_map
+                and (len(gpt_s2_sent) + len(gpt_s3_sent)) >= 10)
+            if suspicious_total_rejection:
+                print(f"[gpt] WARNING: rejected ALL {len(gpt_s2_sent)} S2 + "
+                      f"{len(gpt_s3_sent)} S3 candidates -- implausible for "
+                      f"this volume, keeping mechanical view for all rather "
+                      f"than showing an empty section")
+            elif s2s3_evaluated:
                 gpt_excluded = ({_key(it) for it in gpt_s2_sent} - set(gpt_s2_map)) | \
                                ({_key(it) for it in gpt_s3_sent} - set(gpt_s3_map))
             gpt_exec_summary, gpt_watchlist_html = _gpt_map_email_body(gpt_data)
