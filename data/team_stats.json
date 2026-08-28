@@ -1,79 +1,6 @@
 [
  {
   "date": "2026-08-21",
-  "fetched": 3369,
-  "delivered_pool": 314,
-  "junk": 978,
-  "geo": 113,
-  "stale": 1069,
-  "dup": 630,
-  "sections": {
-   "S1": 276,
-   "S2": 23,
-   "S3": 15
-  },
-  "mails": 40,
-  "failed": [],
-  "source_summary": {
-   "RBI RSS": 19,
-   "RBI Enforcement": 0,
-   "SEBI RSS": 20,
-   "Google News": 25,
-   "Watchlist (Google)": 941,
-   "BSE Announcements": 0,
-   "BSE Financials": 0,
-   "Telegram": 63,
-   "Web Scraper": 218
-  },
-  "dropped_samples": {
-   "relevance": [
-    "Premature redemption under Sovereign Gold Bond (SGB) Scheme - Redemption Price for premature redemption of SGB",
-    "Developments in India\u2019s Balance of Payments for the Month of June 2026",
-    "Relaxations in Know Your Client (KYC) norms for individual Persons Resident Outside India (i.e",
-    "Framework for Calculation of Net Distributable Cash Flows for InvITs",
-    "Anantam Highways Trust hosts Q4FY26 earnings call on Aug 17",
-    "Petronet LNG Q1 Results: Earnings call scheduled for Aug 13, 2026",
-    "Balrampur Chini Mills reports consolidated profit of Rs 44.15 crore in June quarter, appoints new independent ",
-    "VRL Logistics Q1 Results: Earnings Call Scheduled for Aug 5",
-    "Bhanu Infrabuild Pvt reports standalone net loss of Rs 21.19 crore in the June 2026 quarter",
-    "3M India Q1 Results: Net Profit Surges 31% YoY, But EBITDA Margin Narrows To 16.7%",
-    "Systematix sees 12% UPSIDE in Page Industries Ltd- Demand holds up; margin recovery remains a key monitorable",
-    "Systematix Initiating Coverage on Deepak Fertilisers & Petrochemicals Corp Ltd, with 30% UPSIDE- The ammonia k",
-    "Systematix sees 33% UPSIDE in NMDC Ltd- Earnings in line; production ramp up to drive growth",
-    "Indo Count Inds, with 41% UPSIDE- New business drives growth; expect core to bounce back Midwest, with 16% UPS",
-    "Motilal Oswal\u2019s Morning India- Today\u2019s top research idea (14-Aug-26)",
-    "Systematix Update on GHCL Textiles Ltd- Moving up the value chain",
-    "Systematix sees 12% UPSIDE in Gujarat Energy Ltd- Strong Quarter, but Propane Competition Overhang to Persist",
-    "MNCL sees 26% UPSIDE in La Opala- Cautiously optimistic",
-    "PL Capital sees 33% UPSIDE in CESC- RE guidance upgraded",
-    "PL Capital sees 16% UPSIDE in Apollo Hospitals Enterprise- Strong show in hospital segment"
-   ],
-   "junk": [
-    "General Remittance Order dated 14.08.2026 in Recovery Certificate No",
-    "General Remittance Order dated 14.08.2026 in Recovery Certificate No",
-    "General Remittance Order dated 14.08.2026 in Recovery Certificate No",
-    "General Remittance Order dated 14.08.2026 in Recovery Certificate No",
-    "Completion of Recovery Certificate No",
-    "Appeal No. 6992 of 2026 filed by Rakesh Mohan Rai",
-    "Appeal No. 6991 of 2026 filed by Parivesh Shukla",
-    "Appeal No. 6990 of 2026 filed by Vikas Jain",
-    "Appeal No. 6989 of 2026 filed by Valji Narayan Bhadra",
-    "Appeal No. 6988 of 2026 filed by Neeraj Sisodia",
-    "Appeal No. 6987 of 2026 filed by Sunil Rohilla",
-    "Appeal No. 6980 of 2026 filed by Ebenezer R",
-    "Appeal No. 6983 of 2026 filed by Anivesh Kumar Pandey",
-    "Adjudication Order in respect of Fatmabibi Yusufbhai Rangwala in the matter of Illiquid Stock Options at BSE",
-    "Top stock picks: Analysts recommend Bosch, Tata Power, Adani Ports, 360 One WAM, L&T, BEL",
-    "Buy Star Cement; target of Rs 265: Anand Rathi",
-    "Buy Fine Organic Industries; target of Rs 6000: Anand Rathi",
-    "Buy TD Power Systems; target of Rs 1751: Anand Rathi",
-    "Angel One Share Price - Live NSE: ANGELONE Stock Price & Chart",
-    "Aptus Value Housing Number of Employees 2026"
-   ]
-  }
- },
- {
-  "date": "2026-08-21",
   "fetched": 3494,
   "delivered_pool": 343,
   "junk": 917,
@@ -2129,6 +2056,78 @@
    "BSE Financials": 0,
    "Telegram": 52,
    "Web Scraper": 985
+  },
+  "dropped_samples": {
+   "relevance": [
+    "Auction of Government of India Dated Security",
+    "Result of the Overnight Variable Rate Reverse Repo (VRRR) auction held on August 24, 2026",
+    "Launch of Cyber Suraksha Portal",
+    "General Remittance Advice against: Amit Kumar Singhl [Defaulter] (PAN: GJOPS0881L) in the matter of Blue Coast",
+    "IT Resilience Index for Market Infrastructure Institutions (MIIs)",
+    "Appeal No. 6994 & 6995 of 2026 filed by Kotha Mahendar Reddy",
+    "PL Capital sees 24% UPSIDE in BSE (BSE IN)- Regulatory pressure to weigh on growth",
+    "Emkay Initiating Coverage on Urban Company, with 19% UPSIDE- Online home services leader \u2013 Density compounding",
+    "Systematix sees 3% UPSIDE in Welspun Corp Ltd- Largest Ever US Order Extends Earnings Visibility Through FY29",
+    "#MintMarkets | Nifty trapped between key moving averages; will August expiry bring a directional move?",
+    "Born in 2007, Kaziah Liz Mejo's worldview was significantly shaped by a highly cosmopolitan upbringing",
+    "The Cockroach Janta Party has announced a peaceful protest march in Delhi on September 5, accusing the Centre ",
+    "#MintLongStory | The pharmaceutical company rode one copycat drug to record profits",
+    "Chief Minister Vijay-led Tamil Nadu government has issued work orders for nearly 1.28 lakh gold rings, costing",
+    "Swine flu alert in Delhi: Scientists at the Indian Council of Medical Research (ICMR) said that the influenza ",
+    "#WATCH | Varanasi, Uttar Pradesh: Baba Vishwanath\u2019s Mangala Aarti performed during early morning hours at Kash",
+    "Iran war news LIVE Updates: Bessent to announce new US sanctions against Iran on Monday",
+    "Posters depicting Rahul Gandhi as 'real-life Batman' have appeared near Congress headquarters and central Delh",
+    "#WATCH | Prime Minister Narendra Modi said India should build an ecosystem that attracts space talent from acr",
+    "PPF vs NSC: Compare the returns on \u20b95 lakh over five years, along with 2026 interest rates, tax treatment, mat"
+   ],
+   "junk": [
+    "Order in the matter of Max Financial Services Limited",
+    "Release Order in Recovery Certificate No 6467 of 2023 issued against Ramesh Chhallani HUF (PAN \u2013 AALHR9880C) i",
+    "Completion of Recovery Certificate No 6467 of 2023 issued against Ramesh Chhallani HUF (PAN \u2013 AALHR9880C) in t",
+    "Notice(s) of Attachment dated August 24, 2026 issued under RC No. 8927 of 2025 in the matter of Royal Twinkle ",
+    "Notices of Attachment of Bank and Post Office accounts and Demat Accounts and mutual Fund Folios with AP Nos",
+    "Final Order in the matter of Modex International Securities Ltd.",
+    "Appeal No. 7001 of 2026 filed by Prakash Singh",
+    "Appeal No. 7000 of 2026 filed by R N Rajan",
+    "Appeal No. 6999 of 2026 filed by T Velsankar",
+    "Appeal No. 6998 of 2026 filed by Keshaw Prajapati",
+    "Appeal No. 6997 of 2026 filed by Rajeev Bakshi",
+    "Appeal No. 6996 of 2026 filed by Savita",
+    "Persistent, Mphasis stocks top Anand Rathi's IT bets; brokerage sees turnaround potential in Mastek",
+    "AU Small Finance Bank - Lenskart Solutions among 4 stocks to hit 52-week highs & surge up to 20% in a month",
+    "Axis Bank Wins CX Excellence Award for AI-Driven Journey Analytics Powered by NUMR Inc.",
+    "Buy Silver Above 248000 SL BELOW 244000 TGT 253000/257000 - Axis Securities Ltd",
+    "2026 Bajaj Pulsar 125 & Pulsar 150 Launched \u2013 New Platform, Monoshock and TFT Display",
+    "Zee Business. . STOCK OF THE DAY \ud83d\udccd Buy Apollo Tyre (Cash): SL 428 Tgt 444, 448, 455 - UBS Double upgrade to bu",
+    "Sensex ends 420 pts off day\u2019s high, Nifty settles at 24,219; Adani Ports, Bajaj Finance, Bajaj Finserv lead fa",
+    "Bajaj Finserv Multi Cap Fund(G)-Direct Plan"
+   ]
+  }
+ },
+ {
+  "date": "2026-08-28",
+  "fetched": 4437,
+  "delivered_pool": 359,
+  "junk": 1956,
+  "geo": 38,
+  "stale": 378,
+  "dup": 1437,
+  "sections": {
+   "S1": 311,
+   "S2": 33,
+   "S3": 15
+  },
+  "mails": 40,
+  "failed": [],
+  "source_summary": {
+   "RBI RSS": 20,
+   "RBI Enforcement": 0,
+   "SEBI RSS": 20,
+   "Google News": 27,
+   "Watchlist (Google)": 904,
+   "BSE Financials": 0,
+   "Telegram": 37,
+   "Web Scraper": 1218
   },
   "dropped_samples": {
    "relevance": [
