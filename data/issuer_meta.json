@@ -1,11 +1,39 @@
 {
+ "bajaj finance": {
+  "segment": "NBFC/HFC",
+  "updated": "2026-08-28"
+ },
+ "credit wise capital": {
+  "segment": "NBFC/HFC",
+  "updated": "2026-08-28"
+ },
+ "edelweiss asset reconstruction": {
+  "segment": "Corporate",
+  "updated": "2026-08-28"
+ },
  "icl fincorp": {
   "segment": "NBFC/HFC",
   "updated": "2026-08-26"
  },
+ "incred financial services": {
+  "segment": "Corporate",
+  "updated": "2026-08-28"
+ },
+ "iti gold loans": {
+  "segment": "NBFC/HFC",
+  "updated": "2026-08-28"
+ },
+ "juniper green stellar": {
+  "segment": "Corporate",
+  "updated": "2026-08-28"
+ },
  "krazybee services": {
   "segment": "NBFC/HFC",
   "updated": "2026-08-26"
+ },
+ "monedo financial services": {
+  "segment": "Corporate",
+  "updated": "2026-08-28"
  },
  "nuvama wealth and investment": {
   "segment": "Corporate",
@@ -19,12 +47,32 @@
   "segment": "PSU",
   "updated": "2026-08-26"
  },
+ "progfin": {
+  "segment": "Corporate",
+  "updated": "2026-08-28"
+ },
+ "regency fincorp": {
+  "segment": "NBFC/HFC",
+  "updated": "2026-08-28"
+ },
  "rupeek capital": {
   "segment": "NBFC/HFC",
   "updated": "2026-08-26"
  },
+ "satin finserv": {
+  "segment": "NBFC/HFC",
+  "updated": "2026-08-28"
+ },
  "tvs credit services": {
   "segment": "NBFC/HFC",
   "updated": "2026-08-26"
+ },
+ "unigold finance": {
+  "segment": "NBFC/HFC",
+  "updated": "2026-08-28"
+ },
+ "vision infra equipment solutions": {
+  "segment": "Corporate",
+  "updated": "2026-08-28"
  }
 }
