@@ -1,4 +1,12 @@
 {
+ "abans jewels": {
+  "segment": "Corporate",
+  "updated": "2026-08-29"
+ },
+ "avp infracon": {
+  "segment": "Corporate",
+  "updated": "2026-08-29"
+ },
  "bajaj finance": {
   "segment": "NBFC/HFC",
   "updated": "2026-08-28"
@@ -10,6 +18,14 @@
  "edelweiss asset reconstruction": {
   "segment": "Corporate",
   "updated": "2026-08-28"
+ },
+ "growxcd finance": {
+  "segment": "NBFC/HFC",
+  "updated": "2026-08-29"
+ },
+ "home first finance": {
+  "segment": "NBFC/HFC",
+  "updated": "2026-08-29"
  },
  "icl fincorp": {
   "segment": "NBFC/HFC",
@@ -31,9 +47,17 @@
   "segment": "NBFC/HFC",
   "updated": "2026-08-26"
  },
+ "maple infrastructure trust": {
+  "segment": "Corporate",
+  "updated": "2026-08-29"
+ },
  "monedo financial services": {
   "segment": "Corporate",
   "updated": "2026-08-28"
+ },
+ "niyogin fintech": {
+  "segment": "Corporate",
+  "updated": "2026-08-29"
  },
  "nuvama wealth and investment": {
   "segment": "Corporate",
@@ -66,6 +90,10 @@
  "tvs credit services": {
   "segment": "NBFC/HFC",
   "updated": "2026-08-26"
+ },
+ "ugro capital": {
+  "segment": "NBFC/HFC",
+  "updated": "2026-08-29"
  },
  "unigold finance": {
   "segment": "NBFC/HFC",

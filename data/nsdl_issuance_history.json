@@ -1,6 +1,100 @@
 {
  "records": [
   {
+   "isin": "INE087107970",
+   "issuer": "ABANS JEWELS LIMITED",
+   "allotment_date": "2026-08-28",
+   "amount_cr": 6.0,
+   "coupon": null,
+   "tenure_years": 1.5,
+   "band": "Not rated / available",
+   "segment": "Corporate",
+   "spread_bps": null,
+   "ratings": []
+  },
+  {
+   "isin": "INE480D07033",
+   "issuer": "NIYOGIN FINTECH LIMITED",
+   "allotment_date": "2026-08-28",
+   "amount_cr": 25.0,
+   "coupon": 12.6,
+   "tenure_years": 1.0,
+   "band": "BBB band",
+   "segment": "Corporate",
+   "spread_bps": 679,
+   "ratings": [
+    "CRISIL BBB-"
+   ]
+  },
+  {
+   "isin": "INE0R9407016",
+   "issuer": "AVP INFRACON LIMITED",
+   "allotment_date": "2026-08-28",
+   "amount_cr": 30.0,
+   "coupon": 12.0,
+   "tenure_years": 2.0,
+   "band": "BBB band",
+   "segment": "Corporate",
+   "spread_bps": 591,
+   "ratings": [
+    "Acuite Ratings And Research Limited BBB+"
+   ]
+  },
+  {
+   "isin": "INE1BX107013",
+   "issuer": "GROWXCD FINANCE PRIVATE LIMITED",
+   "allotment_date": "2026-08-28",
+   "amount_cr": 30.0,
+   "coupon": 12.83,
+   "tenure_years": 3.5,
+   "band": "Not rated / available",
+   "segment": "NBFC/HFC",
+   "spread_bps": 665,
+   "ratings": []
+  },
+  {
+   "isin": "INE481N07071",
+   "issuer": "HOME FIRST FINANCE COMPANY INDIA LIMITED",
+   "allotment_date": "2026-08-28",
+   "amount_cr": 150.0,
+   "coupon": null,
+   "tenure_years": 5.0,
+   "band": "AA band (AA+/AA/AA-)",
+   "segment": "NBFC/HFC",
+   "spread_bps": null,
+   "ratings": [
+    "ICRA AA"
+   ]
+  },
+  {
+   "isin": "INE583D07679",
+   "issuer": "UGRO CAPITAL LIMITED",
+   "allotment_date": "2026-08-28",
+   "amount_cr": 380.0,
+   "coupon": 10.2,
+   "tenure_years": 5.0,
+   "band": "A band (A+/A/A-)",
+   "segment": "NBFC/HFC",
+   "spread_bps": 368,
+   "ratings": [
+    "INDIA RATING AND RESEARCH PVT. LTD A+"
+   ]
+  },
+  {
+   "isin": "INE0M5S07012",
+   "issuer": "MAPLE INFRASTRUCTURE TRUST",
+   "allotment_date": "2026-08-28",
+   "amount_cr": 700.0,
+   "coupon": 7.489,
+   "tenure_years": 14.6,
+   "band": "AAA",
+   "segment": "Corporate",
+   "spread_bps": 58,
+   "ratings": [
+    "ICRA AAA"
+   ]
+  },
+  {
    "isin": "INE0TR007022",
    "issuer": "VISION INFRA EQUIPMENT SOLUTIONS LIMITED",
    "allotment_date": "2026-08-27",
