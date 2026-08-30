@@ -21,6 +21,11 @@ import sys
 
 import pypdf
 
+try:
+    import fitz  # PyMuPDF -- optional, only needed for clip_articles()
+except ImportError:
+    fitz = None
+
 _DATELINE_RE = re.compile(
     r"^([A-Za-z][A-Za-z .]{2,28}),\s*(\d{1,2}\s+[A-Za-z]+)\s*$")
 _DIVIDER_RE = re.compile(r"^(.)\1{15,}")
@@ -109,6 +114,52 @@ def extract_all(pdf_path: str) -> list[dict]:
     for pi, text in enumerate(extract_pages(pdf_path)):
         out.extend(segment_articles(text, pi))
     return out
+
+
+def _find_headline_rect(page, headline: str):
+    """The segmenter's headline sometimes has a leading fragment glued on
+    from the previous article's caption (column-order noise in the raw
+    text) -- search_for() on the full string then fails since it's not the
+    literal printed text. Retrying with progressively shorter suffixes
+    (last 8 words, then 5) finds the real headline's printed position even
+    when the prefix is noise, since the tail is reliably the article's own
+    words."""
+    for n_words in (None, 8, 5):
+        words = headline.split()
+        probe = headline if n_words is None else " ".join(words[-n_words:])
+        if len(probe) < 8:
+            continue
+        hits = page.search_for(probe)
+        if hits:
+            return hits[-1] if n_words is not None else hits[0]
+    return None
+
+
+def clip_articles(pdf_path: str, articles: list[dict], dpi: int = 200,
+                   below_pts: float = 260, above_pts: float = 12,
+                   width_pts: float = 340) -> None:
+    """Sets article['clip_png'] (bytes) in place -- a raster crop of the
+    real printed page around each headline, so the article can be shown as
+    an actual newspaper clipping rather than plain re-flowed text. Best
+    effort: an article whose headline can't be relocated on the page (see
+    _find_headline_rect) is left with clip_png=None, not an error."""
+    if fitz is None:
+        for a in articles:
+            a["clip_png"] = None
+        return
+    doc = fitz.open(pdf_path)
+    for a in articles:
+        page = doc[a["page"] - 1]
+        rect = _find_headline_rect(page, a["headline"])
+        if rect is None:
+            a["clip_png"] = None
+            continue
+        clip = fitz.Rect(max(rect.x0 - 20, 0), max(rect.y0 - above_pts, 0),
+                          rect.x0 + width_pts, rect.y0 + below_pts)
+        clip = clip & page.rect
+        pix = page.get_pixmap(dpi=dpi, clip=clip)
+        a["clip_png"] = pix.tobytes("png")
+    doc.close()
 
 
 if __name__ == "__main__":
