@@ -1,6 +1,30 @@
 {
  "records": [
   {
+   "isin": "INE029R07038",
+   "issuer": "KILITCH HEALTHCARE INDIA LIMITED",
+   "allotment_date": "2026-08-30",
+   "amount_cr": 10.0,
+   "coupon": 18.0,
+   "tenure_years": 1.8,
+   "band": "Not rated / available",
+   "segment": "Corporate",
+   "spread_bps": 1191,
+   "ratings": []
+  },
+  {
+   "isin": "INE2XV507019",
+   "issuer": "HAWARE PROPERTIES INDIA PRIVATE LIMITED",
+   "allotment_date": "2026-08-30",
+   "amount_cr": 70.0,
+   "coupon": 13.0,
+   "tenure_years": 4.3,
+   "band": "Not rated / available",
+   "segment": "Corporate",
+   "spread_bps": 640,
+   "ratings": []
+  },
+  {
    "isin": "INE087107970",
    "issuer": "ABANS JEWELS LIMITED",
    "allotment_date": "2026-08-28",

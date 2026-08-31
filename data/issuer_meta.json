@@ -23,6 +23,10 @@
   "segment": "NBFC/HFC",
   "updated": "2026-08-29"
  },
+ "haware properties": {
+  "segment": "Corporate",
+  "updated": "2026-08-31"
+ },
  "home first finance": {
   "segment": "NBFC/HFC",
   "updated": "2026-08-29"
@@ -42,6 +46,10 @@
  "juniper green stellar": {
   "segment": "Corporate",
   "updated": "2026-08-28"
+ },
+ "kilitch healthcare": {
+  "segment": "Corporate",
+  "updated": "2026-08-31"
  },
  "krazybee services": {
   "segment": "NBFC/HFC",
