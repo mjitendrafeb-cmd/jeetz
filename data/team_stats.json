@@ -1,79 +1,6 @@
 [
  {
   "date": "2026-08-21",
-  "fetched": 3494,
-  "delivered_pool": 343,
-  "junk": 917,
-  "geo": 106,
-  "stale": 749,
-  "dup": 1135,
-  "sections": {
-   "S1": 298,
-   "S2": 26,
-   "S3": 19
-  },
-  "mails": 2,
-  "failed": [],
-  "source_summary": {
-   "RBI RSS": 19,
-   "RBI Enforcement": 0,
-   "SEBI RSS": 20,
-   "Google News": 25,
-   "Watchlist (Google)": 939,
-   "BSE Announcements": 0,
-   "BSE Financials": 0,
-   "Telegram": 57,
-   "Web Scraper": 209
-  },
-  "dropped_samples": {
-   "relevance": [
-    "Result: Conversion/Switch Auction of Government of India Securities",
-    "Result of the Overnight Variable Rate Reverse Repo (VRRR) auction held on August 17, 2026",
-    "Premature redemption under Sovereign Gold Bond (SGB) Scheme - Redemption Price for premature redemption of SGB",
-    "Relaxations in Know Your Client (KYC) norms for individual Persons Resident Outside India (i.e",
-    "Framework for Calculation of Net Distributable Cash Flows for InvITs",
-    "SBI Securities sees 25% UPSIDE in Man Industries (India) Ltd.- Core pipe business sustains growth momentum, co",
-    "PL Capital sees 15% UPSIDE in Ipca Laboratories- Strong beat; FY27 guidance raised",
-    "Jharkhand student leader Devendra Mahto on Tuesday ended his hunger strike after the Jharkhand government anno",
-    "Jharkhand CM Hemant Soren announces JSSC-CGL exam cancellation and inquiry into recruitment exams conducted si",
-    "Tamil Nadu Chief Minister C Joseph Vijay announced a full waiver of cooperative farm loans up to \u20b975,000",
-    "The BJP has replaced longtime IT cell chief Amit Malviya with Chhattisgarh's Deepak Mhaskey in a major organis",
-    "After decades of service, Visakhapatnam Airport ended scheduled commercial flights on 16 August 2026, with ope",
-    "#WATCH | Deoghar, Jharkhand: Devotees and Kanwariyas throng the Shree Baba Baidyanath Jyotirlinga Temple on th",
-    "US-Iran war LIVE: Shipping via Strait of Hormuz slows amid tanker attacks; oil steadies as fighting erupts in ",
-    "The Ministry of Petroleum and Natural Gas has sought to allay concerns over ethanol-blended petrol, saying veh",
-    "Ajay Harinath Singh \u2013 Dynasty Of Dominance: Lineage, Business & Power",
-    "Listing of further issue of Krishival Foods Limited",
-    "Listing of Government Securities on Capital Market Segment",
-    "Certificate No. RC9282 of 2026 Notice of Demand in respect of Atit Commercial Company Private Limited (Transfe",
-    "General Remittance Advice against: Sunil Singh (Proprietor of Alfa Finsec) [Defaulter] (PAN: BDGPS0774K) in th"
-   ],
-   "junk": [
-    "General Remittance Order dated 14.08.2026 in Recovery Certificate No",
-    "General Remittance Order dated 14.08.2026 in Recovery Certificate No",
-    "General Remittance Order dated 14.08.2026 in Recovery Certificate No",
-    "General Remittance Order dated 14.08.2026 in Recovery Certificate No",
-    "Completion of Recovery Certificate No",
-    "Appeal No. 6992 of 2026 filed by Rakesh Mohan Rai",
-    "Appeal No. 6991 of 2026 filed by Parivesh Shukla",
-    "Appeal No. 6990 of 2026 filed by Vikas Jain",
-    "Appeal No. 6989 of 2026 filed by Valji Narayan Bhadra",
-    "Appeal No. 6988 of 2026 filed by Neeraj Sisodia",
-    "Appeal No. 6987 of 2026 filed by Sunil Rohilla",
-    "Appeal No. 6980 of 2026 filed by Ebenezer R",
-    "Appeal No. 6983 of 2026 filed by Anivesh Kumar Pandey",
-    "Buy Sudarshan Chemical Industries; target of Rs 1450: Anand Rathi",
-    "Anand Rathi Wealth Ltd is Rated Buy",
-    "FMCG Growth Accelerates to 15.1% In Q1FY27, Anand Rathi Sees Better Margins & Attractive Valuations",
-    "Avoid aggressive mkt positioning, says Angel One; Aequs among 3 stock picks",
-    "Avoid aggressive mkt positioning, says Angel One; Aequs among 3 stock picks",
-    "Banking Stock Picks: SBI, ICICI Bank, Axis Bank and others - 12 BUY-rated stocks with up to 40% upside potenti",
-    "Axis Max Life launches retirement campaign with Rohit Sharma"
-   ]
-  }
- },
- {
-  "date": "2026-08-21",
   "fetched": 3574,
   "delivered_pool": 351,
   "junk": 933,
@@ -2173,6 +2100,78 @@
     "Zee Business. . STOCK OF THE DAY \ud83d\udccd Buy Apollo Tyre (Cash): SL 428 Tgt 444, 448, 455 - UBS Double upgrade to bu",
     "Sensex ends 420 pts off day\u2019s high, Nifty settles at 24,219; Adani Ports, Bajaj Finance, Bajaj Finserv lead fa",
     "Bajaj Finserv Multi Cap Fund(G)-Direct Plan"
+   ]
+  }
+ },
+ {
+  "date": "2026-08-31",
+  "fetched": 3556,
+  "delivered_pool": 468,
+  "junk": 1359,
+  "geo": 46,
+  "stale": 370,
+  "dup": 1055,
+  "sections": {
+   "S1": 433,
+   "S2": 20,
+   "S3": 15
+  },
+  "mails": 40,
+  "failed": [],
+  "source_summary": {
+   "RBI RSS": 20,
+   "RBI Enforcement": 0,
+   "SEBI RSS": 20,
+   "Google News": 25,
+   "Watchlist (Google)": 1275,
+   "BSE Financials": 21,
+   "Telegram": 104,
+   "Web Scraper": 191
+  },
+  "dropped_samples": {
+   "relevance": [
+    "Release Order \u2013 Archit Jindal [Defaulter] PAN: AGNPJ5775G in the matter of Focus Industrial Resources Limited:",
+    "Groww Named Startup of the Year 2026; Stock & Growth Context",
+    "Forget Bintangs ... Bali's Hottest Beach Club Just Became Australia's Favourite Tech Playground",
+    "Aijaz Hussain meets Dr Jitendra Singh, discusses J&K development, public issues",
+    "PL Capital sees 23% UPSIDE in Global Health- Strong growth outlook",
+    "Dolat Capital Initiating Coverage on Jyoti CNC Automation, with 23% UPSIDE- Scaling India's Machine Tool Story",
+    "NSDL, CDSL, BSE shares: Check key technical levels to watch out for",
+    "Almost 9 Crore Indian Youth Suffering Due To NEET, Out Of The Job Ecosystem; EXPLAINS NITI Aayog Over 8.7 cror",
+    "Tim Cook leaves a trillion-dollar machine. John Ternus must build Apple\u2019s next growth story",
+    "Gen Z has coined a new category in discretionary spending with 'fun funds'",
+    "The Food Safety and Standards Authority of India (FSSAI) on Wednesday issued notices to two five-star hotels i",
+    "#WATCH | Thousands of revellers dived into tomato pulp as \u2018La Tomatina\u2019 food fight festival kicked off on Wedn",
+    "The Nepal Tourism Board said at least 105 Indians have been missing after a flash flood in the Bhote Koshi Riv",
+    "Mumbai faces peak-hour chaos as auto and taxi drivers begin a three-day strike over the mandatory Marathi lang",
+    "#MintMarkets | Indian markets opened on a positive note, with the Sensex rising 236.01 points to 77,892.10 and",
+    "The United States has paused all visa applications as well as appointments worldwide as it cracks down on immi",
+    "The 2008 crash showed how quickly market euphoria can turn",
+    "Listing of further issues of Medicamen Organics Limited",
+    "Suspension of trading in Non-Convertible Debentures - Adani Enterprises Limited",
+    "IPO boom returns as July-August drive 69% of 2026 fundraising"
+   ],
+   "junk": [
+    "SEBI Order for Compliance \u2013 Release Order for Recovery Certificate No",
+    "SEBI Order for Compliance \u2013 Completion Of Recovery Certificate No",
+    "SEBI Order for Compliance Notice of Attachment Demat Account and Mutual Fund Folio(s) for Recovery Certificate",
+    "SEBI Order for Compliance Notice of Attachment Bank/Post Office account for Recovery Certificate No.8932 of 20",
+    "Completion of Recovery Certificate No",
+    "Final Order in the matter of Varanium Cloud Limited",
+    "Appeal No. 7014 of 2026 filed by Desh Deepak Dubey",
+    "Appeal No. 7012 of 2026 filed by Sunil Rohilla",
+    "Appeal No. 7011 of 2026 filed by Subhanarayan Mishra",
+    "Appeal No. 7010 of 2026 filed by Pranjal Pareek",
+    "Appeal No. 7008 of 2026 filed by Vishnu Kumar Bhaiya",
+    "Appeal No. 7007 of 2026 filed by Raj Kumar Yadav",
+    "Appeal No. 7006 of 2026 filed by Shekhar Santani",
+    "Appeal No. 7015 of 2026 filed by Adv Abhishek Mathur",
+    "Appeal No. 7005 of 2026 filed by Gnaneeswar Adhi",
+    "Appeal No. 7013 of 2026 filed by Ankur Dwivedi",
+    "Appeal No. 7004 of 2026 filed by yash kumar",
+    "Appeal No. 7009 of 2026 filed by Kumari Devi",
+    "ICICI Bank, SBI: Foreign brokerages pick winners in the Indian banking pack",
+    "360 ONE WAM Ltd Sees Significant Open Interest Surge Amid Bullish Market Positioning"
    ]
   }
  }
