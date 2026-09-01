@@ -3759,7 +3759,9 @@
     },
     {
       "company": "Aseem Infrastructure Finance Limited",
-      "aliases": [],
+      "aliases": [
+        "Aseem ; TPG"
+      ],
       "gh_name": "Jitendra",
       "analyst_name": "Pooja",
       "rh_name": "Hardik",
