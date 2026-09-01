@@ -32,7 +32,9 @@
     },
     {
       "company": "Belstar Microfinance Limited",
-      "aliases": [],
+      "aliases": [
+        "Belstar"
+      ],
       "gh_name": "Akansha",
       "analyst_name": "Anushka",
       "rh_name": "Hardik",
@@ -61,7 +63,9 @@
     },
     {
       "company": "MINTIFI Finserve Private Limited",
-      "aliases": [],
+      "aliases": [
+        "Mintifi"
+      ],
       "gh_name": "Jitendra",
       "analyst_name": "Pranjal",
       "rh_name": "Hardik",
@@ -118,7 +122,9 @@
     },
     {
       "company": "Karnataka State Financial Corporation",
-      "aliases": [],
+      "aliases": [
+        "Karnataka State Financial"
+      ],
       "gh_name": "Shreekiran",
       "analyst_name": "Tony",
       "rh_name": "Priyesh",
@@ -175,7 +181,9 @@
     },
     {
       "company": "Dar Credit & Capital Limited",
-      "aliases": [],
+      "aliases": [
+        "Dar Credit"
+      ],
       "gh_name": "Saleem",
       "analyst_name": "Amy",
       "rh_name": "Sudam",
@@ -492,7 +500,9 @@
     },
     {
       "company": "Svamaan Financial Services Private Limited",
-      "aliases": [],
+      "aliases": [
+        "Svamaan"
+      ],
       "gh_name": "Jitendra",
       "analyst_name": "Pooja",
       "rh_name": "Hardik",
@@ -606,7 +616,9 @@
     },
     {
       "company": "Bank of Baroda",
-      "aliases": [],
+      "aliases": [
+        "BOB"
+      ],
       "gh_name": "Aditya",
       "analyst_name": "Shrey",
       "rh_name": "Priyesh",
@@ -979,7 +991,9 @@
     },
     {
       "company": "IDBI Bank Limited",
-      "aliases": [],
+      "aliases": [
+        "IDBI"
+      ],
       "gh_name": "Aditya",
       "analyst_name": "Shrey",
       "rh_name": "Priyesh",
@@ -1473,7 +1487,10 @@
     },
     {
       "company": "ESAF Small Finance Bank Limited",
-      "aliases": [],
+      "aliases": [
+        "ESAF SFB",
+        "ESAF"
+      ],
       "gh_name": "Shreekiran",
       "analyst_name": "Ravi N",
       "rh_name": "Priyesh",
@@ -1673,7 +1690,9 @@
     },
     {
       "company": "360 One Alternates Asset Management Limited",
-      "aliases": [],
+      "aliases": [
+        "360 One"
+      ],
       "gh_name": "Yogesh",
       "analyst_name": "Sehdev",
       "rh_name": "Sudam",
@@ -1702,7 +1721,9 @@
     },
     {
       "company": "360 One Distribution Services Limited",
-      "aliases": [],
+      "aliases": [
+        "360 One"
+      ],
       "gh_name": "Yogesh",
       "analyst_name": "Sehdev",
       "rh_name": "Sudam",
@@ -1731,7 +1752,9 @@
     },
     {
       "company": "360 One Prime Limited",
-      "aliases": [],
+      "aliases": [
+        "360 One"
+      ],
       "gh_name": "Yogesh",
       "analyst_name": "Sehdev",
       "rh_name": "Sudam",
@@ -1760,7 +1783,9 @@
     },
     {
       "company": "360 One Wam Limited",
-      "aliases": [],
+      "aliases": [
+        "360 One"
+      ],
       "gh_name": "Yogesh",
       "analyst_name": "Sehdev",
       "rh_name": "Sudam",
@@ -1963,7 +1988,9 @@
     },
     {
       "company": "Geojit Credits Private Limited",
-      "aliases": [],
+      "aliases": [
+        "Geojit"
+      ],
       "gh_name": "Yogesh",
       "analyst_name": "Ujjwala",
       "rh_name": "Sudam",
@@ -1992,7 +2019,9 @@
     },
     {
       "company": "Geojit Financial Services Limited",
-      "aliases": [],
+      "aliases": [
+        "Geojit"
+      ],
       "gh_name": "Yogesh",
       "analyst_name": "Ujjwala",
       "rh_name": "Sudam",
@@ -2021,7 +2050,9 @@
     },
     {
       "company": "Geojit Investment",
-      "aliases": [],
+      "aliases": [
+        "Geojit"
+      ],
       "gh_name": "Yogesh",
       "analyst_name": "Ujjwala",
       "rh_name": "Sudam",
@@ -2107,7 +2138,9 @@
     },
     {
       "company": "IndusInd General Insurance Company Limited",
-      "aliases": [],
+      "aliases": [
+        "IndusInd"
+      ],
       "gh_name": "Saleem",
       "analyst_name": "Dhvani",
       "rh_name": "Sudam",
@@ -2223,7 +2256,9 @@
     },
     {
       "company": "Star Union Dai-ichi Life Insurance Company Limited",
-      "aliases": [],
+      "aliases": [
+        "Star Union"
+      ],
       "gh_name": "Shreekiran",
       "analyst_name": "Ravi N",
       "rh_name": "Priyesh",
@@ -4803,7 +4838,9 @@
     },
     {
       "company": "Tata Capital Limited",
-      "aliases": [],
+      "aliases": [
+        "tata capital"
+      ],
       "gh_name": "Akansha",
       "analyst_name": "Anushka",
       "rh_name": "Hardik",
@@ -4832,7 +4869,9 @@
     },
     {
       "company": "Darashaw and Company Private Limited",
-      "aliases": [],
+      "aliases": [
+        "Darashaw"
+      ],
       "gh_name": "Saleem",
       "analyst_name": "Amy",
       "rh_name": "Sudam",
@@ -5258,7 +5297,10 @@
     },
     {
       "company": "Navi Finserv Limited",
-      "aliases": [],
+      "aliases": [
+        "Navi ltd",
+        "Navi"
+      ],
       "gh_name": "Shreekiran",
       "analyst_name": "Tony",
       "rh_name": "Priyesh",
@@ -5655,7 +5697,9 @@
     },
     {
       "company": "Manappuram Finance Limited",
-      "aliases": [],
+      "aliases": [
+        "Manappuram"
+      ],
       "gh_name": "Aditya",
       "analyst_name": "Dhruv",
       "rh_name": "Priyesh",
@@ -5683,7 +5727,9 @@
     },
     {
       "company": "Manappuram Home Finance Limited",
-      "aliases": [],
+      "aliases": [
+        "Manappuram"
+      ],
       "gh_name": "Aditya",
       "analyst_name": "Shrey",
       "rh_name": "Priyesh",
@@ -8027,7 +8073,10 @@
     },
     {
       "company": "Navi Limited",
-      "aliases": [],
+      "aliases": [
+        "Navi ltd",
+        "Navi"
+      ],
       "gh_name": "Shreekiran",
       "analyst_name": "Tony",
       "rh_name": "Priyesh",
@@ -8049,35 +8098,6 @@
         "S3"
       ],
       "rh_sections": [
-        "S2",
-        "S3"
-      ]
-    },
-    {
-      "company": "Tata Capital Limited- MA",
-      "aliases": [],
-      "gh_name": "Akansha",
-      "analyst_name": "Anushka",
-      "rh_name": "Hardik",
-      "gh_email": "Akansha.Jain@careedge.in, Vineet.jain@careedge.in",
-      "analyst_email": "Anushka.Bothra@careedge.in",
-      "rh_email": "Hardik.Shah@careedge.in",
-      "send_gh": true,
-      "send_analyst": true,
-      "send_rh": true,
-      "sector": "BFSI",
-      "gh_sections": [
-        "S1",
-        "S2",
-        "S3"
-      ],
-      "analyst_sections": [
-        "S1",
-        "S2",
-        "S3"
-      ],
-      "rh_sections": [
-        "S1",
         "S2",
         "S3"
       ]
@@ -8141,7 +8161,9 @@
     },
     {
       "company": "HDFC Mutual Fund",
-      "aliases": [],
+      "aliases": [
+        "HDFC MF"
+      ],
       "gh_name": "Saleem",
       "analyst_name": "Lokesh",
       "rh_name": "Sudam",
