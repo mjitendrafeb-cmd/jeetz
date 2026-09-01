@@ -9594,7 +9594,9 @@
     },
     {
       "company": "Indostar Capital Finance Limited",
-      "aliases": [],
+      "aliases": [
+        "Indostar capital; BrookField"
+      ],
       "gh_name": "Jitendra",
       "analyst_name": "OM",
       "rh_name": "Hardik",
