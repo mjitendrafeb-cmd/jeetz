@@ -1,79 +1,6 @@
 [
  {
   "date": "2026-08-21",
-  "fetched": 3574,
-  "delivered_pool": 351,
-  "junk": 933,
-  "geo": 107,
-  "stale": 749,
-  "dup": 1190,
-  "sections": {
-   "S1": 306,
-   "S2": 26,
-   "S3": 19
-  },
-  "mails": 2,
-  "failed": [],
-  "source_summary": {
-   "RBI RSS": 19,
-   "RBI Enforcement": 0,
-   "SEBI RSS": 20,
-   "Google News": 25,
-   "Watchlist (Google)": 939,
-   "BSE Announcements": 0,
-   "BSE Financials": 0,
-   "Telegram": 57,
-   "Web Scraper": 209
-  },
-  "dropped_samples": {
-   "relevance": [
-    "Result: Conversion/Switch Auction of Government of India Securities",
-    "Result of the Overnight Variable Rate Reverse Repo (VRRR) auction held on August 17, 2026",
-    "Premature redemption under Sovereign Gold Bond (SGB) Scheme - Redemption Price for premature redemption of SGB",
-    "Relaxations in Know Your Client (KYC) norms for individual Persons Resident Outside India (i.e",
-    "Framework for Calculation of Net Distributable Cash Flows for InvITs",
-    "SBI Securities sees 25% UPSIDE in Man Industries (India) Ltd.- Core pipe business sustains growth momentum, co",
-    "PL Capital sees 15% UPSIDE in Ipca Laboratories- Strong beat; FY27 guidance raised",
-    "Jharkhand student leader Devendra Mahto on Tuesday ended his hunger strike after the Jharkhand government anno",
-    "Jharkhand CM Hemant Soren announces JSSC-CGL exam cancellation and inquiry into recruitment exams conducted si",
-    "Tamil Nadu Chief Minister C Joseph Vijay announced a full waiver of cooperative farm loans up to \u20b975,000",
-    "The BJP has replaced longtime IT cell chief Amit Malviya with Chhattisgarh's Deepak Mhaskey in a major organis",
-    "After decades of service, Visakhapatnam Airport ended scheduled commercial flights on 16 August 2026, with ope",
-    "#WATCH | Deoghar, Jharkhand: Devotees and Kanwariyas throng the Shree Baba Baidyanath Jyotirlinga Temple on th",
-    "US-Iran war LIVE: Shipping via Strait of Hormuz slows amid tanker attacks; oil steadies as fighting erupts in ",
-    "The Ministry of Petroleum and Natural Gas has sought to allay concerns over ethanol-blended petrol, saying veh",
-    "Ajay Harinath Singh \u2013 Dynasty Of Dominance: Lineage, Business & Power",
-    "Listing of further issue of Krishival Foods Limited",
-    "Listing of Government Securities on Capital Market Segment",
-    "Certificate No. RC9282 of 2026 Notice of Demand in respect of Atit Commercial Company Private Limited (Transfe",
-    "General Remittance Advice against: Sunil Singh (Proprietor of Alfa Finsec) [Defaulter] (PAN: BDGPS0774K) in th"
-   ],
-   "junk": [
-    "General Remittance Order dated 14.08.2026 in Recovery Certificate No",
-    "General Remittance Order dated 14.08.2026 in Recovery Certificate No",
-    "General Remittance Order dated 14.08.2026 in Recovery Certificate No",
-    "General Remittance Order dated 14.08.2026 in Recovery Certificate No",
-    "Completion of Recovery Certificate No",
-    "Appeal No. 6992 of 2026 filed by Rakesh Mohan Rai",
-    "Appeal No. 6991 of 2026 filed by Parivesh Shukla",
-    "Appeal No. 6990 of 2026 filed by Vikas Jain",
-    "Appeal No. 6989 of 2026 filed by Valji Narayan Bhadra",
-    "Appeal No. 6988 of 2026 filed by Neeraj Sisodia",
-    "Appeal No. 6987 of 2026 filed by Sunil Rohilla",
-    "Appeal No. 6980 of 2026 filed by Ebenezer R",
-    "Appeal No. 6983 of 2026 filed by Anivesh Kumar Pandey",
-    "Buy Sudarshan Chemical Industries; target of Rs 1450: Anand Rathi",
-    "Anand Rathi Wealth Ltd is Rated Buy",
-    "FMCG Growth Accelerates to 15.1% In Q1FY27, Anand Rathi Sees Better Margins & Attractive Valuations",
-    "Avoid aggressive mkt positioning, says Angel One; Aequs among 3 stock picks",
-    "Avoid aggressive mkt positioning, says Angel One; Aequs among 3 stock picks",
-    "Banking Stock Picks: SBI, ICICI Bank, Axis Bank and others - 12 BUY-rated stocks with up to 40% upside potenti",
-    "Axis Max Life launches retirement campaign with Rohit Sharma"
-   ]
-  }
- },
- {
-  "date": "2026-08-21",
   "fetched": 3626,
   "delivered_pool": 365,
   "junk": 920,
@@ -2172,6 +2099,78 @@
     "Appeal No. 7009 of 2026 filed by Kumari Devi",
     "ICICI Bank, SBI: Foreign brokerages pick winners in the Indian banking pack",
     "360 ONE WAM Ltd Sees Significant Open Interest Surge Amid Bullish Market Positioning"
+   ]
+  }
+ },
+ {
+  "date": "2026-09-01",
+  "fetched": 3895,
+  "delivered_pool": 354,
+  "junk": 1676,
+  "geo": 45,
+  "stale": 630,
+  "dup": 994,
+  "sections": {
+   "S1": 317,
+   "S2": 23,
+   "S3": 14
+  },
+  "mails": 40,
+  "failed": [],
+  "source_summary": {
+   "RBI RSS": 20,
+   "RBI Enforcement": 0,
+   "SEBI RSS": 20,
+   "Google News": 18,
+   "Watchlist (Google)": 766,
+   "BSE Financials": 0,
+   "Telegram": 47,
+   "Web Scraper": 900
+  },
+  "dropped_samples": {
+   "relevance": [
+    "Result of the 3-day Variable Rate Reverse Repo (VRRR) auction held on August 28, 2026",
+    "Performance of Private Corporate Business Sector during Q1:2026-27",
+    "Release Order \u2013 Naresh Kumar (PAN: ASPPK8654F) [Defaulter] in the matter of Sadhna Broadcast Limited. Certific",
+    "Release Order \u2013 SPECTRUM TECHNOPROJECTS PVT",
+    "Motilal Oswal Initiating Coverage on Adani Enterprises, with 25% UPSIDE- Multiple growth engines, one integrat",
+    "#MintPremium | The country's lax labelling of packages has provoked calls for boldface health warnings",
+    "The price of the yellow metal in India's retail market declined on Friday, 28 August, amid ongoing uncertainty",
+    "#MintMarkets | Indian equity markets opened on a positive note today",
+    "#MintMarkets | Nifty witnesses highest volume in 11 sessions; breaks below trendline support.",
+    "US President Donald Trump on Thursday signed an executive order directing the US government to rename Lake Ont",
+    "Vodafone Idea non-executive chairman Kumar Mangalam Birla said on Thursday that generating free cash flow is e",
+    "After low recovery, NCLT forms 5-member bench to hear Subhash Chandra insolvency - The Indian Express",
+    "Admiration or Domination: What Servants Reveal About Powerful Men",
+    "Listing of further issues of Atmastco Limited",
+    "Scaling up India's manufacturing ambitions",
+    "Buyback of Government of India Dated Securities",
+    "Reserve Money and Money Supply for the fortnight ended on August 15, 2026",
+    "Weekly Recap: Regulatory closure with no action and AXISBANK double bottom",
+    "(BFAM) Price Dynamics and Execution-Aware Positioning",
+    "Bright Horizons Family Solutions (BFAM) Rebounds On Earnings Focus, Is The Valuation Gap Still Compelling?"
+   ],
+   "junk": [
+    "Cancellation of Recovery Certificate No",
+    "Cancellation of Recovery Certificate No",
+    "Cancellation of Recovery Certificate No",
+    "Notice of Attachment dated August 27,2026 in Recovery Certificate No. 9275 of 2026 issued in the matter of Kun",
+    "General Remittance Advice against: Sanjay Kumar [Defaulter] (PAN: AVBPK4726F) in the matter of dealings in Ill",
+    "Completion of Recovery Certificate No",
+    "Adjudication Order in the matter of Vedic Ayurveda Ltd - formerly known as KD Leisures Limited",
+    "Revocation Order in the matter of Bharat Global Developers Limited",
+    "SEBI Order for Compliance \u2013 Release Order for Recovery Certificate No",
+    "SEBI Order for Compliance \u2013 Completion Of Recovery Certificate No",
+    "SEBI Order for Compliance Notice of Attachment Demat Account and Mutual Fund Folio(s) for Recovery Certificate",
+    "SEBI Order for Compliance Notice of Attachment Bank/Post Office account for Recovery Certificate No.8932 of 20",
+    "Completion of Recovery Certificate No",
+    "Final Order in the matter of Varanium Cloud Limited",
+    "PGIM India Ultra Short Term Direct-IDCW Monthly (\u20b9 12.34) - NAV, Reviews & asset allocation",
+    "Aditya Birla Sun Life Medium to Long Term Fund Regular-IDCW Quarterly (\u20b9 13.11) - NAV, Reviews & asset allocat",
+    "Aditya Birla Sun Life Medium to Long Term Fund - Regular Plan Fund info",
+    "Aditya Birla Sun Life AMC Share News Today",
+    "Aditya Birla Sun Life Gilt Fund - Regular Plan Fund info",
+    "Aditya Birla Sun Life Medium to Long Term Fund Regular-Growth (\u20b9 130.17) - NAV, Reviews & asset allocation"
    ]
   }
  }
