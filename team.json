@@ -337,7 +337,9 @@
     },
     {
       "company": "GrowXCD Finance Private Limited",
-      "aliases": [],
+      "aliases": [
+        "GrowXCD"
+      ],
       "gh_name": "Akansha",
       "analyst_name": "Hareesh",
       "rh_name": "Hardik",
