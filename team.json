@@ -3,7 +3,9 @@
   "rows": [
     {
       "company": "Namdev Finvest Private Limited",
-      "aliases": [],
+      "aliases": [
+        "Namdev Finvest"
+      ],
       "gh_name": "Saleem",
       "analyst_name": "Amy",
       "rh_name": "Sudam",
@@ -28,8 +30,7 @@
         "S1",
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Belstar Microfinance Limited",
@@ -60,8 +61,7 @@
         "S1",
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "MINTIFI Finserve Private Limited",
@@ -92,12 +92,13 @@
         "S1",
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Kissandhan Agri Financial Serviced Limited",
-      "aliases": [],
+      "aliases": [
+        "Kissandhan"
+      ],
       "gh_name": "Jatin",
       "analyst_name": "Shweta",
       "rh_name": "Priyesh",
@@ -121,13 +122,12 @@
       "rh_sections": [
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Karnataka State Financial Corporation",
       "aliases": [
-        "Karnataka State Financial"
+        "KSFC; Karnataka State Financial"
       ],
       "gh_name": "Shreekiran",
       "analyst_name": "Tony",
@@ -152,12 +152,13 @@
       "rh_sections": [
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Laxmi India Finance Limited",
-      "aliases": [],
+      "aliases": [
+        "Laxmi India Finance"
+      ],
       "gh_name": "Saleem",
       "analyst_name": "Shivam",
       "rh_name": "Sudam",
@@ -182,8 +183,7 @@
         "S1",
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Dar Credit & Capital Limited",
@@ -214,12 +214,13 @@
         "S1",
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Religare Housing Development Finance Corporation Limited",
-      "aliases": [],
+      "aliases": [
+        "Religare Housing"
+      ],
       "gh_name": "Jatin",
       "analyst_name": "Swapnil",
       "rh_name": "Priyesh",
@@ -243,12 +244,13 @@
       "rh_sections": [
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Supreme Housing Finance Limited",
-      "aliases": [],
+      "aliases": [
+        "Supreme Housing"
+      ],
       "gh_name": "Jatin",
       "analyst_name": "Jaya",
       "rh_name": "Priyesh",
@@ -272,12 +274,13 @@
       "rh_sections": [
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Manba Finance Limited",
-      "aliases": [],
+      "aliases": [
+        "Manba Finance"
+      ],
       "gh_name": "Jitendra",
       "analyst_name": "Pooja",
       "rh_name": "Hardik",
@@ -302,12 +305,13 @@
         "S1",
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "CFM ARC",
-      "aliases": [],
+      "aliases": [
+        "CFM Asset Reconstruction; CFM ARC"
+      ],
       "gh_name": "Jitendra",
       "analyst_name": "Pranjal",
       "rh_name": "Hardik",
@@ -332,8 +336,7 @@
         "S1",
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "GrowXCD Finance Private Limited",
@@ -364,8 +367,7 @@
         "S1",
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "KrazyBee Services Limited",
@@ -395,12 +397,13 @@
       "rh_sections": [
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Karnataka Bank Limited",
-      "aliases": [],
+      "aliases": [
+        "Karnataka Bank"
+      ],
       "gh_name": "Yogesh",
       "analyst_name": "Yashika",
       "rh_name": "Sudam",
@@ -425,12 +428,13 @@
         "S1",
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Tourism Finance Corporation of India Limited",
-      "aliases": [],
+      "aliases": [
+        "Tourism Finance ; TFCI"
+      ],
       "gh_name": "Jatin",
       "analyst_name": "Swapnil",
       "rh_name": "Priyesh",
@@ -454,12 +458,13 @@
       "rh_sections": [
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Golden Legand Leasing and Finance Limited",
-      "aliases": [],
+      "aliases": [
+        "Golden Legand"
+      ],
       "gh_name": "Jitendra",
       "analyst_name": "Krish H",
       "rh_name": "Hardik",
@@ -484,14 +489,12 @@
         "S1",
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Nabkisan Finance limited",
       "aliases": [
-        "Nabkisan",
-        "Nabard"
+        "NABKISAN;NABARD"
       ],
       "gh_name": "Jitendra",
       "analyst_name": "Krish H",
@@ -517,13 +520,12 @@
         "S1",
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Svamaan Financial Services Private Limited",
       "aliases": [
-        "Svamaan"
+        "Svamaan Financial"
       ],
       "gh_name": "Jitendra",
       "analyst_name": "Pooja",
@@ -549,12 +551,13 @@
         "S1",
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Axis Securities Limited",
-      "aliases": [],
+      "aliases": [
+        "Axis Securities"
+      ],
       "gh_name": "Yogesh",
       "analyst_name": "Ujjwala",
       "rh_name": "Sudam",
@@ -579,12 +582,13 @@
         "S1",
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Ashika Stock Services Limited",
-      "aliases": [],
+      "aliases": [
+        "Ashika Stock"
+      ],
       "gh_name": "Shreekiran",
       "analyst_name": "Punit N",
       "rh_name": "Priyesh",
@@ -608,12 +612,13 @@
       "rh_sections": [
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "IFCI Limited",
-      "aliases": [],
+      "aliases": [
+        "IFCI"
+      ],
       "gh_name": "Jatin",
       "analyst_name": "Jaya",
       "rh_name": "Priyesh",
@@ -637,13 +642,12 @@
       "rh_sections": [
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Bank of Baroda",
       "aliases": [
-        "BOB"
+        "BoB;Bank of Baroda"
       ],
       "gh_name": "Aditya",
       "analyst_name": "Shrey",
@@ -668,12 +672,13 @@
       "rh_sections": [
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Punjab and Sind Bank",
-      "aliases": [],
+      "aliases": [
+        "Punjab & Sind Bank; PSB"
+      ],
       "gh_name": "Aditya",
       "analyst_name": "Dhruv",
       "rh_name": "Priyesh",
@@ -697,12 +702,13 @@
       "rh_sections": [
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Nexome Capital Markets Limited",
-      "aliases": [],
+      "aliases": [
+        "Nexome Capital ; SMIFS Capital Markets"
+      ],
       "gh_name": "Yogesh",
       "analyst_name": "Yashika",
       "rh_name": "Sudam",
@@ -727,12 +733,13 @@
         "S1",
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Wonder Home Finance Limited",
-      "aliases": [],
+      "aliases": [
+        "Wonder Home"
+      ],
       "gh_name": "Saleem",
       "analyst_name": "Amy",
       "rh_name": "Sudam",
@@ -757,12 +764,13 @@
         "S1",
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "SBM Bank (INDIA) Limited",
-      "aliases": [],
+      "aliases": [
+        "SBM Bank India; SBM India"
+      ],
       "gh_name": "Yogesh",
       "analyst_name": "Sehdev",
       "rh_name": "Sudam",
@@ -787,8 +795,7 @@
         "S1",
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Home First Finance Company India Limited",
@@ -819,12 +826,13 @@
         "S1",
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Religare Broking Limited",
-      "aliases": [],
+      "aliases": [
+        "Religare Broking"
+      ],
       "gh_name": "Shreekiran",
       "analyst_name": "Punit N",
       "rh_name": "Priyesh",
@@ -848,12 +856,13 @@
       "rh_sections": [
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "One Mobikwik",
-      "aliases": [],
+      "aliases": [
+        "One MobiKwik"
+      ],
       "gh_name": "Jatin",
       "analyst_name": "Kanika",
       "rh_name": "Priyesh",
@@ -877,12 +886,13 @@
       "rh_sections": [
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Pinelabs",
-      "aliases": [],
+      "aliases": [
+        "Pine Labs"
+      ],
       "gh_name": "Jatin",
       "analyst_name": "Jaya",
       "rh_name": "Priyesh",
@@ -906,12 +916,13 @@
       "rh_sections": [
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Religare Enterprises",
-      "aliases": [],
+      "aliases": [
+        "Religare"
+      ],
       "gh_name": "Jatin",
       "analyst_name": "Kanika",
       "rh_name": "Priyesh",
@@ -935,12 +946,13 @@
       "rh_sections": [
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Finova Capital Private Limited",
-      "aliases": [],
+      "aliases": [
+        "Finova Capital"
+      ],
       "gh_name": "Saleem",
       "analyst_name": "Shivam",
       "rh_name": "Sudam",
@@ -965,12 +977,13 @@
         "S1",
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "KLM Axiva Finvest Limited",
-      "aliases": [],
+      "aliases": [
+        "KLM Axiva"
+      ],
       "gh_name": "Akansha",
       "analyst_name": "Pranav V",
       "rh_name": "Hardik",
@@ -995,12 +1008,13 @@
         "S1",
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Gajet Financial Services Private Limited",
-      "aliases": [],
+      "aliases": [
+        "Gajet Financial"
+      ],
       "gh_name": "Akansha",
       "analyst_name": "Pranav V",
       "rh_name": "Hardik",
@@ -1025,13 +1039,12 @@
         "S1",
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "IDBI Bank Limited",
       "aliases": [
-        "IDBI"
+        "IDBI Bank"
       ],
       "gh_name": "Aditya",
       "analyst_name": "Shrey",
@@ -1056,8 +1069,7 @@
       "rh_sections": [
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "SMFG India Credit Company Limited",
@@ -1089,8 +1101,7 @@
         "S1",
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "SMFG India Home Finance Company Limited",
@@ -1122,12 +1133,13 @@
         "S1",
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "NIPUN PROJECTS & FINANCE PRIVATE LIMITED",
-      "aliases": [],
+      "aliases": [
+        "NIPUN PROJECTS & FINANCE;Optimo capital"
+      ],
       "gh_name": "Shreekiran",
       "analyst_name": "Punit N",
       "rh_name": "Priyesh",
@@ -1151,12 +1163,13 @@
       "rh_sections": [
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Nivara Home Finance Limited",
-      "aliases": [],
+      "aliases": [
+        "Nivara Home"
+      ],
       "gh_name": "Shreekiran",
       "analyst_name": "Tony",
       "rh_name": "Priyesh",
@@ -1180,12 +1193,13 @@
       "rh_sections": [
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Pahal Financial Services Private Limited",
-      "aliases": [],
+      "aliases": [
+        "Pahal Financial"
+      ],
       "gh_name": "Shreekiran",
       "analyst_name": "Ravi N",
       "rh_name": "Priyesh",
@@ -1209,12 +1223,13 @@
       "rh_sections": [
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Sitara Housing Finance Limited",
-      "aliases": [],
+      "aliases": [
+        "Sitara Housing Finance"
+      ],
       "gh_name": "Akansha",
       "analyst_name": "Anushka",
       "rh_name": "Hardik",
@@ -1239,12 +1254,13 @@
         "S1",
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Nisus Finance Services Co Limited",
-      "aliases": [],
+      "aliases": [
+        "Nisus Finance; NiFCO"
+      ],
       "gh_name": "Jitendra",
       "analyst_name": "Pooja",
       "rh_name": "Hardik",
@@ -1269,12 +1285,13 @@
         "S1",
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Profectus Capital Private Limited",
-      "aliases": [],
+      "aliases": [
+        "Profectus Capital;UGRO"
+      ],
       "gh_name": "Jitendra",
       "analyst_name": "OM",
       "rh_name": "Hardik",
@@ -1299,12 +1316,13 @@
         "S1",
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Indian Clearing Corporation Limited",
-      "aliases": [],
+      "aliases": [
+        "Indian Clearing Corporation; ICCL; BSE Clearing; BSECL"
+      ],
       "gh_name": "Akansha",
       "analyst_name": "Pulkit Jain",
       "rh_name": "Hardik",
@@ -1329,12 +1347,13 @@
         "S1",
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "NSE IFSC Clearing Corporation Limited",
-      "aliases": [],
+      "aliases": [
+        "NSEICC; NICCL; NSE International Clearing"
+      ],
       "gh_name": "Akansha",
       "analyst_name": "Pulkit Jain",
       "rh_name": "Hardik",
@@ -1359,12 +1378,13 @@
         "S1",
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Repco Home Finance Limited",
-      "aliases": [],
+      "aliases": [
+        "Repco Home"
+      ],
       "gh_name": "Akansha",
       "analyst_name": "Hareesh",
       "rh_name": "Hardik",
@@ -1389,12 +1409,13 @@
         "S1",
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Jharkhand Rajya Gramin Bank",
-      "aliases": [],
+      "aliases": [
+        "Jharkhand Gramin Bank; JRGB; JGB Bank"
+      ],
       "gh_name": "Aditya",
       "analyst_name": "Shrey",
       "rh_name": "Priyesh",
@@ -1418,12 +1439,13 @@
       "rh_sections": [
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Bharti Axa Life Insurance Company Limited",
-      "aliases": [],
+      "aliases": [
+        "Bharti Axa"
+      ],
       "gh_name": "Saleem",
       "analyst_name": "Amy",
       "rh_name": "Sudam",
@@ -1448,12 +1470,13 @@
         "S1",
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "MS Fincap Private Limited",
-      "aliases": [],
+      "aliases": [
+        "MS Fincap"
+      ],
       "gh_name": "Saleem",
       "analyst_name": "Kumer",
       "rh_name": "Sudam",
@@ -1478,12 +1501,13 @@
         "S1",
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Jammu & Kashmir Bank Limited",
-      "aliases": [],
+      "aliases": [
+        "J&K Bank; Jammu and Kashmir Bank"
+      ],
       "gh_name": "Aditya",
       "analyst_name": "Dhruv",
       "rh_name": "Priyesh",
@@ -1507,8 +1531,7 @@
       "rh_sections": [
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "HDFC Life Insurance Company Limited",
@@ -1538,14 +1561,12 @@
       "rh_sections": [
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "ESAF Small Finance Bank Limited",
       "aliases": [
-        "ESAF SFB",
-        "ESAF"
+        "ESAF Small Finance Bank; ESAF SFB"
       ],
       "gh_name": "Shreekiran",
       "analyst_name": "Ravi N",
@@ -1570,12 +1591,13 @@
       "rh_sections": [
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Goenka Business and Finance Limited",
-      "aliases": [],
+      "aliases": [
+        "Goenka Business and Finance"
+      ],
       "gh_name": "Saleem",
       "analyst_name": "Lokesh",
       "rh_name": "Sudam",
@@ -1600,12 +1622,13 @@
         "S1",
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Sarala Development & Microfinance Private Limited",
-      "aliases": [],
+      "aliases": [
+        "Sarala Development & Microfinance"
+      ],
       "gh_name": "Shreekiran",
       "analyst_name": "Punit N",
       "rh_name": "Priyesh",
@@ -1629,12 +1652,13 @@
       "rh_sections": [
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "SMIFS LIMITED",
-      "aliases": [],
+      "aliases": [
+        "SMIFS"
+      ],
       "gh_name": "Saleem",
       "analyst_name": "Lokesh",
       "rh_name": "Sudam",
@@ -1659,12 +1683,13 @@
         "S1",
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Cyqure India Private Limited",
-      "aliases": [],
+      "aliases": [
+        "Cyqure India"
+      ],
       "gh_name": "Saleem",
       "analyst_name": "Shivam",
       "rh_name": "Sudam",
@@ -1689,12 +1714,13 @@
         "S1",
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Reliance Capital Limited",
-      "aliases": [],
+      "aliases": [
+        "Reliance Capital"
+      ],
       "gh_name": "Saleem",
       "analyst_name": "Shivam",
       "rh_name": "Sudam",
@@ -1719,12 +1745,13 @@
         "S1",
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Maanaveeya Development & Finance Private Limited",
-      "aliases": [],
+      "aliases": [
+        "Maanaveeya Development & Finance"
+      ],
       "gh_name": "Shreekiran",
       "analyst_name": "Tony",
       "rh_name": "Priyesh",
@@ -1748,13 +1775,12 @@
       "rh_sections": [
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "360 One Alternates Asset Management Limited",
       "aliases": [
-        "360 One"
+        "360 ONE Alternates; 360 ONE Asset"
       ],
       "gh_name": "Yogesh",
       "analyst_name": "Sehdev",
@@ -1780,13 +1806,12 @@
         "S1",
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "360 One Distribution Services Limited",
       "aliases": [
-        "360 One"
+        "360 ONE Distribution; IIFL Wealth Distribution Services"
       ],
       "gh_name": "Yogesh",
       "analyst_name": "Sehdev",
@@ -1812,13 +1837,12 @@
         "S1",
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "360 One Prime Limited",
       "aliases": [
-        "360 One"
+        "360 ONE Prime; IIFL Wealth Prime"
       ],
       "gh_name": "Yogesh",
       "analyst_name": "Sehdev",
@@ -1844,13 +1868,12 @@
         "S1",
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "360 One Wam Limited",
       "aliases": [
-        "360 One"
+        "360 ONE WAM; IIFL Wealth Management"
       ],
       "gh_name": "Yogesh",
       "analyst_name": "Sehdev",
@@ -1876,12 +1899,13 @@
         "S1",
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "HDFC Securities Limited",
-      "aliases": [],
+      "aliases": [
+        "HDFC Securities"
+      ],
       "gh_name": "Saleem",
       "analyst_name": "Lokesh",
       "rh_name": "Sudam",
@@ -1906,12 +1930,13 @@
         "S1",
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Shrinithi Capital Private Limited",
-      "aliases": [],
+      "aliases": [
+        "Shrinithi Capital"
+      ],
       "gh_name": "Akansha",
       "analyst_name": "Pranav V",
       "rh_name": "Hardik",
@@ -1936,13 +1961,12 @@
         "S1",
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Alpha Alternatives Financial Services Private Limited",
       "aliases": [
-        "Alpha Alternatives"
+        "Alpha Alternatives; Alpha Holdings"
       ],
       "gh_name": "Jitendra",
       "analyst_name": "Pranjal",
@@ -1968,12 +1992,13 @@
         "S1",
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Agrim Housing Finance Private Limited",
-      "aliases": [],
+      "aliases": [
+        "Agrim Housing"
+      ],
       "gh_name": "Akansha",
       "analyst_name": "Anushka",
       "rh_name": "Hardik",
@@ -1998,12 +2023,13 @@
         "S1",
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "National Bank For Financing Infrastructure And Development",
-      "aliases": [],
+      "aliases": [
+        "NaBFID"
+      ],
       "gh_name": "Aditya",
       "analyst_name": "Dhruv",
       "rh_name": "Priyesh",
@@ -2027,12 +2053,13 @@
       "rh_sections": [
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Decent Securities Limited",
-      "aliases": [],
+      "aliases": [
+        "Decent Securities"
+      ],
       "gh_name": "Jatin",
       "analyst_name": "Shweta",
       "rh_name": "Priyesh",
@@ -2056,8 +2083,7 @@
       "rh_sections": [
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Geojit Credits Private Limited",
@@ -2088,8 +2114,7 @@
         "S1",
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Geojit Financial Services Limited",
@@ -2120,8 +2145,7 @@
         "S1",
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Geojit Investment",
@@ -2152,12 +2176,13 @@
         "S1",
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Comfort Fincap Limited",
-      "aliases": [],
+      "aliases": [
+        "Comfort Fincap"
+      ],
       "gh_name": "Yogesh",
       "analyst_name": "Sehdev",
       "rh_name": "Sudam",
@@ -2182,12 +2207,13 @@
         "S1",
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Equitas Small Finance Bank Limited",
-      "aliases": [],
+      "aliases": [
+        "Equitas Small Finance Bank; Equitas SFB"
+      ],
       "gh_name": "Shreekiran",
       "analyst_name": "Tony",
       "rh_name": "Priyesh",
@@ -2211,13 +2237,12 @@
       "rh_sections": [
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "IndusInd General Insurance Company Limited",
       "aliases": [
-        "IndusInd"
+        "IndusInd General Insurance; Reliance General Insurance;IndusInd"
       ],
       "gh_name": "Saleem",
       "analyst_name": "Dhvani",
@@ -2243,12 +2268,13 @@
         "S1",
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "NABFINS Limited",
-      "aliases": [],
+      "aliases": [
+        "NABFINS"
+      ],
       "gh_name": "Jitendra",
       "analyst_name": "Krish H",
       "rh_name": "Hardik",
@@ -2273,12 +2299,13 @@
         "S1",
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Northern Arc Capital Limited",
-      "aliases": [],
+      "aliases": [
+        "Northern Arc"
+      ],
       "gh_name": "Saleem",
       "analyst_name": "Lokesh",
       "rh_name": "Sudam",
@@ -2303,12 +2330,13 @@
         "S1",
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Baid Finserv Limited",
-      "aliases": [],
+      "aliases": [
+        "Baid Finserv"
+      ],
       "gh_name": "Saleem",
       "analyst_name": "Amy",
       "rh_name": "Sudam",
@@ -2333,13 +2361,12 @@
         "S1",
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Star Union Dai-ichi Life Insurance Company Limited",
       "aliases": [
-        "Star Union"
+        "SUD Life; Star Union Dai-ichi Life;Star union"
       ],
       "gh_name": "Shreekiran",
       "analyst_name": "Ravi N",
@@ -2364,12 +2391,13 @@
       "rh_sections": [
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Kusalava Finance Limited",
-      "aliases": [],
+      "aliases": [
+        "Kusalava Finance"
+      ],
       "gh_name": "Shreekiran",
       "analyst_name": "Tony",
       "rh_name": "Priyesh",
@@ -2393,12 +2421,13 @@
       "rh_sections": [
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Sammaan Capital Limited",
-      "aliases": [],
+      "aliases": [
+        "Sammaan Capital; Indiabulls Housing Finance; IBHFL"
+      ],
       "gh_name": "Shreekiran",
       "analyst_name": "Punit N",
       "rh_name": "Priyesh",
@@ -2422,12 +2451,13 @@
       "rh_sections": [
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Sammaan Finserve Limited",
-      "aliases": [],
+      "aliases": [
+        "Sammaan Finserve; Indiabulls Commercial Credit"
+      ],
       "gh_name": "Shreekiran",
       "analyst_name": "Punit N",
       "rh_name": "Priyesh",
@@ -2451,12 +2481,13 @@
       "rh_sections": [
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Shubham Housing Development Finance Company Limited",
-      "aliases": [],
+      "aliases": [
+        "Shubham Housing ; Shubham Housing Development Finance"
+      ],
       "gh_name": "Jatin",
       "analyst_name": "Shweta",
       "rh_name": "Priyesh",
@@ -2480,12 +2511,13 @@
       "rh_sections": [
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Hinduja Housing Finance Limited",
-      "aliases": [],
+      "aliases": [
+        "Hinduja Housing"
+      ],
       "gh_name": "Akansha",
       "analyst_name": "Pranav V",
       "rh_name": "Hardik",
@@ -2510,12 +2542,13 @@
         "S1",
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Hinduja Leyland Finance Limited",
-      "aliases": [],
+      "aliases": [
+        "Hinduja Leyland"
+      ],
       "gh_name": "Akansha",
       "analyst_name": "Hareesh",
       "rh_name": "Hardik",
@@ -2540,12 +2573,13 @@
         "S1",
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "L&T Finance Limited (formerly known as L&T Finance Holdings Limited)",
-      "aliases": [],
+      "aliases": [
+        "L&T Finance; L&T Finance Holdings; LTFH"
+      ],
       "gh_name": "Saleem",
       "analyst_name": "Shivam",
       "rh_name": "Sudam",
@@ -2570,12 +2604,13 @@
         "S1",
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Light Microfinance Private Limited",
-      "aliases": [],
+      "aliases": [
+        "Light Microfinance"
+      ],
       "gh_name": "Shreekiran",
       "analyst_name": "Ravi N",
       "rh_name": "Priyesh",
@@ -2599,12 +2634,13 @@
       "rh_sections": [
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "National Housing Bank",
-      "aliases": [],
+      "aliases": [
+        "NHB"
+      ],
       "gh_name": "Jatin",
       "analyst_name": "Sudeeksha",
       "rh_name": "Priyesh",
@@ -2628,12 +2664,13 @@
       "rh_sections": [
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "SBFC Finance Limited",
-      "aliases": [],
+      "aliases": [
+        "SBFC"
+      ],
       "gh_name": "Yogesh",
       "analyst_name": "Yashika",
       "rh_name": "Sudam",
@@ -2658,13 +2695,12 @@
         "S1",
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Earlysalary Services Private Limited",
       "aliases": [
-        "EarlySalary; Fibe"
+        "Fibe; EarlySalary"
       ],
       "gh_name": "Jitendra",
       "analyst_name": "Pooja",
@@ -2690,12 +2726,13 @@
         "S1",
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Crest Ventures Limited",
-      "aliases": [],
+      "aliases": [
+        "Crest Ventures"
+      ],
       "gh_name": "Akansha",
       "analyst_name": "Anushka",
       "rh_name": "Hardik",
@@ -2720,12 +2757,13 @@
         "S1",
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "IDBI Capital Markets & Securities Limited",
-      "aliases": [],
+      "aliases": [
+        "IDBI Capital; IDBI Capital Markets & Securities"
+      ],
       "gh_name": "Aditya",
       "analyst_name": "Dhruv",
       "rh_name": "Priyesh",
@@ -2749,12 +2787,13 @@
       "rh_sections": [
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Axis Bank Limited",
-      "aliases": [],
+      "aliases": [
+        "Axis Bank"
+      ],
       "gh_name": "Yogesh",
       "analyst_name": "Ujjwala",
       "rh_name": "Sudam",
@@ -2779,12 +2818,13 @@
         "S1",
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Muthoot Homefin (India) Limited",
-      "aliases": [],
+      "aliases": [
+        "Muthoot Homefin"
+      ],
       "gh_name": "Akansha",
       "analyst_name": "Pulkit Jain",
       "rh_name": "Hardik",
@@ -2809,12 +2849,13 @@
         "S1",
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Share India Fincap Private Limited",
-      "aliases": [],
+      "aliases": [
+        "Share India Fincap"
+      ],
       "gh_name": "Shreekiran",
       "analyst_name": "Punit J",
       "rh_name": "Priyesh",
@@ -2838,12 +2879,13 @@
       "rh_sections": [
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Share India Securities Limited",
-      "aliases": [],
+      "aliases": [
+        "Share India Securities"
+      ],
       "gh_name": "Shreekiran",
       "analyst_name": "Punit J",
       "rh_name": "Priyesh",
@@ -2867,12 +2909,13 @@
       "rh_sections": [
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Poonawalla Fincorp Limited",
-      "aliases": [],
+      "aliases": [
+        "Poonawalla Fincorp"
+      ],
       "gh_name": "Saleem",
       "analyst_name": "Lokesh",
       "rh_name": "Sudam",
@@ -2897,12 +2940,13 @@
         "S1",
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Power Finance Corporation Limited",
-      "aliases": [],
+      "aliases": [
+        "Power Finance Corporation; PFC"
+      ],
       "gh_name": "Jatin",
       "analyst_name": "Shweta",
       "rh_name": "Priyesh",
@@ -2926,12 +2970,13 @@
       "rh_sections": [
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "REC Limited",
-      "aliases": [],
+      "aliases": [
+        "REC"
+      ],
       "gh_name": "Jatin",
       "analyst_name": "Shweta",
       "rh_name": "Priyesh",
@@ -2955,12 +3000,13 @@
       "rh_sections": [
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "IDFC First Bank",
-      "aliases": [],
+      "aliases": [
+        "IDFC FIRST"
+      ],
       "gh_name": "Yogesh",
       "analyst_name": "Yashika",
       "rh_name": "Sudam",
@@ -2985,12 +3031,13 @@
         "S1",
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Federal Bank Limited",
-      "aliases": [],
+      "aliases": [
+        "Federal Bank"
+      ],
       "gh_name": "Yogesh",
       "analyst_name": "Yashika",
       "rh_name": "Sudam",
@@ -3015,12 +3062,13 @@
         "S1",
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "HDB Financial Services Limited",
-      "aliases": [],
+      "aliases": [
+        "HDB Financial Services; HDBFS; HDB"
+      ],
       "gh_name": "Saleem",
       "analyst_name": "Amy",
       "rh_name": "Sudam",
@@ -3045,12 +3093,13 @@
         "S1",
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Union Bank of India",
-      "aliases": [],
+      "aliases": [
+        "Union Bank"
+      ],
       "gh_name": "Aditya",
       "analyst_name": "Dhruv",
       "rh_name": "Priyesh",
@@ -3074,12 +3123,13 @@
       "rh_sections": [
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "State Bank of India",
-      "aliases": [],
+      "aliases": [
+        "SBI"
+      ],
       "gh_name": "Aditya",
       "analyst_name": "Dhruv",
       "rh_name": "Priyesh",
@@ -3103,12 +3153,13 @@
       "rh_sections": [
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Arya Fin-Trade Services (India) Private Limited",
-      "aliases": [],
+      "aliases": [
+        "Arya Fin-Trade Services (India)"
+      ],
       "gh_name": "Saleem",
       "analyst_name": "Lokesh",
       "rh_name": "Sudam",
@@ -3133,12 +3184,13 @@
         "S1",
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Asthana Rural Development & Services Private Limited",
-      "aliases": [],
+      "aliases": [
+        "Asthana Rural Development & Services"
+      ],
       "gh_name": "Shreekiran",
       "analyst_name": "Punit J",
       "rh_name": "Priyesh",
@@ -3162,12 +3214,13 @@
       "rh_sections": [
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Aavas Financiers Limited",
-      "aliases": [],
+      "aliases": [
+        "Aavas Financiers"
+      ],
       "gh_name": "Jatin",
       "analyst_name": "Sudeeksha",
       "rh_name": "Priyesh",
@@ -3191,8 +3244,7 @@
       "rh_sections": [
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Auriolus Finvest",
@@ -3220,8 +3272,7 @@
       "rh_sections": [
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Canara Bank",
@@ -3249,8 +3300,7 @@
       "rh_sections": [
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Central Bank of India",
@@ -3278,8 +3328,7 @@
       "rh_sections": [
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Bank of India",
@@ -3309,12 +3358,13 @@
       "rh_sections": [
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Truhome Finance Limited",
-      "aliases": [],
+      "aliases": [
+        "Truhome Finance; Shriram Housing"
+      ],
       "gh_name": "Aditya",
       "analyst_name": "Dhruv",
       "rh_name": "Priyesh",
@@ -3338,12 +3388,13 @@
       "rh_sections": [
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "ART Housing Finance India Limited",
-      "aliases": [],
+      "aliases": [
+        "ART Housing"
+      ],
       "gh_name": "Jatin",
       "analyst_name": "Jaya",
       "rh_name": "Priyesh",
@@ -3367,12 +3418,13 @@
       "rh_sections": [
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "ICICI Bank Limited",
-      "aliases": [],
+      "aliases": [
+        "ICICI"
+      ],
       "gh_name": "Yogesh",
       "analyst_name": "Sehdev",
       "rh_name": "Sudam",
@@ -3397,12 +3449,13 @@
         "S1",
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Bandhan Mutual Fund (BLR)",
-      "aliases": [],
+      "aliases": [
+        "Bandhan Mutual Fund; Bandhan MF"
+      ],
       "gh_name": "Yogesh",
       "analyst_name": "Ujjwala",
       "rh_name": "Sudam",
@@ -3427,12 +3480,13 @@
         "S1",
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Aditya Birla Sun Life Mutual Fund",
-      "aliases": [],
+      "aliases": [
+        "ABSL Mutual Fund; Aditya Birla Sun Life Mutual Fund"
+      ],
       "gh_name": "Saleem",
       "analyst_name": "Kumer",
       "rh_name": "Sudam",
@@ -3457,12 +3511,13 @@
         "S1",
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Finnable Credit Private Limited",
-      "aliases": [],
+      "aliases": [
+        "Finnable Credit"
+      ],
       "gh_name": "Shreekiran",
       "analyst_name": "Tony",
       "rh_name": "Priyesh",
@@ -3486,12 +3541,13 @@
       "rh_sections": [
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Midland Microfin Limited",
-      "aliases": [],
+      "aliases": [
+        "Midland Microfin"
+      ],
       "gh_name": "Jatin",
       "analyst_name": "Jaya",
       "rh_name": "Priyesh",
@@ -3515,8 +3571,7 @@
       "rh_sections": [
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Fedbank Financial Services Limited",
@@ -3547,12 +3602,13 @@
         "S1",
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Keshava Prabha Microfin Private Limited",
-      "aliases": [],
+      "aliases": [
+        "Keshava Prabha Microfin"
+      ],
       "gh_name": "Akansha",
       "analyst_name": "Pranav V",
       "rh_name": "Hardik",
@@ -3577,12 +3633,13 @@
         "S1",
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Cars24 Financial Services Private Limited",
-      "aliases": [],
+      "aliases": [
+        "CARS24 Financial Services; CARS24"
+      ],
       "gh_name": "Jatin",
       "analyst_name": "Swapnil",
       "rh_name": "Priyesh",
@@ -3606,12 +3663,13 @@
       "rh_sections": [
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Flat White Capital Private Limited",
-      "aliases": [],
+      "aliases": [
+        "Flat White Capital; indiagold"
+      ],
       "gh_name": "Jatin",
       "analyst_name": "Swapnil",
       "rh_name": "Priyesh",
@@ -3635,12 +3693,13 @@
       "rh_sections": [
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Setia Auto Finance Private Limited",
-      "aliases": [],
+      "aliases": [
+        "Setia Auto Finance"
+      ],
       "gh_name": "Shreekiran",
       "analyst_name": "Punit N",
       "rh_name": "Priyesh",
@@ -3664,12 +3723,13 @@
       "rh_sections": [
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Svatantra Micro Housing Finance Corporation Limited",
-      "aliases": [],
+      "aliases": [
+        "Svatantra Micro Housing"
+      ],
       "gh_name": "Jitendra",
       "analyst_name": "Pranjal",
       "rh_name": "Hardik",
@@ -3694,12 +3754,13 @@
         "S1",
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Svatantra Microfin Limited",
-      "aliases": [],
+      "aliases": [
+        "Svatantra Microfin"
+      ],
       "gh_name": "Jitendra",
       "analyst_name": "Pranjal",
       "rh_name": "Hardik",
@@ -3724,12 +3785,13 @@
         "S1",
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "RAR Fincare Limited",
-      "aliases": [],
+      "aliases": [
+        "RAR Fincare"
+      ],
       "gh_name": "Akansha",
       "analyst_name": "Hareesh",
       "rh_name": "Hardik",
@@ -3754,13 +3816,12 @@
         "S1",
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Aseem Infrastructure Finance Limited",
       "aliases": [
-        "Aseem ; TPG"
+        "Aseem Infrastructure Finance; Aseem Infra"
       ],
       "gh_name": "Jitendra",
       "analyst_name": "Pooja",
@@ -3786,8 +3847,7 @@
         "S1",
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Red Fort Capital Finance Company Private Limited",
@@ -3818,12 +3878,13 @@
         "S1",
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Yogakshemam Loans Limited",
-      "aliases": [],
+      "aliases": [
+        "Yogakshemam Loans"
+      ],
       "gh_name": "Akansha",
       "analyst_name": "Pranav V",
       "rh_name": "Hardik",
@@ -3848,8 +3909,7 @@
         "S1",
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "The Puducherry Public Servants Co-op. Credit Society Ltd P-52",
@@ -3877,12 +3937,13 @@
       "rh_sections": [
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Star Housing Finance Limited",
-      "aliases": [],
+      "aliases": [
+        "Star Housing"
+      ],
       "gh_name": "Akansha",
       "analyst_name": "Pulkit Jain",
       "rh_name": "Hardik",
@@ -3907,12 +3968,13 @@
         "S1",
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Manipal Cigna Health Insurance Company Limited",
-      "aliases": [],
+      "aliases": [
+        "ManipalCigna; Manipal Cigna"
+      ],
       "gh_name": "Shreekiran",
       "analyst_name": "Punit N",
       "rh_name": "Priyesh",
@@ -3936,12 +3998,13 @@
       "rh_sections": [
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "LIC Housing Finance Limited",
-      "aliases": [],
+      "aliases": [
+        "LIC Housing ; LIC HFL"
+      ],
       "gh_name": "Saleem",
       "analyst_name": "Shivam",
       "rh_name": "Sudam",
@@ -3966,12 +4029,13 @@
         "S1",
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "ECAP EQUITIES LIMITED (formerly known as EDEL LAND LIMITED)",
-      "aliases": [],
+      "aliases": [
+        "ECAP Equities; Edel Land"
+      ],
       "gh_name": "Akansha",
       "analyst_name": "Pulkit Jain",
       "rh_name": "Hardik",
@@ -3996,12 +4060,13 @@
         "S1",
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "ECL Finance Limited",
-      "aliases": [],
+      "aliases": [
+        "ECL Finance"
+      ],
       "gh_name": "Akansha",
       "analyst_name": "Pulkit Jain",
       "rh_name": "Hardik",
@@ -4026,12 +4091,13 @@
         "S1",
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Edel Finance Company Limited",
-      "aliases": [],
+      "aliases": [
+        "Edel Finance"
+      ],
       "gh_name": "Akansha",
       "analyst_name": "Anushka",
       "rh_name": "Hardik",
@@ -4056,12 +4122,13 @@
         "S1",
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Edelweiss Asset Reconstruction Company Limited",
-      "aliases": [],
+      "aliases": [
+        "Edelweiss ARC; Edelweiss Asset Reconstruction"
+      ],
       "gh_name": "Akansha",
       "analyst_name": "Anushka",
       "rh_name": "Hardik",
@@ -4086,12 +4153,13 @@
         "S1",
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Edelweiss Financial Services Limited",
-      "aliases": [],
+      "aliases": [
+        "Edelweiss Financial Services; EFSL"
+      ],
       "gh_name": "Akansha",
       "analyst_name": "Anushka",
       "rh_name": "Hardik",
@@ -4116,12 +4184,13 @@
         "S1",
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Nido Home Finance Limited",
-      "aliases": [],
+      "aliases": [
+        "Nido Home Finance; Edelweiss Housing Finance"
+      ],
       "gh_name": "Akansha",
       "analyst_name": "Anushka",
       "rh_name": "Hardik",
@@ -4146,12 +4215,13 @@
         "S1",
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Svasti Microfinance Private Limited",
-      "aliases": [],
+      "aliases": [
+        "Svasti Microfinance"
+      ],
       "gh_name": "Shreekiran",
       "analyst_name": "Ravi N",
       "rh_name": "Priyesh",
@@ -4175,12 +4245,13 @@
       "rh_sections": [
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Home Credit India Finance Private Limited",
-      "aliases": [],
+      "aliases": [
+        "Home Credit India; Home Credit India Finance"
+      ],
       "gh_name": "Akansha",
       "analyst_name": "Hareesh",
       "rh_name": "Hardik",
@@ -4205,12 +4276,13 @@
         "S1",
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "TVS Holdings Limited",
-      "aliases": [],
+      "aliases": [
+        "TVS Holdings"
+      ],
       "gh_name": "Akansha",
       "analyst_name": "Hareesh",
       "rh_name": "Hardik",
@@ -4235,12 +4307,13 @@
         "S1",
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "TVS Credit Services Limited",
-      "aliases": [],
+      "aliases": [
+        "TVS Credit"
+      ],
       "gh_name": "Akansha",
       "analyst_name": "Hareesh",
       "rh_name": "Hardik",
@@ -4265,12 +4338,13 @@
         "S1",
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Salem Erode Investments Limited",
-      "aliases": [],
+      "aliases": [
+        "Salem Erode Investments"
+      ],
       "gh_name": "Akansha",
       "analyst_name": "Hareesh",
       "rh_name": "Hardik",
@@ -4295,12 +4369,13 @@
         "S1",
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Grow Money Capital Private Limited",
-      "aliases": [],
+      "aliases": [
+        "Grow Money Capital"
+      ],
       "gh_name": "Jatin",
       "analyst_name": "Swapnil",
       "rh_name": "Priyesh",
@@ -4324,12 +4399,13 @@
       "rh_sections": [
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "India Mortgage Guarantee Corporation Private Limited",
-      "aliases": [],
+      "aliases": [
+        "India Mortgage Guarantee Corporation; IMGC"
+      ],
       "gh_name": "Jatin",
       "analyst_name": "Shweta",
       "rh_name": "Priyesh",
@@ -4353,12 +4429,13 @@
       "rh_sections": [
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Utkarsh Small Finance Bank Limited",
-      "aliases": [],
+      "aliases": [
+        "Utkarsh Small Finance Bank;Utkarsh SFB"
+      ],
       "gh_name": "Yogesh",
       "analyst_name": "Ujjwala",
       "rh_name": "Sudam",
@@ -4383,12 +4460,13 @@
         "S1",
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Oxyzo Finance",
-      "aliases": [],
+      "aliases": [
+        "Oxyzo"
+      ],
       "gh_name": "Jatin",
       "analyst_name": "Sudeeksha",
       "rh_name": "Priyesh",
@@ -4412,12 +4490,13 @@
       "rh_sections": [
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Can Fin Homes Limited",
-      "aliases": [],
+      "aliases": [
+        "Can Fin Homes"
+      ],
       "gh_name": "Shreekiran",
       "analyst_name": "Tony",
       "rh_name": "Priyesh",
@@ -4441,12 +4520,13 @@
       "rh_sections": [
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Hero Fincorp Limited",
-      "aliases": [],
+      "aliases": [
+        "Hero FinCorp"
+      ],
       "gh_name": "Jatin",
       "analyst_name": "Swapnil",
       "rh_name": "Priyesh",
@@ -4470,12 +4550,13 @@
       "rh_sections": [
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "STCI Finance Limited",
-      "aliases": [],
+      "aliases": [
+        "STCI Finance"
+      ],
       "gh_name": "Jitendra",
       "analyst_name": "OM",
       "rh_name": "Hardik",
@@ -4500,12 +4581,13 @@
         "S1",
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Spark Institutional Equities Private Limited",
-      "aliases": [],
+      "aliases": [
+        "Spark Institutional Equities; Avendus Spark"
+      ],
       "gh_name": "Jitendra",
       "analyst_name": "Pooja",
       "rh_name": "Hardik",
@@ -4530,12 +4612,13 @@
         "S1",
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Avendus Finance Private Limited",
-      "aliases": [],
+      "aliases": [
+        "Avendus Finance"
+      ],
       "gh_name": "Jitendra",
       "analyst_name": "Pooja",
       "rh_name": "Hardik",
@@ -4560,12 +4643,13 @@
         "S1",
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Coimbatore Capital Limited",
-      "aliases": [],
+      "aliases": [
+        "Coimbatore Capital"
+      ],
       "gh_name": "Shreekiran",
       "analyst_name": "Punit N",
       "rh_name": "Priyesh",
@@ -4589,8 +4673,7 @@
       "rh_sections": [
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Au Small Finance Bank Limited",
@@ -4621,12 +4704,13 @@
         "S1",
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Godrej Finance Limited",
-      "aliases": [],
+      "aliases": [
+        "Godrej Finance"
+      ],
       "gh_name": "Akansha",
       "analyst_name": "Pulkit Jain",
       "rh_name": "Hardik",
@@ -4651,12 +4735,13 @@
         "S1",
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Godrej Housing Finance Limited",
-      "aliases": [],
+      "aliases": [
+        "Godrej Housing"
+      ],
       "gh_name": "Akansha",
       "analyst_name": "Pulkit Jain",
       "rh_name": "Hardik",
@@ -4681,12 +4766,13 @@
         "S1",
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "North Eastern Development Finance Corporation Limited",
-      "aliases": [],
+      "aliases": [
+        "NEDFi; North Eastern Development Finance Corporation"
+      ],
       "gh_name": "Aditya",
       "analyst_name": "Shrey",
       "rh_name": "Priyesh",
@@ -4710,8 +4796,7 @@
       "rh_sections": [
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Punjab National Bank",
@@ -4741,8 +4826,7 @@
       "rh_sections": [
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Indresh Financial",
@@ -4770,8 +4854,7 @@
       "rh_sections": [
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Axis Finance Limited",
@@ -4802,12 +4885,13 @@
         "S1",
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Savery Transport Finance Limited",
-      "aliases": [],
+      "aliases": [
+        "Savery Transport Finance"
+      ],
       "gh_name": "Akansha",
       "analyst_name": "Pranav V",
       "rh_name": "Hardik",
@@ -4832,12 +4916,13 @@
         "S1",
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Madhya Pradesh Financial Corporation",
-      "aliases": [],
+      "aliases": [
+        "Madhya Pradesh Financial ; MPFC"
+      ],
       "gh_name": "Shreekiran",
       "analyst_name": "Punit J",
       "rh_name": "Priyesh",
@@ -4861,12 +4946,13 @@
       "rh_sections": [
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Union Mutual Fund (BLR)",
-      "aliases": [],
+      "aliases": [
+        "Union Mutual Fund"
+      ],
       "gh_name": "Yogesh",
       "analyst_name": "Sehdev",
       "rh_name": "Sudam",
@@ -4891,12 +4977,13 @@
         "S1",
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Ambium Finserve Limited",
-      "aliases": [],
+      "aliases": [
+        "Ambium Finserve"
+      ],
       "gh_name": "Shreekiran",
       "analyst_name": "Tony",
       "rh_name": "Priyesh",
@@ -4920,12 +5007,13 @@
       "rh_sections": [
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Taru Agencies and Investment Private Limited",
-      "aliases": [],
+      "aliases": [
+        "Taru Agencies and Investment"
+      ],
       "gh_name": "Jatin",
       "analyst_name": "Jaya",
       "rh_name": "Priyesh",
@@ -4949,12 +5037,13 @@
       "rh_sections": [
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Mas Financial Services Limited",
-      "aliases": [],
+      "aliases": [
+        "MAS Financial Services; MAS Finance"
+      ],
       "gh_name": "Saleem",
       "analyst_name": "Shivam",
       "rh_name": "Sudam",
@@ -4979,12 +5068,13 @@
         "S1",
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "MAS Rural Housing and Mortgage Finance Limited",
-      "aliases": [],
+      "aliases": [
+        "MAS Rural Housing and Mortgage Finance"
+      ],
       "gh_name": "Saleem",
       "analyst_name": "Shivam",
       "rh_name": "Sudam",
@@ -5009,13 +5099,12 @@
         "S1",
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Tata Capital Limited",
       "aliases": [
-        "tata capital"
+        "Tata Capital"
       ],
       "gh_name": "Akansha",
       "analyst_name": "Anushka",
@@ -5041,8 +5130,7 @@
         "S1",
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Darashaw and Company Private Limited",
@@ -5073,12 +5161,13 @@
         "S1",
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "ICICI Prudential Mutual Fund - BLR",
-      "aliases": [],
+      "aliases": [
+        "ICICI Prudential Mutual Fund; ICICI Prudential MF"
+      ],
       "gh_name": "Saleem",
       "analyst_name": "Kumer",
       "rh_name": "Sudam",
@@ -5103,12 +5192,13 @@
         "S1",
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Arohan Financial Services Limited",
-      "aliases": [],
+      "aliases": [
+        "Arohan Financial Services"
+      ],
       "gh_name": "Shreekiran",
       "analyst_name": "Tony",
       "rh_name": "Priyesh",
@@ -5132,12 +5222,13 @@
       "rh_sections": [
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Akme Fintrade (India) Limited",
-      "aliases": [],
+      "aliases": [
+        "Akme Fintrade"
+      ],
       "gh_name": "Jatin",
       "analyst_name": "Shweta",
       "rh_name": "Priyesh",
@@ -5161,12 +5252,13 @@
       "rh_sections": [
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Aryadhan Financial Solutions Private Limited",
-      "aliases": [],
+      "aliases": [
+        "Aryadhan Financial Solutions"
+      ],
       "gh_name": "Jatin",
       "analyst_name": "Shweta",
       "rh_name": "Priyesh",
@@ -5190,12 +5282,13 @@
       "rh_sections": [
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Bahadur Chand Investments Private Limited",
-      "aliases": [],
+      "aliases": [
+        "Bahadur Chand Investments"
+      ],
       "gh_name": "Jatin",
       "analyst_name": "Shweta",
       "rh_name": "Priyesh",
@@ -5219,8 +5312,7 @@
       "rh_sections": [
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Indian Bank",
@@ -5248,12 +5340,13 @@
       "rh_sections": [
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "The Kalupur Commercial Co-Operative Bank Limited",
-      "aliases": [],
+      "aliases": [
+        "The Kalupur Commercial Co-Operative Bank; Kalupur Co-operative bank"
+      ],
       "gh_name": "Aditya",
       "analyst_name": "Shrey",
       "rh_name": "Priyesh",
@@ -5277,12 +5370,13 @@
       "rh_sections": [
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Hiranandani Financial Services Private Limited",
-      "aliases": [],
+      "aliases": [
+        "Hiranandani Financial Services"
+      ],
       "gh_name": "Jitendra",
       "analyst_name": "OM",
       "rh_name": "Hardik",
@@ -5307,12 +5401,13 @@
         "S1",
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Khushbu Auto Finance Limited",
-      "aliases": [],
+      "aliases": [
+        "Khushbu Auto Finance"
+      ],
       "gh_name": "Jitendra",
       "analyst_name": "OM",
       "rh_name": "Hardik",
@@ -5337,12 +5432,13 @@
         "S1",
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Namra Finance Limited",
-      "aliases": [],
+      "aliases": [
+        "Namra Finance"
+      ],
       "gh_name": "Shreekiran",
       "analyst_name": "Ravi N",
       "rh_name": "Priyesh",
@@ -5366,12 +5462,13 @@
       "rh_sections": [
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Arman Financial Services Limited",
-      "aliases": [],
+      "aliases": [
+        "Arman Financial Services"
+      ],
       "gh_name": "Shreekiran",
       "analyst_name": "Ravi N",
       "rh_name": "Priyesh",
@@ -5395,12 +5492,13 @@
       "rh_sections": [
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "The Karur Vysya Bank Limited",
-      "aliases": [],
+      "aliases": [
+        "Karur Vysya Bank; KVB"
+      ],
       "gh_name": "Aditya",
       "analyst_name": "Dhruv",
       "rh_name": "Priyesh",
@@ -5424,12 +5522,13 @@
       "rh_sections": [
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "ICICI Securities Primary Dealership Limited",
-      "aliases": [],
+      "aliases": [
+        "ICICI Securities Primary Dealership"
+      ],
       "gh_name": "Yogesh",
       "analyst_name": "Sehdev",
       "rh_name": "Sudam",
@@ -5454,12 +5553,13 @@
         "S1",
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Best Finance Corporation Limited",
-      "aliases": [],
+      "aliases": [
+        "Best Finance Corporation"
+      ],
       "gh_name": "Akansha",
       "analyst_name": "Hareesh",
       "rh_name": "Hardik",
@@ -5484,14 +5584,12 @@
         "S1",
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Navi Finserv Limited",
       "aliases": [
-        "Navi ltd",
-        "Navi"
+        "Navi Finserv"
       ],
       "gh_name": "Shreekiran",
       "analyst_name": "Tony",
@@ -5516,12 +5614,13 @@
       "rh_sections": [
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Amrit Malwa Capital Limited",
-      "aliases": [],
+      "aliases": [
+        "Amrit Malwa"
+      ],
       "gh_name": "Jatin",
       "analyst_name": "Swapnil",
       "rh_name": "Priyesh",
@@ -5545,12 +5644,13 @@
       "rh_sections": [
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Capital Trust Limited",
-      "aliases": [],
+      "aliases": [
+        "Capital Trust"
+      ],
       "gh_name": "Jatin",
       "analyst_name": "Jaya",
       "rh_name": "Priyesh",
@@ -5574,12 +5674,13 @@
       "rh_sections": [
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "GIC-Bhutan Reinsurance Company Limited",
-      "aliases": [],
+      "aliases": [
+        "GIC-Bhutan Reinsurance"
+      ],
       "gh_name": "Saleem",
       "analyst_name": "Shivam",
       "rh_name": "Sudam",
@@ -5604,12 +5705,13 @@
         "S1",
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Shriram Finance Limited",
-      "aliases": [],
+      "aliases": [
+        "Shriram Finance"
+      ],
       "gh_name": "Akansha",
       "analyst_name": "Anushka",
       "rh_name": "Hardik",
@@ -5634,12 +5736,13 @@
         "S1",
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Muthoot Mcred Limited",
-      "aliases": [],
+      "aliases": [
+        "Muthoot Mcred"
+      ],
       "gh_name": "Shreekiran",
       "analyst_name": "Punit J",
       "rh_name": "Priyesh",
@@ -5663,12 +5766,13 @@
       "rh_sections": [
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "IL&FS Financial Services Limited",
-      "aliases": [],
+      "aliases": [
+        "IL&FS Financial Services; IFIN"
+      ],
       "gh_name": "Aditya",
       "analyst_name": "Shrey",
       "rh_name": "Priyesh",
@@ -5692,12 +5796,13 @@
       "rh_sections": [
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Infrastructure Leasing & Financial Services Limited",
-      "aliases": [],
+      "aliases": [
+        "IL&FS; Infrastructure Leasing & Financial Services"
+      ],
       "gh_name": "Aditya",
       "analyst_name": "Shrey",
       "rh_name": "Priyesh",
@@ -5721,12 +5826,13 @@
       "rh_sections": [
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "The Gujarat State Co Operative Bank Limited",
-      "aliases": [],
+      "aliases": [
+        "Gujarat State Cooperative Bank; GSC Bank"
+      ],
       "gh_name": "Aditya",
       "analyst_name": "Shrey",
       "rh_name": "Priyesh",
@@ -5750,12 +5856,13 @@
       "rh_sections": [
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "SBI Mutual Fund - BLR",
-      "aliases": [],
+      "aliases": [
+        "SBI Mutual Fund; SBI MF"
+      ],
       "gh_name": "Saleem",
       "analyst_name": "Kumer",
       "rh_name": "Sudam",
@@ -5780,12 +5887,13 @@
         "S1",
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "HDFC Bank Limited",
-      "aliases": [],
+      "aliases": [
+        "HDFC Bank"
+      ],
       "gh_name": "Saleem",
       "analyst_name": "Lokesh",
       "rh_name": "Sudam",
@@ -5810,12 +5918,13 @@
         "S1",
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Cholamandalam Investment And Finance Company Limited",
-      "aliases": [],
+      "aliases": [
+        "Cholamandalam Finance; Chola Finance; CIFCL"
+      ],
       "gh_name": "Akansha",
       "analyst_name": "Hareesh",
       "rh_name": "Hardik",
@@ -5840,12 +5949,13 @@
         "S1",
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Asirvad Micro Finance Limited",
-      "aliases": [],
+      "aliases": [
+        "Asirvad Micro Finance"
+      ],
       "gh_name": "Aditya",
       "analyst_name": "Dhruv",
       "rh_name": "Priyesh",
@@ -5869,12 +5979,13 @@
       "rh_sections": [
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "IL&FS Securities Services Limited",
-      "aliases": [],
+      "aliases": [
+        "IL&FS Securities Services"
+      ],
       "gh_name": "Aditya",
       "analyst_name": "Dhruv",
       "rh_name": "Priyesh",
@@ -5898,13 +6009,12 @@
       "rh_sections": [
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Manappuram Finance Limited",
       "aliases": [
-        "Manappuram"
+        "Manappuram Finance"
       ],
       "gh_name": "Aditya",
       "analyst_name": "Dhruv",
@@ -5929,13 +6039,12 @@
       "rh_sections": [
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Manappuram Home Finance Limited",
       "aliases": [
-        "Manappuram"
+        "Manappuram Home Finance"
       ],
       "gh_name": "Aditya",
       "analyst_name": "Shrey",
@@ -5960,12 +6069,13 @@
       "rh_sections": [
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Viksit Capital Private Limited",
-      "aliases": [],
+      "aliases": [
+        "Viksit Capital"
+      ],
       "gh_name": "Aditya",
       "analyst_name": "Dhruv",
       "rh_name": "Priyesh",
@@ -5989,12 +6099,13 @@
       "rh_sections": [
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Annapurna Finance Private Limited",
-      "aliases": [],
+      "aliases": [
+        "Annapurna Finance"
+      ],
       "gh_name": "Shreekiran",
       "analyst_name": "Ravi N",
       "rh_name": "Priyesh",
@@ -6018,12 +6129,13 @@
       "rh_sections": [
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "General Insurance Corporation of India",
-      "aliases": [],
+      "aliases": [
+        "GIC Re"
+      ],
       "gh_name": "Saleem",
       "analyst_name": "Shivam",
       "rh_name": "Sudam",
@@ -6048,12 +6160,13 @@
         "S1",
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "CLIX Capital Services Private Limited",
-      "aliases": [],
+      "aliases": [
+        "Clix Capital"
+      ],
       "gh_name": "Jatin",
       "analyst_name": "Sudeeksha",
       "rh_name": "Priyesh",
@@ -6077,12 +6190,13 @@
       "rh_sections": [
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Meet Finance Private Limited",
-      "aliases": [],
+      "aliases": [
+        "Meet Finance"
+      ],
       "gh_name": "Aditya",
       "analyst_name": "Dhruv",
       "rh_name": "Priyesh",
@@ -6106,13 +6220,12 @@
       "rh_sections": [
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
-      "company": "Way2Wealth Brokers Private Limited",
+      "company": "Shriram Financial Services private Limited",
       "aliases": [
-        "Shriram Financial; Way2wealth"
+        "Way2Wealth Brokers; Shriram Financial Services"
       ],
       "gh_name": "Jitendra",
       "analyst_name": "Krish H",
@@ -6138,12 +6251,13 @@
         "S1",
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "SK Finance Limited",
-      "aliases": [],
+      "aliases": [
+        "SK Finance"
+      ],
       "gh_name": "Saleem",
       "analyst_name": "Shivam",
       "rh_name": "Sudam",
@@ -6168,12 +6282,13 @@
         "S1",
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Axis Max Life Insurance Limited",
-      "aliases": [],
+      "aliases": [
+        "Axis Max Life; Max Life Insurance"
+      ],
       "gh_name": "Shreekiran",
       "analyst_name": "Punit J",
       "rh_name": "Priyesh",
@@ -6197,12 +6312,13 @@
       "rh_sections": [
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Roha Housing Finance Private Limited",
-      "aliases": [],
+      "aliases": [
+        "Roha Housing Finance"
+      ],
       "gh_name": "Jatin",
       "analyst_name": "Jaya",
       "rh_name": "Priyesh",
@@ -6226,8 +6342,7 @@
       "rh_sections": [
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "UCO Bank",
@@ -6255,12 +6370,13 @@
       "rh_sections": [
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Auxilo Finserve Private Limited",
-      "aliases": [],
+      "aliases": [
+        "Auxilo Finserve; Auxilo"
+      ],
       "gh_name": "Jitendra",
       "analyst_name": "Krish H",
       "rh_name": "Hardik",
@@ -6285,12 +6401,13 @@
         "S1",
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Bandhan Life Insurance Limited",
-      "aliases": [],
+      "aliases": [
+        "Bandhan Life; Aegon Life"
+      ],
       "gh_name": "Shreekiran",
       "analyst_name": "Punit N",
       "rh_name": "Priyesh",
@@ -6314,12 +6431,13 @@
       "rh_sections": [
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Infinity Fincorp Solutions Private Limited",
-      "aliases": [],
+      "aliases": [
+        "Infinity Fincorp Solutions"
+      ],
       "gh_name": "Jitendra",
       "analyst_name": "Pooja",
       "rh_name": "Hardik",
@@ -6344,12 +6462,13 @@
         "S1",
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Mirae Asset Investment Managers (India) Private Limited (CQR)",
-      "aliases": [],
+      "aliases": [
+        "Mirae Asset Mutual Fund; Mirae Asset"
+      ],
       "gh_name": "Saleem",
       "analyst_name": "Lokesh",
       "rh_name": "Sudam",
@@ -6374,12 +6493,13 @@
         "S1",
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Gosree Finance Limited",
-      "aliases": [],
+      "aliases": [
+        "Gosree Finance"
+      ],
       "gh_name": "Akansha",
       "analyst_name": "Pranav V",
       "rh_name": "Hardik",
@@ -6404,12 +6524,13 @@
         "S1",
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Raise Fintech Ventures Private Limited",
-      "aliases": [],
+      "aliases": [
+        "Raise Fintech; Raise"
+      ],
       "gh_name": "Saleem",
       "analyst_name": "Lokesh",
       "rh_name": "Sudam",
@@ -6434,12 +6555,13 @@
         "S1",
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "The Clearing Corporation of India Limited",
-      "aliases": [],
+      "aliases": [
+        "CCIL"
+      ],
       "gh_name": "Akansha",
       "analyst_name": "Anushka",
       "rh_name": "Hardik",
@@ -6464,12 +6586,13 @@
         "S1",
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Multi Commodity Exchange Clearing Corporation Limited",
-      "aliases": [],
+      "aliases": [
+        "MCXCCL"
+      ],
       "gh_name": "Akansha",
       "analyst_name": "Pulkit Jain",
       "rh_name": "Hardik",
@@ -6494,12 +6617,13 @@
         "S1",
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Bizloan Private Limited",
-      "aliases": [],
+      "aliases": [
+        "Bizloan"
+      ],
       "gh_name": "Jatin",
       "analyst_name": "Jaya",
       "rh_name": "Priyesh",
@@ -6523,12 +6647,13 @@
       "rh_sections": [
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "CSA Investments Private Limited",
-      "aliases": [],
+      "aliases": [
+        "CSA Investments"
+      ],
       "gh_name": "Jatin",
       "analyst_name": "Swapnil",
       "rh_name": "Priyesh",
@@ -6552,12 +6677,13 @@
       "rh_sections": [
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Housing and Urban Development Corporation Limited",
-      "aliases": [],
+      "aliases": [
+        "HUDCO"
+      ],
       "gh_name": "Jatin",
       "analyst_name": "Sudeeksha",
       "rh_name": "Priyesh",
@@ -6581,12 +6707,13 @@
       "rh_sections": [
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Mantra Capital Limited",
-      "aliases": [],
+      "aliases": [
+        "Mantra Capital"
+      ],
       "gh_name": "Jitendra",
       "analyst_name": "OM",
       "rh_name": "Hardik",
@@ -6611,12 +6738,13 @@
         "S1",
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "City Union Bank Limited",
-      "aliases": [],
+      "aliases": [
+        "City Union Bank; CUB"
+      ],
       "gh_name": "Aditya",
       "analyst_name": "Dhruv",
       "rh_name": "Priyesh",
@@ -6640,12 +6768,13 @@
       "rh_sections": [
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Pantomath Capital Advisors Private Limited",
-      "aliases": [],
+      "aliases": [
+        "Pantomath Capital Advisors"
+      ],
       "gh_name": "Yogesh",
       "analyst_name": "Ujjwala",
       "rh_name": "Sudam",
@@ -6670,12 +6799,13 @@
         "S1",
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Aham Housing Finance Limited",
-      "aliases": [],
+      "aliases": [
+        "Aham Housing Finance"
+      ],
       "gh_name": "Akansha",
       "analyst_name": "Pranav V",
       "rh_name": "Hardik",
@@ -6700,12 +6830,13 @@
         "S1",
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "NTC Finance Private Limited",
-      "aliases": [],
+      "aliases": [
+        "NTC Finance"
+      ],
       "gh_name": "Akansha",
       "analyst_name": "Hareesh",
       "rh_name": "Hardik",
@@ -6730,12 +6861,13 @@
         "S1",
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "INFINA Finance Private Limited",
-      "aliases": [],
+      "aliases": [
+        "INFINA Finance"
+      ],
       "gh_name": "Yogesh",
       "analyst_name": "Sehdev",
       "rh_name": "Sudam",
@@ -6760,12 +6892,13 @@
         "S1",
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Magalir Micro Capital Private Limited",
-      "aliases": [],
+      "aliases": [
+        "Magalir Micro Capital"
+      ],
       "gh_name": "Shreekiran",
       "analyst_name": "Tony",
       "rh_name": "Priyesh",
@@ -6789,12 +6922,13 @@
       "rh_sections": [
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Kamal Autofinance Private Limited",
-      "aliases": [],
+      "aliases": [
+        "Kamal Autofinance"
+      ],
       "gh_name": "Saleem",
       "analyst_name": "Amy",
       "rh_name": "Sudam",
@@ -6819,12 +6953,13 @@
         "S1",
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Finkurve Financial Services Limited",
-      "aliases": [],
+      "aliases": [
+        "Finkurve Financial Services; Arvog"
+      ],
       "gh_name": "Akansha",
       "analyst_name": "Pulkit Jain",
       "rh_name": "Hardik",
@@ -6849,12 +6984,13 @@
         "S1",
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Punjab Infrastructure Development Board",
-      "aliases": [],
+      "aliases": [
+        "PIDB"
+      ],
       "gh_name": "Jatin",
       "analyst_name": "Sudeeksha",
       "rh_name": "Priyesh",
@@ -6878,12 +7014,13 @@
       "rh_sections": [
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Sagarmala Finance Corporation Limited",
-      "aliases": [],
+      "aliases": [
+        "Sagarmala Finance Corporation"
+      ],
       "gh_name": "Jatin",
       "analyst_name": "Sudeeksha",
       "rh_name": "Priyesh",
@@ -6907,12 +7044,13 @@
       "rh_sections": [
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Capital Small Finance Bank Limited",
-      "aliases": [],
+      "aliases": [
+        "Capital Small Finance Bank"
+      ],
       "gh_name": "Yogesh",
       "analyst_name": "Yashika",
       "rh_name": "Sudam",
@@ -6937,12 +7075,13 @@
         "S1",
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Invesco Asset Management (India) Private Limited (BLR)",
-      "aliases": [],
+      "aliases": [
+        "Invesco Mutual Fund; Invesco Asset Management India"
+      ],
       "gh_name": "Yogesh",
       "analyst_name": "Yashika",
       "rh_name": "Sudam",
@@ -6967,8 +7106,7 @@
         "S1",
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Micro Units Development and Refinance Agency Limited",
@@ -6999,12 +7137,13 @@
         "S1",
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Ceejay Finance Limited",
-      "aliases": [],
+      "aliases": [
+        "Ceejay Finance"
+      ],
       "gh_name": "Shreekiran",
       "analyst_name": "Punit N",
       "rh_name": "Priyesh",
@@ -7028,12 +7167,13 @@
       "rh_sections": [
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Integro Finserv Private Limited",
-      "aliases": [],
+      "aliases": [
+        "Integro Finserv"
+      ],
       "gh_name": "Jitendra",
       "analyst_name": "OM",
       "rh_name": "Hardik",
@@ -7058,12 +7198,13 @@
         "S1",
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Magma General Insurance Limited",
-      "aliases": [],
+      "aliases": [
+        "Magma General Insurance; Magma HDI General Insurance"
+      ],
       "gh_name": "Shreekiran",
       "analyst_name": "Punit J",
       "rh_name": "Priyesh",
@@ -7087,12 +7228,13 @@
       "rh_sections": [
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Grihum Housing Finance Limited",
-      "aliases": [],
+      "aliases": [
+        "Grihum Housing Finance; Poonawalla Housing Finance; Magma Housing Finance"
+      ],
       "gh_name": "Saleem",
       "analyst_name": "Shivam",
       "rh_name": "Sudam",
@@ -7117,12 +7259,13 @@
         "S1",
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "National Minorities Development & Finance Corporation",
-      "aliases": [],
+      "aliases": [
+        "NMDFC"
+      ],
       "gh_name": "Jatin",
       "analyst_name": "Shweta",
       "rh_name": "Priyesh",
@@ -7146,12 +7289,13 @@
       "rh_sections": [
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Netzero Finance Private Limited",
-      "aliases": [],
+      "aliases": [
+        "NetZero Finance; Aerem"
+      ],
       "gh_name": "Jitendra",
       "analyst_name": "Pranjal",
       "rh_name": "Hardik",
@@ -7176,12 +7320,13 @@
         "S1",
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Kaleidofin Capital Private Limited",
-      "aliases": [],
+      "aliases": [
+        "Kaleidofin Capital"
+      ],
       "gh_name": "Jitendra",
       "analyst_name": "OM",
       "rh_name": "Hardik",
@@ -7206,12 +7351,13 @@
         "S1",
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Jana Small Finance Bank Limited",
-      "aliases": [],
+      "aliases": [
+        "Jana Small Finance Bank; Jana SFB"
+      ],
       "gh_name": "Shreekiran",
       "analyst_name": "Ravi N",
       "rh_name": "Priyesh",
@@ -7235,12 +7381,13 @@
       "rh_sections": [
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Orocorp Technologies Private Limited",
-      "aliases": [],
+      "aliases": [
+        "Oro Money; ORO"
+      ],
       "gh_name": "Akansha",
       "analyst_name": "Hareesh",
       "rh_name": "Hardik",
@@ -7265,12 +7412,13 @@
         "S1",
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Canara HSBC Life Insurance Company Limited",
-      "aliases": [],
+      "aliases": [
+        "Canara HSBC Life"
+      ],
       "gh_name": "Saleem",
       "analyst_name": "Amy",
       "rh_name": "Sudam",
@@ -7295,12 +7443,13 @@
         "S1",
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Jewel Rock Hire Purchase and Leasing Private Limited",
-      "aliases": [],
+      "aliases": [
+        "Jewel Rock Hire Purchase and Leasing"
+      ],
       "gh_name": "Akansha",
       "analyst_name": "Pranav V",
       "rh_name": "Hardik",
@@ -7325,12 +7474,13 @@
         "S1",
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Kanakadurga Finance Limited",
-      "aliases": [],
+      "aliases": [
+        "Kanakadurga Finance"
+      ],
       "gh_name": "Shreekiran",
       "analyst_name": "Tony",
       "rh_name": "Priyesh",
@@ -7354,12 +7504,13 @@
       "rh_sections": [
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Samaaru Finance Private Limited",
-      "aliases": [],
+      "aliases": [
+        "Samaaru Finance"
+      ],
       "gh_name": "Yogesh",
       "analyst_name": "Ujjwala",
       "rh_name": "Sudam",
@@ -7384,12 +7535,13 @@
         "S1",
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "SBI Payment Services Private Limited",
-      "aliases": [],
+      "aliases": [
+        "SBI Payments; SBI Payment Services"
+      ],
       "gh_name": "Aditya",
       "analyst_name": "Shrey",
       "rh_name": "Priyesh",
@@ -7413,12 +7565,13 @@
       "rh_sections": [
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Venkateswara Financiers Hyderabad Private Limited",
-      "aliases": [],
+      "aliases": [
+        "Venkateswara Financiers Hyderabad"
+      ],
       "gh_name": "Akansha",
       "analyst_name": "Hareesh",
       "rh_name": "Hardik",
@@ -7443,12 +7596,13 @@
         "S1",
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Aphelion Finance Private Limited",
-      "aliases": [],
+      "aliases": [
+        "Aphelion Finance"
+      ],
       "gh_name": "Shreekiran",
       "analyst_name": "Ravi N",
       "rh_name": "Priyesh",
@@ -7472,12 +7626,13 @@
       "rh_sections": [
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Universal Sompo General Insurance Company Limited",
-      "aliases": [],
+      "aliases": [
+        "Universal Sompo General Insurance"
+      ],
       "gh_name": "Saleem",
       "analyst_name": "Shivam",
       "rh_name": "Sudam",
@@ -7502,12 +7657,13 @@
         "S1",
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Trust Investment Advisors Private Limited",
-      "aliases": [],
+      "aliases": [
+        "Trust Investment Advisors"
+      ],
       "gh_name": "Saleem",
       "analyst_name": "Amy",
       "rh_name": "Sudam",
@@ -7532,12 +7688,13 @@
         "S1",
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "The National Small Industries Corporation Limited",
-      "aliases": [],
+      "aliases": [
+        "NSIC; National Small Industries Corporation"
+      ],
       "gh_name": "Jatin",
       "analyst_name": "Shweta",
       "rh_name": "Priyesh",
@@ -7561,12 +7718,13 @@
       "rh_sections": [
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Chinmay Finlease Limited",
-      "aliases": [],
+      "aliases": [
+        "Chinmay Finlease"
+      ],
       "gh_name": "Yogesh",
       "analyst_name": "Yashika",
       "rh_name": "Sudam",
@@ -7591,12 +7749,13 @@
         "S1",
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Indusind Bank Limited",
-      "aliases": [],
+      "aliases": [
+        "Indusind Bank"
+      ],
       "gh_name": "Yogesh",
       "analyst_name": "Yashika",
       "rh_name": "Sudam",
@@ -7621,12 +7780,13 @@
         "S1",
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Dandona Finance Limited",
-      "aliases": [],
+      "aliases": [
+        "Dandona Finance"
+      ],
       "gh_name": "Jatin",
       "analyst_name": "Shweta",
       "rh_name": "Priyesh",
@@ -7650,12 +7810,13 @@
       "rh_sections": [
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Fusion Finance Limited",
-      "aliases": [],
+      "aliases": [
+        "Fusion Finance; Fusion Micro Finance"
+      ],
       "gh_name": "Jatin",
       "analyst_name": "Jaya",
       "rh_name": "Priyesh",
@@ -7679,12 +7840,13 @@
       "rh_sections": [
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "India Infrastructure Finance Company Limited",
-      "aliases": [],
+      "aliases": [
+        "IIFCL; India Infrastructure Finance Company"
+      ],
       "gh_name": "Jatin",
       "analyst_name": "Sudeeksha",
       "rh_name": "Priyesh",
@@ -7708,12 +7870,13 @@
       "rh_sections": [
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Billionbrains Garage Ventures Limited",
-      "aliases": [],
+      "aliases": [
+        "Groww; Billionbrains Garage Ventures"
+      ],
       "gh_name": "Saleem",
       "analyst_name": "Lokesh",
       "rh_name": "Sudam",
@@ -7738,12 +7901,13 @@
         "S1",
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Groww Creditserv Technology Private Limited",
-      "aliases": [],
+      "aliases": [
+        "Groww Credit; Groww CreditServ"
+      ],
       "gh_name": "Saleem",
       "analyst_name": "Lokesh",
       "rh_name": "Sudam",
@@ -7768,14 +7932,12 @@
         "S1",
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Tamilnadu Industrial Development Corporation Limited",
       "aliases": [
-        "TIDCO",
-        "Tamilnadu Industrial development"
+        "Tamilnadu Industrial Development"
       ],
       "gh_name": "Shreekiran",
       "analyst_name": "Tony",
@@ -7800,12 +7962,13 @@
       "rh_sections": [
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "PPFAS Mutual Fund",
-      "aliases": [],
+      "aliases": [
+        "Parag Parikh Mutual Fund; PPFAS"
+      ],
       "gh_name": "Saleem",
       "analyst_name": "Kumer",
       "rh_name": "Sudam",
@@ -7830,12 +7993,13 @@
         "S1",
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Manappuram Asset Finance Limited",
-      "aliases": [],
+      "aliases": [
+        "Manappuram Asset Finance"
+      ],
       "gh_name": "Aditya",
       "analyst_name": "Shrey",
       "rh_name": "Priyesh",
@@ -7859,12 +8023,13 @@
       "rh_sections": [
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "D. S. Integrated FinSec Private Limited",
-      "aliases": [],
+      "aliases": [
+        "D. S. Integrated FinSec"
+      ],
       "gh_name": "Jitendra",
       "analyst_name": "OM",
       "rh_name": "Hardik",
@@ -7889,12 +8054,13 @@
         "S1",
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Credila Financial Services Limited",
-      "aliases": [],
+      "aliases": [
+        "Credila; HDFC Credila"
+      ],
       "gh_name": "Jitendra",
       "analyst_name": "Pooja",
       "rh_name": "Hardik",
@@ -7919,12 +8085,13 @@
         "S1",
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Anand Rathi Share and Stock Brokers Limited",
-      "aliases": [],
+      "aliases": [
+        "Anand Rathi"
+      ],
       "gh_name": "Jitendra",
       "analyst_name": "OM",
       "rh_name": "Hardik",
@@ -7949,12 +8116,13 @@
         "S1",
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Star Health and Allied Insurance Company Limited",
-      "aliases": [],
+      "aliases": [
+        "Star Health"
+      ],
       "gh_name": "Shreekiran",
       "analyst_name": "Punit J",
       "rh_name": "Priyesh",
@@ -7978,12 +8146,13 @@
       "rh_sections": [
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Akara Capital Advisors Private Limited",
-      "aliases": [],
+      "aliases": [
+        "Stashfin; Akara Capital"
+      ],
       "gh_name": "Jatin",
       "analyst_name": "Sudeeksha",
       "rh_name": "Priyesh",
@@ -8007,12 +8176,13 @@
       "rh_sections": [
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Maben Nidhi Limited",
-      "aliases": [],
+      "aliases": [
+        "Maben Nidhi"
+      ],
       "gh_name": "Aditya",
       "analyst_name": "Shrey",
       "rh_name": "Priyesh",
@@ -8036,12 +8206,13 @@
       "rh_sections": [
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "RNFI Service Limited",
-      "aliases": [],
+      "aliases": [
+        "RNFI Service"
+      ],
       "gh_name": "Jatin",
       "analyst_name": "Jaya",
       "rh_name": "Priyesh",
@@ -8065,12 +8236,13 @@
       "rh_sections": [
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Ujjivan Small Finance Bank Limited",
-      "aliases": [],
+      "aliases": [
+        "Ujjivan SFB; Ujjivan"
+      ],
       "gh_name": "Shreekiran",
       "analyst_name": "Ravi N",
       "rh_name": "Priyesh",
@@ -8094,12 +8266,13 @@
       "rh_sections": [
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Dvara Kshetriya Gramin Financial Services Private Limited",
-      "aliases": [],
+      "aliases": [
+        "Dvara KGFS; Dvara Kshetriya"
+      ],
       "gh_name": "Shreekiran",
       "analyst_name": "Tony",
       "rh_name": "Priyesh",
@@ -8123,12 +8296,13 @@
       "rh_sections": [
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "SBERBANK Branch in India",
-      "aliases": [],
+      "aliases": [
+        "Sberbank India"
+      ],
       "gh_name": "Aditya",
       "analyst_name": "Shrey",
       "rh_name": "Priyesh",
@@ -8152,12 +8326,13 @@
       "rh_sections": [
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Angel One Limited",
-      "aliases": [],
+      "aliases": [
+        "Angel One"
+      ],
       "gh_name": "Yogesh",
       "analyst_name": "Ujjwala",
       "rh_name": "Sudam",
@@ -8182,12 +8357,13 @@
         "S1",
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Bajaj Life Insurance Limited",
-      "aliases": [],
+      "aliases": [
+        "Bajaj Life Insurance; Bajaj Allianz Life Insurance"
+      ],
       "gh_name": "Saleem",
       "analyst_name": "Shivam",
       "rh_name": "Sudam",
@@ -8212,12 +8388,13 @@
         "S1",
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "CRSP CAPITAL PRIVATE LIMITED",
-      "aliases": [],
+      "aliases": [
+        "CRSP CAPITAL"
+      ],
       "gh_name": "Saleem",
       "analyst_name": "Kumer",
       "rh_name": "Sudam",
@@ -8242,12 +8419,13 @@
         "S1",
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Bajaj Auto Credit Limited",
-      "aliases": [],
+      "aliases": [
+        "Bajaj Auto Credit"
+      ],
       "gh_name": "Saleem",
       "analyst_name": "Amy",
       "rh_name": "Sudam",
@@ -8272,12 +8450,13 @@
         "S1",
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Indiafirst Life Insurance Company Limited",
-      "aliases": [],
+      "aliases": [
+        "IndiaFirst Life; IndiaFirst Life Insurance"
+      ],
       "gh_name": "Saleem",
       "analyst_name": "Shivam",
       "rh_name": "Sudam",
@@ -8302,12 +8481,13 @@
         "S1",
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Bajaj Finance Limited",
-      "aliases": [],
+      "aliases": [
+        "Bajaj Finance"
+      ],
       "gh_name": "Saleem",
       "analyst_name": "Amy",
       "rh_name": "Sudam",
@@ -8332,12 +8512,13 @@
         "S1",
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Hari and Company Investments Madras Limited",
-      "aliases": [],
+      "aliases": [
+        "Hari and Company Investments Madras"
+      ],
       "gh_name": "Saleem",
       "analyst_name": "Lokesh",
       "rh_name": "Sudam",
@@ -8362,13 +8543,12 @@
         "S1",
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Navi Limited",
       "aliases": [
-        "Navi ltd; Navi+ Sachin"
+        "Navi Ltd;  Navi+Sachin; Navi+Fintech"
       ],
       "gh_name": "Shreekiran",
       "analyst_name": "Tony",
@@ -8393,12 +8573,44 @@
       "rh_sections": [
         "S2",
         "S3"
+      ]
+    },
+    {
+      "company": "Tata Capital Limited- MA",
+      "aliases": [
+        "Tata Capital"
       ],
-      "sections": []
+      "gh_name": "Akansha",
+      "analyst_name": "Anushka",
+      "rh_name": "Hardik",
+      "gh_email": "Akansha.Jain@careedge.in, Vineet.jain@careedge.in",
+      "analyst_email": "Anushka.Bothra@careedge.in",
+      "rh_email": "Hardik.Shah@careedge.in",
+      "send_gh": true,
+      "send_analyst": true,
+      "send_rh": true,
+      "sector": "BFSI",
+      "gh_sections": [
+        "S1",
+        "S2",
+        "S3"
+      ],
+      "analyst_sections": [
+        "S1",
+        "S2",
+        "S3"
+      ],
+      "rh_sections": [
+        "S1",
+        "S2",
+        "S3"
+      ]
     },
     {
       "company": "Tata Mutual Fund",
-      "aliases": [],
+      "aliases": [
+        "Tata MF"
+      ],
       "gh_name": "Yogesh",
       "analyst_name": "Yashika",
       "rh_name": "Sudam",
@@ -8423,12 +8635,13 @@
         "S1",
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "PNB Housing",
-      "aliases": [],
+      "aliases": [
+        "PNB Housing"
+      ],
       "gh_name": "Jatin",
       "analyst_name": "Kanika",
       "rh_name": "Priyesh",
@@ -8452,8 +8665,7 @@
       "rh_sections": [
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "HDFC Mutual Fund",
@@ -8484,12 +8696,13 @@
         "S1",
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Invesco Asset Management (India) Private Limited",
-      "aliases": [],
+      "aliases": [
+        "Invesco Mutual Fund; Invesco Asset Management India"
+      ],
       "gh_name": "Yogesh",
       "analyst_name": "Yashika",
       "rh_name": "Sudam",
@@ -8514,12 +8727,13 @@
         "S1",
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Nippon Life India Asset Management Limited",
-      "aliases": [],
+      "aliases": [
+        "Nippon India Mutual Fund; Nippon India AMC"
+      ],
       "gh_name": "Yogesh",
       "analyst_name": "Yashika",
       "rh_name": "Sudam",
@@ -8544,8 +8758,7 @@
         "S1",
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Trustedge",
@@ -8574,12 +8787,13 @@
         "S1",
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Emkay Global Financial Services Limited",
-      "aliases": [],
+      "aliases": [
+        "Emkay Global Financial Services"
+      ],
       "gh_name": "Jitendra",
       "analyst_name": "om",
       "rh_name": "Hardik",
@@ -8604,12 +8818,13 @@
         "S1",
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Bandhan Mutual Fund",
-      "aliases": [],
+      "aliases": [
+        "Bandhan MF"
+      ],
       "gh_name": "Yogesh",
       "analyst_name": "Ujjwala",
       "rh_name": "Sudam",
@@ -8634,12 +8849,13 @@
         "S1",
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Team India Guaranty Limited",
-      "aliases": [],
+      "aliases": [
+        "Team India Guaranty"
+      ],
       "gh_name": "Jitendra",
       "analyst_name": "Pooja",
       "rh_name": "Hardik",
@@ -8664,12 +8880,13 @@
         "S1",
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "People Home Loans Limited",
-      "aliases": [],
+      "aliases": [
+        "People Home Loans"
+      ],
       "gh_name": "Shreekiran",
       "analyst_name": "Punit N",
       "rh_name": "Priyesh",
@@ -8693,12 +8910,13 @@
       "rh_sections": [
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Equirus Securities Private Limited",
-      "aliases": [],
+      "aliases": [
+        "Equirus Securities"
+      ],
       "gh_name": "Shreekiran",
       "analyst_name": "Ravi N",
       "rh_name": "Priyesh",
@@ -8722,12 +8940,13 @@
       "rh_sections": [
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "ICICI Home Finance Company Limited",
-      "aliases": [],
+      "aliases": [
+        "ICICI Home Finance"
+      ],
       "gh_name": "Yogesh",
       "analyst_name": "Ujjwala",
       "rh_name": "Sudam",
@@ -8752,12 +8971,13 @@
         "S1",
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Centrum Housing Finance Limited",
-      "aliases": [],
+      "aliases": [
+        "Centrum Housing Finance"
+      ],
       "gh_name": "Shreekiran",
       "analyst_name": "Punit N",
       "rh_name": "Priyesh",
@@ -8781,8 +9001,7 @@
       "rh_sections": [
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Narendra Finance",
@@ -8810,12 +9029,13 @@
       "rh_sections": [
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Royal Sundaram General Insurance Co. Limited",
-      "aliases": [],
+      "aliases": [
+        "Royal Sundaram General Insurance"
+      ],
       "gh_name": "Shreekiran",
       "analyst_name": "Punit J",
       "rh_name": "Priyesh",
@@ -8839,12 +9059,13 @@
       "rh_sections": [
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Altum Credo Home Finance Private Limited",
-      "aliases": [],
+      "aliases": [
+        "Altum Credo Home Finance"
+      ],
       "gh_name": "Akansha",
       "analyst_name": "Anushka",
       "rh_name": "Hardik",
@@ -8869,12 +9090,13 @@
         "S1",
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Nuvama Wealth Management Limited",
-      "aliases": [],
+      "aliases": [
+        "Nuvama Wealth Management; Edelweiss Securities"
+      ],
       "gh_name": "Yogesh",
       "analyst_name": "Yashika",
       "rh_name": "Sudam",
@@ -8899,12 +9121,13 @@
         "S1",
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Nuvama Clearing Services Limited",
-      "aliases": [],
+      "aliases": [
+        "Nuvama Clearing Services; Edelweiss Custodial Services"
+      ],
       "gh_name": "Yogesh",
       "analyst_name": "Yashika",
       "rh_name": "Sudam",
@@ -8929,12 +9152,13 @@
         "S1",
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Nuvama Wealth And Investment Limited",
-      "aliases": [],
+      "aliases": [
+        "Nuvama Wealth and Investment; Edelweiss Broking"
+      ],
       "gh_name": "Yogesh",
       "analyst_name": "Yashika",
       "rh_name": "Sudam",
@@ -8959,12 +9183,13 @@
         "S1",
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Nuvama Wealth Finance Limited",
-      "aliases": [],
+      "aliases": [
+        "Nuvama Wealth Finance; Edelweiss Finance & Investments"
+      ],
       "gh_name": "Yogesh",
       "analyst_name": "Yashika",
       "rh_name": "Sudam",
@@ -8989,12 +9214,13 @@
         "S1",
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Vastu Finserve India Private limited",
-      "aliases": [],
+      "aliases": [
+        "Vastu Finserve India"
+      ],
       "gh_name": "Akansha",
       "analyst_name": "Anushka",
       "rh_name": "Hardik",
@@ -9019,12 +9245,13 @@
         "S1",
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Vastu Housing Finance Corporation Limited",
-      "aliases": [],
+      "aliases": [
+        "Vastu Housing Finance Corporation"
+      ],
       "gh_name": "Akansha",
       "analyst_name": "Anushka",
       "rh_name": "Hardik",
@@ -9049,12 +9276,13 @@
         "S1",
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Mirae Asset Investment Managers (India) Private Limited (BLR)",
-      "aliases": [],
+      "aliases": [
+        "Mirae Asset Mutual Fund; Mirae Asset"
+      ],
       "gh_name": "Saleem",
       "analyst_name": "Lokesh",
       "rh_name": "Sudam",
@@ -9079,12 +9307,13 @@
         "S1",
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "A. K. Capital Finance Limited",
-      "aliases": [],
+      "aliases": [
+        "AK Capital Finance; A.K. Capital Finance"
+      ],
       "gh_name": "Saleem",
       "analyst_name": "Amy",
       "rh_name": "Sudam",
@@ -9109,8 +9338,7 @@
         "S1",
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "A. K. Capital Services Limited",
@@ -9142,12 +9370,13 @@
         "S1",
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Avanse Financial Services Limited",
-      "aliases": [],
+      "aliases": [
+        "Avanse Financial Services"
+      ],
       "gh_name": "Jitendra",
       "analyst_name": "Pranjal",
       "rh_name": "Hardik",
@@ -9172,12 +9401,13 @@
         "S1",
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Bank of Maharashtra",
-      "aliases": [],
+      "aliases": [
+        "BoM; Bank of Maharashtra"
+      ],
       "gh_name": "Aditya",
       "analyst_name": "Dhruv",
       "rh_name": "Priyesh",
@@ -9201,12 +9431,13 @@
       "rh_sections": [
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "NIIF Infrastructure Finance Limited",
-      "aliases": [],
+      "aliases": [
+        "NIIF Infrastructure Finance"
+      ],
       "gh_name": "Jitendra",
       "analyst_name": "Pooja",
       "rh_name": "Hardik",
@@ -9231,8 +9462,7 @@
         "S1",
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Small Industries Development Bank of India",
@@ -9263,12 +9493,13 @@
         "S1",
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Spandana Sphoorty Financial Limited",
-      "aliases": [],
+      "aliases": [
+        "Spandana Sphoorty Financial"
+      ],
       "gh_name": "Shreekiran",
       "analyst_name": "Ravi N",
       "rh_name": "Priyesh",
@@ -9292,12 +9523,13 @@
       "rh_sections": [
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Yes Securities (INDIA) Limited",
-      "aliases": [],
+      "aliases": [
+        "YES Securities"
+      ],
       "gh_name": "Yogesh",
       "analyst_name": "Sehdev",
       "rh_name": "Sudam",
@@ -9322,12 +9554,13 @@
         "S1",
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Kogta Financial (india) Limited",
-      "aliases": [],
+      "aliases": [
+        "Kogta Financial; Kogta Finance"
+      ],
       "gh_name": "Saleem",
       "analyst_name": "Shivam",
       "rh_name": "Sudam",
@@ -9352,12 +9585,13 @@
         "S1",
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Yes Bank Limited",
-      "aliases": [],
+      "aliases": [
+        "YES BANK"
+      ],
       "gh_name": "Yogesh",
       "analyst_name": "Sehdev",
       "rh_name": "Sudam",
@@ -9382,12 +9616,13 @@
         "S1",
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Jio Credit Limited",
-      "aliases": [],
+      "aliases": [
+        "Jio Credit"
+      ],
       "gh_name": "Saleem",
       "analyst_name": "Lokesh",
       "rh_name": "Sudam",
@@ -9412,12 +9647,13 @@
         "S1",
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Jio Leasing Services Limited",
-      "aliases": [],
+      "aliases": [
+        "Jio Leasing Services"
+      ],
       "gh_name": "Saleem",
       "analyst_name": "Lokesh",
       "rh_name": "Sudam",
@@ -9442,12 +9678,13 @@
         "S1",
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Vistaar Financial Services Private Limited",
-      "aliases": [],
+      "aliases": [
+        "Vistaar Financial Services"
+      ],
       "gh_name": "Shreekiran",
       "analyst_name": "Tony",
       "rh_name": "Priyesh",
@@ -9471,8 +9708,7 @@
       "rh_sections": [
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "DCB Bank",
@@ -9501,12 +9737,13 @@
         "S1",
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Mahindra And Mahindra Financial Services Limited",
-      "aliases": [],
+      "aliases": [
+        "Mahindra Finance; Mahindra & Mahindra Financial Services; MMFSL"
+      ],
       "gh_name": "Yogesh",
       "analyst_name": "Yashika",
       "rh_name": "Sudam",
@@ -9531,12 +9768,13 @@
         "S1",
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Mahindra Rural Housing Finance Limited",
-      "aliases": [],
+      "aliases": [
+        "Mahindra Rural Housing Finance"
+      ],
       "gh_name": "Yogesh",
       "analyst_name": "Yashika",
       "rh_name": "Sudam",
@@ -9561,12 +9799,13 @@
         "S1",
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "KISETSU Saison Finance (INDIA) Private Limited",
-      "aliases": [],
+      "aliases": [
+        "Credit Saison India; Credit Saison; Kisetsu"
+      ],
       "gh_name": "Jitendra",
       "analyst_name": "Pranjal",
       "rh_name": "Hardik",
@@ -9591,13 +9830,12 @@
         "S1",
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Indostar Capital Finance Limited",
       "aliases": [
-        "Indostar capital; BrookField"
+        "IndoStar Capital; IndoStar; Brookfield"
       ],
       "gh_name": "Jitendra",
       "analyst_name": "OM",
@@ -9623,12 +9861,13 @@
         "S1",
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "IKF Finance Limited",
-      "aliases": [],
+      "aliases": [
+        "IKF Finance"
+      ],
       "gh_name": "Akansha",
       "analyst_name": "Hareesh",
       "rh_name": "Hardik",
@@ -9653,12 +9892,13 @@
         "S1",
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "IKF Home Finance Limited",
-      "aliases": [],
+      "aliases": [
+        "IKF Home Finance"
+      ],
       "gh_name": "Akansha",
       "analyst_name": "Pranav V",
       "rh_name": "Hardik",
@@ -9683,12 +9923,13 @@
         "S1",
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Aadhar Housing Finance Limited",
-      "aliases": [],
+      "aliases": [
+        "Aadhar Housing"
+      ],
       "gh_name": "Akansha",
       "analyst_name": "Pulkit Jain",
       "rh_name": "Hardik",
@@ -9713,12 +9954,13 @@
         "S1",
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Aptus Finance India Private Limited",
-      "aliases": [],
+      "aliases": [
+        "Aptus Finance"
+      ],
       "gh_name": "Akansha",
       "analyst_name": "Hareesh",
       "rh_name": "Hardik",
@@ -9743,12 +9985,13 @@
         "S1",
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Aptus Value Housing Finance India Limited",
-      "aliases": [],
+      "aliases": [
+        "Aptus Value Housing"
+      ],
       "gh_name": "Akansha",
       "analyst_name": "Hareesh",
       "rh_name": "Hardik",
@@ -9773,12 +10016,13 @@
         "S1",
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Indian Railway Finance",
-      "aliases": [],
+      "aliases": [
+        "Indian Railway Finance ; IRFC"
+      ],
       "gh_name": "Jatin",
       "analyst_name": "Kanika",
       "rh_name": "Priyesh",
@@ -9802,12 +10046,13 @@
       "rh_sections": [
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Mahaveer Finance India Limited",
-      "aliases": [],
+      "aliases": [
+        "Mahaveer Finance"
+      ],
       "gh_name": "Akansha",
       "analyst_name": "Pranav V",
       "rh_name": "Hardik",
@@ -9832,12 +10077,13 @@
         "S1",
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Veritas Finance Limited",
-      "aliases": [],
+      "aliases": [
+        "Veritas Finance"
+      ],
       "gh_name": "Akansha",
       "analyst_name": "Pranav V",
       "rh_name": "Hardik",
@@ -9862,12 +10108,13 @@
         "S1",
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Five-Star Business Finance Limited",
-      "aliases": [],
+      "aliases": [
+        "Five-Star Business Finance; Five Star Business Finance"
+      ],
       "gh_name": "Akansha",
       "analyst_name": "Hareesh",
       "rh_name": "Hardik",
@@ -9892,12 +10139,13 @@
         "S1",
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Piramal Finance Limited (erstwhile Piramal Capital & Housing Finance Limited)",
-      "aliases": [],
+      "aliases": [
+        "Piramal Finance; Piramal Capital & Housing Finance; PCHFL"
+      ],
       "gh_name": "Shreekiran",
       "analyst_name": "Ravi N",
       "rh_name": "Priyesh",
@@ -9921,12 +10169,13 @@
       "rh_sections": [
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "RBL Bank Limited",
-      "aliases": [],
+      "aliases": [
+        "RBL Bank"
+      ],
       "gh_name": "Yogesh",
       "analyst_name": "Ujjwala",
       "rh_name": "Sudam",
@@ -9951,12 +10200,13 @@
         "S1",
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "5Paisa Capital Limited",
-      "aliases": [],
+      "aliases": [
+        "5paisa"
+      ],
       "gh_name": "Saleem",
       "analyst_name": "Lokesh",
       "rh_name": "Sudam",
@@ -9981,12 +10231,13 @@
         "S1",
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "SG Finserve Limited",
-      "aliases": [],
+      "aliases": [
+        "SG Finserve"
+      ],
       "gh_name": "Jatin",
       "analyst_name": "Swapnil",
       "rh_name": "Priyesh",
@@ -10010,12 +10261,13 @@
       "rh_sections": [
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Abhiyan Capital (India) Private Limited",
-      "aliases": [],
+      "aliases": [
+        "Abhiyan Capital (India)"
+      ],
       "gh_name": "Jitendra",
       "analyst_name": "OM",
       "rh_name": "Hardik",
@@ -10040,12 +10292,13 @@
         "S1",
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Svakarma Finance Private Limited",
-      "aliases": [],
+      "aliases": [
+        "Svakarma Finance"
+      ],
       "gh_name": "Jitendra",
       "analyst_name": "OM",
       "rh_name": "Hardik",
@@ -10070,12 +10323,13 @@
         "S1",
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Shriram Insight Share Brokers Limited",
-      "aliases": [],
+      "aliases": [
+        "Shriram Insight Share Brokers"
+      ],
       "gh_name": "Jitendra",
       "analyst_name": "Krish H",
       "rh_name": "Hardik",
@@ -10100,12 +10354,13 @@
         "S1",
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Shriram Credit Company Limited",
-      "aliases": [],
+      "aliases": [
+        "Shriram Credit; Shriram capital"
+      ],
       "gh_name": "Jitendra",
       "analyst_name": "Pranjal",
       "rh_name": "Hardik",
@@ -10130,12 +10385,13 @@
         "S1",
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "The South Indian Bank Limited",
-      "aliases": [],
+      "aliases": [
+        "South Indian Bank; SIB"
+      ],
       "gh_name": "Aditya",
       "analyst_name": "Shrey",
       "rh_name": "Priyesh",
@@ -10159,12 +10415,13 @@
       "rh_sections": [
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Edelweiss Asset Management Limited",
-      "aliases": [],
+      "aliases": [
+        "Edelweiss Mutual Fund; Edelweiss Asset Management"
+      ],
       "gh_name": "Saleem",
       "analyst_name": "Kumer",
       "rh_name": "Sudam",
@@ -10189,12 +10446,13 @@
         "S1",
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Mahindra Manulife Investment Management Private Limited",
-      "aliases": [],
+      "aliases": [
+        "Mahindra Manulife Mutual Fund; Mahindra Manulife"
+      ],
       "gh_name": "Saleem",
       "analyst_name": "Kumer",
       "rh_name": "Sudam",
@@ -10219,12 +10477,13 @@
         "S1",
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Ambit Finvest Private Limited",
-      "aliases": [],
+      "aliases": [
+        "Ambit Finvest"
+      ],
       "gh_name": "Jitendra",
       "analyst_name": "Pooja",
       "rh_name": "Hardik",
@@ -10249,12 +10508,13 @@
         "S1",
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Indian Overseas Bank",
-      "aliases": [],
+      "aliases": [
+        "IOB"
+      ],
       "gh_name": "Aditya",
       "analyst_name": "Dhruv",
       "rh_name": "Priyesh",
@@ -10278,12 +10538,13 @@
       "rh_sections": [
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "India Shelter Finance",
-      "aliases": [],
+      "aliases": [
+        "India Shelter Finance Corporation; India Shelter"
+      ],
       "gh_name": "Jatin",
       "analyst_name": "Jaya",
       "rh_name": "Priyesh",
@@ -10307,12 +10568,13 @@
       "rh_sections": [
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Indian Renewable Energy Development Agency Limited (IREDA)",
-      "aliases": [],
+      "aliases": [
+        "IREDA; Indian Renewable Energy Development Agency"
+      ],
       "gh_name": "Jatin",
       "analyst_name": "Kanika",
       "rh_name": "Priyesh",
@@ -10336,12 +10598,13 @@
       "rh_sections": [
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "S V Creditline Limited",
-      "aliases": [],
+      "aliases": [
+        "SV Creditline; SVCL"
+      ],
       "gh_name": "Jatin",
       "analyst_name": "Shweta",
       "rh_name": "Priyesh",
@@ -10365,12 +10628,13 @@
       "rh_sections": [
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Save Microfinance Private Limited",
-      "aliases": [],
+      "aliases": [
+        "Save Microfinance"
+      ],
       "gh_name": "Jatin",
       "analyst_name": "Jaya",
       "rh_name": "Priyesh",
@@ -10394,12 +10658,13 @@
       "rh_sections": [
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Save Solutions Private Limited",
-      "aliases": [],
+      "aliases": [
+        "Save Solutions"
+      ],
       "gh_name": "Jatin",
       "analyst_name": "Shweta",
       "rh_name": "Priyesh",
@@ -10423,12 +10688,13 @@
       "rh_sections": [
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Solfin Sustainable Finance Private Limited",
-      "aliases": [],
+      "aliases": [
+        "Solfin Sustainable Finance"
+      ],
       "gh_name": "Jatin",
       "analyst_name": "Shweta",
       "rh_name": "Priyesh",
@@ -10452,12 +10718,13 @@
       "rh_sections": [
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Ummeed Housing Finance Private Limited",
-      "aliases": [],
+      "aliases": [
+        "Ummeed Housing"
+      ],
       "gh_name": "Jatin",
       "analyst_name": "Shweta",
       "rh_name": "Priyesh",
@@ -10481,12 +10748,13 @@
       "rh_sections": [
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Niva Bupa Health Insurance Company Limited",
-      "aliases": [],
+      "aliases": [
+        "Niva Bupa Health"
+      ],
       "gh_name": "Saleem",
       "analyst_name": "Shivam",
       "rh_name": "Sudam",
@@ -10511,12 +10779,13 @@
         "S1",
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Axis Mutual Fund",
-      "aliases": [],
+      "aliases": [
+        "Axis MF"
+      ],
       "gh_name": "Saleem",
       "analyst_name": "Kumer",
       "rh_name": "Sudam",
@@ -10541,12 +10810,13 @@
         "S1",
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Jio BlackRock Asset Management Private Limited",
-      "aliases": [],
+      "aliases": [
+        "JioBlackRock Mutual Fund; Jio BlackRock Mutual Fund"
+      ],
       "gh_name": "Saleem",
       "analyst_name": "Kumer",
       "rh_name": "Sudam",
@@ -10571,12 +10841,13 @@
         "S1",
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "LIC Mutual Fund",
-      "aliases": [],
+      "aliases": [
+        "LIC MF"
+      ],
       "gh_name": "Saleem",
       "analyst_name": "Kumer",
       "rh_name": "Sudam",
@@ -10601,12 +10872,13 @@
         "S1",
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Union Mutual Fund",
-      "aliases": [],
+      "aliases": [
+        "Union MF"
+      ],
       "gh_name": "Saleem",
       "analyst_name": "Kumer",
       "rh_name": "Sudam",
@@ -10631,12 +10903,13 @@
         "S1",
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "ICICI Prudential Mutual Fund",
-      "aliases": [],
+      "aliases": [
+        "ICICI Prudential MF"
+      ],
       "gh_name": "Saleem",
       "analyst_name": "Kumer",
       "rh_name": "Sudam",
@@ -10661,12 +10934,13 @@
         "S1",
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Bajaj Finserv Asset Management Limited",
-      "aliases": [],
+      "aliases": [
+        "Bajaj Finserv Mutual Fund"
+      ],
       "gh_name": "Saleem",
       "analyst_name": "Kumer",
       "rh_name": "Sudam",
@@ -10691,12 +10965,13 @@
         "S1",
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Baroda BNP Paribas Mutual Fund",
-      "aliases": [],
+      "aliases": [
+        "Baroda BNP Paribas MF"
+      ],
       "gh_name": "Saleem",
       "analyst_name": "Kumer",
       "rh_name": "Sudam",
@@ -10721,12 +10996,13 @@
         "S1",
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Canara Robeco Mutual Fund",
-      "aliases": [],
+      "aliases": [
+        "Canara Robeco MF"
+      ],
       "gh_name": "Saleem",
       "analyst_name": "Kumer",
       "rh_name": "Sudam",
@@ -10751,12 +11027,13 @@
         "S1",
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "SBI Funds Management Limited",
-      "aliases": [],
+      "aliases": [
+        "SBI Mutual Fund; SBI MF"
+      ],
       "gh_name": "Saleem",
       "analyst_name": "Kumer",
       "rh_name": "Sudam",
@@ -10781,12 +11058,13 @@
         "S1",
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Indo Thai Securities Ltd",
-      "aliases": [],
+      "aliases": [
+        "Indo Thai Securities"
+      ],
       "gh_name": "Saleem",
       "analyst_name": "Shivam",
       "rh_name": "Sudam",
@@ -10811,12 +11089,13 @@
         "S1",
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Arvesta Financial Services Private Limited",
-      "aliases": [],
+      "aliases": [
+        "Arvesta Financial Services"
+      ],
       "gh_name": "Yogesh",
       "analyst_name": "Sehdev",
       "rh_name": "Sudam",
@@ -10841,12 +11120,13 @@
         "S1",
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Kotak Mahindra Mutual Fund",
-      "aliases": [],
+      "aliases": [
+        "Kotak Mutual Fund; Kotak MF"
+      ],
       "gh_name": "Yogesh",
       "analyst_name": "Bala",
       "rh_name": "Sudam",
@@ -10871,12 +11151,13 @@
         "S1",
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Sundaram Asset Management Company Limited",
-      "aliases": [],
+      "aliases": [
+        "Sundaram Mutual Fund; Sundaram MF"
+      ],
       "gh_name": "Yogesh",
       "analyst_name": "Bala",
       "rh_name": "Sudam",
@@ -10901,12 +11182,13 @@
         "S1",
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "UTI Asset Management Company Limited",
-      "aliases": [],
+      "aliases": [
+        "UTI AMC; UTI Mutual Fund"
+      ],
       "gh_name": "Yogesh",
       "analyst_name": "Ujjwala",
       "rh_name": "Sudam",
@@ -10931,12 +11213,13 @@
         "S1",
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Systamatix Corporate Services Limited",
-      "aliases": [],
+      "aliases": [
+        "Systematix Corporate Services; Systematix"
+      ],
       "gh_name": "Saleem",
       "analyst_name": "Lokesh",
       "rh_name": "Sudam",
@@ -10961,12 +11244,13 @@
         "S1",
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Vivriti Capital Limited",
-      "aliases": [],
+      "aliases": [
+        "Vivriti Capital"
+      ],
       "gh_name": "Saleem",
       "analyst_name": "Lokesh",
       "rh_name": "Sudam",
@@ -10991,8 +11275,7 @@
         "S1",
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     },
     {
       "company": "Bhansali",
@@ -11021,8 +11304,7 @@
         "S1",
         "S2",
         "S3"
-      ],
-      "sections": []
+      ]
     }
   ],
   "scheduled_enabled": true,
