@@ -3,6 +3,10 @@
   "segment": "Corporate",
   "updated": "2026-08-29"
  },
+ "amrit malwa capital": {
+  "segment": "NBFC/HFC",
+  "updated": "2026-09-01"
+ },
  "avp infracon": {
   "segment": "Corporate",
   "updated": "2026-08-29"
@@ -10,6 +14,14 @@
  "bajaj finance": {
   "segment": "NBFC/HFC",
   "updated": "2026-08-28"
+ },
+ "bansal credits": {
+  "segment": "Corporate",
+  "updated": "2026-09-01"
+ },
+ "century silicon city": {
+  "segment": "Corporate",
+  "updated": "2026-09-01"
  },
  "credit wise capital": {
   "segment": "NBFC/HFC",
@@ -31,6 +43,10 @@
   "segment": "NBFC/HFC",
   "updated": "2026-08-29"
  },
+ "housing and urban development": {
+  "segment": "PSU",
+  "updated": "2026-09-01"
+ },
  "icl fincorp": {
   "segment": "NBFC/HFC",
   "updated": "2026-08-26"
@@ -39,9 +55,17 @@
   "segment": "Corporate",
   "updated": "2026-08-28"
  },
+ "indian railway finance": {
+  "segment": "PSU",
+  "updated": "2026-09-01"
+ },
  "iti gold loans": {
   "segment": "NBFC/HFC",
   "updated": "2026-08-28"
+ },
+ "jio credit": {
+  "segment": "NBFC/HFC",
+  "updated": "2026-09-01"
  },
  "juniper green stellar": {
   "segment": "Corporate",
@@ -50,6 +74,10 @@
  "kilitch healthcare": {
   "segment": "Corporate",
   "updated": "2026-08-31"
+ },
+ "klm axiva finvest": {
+  "segment": "NBFC/HFC",
+  "updated": "2026-09-01"
  },
  "krazybee services": {
   "segment": "NBFC/HFC",
@@ -63,6 +91,14 @@
   "segment": "Corporate",
   "updated": "2026-08-28"
  },
+ "muthoot fincorp": {
+  "segment": "NBFC/HFC",
+  "updated": "2026-09-01"
+ },
+ "ncc urban homes": {
+  "segment": "Corporate",
+  "updated": "2026-09-01"
+ },
  "niyogin fintech": {
   "segment": "Corporate",
   "updated": "2026-08-29"
@@ -71,17 +107,25 @@
   "segment": "Corporate",
   "updated": "2026-08-26"
  },
+ "nuvama wealth finance": {
+  "segment": "NBFC/HFC",
+  "updated": "2026-09-01"
+ },
  "orange retail finance": {
   "segment": "NBFC/HFC",
   "updated": "2026-08-26"
  },
  "power finance": {
   "segment": "PSU",
-  "updated": "2026-08-26"
+  "updated": "2026-09-01"
  },
  "progfin": {
   "segment": "Corporate",
   "updated": "2026-08-28"
+ },
+ "rec": {
+  "segment": "PSU",
+  "updated": "2026-09-01"
  },
  "regency fincorp": {
   "segment": "NBFC/HFC",
@@ -106,6 +150,10 @@
  "unigold finance": {
   "segment": "NBFC/HFC",
   "updated": "2026-08-28"
+ },
+ "vastu housing finance": {
+  "segment": "NBFC/HFC",
+  "updated": "2026-09-01"
  },
  "vision infra equipment solutions": {
   "segment": "Corporate",

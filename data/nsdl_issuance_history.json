@@ -1,6 +1,242 @@
 {
  "records": [
   {
+   "isin": "INE07LU07321",
+   "issuer": "BANSAL CREDITS LIMITED",
+   "allotment_date": "2026-08-31",
+   "amount_cr": 3.0,
+   "coupon": 11.0,
+   "tenure_years": 2.0,
+   "band": "Not rated / available",
+   "segment": "Corporate",
+   "spread_bps": 480,
+   "ratings": []
+  },
+  {
+   "isin": "INE07LU07313",
+   "issuer": "BANSAL CREDITS LIMITED",
+   "allotment_date": "2026-08-31",
+   "amount_cr": 3.0,
+   "coupon": 10.0,
+   "tenure_years": 2.0,
+   "band": "Not rated / available",
+   "segment": "Corporate",
+   "spread_bps": 380,
+   "ratings": []
+  },
+  {
+   "isin": "INE03XB08372",
+   "issuer": "AMRIT MALWA CAPITAL LIMITED",
+   "allotment_date": "2026-08-31",
+   "amount_cr": 20.0,
+   "coupon": 14.0,
+   "tenure_years": 3.0,
+   "band": "BBB band",
+   "segment": "NBFC/HFC",
+   "spread_bps": 771,
+   "ratings": [
+    "CRISIL RATINGS LIMITED BBB"
+   ]
+  },
+  {
+   "isin": "INE918K07RA5",
+   "issuer": "NUVAMA WEALTH FINANCE LIMITED",
+   "allotment_date": "2026-08-31",
+   "amount_cr": 50.0,
+   "coupon": null,
+   "tenure_years": 3.6,
+   "band": "AA band (AA+/AA/AA-)",
+   "segment": "NBFC/HFC",
+   "spread_bps": null,
+   "ratings": [
+    "ICRA AA",
+    "CRISIL AA"
+   ]
+  },
+  {
+   "isin": "INE031A07BJ3",
+   "issuer": "HOUSING AND URBAN DEVELOPMENT CORPORATION LIMITED",
+   "allotment_date": "2026-08-31",
+   "amount_cr": 90.0,
+   "coupon": 5.25,
+   "tenure_years": 5.0,
+   "band": "AAA",
+   "segment": "PSU",
+   "spread_bps": -133,
+   "ratings": [
+    "ICRA AAA"
+   ]
+  },
+  {
+   "isin": "INE01I507BJ7",
+   "issuer": "KLM AXIVA FINVEST LIMITED",
+   "allotment_date": "2026-08-31",
+   "amount_cr": 100.0,
+   "coupon": null,
+   "tenure_years": 6.6,
+   "band": "Below investment grade",
+   "segment": "NBFC/HFC",
+   "spread_bps": null,
+   "ratings": [
+    "IND-Ra BB+"
+   ]
+  },
+  {
+   "isin": "INE01I507BH1",
+   "issuer": "KLM AXIVA FINVEST LIMITED",
+   "allotment_date": "2026-08-31",
+   "amount_cr": 100.0,
+   "coupon": 9.5,
+   "tenure_years": 1.1,
+   "band": "Below investment grade",
+   "segment": "NBFC/HFC",
+   "spread_bps": 393,
+   "ratings": [
+    "IND-Ra BB+"
+   ]
+  },
+  {
+   "isin": "INE01I507BI9",
+   "issuer": "KLM AXIVA FINVEST LIMITED",
+   "allotment_date": "2026-08-31",
+   "amount_cr": 100.0,
+   "coupon": null,
+   "tenure_years": 1.3,
+   "band": "Below investment grade",
+   "segment": "NBFC/HFC",
+   "spread_bps": null,
+   "ratings": [
+    "IND-Ra BB+"
+   ]
+  },
+  {
+   "isin": "INE459T07215",
+   "issuer": "VASTU HOUSING FINANCE CORPORATION LIMITED",
+   "allotment_date": "2026-08-31",
+   "amount_cr": 100.0,
+   "coupon": null,
+   "tenure_years": 4.0,
+   "band": "AA band (AA+/AA/AA-)",
+   "segment": "NBFC/HFC",
+   "spread_bps": null,
+   "ratings": [
+    "CareEdge AA"
+   ]
+  },
+  {
+   "isin": "INE2NQ207015",
+   "issuer": "NCC URBAN HOMES PRIVATE LIMITED",
+   "allotment_date": "2026-08-31",
+   "amount_cr": 110.0,
+   "coupon": 12.0,
+   "tenure_years": 5.0,
+   "band": "Not rated / available",
+   "segment": "Corporate",
+   "spread_bps": 542,
+   "ratings": []
+  },
+  {
+   "isin": "INE549K08640",
+   "issuer": "MUTHOOT FINCORP LIMITED",
+   "allotment_date": "2026-08-31",
+   "amount_cr": 150.0,
+   "coupon": 10.4,
+   "tenure_years": 8.0,
+   "band": "AA band (AA+/AA/AA-)",
+   "segment": "NBFC/HFC",
+   "spread_bps": 359,
+   "ratings": [
+    "CRISIL AA"
+   ]
+  },
+  {
+   "isin": "INE053F07FJ7",
+   "issuer": "INDIAN RAILWAY FINANCE CORPORATION LIMITED",
+   "allotment_date": "2026-08-31",
+   "amount_cr": 360.0,
+   "coupon": 5.25,
+   "tenure_years": 5.0,
+   "band": "AAA",
+   "segment": "PSU",
+   "spread_bps": -133,
+   "ratings": [
+    "ICRA AAA",
+    "CRISIL AAA"
+   ]
+  },
+  {
+   "isin": "INE134E07EF9",
+   "issuer": "POWER FINANCE CORPORATION LIMITED",
+   "allotment_date": "2026-08-31",
+   "amount_cr": 500.0,
+   "coupon": 5.25,
+   "tenure_years": 5.0,
+   "band": "AAA",
+   "segment": "PSU",
+   "spread_bps": -133,
+   "ratings": [
+    "ICRA AAA"
+   ]
+  },
+  {
+   "isin": "INE0QD007013",
+   "issuer": "CENTURY SILICON CITY PRIVATE LIMITED",
+   "allotment_date": "2026-08-31",
+   "amount_cr": 550.0,
+   "coupon": 17.25,
+   "tenure_years": 3.0,
+   "band": "Not rated / available",
+   "segment": "Corporate",
+   "spread_bps": 1096,
+   "ratings": []
+  },
+  {
+   "isin": "INE020B07OV2",
+   "issuer": "REC LIMITED",
+   "allotment_date": "2026-08-31",
+   "amount_cr": 600.0,
+   "coupon": 5.25,
+   "tenure_years": 5.0,
+   "band": "AAA",
+   "segment": "PSU",
+   "spread_bps": -133,
+   "ratings": [
+    "ICRA AAA",
+    "CRISIL AAA",
+    "CareEdge AAA",
+    "IND-Ra AAA"
+   ]
+  },
+  {
+   "isin": "INE282H07109",
+   "issuer": "JIO CREDIT LIMITED",
+   "allotment_date": "2026-08-31",
+   "amount_cr": 1756.0,
+   "coupon": 8.08,
+   "tenure_years": 3.0,
+   "band": "AAA",
+   "segment": "NBFC/HFC",
+   "spread_bps": 179,
+   "ratings": [
+    "CRISIL AAA"
+   ]
+  },
+  {
+   "isin": "INE020B08GJ1",
+   "issuer": "REC LIMITED",
+   "allotment_date": "2026-08-31",
+   "amount_cr": 2502.0,
+   "coupon": 7.57,
+   "tenure_years": 10.2,
+   "band": "AAA",
+   "segment": "PSU",
+   "spread_bps": 62,
+   "ratings": [
+    "ICRA AAA",
+    "CRISIL AAA"
+   ]
+  },
+  {
    "isin": "INE029R07038",
    "issuer": "KILITCH HEALTHCARE INDIA LIMITED",
    "allotment_date": "2026-08-30",
