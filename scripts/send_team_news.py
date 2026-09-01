@@ -3076,6 +3076,37 @@ def _save_seen(items: list[dict]) -> None:
     _git_push(_SEEN_PATH)
 
 
+_COMPANY_HISTORY_PATH = os.path.join(_REPO_ROOT, "data", "team_company_history.json")
+
+
+def _load_company_history() -> dict:
+    """{company: earliest date (YYYY-MM-DD) it ever had a real S1 item}.
+    Powers the "first mention" flag -- a company appearing here for the
+    first time is either newly added to the watchlist or has simply never
+    made real news before, both of which are worth calling out distinctly
+    rather than blending into an ordinary row."""
+    try:
+        with open(_COMPANY_HISTORY_PATH, encoding="utf-8") as f:
+            return json.load(f)
+    except Exception:
+        return {}
+
+
+def _save_company_history(history: dict, new_companies: set[str], today: str) -> None:
+    """Only called on a real (non-test) send -- a test run must never mark
+    a company as "seen" or every subsequent real send would silently lose
+    that company's first-mention flag."""
+    if not new_companies:
+        return
+    history = dict(history)
+    for c in new_companies:
+        history.setdefault(c, today)
+    os.makedirs(os.path.dirname(_COMPANY_HISTORY_PATH), exist_ok=True)
+    with open(_COMPANY_HISTORY_PATH, "w", encoding="utf-8") as f:
+        json.dump(history, f, indent=2, sort_keys=True)
+    _git_push(_COMPANY_HISTORY_PATH)
+
+
 # ---------------------------------------------------------------------------
 # Fetched-news pool
 # ---------------------------------------------------------------------------
@@ -4371,7 +4402,8 @@ def _mech_s1_view(it: dict) -> dict:
     }
 
 
-def _np_s1_row(it: dict, company: str, view: dict | None = None) -> str:
+def _np_s1_row(it: dict, company: str, view: dict | None = None,
+               is_first: bool = False, affects: list[str] | None = None) -> str:
     """One S1 watchlist row: Company | Source Link | Summary. Replaces the
     per-entity header + stacked cards for S1 specifically (team's requested
     table layout) — S2/S3 keep the 3-column card layout in _np_card, since
@@ -4381,6 +4413,13 @@ def _np_s1_row(it: dict, company: str, view: dict | None = None) -> str:
     when AI is available, else _mech_s1_view. Same shape either way, so
     the row always shows a key_credit_variable_affected tag plus a real
     analytical commentary, never a copy of the headline.
+
+    is_first: this company's first-ever appearance in S1 (see
+    _load_company_history) -- S1 only, flagged next to the company name.
+
+    affects: S2 only -- which of THIS reader's own S1 companies sit in the
+    sector this item is about, so a generic sector story reads as
+    personally relevant rather than generic industry noise.
     """
     # Materiality >= 8 is the same "needs action" threshold the old
     # per-entity header used -- reader feedback asked for this to read as a
@@ -4389,6 +4428,9 @@ def _np_s1_row(it: dict, company: str, view: dict | None = None) -> str:
     risky = _materiality(it) >= 8
     row_cls = ' class="risk"' if risky else ""
     flag = '<span class="flag">&#9679; ACTION</span>' if risky else ""
+    if is_first:
+        flag += ('<span style="color:#0a7a3d;font-weight:800;font-size:7.5px;'
+                 'letter-spacing:.5px;margin-left:4px;">&#9733; NEW</span>')
     meta = " &middot; ".join(_esc(x) for x in (it["source"], it.get("pub", "")) if x)
     headline = (f'<a href="{_esc(it["url"])}" target="_blank">{_esc(it["title"])}</a>'
                 if it["url"] else f'<span>{_esc(it["title"])}</span>')
@@ -4408,10 +4450,18 @@ def _np_s1_row(it: dict, company: str, view: dict | None = None) -> str:
     also_list = (it.get("also") or [])[:_ALSO_REPORTED_CAP]
     also = (f'<span class="also">Also reported by: {_esc(", ".join(also_list))}</span>'
             if also_list else "")
+    affects_html = ""
+    if affects:
+        shown = affects[:_ALSO_REPORTED_CAP]
+        more = len(affects) - len(shown)
+        more_txt = f" (+{more} more)" if more > 0 else ""
+        affects_html = (f'<div style="font-size:9px;color:#0a7a3d;font-weight:700;'
+                         f'margin-bottom:3px;">Affects your entities: '
+                         f'{_esc(", ".join(shown))}{more_txt}</div>')
     return (f'<tr{row_cls}><td class="company">{_esc(company)}{flag}</td>'
             f'<td class="link">{headline}'
             f'<span class="srcmeta">{meta}{_undated_note(it)}</span></td>'
-            f'<td class="summary">{summary}{also}{_feedback_link(it)}</td></tr>')
+            f'<td class="summary">{affects_html}{summary}{also}{_feedback_link(it)}</td></tr>')
 
 
 def _feedback_link(it: dict) -> str:
@@ -4492,7 +4542,8 @@ def _category_header(label: str) -> str:
 
 
 def _np_partb(p: dict, items: list[dict], by_section: dict,
-              takeaways: dict | None = None, gpt_excluded: set | None = None
+              takeaways: dict | None = None, gpt_excluded: set | None = None,
+              new_companies: set | None = None, company_sector: dict | None = None
               ) -> tuple[str, int, list[dict]]:
     """Per-person Part B in the 7:30 class markup. Returns (html, story_count,
     the stories shown — used to pick the Top 5).
@@ -4505,7 +4556,18 @@ def _np_partb(p: dict, items: list[dict], by_section: dict,
     judged and always stays in the table with the mechanical fallback --
     "GPT didn't look at it" must never be treated the same as "GPT looked
     and said skip it".
+
+    new_companies: S1 companies making their first-ever appearance in
+    company_history.json -- flagged distinctly rather than blended into an
+    ordinary row (see _load_company_history).
+
+    company_sector: {company: sector}, used to compute the S2 "Affects:"
+    line -- which of THIS reader's own S1 companies sit in the sector an
+    S2 item is about, so a generic sector story reads as personally
+    relevant instead of generic industry noise.
     """
+    new_companies = new_companies or set()
+    company_sector = company_sector or {}
     gpt_excluded = gpt_excluded or set()
     parts: list[str] = []
     chosen: list[dict] = []
@@ -4561,7 +4623,8 @@ def _np_partb(p: dict, items: list[dict], by_section: dict,
             # card can. S2/S3 are unaffected; that layout doesn't fit
             # them (their items don't belong to one company), see the
             # layout-scope decision this replaced.
-            rows = "".join(_np_s1_row(it, comp, (takeaways or {}).get(_key(it)))
+            rows = "".join(_np_s1_row(it, comp, (takeaways or {}).get(_key(it)),
+                                       is_first=comp in new_companies)
                            for comp, its in order for it in its)
             parts.append(
                 '<div class="s1wrap"><table class="s1tbl">'
@@ -4604,7 +4667,12 @@ def _np_partb(p: dict, items: list[dict], by_section: dict,
                 cat = it.get("category") or "General"
                 raw_view = (takeaways or {}).get(_key(it))
                 view = {"commentary": raw_view} if raw_view else None
-                rows.append(_np_s1_row(it, cat, view))
+                affects = None
+                if skey == "S2":
+                    item_sectors = it.get("sectors") or set()
+                    affects = sorted(c for c in p["companies"]
+                                      if company_sector.get(c) in item_sectors)
+                rows.append(_np_s1_row(it, cat, view, affects=affects))
             parts.append(
                 '<div class="s1wrap"><table class="s1tbl">'
                 '<thead><tr><th>Category</th><th>Source Link</th><th>View/Implications</th></tr></thead>'
@@ -5416,6 +5484,22 @@ def main() -> None:
         if it["section"] == "S2":
             it["sectors"] = _item_sectors(it, sectors)
 
+    # "First mention" flag: a company appearing in company_history.json for
+    # the first time either just joined the watchlist or has genuinely never
+    # made real news before -- either way worth a distinct visual flag in S1
+    # rather than blending into an ordinary row. today_companies/new_companies
+    # computed here (before dedup/materiality touch anything else) so the
+    # flag is available to every per-person _np_partb call below; actually
+    # persisting new_companies happens later, gated on a real (non-test) send.
+    company_history = _load_company_history()
+    today_companies = {c for it in items if it["section"] == "S1"
+                        for c in (it.get("companies") or [])}
+    new_companies = today_companies - set(company_history)
+    if new_companies:
+        print(f"[history] {len(new_companies)} compan{'y is' if len(new_companies)==1 else 'ies are'} "
+              f"making their first-ever appearance: {', '.join(sorted(new_companies))[:200]}")
+    company_sector = {r["company"]: _row_sector(r) for r in rows}
+
     pre_stale_macro = len(items)
     stale_macro = [it for it in items
                    if it["section"] == "S3" and _is_stale_macro_period(it, today_d)]
@@ -5674,7 +5758,8 @@ def main() -> None:
     # instead of a separate AI round-trip per person in the send loop.
     prepared: dict = {}
     for email, p in people.items():
-        part_b, total, person_items = _np_partb(p, items, by_section, section_takeaways, gpt_excluded)
+        part_b, total, person_items = _np_partb(p, items, by_section, section_takeaways, gpt_excluded,
+                                                 new_companies, company_sector)
         if total == 0 and not team.get("send_empty_mail", False):
             print(f"[mail] skipping {email} — nothing new in their sections")
             continue
@@ -5810,7 +5895,8 @@ def main() -> None:
     master_p = {"sections": {"S1", "S2", "S3"},
                 "companies": {r["company"] for r in rows},
                 "sectors": set(sectors) | {_row_sector(r) for r in rows}}
-    m_partb, _m_total, _m_items = _np_partb(master_p, items, by_section, section_takeaways, gpt_excluded)
+    m_partb, _m_total, _m_items = _np_partb(master_p, items, by_section, section_takeaways, gpt_excluded,
+                                             new_companies, company_sector)
     _write_archive(_np_rebrand(_np_build_attachment(m_partb, today, "", masthead, coverage_note)), today)
 
     _append_stats({
@@ -5842,6 +5928,10 @@ def main() -> None:
             _save_pool(pool_to_save)
         except Exception as exc:
             print(f"[pool] save failed (non-fatal): {exc}")
+        try:
+            _save_company_history(company_history, new_companies, str(today_d))
+        except Exception as exc:
+            print(f"[history] save failed (non-fatal): {exc}")
         _mark_sent_today()
     print("Done.")
 
