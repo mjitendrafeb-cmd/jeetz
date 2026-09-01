@@ -8,6 +8,7 @@ Usage: python3 scripts/demo_new_features.py <output_pdf_path>
 """
 
 import datetime
+import json
 import sys
 
 import send_team_news as tn
@@ -16,7 +17,9 @@ import send_team_news as tn
 def main(out_path: str) -> None:
     team = tn._load_team()
     rows = [r for r in team.get("rows", []) if r.get("company", "").strip()]
-    history = tn._load_company_history()
+    # Local dev branch has no data/team_company_history.json (deployed to
+    # main via worktree, not merged back here) -- use the reference copy.
+    history = json.load(open("/tmp/company_history_ref.json"))
 
     # Pick a company NOT in history (a real first-mention case) and two
     # companies sharing a sector (for the "Affects" cross-reference).

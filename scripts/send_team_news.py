@@ -4045,7 +4045,7 @@ def _event_badge(it: dict) -> str:
 
 
 def _undated_note(it: dict) -> str:
-    return ('<span style="color:#b0aa9c;font-size:9px;"> &middot; date unconfirmed</span>'
+    return ('<span style="color:#b0aa9c;font-size:9.5px;"> &middot; date unconfirmed</span>'
             if _is_undated(it) else "")
 
 
@@ -4429,7 +4429,7 @@ def _np_s1_row(it: dict, company: str, view: dict | None = None,
     row_cls = ' class="risk"' if risky else ""
     flag = '<span class="flag">&#9679; ACTION</span>' if risky else ""
     if is_first:
-        flag += ('<span style="color:#0a7a3d;font-weight:800;font-size:7.5px;'
+        flag += ('<span style="color:#0a7a3d;font-weight:800;font-size:9px;'
                  'letter-spacing:.5px;margin-left:4px;">&#9733; NEW</span>')
     meta = " &middot; ".join(_esc(x) for x in (it["source"], it.get("pub", "")) if x)
     headline = (f'<a href="{_esc(it["url"])}" target="_blank">{_esc(it["title"])}</a>'
@@ -4455,7 +4455,7 @@ def _np_s1_row(it: dict, company: str, view: dict | None = None,
         shown = affects[:_ALSO_REPORTED_CAP]
         more = len(affects) - len(shown)
         more_txt = f" (+{more} more)" if more > 0 else ""
-        affects_html = (f'<div style="font-size:9px;color:#0a7a3d;font-weight:700;'
+        affects_html = (f'<div style="font-size:9.5px;color:#0a7a3d;font-weight:700;'
                          f'margin-bottom:3px;">Affects your entities: '
                          f'{_esc(", ".join(shown))}{more_txt}</div>')
     return (f'<tr{row_cls}><td class="company">{_esc(company)}{flag}</td>'
@@ -4962,24 +4962,27 @@ def _np_build_attachment(part_b_html: str, today, for_name: str = "",
   .s1wrap{{column-span:all;overflow-x:auto;margin-top:6px}}
   table.s1tbl{{width:100%;border-collapse:collapse;font-size:11px}}
   table.s1tbl th{{background:{_NP_TEAL_DK};color:#fff;font-family:Arial,Helvetica,sans-serif;
-    font-weight:700;font-size:9px;letter-spacing:.7px;text-transform:uppercase;
+    font-weight:700;font-size:9.5px;letter-spacing:.7px;text-transform:uppercase;
     text-align:left;padding:8px 12px}}
   table.s1tbl td{{padding:9px 12px;border-bottom:1px solid {_NP_RULE};vertical-align:top;
     color:{_NP_BODY};line-height:1.5}}
-  table.s1tbl tr:nth-child(even) td{{background:#FAFBFC}}
+  /* Readability pass: #FAFBFC was barely distinguishable from white --
+     lost-your-place is a real cost on a 300-row S1 table. Deepened to a
+     shade that reads clearly as banding while staying light/print-safe. */
+  table.s1tbl tr:nth-child(even) td{{background:#EEF2F6}}
   table.s1tbl td.company{{font-family:Georgia,serif;font-weight:700;color:{_NP_INK};
     font-size:11px;width:16%}}
-  table.s1tbl td.company .flag{{color:#D0021B;font-weight:800;font-size:7.5px;
+  table.s1tbl td.company .flag{{color:#D0021B;font-weight:800;font-size:9px;
     display:block;margin-top:2px;letter-spacing:.5px}}
   /* Risk flag: materiality >= 8 -- the whole row reads red, not just a
      small badge, so a reader scanning the Company column can't miss it. */
   table.s1tbl tr.risk td{{border-left:3px solid #D0021B}}
   table.s1tbl tr.risk td.company{{color:#D0021B}}
   table.s1tbl td.link{{width:30%}}
-  table.s1tbl td.link a{{color:{_NP_TEAL_DK};font-weight:700;text-decoration:none;font-size:10.5px}}
-  table.s1tbl td.link .srcmeta{{display:block;margin-top:3px;font-size:8.5px;color:{_NP_MUTED}}}
-  table.s1tbl td.summary{{width:54%;font-size:10.3px}}
-  table.s1tbl td.summary .also{{display:block;margin-top:3px;color:{_NP_MUTED};font-size:9px}}
+  table.s1tbl td.link a{{color:{_NP_TEAL_DK};font-weight:700;text-decoration:none;font-size:11px}}
+  table.s1tbl td.link .srcmeta{{display:block;margin-top:3px;font-size:9.5px;color:{_NP_MUTED}}}
+  table.s1tbl td.summary{{width:54%;font-size:11px}}
+  table.s1tbl td.summary .also{{display:block;margin-top:3px;color:{_NP_MUTED};font-size:9.5px}}
   .sb{{font-size:9px;font-weight:800;letter-spacing:3px;text-transform:uppercase;padding-top:6px;padding-bottom:6px}}
   .sb1{{color:{_NP_NAVY};border-color:{_NP_TEAL}}}
   .sb2{{color:{_NP_NAVY};border-color:{_NP_TEAL}}}
