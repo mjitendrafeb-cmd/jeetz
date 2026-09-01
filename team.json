@@ -2663,7 +2663,9 @@
     },
     {
       "company": "Earlysalary Services Private Limited",
-      "aliases": [],
+      "aliases": [
+        "EarlySalary; Fibe"
+      ],
       "gh_name": "Jitendra",
       "analyst_name": "Pooja",
       "rh_name": "Hardik",
