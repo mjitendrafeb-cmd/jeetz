@@ -489,7 +489,10 @@
     },
     {
       "company": "Nabkisan Finance limited",
-      "aliases": [],
+      "aliases": [
+        "Nabkisan",
+        "Nabard"
+      ],
       "gh_name": "Jitendra",
       "analyst_name": "Krish H",
       "rh_name": "Hardik",
