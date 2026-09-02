@@ -244,7 +244,27 @@ _TEAM_JUNK_RE = re.compile(
     r"macquarie|\bubs\b|\bhsbc\b|bofa|nomura)\b"
     r"(?:\d\.\d|[^.|]){0,60}\b(sees?|expects?|estimates?|forecasts?|projects?|pegs?|says?)\b"
     # "Can X's buyback boost its share price? Here's what <broker> says"
-    r"|\bhere'?s what\b(?:\d\.\d|[^.|]){0,40}\b(says?|think|expects?)\b",
+    r"|\bhere'?s what\b(?:\d\.\d|[^.|]){0,40}\b(says?|think|expects?)\b"
+    # Reversed order again, same shape as the "Share Price Target" fix
+    # above: Whalesbook/scanx-style headlines put the claim first and the
+    # broker name last after a colon ("Indian IT Sector May See Growth
+    # Cycle From FY27: Anand Rathi") -- the broker-name-then-verb pattern
+    # above never matches since the verb comes BEFORE the name here, not
+    # after. Reported live: reached S1 tagged to Anand Rathi Share and
+    # Stock Brokers Limited as if it were the firm's own credit news,
+    # when it's the firm's own sectoral research opinion about IT, not
+    # news about the firm at all -- same "research opinion, not sector
+    # news" rule as above, just the other word order.
+    r"|:\s*(motilal oswal|anand rathi|icici securities|hdfc securities|kotak securities|"
+    r"nuvama|jm financial|prabhudas lilladher|sharekhan|axis securities|emkay|"
+    r"nirmal bang|geojit|angel one|5paisa|iifl securities|yes securities|"
+    r"jefferies|morgan stanley|goldman sachs|citi|jp morgan|bernstein|clsa|"
+    r"macquarie|ubs|hsbc|bofa|nomura)\s*$"
+    # Generic stock-performance-tracking pieces ("Anand Rathi Wealth vs
+    # Nifty 50: Share Price Performance") -- a historical-returns
+    # comparison against a benchmark index, never credit-relevant,
+    # regardless of which company it's about.
+    r"|\bshare price performance\b|\b(share|stock) price comparison\b",
     re.IGNORECASE,
 )
 
