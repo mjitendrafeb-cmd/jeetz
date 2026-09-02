@@ -127,7 +127,8 @@
     {
       "company": "Karnataka State Financial Corporation",
       "aliases": [
-        "KSFC; Karnataka State Financial"
+        "KSFC",
+        "Karnataka State Financial"
       ],
       "gh_name": "Shreekiran",
       "analyst_name": "Tony",
@@ -310,7 +311,8 @@
     {
       "company": "CFM ARC",
       "aliases": [
-        "CFM Asset Reconstruction; CFM ARC"
+        "CFM Asset Reconstruction",
+        "CFM ARC"
       ],
       "gh_name": "Jitendra",
       "analyst_name": "Pranjal",
@@ -372,7 +374,8 @@
     {
       "company": "KrazyBee Services Limited",
       "aliases": [
-        "Krazybee;kreditbee"
+        "Krazybee",
+        "kreditbee"
       ],
       "gh_name": "Shreekiran",
       "analyst_name": "Tony",
@@ -433,7 +436,8 @@
     {
       "company": "Tourism Finance Corporation of India Limited",
       "aliases": [
-        "Tourism Finance ; TFCI"
+        "Tourism Finance",
+        "TFCI"
       ],
       "gh_name": "Jatin",
       "analyst_name": "Swapnil",
@@ -494,7 +498,8 @@
     {
       "company": "Nabkisan Finance limited",
       "aliases": [
-        "NABKISAN;NABARD"
+        "NABKISAN",
+        "NABARD"
       ],
       "gh_name": "Jitendra",
       "analyst_name": "Krish H",
@@ -647,7 +652,8 @@
     {
       "company": "Bank of Baroda",
       "aliases": [
-        "BoB;Bank of Baroda"
+        "BoB",
+        "Bank of Baroda"
       ],
       "gh_name": "Aditya",
       "analyst_name": "Shrey",
@@ -677,7 +683,8 @@
     {
       "company": "Punjab and Sind Bank",
       "aliases": [
-        "Punjab & Sind Bank; PSB"
+        "Punjab & Sind Bank",
+        "PSB"
       ],
       "gh_name": "Aditya",
       "analyst_name": "Dhruv",
@@ -707,7 +714,8 @@
     {
       "company": "Nexome Capital Markets Limited",
       "aliases": [
-        "Nexome Capital ; SMIFS Capital Markets"
+        "Nexome Capital",
+        "SMIFS Capital Markets"
       ],
       "gh_name": "Yogesh",
       "analyst_name": "Yashika",
@@ -769,7 +777,8 @@
     {
       "company": "SBM Bank (INDIA) Limited",
       "aliases": [
-        "SBM Bank India; SBM India"
+        "SBM Bank India",
+        "SBM India"
       ],
       "gh_name": "Yogesh",
       "analyst_name": "Sehdev",
@@ -1138,7 +1147,8 @@
     {
       "company": "NIPUN PROJECTS & FINANCE PRIVATE LIMITED",
       "aliases": [
-        "NIPUN PROJECTS & FINANCE;Optimo capital"
+        "NIPUN PROJECTS & FINANCE",
+        "Optimo capital"
       ],
       "gh_name": "Shreekiran",
       "analyst_name": "Punit N",
@@ -1259,7 +1269,8 @@
     {
       "company": "Nisus Finance Services Co Limited",
       "aliases": [
-        "Nisus Finance; NiFCO"
+        "Nisus Finance",
+        "NiFCO"
       ],
       "gh_name": "Jitendra",
       "analyst_name": "Pooja",
@@ -1290,7 +1301,8 @@
     {
       "company": "Profectus Capital Private Limited",
       "aliases": [
-        "Profectus Capital;UGRO"
+        "Profectus Capital",
+        "UGRO"
       ],
       "gh_name": "Jitendra",
       "analyst_name": "OM",
@@ -1321,7 +1333,10 @@
     {
       "company": "Indian Clearing Corporation Limited",
       "aliases": [
-        "Indian Clearing Corporation; ICCL; BSE Clearing; BSECL"
+        "Indian Clearing Corporation",
+        "ICCL",
+        "BSE Clearing",
+        "BSECL"
       ],
       "gh_name": "Akansha",
       "analyst_name": "Pulkit Jain",
@@ -1352,7 +1367,9 @@
     {
       "company": "NSE IFSC Clearing Corporation Limited",
       "aliases": [
-        "NSEICC; NICCL; NSE International Clearing"
+        "NSEICC",
+        "NICCL",
+        "NSE International Clearing"
       ],
       "gh_name": "Akansha",
       "analyst_name": "Pulkit Jain",
@@ -1414,7 +1431,9 @@
     {
       "company": "Jharkhand Rajya Gramin Bank",
       "aliases": [
-        "Jharkhand Gramin Bank; JRGB; JGB Bank"
+        "Jharkhand Gramin Bank",
+        "JRGB",
+        "JGB Bank"
       ],
       "gh_name": "Aditya",
       "analyst_name": "Shrey",
@@ -1506,7 +1525,8 @@
     {
       "company": "Jammu & Kashmir Bank Limited",
       "aliases": [
-        "J&K Bank; Jammu and Kashmir Bank"
+        "J&K Bank",
+        "Jammu and Kashmir Bank"
       ],
       "gh_name": "Aditya",
       "analyst_name": "Dhruv",
@@ -1566,7 +1586,8 @@
     {
       "company": "ESAF Small Finance Bank Limited",
       "aliases": [
-        "ESAF Small Finance Bank; ESAF SFB"
+        "ESAF Small Finance Bank",
+        "ESAF SFB"
       ],
       "gh_name": "Shreekiran",
       "analyst_name": "Ravi N",
@@ -1780,7 +1801,8 @@
     {
       "company": "360 One Alternates Asset Management Limited",
       "aliases": [
-        "360 ONE Alternates; 360 ONE Asset"
+        "360 ONE Alternates",
+        "360 ONE Asset"
       ],
       "gh_name": "Yogesh",
       "analyst_name": "Sehdev",
@@ -1811,7 +1833,8 @@
     {
       "company": "360 One Distribution Services Limited",
       "aliases": [
-        "360 ONE Distribution; IIFL Wealth Distribution Services"
+        "360 ONE Distribution",
+        "IIFL Wealth Distribution Services"
       ],
       "gh_name": "Yogesh",
       "analyst_name": "Sehdev",
@@ -1842,7 +1865,8 @@
     {
       "company": "360 One Prime Limited",
       "aliases": [
-        "360 ONE Prime; IIFL Wealth Prime"
+        "360 ONE Prime",
+        "IIFL Wealth Prime"
       ],
       "gh_name": "Yogesh",
       "analyst_name": "Sehdev",
@@ -1873,7 +1897,8 @@
     {
       "company": "360 One Wam Limited",
       "aliases": [
-        "360 ONE WAM; IIFL Wealth Management"
+        "360 ONE WAM",
+        "IIFL Wealth Management"
       ],
       "gh_name": "Yogesh",
       "analyst_name": "Sehdev",
@@ -1966,7 +1991,8 @@
     {
       "company": "Alpha Alternatives Financial Services Private Limited",
       "aliases": [
-        "Alpha Alternatives; Alpha Holdings"
+        "Alpha Alternatives",
+        "Alpha Holdings"
       ],
       "gh_name": "Jitendra",
       "analyst_name": "Pranjal",
@@ -2212,7 +2238,8 @@
     {
       "company": "Equitas Small Finance Bank Limited",
       "aliases": [
-        "Equitas Small Finance Bank; Equitas SFB"
+        "Equitas Small Finance Bank",
+        "Equitas SFB"
       ],
       "gh_name": "Shreekiran",
       "analyst_name": "Tony",
@@ -2242,7 +2269,9 @@
     {
       "company": "IndusInd General Insurance Company Limited",
       "aliases": [
-        "IndusInd General Insurance; Reliance General Insurance;IndusInd"
+        "IndusInd General Insurance",
+        "Reliance General Insurance",
+        "IndusInd"
       ],
       "gh_name": "Saleem",
       "analyst_name": "Dhvani",
@@ -2366,7 +2395,9 @@
     {
       "company": "Star Union Dai-ichi Life Insurance Company Limited",
       "aliases": [
-        "SUD Life; Star Union Dai-ichi Life;Star union"
+        "SUD Life",
+        "Star Union Dai-ichi Life",
+        "Star union"
       ],
       "gh_name": "Shreekiran",
       "analyst_name": "Ravi N",
@@ -2426,7 +2457,9 @@
     {
       "company": "Sammaan Capital Limited",
       "aliases": [
-        "Sammaan Capital; Indiabulls Housing Finance; IBHFL"
+        "Sammaan Capital",
+        "Indiabulls Housing Finance",
+        "IBHFL"
       ],
       "gh_name": "Shreekiran",
       "analyst_name": "Punit N",
@@ -2456,7 +2489,8 @@
     {
       "company": "Sammaan Finserve Limited",
       "aliases": [
-        "Sammaan Finserve; Indiabulls Commercial Credit"
+        "Sammaan Finserve",
+        "Indiabulls Commercial Credit"
       ],
       "gh_name": "Shreekiran",
       "analyst_name": "Punit N",
@@ -2486,7 +2520,8 @@
     {
       "company": "Shubham Housing Development Finance Company Limited",
       "aliases": [
-        "Shubham Housing ; Shubham Housing Development Finance"
+        "Shubham Housing",
+        "Shubham Housing Development Finance"
       ],
       "gh_name": "Jatin",
       "analyst_name": "Shweta",
@@ -2578,7 +2613,9 @@
     {
       "company": "L&T Finance Limited (formerly known as L&T Finance Holdings Limited)",
       "aliases": [
-        "L&T Finance; L&T Finance Holdings; LTFH"
+        "L&T Finance",
+        "L&T Finance Holdings",
+        "LTFH"
       ],
       "gh_name": "Saleem",
       "analyst_name": "Shivam",
@@ -2700,7 +2737,8 @@
     {
       "company": "Earlysalary Services Private Limited",
       "aliases": [
-        "Fibe; EarlySalary"
+        "Fibe",
+        "EarlySalary"
       ],
       "gh_name": "Jitendra",
       "analyst_name": "Pooja",
@@ -2762,7 +2800,8 @@
     {
       "company": "IDBI Capital Markets & Securities Limited",
       "aliases": [
-        "IDBI Capital; IDBI Capital Markets & Securities"
+        "IDBI Capital",
+        "IDBI Capital Markets & Securities"
       ],
       "gh_name": "Aditya",
       "analyst_name": "Dhruv",
@@ -2945,7 +2984,8 @@
     {
       "company": "Power Finance Corporation Limited",
       "aliases": [
-        "Power Finance Corporation; PFC"
+        "Power Finance Corporation",
+        "PFC"
       ],
       "gh_name": "Jatin",
       "analyst_name": "Shweta",
@@ -3067,7 +3107,9 @@
     {
       "company": "HDB Financial Services Limited",
       "aliases": [
-        "HDB Financial Services; HDBFS; HDB"
+        "HDB Financial Services",
+        "HDBFS",
+        "HDB"
       ],
       "gh_name": "Saleem",
       "analyst_name": "Amy",
@@ -3363,7 +3405,8 @@
     {
       "company": "Truhome Finance Limited",
       "aliases": [
-        "Truhome Finance; Shriram Housing"
+        "Truhome Finance",
+        "Shriram Housing"
       ],
       "gh_name": "Aditya",
       "analyst_name": "Dhruv",
@@ -3454,7 +3497,8 @@
     {
       "company": "Bandhan Mutual Fund (BLR)",
       "aliases": [
-        "Bandhan Mutual Fund; Bandhan MF"
+        "Bandhan Mutual Fund",
+        "Bandhan MF"
       ],
       "gh_name": "Yogesh",
       "analyst_name": "Ujjwala",
@@ -3485,7 +3529,8 @@
     {
       "company": "Aditya Birla Sun Life Mutual Fund",
       "aliases": [
-        "ABSL Mutual Fund; Aditya Birla Sun Life Mutual Fund"
+        "ABSL Mutual Fund",
+        "Aditya Birla Sun Life Mutual Fund"
       ],
       "gh_name": "Saleem",
       "analyst_name": "Kumer",
@@ -3638,7 +3683,8 @@
     {
       "company": "Cars24 Financial Services Private Limited",
       "aliases": [
-        "CARS24 Financial Services; CARS24"
+        "CARS24 Financial Services",
+        "CARS24"
       ],
       "gh_name": "Jatin",
       "analyst_name": "Swapnil",
@@ -3668,7 +3714,8 @@
     {
       "company": "Flat White Capital Private Limited",
       "aliases": [
-        "Flat White Capital; indiagold"
+        "Flat White Capital",
+        "indiagold"
       ],
       "gh_name": "Jatin",
       "analyst_name": "Swapnil",
@@ -3821,7 +3868,8 @@
     {
       "company": "Aseem Infrastructure Finance Limited",
       "aliases": [
-        "Aseem Infrastructure Finance; Aseem Infra"
+        "Aseem Infrastructure Finance",
+        "Aseem Infra"
       ],
       "gh_name": "Jitendra",
       "analyst_name": "Pooja",
@@ -3973,7 +4021,8 @@
     {
       "company": "Manipal Cigna Health Insurance Company Limited",
       "aliases": [
-        "ManipalCigna; Manipal Cigna"
+        "ManipalCigna",
+        "Manipal Cigna"
       ],
       "gh_name": "Shreekiran",
       "analyst_name": "Punit N",
@@ -4003,7 +4052,8 @@
     {
       "company": "LIC Housing Finance Limited",
       "aliases": [
-        "LIC Housing ; LIC HFL"
+        "LIC Housing",
+        "LIC HFL"
       ],
       "gh_name": "Saleem",
       "analyst_name": "Shivam",
@@ -4034,7 +4084,8 @@
     {
       "company": "ECAP EQUITIES LIMITED (formerly known as EDEL LAND LIMITED)",
       "aliases": [
-        "ECAP Equities; Edel Land"
+        "ECAP Equities",
+        "Edel Land"
       ],
       "gh_name": "Akansha",
       "analyst_name": "Pulkit Jain",
@@ -4127,7 +4178,8 @@
     {
       "company": "Edelweiss Asset Reconstruction Company Limited",
       "aliases": [
-        "Edelweiss ARC; Edelweiss Asset Reconstruction"
+        "Edelweiss ARC",
+        "Edelweiss Asset Reconstruction"
       ],
       "gh_name": "Akansha",
       "analyst_name": "Anushka",
@@ -4158,7 +4210,8 @@
     {
       "company": "Edelweiss Financial Services Limited",
       "aliases": [
-        "Edelweiss Financial Services; EFSL"
+        "Edelweiss Financial Services",
+        "EFSL"
       ],
       "gh_name": "Akansha",
       "analyst_name": "Anushka",
@@ -4189,7 +4242,8 @@
     {
       "company": "Nido Home Finance Limited",
       "aliases": [
-        "Nido Home Finance; Edelweiss Housing Finance"
+        "Nido Home Finance",
+        "Edelweiss Housing Finance"
       ],
       "gh_name": "Akansha",
       "analyst_name": "Anushka",
@@ -4250,7 +4304,8 @@
     {
       "company": "Home Credit India Finance Private Limited",
       "aliases": [
-        "Home Credit India; Home Credit India Finance"
+        "Home Credit India",
+        "Home Credit India Finance"
       ],
       "gh_name": "Akansha",
       "analyst_name": "Hareesh",
@@ -4404,7 +4459,8 @@
     {
       "company": "India Mortgage Guarantee Corporation Private Limited",
       "aliases": [
-        "India Mortgage Guarantee Corporation; IMGC"
+        "India Mortgage Guarantee Corporation",
+        "IMGC"
       ],
       "gh_name": "Jatin",
       "analyst_name": "Shweta",
@@ -4434,7 +4490,8 @@
     {
       "company": "Utkarsh Small Finance Bank Limited",
       "aliases": [
-        "Utkarsh Small Finance Bank;Utkarsh SFB"
+        "Utkarsh Small Finance Bank",
+        "Utkarsh SFB"
       ],
       "gh_name": "Yogesh",
       "analyst_name": "Ujjwala",
@@ -4586,7 +4643,8 @@
     {
       "company": "Spark Institutional Equities Private Limited",
       "aliases": [
-        "Spark Institutional Equities; Avendus Spark"
+        "Spark Institutional Equities",
+        "Avendus Spark"
       ],
       "gh_name": "Jitendra",
       "analyst_name": "Pooja",
@@ -4771,7 +4829,8 @@
     {
       "company": "North Eastern Development Finance Corporation Limited",
       "aliases": [
-        "NEDFi; North Eastern Development Finance Corporation"
+        "NEDFi",
+        "North Eastern Development Finance Corporation"
       ],
       "gh_name": "Aditya",
       "analyst_name": "Shrey",
@@ -4921,7 +4980,8 @@
     {
       "company": "Madhya Pradesh Financial Corporation",
       "aliases": [
-        "Madhya Pradesh Financial ; MPFC"
+        "Madhya Pradesh Financial",
+        "MPFC"
       ],
       "gh_name": "Shreekiran",
       "analyst_name": "Punit J",
@@ -5042,7 +5102,8 @@
     {
       "company": "Mas Financial Services Limited",
       "aliases": [
-        "MAS Financial Services; MAS Finance"
+        "MAS Financial Services",
+        "MAS Finance"
       ],
       "gh_name": "Saleem",
       "analyst_name": "Shivam",
@@ -5166,7 +5227,8 @@
     {
       "company": "ICICI Prudential Mutual Fund - BLR",
       "aliases": [
-        "ICICI Prudential Mutual Fund; ICICI Prudential MF"
+        "ICICI Prudential Mutual Fund",
+        "ICICI Prudential MF"
       ],
       "gh_name": "Saleem",
       "analyst_name": "Kumer",
@@ -5345,7 +5407,8 @@
     {
       "company": "The Kalupur Commercial Co-Operative Bank Limited",
       "aliases": [
-        "The Kalupur Commercial Co-Operative Bank; Kalupur Co-operative bank"
+        "The Kalupur Commercial Co-Operative Bank",
+        "Kalupur Co-operative bank"
       ],
       "gh_name": "Aditya",
       "analyst_name": "Shrey",
@@ -5497,7 +5560,8 @@
     {
       "company": "The Karur Vysya Bank Limited",
       "aliases": [
-        "Karur Vysya Bank; KVB"
+        "Karur Vysya Bank",
+        "KVB"
       ],
       "gh_name": "Aditya",
       "analyst_name": "Dhruv",
@@ -5771,7 +5835,8 @@
     {
       "company": "IL&FS Financial Services Limited",
       "aliases": [
-        "IL&FS Financial Services; IFIN"
+        "IL&FS Financial Services",
+        "IFIN"
       ],
       "gh_name": "Aditya",
       "analyst_name": "Shrey",
@@ -5801,7 +5866,8 @@
     {
       "company": "Infrastructure Leasing & Financial Services Limited",
       "aliases": [
-        "IL&FS; Infrastructure Leasing & Financial Services"
+        "IL&FS",
+        "Infrastructure Leasing & Financial Services"
       ],
       "gh_name": "Aditya",
       "analyst_name": "Shrey",
@@ -5831,7 +5897,8 @@
     {
       "company": "The Gujarat State Co Operative Bank Limited",
       "aliases": [
-        "Gujarat State Cooperative Bank; GSC Bank"
+        "Gujarat State Cooperative Bank",
+        "GSC Bank"
       ],
       "gh_name": "Aditya",
       "analyst_name": "Shrey",
@@ -5861,7 +5928,8 @@
     {
       "company": "SBI Mutual Fund - BLR",
       "aliases": [
-        "SBI Mutual Fund; SBI MF"
+        "SBI Mutual Fund",
+        "SBI MF"
       ],
       "gh_name": "Saleem",
       "analyst_name": "Kumer",
@@ -5923,7 +5991,9 @@
     {
       "company": "Cholamandalam Investment And Finance Company Limited",
       "aliases": [
-        "Cholamandalam Finance; Chola Finance; CIFCL"
+        "Cholamandalam Finance",
+        "Chola Finance",
+        "CIFCL"
       ],
       "gh_name": "Akansha",
       "analyst_name": "Hareesh",
@@ -6225,7 +6295,8 @@
     {
       "company": "Shriram Financial Services private Limited",
       "aliases": [
-        "Way2Wealth Brokers; Shriram Financial Services"
+        "Way2Wealth Brokers",
+        "Shriram Financial Services"
       ],
       "gh_name": "Jitendra",
       "analyst_name": "Krish H",
@@ -6287,7 +6358,8 @@
     {
       "company": "Axis Max Life Insurance Limited",
       "aliases": [
-        "Axis Max Life; Max Life Insurance"
+        "Axis Max Life",
+        "Max Life Insurance"
       ],
       "gh_name": "Shreekiran",
       "analyst_name": "Punit J",
@@ -6375,7 +6447,8 @@
     {
       "company": "Auxilo Finserve Private Limited",
       "aliases": [
-        "Auxilo Finserve; Auxilo"
+        "Auxilo Finserve",
+        "Auxilo"
       ],
       "gh_name": "Jitendra",
       "analyst_name": "Krish H",
@@ -6406,7 +6479,8 @@
     {
       "company": "Bandhan Life Insurance Limited",
       "aliases": [
-        "Bandhan Life; Aegon Life"
+        "Bandhan Life",
+        "Aegon Life"
       ],
       "gh_name": "Shreekiran",
       "analyst_name": "Punit N",
@@ -6467,7 +6541,8 @@
     {
       "company": "Mirae Asset Investment Managers (India) Private Limited (CQR)",
       "aliases": [
-        "Mirae Asset Mutual Fund; Mirae Asset"
+        "Mirae Asset Mutual Fund",
+        "Mirae Asset"
       ],
       "gh_name": "Saleem",
       "analyst_name": "Lokesh",
@@ -6529,7 +6604,8 @@
     {
       "company": "Raise Fintech Ventures Private Limited",
       "aliases": [
-        "Raise Fintech; Raise"
+        "Raise Fintech",
+        "Raise"
       ],
       "gh_name": "Saleem",
       "analyst_name": "Lokesh",
@@ -6743,7 +6819,8 @@
     {
       "company": "City Union Bank Limited",
       "aliases": [
-        "City Union Bank; CUB"
+        "City Union Bank",
+        "CUB"
       ],
       "gh_name": "Aditya",
       "analyst_name": "Dhruv",
@@ -6958,7 +7035,8 @@
     {
       "company": "Finkurve Financial Services Limited",
       "aliases": [
-        "Finkurve Financial Services; Arvog"
+        "Finkurve Financial Services",
+        "Arvog"
       ],
       "gh_name": "Akansha",
       "analyst_name": "Pulkit Jain",
@@ -7080,7 +7158,8 @@
     {
       "company": "Invesco Asset Management (India) Private Limited (BLR)",
       "aliases": [
-        "Invesco Mutual Fund; Invesco Asset Management India"
+        "Invesco Mutual Fund",
+        "Invesco Asset Management India"
       ],
       "gh_name": "Yogesh",
       "analyst_name": "Yashika",
@@ -7203,7 +7282,8 @@
     {
       "company": "Magma General Insurance Limited",
       "aliases": [
-        "Magma General Insurance; Magma HDI General Insurance"
+        "Magma General Insurance",
+        "Magma HDI General Insurance"
       ],
       "gh_name": "Shreekiran",
       "analyst_name": "Punit J",
@@ -7233,7 +7313,9 @@
     {
       "company": "Grihum Housing Finance Limited",
       "aliases": [
-        "Grihum Housing Finance; Poonawalla Housing Finance; Magma Housing Finance"
+        "Grihum Housing Finance",
+        "Poonawalla Housing Finance",
+        "Magma Housing Finance"
       ],
       "gh_name": "Saleem",
       "analyst_name": "Shivam",
@@ -7294,7 +7376,8 @@
     {
       "company": "Netzero Finance Private Limited",
       "aliases": [
-        "NetZero Finance; Aerem"
+        "NetZero Finance",
+        "Aerem"
       ],
       "gh_name": "Jitendra",
       "analyst_name": "Pranjal",
@@ -7356,7 +7439,8 @@
     {
       "company": "Jana Small Finance Bank Limited",
       "aliases": [
-        "Jana Small Finance Bank; Jana SFB"
+        "Jana Small Finance Bank",
+        "Jana SFB"
       ],
       "gh_name": "Shreekiran",
       "analyst_name": "Ravi N",
@@ -7386,7 +7470,8 @@
     {
       "company": "Orocorp Technologies Private Limited",
       "aliases": [
-        "Oro Money; ORO"
+        "Oro Money",
+        "ORO"
       ],
       "gh_name": "Akansha",
       "analyst_name": "Hareesh",
@@ -7540,7 +7625,8 @@
     {
       "company": "SBI Payment Services Private Limited",
       "aliases": [
-        "SBI Payments; SBI Payment Services"
+        "SBI Payments",
+        "SBI Payment Services"
       ],
       "gh_name": "Aditya",
       "analyst_name": "Shrey",
@@ -7693,7 +7779,8 @@
     {
       "company": "The National Small Industries Corporation Limited",
       "aliases": [
-        "NSIC; National Small Industries Corporation"
+        "NSIC",
+        "National Small Industries Corporation"
       ],
       "gh_name": "Jatin",
       "analyst_name": "Shweta",
@@ -7815,7 +7902,8 @@
     {
       "company": "Fusion Finance Limited",
       "aliases": [
-        "Fusion Finance; Fusion Micro Finance"
+        "Fusion Finance",
+        "Fusion Micro Finance"
       ],
       "gh_name": "Jatin",
       "analyst_name": "Jaya",
@@ -7845,7 +7933,8 @@
     {
       "company": "India Infrastructure Finance Company Limited",
       "aliases": [
-        "IIFCL; India Infrastructure Finance Company"
+        "IIFCL",
+        "India Infrastructure Finance Company"
       ],
       "gh_name": "Jatin",
       "analyst_name": "Sudeeksha",
@@ -7875,7 +7964,8 @@
     {
       "company": "Billionbrains Garage Ventures Limited",
       "aliases": [
-        "Groww; Billionbrains Garage Ventures"
+        "Groww",
+        "Billionbrains Garage Ventures"
       ],
       "gh_name": "Saleem",
       "analyst_name": "Lokesh",
@@ -7906,7 +7996,8 @@
     {
       "company": "Groww Creditserv Technology Private Limited",
       "aliases": [
-        "Groww Credit; Groww CreditServ"
+        "Groww Credit",
+        "Groww CreditServ"
       ],
       "gh_name": "Saleem",
       "analyst_name": "Lokesh",
@@ -7967,7 +8058,8 @@
     {
       "company": "PPFAS Mutual Fund",
       "aliases": [
-        "Parag Parikh Mutual Fund; PPFAS"
+        "Parag Parikh Mutual Fund",
+        "PPFAS"
       ],
       "gh_name": "Saleem",
       "analyst_name": "Kumer",
@@ -8059,7 +8151,8 @@
     {
       "company": "Credila Financial Services Limited",
       "aliases": [
-        "Credila; HDFC Credila"
+        "Credila",
+        "HDFC Credila"
       ],
       "gh_name": "Jitendra",
       "analyst_name": "Pooja",
@@ -8151,7 +8244,8 @@
     {
       "company": "Akara Capital Advisors Private Limited",
       "aliases": [
-        "Stashfin; Akara Capital"
+        "Stashfin",
+        "Akara Capital"
       ],
       "gh_name": "Jatin",
       "analyst_name": "Sudeeksha",
@@ -8241,7 +8335,8 @@
     {
       "company": "Ujjivan Small Finance Bank Limited",
       "aliases": [
-        "Ujjivan SFB; Ujjivan"
+        "Ujjivan SFB",
+        "Ujjivan"
       ],
       "gh_name": "Shreekiran",
       "analyst_name": "Ravi N",
@@ -8271,7 +8366,8 @@
     {
       "company": "Dvara Kshetriya Gramin Financial Services Private Limited",
       "aliases": [
-        "Dvara KGFS; Dvara Kshetriya"
+        "Dvara KGFS",
+        "Dvara Kshetriya"
       ],
       "gh_name": "Shreekiran",
       "analyst_name": "Tony",
@@ -8362,7 +8458,8 @@
     {
       "company": "Bajaj Life Insurance Limited",
       "aliases": [
-        "Bajaj Life Insurance; Bajaj Allianz Life Insurance"
+        "Bajaj Life Insurance",
+        "Bajaj Allianz Life Insurance"
       ],
       "gh_name": "Saleem",
       "analyst_name": "Shivam",
@@ -8455,7 +8552,8 @@
     {
       "company": "Indiafirst Life Insurance Company Limited",
       "aliases": [
-        "IndiaFirst Life; IndiaFirst Life Insurance"
+        "IndiaFirst Life",
+        "IndiaFirst Life Insurance"
       ],
       "gh_name": "Saleem",
       "analyst_name": "Shivam",
@@ -8548,7 +8646,9 @@
     {
       "company": "Navi Limited",
       "aliases": [
-        "Navi Ltd;  Navi+Sachin; Navi+Fintech"
+        "Navi Ltd",
+        "Navi+Sachin",
+        "Navi+Fintech"
       ],
       "gh_name": "Shreekiran",
       "analyst_name": "Tony",
@@ -8701,7 +8801,8 @@
     {
       "company": "Invesco Asset Management (India) Private Limited",
       "aliases": [
-        "Invesco Mutual Fund; Invesco Asset Management India"
+        "Invesco Mutual Fund",
+        "Invesco Asset Management India"
       ],
       "gh_name": "Yogesh",
       "analyst_name": "Yashika",
@@ -8732,7 +8833,8 @@
     {
       "company": "Nippon Life India Asset Management Limited",
       "aliases": [
-        "Nippon India Mutual Fund; Nippon India AMC"
+        "Nippon India Mutual Fund",
+        "Nippon India AMC"
       ],
       "gh_name": "Yogesh",
       "analyst_name": "Yashika",
@@ -9095,7 +9197,8 @@
     {
       "company": "Nuvama Wealth Management Limited",
       "aliases": [
-        "Nuvama Wealth Management; Edelweiss Securities"
+        "Nuvama Wealth Management",
+        "Edelweiss Securities"
       ],
       "gh_name": "Yogesh",
       "analyst_name": "Yashika",
@@ -9126,7 +9229,8 @@
     {
       "company": "Nuvama Clearing Services Limited",
       "aliases": [
-        "Nuvama Clearing Services; Edelweiss Custodial Services"
+        "Nuvama Clearing Services",
+        "Edelweiss Custodial Services"
       ],
       "gh_name": "Yogesh",
       "analyst_name": "Yashika",
@@ -9157,7 +9261,8 @@
     {
       "company": "Nuvama Wealth And Investment Limited",
       "aliases": [
-        "Nuvama Wealth and Investment; Edelweiss Broking"
+        "Nuvama Wealth and Investment",
+        "Edelweiss Broking"
       ],
       "gh_name": "Yogesh",
       "analyst_name": "Yashika",
@@ -9188,7 +9293,8 @@
     {
       "company": "Nuvama Wealth Finance Limited",
       "aliases": [
-        "Nuvama Wealth Finance; Edelweiss Finance & Investments"
+        "Nuvama Wealth Finance",
+        "Edelweiss Finance & Investments"
       ],
       "gh_name": "Yogesh",
       "analyst_name": "Yashika",
@@ -9281,7 +9387,8 @@
     {
       "company": "Mirae Asset Investment Managers (India) Private Limited (BLR)",
       "aliases": [
-        "Mirae Asset Mutual Fund; Mirae Asset"
+        "Mirae Asset Mutual Fund",
+        "Mirae Asset"
       ],
       "gh_name": "Saleem",
       "analyst_name": "Lokesh",
@@ -9312,7 +9419,8 @@
     {
       "company": "A. K. Capital Finance Limited",
       "aliases": [
-        "AK Capital Finance; A.K. Capital Finance"
+        "AK Capital Finance",
+        "A.K. Capital Finance"
       ],
       "gh_name": "Saleem",
       "analyst_name": "Amy",
@@ -9406,7 +9514,8 @@
     {
       "company": "Bank of Maharashtra",
       "aliases": [
-        "BoM; Bank of Maharashtra"
+        "BoM",
+        "Bank of Maharashtra"
       ],
       "gh_name": "Aditya",
       "analyst_name": "Dhruv",
@@ -9559,7 +9668,8 @@
     {
       "company": "Kogta Financial (india) Limited",
       "aliases": [
-        "Kogta Financial; Kogta Finance"
+        "Kogta Financial",
+        "Kogta Finance"
       ],
       "gh_name": "Saleem",
       "analyst_name": "Shivam",
@@ -9742,7 +9852,9 @@
     {
       "company": "Mahindra And Mahindra Financial Services Limited",
       "aliases": [
-        "Mahindra Finance; Mahindra & Mahindra Financial Services; MMFSL"
+        "Mahindra Finance",
+        "Mahindra & Mahindra Financial Services",
+        "MMFSL"
       ],
       "gh_name": "Yogesh",
       "analyst_name": "Yashika",
@@ -9804,7 +9916,9 @@
     {
       "company": "KISETSU Saison Finance (INDIA) Private Limited",
       "aliases": [
-        "Credit Saison India; Credit Saison; Kisetsu"
+        "Credit Saison India",
+        "Credit Saison",
+        "Kisetsu"
       ],
       "gh_name": "Jitendra",
       "analyst_name": "Pranjal",
@@ -9835,7 +9949,9 @@
     {
       "company": "Indostar Capital Finance Limited",
       "aliases": [
-        "IndoStar Capital; IndoStar; Brookfield"
+        "IndoStar Capital",
+        "IndoStar",
+        "Brookfield"
       ],
       "gh_name": "Jitendra",
       "analyst_name": "OM",
@@ -10021,7 +10137,8 @@
     {
       "company": "Indian Railway Finance",
       "aliases": [
-        "Indian Railway Finance ; IRFC"
+        "Indian Railway Finance",
+        "IRFC"
       ],
       "gh_name": "Jatin",
       "analyst_name": "Kanika",
@@ -10113,7 +10230,8 @@
     {
       "company": "Five-Star Business Finance Limited",
       "aliases": [
-        "Five-Star Business Finance; Five Star Business Finance"
+        "Five-Star Business Finance",
+        "Five Star Business Finance"
       ],
       "gh_name": "Akansha",
       "analyst_name": "Hareesh",
@@ -10144,7 +10262,9 @@
     {
       "company": "Piramal Finance Limited (erstwhile Piramal Capital & Housing Finance Limited)",
       "aliases": [
-        "Piramal Finance; Piramal Capital & Housing Finance; PCHFL"
+        "Piramal Finance",
+        "Piramal Capital & Housing Finance",
+        "PCHFL"
       ],
       "gh_name": "Shreekiran",
       "analyst_name": "Ravi N",
@@ -10359,7 +10479,8 @@
     {
       "company": "Shriram Credit Company Limited",
       "aliases": [
-        "Shriram Credit; Shriram capital"
+        "Shriram Credit",
+        "Shriram capital"
       ],
       "gh_name": "Jitendra",
       "analyst_name": "Pranjal",
@@ -10390,7 +10511,8 @@
     {
       "company": "The South Indian Bank Limited",
       "aliases": [
-        "South Indian Bank; SIB"
+        "South Indian Bank",
+        "SIB"
       ],
       "gh_name": "Aditya",
       "analyst_name": "Shrey",
@@ -10420,7 +10542,8 @@
     {
       "company": "Edelweiss Asset Management Limited",
       "aliases": [
-        "Edelweiss Mutual Fund; Edelweiss Asset Management"
+        "Edelweiss Mutual Fund",
+        "Edelweiss Asset Management"
       ],
       "gh_name": "Saleem",
       "analyst_name": "Kumer",
@@ -10451,7 +10574,8 @@
     {
       "company": "Mahindra Manulife Investment Management Private Limited",
       "aliases": [
-        "Mahindra Manulife Mutual Fund; Mahindra Manulife"
+        "Mahindra Manulife Mutual Fund",
+        "Mahindra Manulife"
       ],
       "gh_name": "Saleem",
       "analyst_name": "Kumer",
@@ -10543,7 +10667,8 @@
     {
       "company": "India Shelter Finance",
       "aliases": [
-        "India Shelter Finance Corporation; India Shelter"
+        "India Shelter Finance Corporation",
+        "India Shelter"
       ],
       "gh_name": "Jatin",
       "analyst_name": "Jaya",
@@ -10573,7 +10698,8 @@
     {
       "company": "Indian Renewable Energy Development Agency Limited (IREDA)",
       "aliases": [
-        "IREDA; Indian Renewable Energy Development Agency"
+        "IREDA",
+        "Indian Renewable Energy Development Agency"
       ],
       "gh_name": "Jatin",
       "analyst_name": "Kanika",
@@ -10603,7 +10729,8 @@
     {
       "company": "S V Creditline Limited",
       "aliases": [
-        "SV Creditline; SVCL"
+        "SV Creditline",
+        "SVCL"
       ],
       "gh_name": "Jatin",
       "analyst_name": "Shweta",
@@ -10815,7 +10942,8 @@
     {
       "company": "Jio BlackRock Asset Management Private Limited",
       "aliases": [
-        "JioBlackRock Mutual Fund; Jio BlackRock Mutual Fund"
+        "JioBlackRock Mutual Fund",
+        "Jio BlackRock Mutual Fund"
       ],
       "gh_name": "Saleem",
       "analyst_name": "Kumer",
@@ -11032,7 +11160,8 @@
     {
       "company": "SBI Funds Management Limited",
       "aliases": [
-        "SBI Mutual Fund; SBI MF"
+        "SBI Mutual Fund",
+        "SBI MF"
       ],
       "gh_name": "Saleem",
       "analyst_name": "Kumer",
@@ -11125,7 +11254,8 @@
     {
       "company": "Kotak Mahindra Mutual Fund",
       "aliases": [
-        "Kotak Mutual Fund; Kotak MF"
+        "Kotak Mutual Fund",
+        "Kotak MF"
       ],
       "gh_name": "Yogesh",
       "analyst_name": "Bala",
@@ -11156,7 +11286,8 @@
     {
       "company": "Sundaram Asset Management Company Limited",
       "aliases": [
-        "Sundaram Mutual Fund; Sundaram MF"
+        "Sundaram Mutual Fund",
+        "Sundaram MF"
       ],
       "gh_name": "Yogesh",
       "analyst_name": "Bala",
@@ -11187,7 +11318,8 @@
     {
       "company": "UTI Asset Management Company Limited",
       "aliases": [
-        "UTI AMC; UTI Mutual Fund"
+        "UTI AMC",
+        "UTI Mutual Fund"
       ],
       "gh_name": "Yogesh",
       "analyst_name": "Ujjwala",
@@ -11218,7 +11350,8 @@
     {
       "company": "Systamatix Corporate Services Limited",
       "aliases": [
-        "Systematix Corporate Services; Systematix"
+        "Systematix Corporate Services",
+        "Systematix"
       ],
       "gh_name": "Saleem",
       "analyst_name": "Lokesh",
