@@ -1,4 +1,12 @@
 {
+ "a k capital finance": {
+  "segment": "NBFC/HFC",
+  "updated": "2026-09-02"
+ },
+ "aadhyan residences": {
+  "segment": "Corporate",
+  "updated": "2026-09-02"
+ },
  "abans jewels": {
   "segment": "Corporate",
   "updated": "2026-08-29"
@@ -22,6 +30,10 @@
  "century silicon city": {
   "segment": "Corporate",
   "updated": "2026-09-01"
+ },
+ "cholamandalam investment and finance": {
+  "segment": "NBFC/HFC",
+  "updated": "2026-09-02"
  },
  "credit wise capital": {
   "segment": "NBFC/HFC",
@@ -47,6 +59,10 @@
   "segment": "PSU",
   "updated": "2026-09-01"
  },
+ "icici home finance": {
+  "segment": "NBFC/HFC",
+  "updated": "2026-09-02"
+ },
  "icl fincorp": {
   "segment": "NBFC/HFC",
   "updated": "2026-08-26"
@@ -62,6 +78,10 @@
  "iti gold loans": {
   "segment": "NBFC/HFC",
   "updated": "2026-08-28"
+ },
+ "jhs estate": {
+  "segment": "Corporate",
+  "updated": "2026-09-02"
  },
  "jio credit": {
   "segment": "NBFC/HFC",
@@ -79,6 +99,10 @@
   "segment": "NBFC/HFC",
   "updated": "2026-09-01"
  },
+ "kolors healthcare": {
+  "segment": "Corporate",
+  "updated": "2026-09-02"
+ },
  "krazybee services": {
   "segment": "NBFC/HFC",
   "updated": "2026-08-26"
@@ -95,9 +119,17 @@
   "segment": "NBFC/HFC",
   "updated": "2026-09-01"
  },
+ "navi finserv": {
+  "segment": "NBFC/HFC",
+  "updated": "2026-09-02"
+ },
  "ncc urban homes": {
   "segment": "Corporate",
   "updated": "2026-09-01"
+ },
+ "neogrowth credit": {
+  "segment": "NBFC/HFC",
+  "updated": "2026-09-02"
  },
  "niyogin fintech": {
   "segment": "Corporate",

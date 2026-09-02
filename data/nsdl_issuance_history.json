@@ -1,6 +1,115 @@
 {
  "records": [
   {
+   "isin": "INE0S8E07044",
+   "issuer": "JHS ESTATE PRIVATE LIMITED",
+   "allotment_date": "2026-09-01",
+   "amount_cr": 20.0,
+   "coupon": 13.5,
+   "tenure_years": 3.5,
+   "band": "Not rated / available",
+   "segment": "Corporate",
+   "spread_bps": 711,
+   "ratings": []
+  },
+  {
+   "isin": "INE814O08046",
+   "issuer": "NEOGROWTH CREDIT PRIVATE LIMITED",
+   "allotment_date": "2026-09-01",
+   "amount_cr": 33.0,
+   "coupon": 13.5,
+   "tenure_years": 3.0,
+   "band": "BBB band",
+   "segment": "NBFC/HFC",
+   "spread_bps": 711,
+   "ratings": [
+    "ICRA LIMITED BBB"
+   ]
+  },
+  {
+   "isin": "INE197P07482",
+   "issuer": "A. K. CAPITAL FINANCE LIMITED",
+   "allotment_date": "2026-09-01",
+   "amount_cr": 40.0,
+   "coupon": 8.95,
+   "tenure_years": 3.0,
+   "band": "AA band (AA+/AA/AA-)",
+   "segment": "NBFC/HFC",
+   "spread_bps": 256,
+   "ratings": [
+    "CARE RATINGS LIMITED AA-"
+   ]
+  },
+  {
+   "isin": "INE342T07734",
+   "issuer": "NAVI FINSERV LIMITED",
+   "allotment_date": "2026-09-01",
+   "amount_cr": 50.0,
+   "coupon": 10.5,
+   "tenure_years": 1.7,
+   "band": "A band (A+/A/A-)",
+   "segment": "NBFC/HFC",
+   "spread_bps": 425,
+   "ratings": [
+    "CRISIL A"
+   ]
+  },
+  {
+   "isin": "INE0CJ707026",
+   "issuer": "KOLORS HEALTHCARE INDIA PRIVATE LIMITED",
+   "allotment_date": "2026-09-01",
+   "amount_cr": 115.0,
+   "coupon": 10.0,
+   "tenure_years": 7.0,
+   "band": "Not rated / available",
+   "segment": "Corporate",
+   "spread_bps": 320,
+   "ratings": []
+  },
+  {
+   "isin": "INE2YCI07012",
+   "issuer": "AADHYAN RESIDENCES PRIVATE LIMITED",
+   "allotment_date": "2026-09-01",
+   "amount_cr": 200.0,
+   "coupon": null,
+   "tenure_years": 4.0,
+   "band": "Not rated / available",
+   "segment": "Corporate",
+   "spread_bps": null,
+   "ratings": [
+    "Acuite Ratings And Research Limited B"
+   ]
+  },
+  {
+   "isin": "INE071G07884",
+   "issuer": "ICICI HOME FINANCE COMPANY LIMITED",
+   "allotment_date": "2026-09-01",
+   "amount_cr": 400.0,
+   "coupon": null,
+   "tenure_years": 3.1,
+   "band": "AAA",
+   "segment": "NBFC/HFC",
+   "spread_bps": null,
+   "ratings": [
+    "ICRA AAA"
+   ]
+  },
+  {
+   "isin": "INE121A08QA7",
+   "issuer": "CHOLAMANDALAM INVESTMENT AND FINANCE COMPANY LIMITED",
+   "allotment_date": "2026-09-01",
+   "amount_cr": 2000.0,
+   "coupon": 9.87,
+   "tenure_years": 7973.2,
+   "band": "AA band (AA+/AA/AA-)",
+   "segment": "NBFC/HFC",
+   "spread_bps": 228,
+   "ratings": [
+    "ICRA AA",
+    "CareEdge AA"
+   ]
+  },
+  {
    "isin": "INE07LU07321",
    "issuer": "BANSAL CREDITS LIMITED",
    "allotment_date": "2026-08-31",
