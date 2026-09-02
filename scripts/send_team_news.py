@@ -691,10 +691,30 @@ def _phrase(name: str) -> str:
 _SUFFIXES = {"private", "limited", "ltd", "pvt", "co", "company", "(india)", "india"}
 # Words too common in BFSI headlines to identify a company on their own —
 # 'small' alone must not attach an Equitas Small Finance story to SIDBI.
+#
+# Indian state/UT names are included for the same reason, not as an
+# afterthought: several watchlist entities are state-government financial
+# bodies ("Karnataka State Financial Corporation", "Madhya Pradesh
+# Financial Corporation", "Jammu & Kashmir Bank Limited", "Karnataka Bank
+# Limited"...), and a bare state name is constantly in the news for
+# reasons that have nothing to do with the company -- state government
+# schemes, disasters, politics, sport. Confirmed live: ordinary Karnataka
+# state-government stories ("Karnataka to re-verify Gruhalakshmi
+# beneficiaries...", a Nepal-floods story naming "13 Karnataka residents")
+# were both attributed to Karnataka State Financial Corporation, since
+# "karnataka" alone is 9 characters -- long enough to clear the
+# lone-word "distinctive enough" length floor before this fix, exactly
+# like "credit" cleared it for Shriram Credit against DCM Shriram.
 _COMMON = {"small", "national", "india", "indian", "bank", "finance", "financial",
            "capital", "home", "housing", "credit", "micro", "asset", "industries",
            "development", "investment", "securities", "insurance", "mutual", "fund",
-           "tourism", "travel", "leisure", "hospitality"}
+           "tourism", "travel", "leisure", "hospitality",
+           "karnataka", "madhya", "pradesh", "jammu", "kashmir", "punjab", "sind",
+           "jharkhand", "rajya", "gramin", "puducherry", "gujarat", "tamilnadu",
+           "tamil", "nadu", "maharashtra", "kerala", "bengal", "rajasthan",
+           "haryana", "bihar", "odisha", "orissa", "telangana", "andhra", "assam",
+           "uttar", "himachal", "chhattisgarh", "sikkim", "tripura", "manipur",
+           "meghalaya", "mizoram", "nagaland", "arunachal", "chandigarh"}
 
 
 def _sig_words(name: str) -> list[str]:
