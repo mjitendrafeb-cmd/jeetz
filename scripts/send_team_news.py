@@ -4428,7 +4428,7 @@ def _mech_s1_view(it: dict) -> dict:
 
 
 def _np_s1_row(it: dict, company: str, view: dict | None = None,
-               is_first: bool = False, affects: list[str] | None = None) -> str:
+               is_first: bool = False) -> str:
     """One S1 watchlist row: Company | Source Link | Summary. Replaces the
     per-entity header + stacked cards for S1 specifically (team's requested
     table layout) — S2/S3 keep the 3-column card layout in _np_card, since
@@ -4441,10 +4441,6 @@ def _np_s1_row(it: dict, company: str, view: dict | None = None,
 
     is_first: this company's first-ever appearance in S1 (see
     _load_company_history) -- S1 only, flagged next to the company name.
-
-    affects: S2 only -- which of THIS reader's own S1 companies sit in the
-    sector this item is about, so a generic sector story reads as
-    personally relevant rather than generic industry noise.
     """
     # Materiality >= 8 is the same "needs action" threshold the old
     # per-entity header used -- reader feedback asked for this to read as a
@@ -4475,18 +4471,10 @@ def _np_s1_row(it: dict, company: str, view: dict | None = None,
     also_list = (it.get("also") or [])[:_ALSO_REPORTED_CAP]
     also = (f'<span class="also">Also reported by: {_esc(", ".join(also_list))}</span>'
             if also_list else "")
-    affects_html = ""
-    if affects:
-        shown = affects[:_ALSO_REPORTED_CAP]
-        more = len(affects) - len(shown)
-        more_txt = f" (+{more} more)" if more > 0 else ""
-        affects_html = (f'<div style="font-size:9px;color:#0a7a3d;font-weight:700;'
-                         f'margin-bottom:3px;">Affects your entities: '
-                         f'{_esc(", ".join(shown))}{more_txt}</div>')
     return (f'<tr{row_cls}><td class="company">{_esc(company)}{flag}</td>'
             f'<td class="link">{headline}'
             f'<span class="srcmeta">{meta}{_undated_note(it)}</span></td>'
-            f'<td class="summary">{affects_html}{summary}{also}{_feedback_link(it)}</td></tr>')
+            f'<td class="summary">{summary}{also}{_feedback_link(it)}</td></tr>')
 
 
 def _feedback_link(it: dict) -> str:
@@ -4568,7 +4556,7 @@ def _category_header(label: str) -> str:
 
 def _np_partb(p: dict, items: list[dict], by_section: dict,
               takeaways: dict | None = None, gpt_excluded: set | None = None,
-              new_companies: set | None = None, company_sector: dict | None = None
+              new_companies: set | None = None
               ) -> tuple[str, int, list[dict]]:
     """Per-person Part B in the 7:30 class markup. Returns (html, story_count,
     the stories shown — used to pick the Top 5).
@@ -4585,14 +4573,8 @@ def _np_partb(p: dict, items: list[dict], by_section: dict,
     new_companies: S1 companies making their first-ever appearance in
     company_history.json -- flagged distinctly rather than blended into an
     ordinary row (see _load_company_history).
-
-    company_sector: {company: sector}, used to compute the S2 "Affects:"
-    line -- which of THIS reader's own S1 companies sit in the sector an
-    S2 item is about, so a generic sector story reads as personally
-    relevant instead of generic industry noise.
     """
     new_companies = new_companies or set()
-    company_sector = company_sector or {}
     gpt_excluded = gpt_excluded or set()
     parts: list[str] = []
     chosen: list[dict] = []
@@ -4692,12 +4674,7 @@ def _np_partb(p: dict, items: list[dict], by_section: dict,
                 cat = it.get("category") or "General"
                 raw_view = (takeaways or {}).get(_key(it))
                 view = {"commentary": raw_view} if raw_view else None
-                affects = None
-                if skey == "S2":
-                    item_sectors = it.get("sectors") or set()
-                    affects = sorted(c for c in p["companies"]
-                                      if company_sector.get(c) in item_sectors)
-                rows.append(_np_s1_row(it, cat, view, affects=affects))
+                rows.append(_np_s1_row(it, cat, view))
             parts.append(
                 '<div class="s1wrap"><table class="s1tbl">'
                 '<thead><tr><th>Category</th><th>Source Link</th><th>View/Implications</th></tr></thead>'
@@ -5523,7 +5500,6 @@ def main() -> None:
     if new_companies:
         print(f"[history] {len(new_companies)} compan{'y is' if len(new_companies)==1 else 'ies are'} "
               f"making their first-ever appearance: {', '.join(sorted(new_companies))[:200]}")
-    company_sector = {r["company"]: _row_sector(r) for r in rows}
 
     pre_stale_macro = len(items)
     stale_macro = [it for it in items
@@ -5784,7 +5760,7 @@ def main() -> None:
     prepared: dict = {}
     for email, p in people.items():
         part_b, total, person_items = _np_partb(p, items, by_section, section_takeaways, gpt_excluded,
-                                                 new_companies, company_sector)
+                                                 new_companies)
         if total == 0 and not team.get("send_empty_mail", False):
             print(f"[mail] skipping {email} — nothing new in their sections")
             continue
@@ -5921,7 +5897,7 @@ def main() -> None:
                 "companies": {r["company"] for r in rows},
                 "sectors": set(sectors) | {_row_sector(r) for r in rows}}
     m_partb, _m_total, _m_items = _np_partb(master_p, items, by_section, section_takeaways, gpt_excluded,
-                                             new_companies, company_sector)
+                                             new_companies)
     _write_archive(_np_rebrand(_np_build_attachment(m_partb, today, "", masthead, coverage_note)), today)
 
     _append_stats({
