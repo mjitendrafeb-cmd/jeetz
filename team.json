@@ -11451,9 +11451,9 @@
     "fiscal deficit",
     "bond yield",
     "g-sec",
-    "commercial paper",
     "forex reserves",
-    "crude"
+    "crude",
+    "credit rating (india)"
   ],
   "sectors": {
     "BFSI": [
@@ -11477,8 +11477,7 @@
       "securitisation (india)",
       "structured finance (india)"
     ],
-    "Infrastructure": [],
-    "Securitisation": []
+    "Infrastructure": []
   },
   "use_ai": true,
   "sector_keywords": [],
