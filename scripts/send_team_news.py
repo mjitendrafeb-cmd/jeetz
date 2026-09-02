@@ -824,17 +824,42 @@ def _mentions_company(body: str, name: str) -> bool:
 def _group_prefix_only(body: str, name: str) -> bool:
     """True when the ONLY thing the story shares with this entity is the
     conglomerate prefix — "Aditya Birla Fashion" against "Aditya Birla Sun
-    Life Mutual Fund". Requires a word from the rest of the name."""
+    Life Mutual Fund". Requires a word from the rest of the name that
+    actually confirms the story is about THIS entity.
+
+    A DISTINCTIVE tail word ("fashion", "microfinance") counts wherever it
+    appears in the body. A GENERIC tail word (_COMMON: "credit", "capital",
+    "finance"...) only counts when it sits right next to the prefix --
+    scattered presence elsewhere in the sentence proves nothing, since a
+    generic word shows up in unrelated contexts constantly. Confirmed
+    live: "DCM Shriram: ICRA Reaffirms Credit Ratings" got attributed to
+    "Shriram Credit Company Limited" (an unrelated NBFC) purely because
+    "shriram" (the group prefix) and "credit" (from "Credit Ratings",
+    nothing to do with the company's own name) each appear SOMEWHERE in
+    the headline, with "credit" nowhere near "shriram". Requiring
+    adjacency for a generic tail word still passes a genuine "Shriram
+    Credit reports..." story (adjacent) while rejecting the DCM Shriram
+    case (not adjacent) -- and a genuine non-adjacent mention is still
+    caught by _contains_name() as a separate, independent path in
+    _match_companies; this function only gates the looser scattered-word
+    tag-verification path.
+    """
     m = _GROUP_PREFIX_RE.match(name.strip())
     if not m:
         return False
+    prefix = m.group(0).lower()
     rest = name[m.end():]
     tail = [w.strip(".,()").lower() for w in rest.split()]
-    tail = [w for w in tail
-            if len(w) >= 3 and w not in _FILLER and w not in _SUFFIXES]
+    tail = [w for w in tail if len(w) >= 3 and w not in _FILLER and w not in _SUFFIXES]
     if not tail:
         return False  # nothing else to distinguish it by; prefix is the name
-    return not any(re.search(r"\b" + re.escape(w) + r"\b", body) for w in tail)
+    for w in tail:
+        if w in _COMMON:
+            if _contains_name(body, f"{prefix} {w}"):
+                return False
+        elif re.search(r"\b" + re.escape(w) + r"\b", body):
+            return False
+    return True
 
 
 _URL_IN_TEXT_RE = re.compile(r"https?://\S+")
