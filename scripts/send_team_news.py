@@ -2996,8 +2996,17 @@ _AMBIGUOUS_ALIAS_CONTEXT = {
     # Requires the entity's own name or its sector (REC Limited, formerly
     # Rural Electrification Corporation, lends to the power sector).
     "rec": re.compile(
-        r"\brec limited\b|\brural electrification\b|\bpower finance\b|"
-        r"\bpower sector\b|\binfra(structure)? bonds?\b", re.IGNORECASE),
+        r"\brec limited\b|\brural electrification\b|\brec power\b|"
+        r"\binfra(structure)? bonds?\b", re.IGNORECASE),
+    # ("power finance"/"power sector" were dropped from this list: "power
+    # finance" risked confirming a story about Power Finance Corporation
+    # (PFC) -- REC's own close peer/rival PSU -- as if it were REC's own
+    # news, and "power sector" is broad enough to also confirm Renewable
+    # Energy Certificate stories, a completely different, extremely common
+    # use of "REC" in Indian power-market news. "rec power" added instead,
+    # specific to REC Power Transmission, a genuine REC Limited subsidiary
+    # -- confirmed against a real headline, "Ceigall India Wins Rs 6,090
+    # mn REC Power Transmission Order".
     # "Navi" (Navi Limited, Sachin Bansal's fintech) is also "Navi Mumbai",
     # one of the most-mentioned place names in Indian news -- reported
     # directly, and confirmed by the company's own attempted workaround:
