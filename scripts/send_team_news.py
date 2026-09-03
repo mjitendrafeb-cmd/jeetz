@@ -856,9 +856,27 @@ def _mentions_company(body: str, name: str) -> bool:
     # fetch_news._story_mentions_entity already uses, so both sides of the
     # pipeline now agree — disagreeing is what lost the MUDRA story.
     lone = matched[0]
+    if lone in _COMMON:
+        return False
+    # Same collision problem as a console alias or a derived acronym (see
+    # _AMBIGUOUS_ALIAS_CONTEXT and the guard applied to `acro` above), but
+    # for the company's OWN lone significant word -- not every ambiguous
+    # identifier is short enough to be caught by _COMMON or long enough to
+    # need the character floor below. "Navi" (Navi Limited) is exactly
+    # this case: not in _COMMON, and irrelevant to the length floor since
+    # it's the entity's only significant word, but constantly present in
+    # unrelated news as "Navi Mumbai" -- reported directly, and the
+    # console's own attempted workaround (aliases "Navi+Fintech"/
+    # "Navi+Sachin") confirms the intent was always "Navi AND something
+    # else", just encoded in a syntax _alias_matches() cannot act on (a
+    # literal "+" never appears in real article text). This makes that
+    # same AND-style requirement work at the company-name level directly.
+    guard = _AMBIGUOUS_ALIAS_CONTEXT.get(lone)
+    if guard:
+        return bool(guard.search(body))
     if len(words) == 1:
-        return lone not in _COMMON
-    return len(lone) >= 7 and lone not in _COMMON
+        return True
+    return len(lone) >= 7
 
 
 def _group_prefix_only(body: str, name: str) -> bool:
@@ -2938,6 +2956,59 @@ _AMBIGUOUS_ALIAS_CONTEXT = {
     # "indostar" (unambiguous) or "india" (the desk's own ask) nearby
     # keeps the India/IndoStar-relevant mentions and drops the rest.
     "brookfield": re.compile(r"\b(indostar|india|indian)\b", re.IGNORECASE),
+    # "UGRO" is Profectus Capital's parent company -- same shape as
+    # Brookfield/IndoStar above (a parent-company alias flooding a
+    # subsidiary's news with the parent's OWN unrelated activity, not a
+    # data error: U GRO Capital is genuinely Profectus's parent).
+    # Requires "profectus" nearby so UGRO's own separate newsflow
+    # (U GRO Capital is itself a separately-listed NBFC) doesn't get
+    # attributed to Profectus.
+    "ugro": re.compile(r"\bprofectus\b", re.IGNORECASE),
+    # "SMBC" (Sumitomo Mitsui Banking Corporation) is a distinct, large
+    # global bank -- the PARENT of SMFG (Sumitomo Mitsui Financial Group),
+    # not the same entity as "SMFG India Credit"/"SMFG India Home Finance"
+    # it's aliased to here. Real SMBC news (their own global banking
+    # operations) would misattribute without a guard. Reader wants
+    # specifically "SMBC India news" -- requiring india/indian nearby is
+    # exactly that ask.
+    "smbc": re.compile(r"\b(india|indian)\b", re.IGNORECASE),
+    # "CUB" (City Union Bank) is also the literal English word for a baby
+    # animal (lion cub, tiger cub, bear cub) and "Chicago Cubs" -- reported
+    # directly as unnecessary noise. Requires the bank's own name or
+    # standard banking-result vocabulary nearby.
+    "cub": re.compile(
+        r"\bcity union\b|\bq\d\s*(fy)?\d*\s*results?\b|\bnet profit\b|"
+        r"\bnim\b|\bgnpa\b|\bcasa\b|\bbanking\b", re.IGNORECASE),
+    # "Raise" (Raise Fintech Ventures) is an everyday English word -- "to
+    # raise funds/capital/rates" appears in nearly every finance headline
+    # regardless of subject. Requires it to actually be about this fintech
+    # platform, not just any story using the word "raise".
+    "raise": re.compile(r"\b(raise fintech|fintech ventures)\b", re.IGNORECASE),
+    # "PSB" is standard shorthand for "Public Sector Bank" generically --
+    # would catch any PSB-wide commentary ("PSBs report record profits")
+    # and attribute it to Punjab and Sind Bank specifically. Requires the
+    # bank's own name.
+    "psb": re.compile(r"\bpunjab\s*(and|&)\s*sind\b", re.IGNORECASE),
+    # "REC" collides with "recreation", "record", "recovery" as a plain
+    # substring (already fixed via word-boundary matching elsewhere), but
+    # even as a standalone WORD it's a common acronym for other things.
+    # Requires the entity's own name or its sector (REC Limited, formerly
+    # Rural Electrification Corporation, lends to the power sector).
+    "rec": re.compile(
+        r"\brec limited\b|\brural electrification\b|\bpower finance\b|"
+        r"\bpower sector\b|\binfra(structure)? bonds?\b", re.IGNORECASE),
+    # "Navi" (Navi Limited, Sachin Bansal's fintech) is also "Navi Mumbai",
+    # one of the most-mentioned place names in Indian news -- reported
+    # directly, and confirmed by the company's own attempted workaround:
+    # console aliases "Navi+Fintech"/"Navi+Sachin" show the intent was
+    # always "Navi AND something else", just in a literal "+" syntax that
+    # never matches real article text. This is that same AND-requirement
+    # made to actually work, applied to the company's own core name (see
+    # _mentions_company's lone-word branch), not just a console alias.
+    "navi": re.compile(
+        r"\b(fintech|sachin bansal|finserv|navi technologies|micro.?loan|"
+        r"personal loan|health insurance|general insurance|"
+        r"navi mutual fund|home loan|\bupi\b)\b", re.IGNORECASE),
 }
 
 
