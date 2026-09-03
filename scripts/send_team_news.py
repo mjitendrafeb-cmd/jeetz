@@ -3076,7 +3076,10 @@ def _match_companies(it: dict, rows: list[dict]) -> list[str]:
 _NSDL_URL = "https://www.indiabondinfo.nsdl.com/CBDServices/"
 
 
-def _bse_scrip_pilot_items(lookback_days: int) -> list[dict]:
+_BSE_SCRIP_PILOT_LOOKBACK_DAYS = 30
+
+
+def _bse_scrip_pilot_items() -> list[dict]:
     """BSE announcements via the per-scrip JSON API, for a small pilot list
     of equity-listed watchlist companies (data/bse_scrip_pilot.json).
 
@@ -3087,9 +3090,18 @@ def _bse_scrip_pilot_items(lookback_days: int) -> list[dict]:
     success/failure rate is visible in production logs before any wider
     rollout, separate from the RSS path that already works. Fails open:
     any error here costs only this source, never the run.
+
+    Deliberately uses its OWN longer lookback (_BSE_SCRIP_PILOT_LOOKBACK_
+    DAYS), not the caller's `lookback_days` -- confirmed live that the
+    pipeline's normal 2-day window can come back with zero raw rows for a
+    quiet debt-only issuer (Auxilo Finserve, no filing that specific
+    window), which is inconclusive rather than informative for a pilot
+    still being evaluated. 30 days trades a small amount of staleness
+    risk for actually getting a real filing to examine during this
+    experimental phase; not intended to stay this wide once validated.
     """
     try:
-        raw = fetch_bse_scrip.fetch_pilot(lookback_days=lookback_days)
+        raw = fetch_bse_scrip.fetch_pilot(lookback_days=_BSE_SCRIP_PILOT_LOOKBACK_DAYS)
     except Exception as exc:
         print(f"[bse_scrip_pilot] fetch failed, skipping this source: {exc}")
         return []
@@ -5641,7 +5653,7 @@ def main() -> None:
         print(f"[nsdl] {len(nsdl_items)} new-issuance item(s) matched to watchlist entities")
         items.extend(nsdl_items)
 
-    bse_scrip_items = _bse_scrip_pilot_items(lookback_days)
+    bse_scrip_items = _bse_scrip_pilot_items()
     if bse_scrip_items:
         for it in bse_scrip_items:
             it["companies"] = [it["wl_company"]]
