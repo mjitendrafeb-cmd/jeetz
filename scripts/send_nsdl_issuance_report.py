@@ -128,6 +128,25 @@ def _rating_band(i: dict) -> str:
     return _BANDS[6]
 
 
+def _split_rating_note(i: dict) -> str | None:
+    """Flag when 2+ agencies rate this ISIN at different grades -- a
+    classic elevated-uncertainty signal. Same-agency dual long/short-term
+    ratings (e.g. "CRISIL AAA" + "CRISIL A1+") are not a split."""
+    ratings = i.get("ratings") or []
+    if len(ratings) < 2:
+        return None
+    by_agency: dict[str, str] = {}
+    for r in ratings:
+        tokens = _RATING_TOKEN.findall(r.upper().replace("(", " ").replace(")", " "))
+        if not tokens:
+            continue
+        agency = r.split(" ", 1)[0] if " " in r else "?"
+        by_agency.setdefault(agency, tokens[0])
+    if len(set(by_agency.values())) < 2:
+        return None
+    return "split rating: " + " vs ".join(f"{a} {g}" for a, g in by_agency.items())
+
+
 def _type_str(i: dict) -> str:
     parts = []
     if i.get("issuer_nature") and i["issuer_nature"] != "Other":
@@ -299,6 +318,35 @@ def _make_curve_lookup(gsec_hist, fallback_curve):
     return lookup
 
 
+def _gsec_trend_note(gsec, gsec_hist, today, lookback_days: int = 7) -> str | None:
+    """How much the G-sec curve itself has moved over the trailing
+    `lookback_days` -- lets a reader separate "spreads widened because
+    credit got riskier" from "coupons rose because rates rose"."""
+    curve = (gsec or {}).get("curve") or {}
+    if not curve or not gsec_hist:
+        return None
+    target = today - datetime.timedelta(days=lookback_days)
+    best = None
+    for d in gsec_hist:
+        try:
+            delta = abs((datetime.date.fromisoformat(d) - target).days)
+        except ValueError:
+            continue
+        if best is None or delta < best[0]:
+            best = (delta, d)
+    if not best or best[0] > 3:
+        return None  # nothing close enough to `lookback_days` ago yet
+    old_curve = {int(k): v for k, v in gsec_hist[best[1]].items()}
+    bits = [f"{t}Y {(curve[t] - old_curve[t]) * 100:+.0f}bps"
+            for t in sorted(curve) if t in old_curve
+            and abs(curve[t] - old_curve[t]) * 100 >= 1]
+    if not bits:
+        return None
+    old_label = datetime.date.fromisoformat(best[1]).strftime("%d-%b")
+    return (f"G-sec move since {old_label} (~{lookback_days}d): " + " · ".join(bits) +
+           ". Spread moves above may partly reflect this rather than credit risk.")
+
+
 _ISSUER_META_PATH = os.path.join(_REPO_ROOT, "data", "issuer_meta.json")
 
 
@@ -333,6 +381,44 @@ def _fy_start(today=None) -> datetime.date:
     today = today or datetime.date.today()
     year = today.year if today.month >= 4 else today.year - 1
     return datetime.date(year, 4, 1)
+
+
+_NAME_SUFFIX_RE = re.compile(
+    r"\s+(private\s+limited|pvt\.?\s*ltd\.?|limited|ltd)\.?$", re.IGNORECASE)
+
+
+def _short_name(n: str, maxlen: int = 30) -> str:
+    """Drop the boilerplate corporate suffix before truncating, so a
+    display cap doesn't chop mid-word ("Power Finance Corpo...")."""
+    t = _NAME_SUFFIX_RE.sub("", n.title()).strip()
+    return t if len(t) <= maxlen else t[:maxlen - 1].rstrip() + "…"
+
+
+def _concentration_note(history, today) -> str | None:
+    """Top-3 issuer share of each segment's FY-to-date total -- is
+    issuance broad-based or driven by a couple of large names."""
+    cutoff = _fy_start(today).isoformat()
+    window = [r for r in history or []
+              if cutoff <= r["allotment_date"] <= today.isoformat() and r.get("amount_cr")]
+    if not window:
+        return None
+    by_seg: dict[str, dict[str, float]] = {}
+    for r in window:
+        by_seg.setdefault(r["segment"], {}).setdefault(r["issuer"], 0.0)
+        by_seg[r["segment"]][r["issuer"]] += r["amount_cr"]
+    bits = []
+    for seg in _SEGMENTS:
+        issuers = by_seg.get(seg)
+        if not issuers or len(issuers) < 2:
+            continue
+        total = sum(issuers.values())
+        top3 = sorted(issuers.items(), key=lambda kv: -kv[1])[:3]
+        pct = sum(v for _, v in top3) / total * 100 if total else 0
+        names = ", ".join(_short_name(n) for n, _ in top3)
+        bits.append(f"{seg} {pct:.0f}% ({names})")
+    if not bits:
+        return None
+    return "Top-3 issuer concentration (FY-to-date): " + " · ".join(bits) + "."
 
 
 def _update_history(issues, gsec) -> list[dict]:
@@ -586,9 +672,11 @@ def _spread_trend_html(records, today=None) -> str:
 </td></tr>"""
 
 
-def _computed_analysis(issues, fy_total, quarters, prev_total=None, gsec=None) -> list[str]:
+def _computed_analysis(issues, fy_total, quarters, prev_total=None, gsec=None,
+                       gsec_hist=None, history=None, today=None) -> list[str]:
     if not issues:
         return []
+    today = today or datetime.date.today()
     lines = []
     # per-deal coupons/spreads and band groupings live in the tables above —
     # keep this section to context the tables can't show (curve, FY run-rate)
@@ -597,6 +685,14 @@ def _computed_analysis(issues, fy_total, quarters, prev_total=None, gsec=None) -
         pts = " · ".join(f"{t}Y {curve[t]:.2f}%" for t in sorted(curve))
         lines.append(f"G-sec curve: {pts} (source: {gsec.get('source', 'n/a')}). "
                      f"Spreads use the closest tenor to each ISIN.")
+
+    trend_note = _gsec_trend_note(gsec, gsec_hist, today)
+    if trend_note:
+        lines.append(trend_note)
+
+    conc_note = _concentration_note(history, today)
+    if conc_note:
+        lines.append(conc_note)
 
     # FY-to-date vs last FY. Indian financial year (Apr-Mar), labelled by its
     # END year (e.g. "FY2027" = Apr 2026-Mar 2027) to match the quarterly
@@ -661,7 +757,7 @@ def _computed_commentary(issues, watchlist_hits, history, gsec) -> list[str]:
 
 def build_email(issues, fy_total, quarters, watchlist, today,
                 prev_total=None, gsec=None, history=None,
-                matrix_source=None) -> str:
+                matrix_source=None, gsec_hist=None) -> str:
     date_str = today.strftime("%d %B %Y")
     watchlist_hits = []
     unrated = [i for i in issues if _rating_band(i) == _BANDS[-1]]
@@ -687,6 +783,10 @@ def build_email(issues, fy_total, quarters, watchlist, today,
             star = " ⭐" if hit else ""
             row_bg = "#fff8e1" if hit else "#ffffff"
             rating = "; ".join((i.get("ratings") or [])[:2]) or "Not rated / available"
+            split = _split_rating_note(i)
+            if split:
+                rating += ("<br><span style='color:#b30000;font-weight:700;'>"
+                          f"&#9888; {split}</span>")
             sp = _spread_bps(i, gsec)
             spread_html = (f"<div style='font-size:10px;color:#888;'>{sp[0]:+d} bps vs {sp[1]}Y G-sec</div>"
                            if sp else "")
@@ -725,7 +825,8 @@ def build_email(issues, fy_total, quarters, watchlist, today,
             allot_str = (" — ALLOTMENT " + _fmt_date(allot_dates[0]).upper()
                          + " TO " + _fmt_date(allot_dates[-1]).upper())
 
-    analysis_items = _computed_analysis(issues, fy_total, quarters, prev_total, gsec)
+    analysis_items = _computed_analysis(issues, fy_total, quarters, prev_total, gsec,
+                                        gsec_hist=gsec_hist, history=history, today=today)
     analysis_html = "".join(f"<li style='padding:3px 0;'>{a}</li>" for a in analysis_items)
 
     commentary_items = _computed_commentary(issues, watchlist_hits, history, gsec)
@@ -935,7 +1036,8 @@ def main() -> None:
 
     html = build_email(issues, data["fy_total"], data["quarters"], watchlist, today,
                        prev_total=data.get("prev_total"), gsec=gsec,
-                       history=history, matrix_source=matrix_source)
+                       history=history, matrix_source=matrix_source,
+                       gsec_hist=gsec_hist)
     xlsx = _build_xlsx(history, today)
     attachment = None
     if xlsx:

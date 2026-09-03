@@ -12,6 +12,7 @@ import sys
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "scripts"))
 
 import fetch_nsdl_debt_list as fdl               # noqa: E402
+import fetch_nsdl_issuance_full as fni           # noqa: E402
 import send_nsdl_issuance_report as rep          # noqa: E402
 
 
@@ -165,3 +166,85 @@ def test_computed_commentary_rule_based():
     assert "inside peers" in bullets[0]                  # 7.90 vs 8.20 median
     assert "Steel Works" in bullets[1] and "+574 bps" in bullets[1]
     assert "67%" in bullets[2] and "Fresh Finance" in bullets[2]
+
+
+# ----------------------------------------------------- tenor sanity cap
+def test_tenure_years_caps_garbage_maturity():
+    allot = datetime.date(2026, 9, 1)
+    assert fni._tenure_years(allot, datetime.date(9999, 12, 31)) is None
+    assert fni._tenure_years(allot, datetime.date(2033, 9, 1)) == 7.0
+    assert fni._tenure_years(allot, None) is None
+    assert fni._tenure_years(None, datetime.date(2033, 9, 1)) is None
+
+
+def test_debt_list_tenure_cap_matches_max_constant():
+    assert fdl._MAX_SANE_TENURE_YEARS == 50
+    allot = datetime.date(2026, 9, 1)
+
+    def compute(red):
+        t = round((red - allot).days / 365.25, 1) if red else None
+        if t is not None and not 0 < t <= fdl._MAX_SANE_TENURE_YEARS:
+            t = None
+        return t
+
+    assert compute(datetime.date(9999, 12, 31)) is None
+    assert compute(datetime.date(2033, 9, 1)) == 7.0
+
+
+# --------------------------------------------------------- split ratings
+def test_split_rating_note():
+    n = rep._split_rating_note({"ratings": ["CRISIL AA+", "ICRA AA"]})
+    assert n and "CRISIL AA+" in n and "ICRA AA" in n
+    # long/short-term from the SAME agency is not a split
+    assert rep._split_rating_note({"ratings": ["CRISIL AAA", "CRISIL A1+"]}) is None
+    # two agencies agreeing is not a split
+    assert rep._split_rating_note({"ratings": ["CRISIL AA+", "ICRA AA+"]}) is None
+    assert rep._split_rating_note({"ratings": ["CRISIL AAA"]}) is None
+    assert rep._split_rating_note({"ratings": []}) is None
+
+
+# ---------------------------------------------------------- g-sec trend
+def test_gsec_trend_note():
+    today = datetime.date(2026, 9, 3)
+    gsec = {"curve": {1: 5.90, 5: 6.55, 10: 6.90}, "source": "te"}
+    hist = {
+        "2026-08-27": {"1": 5.85, "5": 6.50, "10": 6.84},
+        "2026-09-03": {"1": 5.90, "5": 6.55, "10": 6.90},
+    }
+    note = rep._gsec_trend_note(gsec, hist, today, lookback_days=7)
+    assert note and "27-Aug" in note
+    assert "1Y +5bps" in note and "10Y +6bps" in note
+    # nothing near the lookback target -> no note
+    assert rep._gsec_trend_note(gsec, {"2026-09-03": {"1": 5.90}}, today) is None
+    assert rep._gsec_trend_note(None, hist, today) is None
+    assert rep._gsec_trend_note(gsec, None, today) is None
+
+
+# ----------------------------------------------------- issuer concentration
+def test_short_name_strips_suffix_not_midword():
+    assert rep._short_name("power finance corporation limited") == "Power Finance Corporation"
+    assert rep._short_name("rec limited") == "Rec"
+    assert rep._short_name("sarvagram fincare private limited") == "Sarvagram Fincare"
+
+
+def test_concentration_note():
+    def rec(isin, issuer, amt, seg, date):
+        return {"isin": isin, "issuer": issuer, "amount_cr": amt, "segment": seg,
+                "allotment_date": date}
+
+    hist = [
+        rec("N1", "power finance corporation limited", 3000, "PSU", "2026-04-10"),
+        rec("N2", "rec limited", 500, "PSU", "2026-05-10"),
+        rec("N3", "small psu co", 100, "PSU", "2026-06-10"),
+        rec("N4", "alpha finance limited", 200, "NBFC/HFC", "2026-04-15"),
+        rec("N5", "beta finance limited", 150, "NBFC/HFC", "2026-05-15"),
+        rec("N6", "gamma finance limited", 100, "NBFC/HFC", "2026-06-15"),
+        rec("N7", "delta finance limited", 50, "NBFC/HFC", "2026-07-15"),
+        rec("N8", "solo corp limited", 900, "Corporate", "2026-04-01"),
+    ]
+    note = rep._concentration_note(hist, datetime.date(2026, 9, 3))
+    assert "PSU 100%" in note
+    assert "NBFC/HFC 90%" in note
+    assert "Corporate" not in note  # single-issuer segment excluded as not meaningful
+    assert rep._concentration_note([], datetime.date(2026, 9, 3)) is None
+    assert rep._concentration_note(None, datetime.date(2026, 9, 3)) is None

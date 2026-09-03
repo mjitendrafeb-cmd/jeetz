@@ -36,6 +36,8 @@ _MONTHS = {m: i + 1 for i, m in enumerate(
     ["january", "february", "march", "april", "may", "june", "july",
      "august", "september", "october", "november", "december"])}
 
+_MAX_SANE_TENURE_YEARS = 50
+
 _DATE_RE = re.compile(r"(\d{1,2})\s+([A-Za-z]+)\s+(\d{4})")
 _GRADE_RE = re.compile(
     r"^(?:PROVISIONAL\s+|PP-MLD\s+)?"
@@ -121,6 +123,9 @@ def fetch_debt_list(debug: bool = False, min_allotment: datetime.date | None = N
         if allot > today:
             continue  # data-entry errors: the file carries future-dated rows
         red = _parse_date(cell(row, "REDEMPTION"))
+        tenure = round((red - allot).days / 365.25, 1) if red else None
+        if tenure is not None and not 0 < tenure <= _MAX_SANE_TENURE_YEARS:
+            tenure = None  # garbage REDEMPTION date -- don't corrupt tenor-bucket stats
         coupon = _num(cell(row, "COUPON_RATE"))
         if coupon is not None and not 0 < coupon < 40:
             coupon = None  # index-linked ("SENSEX"), zero-coupon or junk
@@ -137,7 +142,7 @@ def fetch_debt_list(debug: bool = False, min_allotment: datetime.date | None = N
             "issuer": cell(row, "COMPANY"),
             "allotment_date": allot,
             "redemption_date": red,
-            "tenure_years": round((red - allot).days / 365.25, 1) if red else None,
+            "tenure_years": tenure,
             "coupon": coupon,
             "amount_cr": round(size / 1e7, 2) if size else None,
             "rating": rating,

@@ -73,10 +73,17 @@ def _parse_date(s: str):
     return None
 
 
+_MAX_SANE_TENURE_YEARS = 50
+
+
 def _tenure_years(allot, maturity):
     if not allot or not maturity:
         return None
-    return round((maturity - allot).days / 365.25, 1)
+    years = round((maturity - allot).days / 365.25, 1)
+    # NSDL's feed occasionally carries garbage maturity dates (seen: a
+    # ~7973y "tenor") -- treat anything past a sane bond duration as
+    # unreliable rather than let it corrupt tenor-bucket/spread stats
+    return years if 0 < years <= _MAX_SANE_TENURE_YEARS else None
 
 
 _COUPON_KEY = re.compile(r"coupon|interest.?rate", re.IGNORECASE)
