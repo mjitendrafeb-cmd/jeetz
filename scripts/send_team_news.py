@@ -2959,11 +2959,12 @@ _AMBIGUOUS_ALIAS_CONTEXT = {
     # "UGRO" is Profectus Capital's parent company -- same shape as
     # Brookfield/IndoStar above (a parent-company alias flooding a
     # subsidiary's news with the parent's OWN unrelated activity, not a
-    # data error: U GRO Capital is genuinely Profectus's parent).
-    # Requires "profectus" nearby so UGRO's own separate newsflow
-    # (U GRO Capital is itself a separately-listed NBFC) doesn't get
-    # attributed to Profectus.
-    "ugro": re.compile(r"\bprofectus\b", re.IGNORECASE),
+    # data error: U GRO Capital is genuinely Profectus's parent). Reader
+    # feedback: UGRO's own India-relevant news doesn't need to connect
+    # back to Profectus specifically to be worth showing -- only pure
+    # irrelevant noise should be filtered. Same india/indian bar as
+    # Brookfield/SMBC, not a Profectus-specific requirement.
+    "ugro": re.compile(r"\b(profectus|india|indian)\b", re.IGNORECASE),
     # "SMBC" (Sumitomo Mitsui Banking Corporation) is a distinct, large
     # global bank -- the PARENT of SMFG (Sumitomo Mitsui Financial Group),
     # not the same entity as "SMFG India Credit"/"SMFG India Home Finance"
