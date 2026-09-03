@@ -2927,6 +2927,17 @@ _AMBIGUOUS_ALIAS_CONTEXT = {
         # other context word present.
         r"pmegp|svanidhi|\bkcc\b|kisan credit card|vishwakarma|yojana|"
         r"loan scheme)\b", re.IGNORECASE),
+    # "Brookfield" is IndoStar Capital Finance's controlling shareholder,
+    # added as an alias so IndoStar-relevant Brookfield news gets caught --
+    # but Brookfield is one of the world's largest alternative asset
+    # managers with real estate, infrastructure, renewable energy and
+    # private equity activity across dozens of countries, almost none of
+    # it about IndoStar. A bare "Brookfield" alias pulled in that entire
+    # global newsflow. Reported directly: "lot of unnecessary news...I
+    # want Brookfield [Canada fund] news focused on India". Requiring
+    # "indostar" (unambiguous) or "india" (the desk's own ask) nearby
+    # keeps the India/IndoStar-relevant mentions and drops the rest.
+    "brookfield": re.compile(r"\b(indostar|india|indian)\b", re.IGNORECASE),
 }
 
 
