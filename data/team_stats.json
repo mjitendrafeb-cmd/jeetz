@@ -1,79 +1,6 @@
 [
  {
   "date": "2026-08-21",
-  "fetched": 3642,
-  "delivered_pool": 386,
-  "junk": 913,
-  "geo": 107,
-  "stale": 749,
-  "dup": 1221,
-  "sections": {
-   "S1": 338,
-   "S2": 31,
-   "S3": 17
-  },
-  "mails": 2,
-  "failed": [],
-  "source_summary": {
-   "RBI RSS": 19,
-   "RBI Enforcement": 0,
-   "SEBI RSS": 20,
-   "Google News": 27,
-   "Watchlist (Google)": 921,
-   "BSE Announcements": 0,
-   "BSE Financials": 0,
-   "Telegram": 53,
-   "Web Scraper": 193
-  },
-  "dropped_samples": {
-   "relevance": [
-    "Result: Conversion/Switch Auction of Government of India Securities",
-    "Result of the Overnight Variable Rate Reverse Repo (VRRR) auction held on August 17, 2026",
-    "Premature redemption under Sovereign Gold Bond (SGB) Scheme - Redemption Price for premature redemption of SGB",
-    "Relaxations in Know Your Client (KYC) norms for individual Persons Resident Outside India (i.e",
-    "Framework for Calculation of Net Distributable Cash Flows for InvITs",
-    "SBI Securities sees 25% UPSIDE in Man Industries (India) Ltd.- Core pipe business sustains growth momentum, co",
-    "PL Capital sees 15% UPSIDE in Ipca Laboratories- Strong beat; FY27 guidance raised",
-    "Jharkhand student leader Devendra Mahto on Tuesday ended his hunger strike after the Jharkhand government anno",
-    "Jharkhand CM Hemant Soren announces JSSC-CGL exam cancellation and inquiry into recruitment exams conducted si",
-    "Tamil Nadu Chief Minister C Joseph Vijay announced a full waiver of cooperative farm loans up to \u20b975,000",
-    "The BJP has replaced longtime IT cell chief Amit Malviya with Chhattisgarh's Deepak Mhaskey in a major organis",
-    "After decades of service, Visakhapatnam Airport ended scheduled commercial flights on 16 August 2026, with ope",
-    "#WATCH | Deoghar, Jharkhand: Devotees and Kanwariyas throng the Shree Baba Baidyanath Jyotirlinga Temple on th",
-    "US-Iran war LIVE: Shipping via Strait of Hormuz slows amid tanker attacks; oil steadies as fighting erupts in ",
-    "The Ministry of Petroleum and Natural Gas has sought to allay concerns over ethanol-blended petrol, saying veh",
-    "Ajay Harinath Singh \u2013 Dynasty Of Dominance: Lineage, Business & Power",
-    "Listing of further issue of Krishival Foods Limited",
-    "Listing of Government Securities on Capital Market Segment",
-    "Certificate No. RC9282 of 2026 Notice of Demand in respect of Atit Commercial Company Private Limited (Transfe",
-    "General Remittance Advice against: Sunil Singh (Proprietor of Alfa Finsec) [Defaulter] (PAN: BDGPS0774K) in th"
-   ],
-   "junk": [
-    "General Remittance Order dated 14.08.2026 in Recovery Certificate No",
-    "General Remittance Order dated 14.08.2026 in Recovery Certificate No",
-    "General Remittance Order dated 14.08.2026 in Recovery Certificate No",
-    "General Remittance Order dated 14.08.2026 in Recovery Certificate No",
-    "Completion of Recovery Certificate No",
-    "Appeal No. 6992 of 2026 filed by Rakesh Mohan Rai",
-    "Appeal No. 6991 of 2026 filed by Parivesh Shukla",
-    "Appeal No. 6990 of 2026 filed by Vikas Jain",
-    "Appeal No. 6989 of 2026 filed by Valji Narayan Bhadra",
-    "Appeal No. 6988 of 2026 filed by Neeraj Sisodia",
-    "Appeal No. 6987 of 2026 filed by Sunil Rohilla",
-    "Appeal No. 6980 of 2026 filed by Ebenezer R",
-    "Appeal No. 6983 of 2026 filed by Anivesh Kumar Pandey",
-    "Buy Sudarshan Chemical Industries; target of Rs 1450: Anand Rathi",
-    "Anand Rathi Wealth Ltd is Rated Buy",
-    "FMCG Growth Accelerates to 15.1% In Q1FY27, Anand Rathi Sees Better Margins & Attractive Valuations",
-    "Avoid aggressive mkt positioning, says Angel One; Aequs among 3 stock picks",
-    "Avoid aggressive mkt positioning, says Angel One; Aequs among 3 stock picks",
-    "Banking Stock Picks: SBI, ICICI Bank, Axis Bank and others - 12 BUY-rated stocks with up to 40% upside potenti",
-    "Axis Max Life launches retirement campaign with Rohit Sharma"
-   ]
-  }
- },
- {
-  "date": "2026-08-21",
   "fetched": 3681,
   "delivered_pool": 395,
   "junk": 912,
@@ -2123,6 +2050,78 @@
    "BSE Financials": 0,
    "Telegram": 57,
    "Web Scraper": 821
+  },
+  "dropped_samples": {
+   "relevance": [
+    "Buyback of Government of India Dated Securities",
+    "Reserve Money and Money Supply for the fortnight ended on August 15, 2026",
+    "Result of the 3-day Variable Rate Reverse Repo (VRRR) auction held on August 28, 2026",
+    "Release Order in RC 9246 of 2026 \u2013 8 entities in the matter of Shubhlaxmi Jewel Art Limited",
+    "Anantam Highways Trust releases Q1FY27 earnings call transcript",
+    "Top Stock and Investment Research Tools for 2026",
+    "Petronet LNG Q1 Results: Earnings call scheduled for Aug 13, 2026",
+    "RMC Switchgears schedules 32nd AGM for September 19, 2026",
+    "Informed Technologies Q1 Results: Net profit jumps 1,665% YoY to \u20b9116.74 lakh",
+    "Gujarat Ambuja Exports consolidated net profit rises 171.87% in the June 2026 quarter",
+    "Mapping India\u2019s fintech key players",
+    "Bhanu Infrabuild Pvt reports standalone net loss of Rs 21.19 crore in the June 2026 quarter",
+    "D S Kulkarni Developers Q1 Results: Net loss widens to \u20b9122.9 lakh",
+    "Sun Pharma update on Lipitor antitrust litigation in US court",
+    "Nuvama Management Meet Note on Divine Power Energy- Integration-led growth",
+    "Motilal Oswal Initiating Coverage on Adani Enterprises, with 25% UPSIDE- Multiple growth engines, one integrat",
+    "DRChoksey Update on Pharma- AI-Driven Drug Discovery: Reshaping Pharma R&D Economics and Pipeline Productivity",
+    "Ventura IPO Note on Lumino Industries Ltd- Integrated Electrical Infrastructure & Power Equipment Company with",
+    "Ambit Capital sees 19% UPSIDE in Divi's Laboratories- Prepared will evolve",
+    "Motilal Oswal\u2019s Morning India- Today\u2019s top research idea (24-Aug-26)"
+   ],
+   "junk": [
+    "Final Order in the matter of Debock Industries Limited",
+    "Final Order in the matter of IPO of Trafiksol ITS Technologies Limited",
+    "Completion of Recovery Proceedings in Recovery Certificate No. 9246 of 2026 issued against 8 entities in the m",
+    "Order in respect of Bonanza Portfolio Limited and others",
+    "Adjudication Order in respect of Dilip Kumar Gupta HUF in the matter of trading in Illiquid Stock Options at B",
+    "Remittance Order dated August 28, 2026 issued under RC No",
+    "Remittance Order dated August 28, 2026 issued under RC No",
+    "Remittance Order dated August 28, 2026 issued under RC No",
+    "Remittance Order dated August 28, 2026 issued under RC No",
+    "Remittance Order dated August 28, 2026 issued under RC No",
+    "Remittance Order dated August 28, 2026 issued under RC No",
+    "Remittance Order dated August 28, 2026 issued under RC No",
+    "Cancellation of Recovery Certificate No",
+    "SEBI extends ETF norms implementation timeline to September 7",
+    "ICICI Bank Share Price Today, ICICI Bank Stock Price Live NSE/BSE Updates",
+    "Canara Bank Share Price - Live NSE: CANBK Stock Price & Chart",
+    "AADHAR HOUSING FINANCE L Share Price - Live NSE: AADHARHFC Stock Price & Chart",
+    "5Paisa Capital Share Price",
+    "Aditya Birla Sun Life Medium to Long Term Fund Regular-IDCW Quarterly (\u20b9 13.09) - NAV, Reviews & asset allocat",
+    "Aditya Birla Sun Life Ultra Short Term Fund - Regular Plan Portfolio"
+   ]
+  }
+ },
+ {
+  "date": "2026-09-03",
+  "fetched": 7086,
+  "delivered_pool": 455,
+  "junk": 3241,
+  "geo": 71,
+  "stale": 752,
+  "dup": 2216,
+  "sections": {
+   "S1": 403,
+   "S2": 23,
+   "S3": 29
+  },
+  "mails": 2,
+  "failed": [],
+  "source_summary": {
+   "RBI RSS": 20,
+   "RBI Enforcement": 0,
+   "SEBI RSS": 20,
+   "Google News": 21,
+   "Watchlist (Google)": 911,
+   "BSE Financials": 0,
+   "Telegram": 57,
+   "Web Scraper": 1228
   },
   "dropped_samples": {
    "relevance": [
