@@ -1,6 +1,130 @@
 {
  "records": [
   {
+   "isin": "INE06WU07080",
+   "issuer": "LAXMI INDIA FINANCE LIMITED",
+   "allotment_date": "2026-09-02",
+   "amount_cr": 30.0,
+   "coupon": 10.5,
+   "tenure_years": 3.0,
+   "band": "A band (A+/A/A-)",
+   "segment": "NBFC/HFC",
+   "spread_bps": 417,
+   "ratings": [
+    "Acuite Ratings And Research Limited A"
+   ]
+  },
+  {
+   "isin": "INE03UZ07049",
+   "issuer": "RARE ASSET RECONSTRUCTION LIMITED",
+   "allotment_date": "2026-09-02",
+   "amount_cr": 65.0,
+   "coupon": 16.0,
+   "tenure_years": 3.0,
+   "band": "BBB band",
+   "segment": "Corporate",
+   "spread_bps": 967,
+   "ratings": [
+    "Brickwork BBB+"
+   ]
+  },
+  {
+   "isin": "INE06WU07098",
+   "issuer": "LAXMI INDIA FINANCE LIMITED",
+   "allotment_date": "2026-09-02",
+   "amount_cr": 70.0,
+   "coupon": 10.5,
+   "tenure_years": 3.0,
+   "band": "A band (A+/A/A-)",
+   "segment": "NBFC/HFC",
+   "spread_bps": 417,
+   "ratings": [
+    "Acuite Ratings And Research Limited A"
+   ]
+  },
+  {
+   "isin": "INE0MMC07401",
+   "issuer": "INCRED WEALTH AND INVESTMENT SERVICES PRIVATE LIMITED",
+   "allotment_date": "2026-09-02",
+   "amount_cr": 75.0,
+   "coupon": null,
+   "tenure_years": 3.3,
+   "band": "Not rated / available",
+   "segment": "Corporate",
+   "spread_bps": null,
+   "ratings": []
+  },
+  {
+   "isin": "INE741K07629",
+   "issuer": "CREDITACCESS GRAMEEN LIMITED",
+   "allotment_date": "2026-09-02",
+   "amount_cr": 100.0,
+   "coupon": 9.15,
+   "tenure_years": 2.0,
+   "band": "AA band (AA+/AA/AA-)",
+   "segment": "NBFC/HFC",
+   "spread_bps": 297,
+   "ratings": [
+    "ICRA AA-"
+   ]
+  },
+  {
+   "isin": "INE0MYJ07203",
+   "issuer": "PROGFIN PRIVATE LIMITED",
+   "allotment_date": "2026-09-02",
+   "amount_cr": 150.0,
+   "coupon": 10.0,
+   "tenure_years": 1.3,
+   "band": "BBB band",
+   "segment": "Corporate",
+   "spread_bps": 423,
+   "ratings": [
+    "ICRA BBB+"
+   ]
+  },
+  {
+   "isin": "INE741K07637",
+   "issuer": "CREDITACCESS GRAMEEN LIMITED",
+   "allotment_date": "2026-09-02",
+   "amount_cr": 200.0,
+   "coupon": 9.25,
+   "tenure_years": 3.0,
+   "band": "AA band (AA+/AA/AA-)",
+   "segment": "NBFC/HFC",
+   "spread_bps": 292,
+   "ratings": [
+    "ICRA AA-"
+   ]
+  },
+  {
+   "isin": "INE468N08142",
+   "issuer": "ECAP EQUITIES LIMITED",
+   "allotment_date": "2026-09-02",
+   "amount_cr": 275.0,
+   "coupon": 10.35,
+   "tenure_years": 4.6,
+   "band": "A band (A+/A/A-)",
+   "segment": "Corporate",
+   "spread_bps": 386,
+   "ratings": [
+    "CRISIL A+"
+   ]
+  },
+  {
+   "isin": "INE530B07674",
+   "issuer": "IIFL FINANCE LIMITED",
+   "allotment_date": "2026-09-02",
+   "amount_cr": 600.0,
+   "coupon": 9.25,
+   "tenure_years": 2.0,
+   "band": "AA band (AA+/AA/AA-)",
+   "segment": "NBFC/HFC",
+   "spread_bps": 307,
+   "ratings": [
+    "CRISIL AA"
+   ]
+  },
+  {
    "isin": "INE0S8E07044",
    "issuer": "JHS ESTATE PRIVATE LIMITED",
    "allotment_date": "2026-09-01",

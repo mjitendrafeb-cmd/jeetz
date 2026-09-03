@@ -39,6 +39,14 @@
   "segment": "NBFC/HFC",
   "updated": "2026-08-28"
  },
+ "creditaccess grameen": {
+  "segment": "NBFC/HFC",
+  "updated": "2026-09-03"
+ },
+ "ecap equities": {
+  "segment": "Corporate",
+  "updated": "2026-09-03"
+ },
  "edelweiss asset reconstruction": {
   "segment": "Corporate",
   "updated": "2026-08-28"
@@ -67,9 +75,17 @@
   "segment": "NBFC/HFC",
   "updated": "2026-08-26"
  },
+ "iifl finance": {
+  "segment": "NBFC/HFC",
+  "updated": "2026-09-03"
+ },
  "incred financial services": {
   "segment": "Corporate",
   "updated": "2026-08-28"
+ },
+ "incred wealth and investment services": {
+  "segment": "Corporate",
+  "updated": "2026-09-03"
  },
  "indian railway finance": {
   "segment": "PSU",
@@ -106,6 +122,10 @@
  "krazybee services": {
   "segment": "NBFC/HFC",
   "updated": "2026-08-26"
+ },
+ "laxmi finance": {
+  "segment": "NBFC/HFC",
+  "updated": "2026-09-03"
  },
  "maple infrastructure trust": {
   "segment": "Corporate",
@@ -153,7 +173,11 @@
  },
  "progfin": {
   "segment": "Corporate",
-  "updated": "2026-08-28"
+  "updated": "2026-09-03"
+ },
+ "rare asset reconstruction": {
+  "segment": "Corporate",
+  "updated": "2026-09-03"
  },
  "rec": {
   "segment": "PSU",
