@@ -5756,31 +5756,42 @@ def main() -> None:
             # simply keep whatever mechanical/Anthropic view
             # section_takeaways already held -- same as before GPT-based
             # S2/S3 filtering existed at all.
-            # A batch that succeeded but came back with s2_summary AND
-            # s3_summary BOTH completely empty is a second way to reach the
-            # same "wipe every S2/S3 row" outcome the s2s3_evaluated gate
-            # above was built for -- this time because the model rejected
-            # every single candidate rather than because it never ran.
-            # Confirmed live: 0/31 S2 and 0/19 S3 accepted in one edition,
-            # the day after the same pipeline accepted 12/26 and 10/17 --
-            # a 100% rejection across two independent categories on a
-            # normal-volume day reads as the model being over-aggressive
-            # (likely the duplicate-check pass cascading), not 50
-            # consecutive genuine non-events. A handful of candidates
-            # legitimately landing at 0 kept (a thin day) is not touched by
-            # this -- it only fires once the sample is large enough that
-            # total rejection stops being plausible.
-            suspicious_total_rejection = (
-                s2s3_evaluated and not gpt_s2_map and not gpt_s3_map
-                and (len(gpt_s2_sent) + len(gpt_s3_sent)) >= 10)
-            if suspicious_total_rejection:
-                print(f"[gpt] WARNING: rejected ALL {len(gpt_s2_sent)} S2 + "
-                      f"{len(gpt_s3_sent)} S3 candidates -- implausible for "
-                      f"this volume, keeping mechanical view for all rather "
-                      f"than showing an empty section")
-            elif s2s3_evaluated:
-                gpt_excluded = ({_key(it) for it in gpt_s2_sent} - set(gpt_s2_map)) | \
-                               ({_key(it) for it in gpt_s3_sent} - set(gpt_s3_map))
+            # A batch that succeeded but came back with a section's summary
+            # array completely empty is a second way to reach the same
+            # "wipe every row in that section" outcome the s2s3_evaluated
+            # gate above was built for -- this time because the model
+            # rejected every single candidate in that section rather than
+            # because it never ran. Confirmed live TWICE now, in two
+            # different shapes: once with 0/31 S2 AND 0/19 S3 both wiped
+            # together, and separately with S2 healthy (4/16 kept) while S3
+            # alone was wiped (0/21) -- checking "were BOTH sections wiped"
+            # missed this second case entirely, since S2's partial success
+            # meant the combined check never fired and the 21 real S3
+            # candidates were silently deleted. Judged PER SECTION now: a
+            # section landing at 0 kept from a large-enough candidate pool
+            # (>=10) is treated as implausible on its own, independent of
+            # how the other section fared, and keeps its mechanical
+            # fallback view instead of being wiped to nothing. A handful of
+            # candidates legitimately landing at 0 kept (a thin day) is not
+            # touched by this -- it only fires once the sample is large
+            # enough that total rejection stops being plausible.
+            def _section_suspicious(sent, keep_map):
+                return s2s3_evaluated and not keep_map and len(sent) >= 10
+
+            s2_suspicious = _section_suspicious(gpt_s2_sent, gpt_s2_map)
+            s3_suspicious = _section_suspicious(gpt_s3_sent, gpt_s3_map)
+            if s2_suspicious:
+                print(f"[gpt] WARNING: rejected ALL {len(gpt_s2_sent)} S2 candidates "
+                      f"-- implausible for this volume, keeping mechanical view for S2")
+            if s3_suspicious:
+                print(f"[gpt] WARNING: rejected ALL {len(gpt_s3_sent)} S3 candidates "
+                      f"-- implausible for this volume, keeping mechanical view for S3")
+            if s2s3_evaluated:
+                s2_excluded = (set() if s2_suspicious else
+                               {_key(it) for it in gpt_s2_sent} - set(gpt_s2_map))
+                s3_excluded = (set() if s3_suspicious else
+                               {_key(it) for it in gpt_s3_sent} - set(gpt_s3_map))
+                gpt_excluded = s2_excluded | s3_excluded
             gpt_exec_summary, gpt_watchlist_html = _gpt_map_email_body(gpt_data)
             not_eval_note = ("" if s2s3_evaluated else
                               ", S2/S3 NOT evaluated -- primary batch failed, "
