@@ -16,12 +16,23 @@ recently as the last few days. This module carries that same shape over,
 scoped to a small pilot list first (see data/bse_scrip_pilot.json) so it
 can be validated against real production logs before any wider rollout.
 
-Only equity-listed pilot entities are covered here -- one scrip code per
-company. Debt-only NBFC issuers routinely have MANY scrip codes, one per
-NCD series (confirmed: Auxilo Finserve alone has at least two, 974066 and
-959662, for two different bond series) -- mapping those needs a separate,
-harder pass (BSE's debt-securities master list, not the equity one) and
-is deliberately out of scope for this pilot.
+Mostly equity-listed pilot entities here -- one scrip code per company.
+Debt-only NBFC issuers routinely have MANY scrip codes, one per NCD series
+(confirmed: Auxilo Finserve alone has at least two, 974066 and 959662, for
+two different bond series), so mapping "all of a debt-only issuer's codes"
+needs a separate, harder pass against BSE's debt-securities master list,
+not the equity one.
+
+One deliberate exception is in this pilot: "Auxilo Finserve Private
+Limited" -> 959662, a single NCD-series scrip code, added specifically to
+test an open question -- does BSE's announcement API key general company-
+level filings (board meetings, Reg 57(1) interest certificates) to ANY one
+of a company's active scrip codes, or only to the specific bond series
+that code belongs to? If the former, one still-active code per debt-only
+issuer may be enough without tracking every NCD series; if the latter,
+this entry will show narrow single-bond-series results only. Read as an
+experiment, not yet a confirmed pattern to extend to other debt-only
+issuers.
 """
 
 import datetime
