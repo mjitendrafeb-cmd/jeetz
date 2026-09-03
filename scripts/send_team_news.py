@@ -26,6 +26,7 @@ from email import encoders
 
 from fetch_news import fetch_all_news
 import fetch_nsdl_issuance
+import fetch_bse_scrip
 
 _REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 _TEAM_PATH = os.path.join(_REPO_ROOT, "team.json")
@@ -3075,6 +3076,37 @@ def _match_companies(it: dict, rows: list[dict]) -> list[str]:
 _NSDL_URL = "https://www.indiabondinfo.nsdl.com/CBDServices/"
 
 
+def _bse_scrip_pilot_items(lookback_days: int) -> list[dict]:
+    """BSE announcements via the per-scrip JSON API, for a small pilot list
+    of equity-listed watchlist companies (data/bse_scrip_pilot.json).
+
+    Additional to fetch_web.fetch_bse_rss(), not a replacement -- this is
+    a pilot for a source class that failed once already in this exact
+    codebase (fetch_bse.py's bulk strScrip="" attempt, confirmed dead in
+    production). Scoped small and logged distinctly so its own real
+    success/failure rate is visible in production logs before any wider
+    rollout, separate from the RSS path that already works. Fails open:
+    any error here costs only this source, never the run.
+    """
+    try:
+        raw = fetch_bse_scrip.fetch_pilot(lookback_days=lookback_days)
+    except Exception as exc:
+        print(f"[bse_scrip_pilot] fetch failed, skipping this source: {exc}")
+        return []
+    items = []
+    for r in raw:
+        items.append({
+            "tags": "WATCHLIST",
+            "wl_company": r["company"],
+            "source": "BSE (scrip API pilot)",
+            "title": r["title"],
+            "summary": r.get("category") or "",
+            "url": r.get("url") or "",
+            "pub": r["pub_date"].strftime("%d %b %Y"),
+        })
+    return items
+
+
 def _nsdl_s1_items(rows: list[dict], today_d, lookback_days: int) -> list[dict]:
     """New NCD/bond allotments (NSDL's public issuance feed), matched to
     watchlist entities and shaped as ordinary S1 items so they flow through
@@ -5608,6 +5640,14 @@ def main() -> None:
             it["companies"] = [it["wl_company"]]
         print(f"[nsdl] {len(nsdl_items)} new-issuance item(s) matched to watchlist entities")
         items.extend(nsdl_items)
+
+    bse_scrip_items = _bse_scrip_pilot_items(lookback_days)
+    if bse_scrip_items:
+        for it in bse_scrip_items:
+            it["companies"] = [it["wl_company"]]
+        print(f"[bse_scrip_pilot] {len(bse_scrip_items)} announcement(s) "
+              f"from the scrip-API pilot")
+        items.extend(bse_scrip_items)
 
     pre_dup = len(items)
     items = _dedup_cross_source(items)
