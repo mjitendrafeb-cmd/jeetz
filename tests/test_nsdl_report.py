@@ -248,3 +248,31 @@ def test_concentration_note():
     assert "Corporate" not in note  # single-issuer segment excluded as not meaningful
     assert rep._concentration_note([], datetime.date(2026, 9, 3)) is None
     assert rep._concentration_note(None, datetime.date(2026, 9, 3)) is None
+
+
+# --------------------------------------------------- quarterly coupon trend
+def test_coupon_trend_html():
+    gsec = {"curve": {5: 6.5}, "source": "test"}
+    today = datetime.date(2026, 9, 3)
+    # Q4 FY26 = Jan-Mar26, Q1 FY27 = Apr-Jun26, Q2 FY27 (QTD) = Jul-Sep26
+    recs = [
+        _dl_rec("N1", "ALPHA FINANCE LIMITED", datetime.date(2026, 2, 5), 8.70, 100, "AA"),
+        _dl_rec("N2", "ALPHA FINANCE LIMITED", datetime.date(2026, 5, 5), 8.50, 100, "AA"),
+        _dl_rec("N3", "ALPHA FINANCE LIMITED", datetime.date(2026, 8, 5), 8.00, 100, "AA"),
+    ]
+    hist = rep._debt_list_history({"records": recs}, gsec)
+    html = rep._coupon_trend_html(hist, today=today)
+    assert "COUPON RATE TREND — QUARTERLY (%)" in html
+    assert "8.70%" in html and "8.50%" in html and "8.00%" in html
+    assert "▼0.20" in html and "▼0.50" in html
+    assert "Q4 FY26" in html and "Q1 FY27" in html and "Q2 FY27 (QTD)" in html
+
+    # a single quarter is no trend
+    one = rep._debt_list_history(
+        {"records": [_dl_rec("S1", "X FINANCE LIMITED", datetime.date(2026, 9, 1), 8.0, 100, "AA")]},
+        gsec)
+    assert rep._coupon_trend_html(one, today=today) == ""
+
+    # the shared quarter-bucketing refactor must not change spread trend output
+    html_spread = rep._spread_trend_html(hist, today=today)
+    assert "+220" in html_spread  # Q4 FY26: 8.70 - 6.50 = 2.20 -> +220bps

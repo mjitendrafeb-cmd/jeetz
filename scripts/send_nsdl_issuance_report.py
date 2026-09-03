@@ -579,13 +579,12 @@ def _quarter_start(fy: int, q: int) -> datetime.date:
     return datetime.date(fy - 1, month, 1)
 
 
-def _spread_trend_html(records, today=None) -> str:
-    """Quarter-by-quarter trend of value-weighted spread over tenor-matched
-    G-sec for the last year (4 trailing quarters + current quarter-to-date),
-    one row per rating band × issuer segment cohort (AAA PSU, AAA NBFC/HFC,
-    AA Corporate, ...). Spreads are computed against the current G-sec curve
-    (historical daily curves aren't available from the public sources used)."""
-    today = today or datetime.date.today()
+def _quarter_window(records, today, value_key):
+    """Last 4 FY quarters + current QTD, bucketed by quarter. Returns
+    (quarters, by_q, window) where `quarters` is the ordered list of
+    (fy, q) actually present in the data, `by_q` maps each to its matching
+    records, and `window` is the flat filtered list (rated, amount-carrying,
+    `value_key` present)."""
     cur_fy, cur_q = _fy_quarter(today)
     quarters = []
     fy, q = cur_fy, cur_q
@@ -599,22 +598,33 @@ def _spread_trend_html(records, today=None) -> str:
 
     window = [r for r in records
               if cutoff <= r["allotment_date"] <= today.isoformat()
-              and r.get("spread_bps") is not None
+              and r.get(value_key) is not None
               and r.get("amount_cr") and r["band"] != _BANDS[6]]
-    if not window:
-        return ""
     by_q: dict[tuple[int, int], list] = {}
     for r in window:
         by_q.setdefault(_fy_quarter(datetime.date.fromisoformat(r["allotment_date"])),
                         []).append(r)
     quarters = [qk for qk in quarters if qk in by_q]
-    if len(quarters) < 2:
-        return ""  # a single quarter is no trend — the matrix already covers it
+    return quarters, by_q, window
 
-    def q_label(qk):
-        fy, q = qk
-        lab = f"Q{q} FY{str(fy)[-2:]}"
-        return lab + " (QTD)" if qk == (cur_fy, cur_q) else lab
+
+def _quarter_label(qk, cur_fy, cur_q) -> str:
+    fy, q = qk
+    lab = f"Q{q} FY{str(fy)[-2:]}"
+    return lab + " (QTD)" if qk == (cur_fy, cur_q) else lab
+
+
+def _spread_trend_html(records, today=None) -> str:
+    """Quarter-by-quarter trend of value-weighted spread over tenor-matched
+    G-sec for the last year (4 trailing quarters + current quarter-to-date),
+    one row per rating band × issuer segment cohort (AAA PSU, AAA NBFC/HFC,
+    AA Corporate, ...). Spreads are computed against the current G-sec curve
+    (historical daily curves aren't available from the public sources used)."""
+    today = today or datetime.date.today()
+    quarters, by_q, window = _quarter_window(records, today, "spread_bps")
+    if not window or len(quarters) < 2:
+        return ""  # a single quarter is no trend — the matrix already covers it
+    cur_fy, cur_q = _fy_quarter(today)
 
     # grouped by issuer segment first (all NBFC rows, then banks, then
     # corporates, then PSU), rating bands high-to-low within each group
@@ -654,7 +664,8 @@ def _spread_trend_html(records, today=None) -> str:
                           f'padding:5px 10px;font-weight:700;color:#555;font-size:11px;'
                           f'letter-spacing:0.5px;">{seg.upper()}</td></tr>' + seg_rows)
 
-    header = "".join(f'<th style="padding:7px 10px;">{q_label(qk)}</th>' for qk in quarters)
+    header = "".join(f'<th style="padding:7px 10px;">{_quarter_label(qk, cur_fy, cur_q)}</th>'
+                     for qk in quarters)
     return f"""
 <tr><td style="padding:14px 20px 4px;">
   <div style="font-size:13px;font-weight:700;color:#cc0000;border-bottom:2px solid #cc0000;padding-bottom:4px;">SPREAD TREND OVER G-SEC — QUARTERLY (bps)</div>
@@ -663,6 +674,71 @@ def _spread_trend_html(records, today=None) -> str:
   current quarter-to-date, per rating band × issuer segment cohort. ▲/▼ = change vs prior quarter.
   Spreads use the stored G-sec curve nearest each deal's date where available (snapshots
   accumulate daily), else the current curve.</div>
+</td></tr>
+<tr><td style="padding:8px 20px;">
+<table width="100%" cellpadding="0" cellspacing="0" style="font-family:Arial,Helvetica,sans-serif;font-size:12px;border:1px solid #e5e5e5;">
+<tr style="background:#1a1a1a;color:#fff;"><th style="padding:7px 10px;text-align:left;">Rating band</th>{header}</tr>
+{rows_html}
+</table>
+</td></tr>"""
+
+
+def _coupon_trend_html(records, today=None) -> str:
+    """Quarter-by-quarter trend of value-weighted COUPON RATE (not spread)
+    for the last year (4 trailing quarters + current quarter-to-date), same
+    rating-band × issuer-segment grouping as the spread trend above -- the
+    raw borrowing rate each cohort is paying, quarter over quarter, rather
+    than a single since-FY-start average."""
+    today = today or datetime.date.today()
+    quarters, by_q, window = _quarter_window(records, today, "coupon")
+    if not window or len(quarters) < 2:
+        return ""
+    cur_fy, cur_q = _fy_quarter(today)
+
+    seg_order = ["NBFC/HFC", "Bank/FI", "Corporate", "PSU"]
+    rows_html = ""
+    for seg in seg_order:
+        seg_rows = ""
+        for band in _BANDS[:6]:
+            grp = [r for r in window if r["band"] == band and r["segment"] == seg]
+            if not grp:
+                continue
+            row = (f'<td style="padding:7px 10px;border-bottom:1px solid #eee;'
+                   f'font-weight:700;white-space:nowrap;">{band.split(" (")[0]}</td>')
+            prev_c = None
+            for qk in quarters:
+                g = [r for r in by_q[qk]
+                     if r["band"] == band and r["segment"] == seg]
+                if not g:
+                    row += ('<td style="padding:7px 10px;border-bottom:1px solid #eee;'
+                            'text-align:center;color:#bbb;">—</td>')
+                    continue
+                w = sum(x["amount_cr"] for x in g)
+                c = sum(x["coupon"] * x["amount_cr"] for x in g) / w
+                arrow = ""
+                if prev_c is not None and abs(c - prev_c) >= 0.05:
+                    up = c > prev_c
+                    arrow = (f" <span style='color:{'#b30000' if up else '#1a6b1a'};"
+                             f"font-size:10px;'>{'▲' if up else '▼'}{abs(c - prev_c):.2f}</span>")
+                prev_c = c
+                row += (f'<td style="padding:7px 10px;border-bottom:1px solid #eee;'
+                        f'text-align:center;"><b>{c:.2f}%</b>{arrow}'
+                        f"<br><span style='color:#888;font-size:10.5px;'>"
+                        f"{len(g)} deal{'s' if len(g) > 1 else ''}</span></td>")
+            seg_rows += f"<tr>{row}</tr>"
+        if seg_rows:
+            rows_html += (f'<tr><td colspan="{len(quarters) + 1}" style="background:#f4f4f4;'
+                          f'padding:5px 10px;font-weight:700;color:#555;font-size:11px;'
+                          f'letter-spacing:0.5px;">{seg.upper()}</td></tr>' + seg_rows)
+
+    header = "".join(f'<th style="padding:7px 10px;">{_quarter_label(qk, cur_fy, cur_q)}</th>'
+                     for qk in quarters)
+    return f"""
+<tr><td style="padding:14px 20px 4px;">
+  <div style="font-size:13px;font-weight:700;color:#cc0000;border-bottom:2px solid #cc0000;padding-bottom:4px;">COUPON RATE TREND — QUARTERLY (%)</div>
+  <div style="margin-top:5px;font-family:Arial,sans-serif;font-size:11.5px;color:#666;">
+  Value-weighted avg coupon of rated deals, last 4 quarters plus the current quarter-to-date,
+  per rating band × issuer segment cohort. ▲/▼ = change vs prior quarter (≥5bps).</div>
 </td></tr>
 <tr><td style="padding:8px 20px;">
 <table width="100%" cellpadding="0" cellspacing="0" style="font-family:Arial,Helvetica,sans-serif;font-size:12px;border:1px solid #e5e5e5;">
@@ -894,6 +970,7 @@ No fresh issuances reported on NSDL India Bond Info for this run.</td></tr>"""
   <ul style="margin:8px 0 0;padding-left:18px;font-family:Arial,sans-serif;font-size:13px;color:#333;">{analysis_html}</ul>
 </td></tr>
 {_cohort_matrix_html(history or [], source_note=matrix_source)}
+{_coupon_trend_html(history or [])}
 {_spread_trend_html(history or [])}
 {commentary_html}
 
