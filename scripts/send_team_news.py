@@ -5626,18 +5626,28 @@ def main() -> None:
           f"{'AI classification, dedup review and mail-body writing active' if _ai_on() else 'mechanical rules only (team.json use_ai=false or no API key)'}")
 
     weekday = now.strftime("%A")
+    # skip_send (Sat/Sun): the desk works Mon-Fri, so no mail goes out --
+    # but the run still fetches and pools normally. It used to return here
+    # immediately, which meant NOTHING was fetched on a skip day either, and
+    # Monday's Weekend Edition depended entirely on a same-morning re-query
+    # with a widened lookback still finding Friday's and Saturday's stories
+    # (Google News is a ranked "what's current" result, not a reliable
+    # date-range filter -- a quieter Friday story can fall out of the
+    # returned set by Monday). Now each skip day's own fetch feeds the
+    # existing 96h pool (_merge_pool) exactly as a normal day would, so
+    # Monday inherits Friday/Saturday/Sunday's actual results from when
+    # they were freshest, and only the final send step is skipped.
+    skip_send = False
     if os.environ.get("GITHUB_EVENT_NAME") == "schedule":
         if team.get("skip_sundays", True) and weekday == "Sunday":
-            print("[skip] Sunday — no mail (skip_sundays enabled; manual runs still work)")
-            return
-        # The desk works Mon-Fri. A Saturday edition went to 35 people who
-        # were not reading it — dropped the same way Sunday already was.
-        # Nothing from Saturday is lost: Monday's Weekend Edition below
-        # widens its own lookback specifically to cover it.
-        if team.get("skip_saturdays", True) and weekday == "Saturday":
-            print("[skip] Saturday — no mail (skip_saturdays enabled; manual runs still work)")
-            return
-        if now.date().isoformat() in team.get("holidays", []):
+            print("[skip-send] Sunday — fetching & pooling as usual, no mail goes out "
+                  "(skip_sundays enabled; manual runs still work)")
+            skip_send = True
+        elif team.get("skip_saturdays", True) and weekday == "Saturday":
+            print("[skip-send] Saturday — fetching & pooling as usual, no mail goes out "
+                  "(skip_saturdays enabled; manual runs still work)")
+            skip_send = True
+        elif now.date().isoformat() in team.get("holidays", []):
             print(f"[skip] {now.date().isoformat()} is in the holiday list — no mail")
             return
 
@@ -5903,7 +5913,8 @@ def main() -> None:
 
     if not people:
         print("[route] nobody is enabled in team.json — no mails to send")
-        _save_seen(items)
+        if not skip_send:
+            _save_seen(items)
         return
 
     # Lazy import: send_credit_report imports helpers from this module at its
@@ -6095,7 +6106,10 @@ def main() -> None:
     email_takeaways = {**section_takeaways_str, **takeaways}
 
     sent_count, failed = 0, []
-    for email, v in prepared.items():
+    if skip_send:
+        print(f"[skip-send] {len(prepared)} edition(s) built and fetched/pooled "
+              f"normally, but not mailed -- see the skip-send note above")
+    for email, v in ({} if skip_send else prepared).items():
         who, part_b, top5 = v["name"], v["part_b"], v["top5"]
         # Per explicit instruction: the email body stays JUST the Top 10
         # Headlines list (S1 first, then S2/S3 filling remaining slots) for
@@ -6166,7 +6180,7 @@ def main() -> None:
             except Exception:
                 pass
 
-    if not test_emails:
+    if not test_emails and not skip_send:
         try:
             status_rows = "".join(
                 f'<li>{len(people.get(e, {}).get("companies") or [])} co(s), '
@@ -6185,13 +6199,16 @@ def main() -> None:
         except Exception as exc:
             print(f"[status] status mail failed (non-fatal): {exc}")
 
-    # Master edition (all companies, all sections) for the public archive.
-    master_p = {"sections": {"S1", "S2", "S3"},
-                "companies": {r["company"] for r in rows},
-                "sectors": set(sectors) | {_row_sector(r) for r in rows}}
-    m_partb, _m_total, _m_items = _np_partb(master_p, items, by_section, section_takeaways, gpt_excluded,
-                                             new_companies)
-    _write_archive(_np_rebrand(_np_build_attachment(m_partb, today, "", masthead, coverage_note)), today)
+    # Master edition (all companies, all sections) for the public archive --
+    # only written on a day mail actually went out, so the archive reflects
+    # real editions, not a skip day's internal fetch/pool run.
+    if not skip_send:
+        master_p = {"sections": {"S1", "S2", "S3"},
+                    "companies": {r["company"] for r in rows},
+                    "sectors": set(sectors) | {_row_sector(r) for r in rows}}
+        m_partb, _m_total, _m_items = _np_partb(master_p, items, by_section, section_takeaways, gpt_excluded,
+                                                 new_companies)
+        _write_archive(_np_rebrand(_np_build_attachment(m_partb, today, "", masthead, coverage_note)), today)
 
     _append_stats({
         "date": today.isoformat(),
@@ -6214,18 +6231,34 @@ def main() -> None:
         # too, so a test leaves no trace at all.
         print("[test] skipping seen-memory save, pool save and sent-today marker")
     else:
-        _save_seen(items)
-        # Saved even though the mail is out: tomorrow's run inherits today's
-        # fetched lines, so coverage accumulates rather than depending on
-        # whatever a single Google search happened to return.
+        if skip_send:
+            # A skip-send day (Sat/Sun) must NOT mark these items as
+            # "already sent" -- that memory is what makes Monday's dedup
+            # drop items, and the whole point of fetching on a skip day is
+            # for Monday to actually receive them. Same reasoning for
+            # company_history: a company's first-ever appearance shouldn't
+            # be marked "seen" before any reader has actually been mailed
+            # it. The pool IS saved -- that's the one piece of state a skip
+            # day exists to contribute.
+            print("[skip-send] skipping seen-memory save and history save "
+                  "(today's items must still look new to Monday's dedup)")
+        else:
+            _save_seen(items)
+            try:
+                _save_company_history(company_history, new_companies, str(today_d))
+            except Exception as exc:
+                print(f"[history] save failed (non-fatal): {exc}")
+        # Saved regardless of skip_send: tomorrow's (or Monday's) run
+        # inherits today's fetched lines, so weekend coverage accumulates
+        # day by day rather than depending on whatever a single Monday-
+        # morning Google search happens to still return.
         try:
             _save_pool(pool_to_save)
         except Exception as exc:
             print(f"[pool] save failed (non-fatal): {exc}")
-        try:
-            _save_company_history(company_history, new_companies, str(today_d))
-        except Exception as exc:
-            print(f"[history] save failed (non-fatal): {exc}")
+        # Marked even on a skip-send day: this is what stops the workflow's
+        # staggered cron ticks from re-fetching the same day 4 times over,
+        # regardless of whether mail actually went out.
         _mark_sent_today()
     print("Done.")
 
