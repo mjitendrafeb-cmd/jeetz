@@ -588,6 +588,15 @@ _AMBIGUOUS_ACRONYM_CONTEXT = {
         r"micro units?|msme loan|small business loan|mudra loan|"
         r"pmegp|svanidhi|\bkcc\b|kisan credit card|vishwakarma|yojana|"
         r"loan scheme)\b", re.IGNORECASE),
+    # Same collision as send_team_news.py's own "boi" guard: Pakistan/Sri
+    # Lanka's "Board of Investment", Nigeria's "Bank of Industry", and the
+    # plain word "boi" inside "Sk8er Boi" all matched Bank of India's
+    # console alias with no actual India-banking content. Kept in sync
+    # with the mailer's copy since both files alias-match independently.
+    "BOI": re.compile(
+        r"\bbank of india\b|\b(rbi|npa|gnpa|nclt|casa|crar|q[1-4]\s*(fy)?\d*\s*results?|"
+        r"net profit|nationalised bank|psu bank|public sector bank|"
+        r"mumbai[- ]headquartered|indian bank(?:er|ing)?)\b", re.IGNORECASE),
 }
 
 

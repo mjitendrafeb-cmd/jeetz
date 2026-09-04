@@ -3044,6 +3044,17 @@ _AMBIGUOUS_ALIAS_CONTEXT = {
         r"\b(fintech|sachin bansal|finserv|navi technologies|micro.?loan|"
         r"personal loan|health insurance|general insurance|"
         r"navi mutual fund|home loan|\bupi\b)\b", re.IGNORECASE),
+    # "BOI" is Bank of India's console alias, but it collides with more
+    # unrelated things than any alias fixed so far: Pakistan/Sri Lanka's
+    # "Board of Investment", Nigeria's "Bank of Industry" (routinely
+    # bylined "BOI" in Nigerian press), and -- not even an acronym use --
+    # the plain word "boi" inside "Sk8er Boi", matched case-insensitively.
+    # Reported live: three false S1 hits in one digest. Requires India-
+    # specific banking context; "bank of india" itself always satisfies it.
+    "boi": re.compile(
+        r"\bbank of india\b|\b(rbi|npa|gnpa|nclt|casa|crar|q[1-4]\s*(fy)?\d*\s*results?|"
+        r"net profit|nationalised bank|psu bank|public sector bank|"
+        r"mumbai[- ]headquartered|indian bank(?:er|ing)?)\b", re.IGNORECASE),
 }
 
 
