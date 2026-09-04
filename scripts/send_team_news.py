@@ -726,9 +726,10 @@ _SUFFIXES = {"private", "limited", "ltd", "pvt", "co", "company", "(india)", "in
 # "karnataka" alone is 9 characters -- long enough to clear the
 # lone-word "distinctive enough" length floor before this fix, exactly
 # like "credit" cleared it for Shriram Credit against DCM Shriram.
-_COMMON = {"small", "national", "india", "indian", "bank", "finance", "financial",
-           "capital", "home", "housing", "credit", "micro", "asset", "industries",
-           "development", "investment", "securities", "insurance", "mutual", "fund",
+_COMMON = {"small", "national", "india", "indian", "bank", "central", "finance",
+           "financial", "capital", "home", "housing", "credit", "micro", "asset",
+           "industries", "development", "investment", "securities", "insurance",
+           "mutual", "fund",
            "tourism", "travel", "leisure", "hospitality",
            "karnataka", "madhya", "pradesh", "jammu", "kashmir", "punjab", "sind",
            "jharkhand", "rajya", "gramin", "puducherry", "gujarat", "tamilnadu",
@@ -736,6 +737,20 @@ _COMMON = {"small", "national", "india", "indian", "bank", "finance", "financial
            "haryana", "bihar", "odisha", "orissa", "telangana", "andhra", "assam",
            "uttar", "himachal", "chhattisgarh", "sikkim", "tripura", "manipur",
            "meghalaya", "mizoram", "nagaland", "arunachal", "chandigarh"}
+
+# Entities whose first two significant words are BOTH themselves generic
+# banking vocabulary ("central" + "bank") clear the ">=2 common words"
+# rule below on any story that calls RBI "the central bank" -- routine
+# financial-journalism shorthand, not a mention of this entity. Reported
+# live: an RBI FCNR(B)-surplus story reached S1 tagged to Central Bank of
+# India for exactly this reason. Keyed by the full company name so it
+# applies before the word-count heuristics, same shape as
+# _AMBIGUOUS_ALIAS_CONTEXT but for the company's own name rather than a
+# console alias.
+_AMBIGUOUS_ENTITY_CONTEXT = {
+    "central bank of india": re.compile(
+        r"\bcbi\b|\bcentral bank of india\b", re.IGNORECASE),
+}
 
 
 def _sig_words(name: str) -> list[str]:
@@ -823,6 +838,9 @@ def _mentions_company(body: str, name: str) -> bool:
     S1 items far beyond the case reported.
     """
     body = _NAME_FALSE_FRIEND_RE.sub(" ", body)
+    entity_guard = _AMBIGUOUS_ENTITY_CONTEXT.get(name.strip().lower())
+    if entity_guard:
+        return bool(entity_guard.search(body))
     if _group_prefix_only(body, name):
         return False
     acro = _acronym(name)
