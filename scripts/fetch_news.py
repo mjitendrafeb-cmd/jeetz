@@ -537,6 +537,24 @@ _GENERIC_NAME_WORD = {
     "enterprises", "solutions", "resources", "ventures", "partners",
     "management", "asset", "assets", "microfin", "microfinance", "general",
     "tourism", "travel", "leisure", "hospitality",
+    # "central" alone identifies nothing -- "Generali Central Insurance
+    # names Prem Sivadas chief commercial officer" reached S1 tagged to
+    # Central Bank of India purely because "central" is 7+ characters and
+    # otherwise ungated by the lone-word length floor below. Reported live.
+    "central",
+}
+
+# For entities whose first two significant words are BOTH themselves
+# generic banking vocabulary ("central" + "bank"), the two-sig-word rule
+# below fires on any story that calls RBI "the central bank" -- a routine
+# generic phrase in financial journalism, not a mention of this entity.
+# Reported live: an RBI FCNR(B)-surplus story reached S1 tagged to Central
+# Bank of India for exactly this reason. Requiring the acronym or the full
+# "central bank of india" phrase closes it without touching any other
+# entity's matching.
+_AMBIGUOUS_CORE_CONTEXT = {
+    "central bank of india": re.compile(
+        r"\bcbi\b|\bcentral bank of india\b", re.IGNORECASE),
 }
 
 
@@ -752,6 +770,9 @@ def _story_mentions_entity(company: str, aliases: list[str], text: str) -> bool:
     'National'..."""
     t = (text or "").lower()
     core = _core_name(company)
+    core_guard = _AMBIGUOUS_CORE_CONTEXT.get((core or "").lower())
+    if core_guard:
+        return bool(core_guard.search(text or ""))
     if core and _text_contains_name(t, core.lower()):
         return True
     ac = _name_acronym(core)
