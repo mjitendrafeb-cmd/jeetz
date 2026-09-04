@@ -4844,14 +4844,12 @@ def _np_partb(p: dict, items: list[dict], by_section: dict,
             total += n_items
             for v in by_company.values():
                 chosen.extend(v)
-            # Companies A-Z by name (requested: the S1 table should read
-            # top-to-bottom in the same order as the Company column, so a
-            # reader scanning for one entity can find it without hunting
-            # through a materiality-ranked list). Within an entity, most
-            # material story first, and an undated item never leads.
+            # Entities with the most material news first; within an entity,
+            # most material first, and an undated item never leads.
             for v in by_company.values():
                 v.sort(key=lambda it: (-_materiality(it), _is_undated(it)))
-            order = sorted(by_company.items(), key=lambda kv: kv[0].lower())
+            order = sorted(by_company.items(),
+                           key=lambda kv: -max(_materiality(i) for i in kv[1]))
             # Team-requested layout: Company / Source Link / Summary as a
             # table, one row per story, instead of per-entity header +
             # stacked cards. The table wrapper carries column-span:all so
