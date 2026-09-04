@@ -743,7 +743,12 @@ def _company_query(company: str, aliases: list[str], broad: bool = False) -> str
 # guard belongs here rather than depending on today's list staying safe.
 _ENTITY_PREFIX_BLOCK_RE = re.compile(
     r"(?:\breserve|\bstate|\bcentral|\bunion|\bfederal|\bexim|"
-    r"export[- ]import|\bworld|\bpunjab national)\s+$",
+    r"export[- ]import|\bworld|\bpunjab national|"
+    # Same "Bank of India" substring-inside-"Small Industries Development
+    # Bank of India (SIDBI)" collision fixed in send_team_news.py's own
+    # copy of this block list -- kept in sync since both files match
+    # the same class of short-name-inside-longer-name story.
+    r"\bsmall industries development)\s+$",
     re.IGNORECASE,
 )
 

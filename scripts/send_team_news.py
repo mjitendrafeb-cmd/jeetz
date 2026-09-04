@@ -2927,7 +2927,13 @@ def _tag_categories(items: list[dict]) -> None:
 # larger word.
 _NAME_PREFIX_BLOCK_RE = re.compile(
     r"(?:\breserve|\bstate|\bcentral|\bunion|\bfederal|\bexim|"
-    r"export[- ]import|\bworld|\bpunjab national)\s+$",
+    r"export[- ]import|\bworld|\bpunjab national|"
+    # "Small Industries Development Bank of India (SIDBI) allots NCDs"
+    # (NSDL Bond Info) reached S1 tagged to "Bank of India" -- the
+    # watchlist row's own full name is a plain substring of SIDBI's, and
+    # this block list only covered single-word institution prefixes.
+    # Reported live.
+    r"\bsmall industries development)\s+$",
     re.IGNORECASE,
 )
 
@@ -3048,11 +3054,21 @@ def _alias_matches(body: str, alias: str) -> bool:
     return bool(guard.search(body)) if guard else True
 
 
-def _match_companies(it: dict, rows: list[dict]) -> list[str]:
+def _match_companies(it: dict, rows: list[dict], name_only: bool = False) -> list[str]:
     """Tag from the fetcher is authoritative (the item came from that
     company's own query); text phrase match is only a fallback. Re-matching
     by text alone silently dropped tagged items whose headline did not
-    repeat the company name."""
+    repeat the company name.
+
+    name_only: skip console aliases entirely and match on the registered
+    company name alone. For sources whose issuer field is always the
+    entity's full legal name (NSDL's bond-allotment feed) an alias is
+    pure extra surface area for a collision, never a name that source
+    would use in the first place -- reported live: "Bank of India" as
+    an alias elsewhere is not the failure mode here, but the principle
+    the desk asked for (match NSDL by name, not aliases/short names)
+    holds regardless of which specific alias would have been at risk.
+    """
     # "&" vs "and": a registered name says "Jammu & Kashmir Bank Limited"
     # but real press headlines almost always spell it "Jammu and Kashmir
     # Bank" -- a literal substring match on either form alone missed the
@@ -3073,7 +3089,8 @@ def _match_companies(it: dict, rows: list[dict]) -> list[str]:
         # "never mentioning" the entity — real news lost with only a [WARN]
         # to show for it. A story that says only "BOI" or "HDFC Life" is
         # about that entity by the desk's own explicit instruction.
-        aliases = [str(a).strip() for a in (r.get("aliases") or []) if str(a).strip()]
+        aliases = ([] if name_only else
+                   [str(a).strip() for a in (r.get("aliases") or []) if str(a).strip()])
         alias_hit = any(_alias_matches(body, a) for a in aliases)
         tag_match = tag and (tag == n or tag.startswith(n) or n.startswith(tag))
         if tag_match and not alias_hit:
@@ -3167,7 +3184,7 @@ def _nsdl_s1_items(rows: list[dict], today_d, lookback_days: int) -> list[dict]:
         if not allot or (today_d - allot).days > lookback_days:
             continue
         probe = {"title": iss["issuer"], "summary": "", "wl_company": ""}
-        companies = _match_companies(probe, rows)
+        companies = _match_companies(probe, rows, name_only=True)
         if not companies:
             continue
         matched.append((iss, companies))
