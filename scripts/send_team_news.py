@@ -3239,27 +3239,62 @@ def _seen_fingerprint(it: dict) -> str:
     return "|".join(dist) if len(dist) >= 3 else ""
 
 
-def _is_already_sent(it: dict, seen: set) -> bool:
+def _is_already_sent(it: dict, seen_keys: set[str], seen_fps: list[frozenset],
+                      seen_efps: list[tuple[str, frozenset]]) -> bool:
     """True when this exact item, or the same story under another headline
-    or outlet, already went out on an earlier day."""
-    if _key(it) in seen:
+    or outlet, already went out on an earlier day.
+
+    The entity-agnostic fingerprint check requires >=3 shared distinctive
+    tokens (matching _dedup_cross_source's own-day rule) rather than exact-
+    set equality — reported live, a Zerodha "SEBI approval for merchant
+    banking" story shared only zerodha/sebi/business across two outlets'
+    headlines a day apart (02 Sep "...merchant banking business as it
+    expands beyond broking" vs 03 Sep "...Sebi nod to foray into investment
+    banking business"), and even the 3+ overlap rule missed it since
+    "business"/"banking"/"investment" are generic boilerplate this file
+    already excludes, leaving only zerodha+sebi in common. When the item
+    is tagged to a confirmed watchlist entity, that entity match is
+    already strong evidence, so only 2 shared distinctive tokens are
+    required on top of it -- this is what actually catches the Zerodha
+    case (entity=zerodha, shared: sebi + one of approval/nod-adjacent
+    terms), without loosening the entity-agnostic bar for everything else.
+    """
+    if _key(it) in seen_keys:
         return True
-    fp = _seen_fingerprint(it)
-    return bool(fp) and f"fp:{fp}" in seen
+    dist = _distinctive_toks(it.get("title", ""))
+    if len(dist) >= 3 and any(len(dist & fp) >= 3 for fp in seen_fps):
+        return True
+    entity = _entity_key(it)
+    if entity and len(dist) >= 2:
+        return any(e == entity and len(dist & fp) >= 2 for e, fp in seen_efps)
+    return False
 
 
-def _load_seen() -> set[str]:
+def _load_seen() -> tuple[set[str], list[frozenset], list[tuple[str, frozenset]]]:
     try:
         with open(_SEEN_PATH, encoding="utf-8") as f:
             data = json.load(f)
         today = str(datetime.date.today())
         keys: set[str] = set()
+        fps: list[frozenset] = []
+        efps: list[tuple[str, frozenset]] = []
         for d, ks in data.get("days", {}).items():
             if d < today:
-                keys.update(ks)
-        return keys
+                for k in ks:
+                    if k.startswith("efp:"):
+                        entity, _, toklist = k[4:].partition(":")
+                        toks = toklist.split("|")
+                        if entity and toks:
+                            efps.append((entity, frozenset(toks)))
+                    elif k.startswith("fp:"):
+                        toks = k[3:].split("|")
+                        if toks:
+                            fps.append(frozenset(toks))
+                    else:
+                        keys.add(k)
+        return keys, fps, efps
     except Exception:
-        return set()
+        return set(), [], []
 
 
 def _save_seen(items: list[dict]) -> None:
@@ -3274,10 +3309,19 @@ def _save_seen(items: list[dict]) -> None:
     # a different outlet tomorrow — produced a different key and came back
     # as "new" the next day. The fingerprint lets tomorrow's run recognise
     # it as already sent. Prefixed "fp:" so old files (plain keys only) stay
-    # readable and the two never collide.
+    # readable and the two never collide. "efp:<entity>:<tok|tok|...>" is
+    # the entity-anchored variant (see _is_already_sent) — only written for
+    # items already tagged to a confirmed watchlist entity.
+    entity_fps = set()
+    for it in items:
+        entity = _entity_key(it)
+        dist = _distinctive_toks(it.get("title", ""))
+        if entity and len(dist) >= 2:
+            entity_fps.add(f"efp:{entity}:" + "|".join(sorted(dist)))
     days[str(datetime.date.today())] = (
         [_key(it) for it in items]
-        + [f"fp:{fp}" for fp in {_seen_fingerprint(it) for it in items} if fp])
+        + [f"fp:{fp}" for fp in {_seen_fingerprint(it) for it in items} if fp]
+        + sorted(entity_fps))
     cutoff = str(datetime.date.today() - datetime.timedelta(days=30))
     days = {d: v for d, v in days.items() if d >= cutoff}
     with open(_SEEN_PATH, "w", encoding="utf-8") as f:
@@ -5612,9 +5656,9 @@ def main() -> None:
     print(f"[sources] {len(items)} parsed items, "
           f"{sum(1 for it in items if it.get('wl_company'))} carry a WATCHLIST tag")
 
-    seen = _load_seen()
+    seen_keys, seen_fps, seen_efps = _load_seen()
     pre_seen = len(items)
-    items = [it for it in items if not _is_already_sent(it, seen)]
+    items = [it for it in items if not _is_already_sent(it, seen_keys, seen_fps, seen_efps)]
     print(f"[dedup] {pre_seen - len(items)} items already sent on an earlier day "
           f"(exact match or same-story fingerprint)")
     print(f"{len(items)} items after team-mail dedup")
