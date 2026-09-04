@@ -145,6 +145,13 @@ input[type=checkbox]{width:15px;height:15px;accent-color:#15803d;cursor:pointer}
       </div>
     </div>
     <datalist id="sectorList"></datalist>
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px">
+      <input type="text" id="txtSearch" placeholder="Search company, aliases, GH/Analyst/RH name or email…"
+        oninput="onSearch(this.value)"
+        style="flex:1;max-width:420px;padding:7px 10px;font-size:12px;border:1px solid #ccc;border-radius:3px;font-family:inherit">
+      <span id="searchCount" style="font-size:11px;color:#888"></span>
+      <button class="btn btn-grey" id="btnClearSearch" onclick="clearSearch()" style="display:none;padding:5px 10px">&times; Clear</button>
+    </div>
     <div class="scroll">
     <table id="entTable">
       <thead><tr>
@@ -256,8 +263,27 @@ const ROLE_SECS={gh:'gh_sections',analyst:'analyst_sections',rh:'rh_sections'};
 function secChk(i,role,s){const f=ROLE_SECS[role];const on=(team.rows[i][f]||[]).includes(s);return `<td class="c"><input type="checkbox" ${on?'checked':''} onchange="toggleSec(this.closest('tr').dataset.i,'${role}','${s}',this.checked)"></td>`;}
 function toggleSec(i,role,s,on){const f=ROLE_SECS[role];const r=team.rows[i];if(!r[f])r[f]=[];const a=r[f];const k=a.indexOf(s);if(on&&k<0)a.push(s);if(!on&&k>=0)a.splice(k,1);}
 
+let searchQuery='';
+function onSearch(v){searchQuery=(v||'').trim().toLowerCase();render();}
+function clearSearch(){searchQuery='';document.getElementById('txtSearch').value='';render();}
+function rowMatches(r,q){
+  if(!q)return true;
+  const fields=[r.company,(r.aliases||[]).join(', '),r.gh_name,r.analyst_name,r.rh_name,
+    r.gh_email,r.analyst_email,r.rh_email,r.sector];
+  return fields.some(f=>(f||'').toLowerCase().includes(q));
+}
+
 function render(){
-  document.getElementById('entBody').innerHTML=team.rows.map((r,i)=>`<tr data-i="${i}">
+  const idx=team.rows.map((r,i)=>i).filter(i=>rowMatches(team.rows[i],searchQuery));
+  const cnt=document.getElementById('searchCount');
+  const clr=document.getElementById('btnClearSearch');
+  if(searchQuery){cnt.textContent=idx.length+' of '+team.rows.length+' shown';clr.style.display='';}
+  else{cnt.textContent='';clr.style.display='none';}
+  // data-i stays the row's index into team.rows (not its position in this
+  // filtered list) -- every input's onchange looks up team.rows[dataset.i],
+  // so a filtered view must keep pointing at the real row or edits/deletes
+  // would land on the wrong company.
+  document.getElementById('entBody').innerHTML=idx.map(i=>{const r=team.rows[i];return `<tr data-i="${i}">
     <td><input type="text" class="company" value="${esc(r.company)}" onchange="team.rows[this.closest('tr').dataset.i].company=this.value"></td>
     <td><input type="text" value="${esc((r.aliases||[]).join(', '))}" placeholder="BOI, Bank of India"
       title="Comma-separated. Each is searched as its own phrase."
@@ -271,7 +297,7 @@ function render(){
       style="width:100%;padding:6px 7px;font-size:11px;border:1px solid #ddd;border-radius:3px;font-family:inherit"></td>
     ${SECS.map(s=>secChk(i,'gh',s)).join('')}${SECS.map(s=>secChk(i,'analyst',s)).join('')}${SECS.map(s=>secChk(i,'rh',s)).join('')}
     <td><button class="del" title="Remove company" onclick="team.rows.splice(this.closest('tr').dataset.i,1);render()">&#10006;</button></td>
-  </tr>`).join('');
+  </tr>`;}).join('');
 }
 function renderSectors(){
   var names=Object.keys(team.sectors);
@@ -316,6 +342,7 @@ function addSector(){
 }
 function addRow(){
   team.rows.push({company:'',aliases:[],gh_name:'',analyst_name:'',rh_name:'',gh_email:'',analyst_email:'',rh_email:'',send_gh:false,send_analyst:false,send_rh:false,sector:'BFSI',gh_sections:['S1'],analyst_sections:['S1'],rh_sections:['S1']});
+  clearSearch(); // an active filter could hide the new blank row entirely
   render();
   const rows=document.querySelectorAll('#entBody tr');rows[rows.length-1].scrollIntoView();rows[rows.length-1].querySelector('input').focus();
 }
