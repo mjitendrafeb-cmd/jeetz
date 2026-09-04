@@ -3099,7 +3099,15 @@ def _bse_scrip_pilot_items() -> list[dict]:
     still being evaluated. 30 days trades a small amount of staleness
     risk for actually getting a real filing to examine during this
     experimental phase; not intended to stay this wide once validated.
+
+    PAUSED (2026-09-04): every scrip ID tried for Auxilo Finserve (974066,
+    959662, 40244) came back with zero rows, and rather than leave three
+    working companies (Manba, Indostar, Anand Rathi) running while Auxilo
+    is unresolved, the whole pilot is paused until we have a real solution
+    for mapping debt-only issuers to a BSE scrip code. Re-enable by
+    removing this early return once that's sorted.
     """
+    return []
     try:
         raw = fetch_bse_scrip.fetch_pilot(lookback_days=_BSE_SCRIP_PILOT_LOOKBACK_DAYS)
     except Exception as exc:
