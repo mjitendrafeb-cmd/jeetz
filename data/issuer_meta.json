@@ -11,6 +11,10 @@
   "segment": "Corporate",
   "updated": "2026-08-29"
  },
+ "akara capital advisors": {
+  "segment": "NBFC/HFC",
+  "updated": "2026-09-04"
+ },
  "amrit malwa capital": {
   "segment": "NBFC/HFC",
   "updated": "2026-09-01"
@@ -22,6 +26,10 @@
  "bajaj finance": {
   "segment": "NBFC/HFC",
   "updated": "2026-08-28"
+ },
+ "balkrishna industries": {
+  "segment": "Corporate",
+  "updated": "2026-09-04"
  },
  "bansal credits": {
   "segment": "Corporate",
@@ -58,6 +66,10 @@
  "haware properties": {
   "segment": "Corporate",
   "updated": "2026-08-31"
+ },
+ "hella infra market": {
+  "segment": "Corporate",
+  "updated": "2026-09-04"
  },
  "home first finance": {
   "segment": "NBFC/HFC",
@@ -113,15 +125,23 @@
  },
  "klm axiva finvest": {
   "segment": "NBFC/HFC",
-  "updated": "2026-09-01"
+  "updated": "2026-09-04"
  },
  "kolors healthcare": {
   "segment": "Corporate",
   "updated": "2026-09-02"
  },
+ "kosamattam finance": {
+  "segment": "NBFC/HFC",
+  "updated": "2026-09-04"
+ },
  "krazybee services": {
   "segment": "NBFC/HFC",
   "updated": "2026-08-26"
+ },
+ "kuantum papers": {
+  "segment": "Corporate",
+  "updated": "2026-09-04"
  },
  "laxmi finance": {
   "segment": "NBFC/HFC",
@@ -195,6 +215,10 @@
   "segment": "NBFC/HFC",
   "updated": "2026-08-28"
  },
+ "small industries development bank of": {
+  "segment": "PSU",
+  "updated": "2026-09-04"
+ },
  "tvs credit services": {
   "segment": "NBFC/HFC",
   "updated": "2026-08-26"
@@ -214,5 +238,9 @@
  "vision infra equipment solutions": {
   "segment": "Corporate",
   "updated": "2026-08-28"
+ },
+ "weber drivetrain": {
+  "segment": "Corporate",
+  "updated": "2026-09-04"
  }
 }

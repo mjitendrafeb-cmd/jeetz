@@ -1,6 +1,366 @@
 {
  "records": [
   {
+   "isin": "INE01I507BJ7",
+   "issuer": "KLM AXIVA FINVEST LIMITED",
+   "allotment_date": "2026-09-03",
+   "amount_cr": 5.0,
+   "coupon": null,
+   "tenure_years": 6.6,
+   "band": "Below investment grade",
+   "segment": "NBFC/HFC",
+   "spread_bps": null,
+   "ratings": [
+    "IND-Ra BB+"
+   ]
+  },
+  {
+   "isin": "INE01I507BH1",
+   "issuer": "KLM AXIVA FINVEST LIMITED",
+   "allotment_date": "2026-09-03",
+   "amount_cr": 17.0,
+   "coupon": 9.5,
+   "tenure_years": 1.1,
+   "band": "Below investment grade",
+   "segment": "NBFC/HFC",
+   "spread_bps": 387,
+   "ratings": [
+    "IND-Ra BB+"
+   ]
+  },
+  {
+   "isin": "INE01I507BI9",
+   "issuer": "KLM AXIVA FINVEST LIMITED",
+   "allotment_date": "2026-09-03",
+   "amount_cr": 15.0,
+   "coupon": null,
+   "tenure_years": 1.3,
+   "band": "Below investment grade",
+   "segment": "NBFC/HFC",
+   "spread_bps": null,
+   "ratings": [
+    "IND-Ra BB+"
+   ]
+  },
+  {
+   "isin": "INE01I507BN9",
+   "issuer": "KLM AXIVA FINVEST LIMITED",
+   "allotment_date": "2026-09-03",
+   "amount_cr": 3.0,
+   "coupon": 9.85,
+   "tenure_years": 1.5,
+   "band": "Below investment grade",
+   "segment": "NBFC/HFC",
+   "spread_bps": 422,
+   "ratings": [
+    "IND-Ra BB+"
+   ]
+  },
+  {
+   "isin": "INE01I507BL3",
+   "issuer": "KLM AXIVA FINVEST LIMITED",
+   "allotment_date": "2026-09-03",
+   "amount_cr": 3.0,
+   "coupon": 11.0,
+   "tenure_years": 5.0,
+   "band": "Below investment grade",
+   "segment": "NBFC/HFC",
+   "spread_bps": 450,
+   "ratings": [
+    "IND-Ra BB+"
+   ]
+  },
+  {
+   "isin": "INE01I507BK5",
+   "issuer": "KLM AXIVA FINVEST LIMITED",
+   "allotment_date": "2026-09-03",
+   "amount_cr": 4.0,
+   "coupon": 10.5,
+   "tenure_years": 3.0,
+   "band": "Below investment grade",
+   "segment": "NBFC/HFC",
+   "spread_bps": 407,
+   "ratings": [
+    "IND-Ra BB+"
+   ]
+  },
+  {
+   "isin": "INE403Q07HI9",
+   "issuer": "KOSAMATTAM FINANCE LIMITED",
+   "allotment_date": "2026-09-03",
+   "amount_cr": 6.0,
+   "coupon": 9.25,
+   "tenure_years": 3.0,
+   "band": "A band (A+/A/A-)",
+   "segment": "NBFC/HFC",
+   "spread_bps": 282,
+   "ratings": [
+    "INDIA RATING AND RESEARCH PVT. LTD A"
+   ]
+  },
+  {
+   "isin": "INE403Q07HH1",
+   "issuer": "KOSAMATTAM FINANCE LIMITED",
+   "allotment_date": "2026-09-03",
+   "amount_cr": 7.0,
+   "coupon": 8.5,
+   "tenure_years": 2.0,
+   "band": "A band (A+/A/A-)",
+   "segment": "NBFC/HFC",
+   "spread_bps": 237,
+   "ratings": [
+    "INDIA RATING AND RESEARCH PVT. LTD A"
+   ]
+  },
+  {
+   "isin": "INE01I507BP4",
+   "issuer": "KLM AXIVA FINVEST LIMITED",
+   "allotment_date": "2026-09-03",
+   "amount_cr": 9.0,
+   "coupon": 10.25,
+   "tenure_years": 2.0,
+   "band": "Below investment grade",
+   "segment": "NBFC/HFC",
+   "spread_bps": 412,
+   "ratings": [
+    "IND-Ra BB+"
+   ]
+  },
+  {
+   "isin": "INE01I507BQ2",
+   "issuer": "KLM AXIVA FINVEST LIMITED",
+   "allotment_date": "2026-09-03",
+   "amount_cr": 10.0,
+   "coupon": 10.25,
+   "tenure_years": 3.0,
+   "band": "Below investment grade",
+   "segment": "NBFC/HFC",
+   "spread_bps": 382,
+   "ratings": [
+    "IND-Ra BB+"
+   ]
+  },
+  {
+   "isin": "INE01I507BM1",
+   "issuer": "KLM AXIVA FINVEST LIMITED",
+   "allotment_date": "2026-09-03",
+   "amount_cr": 13.0,
+   "coupon": 10.75,
+   "tenure_years": 5.0,
+   "band": "Below investment grade",
+   "segment": "NBFC/HFC",
+   "spread_bps": 425,
+   "ratings": [
+    "IND-Ra BB+"
+   ]
+  },
+  {
+   "isin": "INE01I507BO7",
+   "issuer": "KLM AXIVA FINVEST LIMITED",
+   "allotment_date": "2026-09-03",
+   "amount_cr": 16.0,
+   "coupon": 10.0,
+   "tenure_years": 2.0,
+   "band": "Below investment grade",
+   "segment": "NBFC/HFC",
+   "spread_bps": 387,
+   "ratings": [
+    "IND-Ra BB+"
+   ]
+  },
+  {
+   "isin": "INE403Q07HG3",
+   "issuer": "KOSAMATTAM FINANCE LIMITED",
+   "allotment_date": "2026-09-03",
+   "amount_cr": 16.0,
+   "coupon": null,
+   "tenure_years": 2.0,
+   "band": "A band (A+/A/A-)",
+   "segment": "NBFC/HFC",
+   "spread_bps": null,
+   "ratings": [
+    "INDIA RATING AND RESEARCH PVT. LTD A"
+   ]
+  },
+  {
+   "isin": "INE1VWM08018",
+   "issuer": "WEBER DRIVETRAIN PRIVATE LIMITED",
+   "allotment_date": "2026-09-03",
+   "amount_cr": 17.0,
+   "coupon": 10.4,
+   "tenure_years": 9.5,
+   "band": "Not rated / available",
+   "segment": "Corporate",
+   "spread_bps": 344,
+   "ratings": []
+  },
+  {
+   "isin": "INE403Q07HM1",
+   "issuer": "KOSAMATTAM FINANCE LIMITED",
+   "allotment_date": "2026-09-03",
+   "amount_cr": 18.0,
+   "coupon": 10.0,
+   "tenure_years": 5.0,
+   "band": "A band (A+/A/A-)",
+   "segment": "NBFC/HFC",
+   "spread_bps": 350,
+   "ratings": [
+    "INDIA RATING AND RESEARCH PVT. LTD A"
+   ]
+  },
+  {
+   "isin": "INE403Q07HJ7",
+   "issuer": "KOSAMATTAM FINANCE LIMITED",
+   "allotment_date": "2026-09-03",
+   "amount_cr": 18.0,
+   "coupon": null,
+   "tenure_years": 3.0,
+   "band": "A band (A+/A/A-)",
+   "segment": "NBFC/HFC",
+   "spread_bps": null,
+   "ratings": [
+    "INDIA RATING AND RESEARCH PVT. LTD A"
+   ]
+  },
+  {
+   "isin": "INE403Q07HL3",
+   "issuer": "KOSAMATTAM FINANCE LIMITED",
+   "allotment_date": "2026-09-03",
+   "amount_cr": 20.0,
+   "coupon": null,
+   "tenure_years": 4.2,
+   "band": "A band (A+/A/A-)",
+   "segment": "NBFC/HFC",
+   "spread_bps": null,
+   "ratings": [
+    "INDIA RATING AND RESEARCH PVT. LTD A"
+   ]
+  },
+  {
+   "isin": "INE403Q07HN9",
+   "issuer": "KOSAMATTAM FINANCE LIMITED",
+   "allotment_date": "2026-09-03",
+   "amount_cr": 20.0,
+   "coupon": null,
+   "tenure_years": 7.0,
+   "band": "A band (A+/A/A-)",
+   "segment": "NBFC/HFC",
+   "spread_bps": null,
+   "ratings": [
+    "INDIA RATING AND RESEARCH PVT. LTD A"
+   ]
+  },
+  {
+   "isin": "INE403Q07HK5",
+   "issuer": "KOSAMATTAM FINANCE LIMITED",
+   "allotment_date": "2026-09-03",
+   "amount_cr": 90.0,
+   "coupon": 10.0,
+   "tenure_years": 3.5,
+   "band": "A band (A+/A/A-)",
+   "segment": "NBFC/HFC",
+   "spread_bps": 357,
+   "ratings": [
+    "INDIA RATING AND RESEARCH PVT. LTD A"
+   ]
+  },
+  {
+   "isin": "INE08XP07522",
+   "issuer": "AKARA CAPITAL ADVISORS PRIVATE LIMITED",
+   "allotment_date": "2026-09-03",
+   "amount_cr": 100.0,
+   "coupon": 12.5,
+   "tenure_years": 1.2,
+   "band": "BBB band",
+   "segment": "NBFC/HFC",
+   "spread_bps": 687,
+   "ratings": [
+    "Acuite Ratings And Research Limited BBB+"
+   ]
+  },
+  {
+   "isin": "INE529I07028",
+   "issuer": "KUANTUM PAPERS LIMITED",
+   "allotment_date": "2026-09-03",
+   "amount_cr": 100.0,
+   "coupon": 9.7,
+   "tenure_years": 3.7,
+   "band": "Not rated / available",
+   "segment": "Corporate",
+   "spread_bps": 327,
+   "ratings": []
+  },
+  {
+   "isin": "INE787D08088",
+   "issuer": "BALKRISHNA INDUSTRIES LIMITED",
+   "allotment_date": "2026-09-03",
+   "amount_cr": 125.0,
+   "coupon": 7.4,
+   "tenure_years": 4.0,
+   "band": "AA band (AA+/AA/AA-)",
+   "segment": "Corporate",
+   "spread_bps": 97,
+   "ratings": [
+    "ICRA AA+"
+   ]
+  },
+  {
+   "isin": "INE06E507553",
+   "issuer": "HELLA INFRA MARKET LIMITED",
+   "allotment_date": "2026-09-03",
+   "amount_cr": 125.0,
+   "coupon": 12.0,
+   "tenure_years": 5.4,
+   "band": "A band (A+/A/A-)",
+   "segment": "Corporate",
+   "spread_bps": 550,
+   "ratings": [
+    "Acuite Ratings And Research Limited A-"
+   ]
+  },
+  {
+   "isin": "INE787D08062",
+   "issuer": "BALKRISHNA INDUSTRIES LIMITED",
+   "allotment_date": "2026-09-03",
+   "amount_cr": 200.0,
+   "coupon": 7.35,
+   "tenure_years": 2.0,
+   "band": "AA band (AA+/AA/AA-)",
+   "segment": "Corporate",
+   "spread_bps": 122,
+   "ratings": [
+    "ICRA AA+"
+   ]
+  },
+  {
+   "isin": "INE787D08070",
+   "issuer": "BALKRISHNA INDUSTRIES LIMITED",
+   "allotment_date": "2026-09-03",
+   "amount_cr": 225.0,
+   "coupon": 7.38,
+   "tenure_years": 3.0,
+   "band": "AA band (AA+/AA/AA-)",
+   "segment": "Corporate",
+   "spread_bps": 95,
+   "ratings": [
+    "ICRA AA+"
+   ]
+  },
+  {
+   "isin": "INE556F08LH9",
+   "issuer": "SMALL INDUSTRIES DEVELOPMENT BANK OF INDIA",
+   "allotment_date": "2026-09-03",
+   "amount_cr": 5889.0,
+   "coupon": 7.7,
+   "tenure_years": 3.1,
+   "band": "AAA",
+   "segment": "PSU",
+   "spread_bps": 127,
+   "ratings": [
+    "CareEdge AAA"
+   ]
+  },
+  {
    "isin": "INE06WU07080",
    "issuer": "LAXMI INDIA FINANCE LIMITED",
    "allotment_date": "2026-09-02",
@@ -298,48 +658,6 @@
    "spread_bps": -133,
    "ratings": [
     "ICRA AAA"
-   ]
-  },
-  {
-   "isin": "INE01I507BJ7",
-   "issuer": "KLM AXIVA FINVEST LIMITED",
-   "allotment_date": "2026-08-31",
-   "amount_cr": 100.0,
-   "coupon": null,
-   "tenure_years": 6.6,
-   "band": "Below investment grade",
-   "segment": "NBFC/HFC",
-   "spread_bps": null,
-   "ratings": [
-    "IND-Ra BB+"
-   ]
-  },
-  {
-   "isin": "INE01I507BH1",
-   "issuer": "KLM AXIVA FINVEST LIMITED",
-   "allotment_date": "2026-08-31",
-   "amount_cr": 100.0,
-   "coupon": 9.5,
-   "tenure_years": 1.1,
-   "band": "Below investment grade",
-   "segment": "NBFC/HFC",
-   "spread_bps": 393,
-   "ratings": [
-    "IND-Ra BB+"
-   ]
-  },
-  {
-   "isin": "INE01I507BI9",
-   "issuer": "KLM AXIVA FINVEST LIMITED",
-   "allotment_date": "2026-08-31",
-   "amount_cr": 100.0,
-   "coupon": null,
-   "tenure_years": 1.3,
-   "band": "Below investment grade",
-   "segment": "NBFC/HFC",
-   "spread_bps": null,
-   "ratings": [
-    "IND-Ra BB+"
    ]
   },
   {
