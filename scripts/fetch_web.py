@@ -1009,6 +1009,16 @@ _EXTRA_RSS_FEEDS = [
         "https://www.business-standard.com/rss/markets-106.rss",
         _gnews_site_feed("site:business-standard.com markets bonds"),
     ]),
+    # Requested directly. A separate entry, not folded into the "Business
+    # Standard" candidate list above -- each named source only ever fetches
+    # ONE of its candidate URLs (whichever succeeds first), so adding this
+    # as another candidate there would sit unused behind finance-103.rss
+    # rather than actually widening coverage, the same reason "Business
+    # Standard Markets" above is its own entry rather than a candidate.
+    ("Business Standard Banking", "T2", 8, [
+        "https://www.business-standard.com/rss/industry/banking-21703.rss",
+        _gnews_site_feed("site:business-standard.com banking"),
+    ]),
     ("Financial Express", "T2", 10, [
         "https://www.financialexpress.com/business/banking-finance/feed/",
         "https://www.financialexpress.com/feed/",
