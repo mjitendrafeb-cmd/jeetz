@@ -1,79 +1,6 @@
 [
  {
   "date": "2026-08-21",
-  "fetched": 3744,
-  "delivered_pool": 448,
-  "junk": 910,
-  "geo": 107,
-  "stale": 749,
-  "dup": 1224,
-  "sections": {
-   "S1": 391,
-   "S2": 38,
-   "S3": 19
-  },
-  "mails": 2,
-  "failed": [],
-  "source_summary": {
-   "RBI RSS": 19,
-   "RBI Enforcement": 0,
-   "SEBI RSS": 20,
-   "Google News": 28,
-   "Watchlist (Google)": 940,
-   "BSE Announcements": 0,
-   "BSE Financials": 0,
-   "Telegram": 62,
-   "Web Scraper": 214
-  },
-  "dropped_samples": {
-   "relevance": [
-    "Result: Conversion/Switch Auction of Government of India Securities",
-    "Result of the Overnight Variable Rate Reverse Repo (VRRR) auction held on August 17, 2026",
-    "Premature redemption under Sovereign Gold Bond (SGB) Scheme - Redemption Price for premature redemption of SGB",
-    "Relaxations in Know Your Client (KYC) norms for individual Persons Resident Outside India (i.e",
-    "Framework for Calculation of Net Distributable Cash Flows for InvITs",
-    "SBI Securities sees 25% UPSIDE in Man Industries (India) Ltd.- Core pipe business sustains growth momentum, co",
-    "PL Capital sees 15% UPSIDE in Ipca Laboratories- Strong beat; FY27 guidance raised",
-    "Jharkhand student leader Devendra Mahto on Tuesday ended his hunger strike after the Jharkhand government anno",
-    "Jharkhand CM Hemant Soren announces JSSC-CGL exam cancellation and inquiry into recruitment exams conducted si",
-    "Tamil Nadu Chief Minister C Joseph Vijay announced a full waiver of cooperative farm loans up to \u20b975,000",
-    "The BJP has replaced longtime IT cell chief Amit Malviya with Chhattisgarh's Deepak Mhaskey in a major organis",
-    "After decades of service, Visakhapatnam Airport ended scheduled commercial flights on 16 August 2026, with ope",
-    "#WATCH | Deoghar, Jharkhand: Devotees and Kanwariyas throng the Shree Baba Baidyanath Jyotirlinga Temple on th",
-    "US-Iran war LIVE: Shipping via Strait of Hormuz slows amid tanker attacks; oil steadies as fighting erupts in ",
-    "The Ministry of Petroleum and Natural Gas has sought to allay concerns over ethanol-blended petrol, saying veh",
-    "Ajay Harinath Singh \u2013 Dynasty Of Dominance: Lineage, Business & Power",
-    "Listing of further issue of Krishival Foods Limited",
-    "Listing of Government Securities on Capital Market Segment",
-    "Certificate No. RC9282 of 2026 Notice of Demand in respect of Atit Commercial Company Private Limited (Transfe",
-    "General Remittance Advice against: Sunil Singh (Proprietor of Alfa Finsec) [Defaulter] (PAN: BDGPS0774K) in th"
-   ],
-   "junk": [
-    "General Remittance Order dated 14.08.2026 in Recovery Certificate No",
-    "General Remittance Order dated 14.08.2026 in Recovery Certificate No",
-    "General Remittance Order dated 14.08.2026 in Recovery Certificate No",
-    "General Remittance Order dated 14.08.2026 in Recovery Certificate No",
-    "Completion of Recovery Certificate No",
-    "Appeal No. 6992 of 2026 filed by Rakesh Mohan Rai",
-    "Appeal No. 6991 of 2026 filed by Parivesh Shukla",
-    "Appeal No. 6990 of 2026 filed by Vikas Jain",
-    "Appeal No. 6989 of 2026 filed by Valji Narayan Bhadra",
-    "Appeal No. 6988 of 2026 filed by Neeraj Sisodia",
-    "Appeal No. 6987 of 2026 filed by Sunil Rohilla",
-    "Appeal No. 6980 of 2026 filed by Ebenezer R",
-    "Appeal No. 6983 of 2026 filed by Anivesh Kumar Pandey",
-    "Buy Sudarshan Chemical Industries; target of Rs 1450: Anand Rathi",
-    "Anand Rathi Wealth Ltd is Rated Buy",
-    "FMCG Growth Accelerates to 15.1% In Q1FY27, Anand Rathi Sees Better Margins & Attractive Valuations",
-    "Avoid aggressive mkt positioning, says Angel One; Aequs among 3 stock picks",
-    "Avoid aggressive mkt positioning, says Angel One; Aequs among 3 stock picks",
-    "Banking Stock Picks: SBI, ICICI Bank, Axis Bank and others - 12 BUY-rated stocks with up to 40% upside potenti",
-    "Axis Max Life launches retirement campaign with Rohit Sharma"
-   ]
-  }
- },
- {
-  "date": "2026-08-21",
   "fetched": 3776,
   "delivered_pool": 451,
   "junk": 930,
@@ -2165,6 +2092,78 @@
     "5Paisa Capital Share Price",
     "Aditya Birla Sun Life Medium to Long Term Fund Regular-IDCW Quarterly (\u20b9 13.09) - NAV, Reviews & asset allocat",
     "Aditya Birla Sun Life Ultra Short Term Fund - Regular Plan Portfolio"
+   ]
+  }
+ },
+ {
+  "date": "2026-09-05",
+  "fetched": 1098,
+  "delivered_pool": 107,
+  "junk": 409,
+  "geo": 42,
+  "stale": 183,
+  "dup": 89,
+  "sections": {
+   "S1": 95,
+   "S2": 6,
+   "S3": 6
+  },
+  "mails": 0,
+  "failed": [],
+  "source_summary": {
+   "RBI RSS": 20,
+   "RBI Enforcement": 0,
+   "SEBI RSS": 20,
+   "Google News": 22,
+   "Watchlist (Google)": 1263,
+   "BSE Financials": 0,
+   "Telegram": 59,
+   "Web Scraper": 954
+  },
+  "dropped_samples": {
+   "relevance": [
+    "BREAKING: President Trump says the US is striking Iranian targets near the Strait of Hormuz and warns Iran not",
+    "PL Capital sees 19% UPSIDE in Fractal Analytics- Assets reusability complements margins improvement",
+    "PL Capital sees 23% UPSIDE in Jindal Stainless- Building the next leg of growth; Compelling value ahead",
+    "#MintMarkets: #StocksToWatch",
+    "Government officials told Mint earlier that about \u20b92,574 crore of the claims were related to loans for which C",
+    "'No country should help Iran evade sanctions': Marco Rubio on Modi-Pezeshkian meet at SCO summit",
+    "Zomato has introduced a zero-tolerance policy for analogue dairy products, asking restaurants to switch to nat",
+    "After pushing for a BRICS current, Russian President Vladimir Putin seems to have made a big de-dollarisation ",
+    "The Trump administration is considering ending work authorization for certain spouses of H-1B visa holders, a ",
+    "Delhi Metro employee Prafull Singh is the fastest person to travel across all metro stations on the city netwo",
+    "India is closely watching the first meeting of the new Mecca Defence Alliance in Istanbul, bringing together P",
+    "AI Infrastructure Boom: Could China Trigger Massive Capital Destruction in US Markets?",
+    "Listing of further issues of securities",
+    "India's Manufacturing Majors: The Companies Building at Scale",
+    "Relief Measures in Areas Affected by Natural Calamities - Reporting through Centralised Information Management",
+    "Jefferies on Pharmaceuticals- India CRDMO Performance Review, the Jun-26 Results Season",
+    "Nuvama Initiating Coverage on Shilpa Medicare, with 26% UPSIDE- Capex payoff from specialty switch",
+    "Motilal Oswal Thematic Report on Financials",
+    "\u2018Rise up and fight\u2019: Trump challenges Iranians as he claims US has \u2018almost total control\u2019 of Hormuz",
+    "Air Vice Marshal Shakti Sharma is the first woman to become non-medical Air Vice Marshal in Indian Air Force, "
+   ],
+   "junk": [
+    "Completion of Recovery Certificate No",
+    "Completion of Recovery Certificate No",
+    "General Remittance Order dated 01.09.2026 in Recovery Certificate No",
+    "General Remittance Order dated 01.09.2026 in Recovery Certificate No",
+    "Completion of Recovery Certificate No",
+    "Order in the matter of Tarapur Transformers Limited.",
+    "Adjudication Order in the matter of Veerkrupa Jewellers Limited",
+    "Completion of Recovery Certificate No",
+    "Franklin India Corporate Bond Fund Direct-IDCW Monthly (\u20b9 16.91) - NAV, Reviews & asset allocation",
+    "Subscribe for Deepa Jewellers Ltd IPO; Anand Rathi",
+    "Deepa Jewellers IPO Opens; Anand Rathi Issues 'Subscribe' Rating",
+    "Bandhan Medium Term Fund Regular-IDCW Quarterly",
+    "Bandhan Floating Interest Rates Fund Regular-IDCW Periodic",
+    "Bandhan Dynamic Term Fund Direct-IDCW Half Yearly",
+    "Bandhan Floating Interest Rates Fund - Regular Plan Returns",
+    "Bandhan Medium Term Fund Direct-IDCW Fortnightly",
+    "Bandhan Floating Interest Rates Fund - Direct Plan Portfolio",
+    "Bandhan Dynamic Term Fund Direct-IDCW Quarterly",
+    "Bandhan Medium Term Fund Direct-IDCW Quarterly",
+    "Bank of Maharashtra Sees Sharp Open Interest Surge Signalling Renewed Market Interest"
    ]
   }
  }
