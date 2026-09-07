@@ -1444,6 +1444,68 @@ def fetch_nsdl_defaults() -> list[str]:
 
 
 # ─────────────────────────────────────────────────────────────────────────────
+# MACRO KEYWORD SEARCH — always-on, driven by the console's own S3 keyword list
+# ─────────────────────────────────────────────────────────────────────────────
+def fetch_macro_keyword_news(keywords: list[str], limit: int = 15) -> list[str]:
+    """A dedicated India-macro Google News search built from team.json's
+    own S3 "Macroeconomic keywords" list, rather than relying on those words
+    to show up by chance in whichever general-press RSS items the rest of
+    the pipeline happens to fetch that run.
+
+    Reported live: adding "credit rating (india)" to that keyword list did
+    nothing for a genuine sovereign-rating-upgrade story, because the
+    keyword list only ever CLASSIFIES an already-fetched item into S3 --
+    it was never used to go and search for anything. Nothing in this
+    pipeline runs a general (non-company, non-regulator-feed) macro search
+    at all, so a single big story from an international rating agency has
+    no source that reliably carries it (RBI/SEBI feeds are official
+    circulars only, and a general press RSS feed only shows whatever is in
+    its latest ~10 items at the exact moment this runs). This closes that
+    gap the same way RBI/SEBI already get their own dedicated feed, except
+    the query terms come from the console instead of being hardcoded, so
+    the desk can steer it without a code change.
+    """
+    if not keywords:
+        return []
+    terms = []
+    for kw in keywords:
+        kw = (kw or "").strip()
+        if not kw:
+            continue
+        terms.append(f'"{kw}"' if " " in kw else kw)
+    if not terms:
+        return []
+    query = "India (" + " OR ".join(terms) + ") when:2d"
+    items = []
+    try:
+        url = (
+            "https://news.google.com/rss/search"
+            f"?q={requests.utils.quote(query)}&hl=en-IN&gl=IN&ceid=IN:en"
+        )
+        feed = feedparser.parse(url)
+        for entry in feed.entries[:limit]:
+            raw_title = _clean(entry.get("title", "")).strip()
+            if not raw_title:
+                continue
+            title, source = raw_title, "Google News"
+            if " - " in raw_title:
+                parts = raw_title.rsplit(" - ", 1)
+                title, source = parts[0].strip(), parts[1].strip()
+            summary = _clean(entry.get("summary", "")).strip()
+            link = entry.get("link", "")
+            link_part = f" | URL:{link}" if link else ""
+            _pub_str, _pub_recent = _entry_pub(entry)
+            if not _pub_recent:
+                continue
+            date_part = f" | PUB:{_pub_str}" if _pub_str else ""
+            items.append(f"[MACRO] {source}: {title} — {summary[:200]}{date_part}{link_part}")
+    except Exception as exc:
+        print(f"[fetch_web] Macro keyword news query error: {exc}")
+    print(f"[fetch_web] Macro keyword news: {len(items)} items")
+    return items
+
+
+# ─────────────────────────────────────────────────────────────────────────────
 # MOSPI / MACRO DATA RELEASE CALENDAR
 # ─────────────────────────────────────────────────────────────────────────────
 def fetch_macro_releases() -> list[str]:
