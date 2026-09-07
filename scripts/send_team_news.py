@@ -27,6 +27,7 @@ from email import encoders
 from fetch_news import fetch_all_news
 import fetch_nsdl_issuance
 import fetch_bse_scrip
+from fetch_web import fetch_macro_keyword_news
 
 _REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 _TEAM_PATH = os.path.join(_REPO_ROOT, "team.json")
@@ -1186,6 +1187,25 @@ _ROW_SECTION_MIGRATE = {"S4": "S3", "S5": "S3"}
 
 def _kw_hit(text: str, words) -> bool:
     return any(w and w in text for w in words)
+
+
+_KW_PAREN_NOTE_RE = re.compile(r"\s*\([^)]*\)\s*$")
+
+
+def _clean_macro_keywords(raw: list) -> list[str]:
+    """Console macro keywords, lowercased and stripped of a trailing
+    parenthetical note. _kw_hit is a plain substring test, so a keyword
+    entered as "credit rating (india)" -- the "(india)" almost certainly
+    meant as the desk's own disambiguating label, not literal text to
+    match -- could never hit ANY real headline verbatim, and was
+    silently dead for classification even before it started feeding the
+    dedicated macro search too. Reported live."""
+    out = []
+    for k in raw or []:
+        k = _KW_PAREN_NOTE_RE.sub("", str(k).strip()).strip().lower()
+        if k:
+            out.append(k)
+    return out
 
 
 # S2 is the sector the entity operates in. Today every entity is BFSI, so a
@@ -5718,6 +5738,27 @@ def main() -> None:
     # collapsing to zero (as the watchlist fetch did for three days) was
     # invisible in the log.
     print("[sources] " + ", ".join(f"{k}={v}" for k, v in sorted((_summary or {}).items())))
+    # Computed here (not just later, at classification time) because the
+    # dedicated macro search below needs the same cleaned list -- see
+    # _clean_macro_keywords for why "cleaned" matters.
+    macro_kw = _clean_macro_keywords(team.get("macro_keywords", []))
+    # Dedicated macro search built from the console's own S3 keyword list --
+    # see fetch_macro_keyword_news's docstring: those keywords only ever
+    # CLASSIFIED an already-fetched item into S3, so a single big story
+    # (e.g. a sovereign rating upgrade) had no source that reliably
+    # surfaced it -- a general press feed only shows whatever is in its
+    # latest ~10 items at the exact moment this runs. Merged into news_text
+    # BEFORE pooling/dedup/junk/geography/recency, so these items get
+    # exactly the same treatment as everything else, not a bypass. Fails
+    # open: any error here costs only this source, never the run.
+    try:
+        macro_lines = fetch_macro_keyword_news(macro_kw)
+    except Exception as exc:
+        print(f"[macro] keyword search failed, skipping this source: {exc}")
+        macro_lines = []
+    if macro_lines:
+        print(f"[macro] {len(macro_lines)} item(s) from the dedicated keyword search")
+        news_text = news_text + "\n" + "\n".join(macro_lines)
     # Merge into the persistent pool so a run that Google under-serves does
     # not lose the day's coverage — see _merge_pool.
     fresh_lines = [ln for ln in news_text.splitlines() if ln.strip()]
@@ -5758,7 +5799,8 @@ def main() -> None:
 
     phrases = [_phrase(r["company"]) for r in rows]
     sectors = _load_sectors(team)
-    macro_kw = [str(k).strip().lower() for k in team.get("macro_keywords", []) if str(k).strip()]
+    # macro_kw computed earlier (see the dedicated macro search above) --
+    # reused here rather than recomputed.
     print(f"[sectors] {', '.join(f'{n}({len(k)}kw)' for n, k in sectors.items()) or 'none'}"
           f" | macro={len(macro_kw)}kw")
     # Match companies BEFORE dedup, not after: the classifier needs it, and

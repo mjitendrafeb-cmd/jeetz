@@ -27,6 +27,10 @@ def _load():
     sys.path.insert(0, SCRIPTS)
     for name in ("fetch_bse", "fetch_ratings", "fetch_telegram", "fetch_web"):
         sys.modules.setdefault(name, types.ModuleType(name))
+    # send_team_news imports fetch_macro_keyword_news by name at module load
+    # time, so the stub needs the attribute even though this suite never
+    # calls it (no network in tests).
+    sys.modules["fetch_web"].fetch_macro_keyword_news = lambda *a, **k: []
 
     # fetch_news's stock-move filter runs before the team mailer sees an item,
     # so the suite has to apply it too or it would test only half the pipeline.
