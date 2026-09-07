@@ -1,79 +1,6 @@
 [
  {
   "date": "2026-08-21",
-  "fetched": 4785,
-  "delivered_pool": 534,
-  "junk": 1087,
-  "geo": 113,
-  "stale": 749,
-  "dup": 1942,
-  "sections": {
-   "S1": 461,
-   "S2": 45,
-   "S3": 28
-  },
-  "mails": 1,
-  "failed": [],
-  "source_summary": {
-   "RBI RSS": 19,
-   "RBI Enforcement": 0,
-   "SEBI RSS": 20,
-   "Google News": 27,
-   "Watchlist (Google)": 919,
-   "BSE Announcements": 0,
-   "BSE Financials": 0,
-   "Telegram": 64,
-   "Web Scraper": 218
-  },
-  "dropped_samples": {
-   "relevance": [
-    "Result: Conversion/Switch Auction of Government of India Securities",
-    "Result of the Overnight Variable Rate Reverse Repo (VRRR) auction held on August 17, 2026",
-    "Premature redemption under Sovereign Gold Bond (SGB) Scheme - Redemption Price for premature redemption of SGB",
-    "Relaxations in Know Your Client (KYC) norms for individual Persons Resident Outside India (i.e",
-    "Framework for Calculation of Net Distributable Cash Flows for InvITs",
-    "SBI Securities sees 25% UPSIDE in Man Industries (India) Ltd.- Core pipe business sustains growth momentum, co",
-    "PL Capital sees 15% UPSIDE in Ipca Laboratories- Strong beat; FY27 guidance raised",
-    "Jharkhand student leader Devendra Mahto on Tuesday ended his hunger strike after the Jharkhand government anno",
-    "Jharkhand CM Hemant Soren announces JSSC-CGL exam cancellation and inquiry into recruitment exams conducted si",
-    "Tamil Nadu Chief Minister C Joseph Vijay announced a full waiver of cooperative farm loans up to \u20b975,000",
-    "The BJP has replaced longtime IT cell chief Amit Malviya with Chhattisgarh's Deepak Mhaskey in a major organis",
-    "After decades of service, Visakhapatnam Airport ended scheduled commercial flights on 16 August 2026, with ope",
-    "#WATCH | Deoghar, Jharkhand: Devotees and Kanwariyas throng the Shree Baba Baidyanath Jyotirlinga Temple on th",
-    "US-Iran war LIVE: Shipping via Strait of Hormuz slows amid tanker attacks; oil steadies as fighting erupts in ",
-    "The Ministry of Petroleum and Natural Gas has sought to allay concerns over ethanol-blended petrol, saying veh",
-    "Ajay Harinath Singh \u2013 Dynasty Of Dominance: Lineage, Business & Power",
-    "Listing of further issue of Krishival Foods Limited",
-    "Listing of Government Securities on Capital Market Segment",
-    "Certificate No. RC9282 of 2026 Notice of Demand in respect of Atit Commercial Company Private Limited (Transfe",
-    "General Remittance Advice against: Sunil Singh (Proprietor of Alfa Finsec) [Defaulter] (PAN: BDGPS0774K) in th"
-   ],
-   "junk": [
-    "General Remittance Order dated 14.08.2026 in Recovery Certificate No",
-    "General Remittance Order dated 14.08.2026 in Recovery Certificate No",
-    "General Remittance Order dated 14.08.2026 in Recovery Certificate No",
-    "General Remittance Order dated 14.08.2026 in Recovery Certificate No",
-    "Completion of Recovery Certificate No",
-    "Appeal No. 6992 of 2026 filed by Rakesh Mohan Rai",
-    "Appeal No. 6991 of 2026 filed by Parivesh Shukla",
-    "Appeal No. 6990 of 2026 filed by Vikas Jain",
-    "Appeal No. 6989 of 2026 filed by Valji Narayan Bhadra",
-    "Appeal No. 6988 of 2026 filed by Neeraj Sisodia",
-    "Appeal No. 6987 of 2026 filed by Sunil Rohilla",
-    "Appeal No. 6980 of 2026 filed by Ebenezer R",
-    "Appeal No. 6983 of 2026 filed by Anivesh Kumar Pandey",
-    "Buy Sudarshan Chemical Industries; target of Rs 1450: Anand Rathi",
-    "Anand Rathi Wealth Ltd is Rated Buy",
-    "FMCG Growth Accelerates to 15.1% In Q1FY27, Anand Rathi Sees Better Margins & Attractive Valuations",
-    "Avoid aggressive mkt positioning, says Angel One; Aequs among 3 stock picks",
-    "Avoid aggressive mkt positioning, says Angel One; Aequs among 3 stock picks",
-    "Banking Stock Picks: SBI, ICICI Bank, Axis Bank and others - 12 BUY-rated stocks with up to 40% upside potenti",
-    "Axis Max Life launches retirement campaign with Rohit Sharma"
-   ]
-  }
- },
- {
-  "date": "2026-08-21",
   "fetched": 4776,
   "delivered_pool": 534,
   "junk": 1083,
@@ -2163,6 +2090,78 @@
     "Bandhan Dynamic Term Fund Direct-IDCW Quarterly",
     "Bandhan Medium Term Fund Direct-IDCW Quarterly",
     "Bank of Maharashtra Sees Sharp Open Interest Surge Signalling Renewed Market Interest"
+   ]
+  }
+ },
+ {
+  "date": "2026-09-07",
+  "fetched": 1667,
+  "delivered_pool": 246,
+  "junk": 475,
+  "geo": 41,
+  "stale": 21,
+  "dup": 498,
+  "sections": {
+   "S1": 212,
+   "S2": 19,
+   "S3": 15
+  },
+  "mails": 40,
+  "failed": [],
+  "source_summary": {
+   "RBI RSS": 20,
+   "RBI Enforcement": 0,
+   "SEBI RSS": 20,
+   "Google News": 29,
+   "Watchlist (Google)": 1496,
+   "BSE Financials": 20,
+   "Telegram": 110,
+   "Web Scraper": 182
+  },
+  "dropped_samples": {
+   "relevance": [
+    "SC clears NSE settlement, paving way for mega IPO",
+    "The Changing Approach to Retirement Planning",
+    "Nationwide trends in incidence and in-hospital mortality of ARDS in Germany, 2008\u20132022",
+    "ards-asst-768\u00d7448",
+    "Fredrick Ards Sports Illustrated",
+    "Eccles urges Ards Rugby players to remain level-headed",
+    "Well known Ards family to celebrate 100th anniversary with charity fundraiser",
+    "Ards man was in Nashville on day Dolly Parton died",
+    "Newsroom",
+    "Preferred Hotels expands in Bali",
+    "Pitch Fest Bali 2026 Wraps: ObsessionDB Wins, 13 Startups Pitch to a Room of Leading VCs",
+    "The World's Best Return To Paradise: Bali Welcomes Back The Pro Billiard Series For Three Major Events",
+    "Confusion Prevails as Continuation of Uluwatu Seawall Construction Delayed",
+    "ICANN to Host 87th Conference in Bali 17-22 October 2026",
+    "Got A Tricky Customer Situation? BALI Introduces \u201cAsk The Experts\u201d At GroundsFest 2026",
+    "NCLT Bengaluru orders status quo over Byju\u2019s assets amid \u20b9150-crore ownership dispute - indialegallive.com",
+    "Neom\u2019s First Striped Hyena Cub Signals a Return to the Wild",
+    "Bear cub deaths prompt warning for drivers in Tahoe region",
+    "Cub Scout event encourages fun at Carson",
+    "Bear cub Polaris"
+   ],
+   "junk": [
+    "Appeal No. 7028 of 2026 filed by Samar Imran",
+    "Appeal No. 7027 of 2026 filed by Samar Imran",
+    "Appeal No. 7026 of 2026 filed by Samar Imran",
+    "Appeal No. 7023 of 2026 filed by Vivek Tripathi",
+    "Completion of Recovery Certificate No",
+    "Appeal No. 7022 of 2026 filed by Sandeep Kumar",
+    "Appeal No. 7021 of 2026 filed by Dhieraj Pal",
+    "Appeal No. 7020 of 2026 filed by Shamshad Ahmed",
+    "Appeal No. 7019 of 2026 filed by Nitin Goel",
+    "Appeal No. 7018 of 2026 filed by R K Singhal",
+    "5Paisa Capital Ltd is Rated Hold",
+    "Deepa Jewellers IPO Enters Day 2: 10 Key Things To Know Before You Subscribe",
+    "Angel One Ltd is Rated Hold by MarketsMOJO",
+    "Pre-match Ards FC vs Harland & Wolff Welders, NIFL Championship Round 29",
+    "Scapia Ties up with Axis Bank to launch their credit card on the MasterCard platform",
+    "Scapia partners Axis Bank to launch co-branded credit card for young travellers",
+    "Bandhan Medium Term Fund Direct-IDCW Quarterly",
+    "Bandhan Contra Fund - Direct Plan Returns",
+    "Bandhan Medium Term Fund Regular-IDCW Quarterly",
+    "Bandhan Mutual Fund: Increases EPL Limited Stake to 5.31%"
    ]
   }
  }
