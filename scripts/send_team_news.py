@@ -3795,6 +3795,20 @@ _EVENTS = [
     ("RESULTS", "RESULTS", 4, "#525252", re.compile(
         r"\b(q[1-4]\s?(fy)?\d*|quarterly|net profit|\bpat\b|\bnii\b|"
         r"net interest income|earnings|results?\b|gross npa|net npa)", re.IGNORECASE)),
+    # Retail-investor "should you buy or sell" price commentary carries no
+    # credit signal at all, but dropping it as junk (like the target-price
+    # patterns above) was reported as too aggressive here -- the desk wants
+    # it kept, just pushed to the bottom rather than sitting at the same
+    # priority as genuine no-event news. Scored BELOW the OTHER=1 fallback
+    # (not junk-filtered) so it sorts after every real story for its
+    # company, and that company's own block sinks toward the end of S1 on
+    # a day this is its only item. Reported live: "Home First Finance
+    # Share Price: Buy or Sell" (a content-mill template headline, not a
+    # target-price call from a named brokerage -- that case is already
+    # junk-filtered above).
+    ("PRICE_COMMENTARY", "", 0, "#9ca3af", re.compile(
+        r"share price:?\s*buy or sell|\bshare price\b.{0,15}\bbuy or sell\b|"
+        r"\bstock\b.{0,15}\bbuy or sell\b", re.IGNORECASE)),
 ]
 
 # S2/S3 items are sector/macro stories, not tied to one watchlist entity, so
