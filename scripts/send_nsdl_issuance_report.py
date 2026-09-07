@@ -1045,6 +1045,57 @@ def send_email(subject: str, html_body: str, gmail_user: str, gmail_password: st
           + (" (with xlsx attachment)" if attachment else ""))
 
 
+def _debug_print_analysis(history, gsec, gsec_hist, today) -> None:
+    """NSDL_DEBUG-only: print the same band/segment/quarterly numbers that
+    go into the email, in plain text -- lets anyone verify a run's content
+    from the Action log without waiting on mail delivery."""
+    cutoff = _fy_start(today).isoformat()
+    window = [r for r in history or []
+              if cutoff <= r["allotment_date"] <= today.isoformat()
+              and r.get("coupon") and r.get("amount_cr") and r["band"] != _BANDS[6]]
+    print(f"[nsdl_issuance] FY-to-date rated window: {len(window)} deals since {cutoff}")
+    for label, keys, group_key in (("band", _BANDS[:6], "band"), ("segment", _SEGMENTS, "segment")):
+        print(f"[nsdl_issuance]   by {label}:")
+        for k in keys:
+            g = [r for r in window if r[group_key] == k]
+            if not g:
+                continue
+            amt = sum(x["amount_cr"] for x in g)
+            wac = sum(x["coupon"] * x["amount_cr"] for x in g) / amt
+            print(f"[nsdl_issuance]     {k}: n={len(g)} amt={amt:.0f}cr wac={wac:.2f}%")
+
+    for label, key in (("coupon", "coupon"), ("spread", "spread_bps")):
+        quarters, by_q, qwindow = _quarter_window(history or [], today, key)
+        if len(quarters) < 2:
+            continue
+        cur_fy, cur_q = _fy_quarter(today)
+        print(f"[nsdl_issuance]   {label} trend by quarter:")
+        for seg in ["NBFC/HFC", "Bank/FI", "Corporate", "PSU"]:
+            for band in _BANDS[:6]:
+                cells = []
+                for qk in quarters:
+                    g = [r for r in by_q[qk] if r["band"] == band and r["segment"] == seg]
+                    if not g:
+                        continue
+                    w = sum(x["amount_cr"] for x in g)
+                    v = sum(x[key] * x["amount_cr"] for x in g) / w
+                    cells.append(f"{_quarter_label(qk, cur_fy, cur_q)}={v:.2f}")
+                if cells:
+                    print(f"[nsdl_issuance]     {band.split(' (')[0]} x {seg}: "
+                          + " -> ".join(cells))
+
+    conc = _concentration_note(history, today)
+    if conc:
+        print(f"[nsdl_issuance]   {conc}")
+    trend = _gsec_trend_note(gsec, gsec_hist, today)
+    if trend:
+        print(f"[nsdl_issuance]   {trend}")
+    curve = (gsec or {}).get("curve") or {}
+    if curve:
+        print(f"[nsdl_issuance]   g-sec curve: "
+              + " · ".join(f"{t}Y {curve[t]:.2f}%" for t in sorted(curve)))
+
+
 def main() -> None:
     gmail_user = os.environ["GMAIL_USER"]
     gmail_password = os.environ["GMAIL_APP_PASSWORD"]
@@ -1110,6 +1161,9 @@ def main() -> None:
                              f"as on {dl.get('as_on') or 'latest'}")
             print(f"[nsdl_issuance] debt list: {len(dl_history)} records "
                   f"as on {dl.get('as_on')}")
+
+    if debug:
+        _debug_print_analysis(history, gsec, gsec_hist, today)
 
     html = build_email(issues, data["fy_total"], data["quarters"], watchlist, today,
                        prev_total=data.get("prev_total"), gsec=gsec,
