@@ -855,16 +855,12 @@ def _mentions_company(body: str, name: str) -> bool:
         return False
     acro = _acronym(name)
     if acro and re.search(r"\b" + re.escape(acro) + r"\b", body):
-        # Same collision problem as a console alias (see
-        # _AMBIGUOUS_ALIAS_CONTEXT): "MUDRA" is the derived acronym for
-        # Micro Units Development and Refinance Agency, but it is also a
-        # Hindi word and an unrelated ad agency's name. This path was
-        # bypassing the alias-level guard entirely -- _match_companies'
-        # tag_match sanity check calls _mentions_company directly, so a
-        # bare acronym hit here made the alias context requirement moot.
-        guard = _AMBIGUOUS_ALIAS_CONTEXT.get(acro.lower())
-        if not guard or guard.search(body):
-            return True
+        # Per explicit instruction: a short name/alias/acronym is trusted
+        # the moment it's found in the text -- no additional "connects
+        # back to X" context required. _AMBIGUOUS_ALIAS_CONTEXT's guards
+        # (MUDRA vs the Hindi word/yoga term/ad agency, etc.) are no
+        # longer consulted here.
+        return True
     words = _sig_words(name)
     matched = [w for w in words
                if re.search(r"\b" + re.escape(w) + r"\b", body)]
@@ -887,22 +883,11 @@ def _mentions_company(body: str, name: str) -> bool:
     lone = matched[0]
     if lone in _COMMON:
         return False
-    # Same collision problem as a console alias or a derived acronym (see
-    # _AMBIGUOUS_ALIAS_CONTEXT and the guard applied to `acro` above), but
-    # for the company's OWN lone significant word -- not every ambiguous
-    # identifier is short enough to be caught by _COMMON or long enough to
-    # need the character floor below. "Navi" (Navi Limited) is exactly
-    # this case: not in _COMMON, and irrelevant to the length floor since
-    # it's the entity's only significant word, but constantly present in
-    # unrelated news as "Navi Mumbai" -- reported directly, and the
-    # console's own attempted workaround (aliases "Navi+Fintech"/
-    # "Navi+Sachin") confirms the intent was always "Navi AND something
-    # else", just encoded in a syntax _alias_matches() cannot act on (a
-    # literal "+" never appears in real article text). This makes that
-    # same AND-style requirement work at the company-name level directly.
-    guard = _AMBIGUOUS_ALIAS_CONTEXT.get(lone)
-    if guard:
-        return bool(guard.search(body))
+    # Per explicit instruction: a short name/alias is trusted the moment
+    # it's found -- no "connects back to X" context required, even for a
+    # collision-prone lone word like "Navi" (also "Navi Mumbai"). The
+    # _AMBIGUOUS_ALIAS_CONTEXT guard formerly applied here is no longer
+    # consulted.
     if len(words) == 1:
         return True
     return len(lone) >= 7
@@ -2962,175 +2947,11 @@ def _contains_name(body: str, phrase: str) -> bool:
     return False
 
 
-# Some console aliases are short/generic enough to collide with unrelated
-# usage: "MUDRA" is also the Hindi word for a hand gesture/currency, a yoga
-# term, and the name of an unrelated ad agency ("Mudra Communications").
-# A bare alias match on these needs nearby context confirming the story is
-# actually about the India refinance agency/scheme, not just any use of
-# the word -- same problem as the Red Fort/Delhi-monument collision fixed
-# in fetch_news.py's short-name guard, but for console-entered aliases.
-_AMBIGUOUS_ALIAS_CONTEXT = {
-    "mudra": re.compile(
-        r"\b(india|pmmy|pradhan mantri|refinanc|shishu|kishor(?:\W|$)|tarun|"
-        r"micro units?|msme loan|small business loan|mudra loan|"
-        # Co-mentioned Indian government credit/employment schemes: a
-        # headline naming several of these alongside MUDRA (e.g. "KCC,
-        # MUDRA, PMEGP, Vishwakarma, SVANidhi Loan") is unambiguously
-        # about the scheme, not the unrelated word/agency, even with no
-        # other context word present.
-        r"pmegp|svanidhi|\bkcc\b|kisan credit card|vishwakarma|yojana|"
-        r"loan scheme)\b", re.IGNORECASE),
-    # "Brookfield" is IndoStar Capital Finance's controlling shareholder,
-    # added as an alias so IndoStar-relevant Brookfield news gets caught --
-    # but Brookfield is one of the world's largest alternative asset
-    # managers with real estate, infrastructure, renewable energy and
-    # private equity activity across dozens of countries, almost none of
-    # it about IndoStar. A bare "Brookfield" alias pulled in that entire
-    # global newsflow. Reported directly: "lot of unnecessary news...I
-    # want Brookfield [Canada fund] news focused on India". Requiring
-    # "indostar" (unambiguous) or "india" (the desk's own ask) nearby
-    # keeps the India/IndoStar-relevant mentions and drops the rest.
-    "brookfield": re.compile(r"\b(indostar|india|indian)\b", re.IGNORECASE),
-    # "UGRO" is Profectus Capital's parent company -- same shape as
-    # Brookfield/IndoStar above (a parent-company alias flooding a
-    # subsidiary's news with the parent's OWN unrelated activity, not a
-    # data error: U GRO Capital is genuinely Profectus's parent). Reader
-    # feedback: UGRO's own India-relevant news doesn't need to connect
-    # back to Profectus specifically to be worth showing -- only pure
-    # irrelevant noise should be filtered. Same india/indian bar as
-    # Brookfield/SMBC, not a Profectus-specific requirement.
-    # "merger"/"amalgamat"/"scheme of arrangement"/"nclt" added after a
-    # real miss: "Ugro Capital dispatches physical merger meeting notices
-    # to stakeholders" is the UGRO-Profectus amalgamation itself -- exactly
-    # the news this alias exists to catch -- but named neither "Profectus"
-    # nor "India"/"Indian", so it was wrongly rejected. Merger-process
-    # language is specific enough on its own not to reopen the original
-    # "unrelated global UGRO noise" problem this guard was built to stop.
-    "ugro": re.compile(
-        r"\b(profectus|india|indian|merger|amalgamat|scheme of arrangement|"
-        r"\bnclt\b)\b", re.IGNORECASE),
-    # "SMBC" (Sumitomo Mitsui Banking Corporation) is a distinct, large
-    # global bank -- the PARENT of SMFG (Sumitomo Mitsui Financial Group),
-    # not the same entity as "SMFG India Credit"/"SMFG India Home Finance"
-    # it's aliased to here. Real SMBC news (their own global banking
-    # operations) would misattribute without a guard. Reader wants
-    # specifically "SMBC India news" -- requiring india/indian nearby is
-    # exactly that ask.
-    "smbc": re.compile(r"\b(india|indian)\b", re.IGNORECASE),
-    # "CUB" (City Union Bank) is also the literal English word for a baby
-    # animal (lion cub, tiger cub, bear cub) and "Chicago Cubs" -- reported
-    # directly as unnecessary noise. Requires the bank's own name or
-    # standard banking-result vocabulary nearby.
-    "cub": re.compile(
-        r"\bcity union\b|\bq\d\s*(fy)?\d*\s*results?\b|\bnet profit\b|"
-        r"\bnim\b|\bgnpa\b|\bcasa\b|\bbanking\b", re.IGNORECASE),
-    # "Raise" (Raise Fintech Ventures) is an everyday English word -- "to
-    # raise funds/capital/rates" appears in nearly every finance headline
-    # regardless of subject. Requires it to actually be about this fintech
-    # platform, not just any story using the word "raise".
-    "raise": re.compile(r"\b(raise fintech|fintech ventures)\b", re.IGNORECASE),
-    # "PSB" is standard shorthand for "Public Sector Bank" generically --
-    # would catch any PSB-wide commentary ("PSBs report record profits")
-    # and attribute it to Punjab and Sind Bank specifically. Requires the
-    # bank's own name.
-    "psb": re.compile(r"\bpunjab\s*(and|&)\s*sind\b", re.IGNORECASE),
-    # "REC" collides with "recreation", "record", "recovery" as a plain
-    # substring (already fixed via word-boundary matching elsewhere), but
-    # even as a standalone WORD it's a common acronym for other things.
-    # Requires the entity's own name or its sector (REC Limited, formerly
-    # Rural Electrification Corporation, lends to the power sector).
-    "rec": re.compile(
-        r"\brec limited\b|\brural electrification\b|\brec power\b|"
-        r"\binfra(structure)? bonds?\b", re.IGNORECASE),
-    # ("power finance"/"power sector" were dropped from this list: "power
-    # finance" risked confirming a story about Power Finance Corporation
-    # (PFC) -- REC's own close peer/rival PSU -- as if it were REC's own
-    # news, and "power sector" is broad enough to also confirm Renewable
-    # Energy Certificate stories, a completely different, extremely common
-    # use of "REC" in Indian power-market news. "rec power" added instead,
-    # specific to REC Power Transmission, a genuine REC Limited subsidiary
-    # -- confirmed against a real headline, "Ceigall India Wins Rs 6,090
-    # mn REC Power Transmission Order".
-    # "Navi" (Navi Limited, Sachin Bansal's fintech) is also "Navi Mumbai",
-    # one of the most-mentioned place names in Indian news -- reported
-    # directly, and confirmed by the company's own attempted workaround:
-    # console aliases "Navi+Fintech"/"Navi+Sachin" show the intent was
-    # always "Navi AND something else", just in a literal "+" syntax that
-    # never matches real article text. This is that same AND-requirement
-    # made to actually work, applied to the company's own core name (see
-    # _mentions_company's lone-word branch), not just a console alias.
-    "navi": re.compile(
-        r"\b(fintech|sachin bansal|finserv|navi technologies|micro.?loan|"
-        r"personal loan|health insurance|general insurance|"
-        r"navi mutual fund|home loan|\bupi\b)\b", re.IGNORECASE),
-    # "BOI" is Bank of India's console alias, but it collides with more
-    # unrelated things than any alias fixed so far: Pakistan/Sri Lanka's
-    # "Board of Investment", Nigeria's "Bank of Industry" (routinely
-    # bylined "BOI" in Nigerian press), and -- not even an acronym use --
-    # the plain word "boi" inside "Sk8er Boi", matched case-insensitively.
-    # Reported live: three false S1 hits in one digest. Requires India-
-    # specific banking context; "bank of india" itself always satisfies it.
-    "boi": re.compile(
-        r"\bbank of india\b|\b(rbi|npa|gnpa|nclt|casa|crar|q[1-4]\s*(fy)?\d*\s*results?|"
-        r"net profit|nationalised bank|psu bank|public sector bank|"
-        r"mumbai[- ]headquartered|indian bank(?:er|ing)?)\b", re.IGNORECASE),
-    # "PFC" is Power Finance Corporation Limited's console alias, but it's
-    # also a common football-club abbreviation worldwide -- "PFC Lviv",
-    # "PFC Prykarpattya Ivano-Frankivsk" (Ukrainian clubs), "OM-PFC" (Paris
-    # FC). Reported live: three separate false S1 hits in one digest, all
-    # sports transfer-market/match content with zero credit relevance.
-    # Requires power-sector/PSU-financing or NCD/bond context -- PFC's
-    # actual business, not a bare "PFC" in unrelated text.
-    "pfc": re.compile(
-        r"\bpower finance\b|\b(power sector|discom|transmission|generation)\b.{0,30}"
-        r"\b(loan|financ|lend|fund)|\bncds?\b|\bbonds?\b|\bcredit rating\b|"
-        r"\bnclt\b|\bq[1-4]\s*(fy)?\d*\s*results?\b|net profit|\bpsu\b", re.IGNORECASE),
-    # "BoB" is Bank of Baroda's console alias, but alias matching is fully
-    # case-insensitive (body is lowercased before this ever runs), so it
-    # collides with the extremely common first name "Bob" -- K-pop/celebrity
-    # gossip ("a Bob" hairstyle), a hospitality-brand exec, a fictional
-    # political-party founder, a YouTube gamer, a foreign municipal
-    # official, all matched. Reported live: six false S1 hits in one
-    # digest, none with any banking content at all. Requires actual
-    # banking/results context or the bank's full name.
-    "bob": re.compile(
-        r"\bbank of baroda\b|\b(rbi|npa|gnpa|nclt|casa|crar|q[1-4]\s*(fy)?\d*\s*results?|"
-        r"net profit|nationalised bank|psu bank|public sector bank|"
-        r"indian bank(?:er|ing)?)\b", re.IGNORECASE),
-    # Proactively guarded from the collision audit (no reported bad headline
-    # yet, but the same shape as BOI/PFC/BoB): a short 3-letter PSU-bank
-    # acronym that plausibly collides with an unrelated same-initialed
-    # entity elsewhere. "SBI" is also SBI Holdings (Japan); "PNB" is also
-    # the Philippine National Bank -- a routine name in Philippine financial
-    # press. Same India-banking-context requirement as the confirmed fixes.
-    "sbi": re.compile(
-        r"\bstate bank of india\b|\b(rbi|npa|gnpa|nclt|casa|crar|"
-        r"q[1-4]\s*(fy)?\d*\s*results?|net profit|nationalised bank|"
-        r"psu bank|public sector bank|indian bank(?:er|ing)?)\b", re.IGNORECASE),
-    "pnb": re.compile(
-        r"\bpunjab national bank\b|\b(rbi|npa|gnpa|nclt|casa|crar|"
-        r"q[1-4]\s*(fy)?\d*\s*results?|net profit|nationalised bank|"
-        r"psu bank|public sector bank|indian bank(?:er|ing)?)\b", re.IGNORECASE),
-    "iob": re.compile(
-        r"\bindian overseas bank\b|\b(rbi|npa|gnpa|nclt|casa|crar|"
-        r"q[1-4]\s*(fy)?\d*\s*results?|net profit|nationalised bank|"
-        r"psu bank|public sector bank|indian bank(?:er|ing)?)\b", re.IGNORECASE),
-    "nhb": re.compile(
-        r"\bnational housing bank\b|\b(rbi|npa|gnpa|nclt|casa|crar|"
-        r"housing finance|refinanc|q[1-4]\s*(fy)?\d*\s*results?|net profit|"
-        r"psu bank|public sector bank|indian bank(?:er|ing)?)\b", re.IGNORECASE),
-    "kvb": re.compile(
-        r"\bkarur vysya bank\b|\b(rbi|npa|gnpa|nclt|casa|crar|"
-        r"q[1-4]\s*(fy)?\d*\s*results?|net profit|nationalised bank|"
-        r"psu bank|public sector bank|indian bank(?:er|ing)?)\b", re.IGNORECASE),
-}
-
-
 def _alias_matches(body: str, alias: str) -> bool:
-    if not _contains_name(body, alias.lower()):
-        return False
-    guard = _AMBIGUOUS_ALIAS_CONTEXT.get(alias.strip().lower())
-    return bool(guard.search(body)) if guard else True
+    """Per explicit instruction: a console alias is trusted the moment its
+    text is found -- no additional "connects back to X" context required.
+    _AMBIGUOUS_ALIAS_CONTEXT is no longer consulted here."""
+    return _contains_name(body, alias.lower())
 
 
 def _match_companies(it: dict, rows: list[dict], name_only: bool = False) -> list[str]:

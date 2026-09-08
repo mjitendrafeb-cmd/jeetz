@@ -583,70 +583,6 @@ def _name_acronym(core: str) -> str:
     return "".join(w[0].upper() for w in words) if len(words) >= 4 else ""
 
 
-# Some derived acronyms collide with unrelated words/entities: "MUDRA" is
-# also the Hindi word for a hand gesture/currency, a yoga term, and the
-# name of an unrelated ad agency ("Mudra Communications"). A bare acronym
-# match on these needs nearby context confirming the story is actually
-# about the India refinance agency/scheme. Mirrors
-# send_team_news._AMBIGUOUS_ALIAS_CONTEXT — kept as a separate copy since
-# the two modules don't share state, but must stay in sync if extended.
-_AMBIGUOUS_ACRONYM_CONTEXT = {
-    "MUDRA": re.compile(
-        r"\b(india|pmmy|pradhan mantri|refinanc|shishu|kishor(?:\W|$)|tarun|"
-        r"micro units?|msme loan|small business loan|mudra loan|"
-        r"pmegp|svanidhi|\bkcc\b|kisan credit card|vishwakarma|yojana|"
-        r"loan scheme)\b", re.IGNORECASE),
-    # Same collision as send_team_news.py's own "boi" guard: Pakistan/Sri
-    # Lanka's "Board of Investment", Nigeria's "Bank of Industry", and the
-    # plain word "boi" inside "Sk8er Boi" all matched Bank of India's
-    # console alias with no actual India-banking content. Kept in sync
-    # with the mailer's copy since both files alias-match independently.
-    "BOI": re.compile(
-        r"\bbank of india\b|\b(rbi|npa|gnpa|nclt|casa|crar|q[1-4]\s*(fy)?\d*\s*results?|"
-        r"net profit|nationalised bank|psu bank|public sector bank|"
-        r"mumbai[- ]headquartered|indian bank(?:er|ing)?)\b", re.IGNORECASE),
-    # Same collision as send_team_news.py's own "pfc" guard: Power Finance
-    # Corporation Limited's console alias "PFC" also names football clubs
-    # worldwide (PFC Lviv, PFC Prykarpattya, Paris FC/"OM-PFC"). Kept in
-    # sync with the mailer's copy.
-    "PFC": re.compile(
-        r"\bpower finance\b|\b(power sector|discom|transmission|generation)\b.{0,30}"
-        r"\b(loan|financ|lend|fund)|\bncds?\b|\bbonds?\b|\bcredit rating\b|"
-        r"\bnclt\b|\bq[1-4]\s*(fy)?\d*\s*results?\b|net profit|\bpsu\b", re.IGNORECASE),
-    # Same collision as send_team_news.py's own "bob" guard: alias matching
-    # is case-insensitive, so Bank of Baroda's "BoB" collides with the
-    # common first name "Bob" (celebrity gossip, a hospitality exec, a
-    # fictional politician, a YouTube gamer, a foreign municipal official).
-    # Kept in sync with the mailer's copy.
-    "BOB": re.compile(
-        r"\bbank of baroda\b|\b(rbi|npa|gnpa|nclt|casa|crar|q[1-4]\s*(fy)?\d*\s*results?|"
-        r"net profit|nationalised bank|psu bank|public sector bank|"
-        r"indian bank(?:er|ing)?)\b", re.IGNORECASE),
-    # Proactively guarded from the collision audit -- same shape as the
-    # confirmed BOI/PFC/BoB fixes, kept in sync with the mailer's copy.
-    "SBI": re.compile(
-        r"\bstate bank of india\b|\b(rbi|npa|gnpa|nclt|casa|crar|"
-        r"q[1-4]\s*(fy)?\d*\s*results?|net profit|nationalised bank|"
-        r"psu bank|public sector bank|indian bank(?:er|ing)?)\b", re.IGNORECASE),
-    "PNB": re.compile(
-        r"\bpunjab national bank\b|\b(rbi|npa|gnpa|nclt|casa|crar|"
-        r"q[1-4]\s*(fy)?\d*\s*results?|net profit|nationalised bank|"
-        r"psu bank|public sector bank|indian bank(?:er|ing)?)\b", re.IGNORECASE),
-    "IOB": re.compile(
-        r"\bindian overseas bank\b|\b(rbi|npa|gnpa|nclt|casa|crar|"
-        r"q[1-4]\s*(fy)?\d*\s*results?|net profit|nationalised bank|"
-        r"psu bank|public sector bank|indian bank(?:er|ing)?)\b", re.IGNORECASE),
-    "NHB": re.compile(
-        r"\bnational housing bank\b|\b(rbi|npa|gnpa|nclt|casa|crar|"
-        r"housing finance|refinanc|q[1-4]\s*(fy)?\d*\s*results?|net profit|"
-        r"psu bank|public sector bank|indian bank(?:er|ing)?)\b", re.IGNORECASE),
-    "KVB": re.compile(
-        r"\bkarur vysya bank\b|\b(rbi|npa|gnpa|nclt|casa|crar|"
-        r"q[1-4]\s*(fy)?\d*\s*results?|net profit|nationalised bank|"
-        r"psu bank|public sector bank|indian bank(?:er|ing)?)\b", re.IGNORECASE),
-}
-
-
 def _load_aliases() -> dict:
     """Optional manual overrides: aliases.json maps company -> [alias, ...].
     Auto-acronyms cover most cases; this is for names the rules cannot
@@ -836,17 +772,16 @@ def _story_mentions_entity(company: str, aliases: list[str], text: str) -> bool:
         return bool(core_guard.search(text or ""))
     if core and _text_contains_name(t, core.lower()):
         return True
+    # Per explicit instruction: a derived acronym or console alias is
+    # trusted the moment its text is found -- no additional "connects
+    # back to X" context required. _AMBIGUOUS_ACRONYM_CONTEXT is no
+    # longer consulted for either path.
     ac = _name_acronym(core)
     if ac and re.search(rf"\b{re.escape(ac)}\b", text or "", re.IGNORECASE):
-        guard = _AMBIGUOUS_ACRONYM_CONTEXT.get(ac)
-        if not guard or guard.search(text or ""):
-            return True
+        return True
     for a in aliases:
         a = a.strip()
-        if not a or not _text_contains_name(t, a.lower()):
-            continue
-        guard = _AMBIGUOUS_ACRONYM_CONTEXT.get(a.upper())
-        if not guard or guard.search(text or ""):
+        if a and _text_contains_name(t, a.lower()):
             return True
     # If the full core name literally appears in the text but only inside a
     # longer institution name (the prefix-block case above), that is strong
