@@ -3055,6 +3055,17 @@ _AMBIGUOUS_ALIAS_CONTEXT = {
         r"\bbank of india\b|\b(rbi|npa|gnpa|nclt|casa|crar|q[1-4]\s*(fy)?\d*\s*results?|"
         r"net profit|nationalised bank|psu bank|public sector bank|"
         r"mumbai[- ]headquartered|indian bank(?:er|ing)?)\b", re.IGNORECASE),
+    # "PFC" is Power Finance Corporation Limited's console alias, but it's
+    # also a common football-club abbreviation worldwide -- "PFC Lviv",
+    # "PFC Prykarpattya Ivano-Frankivsk" (Ukrainian clubs), "OM-PFC" (Paris
+    # FC). Reported live: three separate false S1 hits in one digest, all
+    # sports transfer-market/match content with zero credit relevance.
+    # Requires power-sector/PSU-financing or NCD/bond context -- PFC's
+    # actual business, not a bare "PFC" in unrelated text.
+    "pfc": re.compile(
+        r"\bpower finance\b|\b(power sector|discom|transmission|generation)\b.{0,30}"
+        r"\b(loan|financ|lend|fund)|\bncds?\b|\bbonds?\b|\bcredit rating\b|"
+        r"\bnclt\b|\bq[1-4]\s*(fy)?\d*\s*results?\b|net profit|\bpsu\b", re.IGNORECASE),
 }
 
 

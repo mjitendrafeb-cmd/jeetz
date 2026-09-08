@@ -597,6 +597,14 @@ _AMBIGUOUS_ACRONYM_CONTEXT = {
         r"\bbank of india\b|\b(rbi|npa|gnpa|nclt|casa|crar|q[1-4]\s*(fy)?\d*\s*results?|"
         r"net profit|nationalised bank|psu bank|public sector bank|"
         r"mumbai[- ]headquartered|indian bank(?:er|ing)?)\b", re.IGNORECASE),
+    # Same collision as send_team_news.py's own "pfc" guard: Power Finance
+    # Corporation Limited's console alias "PFC" also names football clubs
+    # worldwide (PFC Lviv, PFC Prykarpattya, Paris FC/"OM-PFC"). Kept in
+    # sync with the mailer's copy.
+    "PFC": re.compile(
+        r"\bpower finance\b|\b(power sector|discom|transmission|generation)\b.{0,30}"
+        r"\b(loan|financ|lend|fund)|\bncds?\b|\bbonds?\b|\bcredit rating\b|"
+        r"\bnclt\b|\bq[1-4]\s*(fy)?\d*\s*results?\b|net profit|\bpsu\b", re.IGNORECASE),
 }
 
 
