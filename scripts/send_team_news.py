@@ -2999,7 +2999,16 @@ _AMBIGUOUS_ALIAS_CONTEXT = {
     # back to Profectus specifically to be worth showing -- only pure
     # irrelevant noise should be filtered. Same india/indian bar as
     # Brookfield/SMBC, not a Profectus-specific requirement.
-    "ugro": re.compile(r"\b(profectus|india|indian)\b", re.IGNORECASE),
+    # "merger"/"amalgamat"/"scheme of arrangement"/"nclt" added after a
+    # real miss: "Ugro Capital dispatches physical merger meeting notices
+    # to stakeholders" is the UGRO-Profectus amalgamation itself -- exactly
+    # the news this alias exists to catch -- but named neither "Profectus"
+    # nor "India"/"Indian", so it was wrongly rejected. Merger-process
+    # language is specific enough on its own not to reopen the original
+    # "unrelated global UGRO noise" problem this guard was built to stop.
+    "ugro": re.compile(
+        r"\b(profectus|india|indian|merger|amalgamat|scheme of arrangement|"
+        r"\bnclt\b)\b", re.IGNORECASE),
     # "SMBC" (Sumitomo Mitsui Banking Corporation) is a distinct, large
     # global bank -- the PARENT of SMFG (Sumitomo Mitsui Financial Group),
     # not the same entity as "SMFG India Credit"/"SMFG India Home Finance"
