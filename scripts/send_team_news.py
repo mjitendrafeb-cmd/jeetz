@@ -2950,8 +2950,21 @@ def _contains_name(body: str, phrase: str) -> bool:
 def _alias_matches(body: str, alias: str) -> bool:
     """Per explicit instruction: a console alias is trusted the moment its
     text is found -- no additional "connects back to X" context required.
-    _AMBIGUOUS_ALIAS_CONTEXT is no longer consulted here."""
-    return _contains_name(body, alias.lower())
+    _AMBIGUOUS_ALIAS_CONTEXT is no longer consulted here.
+
+    A "+"-joined alias ("Navi+Sachin", "Navi+Fintech") is an AND
+    requirement: every part must appear SOMEWHERE in the body, not
+    necessarily adjacent or in that order. This is the syntax already
+    typed into the console for exactly this purpose -- but a literal "+"
+    never appears in real article text, so it silently matched nothing
+    at all until this was added. Now it actually works, and the same
+    "term+term" syntax is available for any entity's aliases, not just
+    Navi -- no code change needed to add another one.
+    """
+    parts = [p.strip() for p in alias.split("+") if p.strip()]
+    if not parts:
+        return False
+    return all(_contains_name(body, p.lower()) for p in parts)
 
 
 def _match_companies(it: dict, rows: list[dict], name_only: bool = False) -> list[str]:

@@ -710,7 +710,13 @@ def _company_query(company: str, aliases: list[str], broad: bool = False) -> str
             parts.append(f'"{short}"')
     for a in aliases:
         a = a.strip()
-        if a:
+        # A "+"-joined alias ("Navi+Sachin") is an AND requirement checked
+        # by _story_mentions_entity, not a literal search phrase -- Google
+        # would either strip the "+" or search for it literally, neither
+        # of which is the intent. The company's own core name is already
+        # in the query above, so fetching isn't affected by skipping it
+        # here.
+        if a and "+" not in a:
             parts.append(f'"{a}"' if " " in a else a)
     # A console alias often IS the auto-derived short form ("Alpha
     # Alternatives"); repeating it in the query wastes characters and looks
@@ -781,7 +787,13 @@ def _story_mentions_entity(company: str, aliases: list[str], text: str) -> bool:
         return True
     for a in aliases:
         a = a.strip()
-        if a and _text_contains_name(t, a.lower()):
+        if not a:
+            continue
+        # "+"-joined alias ("Navi+Sachin"): an AND requirement, every part
+        # must appear somewhere in the text. Mirrors send_team_news.py's
+        # _alias_matches -- see its docstring for why this exists.
+        parts = [p.strip() for p in a.split("+") if p.strip()]
+        if parts and all(_text_contains_name(t, p.lower()) for p in parts):
             return True
     # If the full core name literally appears in the text but only inside a
     # longer institution name (the prefix-block case above), that is strong
