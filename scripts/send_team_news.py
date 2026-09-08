@@ -3088,6 +3088,32 @@ _AMBIGUOUS_ALIAS_CONTEXT = {
         r"\bbank of baroda\b|\b(rbi|npa|gnpa|nclt|casa|crar|q[1-4]\s*(fy)?\d*\s*results?|"
         r"net profit|nationalised bank|psu bank|public sector bank|"
         r"indian bank(?:er|ing)?)\b", re.IGNORECASE),
+    # Proactively guarded from the collision audit (no reported bad headline
+    # yet, but the same shape as BOI/PFC/BoB): a short 3-letter PSU-bank
+    # acronym that plausibly collides with an unrelated same-initialed
+    # entity elsewhere. "SBI" is also SBI Holdings (Japan); "PNB" is also
+    # the Philippine National Bank -- a routine name in Philippine financial
+    # press. Same India-banking-context requirement as the confirmed fixes.
+    "sbi": re.compile(
+        r"\bstate bank of india\b|\b(rbi|npa|gnpa|nclt|casa|crar|"
+        r"q[1-4]\s*(fy)?\d*\s*results?|net profit|nationalised bank|"
+        r"psu bank|public sector bank|indian bank(?:er|ing)?)\b", re.IGNORECASE),
+    "pnb": re.compile(
+        r"\bpunjab national bank\b|\b(rbi|npa|gnpa|nclt|casa|crar|"
+        r"q[1-4]\s*(fy)?\d*\s*results?|net profit|nationalised bank|"
+        r"psu bank|public sector bank|indian bank(?:er|ing)?)\b", re.IGNORECASE),
+    "iob": re.compile(
+        r"\bindian overseas bank\b|\b(rbi|npa|gnpa|nclt|casa|crar|"
+        r"q[1-4]\s*(fy)?\d*\s*results?|net profit|nationalised bank|"
+        r"psu bank|public sector bank|indian bank(?:er|ing)?)\b", re.IGNORECASE),
+    "nhb": re.compile(
+        r"\bnational housing bank\b|\b(rbi|npa|gnpa|nclt|casa|crar|"
+        r"housing finance|refinanc|q[1-4]\s*(fy)?\d*\s*results?|net profit|"
+        r"psu bank|public sector bank|indian bank(?:er|ing)?)\b", re.IGNORECASE),
+    "kvb": re.compile(
+        r"\bkarur vysya bank\b|\b(rbi|npa|gnpa|nclt|casa|crar|"
+        r"q[1-4]\s*(fy)?\d*\s*results?|net profit|nationalised bank|"
+        r"psu bank|public sector bank|indian bank(?:er|ing)?)\b", re.IGNORECASE),
 }
 
 

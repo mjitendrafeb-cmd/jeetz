@@ -622,6 +622,28 @@ _AMBIGUOUS_ACRONYM_CONTEXT = {
         r"\bbank of baroda\b|\b(rbi|npa|gnpa|nclt|casa|crar|q[1-4]\s*(fy)?\d*\s*results?|"
         r"net profit|nationalised bank|psu bank|public sector bank|"
         r"indian bank(?:er|ing)?)\b", re.IGNORECASE),
+    # Proactively guarded from the collision audit -- same shape as the
+    # confirmed BOI/PFC/BoB fixes, kept in sync with the mailer's copy.
+    "SBI": re.compile(
+        r"\bstate bank of india\b|\b(rbi|npa|gnpa|nclt|casa|crar|"
+        r"q[1-4]\s*(fy)?\d*\s*results?|net profit|nationalised bank|"
+        r"psu bank|public sector bank|indian bank(?:er|ing)?)\b", re.IGNORECASE),
+    "PNB": re.compile(
+        r"\bpunjab national bank\b|\b(rbi|npa|gnpa|nclt|casa|crar|"
+        r"q[1-4]\s*(fy)?\d*\s*results?|net profit|nationalised bank|"
+        r"psu bank|public sector bank|indian bank(?:er|ing)?)\b", re.IGNORECASE),
+    "IOB": re.compile(
+        r"\bindian overseas bank\b|\b(rbi|npa|gnpa|nclt|casa|crar|"
+        r"q[1-4]\s*(fy)?\d*\s*results?|net profit|nationalised bank|"
+        r"psu bank|public sector bank|indian bank(?:er|ing)?)\b", re.IGNORECASE),
+    "NHB": re.compile(
+        r"\bnational housing bank\b|\b(rbi|npa|gnpa|nclt|casa|crar|"
+        r"housing finance|refinanc|q[1-4]\s*(fy)?\d*\s*results?|net profit|"
+        r"psu bank|public sector bank|indian bank(?:er|ing)?)\b", re.IGNORECASE),
+    "KVB": re.compile(
+        r"\bkarur vysya bank\b|\b(rbi|npa|gnpa|nclt|casa|crar|"
+        r"q[1-4]\s*(fy)?\d*\s*results?|net profit|nationalised bank|"
+        r"psu bank|public sector bank|indian bank(?:er|ing)?)\b", re.IGNORECASE),
 }
 
 
