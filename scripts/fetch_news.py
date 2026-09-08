@@ -583,6 +583,29 @@ def _name_acronym(core: str) -> str:
     return "".join(w[0].upper() for w in words) if len(words) >= 4 else ""
 
 
+# Shared context fragment for the bank/PSU-acronym guards below. Mirrors
+# send_team_news._BANK_CORP_ACTION exactly -- kept as a separate copy
+# since the two modules don't share state, but must stay in sync. See that
+# module's comment for why this exists: the first version of these guards
+# only accepted the institution's full name or narrow results-only
+# vocabulary, which wrongly rejected genuine management-change, rating-
+# action, fundraising, board/AGM and M&A headlines for these same entities.
+_BANK_CORP_ACTION = (
+    r"q[1-4]\s*(fy)?\d*\s*results?|net profit|\bnii\b|\bpat\b|\bnim\b|"
+    r"\bnpa\b|\bgnpa\b|\bcasa\b|\bcrar\b|"
+    r"\b(ceo|cfo|md|managing director|chairman|director|auditor)\b(?:\d\.\d|[^.|]){0,30}"
+    r"(resign|steps? down|quits?|exits?|appoint|elevat)|"
+    r"(resign|steps? down|quits?|appoints?|elevat\w*)(?:\d\.\d|[^.|]){0,25}"
+    r"(ceo|cfo|md|managing director|chairman)|"
+    r"upgrad\w*|downgrad\w*|rating watch|credit watch|outlook (revised|negative|positive|stable)|"
+    r"reaffirm\w*|withdraws? rating|moody'?s|\bcrisil\b|\bicra\b|\bfitch\b|\bs&p\b|"
+    r"\bqip\b|\bncds?\b|\bbonds?\b|debentures?|fund ?rais\w*|capital rais\w*|"
+    r"preferential allotment|rights issue|tier[- ]?(i|ii|1|2) bonds?|"
+    r"\bboard (approves|meeting)\b|\bagm\b|\begm\b|"
+    r"acqui(re|res|red|sition)|merger|amalgamat\w*|stake (sale|purchase|acquisition)|divest\w*|"
+    r"\bnclt\b|show cause notice|monetary penalt|enforcement action"
+)
+
 # Some derived acronyms collide with unrelated words/entities: "MUDRA" is
 # also the Hindi word for a hand gesture/currency, a yoga term, and the
 # name of an unrelated ad agency ("Mudra Communications"). A bare acronym
@@ -602,48 +625,48 @@ _AMBIGUOUS_ACRONYM_CONTEXT = {
     # console alias with no actual India-banking content. Kept in sync
     # with the mailer's copy since both files alias-match independently.
     "BOI": re.compile(
-        r"\bbank of india\b|\b(rbi|npa|gnpa|nclt|casa|crar|q[1-4]\s*(fy)?\d*\s*results?|"
-        r"net profit|nationalised bank|psu bank|public sector bank|"
-        r"mumbai[- ]headquartered|indian bank(?:er|ing)?)\b", re.IGNORECASE),
+        r"\bbank of india\b|\bmumbai[- ]headquartered\b|\bnationalised bank\b|"
+        r"\bpsu bank\b|\bpublic sector bank\b|\bindian bank(?:er|ing)?\b|" + _BANK_CORP_ACTION,
+        re.IGNORECASE),
     # Same collision as send_team_news.py's own "pfc" guard: Power Finance
     # Corporation Limited's console alias "PFC" also names football clubs
     # worldwide (PFC Lviv, PFC Prykarpattya, Paris FC/"OM-PFC"). Kept in
     # sync with the mailer's copy.
     "PFC": re.compile(
         r"\bpower finance\b|\b(power sector|discom|transmission|generation)\b.{0,30}"
-        r"\b(loan|financ|lend|fund)|\bncds?\b|\bbonds?\b|\bcredit rating\b|"
-        r"\bnclt\b|\bq[1-4]\s*(fy)?\d*\s*results?\b|net profit|\bpsu\b", re.IGNORECASE),
+        r"\b(loan|financ|lend|fund)|\bcredit rating\b|\bpsu\b|" + _BANK_CORP_ACTION,
+        re.IGNORECASE),
     # Same collision as send_team_news.py's own "bob" guard: alias matching
     # is case-insensitive, so Bank of Baroda's "BoB" collides with the
     # common first name "Bob" (celebrity gossip, a hospitality exec, a
     # fictional politician, a YouTube gamer, a foreign municipal official).
     # Kept in sync with the mailer's copy.
     "BOB": re.compile(
-        r"\bbank of baroda\b|\b(rbi|npa|gnpa|nclt|casa|crar|q[1-4]\s*(fy)?\d*\s*results?|"
-        r"net profit|nationalised bank|psu bank|public sector bank|"
-        r"indian bank(?:er|ing)?)\b", re.IGNORECASE),
+        r"\bbank of baroda\b|\bnationalised bank\b|\bpsu bank\b|"
+        r"\bpublic sector bank\b|\bindian bank(?:er|ing)?\b|" + _BANK_CORP_ACTION,
+        re.IGNORECASE),
     # Proactively guarded from the collision audit -- same shape as the
     # confirmed BOI/PFC/BoB fixes, kept in sync with the mailer's copy.
     "SBI": re.compile(
-        r"\bstate bank of india\b|\b(rbi|npa|gnpa|nclt|casa|crar|"
-        r"q[1-4]\s*(fy)?\d*\s*results?|net profit|nationalised bank|"
-        r"psu bank|public sector bank|indian bank(?:er|ing)?)\b", re.IGNORECASE),
+        r"\bstate bank of india\b|\bnationalised bank\b|\bpsu bank\b|"
+        r"\bpublic sector bank\b|\bindian bank(?:er|ing)?\b|" + _BANK_CORP_ACTION,
+        re.IGNORECASE),
     "PNB": re.compile(
-        r"\bpunjab national bank\b|\b(rbi|npa|gnpa|nclt|casa|crar|"
-        r"q[1-4]\s*(fy)?\d*\s*results?|net profit|nationalised bank|"
-        r"psu bank|public sector bank|indian bank(?:er|ing)?)\b", re.IGNORECASE),
+        r"\bpunjab national bank\b|\bnationalised bank\b|\bpsu bank\b|"
+        r"\bpublic sector bank\b|\bindian bank(?:er|ing)?\b|" + _BANK_CORP_ACTION,
+        re.IGNORECASE),
     "IOB": re.compile(
-        r"\bindian overseas bank\b|\b(rbi|npa|gnpa|nclt|casa|crar|"
-        r"q[1-4]\s*(fy)?\d*\s*results?|net profit|nationalised bank|"
-        r"psu bank|public sector bank|indian bank(?:er|ing)?)\b", re.IGNORECASE),
+        r"\bindian overseas bank\b|\bnationalised bank\b|\bpsu bank\b|"
+        r"\bpublic sector bank\b|\bindian bank(?:er|ing)?\b|" + _BANK_CORP_ACTION,
+        re.IGNORECASE),
     "NHB": re.compile(
-        r"\bnational housing bank\b|\b(rbi|npa|gnpa|nclt|casa|crar|"
-        r"housing finance|refinanc|q[1-4]\s*(fy)?\d*\s*results?|net profit|"
-        r"psu bank|public sector bank|indian bank(?:er|ing)?)\b", re.IGNORECASE),
+        r"\bnational housing bank\b|\bhousing finance\b|\brefinanc\w*\b|"
+        r"\bpsu bank\b|\bpublic sector bank\b|\bindian bank(?:er|ing)?\b|"
+        + _BANK_CORP_ACTION, re.IGNORECASE),
     "KVB": re.compile(
-        r"\bkarur vysya bank\b|\b(rbi|npa|gnpa|nclt|casa|crar|"
-        r"q[1-4]\s*(fy)?\d*\s*results?|net profit|nationalised bank|"
-        r"psu bank|public sector bank|indian bank(?:er|ing)?)\b", re.IGNORECASE),
+        r"\bkarur vysya bank\b|\bnationalised bank\b|\bpsu bank\b|"
+        r"\bpublic sector bank\b|\bindian bank(?:er|ing)?\b|" + _BANK_CORP_ACTION,
+        re.IGNORECASE),
 }
 
 

@@ -2962,6 +2962,35 @@ def _contains_name(body: str, phrase: str) -> bool:
     return False
 
 
+# Shared context fragment for the bank/PSU-acronym guards below (BOI, PFC,
+# BoB, SBI, PNB, IOB, NHB, KVB, CUB, PSB, REC). The first version of these
+# guards only accepted the institution's full name or narrow results-only
+# vocabulary (npa/gnpa/casa/crar/results/net profit) -- reported live as
+# too narrow: genuine management-change, rating-action, fundraising,
+# board/AGM and M&A headlines for these SAME entities used none of those
+# words and were wrongly rejected too (e.g. "Ugro Capital dispatches
+# physical merger meeting notices to stakeholders", "BOI board approves
+# fundraise via QIP"). Widened to cover those common corporate-action
+# shapes explicitly, WITHOUT adding generic business-ops words ("loan",
+# "branch", "disbursement") that a same-initialed real institution
+# elsewhere (Nigeria's Bank of Industry for "BOI") would equally use --
+# that trade-off is deliberate, not an oversight.
+_BANK_CORP_ACTION = (
+    r"q[1-4]\s*(fy)?\d*\s*results?|net profit|\bnii\b|\bpat\b|\bnim\b|"
+    r"\bnpa\b|\bgnpa\b|\bcasa\b|\bcrar\b|"
+    r"\b(ceo|cfo|md|managing director|chairman|director|auditor)\b(?:\d\.\d|[^.|]){0,30}"
+    r"(resign|steps? down|quits?|exits?|appoint|elevat)|"
+    r"(resign|steps? down|quits?|appoints?|elevat\w*)(?:\d\.\d|[^.|]){0,25}"
+    r"(ceo|cfo|md|managing director|chairman)|"
+    r"upgrad\w*|downgrad\w*|rating watch|credit watch|outlook (revised|negative|positive|stable)|"
+    r"reaffirm\w*|withdraws? rating|moody'?s|\bcrisil\b|\bicra\b|\bfitch\b|\bs&p\b|"
+    r"\bqip\b|\bncds?\b|\bbonds?\b|debentures?|fund ?rais\w*|capital rais\w*|"
+    r"preferential allotment|rights issue|tier[- ]?(i|ii|1|2) bonds?|"
+    r"\bboard (approves|meeting)\b|\bagm\b|\begm\b|"
+    r"acqui(re|res|red|sition)|merger|amalgamat\w*|stake (sale|purchase|acquisition)|divest\w*|"
+    r"\bnclt\b|show cause notice|monetary penalt|enforcement action"
+)
+
 # Some console aliases are short/generic enough to collide with unrelated
 # usage: "MUDRA" is also the Hindi word for a hand gesture/currency, a yoga
 # term, and the name of an unrelated ad agency ("Mudra Communications").
@@ -3022,8 +3051,7 @@ _AMBIGUOUS_ALIAS_CONTEXT = {
     # directly as unnecessary noise. Requires the bank's own name or
     # standard banking-result vocabulary nearby.
     "cub": re.compile(
-        r"\bcity union\b|\bq\d\s*(fy)?\d*\s*results?\b|\bnet profit\b|"
-        r"\bnim\b|\bgnpa\b|\bcasa\b|\bbanking\b", re.IGNORECASE),
+        r"\bcity union\b|" + _BANK_CORP_ACTION, re.IGNORECASE),
     # "Raise" (Raise Fintech Ventures) is an everyday English word -- "to
     # raise funds/capital/rates" appears in nearly every finance headline
     # regardless of subject. Requires it to actually be about this fintech
@@ -3033,7 +3061,8 @@ _AMBIGUOUS_ALIAS_CONTEXT = {
     # would catch any PSB-wide commentary ("PSBs report record profits")
     # and attribute it to Punjab and Sind Bank specifically. Requires the
     # bank's own name.
-    "psb": re.compile(r"\bpunjab\s*(and|&)\s*sind\b", re.IGNORECASE),
+    "psb": re.compile(
+        r"\bpunjab\s*(and|&)\s*sind\b|" + _BANK_CORP_ACTION, re.IGNORECASE),
     # "REC" collides with "recreation", "record", "recovery" as a plain
     # substring (already fixed via word-boundary matching elsewhere), but
     # even as a standalone WORD it's a common acronym for other things.
@@ -3041,7 +3070,7 @@ _AMBIGUOUS_ALIAS_CONTEXT = {
     # Rural Electrification Corporation, lends to the power sector).
     "rec": re.compile(
         r"\brec limited\b|\brural electrification\b|\brec power\b|"
-        r"\binfra(structure)? bonds?\b", re.IGNORECASE),
+        r"\binfra(structure)? bonds?\b|" + _BANK_CORP_ACTION, re.IGNORECASE),
     # ("power finance"/"power sector" were dropped from this list: "power
     # finance" risked confirming a story about Power Finance Corporation
     # (PFC) -- REC's own close peer/rival PSU -- as if it were REC's own
@@ -3071,9 +3100,9 @@ _AMBIGUOUS_ALIAS_CONTEXT = {
     # Reported live: three false S1 hits in one digest. Requires India-
     # specific banking context; "bank of india" itself always satisfies it.
     "boi": re.compile(
-        r"\bbank of india\b|\b(rbi|npa|gnpa|nclt|casa|crar|q[1-4]\s*(fy)?\d*\s*results?|"
-        r"net profit|nationalised bank|psu bank|public sector bank|"
-        r"mumbai[- ]headquartered|indian bank(?:er|ing)?)\b", re.IGNORECASE),
+        r"\bbank of india\b|\bmumbai[- ]headquartered\b|\bnationalised bank\b|"
+        r"\bpsu bank\b|\bpublic sector bank\b|\bindian bank(?:er|ing)?\b|" + _BANK_CORP_ACTION,
+        re.IGNORECASE),
     # "PFC" is Power Finance Corporation Limited's console alias, but it's
     # also a common football-club abbreviation worldwide -- "PFC Lviv",
     # "PFC Prykarpattya Ivano-Frankivsk" (Ukrainian clubs), "OM-PFC" (Paris
@@ -3083,8 +3112,8 @@ _AMBIGUOUS_ALIAS_CONTEXT = {
     # actual business, not a bare "PFC" in unrelated text.
     "pfc": re.compile(
         r"\bpower finance\b|\b(power sector|discom|transmission|generation)\b.{0,30}"
-        r"\b(loan|financ|lend|fund)|\bncds?\b|\bbonds?\b|\bcredit rating\b|"
-        r"\bnclt\b|\bq[1-4]\s*(fy)?\d*\s*results?\b|net profit|\bpsu\b", re.IGNORECASE),
+        r"\b(loan|financ|lend|fund)|\bcredit rating\b|\bpsu\b|" + _BANK_CORP_ACTION,
+        re.IGNORECASE),
     # "BoB" is Bank of Baroda's console alias, but alias matching is fully
     # case-insensitive (body is lowercased before this ever runs), so it
     # collides with the extremely common first name "Bob" -- K-pop/celebrity
@@ -3094,9 +3123,9 @@ _AMBIGUOUS_ALIAS_CONTEXT = {
     # digest, none with any banking content at all. Requires actual
     # banking/results context or the bank's full name.
     "bob": re.compile(
-        r"\bbank of baroda\b|\b(rbi|npa|gnpa|nclt|casa|crar|q[1-4]\s*(fy)?\d*\s*results?|"
-        r"net profit|nationalised bank|psu bank|public sector bank|"
-        r"indian bank(?:er|ing)?)\b", re.IGNORECASE),
+        r"\bbank of baroda\b|\bnationalised bank\b|\bpsu bank\b|"
+        r"\bpublic sector bank\b|\bindian bank(?:er|ing)?\b|" + _BANK_CORP_ACTION,
+        re.IGNORECASE),
     # Proactively guarded from the collision audit (no reported bad headline
     # yet, but the same shape as BOI/PFC/BoB): a short 3-letter PSU-bank
     # acronym that plausibly collides with an unrelated same-initialed
@@ -3104,25 +3133,25 @@ _AMBIGUOUS_ALIAS_CONTEXT = {
     # the Philippine National Bank -- a routine name in Philippine financial
     # press. Same India-banking-context requirement as the confirmed fixes.
     "sbi": re.compile(
-        r"\bstate bank of india\b|\b(rbi|npa|gnpa|nclt|casa|crar|"
-        r"q[1-4]\s*(fy)?\d*\s*results?|net profit|nationalised bank|"
-        r"psu bank|public sector bank|indian bank(?:er|ing)?)\b", re.IGNORECASE),
+        r"\bstate bank of india\b|\bnationalised bank\b|\bpsu bank\b|"
+        r"\bpublic sector bank\b|\bindian bank(?:er|ing)?\b|" + _BANK_CORP_ACTION,
+        re.IGNORECASE),
     "pnb": re.compile(
-        r"\bpunjab national bank\b|\b(rbi|npa|gnpa|nclt|casa|crar|"
-        r"q[1-4]\s*(fy)?\d*\s*results?|net profit|nationalised bank|"
-        r"psu bank|public sector bank|indian bank(?:er|ing)?)\b", re.IGNORECASE),
+        r"\bpunjab national bank\b|\bnationalised bank\b|\bpsu bank\b|"
+        r"\bpublic sector bank\b|\bindian bank(?:er|ing)?\b|" + _BANK_CORP_ACTION,
+        re.IGNORECASE),
     "iob": re.compile(
-        r"\bindian overseas bank\b|\b(rbi|npa|gnpa|nclt|casa|crar|"
-        r"q[1-4]\s*(fy)?\d*\s*results?|net profit|nationalised bank|"
-        r"psu bank|public sector bank|indian bank(?:er|ing)?)\b", re.IGNORECASE),
+        r"\bindian overseas bank\b|\bnationalised bank\b|\bpsu bank\b|"
+        r"\bpublic sector bank\b|\bindian bank(?:er|ing)?\b|" + _BANK_CORP_ACTION,
+        re.IGNORECASE),
     "nhb": re.compile(
-        r"\bnational housing bank\b|\b(rbi|npa|gnpa|nclt|casa|crar|"
-        r"housing finance|refinanc|q[1-4]\s*(fy)?\d*\s*results?|net profit|"
-        r"psu bank|public sector bank|indian bank(?:er|ing)?)\b", re.IGNORECASE),
+        r"\bnational housing bank\b|\bhousing finance\b|\brefinanc\w*\b|"
+        r"\bpsu bank\b|\bpublic sector bank\b|\bindian bank(?:er|ing)?\b|"
+        + _BANK_CORP_ACTION, re.IGNORECASE),
     "kvb": re.compile(
-        r"\bkarur vysya bank\b|\b(rbi|npa|gnpa|nclt|casa|crar|"
-        r"q[1-4]\s*(fy)?\d*\s*results?|net profit|nationalised bank|"
-        r"psu bank|public sector bank|indian bank(?:er|ing)?)\b", re.IGNORECASE),
+        r"\bkarur vysya bank\b|\bnationalised bank\b|\bpsu bank\b|"
+        r"\bpublic sector bank\b|\bindian bank(?:er|ing)?\b|" + _BANK_CORP_ACTION,
+        re.IGNORECASE),
 }
 
 
