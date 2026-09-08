@@ -1,6 +1,159 @@
 {
  "records": [
   {
+   "isin": "INE03UZ07049",
+   "issuer": "RARE ASSET RECONSTRUCTION LIMITED",
+   "allotment_date": "2026-09-07",
+   "amount_cr": 65.0,
+   "coupon": 16.0,
+   "tenure_years": 3.0,
+   "band": "BBB band",
+   "segment": "Corporate",
+   "spread_bps": 976,
+   "ratings": [
+    "Brickwork BBB+"
+   ]
+  },
+  {
+   "isin": "INE087107988",
+   "issuer": "ABANS JEWELS LIMITED",
+   "allotment_date": "2026-09-07",
+   "amount_cr": 6.0,
+   "coupon": null,
+   "tenure_years": 1.3,
+   "band": "Not rated / available",
+   "segment": "Corporate",
+   "spread_bps": null,
+   "ratings": []
+  },
+  {
+   "isin": "INE0FKG07087",
+   "issuer": "MAG FINSERV COMPANY LIMITED",
+   "allotment_date": "2026-09-07",
+   "amount_cr": 20.0,
+   "coupon": 12.0,
+   "tenure_years": 1.1,
+   "band": "BBB band",
+   "segment": "NBFC/HFC",
+   "spread_bps": 615,
+   "ratings": [
+    "Acuite Ratings And Research Limited BBB"
+   ]
+  },
+  {
+   "isin": "INE015L07824",
+   "issuer": "EDELWEISS ASSET RECONSTRUCTION CO. LTD",
+   "allotment_date": "2026-09-07",
+   "amount_cr": 50.0,
+   "coupon": null,
+   "tenure_years": 3.1,
+   "band": "A band (A+/A/A-)",
+   "segment": "Corporate",
+   "spread_bps": null,
+   "ratings": [
+    "CRISIL A+"
+   ]
+  },
+  {
+   "isin": "INE296H08032",
+   "issuer": "EMKAY GLOBAL FINANCIAL SERVICES LIMITED",
+   "allotment_date": "2026-09-07",
+   "amount_cr": 50.0,
+   "coupon": 11.5,
+   "tenure_years": 3.0,
+   "band": "BBB band",
+   "segment": "Corporate",
+   "spread_bps": 526,
+   "ratings": [
+    "ICRA BBB+"
+   ]
+  },
+  {
+   "isin": "INE1QWF07097",
+   "issuer": "GREAVES FINANCE LIMITED",
+   "allotment_date": "2026-09-07",
+   "amount_cr": 50.0,
+   "coupon": 10.5,
+   "tenure_years": 2.0,
+   "band": "A band (A+/A/A-)",
+   "segment": "NBFC/HFC",
+   "spread_bps": 436,
+   "ratings": [
+    "IND-Ra A-"
+   ]
+  },
+  {
+   "isin": "INE1G7I07024",
+   "issuer": "EDIFICE RESIDENTIAL PRIVATE LIMITED",
+   "allotment_date": "2026-09-07",
+   "amount_cr": 470.0,
+   "coupon": 17.5,
+   "tenure_years": 5.0,
+   "band": "Not rated / available",
+   "segment": "Corporate",
+   "spread_bps": 1099,
+   "ratings": []
+  },
+  {
+   "isin": "INE020B08GK9",
+   "issuer": "REC LIMITED",
+   "allotment_date": "2026-09-07",
+   "amount_cr": 500.0,
+   "coupon": 7.3,
+   "tenure_years": 1.7,
+   "band": "AAA",
+   "segment": "PSU",
+   "spread_bps": 116,
+   "ratings": [
+    "ICRA AAA",
+    "IND-Ra AAA",
+    "CRISIL AAA"
+   ]
+  },
+  {
+   "isin": "INE0INN08014",
+   "issuer": "SHANGRILA INFRACON INDIA PRIVATE LIMITED",
+   "allotment_date": "2026-09-07",
+   "amount_cr": 1100.0,
+   "coupon": 9.25,
+   "tenure_years": 3.0,
+   "band": "Not rated / available",
+   "segment": "Corporate",
+   "spread_bps": 301,
+   "ratings": []
+  },
+  {
+   "isin": "INE134E08OE9",
+   "issuer": "POWER FINANCE CORPORATION LIMITED",
+   "allotment_date": "2026-09-07",
+   "amount_cr": 2268.0,
+   "coupon": 7.61,
+   "tenure_years": 10.0,
+   "band": "AAA",
+   "segment": "PSU",
+   "spread_bps": 65,
+   "ratings": [
+    "ICRA AAA",
+    "CRISIL AAA",
+    "CareEdge AAA"
+   ]
+  },
+  {
+   "isin": "INE134E08OF6",
+   "issuer": "POWER FINANCE CORPORATION LIMITED",
+   "allotment_date": "2026-09-07",
+   "amount_cr": 2500.0,
+   "coupon": 7.6,
+   "tenure_years": 5.0,
+   "band": "AAA",
+   "segment": "PSU",
+   "spread_bps": 109,
+   "ratings": [
+    "ICRA AAA",
+    "CRISIL AAA"
+   ]
+  },
+  {
    "isin": "INE0MDK07015",
    "issuer": "TABLESPACE TECHNOLOGIES LIMITED",
    "allotment_date": "2026-09-04",
@@ -384,20 +537,6 @@
    "spread_bps": 416,
    "ratings": [
     "Acuite Ratings And Research Limited A"
-   ]
-  },
-  {
-   "isin": "INE03UZ07049",
-   "issuer": "RARE ASSET RECONSTRUCTION LIMITED",
-   "allotment_date": "2026-09-02",
-   "amount_cr": 65.0,
-   "coupon": 16.0,
-   "tenure_years": 3.0,
-   "band": "BBB band",
-   "segment": "Corporate",
-   "spread_bps": 966,
-   "ratings": [
-    "Brickwork BBB+"
    ]
   },
   {

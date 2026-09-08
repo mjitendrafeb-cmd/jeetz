@@ -9,7 +9,7 @@
  },
  "abans jewels": {
   "segment": "Corporate",
-  "updated": "2026-08-29"
+  "updated": "2026-09-08"
  },
  "akara capital advisors": {
   "segment": "NBFC/HFC",
@@ -57,7 +57,19 @@
  },
  "edelweiss asset reconstruction": {
   "segment": "Corporate",
-  "updated": "2026-08-28"
+  "updated": "2026-09-08"
+ },
+ "edifice residential": {
+  "segment": "Corporate",
+  "updated": "2026-09-08"
+ },
+ "emkay global financial services": {
+  "segment": "Corporate",
+  "updated": "2026-09-08"
+ },
+ "greaves finance": {
+  "segment": "NBFC/HFC",
+  "updated": "2026-09-08"
  },
  "growxcd finance": {
   "segment": "NBFC/HFC",
@@ -147,6 +159,10 @@
   "segment": "NBFC/HFC",
   "updated": "2026-09-03"
  },
+ "mag finserv": {
+  "segment": "NBFC/HFC",
+  "updated": "2026-09-08"
+ },
  "maple infrastructure trust": {
   "segment": "Corporate",
   "updated": "2026-08-29"
@@ -189,7 +205,7 @@
  },
  "power finance": {
   "segment": "PSU",
-  "updated": "2026-09-01"
+  "updated": "2026-09-08"
  },
  "progfin": {
   "segment": "Corporate",
@@ -197,11 +213,11 @@
  },
  "rare asset reconstruction": {
   "segment": "Corporate",
-  "updated": "2026-09-03"
+  "updated": "2026-09-08"
  },
  "rec": {
   "segment": "PSU",
-  "updated": "2026-09-01"
+  "updated": "2026-09-08"
  },
  "regency fincorp": {
   "segment": "NBFC/HFC",
@@ -214,6 +230,10 @@
  "satin finserv": {
   "segment": "NBFC/HFC",
   "updated": "2026-08-28"
+ },
+ "shangrila infracon": {
+  "segment": "Corporate",
+  "updated": "2026-09-08"
  },
  "small industries development bank of": {
   "segment": "PSU",
