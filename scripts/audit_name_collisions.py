@@ -81,3 +81,28 @@ for name in names:
 for w0, group in sorted(by_first.items(), key=lambda kv: -len(kv[1])):
     if len(group) >= 3:
         print(f"  '{w0}' ({len(group)} rows): {group}")
+
+# --- 4. Short console aliases: every confirmed collision reported live so
+#        far (BOI, PFC, BoB, plus earlier UGRO/SMBC/CUB/PSB/REC) was an
+#        ALIAS, not a company name -- neither check above would ever catch
+#        one, since they only look at the registered name. A short alias
+#        (<=4 letters) is exactly the shape that turns out to also be a
+#        real word, a common name, or someone else's acronym; this can't
+#        know which ones will collide (that needs a real headline), but it
+#        can point at every alias narrow enough to be worth a human glance,
+#        and flag which already have a guard in _AMBIGUOUS_ALIAS_CONTEXT. ---
+print("\n=== Console aliases <=4 letters (the exact shape BOI/PFC/BoB were) ===")
+short_aliases = []
+for r in rows:
+    company = r["company"]
+    for a in (r.get("aliases") or []):
+        a = str(a).strip()
+        letters = "".join(ch for ch in a if ch.isalpha())
+        if a and len(letters) <= 4:
+            guarded = a.strip().lower() in tn._AMBIGUOUS_ALIAS_CONTEXT
+            short_aliases.append((a, company, guarded))
+for a, company, guarded in sorted(short_aliases, key=lambda x: x[0].lower()):
+    flag = "  <-- already guarded" if guarded else "  <-- NO GUARD YET"
+    print(f"  '{a}' -> {company}{flag}")
+print(f"({len(short_aliases)} short aliases, "
+      f"{sum(1 for _, _, g in short_aliases if not g)} unguarded)")
