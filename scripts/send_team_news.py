@@ -750,6 +750,16 @@ _COMMON = {"small", "national", "india", "indian", "bank", "central", "finance",
 _AMBIGUOUS_ENTITY_CONTEXT = {
     "central bank of india": re.compile(
         r"\bcbi\b|\bcentral bank of india\b", re.IGNORECASE),
+    # "Au Small Finance Bank Limited" reduces to the same trap: "Au" is too
+    # short to be a significant word (_sig_words drops it) and "Bank"/
+    # "Limited" are filler, leaving only "small"+"finance" -- both generic
+    # SFB-category vocabulary shared by every other small finance bank.
+    # Reported live: Ujjivan/Equitas/Jana/Utkarsh SFB stories (none
+    # mentioning "AU" at all) all reached S1 tagged to Au SFB purely on
+    # "small finance bank" appearing in the text. Requires the actual "AU"
+    # name or its acronym/alias.
+    "au small finance bank limited": re.compile(
+        r"\bau\b|\basfb\b|\bau sfb\b|\bau bank\b", re.IGNORECASE),
 }
 
 
