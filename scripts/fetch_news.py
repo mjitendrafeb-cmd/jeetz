@@ -613,6 +613,15 @@ _AMBIGUOUS_ACRONYM_CONTEXT = {
         r"\bpower finance\b|\b(power sector|discom|transmission|generation)\b.{0,30}"
         r"\b(loan|financ|lend|fund)|\bncds?\b|\bbonds?\b|\bcredit rating\b|"
         r"\bnclt\b|\bq[1-4]\s*(fy)?\d*\s*results?\b|net profit|\bpsu\b", re.IGNORECASE),
+    # Same collision as send_team_news.py's own "bob" guard: alias matching
+    # is case-insensitive, so Bank of Baroda's "BoB" collides with the
+    # common first name "Bob" (celebrity gossip, a hospitality exec, a
+    # fictional politician, a YouTube gamer, a foreign municipal official).
+    # Kept in sync with the mailer's copy.
+    "BOB": re.compile(
+        r"\bbank of baroda\b|\b(rbi|npa|gnpa|nclt|casa|crar|q[1-4]\s*(fy)?\d*\s*results?|"
+        r"net profit|nationalised bank|psu bank|public sector bank|"
+        r"indian bank(?:er|ing)?)\b", re.IGNORECASE),
 }
 
 
