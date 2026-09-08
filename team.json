@@ -3482,7 +3482,8 @@
     {
       "company": "Bank of India",
       "aliases": [
-        "BOI"
+        "BOI",
+        "Bank of India"
       ],
       "gh_name": "Aditya",
       "analyst_name": "Shrey",
@@ -11849,7 +11850,10 @@
       "securitisation (india)",
       "structured finance (india)"
     ],
-    "Infrastructure": []
+    "Infrastructure": [
+      "Infrastructure Financing",
+      "Renewable financing"
+    ]
   },
   "use_ai": true,
   "sector_keywords": [],
