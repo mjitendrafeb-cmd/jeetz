@@ -112,7 +112,15 @@ _OUT_OF_SCOPE_GEO_RE = re.compile(
     r"philippine|vietnam|indonesia|malaysia|thailand|"
     r"brazil|argentin|colombia|mexico|peru|chile|"
     r"turkey|turkish|egypt|morocco|south africa|naira|shilling|"
-    r"cedi|ringgit|baht|peso|rand)\w*"
+    r"cedi|ringgit|baht|peso|rand|"
+    # Not a "major economy" exclusion (that list is US/UK/EU/China/Japan
+    # per the comment above) -- added after a real collision: "PFC Lviv"/
+    # "PFC Prykarpattya Ivano-Frankivsk" (Ukrainian football clubs) reached
+    # S1 tagged to Power Finance Corporation with zero geography signal to
+    # catch them otherwise. Neither headline says "Ukraine" outright, only
+    # a city name -- common in sports-club naming -- so those go in too.
+    r"ukrain|hryvnia|\blviv\b|\bkyiv\b|\bkiev\b|\bkharkiv\b|\bdnipro\b|"
+    r"\bivano-frankivsk\b|\bprykarpattya\b|\bodesa\b|\bodessa\b)\w*"
     r"|\b(fmdq|nasd\s+otc|ngx\s+(exchange|group))\b"
     r"|\bN\d[\d,.]*\s?(bn|billion|trn|trillion)\b",
     re.IGNORECASE,
