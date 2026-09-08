@@ -555,6 +555,14 @@ _GENERIC_NAME_WORD = {
 _AMBIGUOUS_CORE_CONTEXT = {
     "central bank of india": re.compile(
         r"\bcbi\b|\bcentral bank of india\b", re.IGNORECASE),
+    # Same trap as Central Bank of India: "Au" is too short to be a
+    # significant word and "Bank"/"Limited" are filler, leaving only
+    # "small"+"finance" -- generic SFB-category vocabulary shared by every
+    # other small finance bank. Reported live: Ujjivan/Equitas/Jana/
+    # Utkarsh SFB stories (none naming "AU" at all) all reached S1 tagged
+    # to Au SFB purely on "small finance bank" appearing in the text.
+    "au small finance bank": re.compile(
+        r"\bau\b|\basfb\b|\bau sfb\b|\bau bank\b", re.IGNORECASE),
 }
 
 
