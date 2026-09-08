@@ -3076,6 +3076,18 @@ _AMBIGUOUS_ALIAS_CONTEXT = {
         r"\bpower finance\b|\b(power sector|discom|transmission|generation)\b.{0,30}"
         r"\b(loan|financ|lend|fund)|\bncds?\b|\bbonds?\b|\bcredit rating\b|"
         r"\bnclt\b|\bq[1-4]\s*(fy)?\d*\s*results?\b|net profit|\bpsu\b", re.IGNORECASE),
+    # "BoB" is Bank of Baroda's console alias, but alias matching is fully
+    # case-insensitive (body is lowercased before this ever runs), so it
+    # collides with the extremely common first name "Bob" -- K-pop/celebrity
+    # gossip ("a Bob" hairstyle), a hospitality-brand exec, a fictional
+    # political-party founder, a YouTube gamer, a foreign municipal
+    # official, all matched. Reported live: six false S1 hits in one
+    # digest, none with any banking content at all. Requires actual
+    # banking/results context or the bank's full name.
+    "bob": re.compile(
+        r"\bbank of baroda\b|\b(rbi|npa|gnpa|nclt|casa|crar|q[1-4]\s*(fy)?\d*\s*results?|"
+        r"net profit|nationalised bank|psu bank|public sector bank|"
+        r"indian bank(?:er|ing)?)\b", re.IGNORECASE),
 }
 
 
