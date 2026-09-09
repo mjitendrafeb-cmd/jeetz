@@ -1,6 +1,6 @@
 # Phase 0 Reconnaissance Report
 
-Run: 2026-09-09T15:04:41.028891+00:00 (GitHub Actions runner)
+Run: 2026-09-09T15:15:58.949837+00:00 (GitHub Actions runner)
 
 Plain HTTP only, no browser. `Entities found` means the raw HTML already
 contains that entity's name — where true for a listing page, a browser is
@@ -15,13 +15,15 @@ probably unnecessary for discovery.
 | CRISIL | ratings_search_page | 200 | 66,579 | text/html; charset=UTF-8 | — | — |
 | ICRA | robots | 200 | 4,671 | text/html; charset=utf-8 | — | — |
 | ICRA | rating_action_index | 200 | 164,381 | text/html; charset=utf-8 | DataTables | Cholamandalam |
-| ICRA | rationale_chola_pdf | 200 | 2,495,048 | application/pdf | — | — |
+| ICRA | rationale_chola_pdf | ERR | 0 |  | — | — |
 | ICRA | rationale_chola_pdf_2 | 200 | 1,119,524 | application/pdf | — | — |
-| ICRA | home | 200 | 247,419 | text/html; charset=utf-8 | — | Cholamandalam |
+| ICRA | home | ERR | 0 |  | — | — |
 | India Ratings | robots | 200 | 267 | text/plain | WordPress | — |
 | India Ratings | rating_actions | 200 | 7,020 | text/html | — | — |
-| India Ratings | press_releases | 200 | 7,020 | text/html | — | — |
-| India Ratings | home | 200 | 7,020 | text/html | — | — |
+| India Ratings | bundle_main | 200 | 2,504,416 | text/javascript | Angular, DataTables | — |
+| India Ratings | bundle_scripts | 200 | 410,142 | text/javascript | — | — |
+| CRISIL | sitemap | 200 | 648,506 | application/xml;charset=utf-8 | — | — |
+| India Ratings | api_probe_0 | 200 | 7,020 | text/html | — | — |
 
 ## Details
 
@@ -66,8 +68,8 @@ probably unnecessary for discovery.
 
 ### ICRA / rationale_chola_pdf
 - URL: https://www.icra.in/Rating/GetRationalReportFilePdf?id=141344
-- Status: 200  |  Bytes: 2,495,048  (capture truncated)
-- Capture: `captures/ICRA/rationale_chola_pdf.pdf`
+- Status: None  |  Bytes: 0
+- **Error**: `ConnectionError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))`
 
 ### ICRA / rationale_chola_pdf_2
 - URL: https://www.icra.in/Rating/GetRationalReportFilePdf?id=133118
@@ -76,8 +78,8 @@ probably unnecessary for discovery.
 
 ### ICRA / home
 - URL: https://www.icra.in/
-- Status: 200  |  Bytes: 247,419
-- Capture: `captures/ICRA/home.html`
+- Status: None  |  Bytes: 0
+- **Error**: `ReadTimeout: HTTPSConnectionPool(host='www.icra.in', port=443): Read timed out. (read timeout=45)`
 
 ### India Ratings / robots
 - URL: https://www.indiaratings.co.in/robots.txt
@@ -89,12 +91,24 @@ probably unnecessary for discovery.
 - Status: 200  |  Bytes: 7,020
 - Capture: `captures/India_Ratings/rating_actions.html`
 
-### India Ratings / press_releases
-- URL: https://www.indiaratings.co.in/pressrelease
-- Status: 200  |  Bytes: 7,020
-- Capture: `captures/India_Ratings/press_releases.html`
+### India Ratings / bundle_main
+- URL: https://www.indiaratings.co.in/main.b0be7d594b374f3a.js
+- Status: 200  |  Bytes: 2,504,416
+- Capture: `captures/India_Ratings/bundle_main.html`
+- API-ish paths seen in HTML:
+  - `/api/upload`
 
-### India Ratings / home
-- URL: https://www.indiaratings.co.in/
+### India Ratings / bundle_scripts
+- URL: https://www.indiaratings.co.in/scripts.dc77230fe30c274f.js
+- Status: 200  |  Bytes: 410,142
+- Capture: `captures/India_Ratings/bundle_scripts.html`
+
+### CRISIL / sitemap
+- URL: https://www.crisilratings.com/bin/sitemap.xml
+- Status: 200  |  Bytes: 648,506
+- Capture: `captures/CRISIL/sitemap.html`
+
+### India Ratings / api_probe_0
+- URL: https://www.indiaratings.co.in/api/upload
 - Status: 200  |  Bytes: 7,020
-- Capture: `captures/India_Ratings/home.html`
+- Capture: `captures/India_Ratings/api_probe_0.html`
