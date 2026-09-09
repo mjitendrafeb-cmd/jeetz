@@ -31,14 +31,22 @@ def main():
     parser.add_argument("--url", required=True)
     parser.add_argument("--file", required=True, help="Path to the saved HTML/text file")
     parser.add_argument("--pub-date", help="Press release date, ISO format, if known")
-    parser.add_argument("--content-type", default="html", choices=["html", "text"])
+    parser.add_argument("--content-type", default="html", choices=["html", "text", "pdf"])
     args = parser.parse_args()
 
     file_path = Path(args.file)
     if not file_path.exists():
         print(f"File not found: {file_path}", file=sys.stderr)
         sys.exit(1)
-    raw_content = file_path.read_text(errors="ignore")
+    # PDFs are binary and their parser works from the file path, not decoded
+    # text; hashing still uses the bytes so the stored copy is identified the
+    # same way as an HTML capture.
+    is_pdf = file_path.suffix.lower() == ".pdf"
+    if is_pdf:
+        raw_bytes = file_path.read_bytes()
+        raw_content = raw_bytes.decode("latin-1")
+    else:
+        raw_content = file_path.read_text(errors="ignore")
 
     db.init_db()
     with db.get_conn() as conn:
@@ -66,7 +74,9 @@ def main():
             raw_text=raw_content,
         )
 
-        records = PARSERS[args.source](entity["name"], aliases, raw_content, args.content_type)
+        parser_input = str(stored_copy_path) if is_pdf else raw_content
+        content_type = "pdf" if is_pdf else args.content_type
+        records = PARSERS[args.source](entity["name"], aliases, parser_input, content_type)
 
         if not records:
             print(f"No candidate records found for '{args.entity}' in this file.")
@@ -78,6 +88,8 @@ def main():
         for i, rec in enumerate(records, 1):
             rec.setdefault("provenance", "generic_text_fallback")
             rec.setdefault("row_seq", None)
+            rec.setdefault("is_sublimit", 0)
+            rec.setdefault("previous_amount_rs_cr", None)
             rec["entity_id"] = entity["id"]
             rec["source"] = args.source
             rec["press_release_id"] = press_release_id

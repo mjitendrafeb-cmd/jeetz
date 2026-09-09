@@ -79,9 +79,32 @@ TARGETS = [
     ("India Ratings", "bundle_scripts",
      "https://www.indiaratings.co.in/scripts.dc77230fe30c274f.js"),
 
-    # --- CRISIL sitemap: used to locate rationale URLs for the other two
-    # validation entities (Cholamandalam, PFC) without guessing paths. ---
-    ("CRISIL", "sitemap", "https://www.crisilratings.com/bin/sitemap.xml"),
+    # --- CRISIL search endpoints ---
+    # The sitemap turned out to carry only CMS pages (no rationale documents),
+    # so rationale URLs have to come from CRISIL's own AEM search pages, whose
+    # paths were read out of the company-factsheet markup.
+    ("CRISIL", "search_results_page",
+     "https://www.crisilratings.com/content/crisilratings/en/home/our-business/"
+     "ratings/ratings-search-results.html?searchKey=Bajaj+Finance"),
+    ("CRISIL", "industry_wise_list",
+     "https://www.crisilratings.com/content/crisilratings/en/home/our-business/"
+     "ratings/company-factsheet/industry-wise-rating-list.html"),
+
+    # --- India Ratings JSON API ---
+    # Endpoint shapes were read out of the Angular bundle; baseUrl is injected
+    # from the shell's <base href="/">, so they resolve against the site root.
+    # The "_BeforeLogin" variant is the unauthenticated one.
+    ("India Ratings", "api_search_bajaj",
+     "https://www.indiaratings.co.in/home/GetSearchIssuerData_PressRelease"
+     "?searchKey=Bajaj%20Finance&noOfShowEntry=10"),
+    ("India Ratings", "api_search_chola",
+     "https://www.indiaratings.co.in/home/GetSearchIssuerData_PressRelease"
+     "?searchKey=Cholamandalam&noOfShowEntry=10"),
+    ("India Ratings", "api_search_pfc",
+     "https://www.indiaratings.co.in/home/GetSearchIssuerData_PressRelease"
+     "?searchKey=Power%20Finance%20Corporation&noOfShowEntry=10"),
+    ("India Ratings", "api_generic_search",
+     "https://www.indiaratings.co.in/home/GetSearch?searchKey=Bajaj%20Finance"),
 ]
 
 # Endpoint paths mined out of a JS bundle, to be probed in phase 2.
@@ -109,9 +132,18 @@ API_HINT_RE = re.compile(
 
 
 def capture_path(source: str, name: str, content_type: str) -> Path:
-    ext = ".json" if "json" in content_type else (
-        ".pdf" if "pdf" in content_type else (
-            ".txt" if "text/plain" in content_type else ".html"))
+    if "json" in content_type:
+        ext = ".json"
+    elif "pdf" in content_type:
+        ext = ".pdf"
+    elif "javascript" in content_type:
+        ext = ".js"
+    elif "xml" in content_type:
+        ext = ".xml"
+    elif "text/plain" in content_type:
+        ext = ".txt"
+    else:
+        ext = ".html"
     d = CAPTURES / source.replace(" ", "_")
     d.mkdir(parents=True, exist_ok=True)
     return d / f"{name}{ext}"
@@ -244,6 +276,21 @@ def _followup_targets(results: list[dict]) -> list[tuple]:
                 followups.append(("India Ratings", f"api_probe_{i}", url))
             for i, base in enumerate(bases):
                 followups.append(("India Ratings", f"api_abs_{i}", base))
+
+        if r["name"].startswith("api_search_") and "json" in (r["content_type"] or ""):
+            try:
+                payload = json.loads(path.read_text(errors="ignore"))
+            except (json.JSONDecodeError, OSError):
+                payload = None
+            if payload is not None:
+                blob = json.dumps(payload)
+                ids = sorted(set(re.findall(r'"pressReleaseId"\s*:\s*"?(\d+)"?', blob)))[:3]
+                print(f"[recon] {r['name']}: {len(ids)} press release ids", flush=True)
+                for i, pr_id in enumerate(ids):
+                    followups.append((
+                        "India Ratings", f"{r['name']}_pr_{i}",
+                        "https://www.indiaratings.co.in/pressReleases/"
+                        f"GetPressreleaseData_BeforeLogin?pressReleaseId={pr_id}"))
 
         if r["name"] == "sitemap":
             text = path.read_text(errors="ignore")

@@ -14,7 +14,7 @@ import db
 
 COLUMNS = [
     "entity_name", "source", "instrument", "record_date",
-    "amount_rs_cr", "amount_raw_text",
+    "amount_rs_cr", "previous_amount_rs_cr", "amount_raw_text", "is_sublimit",
     "rating_previous", "rating_current",
     "outlook_previous", "outlook_current",
     "action_type", "is_confirmed_action", "ambiguous", "ambiguous_reason", "provenance", "row_seq",

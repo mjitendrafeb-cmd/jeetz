@@ -53,6 +53,8 @@ CREATE TABLE IF NOT EXISTS rating_records (
     ambiguous_reason TEXT,
     provenance TEXT,
     row_seq INTEGER,
+    is_sublimit INTEGER NOT NULL DEFAULT 0,
+    previous_amount_rs_cr REAL,
     evidence_text TEXT,
     press_release_id INTEGER REFERENCES press_releases(id) ON DELETE CASCADE,
     extracted_at TEXT NOT NULL
@@ -160,12 +162,14 @@ def insert_rating_record(conn, record: dict):
             (entity_id, source, instrument, record_date, amount_rs_cr, amount_raw_text,
              rating_current, rating_previous, outlook_current, outlook_previous,
              action_type, is_confirmed_action, ambiguous, ambiguous_reason,
-             provenance, row_seq, evidence_text, press_release_id, extracted_at)
+             provenance, row_seq, is_sublimit, previous_amount_rs_cr,
+             evidence_text, press_release_id, extracted_at)
         VALUES
             (:entity_id, :source, :instrument, :record_date, :amount_rs_cr, :amount_raw_text,
              :rating_current, :rating_previous, :outlook_current, :outlook_previous,
              :action_type, :is_confirmed_action, :ambiguous, :ambiguous_reason,
-             :provenance, :row_seq, :evidence_text, :press_release_id, :extracted_at)
+             :provenance, :row_seq, :is_sublimit, :previous_amount_rs_cr,
+             :evidence_text, :press_release_id, :extracted_at)
         """,
         record,
     )
