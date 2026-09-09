@@ -142,6 +142,19 @@ def fetch_india_ratings(session, entity: dict) -> list[dict]:
             _save_debug(f"ir_facility_{pr_id}.txt", fac.text)
             continue
 
+        has_facilities = any(
+            (g or {}).get("bankFacilitiesList") for g in
+            (facilities if isinstance(facilities, list) else [facilities])
+        )
+        if not has_facilities:
+            # This endpoint only covers BANK facilities. A release rating only
+            # NCDs/CP returns groups with no facilities, which is why some
+            # entities yield nothing here; the payload is saved so the
+            # non-bank instrument endpoint can be identified.
+            path = _save_debug(f"ir_no_facilities_{pr_id}.json", fac.text)
+            print(f"    [IR] PR {pr_id} has no bank facilities "
+                  f"(likely NCD/CP only) -> {path}")
+
         doc_path = _save_doc(f"india_ratings_{pr_id}.json", fac.content)
         parsed = ir_parser.parse(
             entity["name"], entity["aliases"],
@@ -180,20 +193,38 @@ def fetch_icra(session, entity: dict) -> list[dict]:
         print("    [ICRA] no __RequestVerificationToken on the home page")
         return []
 
-    resp = session.post(
-        f"{ICRA_BASE}/Home/PostGlobalSearchIndex",
-        data={
-            "__RequestVerificationToken": token,
-            "KeyWord": entity["name"],
-            "PageType": "Rating",
-            "pageNumber": 1,
-        },
-        headers={"X-Requested-With": "XMLHttpRequest"},
-        timeout=45,
-    )
-    if resp.status_code != 200:
-        print(f"    [ICRA] search HTTP {resp.status_code}")
-        _save_debug(f"icra_search_{entity['id']}.html", resp.text)
+    # PageType is case-sensitive and the site calls it with 'ALL' / 'RATING';
+    # 'Rating' returned "no results were found" for every entity. The full
+    # legal name often misses too, so a shortened key is tried as well.
+    short_name = re.sub(
+        r"(?i)\s+(limited|ltd\.?|private|pvt\.?|company|corporation)\b", "",
+        entity["name"]).strip()
+    attempts = [("ALL", entity["name"]), ("RATING", entity["name"])]
+    if short_name and short_name.lower() != entity["name"].lower():
+        attempts += [("ALL", short_name), ("RATING", short_name)]
+
+    resp = None
+    for page_type, keyword in attempts:
+        resp = session.post(
+            f"{ICRA_BASE}/Home/PostGlobalSearchIndex",
+            data={
+                "__RequestVerificationToken": token,
+                "KeyWord": keyword,
+                "PageType": page_type,
+                "pageNumber": 1,
+            },
+            headers={"X-Requested-With": "XMLHttpRequest"},
+            timeout=45,
+        )
+        if resp.status_code == 200 and "GetRationalReportFilePdf" in resp.text:
+            print(f"    [ICRA] search hit with PageType={page_type} key={keyword!r}")
+            break
+        time.sleep(POLITE_DELAY_SECONDS)
+
+    if resp is None or resp.status_code != 200:
+        print(f"    [ICRA] search HTTP {resp.status_code if resp else 'n/a'}")
+        if resp is not None:
+            _save_debug(f"icra_search_{entity['id']}.html", resp.text)
         return []
 
     # The response is an HTML fragment; rationale PDFs are linked by report id.
@@ -242,9 +273,14 @@ def _crisil_rationale_urls(entity: dict) -> list[str]:
         browser = p.chromium.launch()
         page = browser.new_page(user_agent=HEADERS["User-Agent"])
         try:
+            # Waiting for the full "load" event times out: the page keeps
+            # fetching third-party resources indefinitely. Plain HTTP fetches
+            # this same URL fine (recon got 200/66KB), so the document is
+            # there — domcontentloaded is the right gate for driving search.
             page.goto(f"{CRISIL_BASE}/en/home/our-business/ratings/"
-                      "company-factsheet.html", timeout=60000)
-            page.wait_for_timeout(3000)
+                      "company-factsheet.html",
+                      wait_until="domcontentloaded", timeout=90000)
+            page.wait_for_timeout(4000)
 
             # Selector is unverified from the sandbox, so several plausible
             # ones are tried and the rendered page is saved when none work,
