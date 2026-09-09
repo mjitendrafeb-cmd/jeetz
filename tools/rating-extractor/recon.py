@@ -108,6 +108,24 @@ TARGETS = [
     ("India Ratings", "api_pressrelease_known",
      "https://www.indiaratings.co.in/pressReleases/GetPressreleaseData_BeforeLogin"
      "?pressReleaseId=81837"),
+    # GetPressreleaseData returns only the header/overview, so these carry the
+    # instrument-level detail. Probed against Bajaj Finance
+    # (issuerId 2549, pressReleaseId 81837).
+    ("India Ratings", "api_bank_facility_data",
+     "https://www.indiaratings.co.in/pressReleases/GetBankFacilityDataRatingLetter"
+     "?pressReleaseId=81837"),
+    ("India Ratings", "api_rac_popular",
+     "https://www.indiaratings.co.in/pressReleases/GetRACPopularData?pressReleaseId=81837"),
+    ("India Ratings", "api_nrac_popular",
+     "https://www.indiaratings.co.in/pressReleases/GetNRACPopularData?pressReleaseId=81837"),
+    # Issuer-keyed endpoints: a full press-release history per issuer, which is
+    # a better discovery path than free-text search for a fixed watchlist.
+    ("India Ratings", "api_issuer_pressreleases",
+     "https://www.indiaratings.co.in/home/GetIssuerPressReleases?issuerId=2549"),
+    ("India Ratings", "api_issuer_details",
+     "https://www.indiaratings.co.in/home/GetIssuerDetails?issuerId=2549"),
+    ("India Ratings", "api_unaccepted_ratings",
+     "https://www.indiaratings.co.in/pressReleases/GetUnAcceptedIssuersRatings?issuerId=2549"),
 ]
 
 # Endpoint paths mined out of a JS bundle, to be probed in phase 2.
