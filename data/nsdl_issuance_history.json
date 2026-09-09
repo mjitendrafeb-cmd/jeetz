@@ -1,6 +1,94 @@
 {
  "records": [
   {
+   "isin": "INE530B08268",
+   "issuer": "IIFL FINANCE LIMITED",
+   "allotment_date": "2026-09-08",
+   "amount_cr": 150.0,
+   "coupon": 9.35,
+   "tenure_years": 7.0,
+   "band": "AA band (AA+/AA/AA-)",
+   "segment": "NBFC/HFC",
+   "spread_bps": 254,
+   "ratings": [
+    "CRISIL AA",
+    "Infomerics AA",
+    "Brickwork AA+"
+   ]
+  },
+  {
+   "isin": "INE961U07010",
+   "issuer": "ALPHAGREP SECURITIES PRIVATE LIMITED",
+   "allotment_date": "2026-09-08",
+   "amount_cr": 200.0,
+   "coupon": 10.5,
+   "tenure_years": 1.0,
+   "band": "A band (A+/A/A-)",
+   "segment": "Corporate",
+   "spread_bps": 474,
+   "ratings": [
+    "CRISIL A+"
+   ]
+  },
+  {
+   "isin": "INE046W07396",
+   "issuer": "MUTHOOT MICROFIN LIMITED",
+   "allotment_date": "2026-09-08",
+   "amount_cr": 250.0,
+   "coupon": 9.25,
+   "tenure_years": 2.0,
+   "band": "AA band (AA+/AA/AA-)",
+   "segment": "NBFC/HFC",
+   "spread_bps": 322,
+   "ratings": [
+    "CRISIL AA-"
+   ]
+  },
+  {
+   "isin": "INE916DA7TO5",
+   "issuer": "KOTAK MAHINDRA PRIME LIMITED",
+   "allotment_date": "2026-09-08",
+   "amount_cr": 700.0,
+   "coupon": 8.147,
+   "tenure_years": 5.1,
+   "band": "AAA",
+   "segment": "NBFC/HFC",
+   "spread_bps": 163,
+   "ratings": [
+    "ICRA AAA",
+    "CRISIL AAA"
+   ]
+  },
+  {
+   "isin": "INE296A07UF0",
+   "issuer": "BAJAJ FINANCE LIMITED",
+   "allotment_date": "2026-09-08",
+   "amount_cr": 2050.0,
+   "coupon": 8.07,
+   "tenure_years": 3.5,
+   "band": "AAA",
+   "segment": "NBFC/HFC",
+   "spread_bps": 176,
+   "ratings": [
+    "CRISIL AAA"
+   ]
+  },
+  {
+   "isin": "INE976I07DH2",
+   "issuer": "TATA CAPITAL LIMITED",
+   "allotment_date": "2026-09-08",
+   "amount_cr": 3000.0,
+   "coupon": 8.05,
+   "tenure_years": 3.0,
+   "band": "AAA",
+   "segment": "NBFC/HFC",
+   "spread_bps": 174,
+   "ratings": [
+    "CRISIL AAA",
+    "ICRA AAA"
+   ]
+  },
+  {
    "isin": "INE03UZ07049",
    "issuer": "RARE ASSET RECONSTRUCTION LIMITED",
    "allotment_date": "2026-09-07",

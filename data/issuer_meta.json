@@ -15,6 +15,10 @@
   "segment": "NBFC/HFC",
   "updated": "2026-09-04"
  },
+ "alphagrep securities": {
+  "segment": "Corporate",
+  "updated": "2026-09-09"
+ },
  "amrit malwa capital": {
   "segment": "NBFC/HFC",
   "updated": "2026-09-01"
@@ -25,7 +29,7 @@
  },
  "bajaj finance": {
   "segment": "NBFC/HFC",
-  "updated": "2026-08-28"
+  "updated": "2026-09-09"
  },
  "balkrishna industries": {
   "segment": "Corporate",
@@ -101,7 +105,7 @@
  },
  "iifl finance": {
   "segment": "NBFC/HFC",
-  "updated": "2026-09-03"
+  "updated": "2026-09-09"
  },
  "incred financial services": {
   "segment": "Corporate",
@@ -147,6 +151,10 @@
   "segment": "NBFC/HFC",
   "updated": "2026-09-04"
  },
+ "kotak mahindra prime": {
+  "segment": "NBFC/HFC",
+  "updated": "2026-09-09"
+ },
  "krazybee services": {
   "segment": "NBFC/HFC",
   "updated": "2026-08-26"
@@ -174,6 +182,10 @@
  "muthoot fincorp": {
   "segment": "NBFC/HFC",
   "updated": "2026-09-01"
+ },
+ "muthoot microfin": {
+  "segment": "NBFC/HFC",
+  "updated": "2026-09-09"
  },
  "navi finserv": {
   "segment": "NBFC/HFC",
@@ -242,6 +254,10 @@
  "tablespace technologies": {
   "segment": "Corporate",
   "updated": "2026-09-07"
+ },
+ "tata capital": {
+  "segment": "NBFC/HFC",
+  "updated": "2026-09-09"
  },
  "tvs credit services": {
   "segment": "NBFC/HFC",
