@@ -3706,11 +3706,11 @@ _EVENTS = [
         r"missed (payment|interest|coupon)|invocation of (pledge|guarantee)|"
         r"insolvency|\bcirp\b|nclt admits?|liquidation|wilful defaulter|"
         r"\bsma-?[012]\b|debt restructur)", re.IGNORECASE)),
-    ("RATING", "RATING", 9, "#15803d", re.compile(
+    ("RATING", "RATING", 10, "#15803d", re.compile(
         r"\b(upgrad\w*|downgrad\w*|rating watch|credit watch|placed on watch|"
         r"outlook (revised|negative|positive|stable)|revises? outlook|"
         r"reaffirm\w*|withdraws? rating|assigns? (?:\d\.\d|[^.|]){0,25}rating)", re.IGNORECASE)),
-    ("REGULATORY", "REGULATORY", 8, "#b45309", re.compile(
+    ("REGULATORY", "REGULATORY", 10, "#b45309", re.compile(
         r"\b(monetary penalty|imposes? (a )?penalt|penalis|penaliz|enforcement action|"
         r"adjudication order|show cause notice|debarr|cease and desist|sebi order|"
         r"compounding order|licence (cancel|revok)|registration cancel)", re.IGNORECASE)),
@@ -3719,7 +3719,7 @@ _EVENTS = [
         r"(resign|steps? down|quits?|exits?|appoint|elevat)|"
         r"(resign|steps? down|quits?)(?:\d\.\d|[^.|]){0,25}(ceo|cfo|md|chairman|auditor)|"
         r"auditor (resign|change)|board (approves|appoints))", re.IGNORECASE)),
-    ("FUNDING", "FUNDING", 6, "#1e3a8a", re.compile(
+    ("FUNDING", "FUNDING", 4, "#1e3a8a", re.compile(
         r"\b(raises?\s+(rs\.?\s?)?[\d.,]+\s*(crore|cr\b|million|billion)|"
         r"fund ?rais\w*|funding round|series [a-f]\b|\bqip\b|rights issue|"
         r"preferential allotment|capital infusion|tier[- ]?(i|ii|1|2) bonds?|"
@@ -3729,7 +3729,7 @@ _EVENTS = [
     ("M&A", "M&amp;A", 6, "#0f766e", re.compile(
         r"\b(acqui(re|res|red|sition)|merger|amalgamat\w*|stake (sale|buy|purchase|acquisition)|"
         r"divest\w*|takeover|open offer|slump sale)", re.IGNORECASE)),
-    ("RESULTS", "RESULTS", 4, "#525252", re.compile(
+    ("RESULTS", "RESULTS", 6, "#525252", re.compile(
         r"\b(q[1-4]\s?(fy)?\d*|quarterly|net profit|\bpat\b|\bnii\b|"
         r"net interest income|earnings|results?\b|gross npa|net npa)", re.IGNORECASE)),
     # Retail-investor "should you buy or sell" price commentary carries no
@@ -4878,12 +4878,17 @@ def _np_partb(p: dict, items: list[dict], by_section: dict,
             total += n_items
             for v in by_company.values():
                 chosen.extend(v)
-            # Entities with the most material news first; within an entity,
-            # most material first, and an undated item never leads.
-            for v in by_company.values():
-                v.sort(key=lambda it: (-_materiality(it), _is_undated(it)))
-            order = sorted(by_company.items(),
-                           key=lambda kv: -max(_materiality(i) for i in kv[1]))
+            # Requested: pure materiality ranking across the WHOLE table,
+            # irrespective of which company a story belongs to -- highest
+            # score first, lowest last, full stop. Previously grouped by
+            # company first (each entity's own block ordered by its own
+            # top story, stories within a company then ranked by
+            # materiality) so a GH scanning entries could see "Shriram
+            # Finance: 5 items" together; that grouping is gone now by
+            # explicit instruction in favour of one flat ranking. An
+            # undated item still never leads on a tie.
+            flat = [(comp, it) for comp, its in by_company.items() for it in its]
+            flat.sort(key=lambda ci: (-_materiality(ci[1]), _is_undated(ci[1])))
             # Team-requested layout: Company / Source Link / Summary as a
             # table, one row per story, instead of per-entity header +
             # stacked cards. The table wrapper carries column-span:all so
@@ -4894,7 +4899,7 @@ def _np_partb(p: dict, items: list[dict], by_section: dict,
             # layout-scope decision this replaced.
             rows = "".join(_np_s1_row(it, comp, (takeaways or {}).get(_key(it)),
                                        is_first=comp in new_companies)
-                           for comp, its in order for it in its)
+                           for comp, it in flat)
             parts.append(
                 '<div class="s1wrap"><table class="s1tbl">'
                 '<thead><tr><th>Company</th><th>Source Link</th><th>View/Implications</th></tr></thead>'
