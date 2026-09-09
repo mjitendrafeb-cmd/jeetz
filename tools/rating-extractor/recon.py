@@ -94,17 +94,20 @@ TARGETS = [
     # Endpoint shapes were read out of the Angular bundle; baseUrl is injected
     # from the shell's <base href="/">, so they resolve against the site root.
     # The "_BeforeLogin" variant is the unauthenticated one.
+    # home/GetSearch is the endpoint that actually returns data: issuerList +
+    # pressreleaseList (id, title, date, urlKey). The GetSearchIssuerData_
+    # PressRelease variant returns an empty array, so it is not used.
     ("India Ratings", "api_search_bajaj",
-     "https://www.indiaratings.co.in/home/GetSearchIssuerData_PressRelease"
-     "?searchKey=Bajaj%20Finance&noOfShowEntry=10"),
-    ("India Ratings", "api_search_chola",
-     "https://www.indiaratings.co.in/home/GetSearchIssuerData_PressRelease"
-     "?searchKey=Cholamandalam&noOfShowEntry=10"),
-    ("India Ratings", "api_search_pfc",
-     "https://www.indiaratings.co.in/home/GetSearchIssuerData_PressRelease"
-     "?searchKey=Power%20Finance%20Corporation&noOfShowEntry=10"),
-    ("India Ratings", "api_generic_search",
      "https://www.indiaratings.co.in/home/GetSearch?searchKey=Bajaj%20Finance"),
+    ("India Ratings", "api_search_chola",
+     "https://www.indiaratings.co.in/home/GetSearch?searchKey=Cholamandalam"),
+    ("India Ratings", "api_search_pfc",
+     "https://www.indiaratings.co.in/home/GetSearch?searchKey=Power%20Finance%20Corporation"),
+    # Content endpoint, probed with a known-real press release id (Bajaj
+    # Finance, 10-Mar-2026) to confirm the unauthenticated variant works.
+    ("India Ratings", "api_pressrelease_known",
+     "https://www.indiaratings.co.in/pressReleases/GetPressreleaseData_BeforeLogin"
+     "?pressReleaseId=81837"),
 ]
 
 # Endpoint paths mined out of a JS bundle, to be probed in phase 2.
@@ -284,7 +287,8 @@ def _followup_targets(results: list[dict]) -> list[tuple]:
                 payload = None
             if payload is not None:
                 blob = json.dumps(payload)
-                ids = sorted(set(re.findall(r'"pressReleaseId"\s*:\s*"?(\d+)"?', blob)))[:3]
+                ids = sorted(set(re.findall(
+                    r'"pressReleaseI[Dd]"\s*:\s*"?(\d+)"?', blob)))[:3]
                 print(f"[recon] {r['name']}: {len(ids)} press release ids", flush=True)
                 for i, pr_id in enumerate(ids):
                     followups.append((
