@@ -228,9 +228,11 @@ def fetch_icra(session, entity: dict) -> list[dict]:
         return []
 
     # The response is an HTML fragment; rationale PDFs are linked by report id.
-    ids = re.findall(r"GetRationalReportFilePdf\?id=(\d+)", resp.text)
+    # The href is "?Id=" with a capital I; a lowercase-only pattern found
+    # nothing even when the search had clearly returned rationales.
+    ids = re.findall(r"GetRationalReportFilePdf\?id=(\d+)", resp.text, re.IGNORECASE)
     if not ids:
-        ids = re.findall(r"ShowRationalReportFilePdf/(\d+)", resp.text)
+        ids = re.findall(r"ShowRationalReportFilePdf/(\d+)", resp.text, re.IGNORECASE)
     if not ids:
         path = _save_debug(f"icra_search_{entity['id']}.html", resp.text)
         print(f"    [ICRA] no rationale ids in search response -> {path}")
@@ -295,12 +297,39 @@ def _crisil_rationale_urls(entity: dict) -> list[str]:
                 try:
                     if page.locator(sel).count():
                         page.fill(sel, entity["name"], timeout=8000)
-                        page.keyboard.press("Enter")
                         filled = True
                         print(f"    [CRISIL] searched via {sel!r}")
                         break
                 except Exception:
                     continue
+
+            if filled:
+                # Enter alone does nothing here: the box is a jQuery UI
+                # autocomplete, and the suggestion has to be clicked to
+                # navigate. The saved results page showed the dropdown
+                # rendering the entity but the page never moving.
+                try:
+                    page.wait_for_selector("ul.ui-autocomplete li.ui-menu-item",
+                                           timeout=15000)
+                    items = page.locator("ul.ui-autocomplete li.ui-menu-item")
+                    target = None
+                    for i in range(items.count()):
+                        text = (items.nth(i).inner_text() or "").strip()
+                        if _name_matches(text, entity):
+                            target = items.nth(i)
+                            print(f"    [CRISIL] clicking suggestion {text!r}")
+                            break
+                    if target is None and items.count():
+                        target = items.nth(0)
+                        print("    [CRISIL] no exact suggestion match; using the first")
+                    if target is not None:
+                        target.click()
+                        page.wait_for_load_state("domcontentloaded", timeout=60000)
+                        page.wait_for_timeout(6000)
+                except Exception as exc:
+                    print(f"    [CRISIL] autocomplete step failed: {exc}")
+                    page.keyboard.press("Enter")
+                    page.wait_for_timeout(6000)
 
             if not filled:
                 _save_debug(f"crisil_search_page_{entity['id']}.html", page.content())
