@@ -17,7 +17,7 @@ COLUMNS = [
     "amount_rs_cr", "amount_raw_text",
     "rating_previous", "rating_current",
     "outlook_previous", "outlook_current",
-    "action_type", "is_confirmed_action", "ambiguous", "ambiguous_reason",
+    "action_type", "is_confirmed_action", "ambiguous", "ambiguous_reason", "provenance", "row_seq",
     "press_release_date", "press_release_url", "evidence_text", "extracted_at",
 ]
 

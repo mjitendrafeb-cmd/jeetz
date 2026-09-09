@@ -76,6 +76,8 @@ def main():
 
         print(f"\n=== {len(records)} candidate record(s) for {args.entity} / {args.source} ===\n")
         for i, rec in enumerate(records, 1):
+            rec.setdefault("provenance", "generic_text_fallback")
+            rec.setdefault("row_seq", None)
             rec["entity_id"] = entity["id"]
             rec["source"] = args.source
             rec["press_release_id"] = press_release_id
@@ -88,6 +90,7 @@ def main():
             print(f"  Amount:            {rec['amount_raw_text']} -> {rec['amount_rs_cr']} Cr")
             print(f"  Rating:            {rec['rating_current']}  (outlook: {rec['outlook_current']})")
             print(f"  Action type:       {rec['action_type']}")
+            print(f"  Provenance:        {rec.get('provenance')}")
             print(f"  Confirmed action?: {'YES' if rec['is_confirmed_action'] else 'NO (ambiguous)'}")
             if rec.get("ambiguous_reason"):
                 print(f"  Why ambiguous:     {rec['ambiguous_reason']}")

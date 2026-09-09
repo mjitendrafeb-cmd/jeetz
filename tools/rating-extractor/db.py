@@ -51,6 +51,8 @@ CREATE TABLE IF NOT EXISTS rating_records (
     is_confirmed_action INTEGER NOT NULL DEFAULT 0,
     ambiguous INTEGER NOT NULL DEFAULT 0,
     ambiguous_reason TEXT,
+    provenance TEXT,
+    row_seq INTEGER,
     evidence_text TEXT,
     press_release_id INTEGER REFERENCES press_releases(id) ON DELETE CASCADE,
     extracted_at TEXT NOT NULL
@@ -130,13 +132,24 @@ def upsert_press_release(conn, entity_id, source, url, pub_date, fetched_at, sto
     return row["id"]
 
 
-def find_rating_record(conn, entity_id, source, instrument, record_date):
+def find_rating_record(conn, entity_id, source, instrument, record_date,
+                       amount_rs_cr=None, provenance=None, row_seq=None):
+    """Look up an existing record.
+
+    The natural key is (entity, source, instrument, date), but a single
+    release can rate several distinct programmes of the same instrument type
+    on the same date (e.g. a Rs.25,000cr NCD assigned alongside a Rs.15,000cr
+    NCD reaffirmed). Amount and provenance are therefore part of the key, so
+    genuinely different programmes are not mistaken for conflicting versions
+    of one record.
+    """
     return conn.execute(
         """
         SELECT * FROM rating_records
         WHERE entity_id = ? AND source = ? AND instrument IS ? AND record_date IS ?
+          AND amount_rs_cr IS ? AND provenance IS ? AND row_seq IS ?
         """,
-        (entity_id, source, instrument, record_date),
+        (entity_id, source, instrument, record_date, amount_rs_cr, provenance, row_seq),
     ).fetchone()
 
 
@@ -147,12 +160,12 @@ def insert_rating_record(conn, record: dict):
             (entity_id, source, instrument, record_date, amount_rs_cr, amount_raw_text,
              rating_current, rating_previous, outlook_current, outlook_previous,
              action_type, is_confirmed_action, ambiguous, ambiguous_reason,
-             evidence_text, press_release_id, extracted_at)
+             provenance, row_seq, evidence_text, press_release_id, extracted_at)
         VALUES
             (:entity_id, :source, :instrument, :record_date, :amount_rs_cr, :amount_raw_text,
              :rating_current, :rating_previous, :outlook_current, :outlook_previous,
              :action_type, :is_confirmed_action, :ambiguous, :ambiguous_reason,
-             :evidence_text, :press_release_id, :extracted_at)
+             :provenance, :row_seq, :evidence_text, :press_release_id, :extracted_at)
         """,
         record,
     )
@@ -166,13 +179,15 @@ def upsert_rating_record(conn, record: dict):
     overwritten) so a human resolves which is correct.
     """
     existing = find_rating_record(
-        conn, record["entity_id"], record["source"], record["instrument"], record["record_date"]
+        conn, record["entity_id"], record["source"], record["instrument"],
+        record["record_date"], record.get("amount_rs_cr"), record.get("provenance"),
+        record.get("row_seq"),
     )
     if existing is None:
         insert_rating_record(conn, record)
         return "inserted"
 
-    comparable = ("amount_rs_cr", "rating_current", "rating_previous", "action_type")
+    comparable = ("rating_current", "rating_previous", "action_type")
     conflict = any(existing[field] != record.get(field) for field in comparable)
     if not conflict:
         return "duplicate_skipped"
