@@ -31,7 +31,7 @@ def main():
     parser.add_argument("--url", required=True)
     parser.add_argument("--file", required=True, help="Path to the saved HTML/text file")
     parser.add_argument("--pub-date", help="Press release date, ISO format, if known")
-    parser.add_argument("--content-type", default="html", choices=["html", "text", "pdf"])
+    parser.add_argument("--content-type", default="html", choices=["html", "text", "pdf", "json"])
     args = parser.parse_args()
 
     file_path = Path(args.file)
@@ -76,6 +76,8 @@ def main():
 
         parser_input = str(stored_copy_path) if is_pdf else raw_content
         content_type = "pdf" if is_pdf else args.content_type
+        if file_path.suffix.lower() == ".json" and content_type == "html":
+            content_type = "json"
         records = PARSERS[args.source](entity["name"], aliases, parser_input, content_type)
 
         if not records:

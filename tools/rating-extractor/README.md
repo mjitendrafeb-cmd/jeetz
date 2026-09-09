@@ -10,44 +10,67 @@ press releases. For each entity in `entities.csv`, extracts:
 
 This is a standalone tool — no scheduling, dashboard, or delta-diffing.
 
-## Status: reconnaissance blocked in this environment
+## Status: all three sources reconnoitred and parsing real documents
 
-The sandbox this was built in cannot reach `crisilratings.com`, `icra.in`,
-or `indiaratings.co.in` — the network egress proxy denies the connection at
-the policy level, for every tool (curl, Python `requests`, browser). So the
-site-specific parsers in `extract/` have **not** been validated against real
-markup yet.
+The dev sandbox is behind a default-deny egress allowlist and cannot reach
+any rating-agency domain. Reconnaissance therefore runs on a GitHub Actions
+runner (`.github/workflows/rating_recon.yml` + `recon.py`), which fetches
+real pages, commits them to `captures/`, and lets the parsers be built and
+validated against actual markup rather than guesswork.
 
-To unblock: save a real page (View Source / Ctrl+U, or a raw API response
-from the browser's Network tab) to `samples/<source>/<entity>.html` (or
-`.json`), then run:
+| Source | Strategy | Browser? | Extraction | Discovery |
+|---|---|---|---|---|
+| CRISIL | Plain HTTP + HTML tables | No | Validated | **Unsolved** |
+| ICRA | Plain HTTP + PDF tables | No | Validated | Untested |
+| India Ratings | Unauthenticated JSON API | No | Validated | Solved |
 
-```bash
-python ingest_sample.py --source CRISIL --entity "Bajaj Finance Limited" \
-    --url "https://..." --file samples/CRISIL/bajaj_finance.html
-```
+**CRISIL** rationales are fully server-rendered HTML. Three structures are
+parsed, each tagged with `provenance`: the header Rating Action table (the
+only rows treated as confirmed actions, since the action is stated per
+instrument), `#AnnexureSecTableId` (facility-level amounts) and
+`#AnnexRtgHistoryTable` (dated previous -> new history).
 
-(`--source` must be exactly `CRISIL`, `ICRA`, or `"India Ratings"`.) This
-runs extraction against the saved file and prints every extracted field
-next to the source snippet it came from, so you can verify amount / rating
-/ date before anything is trusted. Nothing is fetched over the network by
-this command — it's pure local parsing, for building and validating
-selectors. See `samples/example/synthetic_crisil_sample.html` for a
-made-up (not real) page you can run this against right now as a smoke test:
+**ICRA** publishes rationales as text-based PDFs at
+`/Rating/GetRationalReportFilePdf?id=`. The page-1 "Summary of rating
+action" table carries previous and current rated amounts plus an explicit
+per-instrument action.
 
-```bash
-python ingest_sample.py --source CRISIL --entity "Bajaj Finance Limited" \
-    --url "https://example.invalid/smoketest" \
-    --file samples/example/synthetic_crisil_sample.html
-```
+**India Ratings** is an Angular SPA serving an identical shell on every
+route, but its JSON API needs no browser and no auth:
+`home/GetSearch?searchKey=` -> issuerID + press releases;
+`pressReleases/GetBankFacilityDataRatingLetter?pressReleaseId=` -> the
+instrument table. Note `GetPressreleaseData` returns only a header blurb.
 
-**Known gap found by that smoke test**: the current generic parser only
-classifies a text unit (roughly one sentence) if it repeats the entity's
-name. Real rationale pages typically name the entity once and then list
-multiple instruments/ratings afterward without repeating it — those would
-be missed. Once you get a real sample, the per-source parser should key
-off that page's actual instrument table/structure instead of sentence-level
-name-matching.
+### Units differ between sources
+
+CRISIL and ICRA publish in **Rs. crore**; India Ratings publishes in **INR
+million** (its own column header reads "Rated Amount (INR million)"). The
+India Ratings parser divides by 10 so `amount_rs_cr` means the same thing
+everywhere. `amount_raw_text` always quotes the source's own units.
+
+### Known gaps
+
+- **CRISIL discovery is unsolved.** Its sitemap holds only CMS pages (no
+  rationale documents) and its `ratings-search-results` endpoint returns
+  HTTP 500. Rationale URLs currently have to be supplied. This blocks
+  unattended runs across the full entity list for that source only.
+- **Action attribution on India Ratings.** The facility endpoint reports
+  current rated positions, not actions; actions come from the press release
+  title. A title naming one action is applied to all rows; a title naming
+  several ("Assigns ... Additional NCDs; Affirms Existing Ratings") cannot
+  be attributed per instrument from these endpoints, so every row is
+  flagged ambiguous rather than guessed.
+- **No human verification yet.** Nothing here has been checked against a
+  live press release by a person. The ICRA sum check below is strong
+  evidence but cannot catch an internally consistent misreading.
+
+## Validation performed
+
+| Entity | Source | Result |
+|---|---|---|
+| Bajaj Finance | CRISIL | 10/10 header actions, correct amounts and ratings; 6 ambiguous (oldest-in-window history rows); idempotent re-ingest |
+| Cholamandalam | ICRA | 12 instruments, 0 ambiguous; amounts sum to 1,65,451.64 cr, **exactly** the total ICRA prints in the PDF |
+| Bajaj Finance | India Ratings | 334 facilities across 8 rating letters; totals Rs.76,000-80,000 cr per letter, consistent with its bank lines |
 
 ## Setup
 
