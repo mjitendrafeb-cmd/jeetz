@@ -70,7 +70,12 @@ jobs:
           if [ "${{ inputs.scope }}" = "all" ]; then ARGS="--all"; fi
           if [ -n "${{ inputs.sources }}" ]; then ARGS="$ARGS --sources ${{ inputs.sources }}"; fi
           echo "fetch.py $ARGS"
-          python fetch.py $ARGS
+          mkdir -p captures/_fetch_debug
+          # Tee the run output into the repo: the Actions log API truncates to
+          # the tail, which hides the per-source diagnostics needed to fix
+          # failures from a sandbox that cannot reach these sites.
+          set -o pipefail
+          python fetch.py $ARGS 2>&1 | tee captures/_fetch_debug/last_run.log
 
       - name: Export results
         working-directory: tools/rating-extractor
