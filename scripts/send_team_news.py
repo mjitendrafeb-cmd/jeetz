@@ -320,7 +320,16 @@ _JUNK_SOURCE_RE = re.compile(
     r"\bupstox\b|"
     # Wrestling/pro-wrestling news site -- zero credit relevance, reported
     # source of noise reaching S2/S3.
-    r"fightful\.com)",
+    r"fightful\.com|"
+    # Italian motorcycle trade-show site -- product/spec-sheet coverage of
+    # motorbike models, zero credit relevance whatever the headline says.
+    # Reported live: "Benda Napoleon Bob 125" (a motorcycle model) reached
+    # S1 tagged to Bank of Baroda purely because the model name contains
+    # "Bob" -- this is a mechanical, AI-independent safety net for that
+    # class of story (source-based, not alias-specific), so it still works
+    # on a day the AI classifier is unavailable and the pipeline falls
+    # back to mechanical rules alone.
+    r"eicma\.it)",
     re.IGNORECASE,
 )
 # Crypto trading stories reach S1 through loose company-name matches (an
