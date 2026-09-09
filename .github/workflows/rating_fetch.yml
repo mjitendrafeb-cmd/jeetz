@@ -25,6 +25,14 @@ on:
     # 02:40 UTC daily (~08:10 IST). GitHub's scheduler often runs late; this
     # job is idempotent, so a late or repeated run simply re-skips duplicates.
     - cron: '40 2 * * *'
+  # workflow_dispatch only works once this file is on the default branch, so
+  # a push trigger keeps it runnable from the feature branch meanwhile.
+  push:
+    branches:
+      - claude/cra-rating-tracker-gz9zwj
+    paths:
+      - 'tools/rating-extractor/fetch.py'
+      - '.github/workflows/rating_fetch.yml'
 
 concurrency:
   group: rating-fetch
