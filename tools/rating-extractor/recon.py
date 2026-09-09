@@ -25,7 +25,9 @@ from urllib.parse import urlparse
 import requests
 
 CAPTURES = Path(__file__).parent / "captures"
-MAX_CAPTURE_BYTES = 1_500_000
+# Large enough for ICRA's rationale PDFs, which run to several MB and were
+# truncated (and so unparseable) at the previous 1.5MB cap.
+MAX_CAPTURE_BYTES = 8_000_000
 
 HEADERS = {
     "User-Agent": (
@@ -67,11 +69,28 @@ TARGETS = [
     ("ICRA", "home", "https://www.icra.in/"),
 
     # --- India Ratings ---
+    # Every route returns the same Angular shell, so the real data path is the
+    # JSON API referenced inside the JS bundle. The bundle is fetched here and
+    # mined for endpoints in phase 2 below.
     ("India Ratings", "robots", "https://www.indiaratings.co.in/robots.txt"),
     ("India Ratings", "rating_actions", "https://www.indiaratings.co.in/rating-actions"),
-    ("India Ratings", "press_releases", "https://www.indiaratings.co.in/pressrelease"),
-    ("India Ratings", "home", "https://www.indiaratings.co.in/"),
+    ("India Ratings", "bundle_main",
+     "https://www.indiaratings.co.in/main.b0be7d594b374f3a.js"),
+    ("India Ratings", "bundle_scripts",
+     "https://www.indiaratings.co.in/scripts.dc77230fe30c274f.js"),
+
+    # --- CRISIL sitemap: used to locate rationale URLs for the other two
+    # validation entities (Cholamandalam, PFC) without guessing paths. ---
+    ("CRISIL", "sitemap", "https://www.crisilratings.com/bin/sitemap.xml"),
 ]
+
+# Endpoint paths mined out of a JS bundle, to be probed in phase 2.
+JS_ENDPOINT_RE = re.compile(
+    r"""["'`](/?(?:api|API|Api|services|service|data)/[A-Za-z0-9_/.\-]{2,110})["'`]"""
+)
+JS_BASEURL_RE = re.compile(
+    r"""["'`](https?://[A-Za-z0-9.\-]+/(?:api|services)[A-Za-z0-9_/.\-]{0,110})["'`]"""
+)
 
 FRAMEWORK_SIGNATURES = {
     "Next.js": ["__NEXT_DATA__", "/_next/"],
@@ -197,10 +216,60 @@ def write_report(results: list[dict]) -> None:
     (CAPTURES / "recon_results.json").write_text(json.dumps(results, indent=2))
 
 
+def _followup_targets(results: list[dict]) -> list[tuple]:
+    """Phase 2 targets derived from what phase 1 actually found.
+
+    Two derivations: JSON endpoints referenced inside India Ratings' Angular
+    bundles, and rationale URLs for the remaining validation entities located
+    via CRISIL's sitemap. Both avoid guessing paths.
+    """
+    followups = []
+
+    for r in results:
+        if not r["capture_file"]:
+            continue
+        path = Path(__file__).parent / r["capture_file"]
+        if not path.exists():
+            continue
+
+        if r["name"].startswith("bundle_"):
+            text = path.read_text(errors="ignore")
+            endpoints = sorted(set(JS_ENDPOINT_RE.findall(text)))[:12]
+            bases = sorted(set(JS_BASEURL_RE.findall(text)))[:6]
+            print(f"[recon] {r['name']}: {len(endpoints)} endpoint paths, "
+                  f"{len(bases)} absolute API URLs", flush=True)
+            for i, ep in enumerate(endpoints):
+                url = ep if ep.startswith("http") else \
+                    "https://www.indiaratings.co.in" + (ep if ep.startswith("/") else "/" + ep)
+                followups.append(("India Ratings", f"api_probe_{i}", url))
+            for i, base in enumerate(bases):
+                followups.append(("India Ratings", f"api_abs_{i}", base))
+
+        if r["name"] == "sitemap":
+            text = path.read_text(errors="ignore")
+            urls = re.findall(r"<loc>\s*([^<\s]+)\s*</loc>", text)
+            print(f"[recon] sitemap: {len(urls)} URLs", flush=True)
+            wanted = {"Cholamandalam": "cholamandalam", "PowerFinance": "powerfinance"}
+            for label, needle in wanted.items():
+                hits = [u for u in urls if needle in u.lower()][:2]
+                for i, u in enumerate(hits):
+                    followups.append(("CRISIL", f"rationale_{label.lower()}_{i}", u))
+
+    return followups
+
+
 def main():
     CAPTURES.mkdir(parents=True, exist_ok=True)
     results = []
     for source, name, url in TARGETS:
+        print(f"[recon] {source} / {name} -> {url}", flush=True)
+        r = probe(source, name, url)
+        print(f"        status={r['status']} bytes={r['bytes']} "
+              f"entities={r['entities_found']} err={r['error']}", flush=True)
+        results.append(r)
+
+    print("\n[recon] --- phase 2: following up on discovered endpoints ---", flush=True)
+    for source, name, url in _followup_targets(results):
         print(f"[recon] {source} / {name} -> {url}", flush=True)
         r = probe(source, name, url)
         print(f"        status={r['status']} bytes={r['bytes']} "
