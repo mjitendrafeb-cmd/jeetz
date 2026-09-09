@@ -4715,8 +4715,35 @@ def _feedback_link(it: dict) -> str:
         return ""
     subj = urllib.parse.quote(f"[not relevant] {it.get('title','')[:120]}")
     return (f'<a href="mailto:{admin}?subject={subj}" '
-            f'style="font-size:8px;color:#c9c4b8;text-decoration:none;'
+            f'style="font-size:9px;font-weight:700;color:#9b9484;text-decoration:none;'
             f'margin-left:8px;">not relevant?</a>')
+
+
+def _manage_watchlist_banner_link(for_name: str = "") -> str:
+    """Compact 'Add/remove entities' mailto, same one-click trick as
+    _feedback_link's 'not relevant?', but placed inline beside the S1
+    banner heading itself so it's visible the moment the reader reaches
+    their watchlist -- not only at the very bottom of a long table, where
+    _request_entity_link's fuller version already sits (kept as-is;
+    this is an additional, more prominent placement, not a replacement).
+    """
+    import urllib.parse
+    admin = _admin_addr()
+    if not admin:
+        return ""
+    who = for_name or "(your name)"
+    subj = urllib.parse.quote(f"[add/remove entity] request from {who}")
+    body = urllib.parse.quote(
+        "Please update my watchlist:\n\n"
+        "Add (entity name as registered, e.g. 'Shriram Finance Limited'):\n"
+        "  1. \n\n"
+        "Remove:\n"
+        "  1. \n\n"
+        f"Requested by: {who}\n")
+    return (f'<a href="mailto:{admin}?subject={subj}&amp;body={body}" '
+            f'style="float:right;font-size:9px;font-weight:700;color:{_NP_TEAL_DK};'
+            f'text-decoration:none;letter-spacing:.5px;text-transform:none;">'
+            f'+/&minus; Add or remove entities</a>')
 
 
 def _request_entity_link(for_name: str = "", n_entities: int = 0) -> str:
@@ -4817,7 +4844,9 @@ def _np_partb(p: dict, items: list[dict], by_section: dict,
         # stay distinguishable downstream.
         if skey not in p["sections"]:
             continue
-        parts.append(f'<div id="{sid}" data-section="banner" class="sb {sbcls}">{title}</div>')
+        banner_extra = _manage_watchlist_banner_link(p.get("name", "")) if skey == "S1" else ""
+        parts.append(f'<div id="{sid}" data-section="banner" class="sb {sbcls}">'
+                     f'{title}{banner_extra}</div>')
         if skey == "S1":
             # (F) Group by entity. A GH scanning 39 items wants "Shriram
             # Finance: 5 items" together, not five cards interleaved with
