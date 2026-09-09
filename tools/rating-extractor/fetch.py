@@ -31,6 +31,7 @@ import time
 import traceback
 from datetime import datetime, timezone
 from pathlib import Path
+from urllib.parse import quote
 
 import requests
 from bs4 import BeautifulSoup
@@ -83,17 +84,34 @@ def _save_doc(name: str, content: bytes) -> Path:
     return path
 
 
+def _squash(text: str) -> str:
+    """Lowercase with every separator removed, for run-together names."""
+    return re.sub(r"[^a-z0-9]", "", (text or "").lower())
+
+
 def _name_matches(candidate: str, entity: dict) -> bool:
-    """Is this search hit actually our entity, not a similarly-named one?"""
+    """Is this hit actually our entity, not a similarly-named one?
+
+    Compared two ways: word-wise, and with all separators stripped. CRISIL
+    names its rationale files with the words run together
+    ("CholamandalamInvestmentandFinanceCompanyLimited_..."), which a
+    word-wise comparison alone never matches.
+    """
     if not candidate:
         return False
     cand = re.sub(r"[^a-z0-9 ]", " ", candidate.lower())
     cand = re.sub(r"\s+", " ", cand).strip()
-    names = [entity["name"]] + entity["aliases"]
-    for name in names:
-        n = re.sub(r"[^a-z0-9 ]", " ", (name or "").lower())
+    cand_squashed = _squash(candidate)
+
+    for name in [entity["name"]] + entity["aliases"]:
+        if not name:
+            continue
+        n = re.sub(r"[^a-z0-9 ]", " ", name.lower())
         n = re.sub(r"\s+", " ", n).strip()
         if n and (n == cand or n in cand or cand in n):
+            return True
+        n_squashed = _squash(name)
+        if n_squashed and (n_squashed in cand_squashed or cand_squashed in n_squashed):
             return True
     return False
 
@@ -341,15 +359,26 @@ def _crisil_rationale_urls(entity: dict) -> list[str]:
             html = page.content()
             _save_debug(f"crisil_results_{entity['id']}.html", html)
 
-            for href in re.findall(r'href=["\']([^"\']*RatingDocs/[^"\']+)["\']', html):
-                urls.append(href if href.startswith("http") else CRISIL_BASE + href)
+            # Rationale links are not hrefs: the anchor is
+            # href="javascript:openRRDocWindow()" and the real location lives
+            # in data-base-path + data-file-name, which the page joins at
+            # click time. So the URL is rebuilt from those attributes.
+            soup = BeautifulSoup(html, "html.parser")
+            anchors = soup.select("a[data-file-name][data-base-path]")
+            # rr-doc-class marks the current rating rationale; the
+            # str-oblig-list-doc entries are older obligation-level documents.
+            preferred = [a for a in anchors if "rr-doc-class" in (a.get("class") or [])]
+            for anchor in (preferred or anchors):
+                base_path = (anchor.get("data-base-path") or "").strip()
+                file_name = (anchor.get("data-file-name") or "").strip()
+                if not base_path or not file_name:
+                    continue
+                if not _name_matches(file_name, entity):
+                    continue
+                urls.append(CRISIL_BASE + base_path + quote(file_name))
 
-            if not urls:
-                for link in page.locator("a").all():
-                    href = link.get_attribute("href") or ""
-                    if "RatingDocs" in href:
-                        urls.append(href if href.startswith("http")
-                                    else CRISIL_BASE + href)
+            print(f"    [CRISIL] {len(anchors)} document anchors, "
+                  f"{len(preferred)} rating rationales, {len(urls)} matched entity")
         except Exception as exc:
             print(f"    [CRISIL] browser discovery failed: {exc}")
         finally:
