@@ -6014,6 +6014,20 @@ def main() -> None:
             # normal treatment instead of being wiped.
             s1_mismatch_suspicious = (len(gpt_s1_sent) >= 10
                                        and len(gpt_s1_mismatch) / len(gpt_s1_sent) >= 0.5)
+            # Sample titles, same pattern as the junk/stale filters
+            # (`for it in dropped[:10]: print(...)`) -- the aggregate count
+            # alone gave no way to audit whether GPT's keyword_mismatch
+            # calls are genuine collisions or the flag being over-applied
+            # to merely-thin/routine news that should have stayed
+            # "Neutral | No Action" instead of being removed. Confirmed
+            # live this matters: a demo run flagged 43/116 (37%) S1 items,
+            # well under the 50% suspicious-rejection threshold below, so
+            # nothing caught it -- only the titles themselves can.
+            if gpt_s1_mismatch:
+                sample = [it for it in gpt_s1_sent if _key(it) in gpt_s1_mismatch][:10]
+                for it in sample:
+                    print(f"[gpt] keyword_mismatch dropped: {it['title'][:80]} "
+                          f"(tagged {', '.join(it.get('companies') or [])})")
             if s1_mismatch_suspicious:
                 print(f"[gpt] WARNING: flagged {len(gpt_s1_mismatch)}/{len(gpt_s1_sent)} "
                       f"S1 items as keyword_mismatch -- implausible for this volume, "
