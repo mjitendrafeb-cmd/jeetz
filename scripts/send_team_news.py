@@ -2539,7 +2539,8 @@ INPUT (JSON):
 
 INSTRUCTIONS:
 - Every item in s1/s2/s3 carries an "i" index, LOCAL to its own section (s1's i values and s2's i values are independent -- an s2_summary entry's item_indices refers to s2's list, never s1's or s3's). Every s1_summary/s2_summary/s3_summary entry MUST include "item_indices": the list of "i" values it covers -- this is how your analysis gets mapped back onto the exact articles it's about. Never guess by company/category alone: an entity or category can have several unrelated stories on the same day (e.g. a fundraising AND a separate CFO appointment), and each needs its OWN item_indices, not a shared one.
-- S1 is the tracked watchlist; give each S1 entity/event a detailed analytical read (entity, event, directional credit_view, materiality, analyst_action, analysis, watch -- see schema). Unlike S2/S3, S1 rows are never dropped from the newsletter table -- every S1 item you are shown is going to be displayed regardless, so you MUST return an s1_summary entry covering every single "i" index in the s1 list, with no exceptions. For an item with genuinely no credit signal (routine analyst commentary, recruitment, an incidental mention), still write a real entry: credit_view "Neutral", analyst_action "No Action", materiality low, and a short honest analysis like "Routine brokerage/analyst commentary, no credit implication" or "Recruitment posting, not credit-relevant" -- never omit an S1 item, since omission means the reader sees a generic templated placeholder instead of your judgment.
+- S1 is the tracked watchlist; give each S1 entity/event a detailed analytical read (entity, event, directional credit_view, materiality, analyst_action, analysis, watch -- see schema). Unlike S2/S3, S1 rows are never dropped from the newsletter table for being LOW-VALUE -- every S1 item you are shown is going to be displayed regardless, so you MUST return an s1_summary entry covering every single "i" index in the s1 list, with no exceptions. For an item with genuinely no credit signal but which IS actually about this entity (routine analyst commentary, recruitment, an incidental mention), still write a real entry: credit_view "Neutral", analyst_action "No Action", materiality low, keyword_mismatch false, and a short honest analysis like "Routine brokerage/analyst commentary, no credit implication" or "Recruitment posting, not credit-relevant" -- never omit an S1 item, since omission means the reader sees a generic templated placeholder instead of your judgment.
+- keyword_mismatch is a SEPARATE, narrower flag from the above: set it true ONLY when the story is not about this entity AT ALL -- a coincidental name collision (a product/model whose name happens to contain the entity's short name or alias, an unrelated person who shares the entity's alias as their given name, a different organisation entirely that happens to share initials), not a story that mentions the entity only briefly or in passing. A story that is genuinely about the entity, however minor the news, is keyword_mismatch false even if credit_view is Neutral and analyst_action is No Action -- do not set keyword_mismatch true just because a story is immaterial. When keyword_mismatch is true, the row is removed from the newsletter entirely, so only use it when you are confident the entity is not the actual subject at all -- if genuinely unsure, leave it false and rely on "Neutral | No Action" instead.
 - S2/S3 "analysis" is a View/Implication, not a second summary: the reader already sees the news summary elsewhere, so do not restate what happened -- answer "what does this specific development change for the credit profile, financial performance, risk profile or operating environment of the affected entity/sub-sector?" Before writing it, work out (silently, don't include this reasoning in the output): the exact event/change; the affected universe (entity-specific / sub-sector / BFSI-wide / macro); which credit-transmission channels are touched (growth/business profile, profitability/margins, asset quality/credit cost, capitalisation, leverage, liquidity/ALM, funding availability/cost, governance, operational/cyber risk, regulatory/compliance risk); direction (Positive/Negative/Mixed/Neutral); materiality (High/Medium/Low); who is most exposed vs relatively insulated; and what's genuinely worth monitoring next, if anything. Then write only the View/Implication itself, grounded in that analysis: explain the transmission mechanism (why and how this affects credit), name the specific type of institution most affected instead of generically saying "lenders"/"banks"/"the sector" unless the whole sector genuinely is affected, use specific numbers from the article where useful but never invent missing data, distinguish fact from inference, and never attribute intention to RBI/SEBI/government/management beyond what the source states. Don't force a directional call where the impact is genuinely uncertain -- say so plainly instead. Avoid generic filler ("will need to be monitored", "could have significant implications", "reflects the evolving landscape", "is a positive development", "will improve the sector") unless immediately followed by the specific causal reason. Normal length is 45-80 words of real analysis; a genuinely low-materiality item only needs 1-2 sentences. No equity/share-price recommendations. No entity/credit_view/analyst_action fields for S2/S3 -- just the "analysis" string itself, held to this bar.
 - Before finalising each S2/S3 "analysis", mentally compare it against every other one you're about to output: if two read as substantially similar, ask whether those two articles genuinely share the same credit implication. If not, rewrite the weaker one from that specific article's own facts and transmission mechanism. An analysis that could be pasted under a different article with no meaningful change, that mostly repeats the summary, that names no transmission mechanism, or that reaches for the whole BFSI sector when only a sub-sector is actually affected, has failed and must be rewritten before you include it.
 - Genuinely filter S2/S3, not just analyse everything you're given: omit a summary entry entirely for routine market commentary, generic explainers, or anything with no real credit/sector relevance even after a full read -- an item you omit is simply left out of the table entirely, so only include an entry when it is actually worth a reader's attention.
@@ -2569,7 +2570,7 @@ Respond with ONLY this JSON structure, no markdown fences, no extra commentary:
       "credit_view": "Positive|Negative|Neutral|Mixed|Monitor",
       "materiality": "High|Medium|Low",
       "analyst_action": "Immediate Review|Seek Management Clarification|Review|Monitor|No Action",
-      "analysis": "...", "watch": "..."}}
+      "analysis": "...", "watch": "...", "keyword_mismatch": false}}
   ]{''',
   "s2_summary": [
     {"item_indices": [0], "analysis": "..."}
@@ -2644,7 +2645,7 @@ Respond with ONLY this JSON structure, no markdown fences, no extra commentary:
         return None
 
 
-def _gpt_map_s1(data: dict, s1_sent: list[dict]) -> dict:
+def _gpt_map_s1(data: dict, s1_sent: list[dict]) -> tuple[dict, set]:
     """Maps GPT's s1_summary onto raw S1 items via item_indices (exact,
     deterministic -- see _gpt_analysis/_gpt_validate), in the
     {item_key: {variable, implication, why, commentary}} shape _np_s1_row
@@ -2657,8 +2658,19 @@ def _gpt_map_s1(data: dict, s1_sent: list[dict]) -> dict:
     fundraising analysis got copy-pasted onto an unrelated CFO-appointment
     story for the same entity. Indices fix this at the root: each
     s1_summary entry only touches the specific articles it was written
-    about."""
+    about.
+
+    Second return value: item keys GPT flagged keyword_mismatch=true --
+    a coincidental name collision (e.g. "Benda Napoleon Bob 125", a
+    motorcycle model, tagged to Bank of Baroda for its alias "BoB"), not
+    a genuinely immaterial-but-real story about the entity. The caller
+    drops these from S1 entirely, same treatment gpt_excluded already
+    gives S2/S3 items GPT judged not material -- S1's own "never omit"
+    rule (see the prompt) is about coverage of REAL news, not about
+    keeping stories that were never about the entity in the first place.
+    """
     out: dict = {}
+    mismatched: set = set()
     n = len(s1_sent)
     for row in data.get("s1_summary", []):
         idx = [i for i in (row.get("item_indices") or []) if isinstance(i, int) and 0 <= i < n]
@@ -2673,6 +2685,11 @@ def _gpt_map_s1(data: dict, s1_sent: list[dict]) -> dict:
             commentary += f" Watch: {watch}."
         view = {"variable": "other", "implication": analysis,
                 "why": watch, "commentary": commentary}
+        if row.get("keyword_mismatch") is True:
+            for i in idx:
+                if 0 <= i < n:
+                    mismatched.add(_key(s1_sent[i]))
+            continue
         # Guards a merged entry (one analysis pointed at several items).
         #
         # This previously required >= 2 shared title words after removing
@@ -2715,7 +2732,7 @@ def _gpt_map_s1(data: dict, s1_sent: list[dict]) -> dict:
             idx = kept
         for i in idx:
             out[_key(s1_sent[i])] = view
-    return out
+    return out, mismatched
 
 
 def _gpt_map_cat(data: dict, section_key: str, sent: list[dict]) -> dict:
@@ -4807,7 +4824,13 @@ def _np_partb(p: dict, items: list[dict], by_section: dict,
             shown: set[str] = set()
             for comp in sorted(p["companies"]):
                 for it in items:
-                    if comp in it["companies"] and _key(it) not in shown:
+                    # gpt_excluded here carries S1 keyword_mismatch keys
+                    # too (see main()) -- a coincidental name collision
+                    # GPT confirmed is not actually about this entity at
+                    # all, dropped the same way a not-material S2/S3 item
+                    # already is, not merely left without an analysis line.
+                    if (comp in it["companies"] and _key(it) not in shown
+                            and _key(it) not in gpt_excluded):
                         shown.add(_key(it))
                         by_company.setdefault(comp, []).append(it)
             if not by_company:
@@ -5917,7 +5940,7 @@ def main() -> None:
                                     by_section.get("S3", []), today)
         if gpt_result:
             gpt_data, gpt_s1_sent, gpt_s2_sent, gpt_s3_sent, s2s3_evaluated = gpt_result
-            gpt_s1_map = _gpt_map_s1(gpt_data, gpt_s1_sent)
+            gpt_s1_map, gpt_s1_mismatch = _gpt_map_s1(gpt_data, gpt_s1_sent)
             gpt_s2_map = _gpt_map_cat(gpt_data, "s2_summary", gpt_s2_sent)
             gpt_s3_map = _gpt_map_cat(gpt_data, "s3_summary", gpt_s3_sent)
             section_takeaways.update(gpt_s1_map)
@@ -5978,6 +6001,23 @@ def main() -> None:
                 s3_excluded = (set() if s3_suspicious else
                                {_key(it) for it in gpt_s3_sent} - set(gpt_s3_map))
                 gpt_excluded = s2_excluded | s3_excluded
+            # S1's own "never omit" rule is about coverage of real news, not
+            # about keeping stories that were never about the entity at all
+            # (see _gpt_map_s1's docstring -- "Benda Napoleon Bob 125", a
+            # motorcycle model, tagged to Bank of Baroda for its alias
+            # "BoB"). Same suspicious-rejection guard as S2/S3: if GPT
+            # flags an implausibly large share of a large S1 batch as
+            # keyword_mismatch, that reads as a prompt/model malfunction,
+            # not real judgment, so it's ignored and every item keeps its
+            # normal treatment instead of being wiped.
+            s1_mismatch_suspicious = (len(gpt_s1_sent) >= 10
+                                       and len(gpt_s1_mismatch) / len(gpt_s1_sent) >= 0.5)
+            if s1_mismatch_suspicious:
+                print(f"[gpt] WARNING: flagged {len(gpt_s1_mismatch)}/{len(gpt_s1_sent)} "
+                      f"S1 items as keyword_mismatch -- implausible for this volume, "
+                      f"keeping all of them")
+            else:
+                gpt_excluded = gpt_excluded | gpt_s1_mismatch
             gpt_exec_summary, gpt_watchlist_html = _gpt_map_email_body(gpt_data)
             not_eval_note = ("" if s2s3_evaluated else
                               ", S2/S3 NOT evaluated -- primary batch failed, "
@@ -5985,8 +6025,9 @@ def main() -> None:
             print(f"[gpt] {len(gpt_s1_map)}/{len(gpt_s1_sent)} S1 items, "
                   f"{len(gpt_s2_map)}/{len(gpt_s2_sent)} S2 items, "
                   f"{len(gpt_s3_map)}/{len(gpt_s3_sent)} S3 items carry a "
-                  f"GPT credit view ({len(gpt_excluded)} S2/S3 items filtered "
-                  f"out as not material{not_eval_note}); "
+                  f"GPT credit view ({len(gpt_s1_mismatch)} S1 keyword-mismatch, "
+                  f"{len(gpt_excluded) - (0 if s1_mismatch_suspicious else len(gpt_s1_mismatch))} "
+                  f"S2/S3 items filtered out as not material{not_eval_note}); "
                   f"email body {'set' if gpt_exec_summary else 'not set'} from GPT")
 
     # First pass: build everyone's part B / Top-5 with no per-person AI call
