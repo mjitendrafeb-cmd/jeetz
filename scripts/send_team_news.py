@@ -4138,6 +4138,8 @@ ltd firm firms group india indian sector sectors market markets business
 strong weak higher lower total net gross
 loan loans lending credit fund funds capital investment investments
 share shares stock stocks price prices
+agm egm notice notices dispatch dispatches dispatched meeting meetings
+web link links sets alter approve related party deals moa
 """.split())
 
 
