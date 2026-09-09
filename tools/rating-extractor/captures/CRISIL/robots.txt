@@ -1091,4 +1091,4 @@ Disallow:  */content/crisilcom/en/home/what-we-do/risk-intelligence-and-solution
 Disallow:  */content/dam/crisil/our-businesses/rise/risk-intelligence-and-solutions-ecosystem-brochure.pdf
 
 
-Sitemap: https://www.crisilratings.com/bin/sitemap.xml
+Sitemap: https://www.crisilratings.com/sitemap.xml
