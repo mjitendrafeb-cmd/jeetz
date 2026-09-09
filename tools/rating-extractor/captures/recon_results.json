@@ -6,13 +6,13 @@
     "status": 200,
     "error": null,
     "content_type": "text/plain; charset=UTF-8",
-    "bytes": 117463,
+    "bytes": 117459,
     "capture_file": "captures/CRISIL/robots.txt",
     "frameworks": [],
     "entities_found": [],
     "api_hints": [],
     "sitemaps": [
-      "https://www.crisilratings.com/bin/sitemap.xml"
+      "https://www.crisilratings.com/sitemap.xml"
     ],
     "truncated": false,
     "final_url": "https://www.crisilratings.com/robots.txt"
@@ -246,10 +246,10 @@
     "source": "CRISIL",
     "name": "search_results_page",
     "url": "https://www.crisilratings.com/content/crisilratings/en/home/our-business/ratings/ratings-search-results.html?searchKey=Bajaj+Finance",
-    "status": 500,
+    "status": 503,
     "error": null,
-    "content_type": "text/html;charset=utf-8",
-    "bytes": 80578,
+    "content_type": "",
+    "bytes": 0,
     "capture_file": "captures/CRISIL/search_results_page.html",
     "frameworks": [],
     "entities_found": [],
@@ -345,6 +345,108 @@
     "sitemaps": [],
     "truncated": false,
     "final_url": "https://www.indiaratings.co.in/pressReleases/GetPressreleaseData_BeforeLogin?pressReleaseId=81837"
+  },
+  {
+    "source": "India Ratings",
+    "name": "api_bank_facility_data",
+    "url": "https://www.indiaratings.co.in/pressReleases/GetBankFacilityDataRatingLetter?pressReleaseId=81837",
+    "status": 200,
+    "error": null,
+    "content_type": "application/json; charset=utf-8",
+    "bytes": 147134,
+    "capture_file": "captures/India_Ratings/api_bank_facility_data.json",
+    "frameworks": [],
+    "entities_found": [
+      "Bajaj Finance"
+    ],
+    "api_hints": [],
+    "sitemaps": [],
+    "truncated": false,
+    "final_url": "https://www.indiaratings.co.in/pressReleases/GetBankFacilityDataRatingLetter?pressReleaseId=81837"
+  },
+  {
+    "source": "India Ratings",
+    "name": "api_rac_popular",
+    "url": "https://www.indiaratings.co.in/pressReleases/GetRACPopularData?pressReleaseId=81837",
+    "status": 200,
+    "error": null,
+    "content_type": "application/json; charset=utf-8",
+    "bytes": 15290,
+    "capture_file": "captures/India_Ratings/api_rac_popular.json",
+    "frameworks": [],
+    "entities_found": [
+      "Bajaj Finance"
+    ],
+    "api_hints": [],
+    "sitemaps": [],
+    "truncated": false,
+    "final_url": "https://www.indiaratings.co.in/pressReleases/GetRACPopularData?pressReleaseId=81837"
+  },
+  {
+    "source": "India Ratings",
+    "name": "api_nrac_popular",
+    "url": "https://www.indiaratings.co.in/pressReleases/GetNRACPopularData?pressReleaseId=81837",
+    "status": 200,
+    "error": null,
+    "content_type": "application/json; charset=utf-8",
+    "bytes": 125,
+    "capture_file": "captures/India_Ratings/api_nrac_popular.json",
+    "frameworks": [],
+    "entities_found": [],
+    "api_hints": [],
+    "sitemaps": [],
+    "truncated": false,
+    "final_url": "https://www.indiaratings.co.in/pressReleases/GetNRACPopularData?pressReleaseId=81837"
+  },
+  {
+    "source": "India Ratings",
+    "name": "api_issuer_pressreleases",
+    "url": "https://www.indiaratings.co.in/home/GetIssuerPressReleases?issuerId=2549",
+    "status": 200,
+    "error": null,
+    "content_type": "application/json; charset=utf-8",
+    "bytes": 2,
+    "capture_file": "captures/India_Ratings/api_issuer_pressreleases.json",
+    "frameworks": [],
+    "entities_found": [],
+    "api_hints": [],
+    "sitemaps": [],
+    "truncated": false,
+    "final_url": "https://www.indiaratings.co.in/home/GetIssuerPressReleases?issuerId=2549"
+  },
+  {
+    "source": "India Ratings",
+    "name": "api_issuer_details",
+    "url": "https://www.indiaratings.co.in/home/GetIssuerDetails?issuerId=2549",
+    "status": 200,
+    "error": null,
+    "content_type": "application/json; charset=utf-8",
+    "bytes": 1202,
+    "capture_file": "captures/India_Ratings/api_issuer_details.json",
+    "frameworks": [],
+    "entities_found": [
+      "Bajaj Finance"
+    ],
+    "api_hints": [],
+    "sitemaps": [],
+    "truncated": false,
+    "final_url": "https://www.indiaratings.co.in/home/GetIssuerDetails?issuerId=2549"
+  },
+  {
+    "source": "India Ratings",
+    "name": "api_unaccepted_ratings",
+    "url": "https://www.indiaratings.co.in/pressReleases/GetUnAcceptedIssuersRatings?issuerId=2549",
+    "status": 400,
+    "error": null,
+    "content_type": "application/problem+json; charset=utf-8",
+    "bytes": 301,
+    "capture_file": "captures/India_Ratings/api_unaccepted_ratings.json",
+    "frameworks": [],
+    "entities_found": [],
+    "api_hints": [],
+    "sitemaps": [],
+    "truncated": false,
+    "final_url": "https://www.indiaratings.co.in/pressReleases/GetUnAcceptedIssuersRatings?issuerId=2549"
   },
   {
     "source": "India Ratings",

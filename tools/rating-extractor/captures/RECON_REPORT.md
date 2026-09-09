@@ -1,6 +1,6 @@
 # Phase 0 Reconnaissance Report
 
-Run: 2026-09-09T15:24:35.233804+00:00 (GitHub Actions runner)
+Run: 2026-09-09T15:26:34.670976+00:00 (GitHub Actions runner)
 
 Plain HTTP only, no browser. `Entities found` means the raw HTML already
 contains that entity's name — where true for a listing page, a browser is
@@ -8,7 +8,7 @@ probably unnecessary for discovery.
 
 | Source | Target | Status | Bytes | Type | Frameworks | Entities in raw HTML |
 |---|---|---|---|---|---|---|
-| CRISIL | robots | 200 | 117,463 | text/plain; charset=UTF-8 | — | — |
+| CRISIL | robots | 200 | 117,459 | text/plain; charset=UTF-8 | — | — |
 | CRISIL | listing_news_views | 200 | 57,520 | text/html; charset=UTF-8 | — | — |
 | CRISIL | rationale_bajaj_finance | 200 | 831,635 | text/html; charset=UTF-8 | — | Bajaj Finance |
 | CRISIL | rationale_bajaj_finance_mar | 200 | 869,190 | text/html; charset=UTF-8 | — | Bajaj Finance |
@@ -22,12 +22,18 @@ probably unnecessary for discovery.
 | India Ratings | rating_actions | 200 | 7,020 | text/html | — | — |
 | India Ratings | bundle_main | 200 | 2,504,416 | text/javascript | Angular, DataTables | — |
 | India Ratings | bundle_scripts | 200 | 410,142 | text/javascript | — | — |
-| CRISIL | search_results_page | 500 | 80,578 | text/html;charset=utf-8 | — | — |
+| CRISIL | search_results_page | 503 | 0 |  | — | — |
 | CRISIL | industry_wise_list | 200 | 96,592 | text/html; charset=UTF-8 | — | — |
 | India Ratings | api_search_bajaj | 200 | 2,942 | application/json; charset=utf- | — | Bajaj Finance |
 | India Ratings | api_search_chola | 200 | 4,338 | application/json; charset=utf- | — | Cholamandalam |
 | India Ratings | api_search_pfc | 200 | 1,664 | application/json; charset=utf- | — | Power Finance Corporation |
 | India Ratings | api_pressrelease_known | 200 | 554 | application/json; charset=utf- | — | Bajaj Finance |
+| India Ratings | api_bank_facility_data | 200 | 147,134 | application/json; charset=utf- | — | Bajaj Finance |
+| India Ratings | api_rac_popular | 200 | 15,290 | application/json; charset=utf- | — | Bajaj Finance |
+| India Ratings | api_nrac_popular | 200 | 125 | application/json; charset=utf- | — | — |
+| India Ratings | api_issuer_pressreleases | 200 | 2 | application/json; charset=utf- | — | — |
+| India Ratings | api_issuer_details | 200 | 1,202 | application/json; charset=utf- | — | Bajaj Finance |
+| India Ratings | api_unaccepted_ratings | 400 | 301 | application/problem+json; char | — | — |
 | India Ratings | api_probe_0 | 200 | 7,020 | text/html | — | — |
 | India Ratings | api_search_bajaj_pr_0 | 200 | 1,248 | application/json; charset=utf- | — | Bajaj Finance |
 | India Ratings | api_search_bajaj_pr_1 | 200 | 1,469 | application/json; charset=utf- | — | Bajaj Finance |
@@ -43,9 +49,9 @@ probably unnecessary for discovery.
 
 ### CRISIL / robots
 - URL: https://www.crisilratings.com/robots.txt
-- Status: 200  |  Bytes: 117,463
+- Status: 200  |  Bytes: 117,459
 - Capture: `captures/CRISIL/robots.txt`
-- Sitemaps: https://www.crisilratings.com/bin/sitemap.xml
+- Sitemaps: https://www.crisilratings.com/sitemap.xml
 
 ### CRISIL / listing_news_views
 - URL: https://www.crisilratings.com/en/home/our-businesses/ratings/credit-ratings-news-and-views.html
@@ -120,7 +126,7 @@ probably unnecessary for discovery.
 ### CRISIL / search_results_page
 - URL: https://www.crisilratings.com/content/crisilratings/en/home/our-business/ratings/ratings-search-results.html?searchKey=Bajaj+Finance
 - Redirected to: https://www.crisilratings.com/en/home/our-business/ratings/ratings-search-results.html?searchKey=Bajaj+Finance
-- Status: 500  |  Bytes: 80,578
+- Status: 503  |  Bytes: 0
 - Capture: `captures/CRISIL/search_results_page.html`
 
 ### CRISIL / industry_wise_list
@@ -148,6 +154,36 @@ probably unnecessary for discovery.
 - URL: https://www.indiaratings.co.in/pressReleases/GetPressreleaseData_BeforeLogin?pressReleaseId=81837
 - Status: 200  |  Bytes: 554
 - Capture: `captures/India_Ratings/api_pressrelease_known.json`
+
+### India Ratings / api_bank_facility_data
+- URL: https://www.indiaratings.co.in/pressReleases/GetBankFacilityDataRatingLetter?pressReleaseId=81837
+- Status: 200  |  Bytes: 147,134
+- Capture: `captures/India_Ratings/api_bank_facility_data.json`
+
+### India Ratings / api_rac_popular
+- URL: https://www.indiaratings.co.in/pressReleases/GetRACPopularData?pressReleaseId=81837
+- Status: 200  |  Bytes: 15,290
+- Capture: `captures/India_Ratings/api_rac_popular.json`
+
+### India Ratings / api_nrac_popular
+- URL: https://www.indiaratings.co.in/pressReleases/GetNRACPopularData?pressReleaseId=81837
+- Status: 200  |  Bytes: 125
+- Capture: `captures/India_Ratings/api_nrac_popular.json`
+
+### India Ratings / api_issuer_pressreleases
+- URL: https://www.indiaratings.co.in/home/GetIssuerPressReleases?issuerId=2549
+- Status: 200  |  Bytes: 2
+- Capture: `captures/India_Ratings/api_issuer_pressreleases.json`
+
+### India Ratings / api_issuer_details
+- URL: https://www.indiaratings.co.in/home/GetIssuerDetails?issuerId=2549
+- Status: 200  |  Bytes: 1,202
+- Capture: `captures/India_Ratings/api_issuer_details.json`
+
+### India Ratings / api_unaccepted_ratings
+- URL: https://www.indiaratings.co.in/pressReleases/GetUnAcceptedIssuersRatings?issuerId=2549
+- Status: 400  |  Bytes: 301
+- Capture: `captures/India_Ratings/api_unaccepted_ratings.json`
 
 ### India Ratings / api_probe_0
 - URL: https://www.indiaratings.co.in/api/upload
