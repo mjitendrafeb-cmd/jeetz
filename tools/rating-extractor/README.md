@@ -48,6 +48,13 @@ million** (its own column header reads "Rated Amount (INR million)"). The
 India Ratings parser divides by 10 so `amount_rs_cr` means the same thing
 everywhere. `amount_raw_text` always quotes the source's own units.
 
+### Scheduling caveat
+
+`.github/workflows/rating_fetch.yml` carries a daily cron, but GitHub fires
+schedule triggers only from the **default branch's** copy of a workflow. Until
+this is merged to `main` the daily run does not happen; the push trigger is
+what exercises it in the meantime.
+
 ### Known gaps
 
 - **CRISIL discovery is unsolved.** Its sitemap holds only CMS pages (no

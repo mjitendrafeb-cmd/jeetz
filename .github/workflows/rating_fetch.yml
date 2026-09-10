@@ -24,6 +24,12 @@ on:
   schedule:
     # 02:40 UTC daily (~08:10 IST). GitHub's scheduler often runs late; this
     # job is idempotent, so a late or repeated run simply re-skips duplicates.
+    #
+    # NOTE: GitHub only fires schedule triggers from the DEFAULT branch's copy
+    # of a workflow. While this file lives solely on the feature branch the
+    # daily run does not happen at all — verified: no run fired at 02:40 UTC.
+    # The push trigger below is what exercises it meanwhile; the schedule
+    # starts working once this is merged to main.
     - cron: '40 2 * * *'
   # workflow_dispatch only works once this file is on the default branch, so
   # a push trigger keeps it runnable from the feature branch meanwhile.
