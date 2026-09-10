@@ -4964,7 +4964,13 @@ def _mech_digest(person_items: list[dict], n_entities: int) -> str:
     counts: dict = {}
     for it in person_items:
         key, _label, _s, _c = _event_of(it)
-        if key != "OTHER":
+        # PRICE_COMMENTARY (retail "Buy or Sell" price fluff) is deliberately
+        # scored below OTHER and has no real event to report -- it was never
+        # given a _NOUNS entry below, so counting it here crashed this
+        # function with a bare KeyError the moment one reached S1, taking
+        # down the entire run (confirmed live: no mail sent to anyone that
+        # morning). Excluded the same way OTHER already is.
+        if key not in ("OTHER", "PRICE_COMMENTARY"):
             counts[key] = counts.get(key, 0) + 1
     # Bare lowercased labels read wrong at both counts: RESULTS is already
     # plural ("1 results"), the rest are bare adjectives/singular nouns
