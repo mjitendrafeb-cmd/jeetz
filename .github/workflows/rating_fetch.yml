@@ -37,7 +37,10 @@ on:
     branches:
       - claude/cra-rating-tracker-gz9zwj
     paths:
-      - 'tools/rating-extractor/fetch.py'
+      # Any Python change, not just fetch.py: a parser fix needs to re-run too.
+      # A commit touching only extract/crisil.py previously changed nothing,
+      # because no run fired to exercise it.
+      - 'tools/rating-extractor/**.py'
       - '.github/workflows/rating_fetch.yml'
 
 concurrency:
