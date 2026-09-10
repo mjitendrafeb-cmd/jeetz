@@ -71,6 +71,10 @@
   "segment": "Corporate",
   "updated": "2026-09-08"
  },
+ "gmr airports": {
+  "segment": "Corporate",
+  "updated": "2026-09-10"
+ },
  "greaves finance": {
   "segment": "NBFC/HFC",
   "updated": "2026-09-08"
@@ -105,7 +109,7 @@
  },
  "iifl finance": {
   "segment": "NBFC/HFC",
-  "updated": "2026-09-09"
+  "updated": "2026-09-10"
  },
  "incred financial services": {
   "segment": "Corporate",
@@ -163,6 +167,10 @@
   "segment": "Corporate",
   "updated": "2026-09-04"
  },
+ "larsen and toubro": {
+  "segment": "Corporate",
+  "updated": "2026-09-10"
+ },
  "laxmi finance": {
   "segment": "NBFC/HFC",
   "updated": "2026-09-03"
@@ -170,6 +178,14 @@
  "mag finserv": {
   "segment": "NBFC/HFC",
   "updated": "2026-09-08"
+ },
+ "mangal credit and fincorp": {
+  "segment": "NBFC/HFC",
+  "updated": "2026-09-10"
+ },
+ "manhar resorts": {
+  "segment": "Corporate",
+  "updated": "2026-09-10"
  },
  "maple infrastructure trust": {
   "segment": "Corporate",
@@ -182,6 +198,10 @@
  "muthoot fincorp": {
   "segment": "NBFC/HFC",
   "updated": "2026-09-01"
+ },
+ "muthoot housing finance": {
+  "segment": "NBFC/HFC",
+  "updated": "2026-09-10"
  },
  "muthoot microfin": {
   "segment": "NBFC/HFC",

@@ -1,6 +1,89 @@
 {
  "records": [
   {
+   "isin": "INE530B07682",
+   "issuer": "IIFL FINANCE LIMITED",
+   "allotment_date": "2026-09-09",
+   "amount_cr": 25.0,
+   "coupon": 9.1,
+   "tenure_years": 2.0,
+   "band": "AA band (AA+/AA/AA-)",
+   "segment": "NBFC/HFC",
+   "spread_bps": 301,
+   "ratings": [
+    "IND-Ra AA",
+    "CRISIL AA"
+   ]
+  },
+  {
+   "isin": "INE545L07069",
+   "issuer": "MANGAL CREDIT AND FINCORP LIMITED",
+   "allotment_date": "2026-09-09",
+   "amount_cr": 35.0,
+   "coupon": 11.5,
+   "tenure_years": 1.9,
+   "band": "BBB band",
+   "segment": "NBFC/HFC",
+   "spread_bps": 541,
+   "ratings": [
+    "CRISIL BBB"
+   ]
+  },
+  {
+   "isin": "INE30CD07013",
+   "issuer": "MANHAR RESORTS PRIVATE LIMITED",
+   "allotment_date": "2026-09-09",
+   "amount_cr": 45.0,
+   "coupon": 16.5,
+   "tenure_years": 2.0,
+   "band": "Not rated / available",
+   "segment": "Corporate",
+   "spread_bps": 1041,
+   "ratings": []
+  },
+  {
+   "isin": "INE882Z08080",
+   "issuer": "MUTHOOT HOUSING FINANCE COMPANY LIMITED",
+   "allotment_date": "2026-09-09",
+   "amount_cr": 50.0,
+   "coupon": 10.25,
+   "tenure_years": 3.0,
+   "band": "AA band (AA+/AA/AA-)",
+   "segment": "NBFC/HFC",
+   "spread_bps": 402,
+   "ratings": [
+    "CRISIL AA-"
+   ]
+  },
+  {
+   "isin": "INE018A08BO8",
+   "issuer": "LARSEN AND TOUBRO LIMITED",
+   "allotment_date": "2026-09-09",
+   "amount_cr": 500.0,
+   "coupon": 7.4,
+   "tenure_years": 3.0,
+   "band": "AAA",
+   "segment": "Corporate",
+   "spread_bps": 117,
+   "ratings": [
+    "CRISIL AAA"
+   ]
+  },
+  {
+   "isin": "INE776C08091",
+   "issuer": "GMR AIRPORTS LIMITED",
+   "allotment_date": "2026-09-09",
+   "amount_cr": 1500.0,
+   "coupon": 5.0,
+   "tenure_years": 3.0,
+   "band": "AA band (AA+/AA/AA-)",
+   "segment": "Corporate",
+   "spread_bps": -123,
+   "ratings": [
+    "CRISIL AA-"
+   ]
+  },
+  {
    "isin": "INE530B08268",
    "issuer": "IIFL FINANCE LIMITED",
    "allotment_date": "2026-09-08",
