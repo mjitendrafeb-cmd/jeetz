@@ -25,10 +25,11 @@ from . import common
 
 SOURCE = "CRISIL"
 
-# CRISIL's HTML contains stray spaces inside words ("Rs . 25000 C rore"),
-# so the amount pattern tolerates whitespace between every character group.
+# CRISIL's HTML scatters stray spaces inside words AND inside numbers
+# ("Rs . 25000 C rore", "Rs . 130 000 C rore"), so the pattern tolerates
+# whitespace between every character group and within the digits themselves.
 AMOUNT_RE = re.compile(
-    r"Rs\s*\.?\s*([\d,]+(?:\.\d+)?)\s*C\s*r\s*o\s*r\s*e", re.IGNORECASE
+    r"Rs\s*\.?\s*(\d[\d,\s]*(?:\.\s*\d+)?)\s*C\s*r\s*o\s*r\s*e", re.IGNORECASE
 )
 
 ACTION_IN_PARENS_RE = re.compile(
@@ -95,30 +96,75 @@ def _parse_amount(text: str):
         return None, None
     raw = re.sub(r"\s+", "", m.group(0))
     try:
-        return raw, float(m.group(1).replace(",", ""))
+        return raw, float(re.sub(r"[,\s]", "", m.group(1)))
     except ValueError:
         return raw, None
 
 
-def _instrument_name(text: str) -> str:
+def _repair_split_words(text: str, vocabulary: set) -> str:
+    """Rejoin words CRISIL's markup split mid-token ("progra mme").
+
+    Only merges an adjacent pair when the joined form occurs elsewhere in the
+    same document as a real word, so "Borrowing programme" is left alone while
+    "progra mme" becomes "programme". Guessing without that evidence would
+    risk fusing genuinely separate words.
+    """
+    parts = text.split()
+    out = []
+    i = 0
+    while i < len(parts):
+        if i + 1 < len(parts):
+            merged = parts[i] + parts[i + 1]
+            stripped = re.sub(r"[^A-Za-z]", "", merged).lower()
+            if len(stripped) > 3 and stripped in vocabulary and not parts[i + 1][:1].isupper():
+                out.append(merged)
+                i += 2
+                continue
+        out.append(parts[i])
+        i += 1
+    return " ".join(out)
+
+
+def _instrument_name(text: str, vocabulary: set | None = None) -> str:
     """Strip the amount clause out of a left-hand instrument cell."""
     cleaned = AMOUNT_RE.sub(" ", text)
     cleaned = re.sub(r"\(.*?\)", " ", cleaned)
     cleaned = re.sub(r"(?i)\baggregating\b", " ", cleaned)
-    return common.clean(cleaned) or common.clean(text)
+    cleaned = common.clean(cleaned) or common.clean(text)
+    if vocabulary:
+        cleaned = _repair_split_words(cleaned, vocabulary)
+    return cleaned
 
 
-def _subject_entity(soup) -> str | None:
-    """The entity this rationale is about — the lead-in of the header table."""
-    for table in soup.find_all("table")[:4]:
-        row = table.find("tr")
-        if not row:
-            continue
-        text = common.clean(row.get_text(" ", strip=True))
-        m = re.match(r"^(.{3,120}?)\s*['‘’\"]", text)
-        if m:
-            return common.clean(m.group(1))
-    return None
+def _document_kind(html: str) -> str:
+    """Rating Rationale, Credit Bulletin, or unknown.
+
+    Only a Rating Rationale carries the header Rating Action table. CRISIL
+    also publishes "Credit Bulletin / Update on <entity>" documents, which
+    have the lender annexure but state no action — extracting nothing from
+    one of those is correct, not a failure.
+    """
+    head = re.sub(r"\s+", " ", html[:6000])
+    if re.search(r"(?i)credit bulletin|update on\b", head):
+        return "Credit Bulletin"
+    if re.search(r"(?i)rating rationale", head):
+        return "Rating Rationale"
+    return "unknown"
+
+
+def _is_about_entity(soup, entity_name: str, aliases: list[str]) -> bool:
+    """Does this document's opening actually name the entity?
+
+    Previously a "subject" string was carved out as the text before the first
+    quotation mark, then matched against the entity. On real rationales that
+    grabbed "Detailed Rationale Crisil Ratings has reaffirmed its" — the lead
+    up to the quote around the rating — and the document was discarded even
+    though it was about the right company. Checking whether the entity is
+    named anywhere in the opening section avoids that false negative while
+    still rejecting a rationale written about someone else.
+    """
+    lead = common.clean(soup.get_text(" ", strip=True))[:4000]
+    return common.mentions_entity(lead, entity_name, aliases)
 
 
 def _press_release_date(html: str):
@@ -134,6 +180,15 @@ def _header_action_records(soup, pub_date):
     """Rows whose rating cell states an explicit action — the confirmed actions."""
     records = []
     pending_total_amount = None
+    # Words as they appear elsewhere in this document, used to repair names
+    # CRISIL's markup split mid-word.
+    # Only purely alphabetic tokens count. Including punctuated ones let
+    # "long-term" contribute "longterm", which then justified merging the
+    # separate words "Long Term" into "LongTerm".
+    vocabulary = {
+        w.lower() for w in soup.get_text(" ", strip=True).split()
+        if len(w) > 3 and w.isalpha()
+    }
 
     # CRISIL nests the summary tables inside a wrapper <table>, so parsing
     # every table would yield each row twice. Only innermost tables are read,
@@ -143,9 +198,13 @@ def _header_action_records(soup, pub_date):
             continue
         for row in table.find_all("tr"):
             cells = [common.clean(c.get_text(" ", strip=True)) for c in row.find_all(["td", "th"])]
-            if len(cells) != 2:
+            # Two columns historically (instrument, rating+action). Newer
+            # rationales carry a third, "Regulator Of Instrument", added for
+            # the SEBI CRA circular of 10-Feb-2026 — requiring exactly two
+            # silently skipped every row on those documents.
+            if len(cells) not in (2, 3):
                 continue
-            left, right = cells
+            left, right = cells[0], cells[1]
 
             # "Total Bank Loan Facilities Rated | Rs.46000 Crore" supplies the
             # amount for the Long/Short Term Rating rows that follow it.
@@ -161,7 +220,7 @@ def _header_action_records(soup, pub_date):
                 continue
 
             amount_text, amount_cr = _parse_amount(left)
-            instrument = _instrument_name(left)
+            instrument = _instrument_name(left, vocabulary)
             if re.fullmatch(r"(?i)(long|short) term rating", instrument):
                 instrument = f"Bank Loan Facilities ({instrument.split()[0].title()} Term)"
                 if amount_cr is None:
@@ -309,11 +368,15 @@ def parse(entity_name: str, aliases: list[str], raw_content: str,
 
     soup = BeautifulSoup(raw_content, "html.parser")
 
-    subject = _subject_entity(soup)
-    if subject and not common.mentions_entity(subject, entity_name, aliases):
-        print(f"[crisil] Document subject is '{subject}', not '{entity_name}' — skipping "
+    if not _is_about_entity(soup, entity_name, aliases):
+        print(f"[crisil] Opening section does not name '{entity_name}' — skipping "
               f"(a rationale for another entity is not an action on this one).")
         return []
+
+    kind = _document_kind(raw_content)
+    if kind == "Credit Bulletin":
+        print(f"[crisil] Document is a {kind}, which states no rating action; "
+              f"only annexure data will be extracted.")
 
     pub_date = _press_release_date(raw_content)
 
