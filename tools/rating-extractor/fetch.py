@@ -330,20 +330,42 @@ def _crisil_rationale_urls(entity: dict) -> list[str]:
                     page.wait_for_selector("ul.ui-autocomplete li.ui-menu-item",
                                            timeout=15000)
                     items = page.locator("ul.ui-autocomplete li.ui-menu-item")
-                    target = None
+                    index = None
                     for i in range(items.count()):
                         text = (items.nth(i).inner_text() or "").strip()
                         if _name_matches(text, entity):
-                            target = items.nth(i)
-                            print(f"    [CRISIL] clicking suggestion {text!r}")
+                            index = i
+                            print(f"    [CRISIL] selecting suggestion {text!r}")
                             break
-                    if target is None and items.count():
-                        target = items.nth(0)
+                    if index is None and items.count():
+                        index = 0
                         print("    [CRISIL] no exact suggestion match; using the first")
-                    if target is not None:
-                        target.click()
+
+                    if index is not None:
+                        # Keyboard selection, not a click: the list re-renders
+                        # under the pointer, so Playwright's click never finds
+                        # the item stable and times out after 30s. Arrow keys
+                        # are how a jQuery UI autocomplete is meant to be
+                        # driven, and they are unaffected by re-rendering.
+                        for _ in range(index + 1):
+                            page.keyboard.press("ArrowDown")
+                            page.wait_for_timeout(150)
+                        page.keyboard.press("Enter")
                         page.wait_for_load_state("domcontentloaded", timeout=60000)
                         page.wait_for_timeout(6000)
+
+                        # If the keyboard path did not navigate, fall back to a
+                        # forced click, which skips the actionability checks
+                        # that were timing out.
+                        if "RatingDocs" not in page.content():
+                            print("    [CRISIL] keyboard select did not load docs; "
+                                  "retrying with a forced click")
+                            try:
+                                items.nth(index).click(force=True, timeout=15000)
+                                page.wait_for_load_state("domcontentloaded", timeout=60000)
+                                page.wait_for_timeout(6000)
+                            except Exception as exc:
+                                print(f"    [CRISIL] forced click failed: {exc}")
                 except Exception as exc:
                     print(f"    [CRISIL] autocomplete step failed: {exc}")
                     page.keyboard.press("Enter")
