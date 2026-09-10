@@ -11,6 +11,7 @@ Fetching 3 entities from India Ratings, ICRA, CRISIL
     [CRISIL] searched via "input[placeholder*='Search']"
     [CRISIL] selecting suggestion 'Bajaj Finance Limited'
     [CRISIL] 3 document anchors, 1 rating rationales, 1 matched entity
+[crisil] Document is a Credit Bulletin, which states no rating action; only annexure data will be extracted.
     [CRISIL] no header action rows in BajajFinanceLimited_July_2029__202026_RR_401403. -> captures/_fetch_debug/crisil_no_header_BajajFinanceLimited_July_2029__202026_RR_401403.html
     [CRISIL] BajajFinanceLimited_July%2029_%202026_RR_401403.html: 14 records
     [CRISIL] stored 0 new record(s)
@@ -27,9 +28,8 @@ Fetching 3 entities from India Ratings, ICRA, CRISIL
     [CRISIL] searched via "input[placeholder*='Search']"
     [CRISIL] selecting suggestion 'Cholamandalam Investment and Finance Company Limited'
     [CRISIL] 72 document anchors, 1 rating rationales, 1 matched entity
-[crisil] Document subject is 'Detailed Rationale Crisil Ratings has reaffirmed its', not 'Cholamandalam Investment And Finance Company Limited' — skipping (a rationale for another entity is not an action on this one).
-    [CRISIL] no header action rows in CholamandalamInvestmentandFinanceCompanyLimited_ -> captures/_fetch_debug/crisil_no_header_CholamandalamInvestmentandFinanceCompanyLimited_February_2024__202026_RR_388994.html
-    [CRISIL] CholamandalamInvestmentandFinanceCompanyLimited_February%202: 0 records
+    [CRISIL] CholamandalamInvestmentandFinanceCompanyLimited_February%202: 5 records
+    [CRISIL] stored 5 new record(s)
 
 == Power Finance Corporation Limited
     [IR] PR 84119 (09 Jul 2026): 7 records
@@ -41,11 +41,10 @@ Fetching 3 entities from India Ratings, ICRA, CRISIL
     [CRISIL] searched via "input[placeholder*='Search']"
     [CRISIL] selecting suggestion 'Power Finance Corporation Limited'
     [CRISIL] 1 document anchors, 1 rating rationales, 1 matched entity
-    [CRISIL] no header action rows in PowerFinanceCorporationLimited_August_2005__2020 -> captures/_fetch_debug/crisil_no_header_PowerFinanceCorporationLimited_August_2005__202026_RR_401595.html
-    [CRISIL] PowerFinanceCorporationLimited_August%2005_%202026_RR_401595: 88 records
-    [CRISIL] stored 0 new record(s)
+    [CRISIL] PowerFinanceCorporationLimited_August%2005_%202026_RR_401595: 99 records
+    [CRISIL] stored 11 new record(s)
 
 === summary ===
   India Ratings: 0 new record(s)
   ICRA: 0 new record(s)
-  CRISIL: 0 new record(s)
+  CRISIL: 16 new record(s)
