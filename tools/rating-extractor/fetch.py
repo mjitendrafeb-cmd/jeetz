@@ -402,6 +402,17 @@ def fetch_crisil(session, entity: dict) -> list[dict]:
         doc_name = re.sub(r"[^A-Za-z0-9_.-]", "_", url.split("/")[-1])[:120]
         doc_path = _save_doc(f"crisil_{doc_name}", resp.content)
         parsed = crisil_parser.parse(entity["name"], entity["aliases"], resp.text)
+
+        # The header Rating Action table is the only CRISIL structure that
+        # states an action per instrument alongside its rated amount — the
+        # core of what this tool extracts. It parsed on the rationale captured
+        # by recon but yields nothing on these live documents, so when it comes
+        # back empty the document itself is kept for inspection. Without it
+        # there is no way to see how these pages differ.
+        header_rows = [r for r in parsed if r.get("provenance") == "header_action_table"]
+        if not header_rows:
+            path = _save_debug(f"crisil_no_header_{doc_name}", resp.content)
+            print(f"    [CRISIL] no header action rows in {doc_name[:48]} -> {path}")
         for rec in parsed:
             rec["_source_url"] = url
             rec["_pub_date"] = rec.get("record_date")
