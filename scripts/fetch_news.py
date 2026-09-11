@@ -371,6 +371,16 @@ _GOOGLE_QUERIES = [
     ("Bonds", "India corporate bond credit spread debenture"),
     ("CP", "commercial paper India money market CP issuance"),
     ("Securitisation", "India securitisation ABS RMBS PTC pool"),
+    # Dedicated higher-recall queries for the Structured Finance topic row
+    # (team.json "Structured Finance (Topic)") -- that row has no company
+    # name to anchor a per-entity query, so it depends on this bulk feed
+    # plus alias re-matching in send_team_news.py's _match_companies. The
+    # single generic line above (capped at 3 hits like every other query)
+    # was not enough recall on its own; these three widen coverage across
+    # the row's actual alias vocabulary without touching the shared cap.
+    ("Securitisation", "India pass through certificate PTC rating transaction"),
+    ("Securitisation", "India RMBS mortgage backed securities pool rating"),
+    ("Securitisation", "India structured obligation SO rating corporate guarantee"),
     ("Ratings", "credit rating upgrade downgrade India CRISIL ICRA CareEdge India Ratings"),
     ("Ratings", "rating watch negative outlook India bond issuer"),
 ]
