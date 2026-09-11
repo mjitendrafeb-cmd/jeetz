@@ -15,6 +15,10 @@
   "segment": "NBFC/HFC",
   "updated": "2026-09-04"
  },
+ "akme fintrade ()": {
+  "segment": "Corporate",
+  "updated": "2026-09-11"
+ },
  "alphagrep securities": {
   "segment": "Corporate",
   "updated": "2026-09-09"
@@ -55,6 +59,14 @@
   "segment": "NBFC/HFC",
   "updated": "2026-09-03"
  },
+ "dar credit & capital": {
+  "segment": "NBFC/HFC",
+  "updated": "2026-09-11"
+ },
+ "divyasree realty constructions (bangalore)": {
+  "segment": "Corporate",
+  "updated": "2026-09-11"
+ },
  "ecap equities": {
   "segment": "Corporate",
   "updated": "2026-09-03"
@@ -70,6 +82,10 @@
  "emkay global financial services": {
   "segment": "Corporate",
   "updated": "2026-09-08"
+ },
+ "gabriel": {
+  "segment": "Corporate",
+  "updated": "2026-09-11"
  },
  "gmr airports": {
   "segment": "Corporate",
@@ -207,6 +223,10 @@
   "segment": "NBFC/HFC",
   "updated": "2026-09-09"
  },
+ "namdev finvest": {
+  "segment": "NBFC/HFC",
+  "updated": "2026-09-11"
+ },
  "navi finserv": {
   "segment": "NBFC/HFC",
   "updated": "2026-09-02"
@@ -235,6 +255,14 @@
   "segment": "NBFC/HFC",
   "updated": "2026-08-26"
  },
+ "parthos properties": {
+  "segment": "Corporate",
+  "updated": "2026-09-11"
+ },
+ "pinkpeony properties": {
+  "segment": "Corporate",
+  "updated": "2026-09-11"
+ },
  "power finance": {
   "segment": "PSU",
   "updated": "2026-09-08"
@@ -255,6 +283,10 @@
   "segment": "NBFC/HFC",
   "updated": "2026-08-28"
  },
+ "rpe energy reserve": {
+  "segment": "Corporate",
+  "updated": "2026-09-11"
+ },
  "rupeek capital": {
   "segment": "NBFC/HFC",
   "updated": "2026-08-26"
@@ -265,7 +297,7 @@
  },
  "shangrila infracon": {
   "segment": "Corporate",
-  "updated": "2026-09-08"
+  "updated": "2026-09-11"
  },
  "small industries development bank of": {
   "segment": "PSU",
@@ -294,6 +326,10 @@
  "vastu housing finance": {
   "segment": "NBFC/HFC",
   "updated": "2026-09-01"
+ },
+ "vertis infrastructure trust": {
+  "segment": "Corporate",
+  "updated": "2026-09-11"
  },
  "vision infra equipment solutions": {
   "segment": "Corporate",

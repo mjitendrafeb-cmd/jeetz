@@ -1,6 +1,152 @@
 {
  "records": [
   {
+   "isin": "INE0INN08014",
+   "issuer": "SHANGRILA INFRACON INDIA PRIVATE LIMITED",
+   "allotment_date": "2026-09-10",
+   "amount_cr": 1100.0,
+   "coupon": 9.25,
+   "tenure_years": 3.0,
+   "band": "BBB band",
+   "segment": "Corporate",
+   "spread_bps": 279,
+   "ratings": [
+    "CareEdge BBB-"
+   ]
+  },
+  {
+   "isin": "INE2T2F08015",
+   "issuer": "RPE ENERGY RESERVE PRIVATE LIMITED",
+   "allotment_date": "2026-09-10",
+   "amount_cr": 11.0,
+   "coupon": 9.5,
+   "tenure_years": 12.0,
+   "band": "Not rated / available",
+   "segment": "Corporate",
+   "spread_bps": 248,
+   "ratings": []
+  },
+  {
+   "isin": "INE04Q907231",
+   "issuer": "DAR CREDIT & CAPITAL LTD",
+   "allotment_date": "2026-09-10",
+   "amount_cr": 15.0,
+   "coupon": 13.0,
+   "tenure_years": 2.0,
+   "band": "BBB band",
+   "segment": "NBFC/HFC",
+   "spread_bps": 676,
+   "ratings": [
+    "CareEdge BBB-"
+   ]
+  },
+  {
+   "isin": "INE916Y07107",
+   "issuer": "AKME FINTRADE (INDIA) LIMITED",
+   "allotment_date": "2026-09-10",
+   "amount_cr": 25.0,
+   "coupon": 11.4,
+   "tenure_years": 2.0,
+   "band": "A band (A+/A/A-)",
+   "segment": "Corporate",
+   "spread_bps": 516,
+   "ratings": [
+    "Acuite Ratings And Research Limited A-"
+   ]
+  },
+  {
+   "isin": "INE916Y07115",
+   "issuer": "AKME FINTRADE (INDIA) LIMITED",
+   "allotment_date": "2026-09-10",
+   "amount_cr": 25.0,
+   "coupon": 11.6,
+   "tenure_years": 2.5,
+   "band": "A band (A+/A/A-)",
+   "segment": "Corporate",
+   "spread_bps": 536,
+   "ratings": [
+    "Acuite Ratings And Research Limited A-"
+   ]
+  },
+  {
+   "isin": "INE0IX207270",
+   "issuer": "NAMDEV FINVEST LIMITED",
+   "allotment_date": "2026-09-10",
+   "amount_cr": 75.0,
+   "coupon": 10.5,
+   "tenure_years": 3.0,
+   "band": "A band (A+/A/A-)",
+   "segment": "NBFC/HFC",
+   "spread_bps": 404,
+   "ratings": [
+    "ICRA A-"
+   ]
+  },
+  {
+   "isin": "INE2ZI307019",
+   "issuer": "DIVYASREE REALTY CONSTRUCTIONS (BANGALORE) PRIVATE LIMITED",
+   "allotment_date": "2026-09-10",
+   "amount_cr": 100.0,
+   "coupon": null,
+   "tenure_years": 3.0,
+   "band": "Not rated / available",
+   "segment": "Corporate",
+   "spread_bps": null,
+   "ratings": []
+  },
+  {
+   "isin": "INE0L2508094",
+   "issuer": "PARTHOS PROPERTIES PRIVATE LIMITED",
+   "allotment_date": "2026-09-10",
+   "amount_cr": 125.0,
+   "coupon": 11.5,
+   "tenure_years": 10.0,
+   "band": "Not rated / available",
+   "segment": "Corporate",
+   "spread_bps": 448,
+   "ratings": []
+  },
+  {
+   "isin": "INE2YT008011",
+   "issuer": "PINKPEONY PROPERTIES PRIVATE LIMITED",
+   "allotment_date": "2026-09-10",
+   "amount_cr": 505.0,
+   "coupon": 12.5,
+   "tenure_years": 10.0,
+   "band": "Not rated / available",
+   "segment": "Corporate",
+   "spread_bps": 548,
+   "ratings": []
+  },
+  {
+   "isin": "INE524A08016",
+   "issuer": "GABRIEL INDIA LIMITED",
+   "allotment_date": "2026-09-10",
+   "amount_cr": 1000.0,
+   "coupon": 8.15,
+   "tenure_years": 3.0,
+   "band": "AA band (AA+/AA/AA-)",
+   "segment": "Corporate",
+   "spread_bps": 169,
+   "ratings": [
+    "CRISIL AA+"
+   ]
+  },
+  {
+   "isin": "INE0KXY07067",
+   "issuer": "VERTIS INFRASTRUCTURE TRUST",
+   "allotment_date": "2026-09-10",
+   "amount_cr": 1425.0,
+   "coupon": 7.63,
+   "tenure_years": 6.0,
+   "band": "AAA",
+   "segment": "Corporate",
+   "spread_bps": 104,
+   "ratings": [
+    "CRISIL AAA"
+   ]
+  },
+  {
    "isin": "INE530B07682",
    "issuer": "IIFL FINANCE LIMITED",
    "allotment_date": "2026-09-09",
@@ -280,18 +426,6 @@
     "IND-Ra AAA",
     "CRISIL AAA"
    ]
-  },
-  {
-   "isin": "INE0INN08014",
-   "issuer": "SHANGRILA INFRACON INDIA PRIVATE LIMITED",
-   "allotment_date": "2026-09-07",
-   "amount_cr": 1100.0,
-   "coupon": 9.25,
-   "tenure_years": 3.0,
-   "band": "Not rated / available",
-   "segment": "Corporate",
-   "spread_bps": 301,
-   "ratings": []
   },
   {
    "isin": "INE134E08OE9",
