@@ -1,78 +1,6 @@
 [
  {
   "date": "2026-08-22",
-  "fetched": 3470,
-  "delivered_pool": 281,
-  "junk": 925,
-  "geo": 101,
-  "stale": 983,
-  "dup": 883,
-  "sections": {
-   "S1": 251,
-   "S2": 23,
-   "S3": 7
-  },
-  "mails": 1,
-  "failed": [],
-  "source_summary": {
-   "RBI RSS": 19,
-   "RBI Enforcement": 0,
-   "SEBI RSS": 20,
-   "Google News": 28,
-   "Watchlist (Google)": 891,
-   "BSE Financials": 0,
-   "Telegram": 58,
-   "Web Scraper": 218
-  },
-  "dropped_samples": {
-   "relevance": [
-    "Result of the second Overnight Variable Rate Reverse Repo (VRRR) auction held on August 18, 2026",
-    "Certificate No. RC9282 of 2026 Notice of Demand in respect of Atit Commercial Company Private Limited (Transfe",
-    "General Remittance Advice against: Sunil Singh (Proprietor of Alfa Finsec) [Defaulter] (PAN: BDGPS0774K) in th",
-    "Order in Enquiry Proceedings respect of Corporate Capital Ventures Private Limited",
-    "Relaxations in Know Your Client (KYC) norms for individual Persons Resident Outside India (i.e",
-    "Why Gaja Alternative IPO stands out among three ongoing public offers",
-    "MNCL sees 28% UPSIDE in Goldiam International- Strong B2B Execution; ORIGEM Expansion Turns Calibrated",
-    "PL Capital sees 4% UPSIDE in Elgi Equipments- Healthy Q1, Demand Match gains traction",
-    "PL Capital sees 6% UPSIDE in JSW Cement- Nagaur ramp up to aid H2; execution on track",
-    "PL Capital sees 4% DOWNSIDE in KNR Constructions- Order book build up continues",
-    "PL Capital Update on Voltas- UCP margins on a steady recovery path",
-    "PL Capital sees 27% UPSIDE in Amber Enterprises India- Margin Pressures Temporary; Growth Remains Intact",
-    "PL Capital sees 16% UPSIDE in Praj Industries- Mixed Q1; GenX orders to support margin recovery",
-    "PL Capital sees 20% UPSIDE in Engineers India- Strong Q1; Higher Consultancy share to drive profit",
-    "US-Iran War LIVE: Iran says \u2018\u2026will correct delusions\u2019 as Trump backs down on Hormuz as US territory",
-    "Tata Sons AGM adjourned for first time Why was the Tata Sons AGM adjourned",
-    "AAP leader Satyendar Jain arrested in connection with alleged corruption in Delhi Jal Board during previous go",
-    "Does an NRI get taxed for gifting savings to his father's HUF",
-    "The PM CARES Fund corpus rose to a record \u20b98,452 crore in 2024-25 from \u20b97,173 crore in 2023-24, according to i",
-    "\"Will AI take my job? is one of the most searched career questions globally"
-   ],
-   "junk": [
-    "General Remittance Order dated August 18, 2026 issued under RC No",
-    "Final Order in the matter of Alliance Research - Proprietor Mr. Mudassir Hasan",
-    "General Remittance Order dated 14.08.2026 in Recovery Certificate No",
-    "General Remittance Order dated 14.08.2026 in Recovery Certificate No",
-    "General Remittance Order dated 14.08.2026 in Recovery Certificate No",
-    "General Remittance Order dated 14.08.2026 in Recovery Certificate No",
-    "Completion of Recovery Certificate No",
-    "Appeal No. 6992 of 2026 filed by Rakesh Mohan Rai",
-    "Appeal No. 6991 of 2026 filed by Parivesh Shukla",
-    "Appeal No. 6990 of 2026 filed by Vikas Jain",
-    "Appeal No. 6989 of 2026 filed by Valji Narayan Bhadra",
-    "Appeal No. 6988 of 2026 filed by Neeraj Sisodia",
-    "Appeal No. 6987 of 2026 filed by Sunil Rohilla",
-    "Appeal No. 6980 of 2026 filed by Ebenezer R",
-    "Buy Max Healthcare; target of Rs 1220: Anand Rathi",
-    "Shankesh Jewellers IPO Opens Today: 10 Key Things To Know Before You Subscribe",
-    "Buy Hindustan Copper; target of Rs 715: Anand Rathi",
-    "Buy Sudarshan Chemical Industries; target of Rs 1450: Anand Rathi",
-    "Max Healthcare Rated 'Buy' by Anand Rathi With Rs 1,220 Target",
-    "Hindustan Copper Gets 'Buy' Rating From Anand Rathi With Rs 715 Target"
-   ]
-  }
- },
- {
-  "date": "2026-08-22",
   "fetched": 3464,
   "delivered_pool": 279,
   "junk": 924,
@@ -2156,6 +2084,78 @@
     "Bali United vs Adhyaksa \u00bb Best Odds and Stats",
     "Groww Share Price",
     "September 2026 F&O Monthly Expiry"
+   ]
+  }
+ },
+ {
+  "date": "2026-09-11",
+  "fetched": 1265,
+  "delivered_pool": 99,
+  "junk": 406,
+  "geo": 37,
+  "stale": 366,
+  "dup": 132,
+  "sections": {
+   "S1": 77,
+   "S2": 10,
+   "S3": 12
+  },
+  "mails": 40,
+  "failed": [],
+  "source_summary": {
+   "RBI RSS": 20,
+   "RBI Enforcement": 0,
+   "SEBI RSS": 20,
+   "Google News": 20,
+   "Watchlist (Google)": 1348,
+   "BSE Financials": 0,
+   "Telegram": 63,
+   "Web Scraper": 564
+  },
+  "dropped_samples": {
+   "relevance": [
+    "Relief Measures in Areas Affected by Natural Calamities - Reporting through Centralised Information Management",
+    "Alpha Pro Tech, Ltd. Announces Third Quarter 2025 Financial Results",
+    "Stallion India Fluorochemicals Q1 Results: Net profit surges 79% YoY",
+    "2026 set to be a record year for India PE/VC fundraising with US$23.7 billion raised so far: EY-IVCA Report",
+    "Balrampur Chini Mills profit falls 10% in Q1FY27; appoints Vartika Shukla",
+    "Mapping India\u2019s fintech key players",
+    "D S Kulkarni Developers Q1 FY27 Financial Results Newspaper Ad",
+    "Sun Pharma update on Lipitor antitrust litigation in US court",
+    "Escorts Kubota Q4FY26 Earnings Call: Record Revenue, PAT and Dividend Announced",
+    "Choice Equities Initiating Coverage on United Breweries Ltd., with 16% UPSIDE- Mix Improvement To Boost Realis",
+    "PL Capital sees 22% UPSIDE in Polycab India- Long Growth Runway and Expanding Global Footprint",
+    "#MintPremium | The Bureau of Indian Standards (BIS) has been tasked with developing a national framework to pr",
+    "Satya Niketan building collapse: Students flee from another PG in Delhi after building develops cracks",
+    "Swatantra Bhardwaj\u2019s arrest has brought fresh focus to a Jantar Mantar assault case after remarks made by the ",
+    "Early retirement in India requires more than high income",
+    "#WATCH | Maharashtra: 'Dahi Handi' celebrations underway in Mumbai today",
+    "Gold, silver prices today, 5th Sept, 2026 Track all mkt updates here",
+    "Apple launches iPhone 18 Pro, iPhone 18 Pro Max: Brings upgraded performance, camera, and more",
+    "BRICS Summit traffic alert: Delhi lists 22 diversion points, curbs on 35+ roads from Sept 11",
+    "Silver hallmarking enables buyers to verify purity or fineness of precious metal jewellery"
+   ],
+   "junk": [
+    "Monomark Engineering, RKB Global receive SEBI approval for IPOs",
+    "5Paisa Capital Gains 1.75% to \u20b9342.45 on NSE; Stock Holds Above Key Support - MFI Divergence",
+    "Scapia Ties up with Axis Bank to launch their credit card on the MasterCard platform",
+    "Scapia, Axis Bank Launch Co-Branded Card Targeting India\u2019s New-Age Travellers",
+    "Scapia partners Axis Bank to launch co-branded credit card for young travellers",
+    "Bajaj Auto Share Price",
+    "BAJAJ FINANCE LIMITED Option Chain - Live BAJAJ FINANCE LIMITED Option Chain Data, OI & Price",
+    "Bajaj Finance Ltd is Rated Hold",
+    "Bajaj Finance Ltd Technical Momentum Shifts Amid Mixed Indicator Signals",
+    "Bandhan Floating Interest Rates Fund - Regular Plan Portfolio",
+    "Bob on Business: Fall football arrives with H-E-B, tequila and bobbleheads corporate tie-ins",
+    "Bank of India Liquid Fund Direct Growth Review 2026: NAV, Returns, Portfolio & Should You Invest?",
+    "Bank of India Value Fund - Regular Plan Returns",
+    "Bank of India Consumption Fund - Regular Plan Returns",
+    "Reaction!! Bom Diggy Diggy (VIDEO)",
+    "Sudamala Resort Ubud: Bali\u2019s newest boutique luxury address opens October 2026",
+    "Bali United vs Adhyaksa \u00bb Best Odds and Stats",
+    "Groww Share Price",
+    "September 2026 F&O Monthly Expiry",
+    "CANARA BANK Option Chain"
    ]
   }
  }
