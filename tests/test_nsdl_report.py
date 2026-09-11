@@ -276,3 +276,40 @@ def test_coupon_trend_html():
     # the shared quarter-bucketing refactor must not change spread trend output
     html_spread = rep._spread_trend_html(hist, today=today)
     assert "+220" in html_spread  # Q4 FY26: 8.70 - 6.50 = 2.20 -> +220bps
+
+
+def test_quarter_window_spans_six_quarters():
+    # one deal per FY quarter from Q1 FY26 through Q2 FY27 (QTD) -- the
+    # window should now reach back far enough to include Q1 FY26, not just
+    # the previous 4 quarters + QTD.
+    today = datetime.date(2026, 9, 11)
+    dates = [datetime.date(2025, 5, 15), datetime.date(2025, 8, 15),
+             datetime.date(2025, 11, 15), datetime.date(2026, 2, 15),
+             datetime.date(2026, 5, 15), datetime.date(2026, 8, 15)]
+    hist = [{"allotment_date": d.isoformat(), "coupon": 8.0, "amount_cr": 100,
+             "band": rep._BANDS[1]} for d in dates]
+    quarters, by_q, window = rep._quarter_window(hist, today, "coupon")
+    assert quarters == [(2026, 1), (2026, 2), (2026, 3), (2026, 4), (2027, 1), (2027, 2)]
+    assert len(window) == 6
+
+
+# ------------------------------------------------------ quarter-end archive
+def test_fy_quarter_end():
+    assert rep._fy_quarter_end(2027, 1) == datetime.date(2026, 6, 30)
+    assert rep._fy_quarter_end(2027, 2) == datetime.date(2026, 9, 30)
+    assert rep._fy_quarter_end(2027, 3) == datetime.date(2026, 12, 31)
+    assert rep._fy_quarter_end(2027, 4) == datetime.date(2027, 3, 31)
+
+
+def test_archive_report_only_on_quarter_end(tmp_path, monkeypatch):
+    monkeypatch.setattr(rep, "_ARCHIVE_DIR", str(tmp_path))
+
+    rep._archive_report("<html>mid-quarter</html>", b"xlsx-bytes", datetime.date(2026, 9, 15))
+    assert os.listdir(tmp_path) == []  # not the quarter's last day -> no-op
+
+    rep._archive_report("<html>quarter-end</html>", b"xlsx-bytes", datetime.date(2026, 9, 30))
+    assert sorted(os.listdir(tmp_path)) == ["FY2027_Q2.html", "FY2027_Q2.xlsx"]
+    with open(os.path.join(tmp_path, "FY2027_Q2.html"), encoding="utf-8") as f:
+        assert f.read() == "<html>quarter-end</html>"
+    with open(os.path.join(tmp_path, "FY2027_Q2.xlsx"), "rb") as f:
+        assert f.read() == b"xlsx-bytes"

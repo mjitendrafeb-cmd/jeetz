@@ -580,7 +580,7 @@ def _quarter_start(fy: int, q: int) -> datetime.date:
 
 
 def _quarter_window(records, today, value_key):
-    """Last 4 FY quarters + current QTD, bucketed by quarter. Returns
+    """Last 5 FY quarters + current QTD, bucketed by quarter. Returns
     (quarters, by_q, window) where `quarters` is the ordered list of
     (fy, q) actually present in the data, `by_q` maps each to its matching
     records, and `window` is the flat filtered list (rated, amount-carrying,
@@ -588,7 +588,7 @@ def _quarter_window(records, today, value_key):
     cur_fy, cur_q = _fy_quarter(today)
     quarters = []
     fy, q = cur_fy, cur_q
-    for _ in range(5):
+    for _ in range(6):
         quarters.append((fy, q))
         q -= 1
         if q == 0:
@@ -616,7 +616,7 @@ def _quarter_label(qk, cur_fy, cur_q) -> str:
 
 def _spread_trend_html(records, today=None) -> str:
     """Quarter-by-quarter trend of value-weighted spread over tenor-matched
-    G-sec for the last year (4 trailing quarters + current quarter-to-date),
+    G-sec for the last year (5 trailing quarters + current quarter-to-date),
     one row per rating band × issuer segment cohort (AAA PSU, AAA NBFC/HFC,
     AA Corporate, ...). Spreads are computed against the current G-sec curve
     (historical daily curves aren't available from the public sources used)."""
@@ -670,7 +670,7 @@ def _spread_trend_html(records, today=None) -> str:
 <tr><td style="padding:14px 20px 4px;">
   <div style="font-size:13px;font-weight:700;color:#cc0000;border-bottom:2px solid #cc0000;padding-bottom:4px;">SPREAD TREND OVER G-SEC — QUARTERLY (bps)</div>
   <div style="margin-top:5px;font-family:Arial,sans-serif;font-size:11.5px;color:#666;">
-  Value-weighted avg spread of rated deals over tenor-matched G-sec, last 4 quarters plus the
+  Value-weighted avg spread of rated deals over tenor-matched G-sec, last 5 quarters plus the
   current quarter-to-date, per rating band × issuer segment cohort. ▲/▼ = change vs prior quarter.
   Spreads use the stored G-sec curve nearest each deal's date where available (snapshots
   accumulate daily), else the current curve.</div>
@@ -685,7 +685,7 @@ def _spread_trend_html(records, today=None) -> str:
 
 def _coupon_trend_html(records, today=None) -> str:
     """Quarter-by-quarter trend of value-weighted COUPON RATE (not spread)
-    for the last year (4 trailing quarters + current quarter-to-date), same
+    for the last year (5 trailing quarters + current quarter-to-date), same
     rating-band × issuer-segment grouping as the spread trend above -- the
     raw borrowing rate each cohort is paying, quarter over quarter, rather
     than a single since-FY-start average."""
@@ -737,7 +737,7 @@ def _coupon_trend_html(records, today=None) -> str:
 <tr><td style="padding:14px 20px 4px;">
   <div style="font-size:13px;font-weight:700;color:#cc0000;border-bottom:2px solid #cc0000;padding-bottom:4px;">COUPON RATE TREND — QUARTERLY (%)</div>
   <div style="margin-top:5px;font-family:Arial,sans-serif;font-size:11.5px;color:#666;">
-  Value-weighted avg coupon of rated deals, last 4 quarters plus the current quarter-to-date,
+  Value-weighted avg coupon of rated deals, last 5 quarters plus the current quarter-to-date,
   per rating band × issuer segment cohort. ▲/▼ = change vs prior quarter (≥5bps).</div>
 </td></tr>
 <tr><td style="padding:8px 20px;">
@@ -1021,6 +1021,36 @@ def _build_xlsx(history, today) -> bytes | None:
     return buf.getvalue()
 
 
+_ARCHIVE_DIR = os.path.join(_REPO_ROOT, "archive", "nsdl_issuance_report")
+
+
+def _fy_quarter_end(fy: int, q: int) -> datetime.date:
+    """Last calendar day of an Indian-FY quarter (Q1=Apr-Jun ... Q4=Jan-Mar)."""
+    month = 4 + q * 3
+    year = fy - 1
+    if month > 12:
+        month, year = month - 12, fy
+    return datetime.date(year, month, 1) - datetime.timedelta(days=1)
+
+
+def _archive_report(html: str, xlsx: bytes | None, today: datetime.date) -> None:
+    """Keep a permanent copy of today's report once per FY quarter, filed
+    under the quarter it closes out -- daily runs otherwise only leave a
+    self-overwriting `data/` snapshot, so the quarter-end picture would
+    otherwise be lost to the next day's run."""
+    fy, q = _fy_quarter(today)
+    if today != _fy_quarter_end(fy, q):
+        return
+    tag = f"FY{fy}_Q{q}"
+    os.makedirs(_ARCHIVE_DIR, exist_ok=True)
+    with open(os.path.join(_ARCHIVE_DIR, f"{tag}.html"), "w", encoding="utf-8") as f:
+        f.write(html)
+    if xlsx:
+        with open(os.path.join(_ARCHIVE_DIR, f"{tag}.xlsx"), "wb") as f:
+            f.write(xlsx)
+    print(f"[nsdl_issuance] archived quarter-end report: {tag}")
+
+
 def send_email(subject: str, html_body: str, gmail_user: str, gmail_password: str,
                attachment: tuple[bytes, str] | None = None) -> None:
     recipients = _recipients()
@@ -1170,6 +1200,7 @@ def main() -> None:
                        history=history, matrix_source=matrix_source,
                        gsec_hist=gsec_hist)
     xlsx = _build_xlsx(history, today)
+    _archive_report(html, xlsx, today)
     attachment = None
     if xlsx:
         fy = _fy_start().year + 1
