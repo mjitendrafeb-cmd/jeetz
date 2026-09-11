@@ -724,7 +724,7 @@ def _coupon_trend_html(records, today=None) -> str:
                 row += (f'<td style="padding:7px 10px;border-bottom:1px solid #eee;'
                         f'text-align:center;"><b>{c:.2f}%</b>{arrow}'
                         f"<br><span style='color:#888;font-size:10.5px;'>"
-                        f"{len(g)} deal{'s' if len(g) > 1 else ''}</span></td>")
+                        f"{len(g)} deal{'s' if len(g) > 1 else ''} · ₹{_fmt_cr(w)}cr</span></td>")
             seg_rows += f"<tr>{row}</tr>"
         if seg_rows:
             rows_html += (f'<tr><td colspan="{len(quarters) + 1}" style="background:#f4f4f4;'

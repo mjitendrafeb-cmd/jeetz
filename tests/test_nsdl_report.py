@@ -266,6 +266,7 @@ def test_coupon_trend_html():
     assert "8.70%" in html and "8.50%" in html and "8.00%" in html
     assert "▼0.20" in html and "▼0.50" in html
     assert "Q4 FY26" in html and "Q1 FY27" in html and "Q2 FY27 (QTD)" in html
+    assert "1 deal · ₹100cr" in html  # coupon table shows amount alongside deal count
 
     # a single quarter is no trend
     one = rep._debt_list_history(
@@ -273,9 +274,11 @@ def test_coupon_trend_html():
         gsec)
     assert rep._coupon_trend_html(one, today=today) == ""
 
-    # the shared quarter-bucketing refactor must not change spread trend output
+    # the shared quarter-bucketing refactor must not change spread trend output;
+    # the spread/G-sec table stays deal-count only, no amount
     html_spread = rep._spread_trend_html(hist, today=today)
     assert "+220" in html_spread  # Q4 FY26: 8.70 - 6.50 = 2.20 -> +220bps
+    assert "· ₹" not in html_spread
 
 
 def test_quarter_window_spans_six_quarters():
