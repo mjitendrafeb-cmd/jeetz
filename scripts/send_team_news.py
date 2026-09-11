@@ -779,6 +779,26 @@ _AMBIGUOUS_ENTITY_CONTEXT = {
         r"\bau\b|\basfb\b|\bau sfb\b|\bau bank\b", re.IGNORECASE),
 }
 
+# A topic row (team.json "Structured Finance (Topic)") has no company name
+# to anchor matching -- it exists purely so generic terms like
+# "securitisation", "RMBS", "ABS" attach any story that uses them. Those
+# terms are not India-specific vocabulary: "Metro Finance prices record
+# $860M securitisation" is an Australian non-bank lender story that would
+# otherwise attach here purely because it says "securitisation" -- reported
+# live before this ever reached production, from a headline spotted while
+# reviewing the topic row's first demo run. Every other row's own
+# distinctive name implicitly scopes it to India already; a bare keyword
+# alias has no such scoping, so this row needs an explicit one. Checked in
+# _match_companies against every candidate hit for this row, regardless of
+# which match path (tag/alias/name) found it.
+_TOPIC_GEO_REQUIRED_CONTEXT = {
+    "structured finance (topic)": re.compile(
+        r"\bindia\b|\bindian\b|\brupee[s]?\b|\binr\b|₹|\bcrore\b|\blakh\b|"
+        r"\brbi\b|\bsebi\b|\bnhb\b|\bnabard\b|\bcrisil\b|\bicra\b|\bcareedge\b|"
+        r"\bcare ratings\b|\bindia ratings\b|\bnsdl\b|\bbse\b|\bnse\b",
+        re.IGNORECASE),
+}
+
 
 def _sig_words(name: str) -> list[str]:
     """First two significant words of a company name (len>=3, no fillers,
@@ -3050,6 +3070,9 @@ def _match_companies(it: dict, rows: list[dict], name_only: bool = False) -> lis
                 print(f"[WARN] tag '{name[:40]}' but story never mentions it: "
                       f"'{it['title'][:60]}' — dropped from this company")
                 tag_match = False
+        geo_guard = _TOPIC_GEO_REQUIRED_CONTEXT.get(n)
+        if geo_guard and not geo_guard.search(body):
+            continue
         if (tag_match or alias_hit
                 or _contains_name(body, n) or _contains_name(body, _phrase(name))):
             hits.append(name)
