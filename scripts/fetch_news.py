@@ -370,17 +370,21 @@ _GOOGLE_QUERIES = [
     ("Bonds", "India bond market yield G-sec government securities"),
     ("Bonds", "India corporate bond credit spread debenture"),
     ("CP", "commercial paper India money market CP issuance"),
-    ("Securitisation", "India securitisation ABS RMBS PTC pool"),
     # Dedicated higher-recall queries for the Structured Finance topic row
     # (team.json "Structured Finance (Topic)") -- that row has no company
-    # name to anchor a per-entity query, so it depends on this bulk feed
-    # plus alias re-matching in send_team_news.py's _match_companies. The
-    # single generic line above (capped at 3 hits like every other query)
-    # was not enough recall on its own; these three widen coverage across
-    # the row's actual alias vocabulary without touching the shared cap.
-    ("Securitisation", "India pass through certificate PTC rating transaction"),
-    ("Securitisation", "India RMBS mortgage backed securities pool rating"),
-    ("Securitisation", "India structured obligation SO rating corporate guarantee"),
+    # name to anchor a per-entity query, so it depends entirely on this
+    # bulk feed plus alias re-matching in send_team_news.py's
+    # _match_companies. The original single plain-word-list line here
+    # ("India securitisation ABS RMBS PTC pool") returned 0 hits in
+    # production -- Google News RSS treats an unquoted word list as an
+    # implicit AND of every word, and no real headline in a 48h window
+    # contains all five of those specific terms together. _company_query
+    # already proves the fix: quoted phrases OR'd together, exactly like
+    # a real per-entity query, not a keyword soup.
+    ("Securitisation", '"securitisation" OR "pass through certificate" OR '
+                        '"PTC pool" OR "PTC transaction" India'),
+    ("Securitisation", '"asset-backed securities" OR "mortgage-backed securities" OR '
+                        '"RMBS" OR "structured obligation rating" OR "SO rating" India'),
     ("Ratings", "credit rating upgrade downgrade India CRISIL ICRA CareEdge India Ratings"),
     ("Ratings", "rating watch negative outlook India bond issuer"),
 ]
