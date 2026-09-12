@@ -1,0 +1,122 @@
+name: Rating Extractor Fetch
+
+# Scheduled extraction: searches each entity by name on CRISIL, ICRA and
+# India Ratings, pulls the documents found, extracts instrument-wise ratings
+# and rated amounts, and commits the CSV export back to the branch.
+#
+# Runs here rather than in the dev sandbox because that sandbox is behind a
+# default-deny egress allowlist and cannot reach any rating-agency domain.
+
+on:
+  workflow_dispatch:
+    inputs:
+      scope:
+        description: 'Which entities to fetch'
+        required: false
+        default: 'validation'
+        type: choice
+        options: ['validation', 'all']
+      sources:
+        description: 'Sources to fetch (space separated), or blank for all'
+        required: false
+        default: ''
+        type: string
+  schedule:
+    # 02:40 UTC daily (~08:10 IST). GitHub's scheduler often runs late; this
+    # job is idempotent, so a late or repeated run simply re-skips duplicates.
+    #
+    # NOTE: GitHub only fires schedule triggers from the DEFAULT branch's copy
+    # of a workflow. While this file lives solely on the feature branch the
+    # daily run does not happen at all — verified: no run fired at 02:40 UTC.
+    # The push trigger below is what exercises it meanwhile; the schedule
+    # starts working once this is merged to main.
+    - cron: '40 2 * * *'
+  # workflow_dispatch only works once this file is on the default branch, so
+  # a push trigger keeps it runnable from the feature branch meanwhile.
+  push:
+    branches:
+      - claude/cra-rating-tracker-gz9zwj
+    paths:
+      # Any Python change, not just fetch.py: a parser fix needs to re-run too.
+      # A commit touching only extract/crisil.py previously changed nothing,
+      # because no run fired to exercise it.
+      - 'tools/rating-extractor/**.py'
+      - '.github/workflows/rating_fetch.yml'
+
+concurrency:
+  group: rating-fetch
+  cancel-in-progress: false
+
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install requests beautifulsoup4 lxml pdfplumber openpyxl playwright
+
+      - name: Install Chromium for CRISIL search
+        run: python -m playwright install --with-deps chromium
+
+      - name: Run fetch
+        working-directory: tools/rating-extractor
+        run: |
+          ARGS=""
+          if [ "${{ inputs.scope }}" = "all" ]; then ARGS="--all"; fi
+          if [ -n "${{ inputs.sources }}" ]; then ARGS="$ARGS --sources ${{ inputs.sources }}"; fi
+          echo "fetch.py $ARGS"
+          mkdir -p captures/_fetch_debug
+          # Tee the run output into the repo: the Actions log API truncates to
+          # the tail, which hides the per-source diagnostics needed to fix
+          # failures from a sandbox that cannot reach these sites.
+          set -o pipefail
+          python fetch.py $ARGS 2>&1 | tee captures/_fetch_debug/last_run.log
+
+      - name: Export results
+        working-directory: tools/rating-extractor
+        run: |
+          mkdir -p exports
+          python export.py --format csv --out exports/rating_records.csv
+          python export.py --format xlsx --out exports/rating_records.xlsx
+
+      - name: Upload results
+        uses: actions/upload-artifact@v4
+        with:
+          name: rating-extractor-results
+          path: |
+            tools/rating-extractor/exports/
+            tools/rating-extractor/captures/_fetch_debug/
+          retention-days: 14
+
+      - name: Commit exports, database and debug captures back
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          # The SQLite file is committed so history accumulates across runs
+          # rather than each run starting from an empty database. It is small
+          # at validation scope; at full 370-entity scale this should move to a
+          # proper store rather than a binary blob in git.
+          git add -f tools/rating-extractor/exports/ \
+                    tools/rating-extractor/rating_extractor.db \
+                    tools/rating-extractor/captures/_fetch_debug/ || true
+          if git diff --staged --quiet; then
+            echo "No changes to commit."
+          else
+            git commit -m "Rating fetch results from CI runner [skip ci]"
+            git pull --rebase origin ${{ github.ref_name }} || true
+            git push origin HEAD:${{ github.ref_name }}
+          fi

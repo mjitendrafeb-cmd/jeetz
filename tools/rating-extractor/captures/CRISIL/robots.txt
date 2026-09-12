@@ -1,0 +1,1094 @@
+#Baiduspider
+User-agent: Baiduspider
+Disallow: /
+
+#Baiduspider
+User-agent: Baiduspider/2.0
+Disallow: /
+
+#Scrapy
+User-agent: Scrapy/1.5.1
+Disallow: /
+
+#Scrapy
+User-agent: Scrapy/1.3.3
+Disallow: /
+
+#Dot
+User-agent: DotBot/1.1
+Disallow: /
+
+#MJ12
+User-agent: MJ12bot/v1.4.8
+Disallow: /
+
+#SeznamBot
+User-agent: SeznamBot/3.2
+Disallow: /
+
+#Apple
+User-agent: Applebot/0.1
+Disallow: /
+
+#Exa
+User-agent: Exabot/3.0
+Disallow: /
+
+User-agent: GPTBot
+Disallow: /
+
+User-agent: ChatGPT-User
+Disallow: /
+
+User-agent: CCBot
+Disallow: /
+
+User-agent: TurnitinBot
+Disallow: /
+
+User-agent: PetalBot
+Disallow: /
+
+User-agent: MoodleBot
+Disallow: /
+
+User-agent: FacebookBot
+Disallow: /
+
+User-agent: Bytespider
+Disallow: /
+
+User-agent: JenkersBot
+Disallow: /
+
+User-agent: YouBot
+Disallow: /
+
+User-agent: Arquivo-web-crawler
+Disallow: /
+
+User-agent: coccocbot-web
+Disallow: /
+
+User-agent: SeznamBot
+Disallow: /
+
+User-agent: PerplexityBot
+Disallow: /
+
+User-agent: anthropic-ai
+Disallow: /
+
+User-agent: claudebot
+Disallow: /
+
+User-agent: cohere-ai
+Disallow: /
+
+User-agent: Claude-Web
+Disallow: /
+
+User-agent: bingbot
+Disallow: /
+
+User-agent: AwarioRssBot
+Disallow: /
+
+User-agent: AwarioSmartBot
+Disallow: /
+
+
+
+
+# TO disallow all content from being crawled for www.crisil.com
+User-agent: *
+Disallow: */content/dam/crisil/abstract-images/
+Disallow: */content/dam/crisil/annual-reports/
+Disallow: */content/dam/crisil/annualreports-/
+Disallow: */content/dam/crisil/client-speak/
+Disallow: */content/dam/crisil/crisil-common-asstes/
+Disallow: */content/dam/crisil/criteria_methodology/
+Disallow: */content/dam/crisil/events-tiles/
+Disallow: */content/dam/crisil/executive-training/
+Disallow: */content/dam/crisil/generic-images1/
+Disallow: */content/dam/crisil/gst/
+Disallow: */content/dam/crisil/homepage/
+Disallow: */content/dam/crisil/icons/
+Disallow: */content/dam/crisil/ier-reports/
+Disallow: */content/dam/crisil/indices/
+Disallow: */content/dam/crisil/investors/
+Disallow: */content/dam/crisil/sample-pdfs/
+Disallow: */content/dam/crisil/sector-we-cover/
+Disallow: */content/dam/crisil/mailers/
+Disallow: */content/dam/crisil/our-analysis/reports/Research/premium-reports/
+Disallow: */content/dam/crisil/our-analysis/reports/Research/premium-reports/india-outlook-2018/The-Fours-of-Growth.pdf
+Disallow: */content/dam/crisil/mailers/corporate/womens-day-mailer/Celebration_diversity_2018.mp4
+Disallow: */content/dam/crisil/our-analysis/reports/Research/premium-reports/ecoview/crisil-ecoview-on-the-blink.pdf
+Disallow: */content/crisil/en/home/our-analysis/reports/2018/03/crisil-ecoview-on-the-blink.html
+Disallow: */content.html
+Disallow: */geohome.html
+Disallow: */content/crisil/en/home/our-businesses/sme-offerings/sme-rating.html
+Disallow: */content/crisil/en/home/investors/financial-information/annual-report/2017/annual-report-chairman-message.html
+Disallow: */content/crisil/en/home/what-we-do/financial-products/smart/model-validation.html
+Disallow: */content/dam/crisil/our-analysis/reports/Research/premium-reports/sectors/september/Automotive-Components-September-2017.pdf
+Disallow: */content/dam/crisil/our-analysis/reports/Research/premium-reports/sectors/september/Sector-Report-Banking-September-2017.pdf
+Disallow: */content/dam/crisil/our-analysis/reports/Research/premium-reports/sectors/september/Sector-Report-Natural-Gas-September-2017.pdf
+Disallow: */content/dam/crisil/our-analysis/reports/Research/premium-reports/sectors/september/Sector-Report-Cement-September-2017.pdf
+Disallow: */content/dam/crisil/our-analysis/reports/Research/premium-reports/sectors/
+Disallow: */content/dam/crisil/our-analysis/reports/Research/premium-reports/crisil-insight-4-years-through-6-lenses/crisil-insight-4-years-through-6-lenses.pdf
+Disallow: */content/crisil/en/home/about-us/twitter-feeds.html
+Disallow: */content/crisil/en/home/what-we-do/financial-products/smart/model-initiation-with-forecast.html
+Disallow: */content/dam/crisil/mailers/ratings/social-sector-gradings.pdf
+Disallow: */content/dam/crisil/our-analysis/reports/Research/premium-reports/sectors/
+Disallow: */content/crisil/en/home/our-businesses/business-intelligence-and-risk.html
+Disallow: */content/crisil/en/home/executive-training-new.html
+Disallow: */content/crisil/en/home/Executive-Training-Programmes/classroom/Programmes/brochure-form-website.html
+Disallow: */content/dam/crisil/events-tiles/fin-insights/2019/the-nbfc-reset-re-orienting-business-models-amid-headwinds/the-nbfc-reset-reorienting-business-models-amid-headwinds-presentation.pdf?utm_source=crisil&utm_medium=mailer&utm_campaign=crisil-Gold
+Disallow: */content/dam/crisil/crisil-tv/economy-watch/the-slowdown-deepens-d-k-joshi.mp4?utm_source=crisil&utm_medium=mailer&utm_campaign=crisil-Gold
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2019/december/other-sectors/road-signs.html?utm_source=crisil&utm_medium=mailer&utm_campaign=crisil-Gold
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2019/december/completed-webinar.html?utm_source=crisil&utm_medium=mailer&utm_campaign=crisil-Gold
+Disallow: */content/crisil/en/home/our-analysis/reports/2018/03/crisil-ecoview-on-the-blink.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/january/economy/pivoting-with-the-fed.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/january/interest-rates/rateview-crisils-outlook-on-near-term-rates-jan-2020.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/january/article-of-the-month/in-the-green.html
+Disallow: */content/dam/crisil/crisil-tv/economy-watch/a-grind-up.mp4
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/january/other-sectors/building-on-rebound.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/january/other-sectors/tariff-hikes-can-double-ebitda-of-telcos.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/january/other-sectors/etfs-can-give-a-fillip-to-the-corporate-bond-market.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/january/other-sectors/non-bank-growth-to-hit-a-decadal-low-of-6-8-percent-this-fiscal.html	
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/january/other-sectors/revenue-growth-of-hospitals-seen-up-300-400-bps-to-14-15-percent.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/january/other-sectors/cotton-yarn-spinners-stare-at-200-400-bps-margin-squeeze.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/january/announcement/crisil-to-acquire-greenwich-associates-llc.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/january/credit-alert/securitisation-central-governments-intervention-and-clarification-need-of-the-hour.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/january/upcoming-webinar.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/january/completed-webinar.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/january/rating-actions.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/jan/economy/pivoting-with-the-fed.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/jan/interest-rates/rateview-crisils-outlook-on-near-term-rates-jan-2020.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/jan/article-of-the-month/in-the-green.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/jan/other-sectors/tariff-hikes-can-double-ebitda-of-telcos.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/jan/other-sectors/etfs-can-give-a-fillip-to-the-corporate-bond-market.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/jan/other-sectors/non-bank-growth-to-hit-a-decadal-low-of-6-8-percent-this-fiscal.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/jan/other-sectors/revenue-growth-of-hospitals-seen-up-300-400-bps-to-14-15-percent.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/jan/other-sectors/cotton-yarn-spinners-stare-at-200-400-bps-margin-squeeze.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/jan/announcement/crisil-to-acquire-greenwich-associates-llc.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/jan/upcoming-webinar.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/jan/rating-actions.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/february/economy/starved-of-demand-trade-deficit-slims-further.html?utm_source=crisil&utm_medium=mailer&utm_campaign=crisil-Gold
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/february/interest-rates/rateview-crisil-outlook-on-near-term-rates.html?utm_source=crisil&utm_medium=mailer&utm_campaign=crisil-Gold
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/february/article-of-the-month/no-respite-for-india-inc.html?utm_source=crisil&utm_medium=mailer&utm_campaign=crisil-Gold
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/february/union-budget/a-quiver-of-arrows.html?utm_source=crisil&utm_medium=mailer&utm_campaign=crisil-Gold
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/february/other-sectors/viewcube-on-the-mend.html?utm_source=crisil&utm_medium=mailer&utm_campaign=crisil-Gold
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/february/other-sectors/its-mine-odisha-auction-in-focus.html?utm_source=crisil&utm_medium=mailer&utm_campaign=crisil-Gold
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/february/other-sectors/fmcg-growth-to-recover-to-double-digits-in-fiscal-2021.html?utm_source=crisil&utm_medium=mailer&utm_campaign=crisil-Gold
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/february/other-sectors/pain-for-big-pharma-as-us-fda-warnings-double.html?utm_source=crisil&utm_medium=mailer&utm_campaign=crisil-Gold
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/february/completed-webinars.html?utm_source=crisil&utm_medium=mailer&utm_campaign=crisil-Gold
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/february/rating-actions.html?utm_source=crisil&utm_medium=mailer&utm_campaign=crisil-Gold
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/feb/economy/starved-of-demand-trade-deficit-slims-further.html?utm_source=crisil&utm_medium=mailer&utm_campaign=crisil-Silver
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/feb/interest-rates/rateview-crisil-outlook-on-near-term-rates.html?utm_source=crisil&utm_medium=mailer&utm_campaign=crisil-Silver
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/feb/article-of-the-month/no-respite-for-india-inc.html?utm_source=crisil&utm_medium=mailer&utm_campaign=crisil-Silver
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/feb/union-budget/a-quiver-of-arrows.html?utm_source=crisil&utm_medium=mailer&utm_campaign=crisil-Silver
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/feb/other-sectors/its-mine-odisha-auction-in-focus.html?utm_source=crisil&utm_medium=mailer&utm_campaign=crisil-Silver
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/feb/other-sectors/fmcg-growth-to-recover-to-double-digits-in-fiscal-2021.html?utm_source=crisil&utm_medium=mailer&utm_campaign=crisil-Silver
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/feb/other-sectors/pain-for-big-pharma-as-us-fda-warnings-double.html?utm_source=crisil&utm_medium=mailer&utm_campaign=crisil-Silver
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/feb/rating-actions.html?utm_source=crisil&utm_medium=mailer&utm_campaign=crisil-Silver
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/february1/economy/starved-of-demand-trade-deficit-slims-further.html?utm_source=crisil&utm_medium=mailer&utm_campaign=crisil-Gold2
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/february1/interest-rates/rateview-crisil-outlook-on-near-term-rates.html?utm_source=crisil&utm_medium=mailer&utm_campaign=crisil-Gold2
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/february1/article-of-the-month/no-respite-for-india-inc.html?utm_source=crisil&utm_medium=mailer&utm_campaign=crisil-Gold2
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/february1/union-budget/a-quiver-of-arrows.html?utm_source=crisil&utm_medium=mailer&utm_campaign=crisil-Gold2
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/february1/other-sectors/viewcube-on-the-mend.html?utm_source=crisil&utm_medium=mailer&utm_campaign=crisil-Gold2
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/february1/other-sectors/its-mine-odisha-auction-in-focus.html?utm_source=crisil&utm_medium=mailer&utm_campaign=crisil-Gold2
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/february1/other-sectors/fmcg-growth-to-recover-to-double-digits-in-fiscal-2021.html?utm_source=crisil&utm_medium=mailer&utm_campaign=crisil-Gold2
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/february1/other-sectors/pain-for-big-pharma-as-us-fda-warnings-double.html?utm_source=crisil&utm_medium=mailer&utm_campaign=crisil-Gold2
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/february1/completed-webinars.html?utm_source=crisil&utm_medium=mailer&utm_campaign=crisil-Gold2
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/february1/rating-actions.html?utm_source=crisil&utm_medium=mailer&utm_campaign=crisil-Gold2
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/feb1/economy/starved-of-demand-trade-deficit-slims-further.html?utm_source=crisil&utm_medium=mailer&utm_campaign=crisil-Silver2
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/feb1/interest-rates/rateview-crisil-outlook-on-near-term-rates.html?utm_source=crisil&utm_medium=mailer&utm_campaign=crisil-Silver2
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/feb1/article-of-the-month/no-respite-for-india-inc.html?utm_source=crisil&utm_medium=mailer&utm_campaign=crisil-Silver2
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/feb1/union-budget/a-quiver-of-arrows.html?utm_source=crisil&utm_medium=mailer&utm_campaign=crisil-Silver2
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/feb1/other-sectors/its-mine-odisha-auction-in-focus.html?utm_source=crisil&utm_medium=mailer&utm_campaign=crisil-Silver2
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/feb1/other-sectors/fmcg-growth-to-recover-to-double-digits-in-fiscal-2021.html?utm_source=crisil&utm_medium=mailer&utm_campaign=crisil-Silver2
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/feb1/other-sectors/pain-for-big-pharma-as-us-fda-warnings-double.html?utm_source=crisil&utm_medium=mailer&utm_campaign=crisil-Silver2
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/feb1/rating-actions.html?utm_source=crisil&utm_medium=mailer&utm_campaign=crisil-Silver2
+Disallow: */content/dam/crisil/covid/covid-19-threatens-more-damage-to-asia-pacific.PDF
+Disallow: */content/dam/crisil/covid/global-credit-conditions-covid-19s-darkening-shadow.pdf
+Disallow: */content/crisil/en/home/investors/financial-information/annual-report/2019/tracing-the-grind-up.html
+Disallow: */content/crisil/en/home/investors/financial-information/annual-report/2019/the-nbfc-reset.html
+Disallow: */content/crisil/en/home/investors/financial-information/annual-report/2019/the-central-role-of-states-in-indias-infrastructure-build-out.html
+Disallow: */content/crisil/en/home/events/india-outlook/2020/pangs-of-growth.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/march/economy/pause-for-now.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/march/interest-rates/rateview.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/march/article-of-the-month/the-n-CoV-fallout.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/march/other-sectors/viewcube-wind-in-the-tail.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/march/other-sectors/getting-charged.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/march/other-sectors/coronavirus-shadow-over-3-gw-solar-projects.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/march/other-sectors/potential-stress-in-non-bank-wholesale-book-well-above-reported-npas.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/march/other-sectors/organised-jewellery-retailers-stare-at-halving-of-revenue-growth.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/march/other-sectors/done-with-rising.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/march/mutual-fund-ranking/crisil-mutual-fund-ranking.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/march/completed-webinars.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/march/rating-actions.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/mar/economy/pause-for-now.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/mar/interest-rates/rateview.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/mar/article-of-the-month/the-n-CoV-fallout.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/mar/other-sectors/getting-charged.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/mar/other-sectors/coronavirus-shadow-over-3-gw-solar-projects.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/mar/other-sectors/potential-stress-in-non-bank-wholesale-book-well-above-reported-npas.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/mar/other-sectors/organised-jewellery-retailers-stare-at-halving-of-revenue-growth.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/mar/other-sectors/done-with-rising.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/mar/mutual-fund-ranking/crisil-mutual-fund-ranking.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/mar/rating-actions.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/march1/other-sectors/viewcube-wind-in-the-tail.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/march1/other-sectors/getting-charged.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/march1/other-sectors/coronavirus-shadow-over-3-gw-solar-projects.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/march1/other-sectors/potential-stress-in-non-bank-wholesale-book-well-above-reported-npas.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/march1/other-sectors/organised-jewellery-retailers-stare-at-halving-of-revenue-growth.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/march1/other-sectors/done-with-rising.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/march1/mutual-fund-ranking/crisil-mutual-fund-ranking.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/march1/completed-webinars.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/march1/rating-actions.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/mar1/economy/pause-for-now.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/mar1/interest-rates/rateview.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/mar1/article-of-the-month/the-n-CoV-fallout.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/mar1/other-sectors/getting-charged.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/mar1/other-sectors/coronavirus-shadow-over-3-gw-solar-projects.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/mar1/other-sectors/potential-stress-in-non-bank-wholesale-book-well-above-reported-npas.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/mar1/other-sectors/organised-jewellery-retailers-stare-at-halving-of-revenue-growth.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/mar1/other-sectors/done-with-rising.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/mar1/mutual-fund-ranking/crisil-mutual-fund-ranking.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/mar1/rating-actions.html
+Disallow: */content/crisil/en/home/our-businesses/sme-solutions/sector-gradings/renewable-energy-gradings/crisil-ireda-rating.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/april/economy/slashing-indias-growth-by-170-bps.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/april/interest-rates/rateview.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/april/article-of-the-month/pandemic-to-weigh-on-india-inc-credit-quality.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/april/other-sectors/rating-actions-spike-as-covid-19-impacts-consumer-and-travel-related-sectors.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/april/other-sectors/oils-not-well.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/april/other-sectors/deja-vu-on-the-highway.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/april/other-sectors/non-bank-unsecured-loans-buck-trend-to-grow-4x-faster-than-overall-book.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/april/other-sectors/low-lng-price-outlook-improves-viability-of-rs-50000-crore-city-gas-investments.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/april/other-sectors/slack-global-demand-virus-to-cut-diamond-exports-20percent.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/april/other-sectors/cement-cracks.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/april/special-feature/at1-bonds.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/april/webinars.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/april/rating-actions.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/apr/economy/slashing-indias-growth-by-170-bps.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/apr/interest-rates/rateview.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/apr/article-of-the-month/pandemic-to-weigh-on-india-inc-credit-quality.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/apr/other-sectors/rating-actions-spike-as-covid-19-impacts-consumer-and-travel-related-sectors.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/apr/other-sectors/oils-not-well.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/apr/other-sectors/deja-vu-on-the-highway.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/apr/other-sectors/non-bank-unsecured-loans-buck-trend-to-grow-4x-faster-than-overall-book.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/apr/other-sectors/low-lng-price-outlook-improves-viability-of-rs-50000-crore-city-gas-investments.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/apr/other-sectors/slack-global-demand-virus-to-cut-diamond-exports-20percent.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/apr/other-sectors/cement-cracks.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/apr/special-feature/at1-bonds.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/apr/rating-actions.html
+Disallow: */content/crisil/en/home/our-analysis/covid-19-economic-implications.html?utm_source=crisil&utm_medium=mailer&utm_campaign=april-2020-silver
+Disallow: */content/dam/crisil/our-analysis/reports/Research/documents/2020/04/ecoview-immunity-check.pdf
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/may/economy/covid-19-impact-on-economy-corporate-revenue-and-profitability.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/may/interest-rates/rateview.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/may/article-of-the-month/covid-19-macroeconomic-impact-faqs.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/may/other-sectors/it-firms-stare-at-revenue-margin-blows-of-the-decade.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/may/other-sectors/diamantaires-cut-by-pandemic-stare-at-decadal-low-revenue.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/may/other-sectors/tariff-ceiling-removal-can-revive-renewables-investments.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/may/other-sectors/moratorium-can-give-rs-2point1-lakh-crore-liquidity-breather-to-corporates.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/may/other-sectors/refiners-stare-at-rs-25000-crore-inventory-loss.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/may/other-sectors/viewcube-looking-through-the-haze.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/may/webinars.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/may/rating-actions.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/may1/economy/covid-19-impact-on-economy-corporate-revenue-and-profitability.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/may1/interest-rates/rateview.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/may1/article-of-the-month/covid-19-macroeconomic-impact-faqs.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/may1/other-sectors/it-firms-stare-at-revenue-margin-blows-of-the-decade.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/may1/other-sectors/diamantaires-cut-by-pandemic-stare-at-decadal-low-revenue.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/may1/other-sectors/tariff-ceiling-removal-can-revive-renewables-investments.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/may1/other-sectors/moratorium-can-give-rs-2point1-lakh-crore-liquidity-breather-to-corporates.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/may1/other-sectors/refiners-stare-at-rs-25000-crore-inventory-loss.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/may1/rating-actions.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/list-of-crisil-rated-companies-seeking-moratorium.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/june/economy/minus-five.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/june/interest-rates/rateview.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/june/article-of-the-month/fmcg-resilience-being-tested.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/june/viewcube/dairy-viewcube.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/june/viewcube/auto-viewcube.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/june/other-sectors/pandemic-to-cut-media-and-entertainment-sector-topline-by-Rs-25000-crore-this-fiscal.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/june/other-sectors/commercial-coal-mining-can-halve-annual-import-bill-save-rs-45000-crore.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/june/other-sectors/aluminium-makers-in-good-shape-to-bear-4-year-low-prices.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/june/other-sectors/rs90000-crore-liquidity-injection-a-breather-for-power-gencos.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/june/other-sectors/discom-debt-to-hit-all-time-high-of-rs-4point5-lakh-crore-this-fiscal.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/june/other-sectors/cheaper-gas-to-cut-urea-subsidy-bill-by-rs-12000-crore.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/june/completed-webinars.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/june/register-now.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/june-silver/economy/minus-five.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/june-silver/interest-rates/rateview.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/june-silver/article-of-the-month/fmcg-resilience-being-tested.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/june-silver/other-sectors/pandemic-to-cut-media-and-entertainment-sector-topline-by-Rs-25000-crore-this-fiscal.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/june-silver/other-sectors/commercial-coal-mining-can-halve-annual-import-bill-save-rs-45000-crore.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/june-silver/other-sectors/aluminium-makers-in-good-shape-to-bear-4-year-low-prices.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/june-silver/other-sectors/rs90000-crore-liquidity-injection-a-breather-for-power-gencos.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/june-silver/other-sectors/discom-debt-to-hit-all-time-high-of-rs-4point5-lakh-crore-this-fiscal.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/june-silver/other-sectors/cheaper-gas-to-cut-urea-subsidy-bill-by-rs-12000-crore.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/june-silver/register-now.html
+Disallow: */content/crisil/en/home/Executive-Training-Programmes/crisil-certified-wealth-manager-cfa.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/july/economy/sinking-deeper.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/july/segment-focus---msme/the-epicentre-of-an-existential-crisis.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/july/article-of-the-month/hiccups-on-the-highway.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/july/viewcube/a-gigawatt-problem.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/july/other-sectors/fmcg-revenue-to-de-grow-2-3percent-this-fiscal.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/july/other-sectors/partial-collections-plus-low-disbursements-equal-some-liquidity-respite-for-nbfcs.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/july/other-sectors/multiplexes-staring-at-ebitda-losses-this-fiscal.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/july/other-sectors/a-flight-to-safety-as-indian-banks-navigate-tumultuous-times.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/july/other-sectors/passenger-vehicle-volumes-to-shrink-to-decadal-low-in-fiscal-2021.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/july/other-sectors/pandemic-halts-indian-dairys-cream-run-profitability-to-spill-50-75-bps.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/july/other-sectors/pandemic-to-shave-off-over-a-third-of-apparel-retailers-revenues.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/july/other-sectors/good-monsoon-to-limit-tractor-volume-skid-to-1percent-this-fiscal.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/july/other-sectors/revenue-of-road-epc-companies-to-de-grow-8-10percent-this-fiscal.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/july/other-sectors/automotive-component-revenue-to-shrink-a-sixth-this-fiscal.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/july/completed-webinars.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/july/rating-actions.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/july/register-now.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/july-silver/economy/sinking-deeper.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/july-silver/segment-focus---msme/the-epicentre-of-an-existential-crisis.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/july-silver/article-of-the-month/hiccups-on-the-highway.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/july-silver/other-sectors/fmcg-revenue-to-de-grow-2-3percent-this-fiscal.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/july-silver/other-sectors/partial-collections-plus-low-disbursements-equal-some-liquidity-respite-for-nbfcs.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/july-silver/other-sectors/multiplexes-staring-at-ebitda-losses-this-fiscal.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/july-silver/other-sectors/a-flight-to-safety-as-indian-banks-navigate-tumultuous-times.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/july-silver/other-sectors/passenger-vehicle-volumes-to-shrink-to-decadal-low-in-fiscal-2021.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/july-silver/other-sectors/pandemic-halts-indian-dairys-cream-run-profitability-to-spill-50-75-bps.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/july-silver/other-sectors/pandemic-to-shave-off-over-a-third-of-apparel-retailers-revenues.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/july-silver/other-sectors/good-monsoon-to-limit-tractor-volume-skid-to-1percent-this-fiscal.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/july-silver/other-sectors/revenue-of-road-epc-companies-to-de-grow-8-10percent-this-fiscal.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/july-silver/other-sectors/automotive-component-revenue-to-shrink-a-sixth-this-fiscal.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/july-silver/rating-actions.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/july-silver/register-now.html
+Disallow: */content/crisil/en/home/Executive-Training-Programmes/credit-risk-professional-programme.html
+Disallow: */content/crisil/en/home/Executive-Training-Programmes/wealth-management-certification/credit-risk-professional-programme.html
+Disallow: */content/crisil/en/home/Executive-Training-Programmes/certification/credit-risk-professional-programme.html
+Disallow: */content/crisil/en/home/Executive-Training-Programmes/wealth-management-certification/post-graduate-diploma-course.html
+Disallow: */content/crisil/en/home/Executive-Training-Programmes/certification/post-graduate-diploma-course.html
+Disallow: */content/crisil/en/home/executive-training-new/certification/credit-risk-professional-programme.html
+Disallow: */content/crisil/en/home/executive-training-new/certification/post-graduate-diploma-course.html
+
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/august-silver/economy/optimism-pours.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/august-silver/article-of-the-month/cementing-covid-19-cracks.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/august-silver/mutual-fund-ranking/mf-ranking-june2020.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/august-silver/interest-rates/rateview.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/august-silver/podcast.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/august-silver/other-sectors/us-visa-ban-not-much-of-a-snag-for-indian-it-firms.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/august-silver/other-sectors/sales-plunge-to-dent-auto-dealers-credit-metrics-this-fiscal.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/august-silver/other-sectors/securitisation-volume-plunges-85percent-in-the-first-quarter.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/august-silver/other-sectors/holding-tight.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/august-silver/other-sectors/basmati-rice-cos-set-for-100-150-bps-margin-boost.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/august-silver/other-sectors/nbfc-aums-to-de-grow-for-the-first-time-in-nearly-two-decades.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/august-silver/other-sectors/change-in-law-payments-a-rs-4000-cr-booster-for-solar.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/august-silver/rating-actions.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/august-silver/credit-alert/debt-restructuring-a-breather-for-corporates.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/august-silver/register-now.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/august-silver/register-now1.html
+
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/august/economy/optimism-pours.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/august/article-of-the-month/cementing-covid-19-cracks.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/august/mutual-fund-ranking/mf-ranking-june2020.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/august/interest-rates/rateview.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/august/podcast.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/august/viewcube/hanging-by-a-thread.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/august/viewcube/test-of-mettle-beckons.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/august/other-sectors/us-visa-ban-not-much-of-a-snag-for-indian-it-firms.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/august/other-sectors/sales-plunge-to-dent-auto-dealers-credit-metrics-this-fiscal.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/august/other-sectors/securitisation-volume-plunges-85percent-in-the-first-quarter.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/august/other-sectors/holding-tight.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/august/other-sectors/basmati-rice-cos-set-for-100-150-bps-margin-boost.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/august/other-sectors/nbfc-aums-to-de-grow-for-the-first-time-in-nearly-two-decades.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/august/other-sectors/change-in-law-payments-a-rs-4000-cr-booster-for-solar.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/august/completed-webinars.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/august/rating-actions.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/august/credit-alert/debt-restructuring-a-breather-for-corporates.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/august/register-now.html
+Disallow: */content/crisil/en/home/Executive-Training-Programmes/crisil-certified-wealth-manager-1.html
+Disallow: */content/crisil/en/home/our-analysis/reports/2019/08/crisil-nbfc-sector-report-20191.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/september/economy/the-viral-drag.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/september/article-of-the-month/the-ground-realty-is-shaky.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/september/interest-rates/rateview-sep-2020.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/september/podcast.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/september/viewcube/weathering-the-pandemic.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/september/other-sectors/mall-revenues-set-to-halve-this-fiscal.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/september/other-sectors/loan-restructuring-to-stem-runaway-rise-in-npas-this-fiscal.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/september/other-sectors/from-zero-in-april-mfi-collections-spurt-to-70-75percent-in-july.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/september/other-sectors/cv-makers-headed-for-rs-6000-crore-net-loss-as-sales-crash.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/september/other-sectors/cotton-yarn-spinners-hurtle-towards-six-year-low-revenues.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/september/other-sectors/silver-lining-in-the-dark-clouds.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/september/other-sectors/75percent-of-companies-availing-of-moratorium-are-sub-investment-grade.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/september/other-sectors/economy-unlock-will-curb-fleet-operator-revenue-fall-to-15percent-this-fiscal.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/september/completed-webinars.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/september/rating-actions.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/september-silver/economy/the-viral-drag.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/september-silver/article-of-the-month/the-ground-realty-is-shaky.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/september-silver/interest-rates/rateview-sep-2020.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/september-silver/podcast.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/september-silver/other-sectors/mall-revenues-set-to-halve-this-fiscal.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/september-silver/other-sectors/loan-restructuring-to-stem-runaway-rise-in-npas-this-fiscal.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/september-silver/other-sectors/from-zero-in-april-mfi-collections-spurt-to-70-75percent-in-july.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/september-silver/other-sectors/cv-makers-headed-for-rs-6000-crore-net-loss-as-sales-crash.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/september-silver/other-sectors/cotton-yarn-spinners-hurtle-towards-six-year-low-revenues.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/september-silver/other-sectors/silver-lining-in-the-dark-clouds.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/september-silver/other-sectors/75percent-of-companies-availing-of-moratorium-are-sub-investment-grade.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/september-silver/other-sectors/economy-unlock-will-curb-fleet-operator-revenue-fall-to-15percent-this-fiscal.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/september-silver/rating-actions.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/september/register-now.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/september-silver/register-now.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/september-silver/register-now1.html
+Disallow: */content/dam/crisil/our-analysis/reports/Research/documents/2020/09/pencilling-in-a-9percent-contraction.pdf
+
+
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/october/economy/minus-nine-now.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/october/article-of-the-month/stirred-and-shaken.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/october/viewcube/whither-the-glitter.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/october/viewcube/the-three-rings-of-agr-arpu-and-5g.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/october/interest-rates/rateview-sep-2020.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/october/podcast.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/october/other-sectors/securitised-pool-collections-rebound-from-lows-of-april.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/october/other-sectors/two-thirds-of-crisil-rated-cos-eligible-for-debt-recast.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/october/other-sectors/stay-at-home-to-beam-up-dth-revenue-growth-400-600-bps.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/october/other-sectors/battered-residential-realty-demand-to-halve-this-fiscal.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/october/other-sectors/credit-outlook-moderately-negative-for-gold-jewellery-retailers.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/october/other-sectors/nbfc-delinquencies-could-see-up-to-250-bps-spike-this-fiscal.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/october/other-sectors/true-to-label-2point0-now-covers-multi-cap-funds.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/october/completed-webinars.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/october/rating-actions.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/october/register-now.html
+
+
+
+
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/october-silver/economy/minus-nine-now.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/october-silver/article-of-the-month/stirred-and-shaken.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/october-silver/interest-rates/rateview-sep-2020.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/october-silver/podcast.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/october-silver/other-sectors/securitised-pool-collections-rebound-from-lows-of-april.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/october-silver/other-sectors/two-thirds-of-crisil-rated-cos-eligible-for-debt-recast.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/october-silver/other-sectors/stay-at-home-to-beam-up-dth-revenue-growth-400-600-bps.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/october-silver/other-sectors/battered-residential-realty-demand-to-halve-this-fiscal.html
+Disallow: */content/crisilen/home/our-businesses/ratings/Newsletters/2020/october-silver/other-sectors/credit-outlook-moderately-negative-for-gold-jewellery-retailers.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/october-silver/other-sectors/nbfc-delinquencies-could-see-up-to-250-bps-spike-this-fiscal.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/october-silver/other-sectors/true-to-label-2point0-now-covers-multi-cap-funds.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/october-silver/rating-actions.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/october-silver/register-now.html
+Disallow: */content/en/home/our-businesses/ratings/Newsletters/2020/october-silver/register-now1.html
+
+Disallow: */content/dam/crisil/our-analysis/reports/Research/documents/2020/10/raining-hope.pdf
+
+Disallow: */content/crisil/en/home/our-businesses/sme-solutions/smefirst/crisil-verified.html
+Disallow: */content/crisil/en/home/our-businesses/sme-solutions/smefirst/sme-compare.html
+Disallow: */content/crisil/en/home/our-businesses/sme-solutions/smefirst/icheck.html
+Disallow: */content/crisil/en/home/our-businesses/sme-solutions/smefirst/crisil-enhanced-due-diligence.htmlhtml
+
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/december/economy/re-adjusting-to-minus-7point7percent.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/december/article-of-the-month/nbfcs-navigating-the-pandemic.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/december/podcast.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/december/podcast.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/december/viewcube/on-fertile-ground.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/december/viewcube/corporate-liquidity-at-a-crossroads.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/december/viewcube/fuelling-greener-growth.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/december/other-sectors/few-takers-for-one-time-covid-debt-restructuring.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/december/other-sectors/telcos-may-seek-to-dial-up-arpus-by-25percent.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/december/other-sectors/rebounding-realty.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/december/other-sectors/counterintuitive-inflation.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/december/other-sectors/yielding-to-fundamentals-more-of-a-toss-up.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/december/other-sectors/after-a-tough-run-nbfc-aum-to-start-growing-next-fiscal.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/december/completed-webinars.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/december/rating-actions.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/december/interest-rates/rateview-dec-2020.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/december/register-now.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/december-silver/economy/re-adjusting-to-minus-7point7percent.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/december-silver/article-of-the-month/nbfcs-navigating-the-pandemic.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/december-silver/podcast.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/december-silver/podcast.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/december-silver/other-sectors/few-takers-for-one-time-covid-debt-restructuring.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/december-silver/other-sectors/telcos-may-seek-to-dial-up-arpus-by-25percent.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/december-silver/other-sectors/rebounding-realty.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/december-silver/other-sectors/counterintuitive-inflation.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/december-silver/other-sectors/yielding-to-fundamentals-more-of-a-toss-up.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/december-silver/other-sectors/after-a-tough-run-nbfc-aum-to-start-growing-next-fiscal.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/december-silver/rating-actions.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/december-silver/interest-rates/rateview-dec-2020.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/december-silver/register-now.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2020/december-silver/register-now1.html
+
+Disallow: */content/crisil/en/home/marketplace/registration-form.html
+
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2021/january/economy/inflation-eases-output-surges.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2021/january/article-of-the-month/state-finances-on-a-bumpy-ride.html
+Disallow: */content/dam/crisil/crisil-tv/economy-watch/clawing-back-dk-video.mp4
+Disallow: */content/dam/crisil/crisil-tv/credit-conversations/securitized-pool-collections-improve-to-near-pre-pandemic-levels-krishnan-video.mp4
+Disallow: */content/dam/crisil/crisil-tv/credit-conversations/stay-at-home-accelerates-recovery-for-home-textile-exporters-anuj-video.mp4
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2021/january/podcast.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2021/january/viewcube/hinterland-driving-recovery-hopes.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2021/january/register-now.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2021/january/other-sectors/rs-40000-crore-liquidity-boost-for-private-coal-power-plants.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2021/january/other-sectors/e-commerce-props-up-paper-packaging-fortunes.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2021/january/other-sectors/bird-flu-to-hit-january-sales-unlikely-to-cull-poultry-profitability-this-fiscal.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2021/january/other-sectors/size-matters-in-viral-bout.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2021/january/other-sectors/mf-industry-assets-to-top-Rs-50-lakh-crore-by-2025.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2021/january/rating-actions.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2021/january/completed-webinars.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2021/january/interest-rates/rateview-jan-2021.html
+
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2021/january-silver/economy/inflation-eases-output-surges.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2021/january-silver/article-of-the-month/state-finances-on-a-bumpy-ride.html
+Disallow: */content/dam/crisil/crisil-tv/economy-watch/clawing-back-dk-video.mp4
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2021/january-silver/podcast.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2021/january-silver/register-now.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2021/january-silver/other-sectors/rs-40000-crore-liquidity-boost-for-private-coal-power-plants.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2021/january-silver/other-sectors/e-commerce-props-up-paper-packaging-fortunes.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2021/january-silver/other-sectors/bird-flu-to-hit-january-sales-unlikely-to-cull-poultry-profitability-this-fiscal.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2021/january-silver/other-sectors/size-matters-in-viral-bout.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2021/january-silver/other-sectors/mf-industry-assets-to-top-Rs-50-lakh-crore-by-2025.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2021/january-silver/rating-actions.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2021/january-silver/interest-rates/rateview-jan-2021.html
+
+Disallow: */content/dam/crisil/crisil-tv/economy-watch/clawing-back-dk-video.mp4
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2021/january-silver/register-now1.html
+
+
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2021/february/economy/the-shift-in-math.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2021/february/article-of-the-month/recovering-from-the-pandemic-shock.html
+Disallow: */content/dam/crisil/crisil-tv/economy-watch/riding-on-growth-dk-video.mp4
+Disallow: */content/dam/crisil/crisil-tv/credit-conversations/third-quarter-securitization-volume-trumps-first-half-level-krishnan.mp4
+Disallow: */content/dam/crisil/crisil-tv/credit-conversations/invits-reits-can-raise-rs-8-lakh-crore-capital-in-the-medium-term.mp4
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2021/february/union-budget-2021-22/going-for-growth.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2021/february/podcast.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2021/february/viewcube/turning-the-corner.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2021/february/viewcube/the-recovery-script-in-media-and-entertainment.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2021/february/register-now.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2021/february/other-sectors/flaming-petrol-prices-to-fuel-cng-vehicles-adoption.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2021/february/other-sectors/strong-orders-healthy-execution-to-cushion-revenue-blow-for-road-epc-companies.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2021/february/other-sectors/price-lift-for-steelmakers.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2021/february/other-sectors/education-companies-stare-at-flat-revenue-growth.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2021/february/other-sectors/fertiliser-sales-volume-to-spurt-10percent-to-a-record-this-fiscal.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2021/february/other-sectors/operating-profits-of-tyre-manufacturers-to-surpass-pre-covid-levels.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2021/february/rating-actions.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2021/february/completed-webinars.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2021/february/interest-rates/rateview-feb-2021.html
+
+
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2021/february-silver/economy/the-shift-in-math.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2021/february-silver/article-of-the-month/recovering-from-the-pandemic-shock.html
+Disallow: */content/crisil/content/dam/crisil/crisil-tv/economy-watch/riding-on-growth-dk-video.mp4
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2021/february-silver/union-budget-2021-22/going-for-growth.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2021/february-silver/podcast.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2021/february-silver/register-now.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2021/february-silver/other-sectors/flaming-petrol-prices-to-fuel-cng-vehicles-adoption.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2021/february-silver/other-sectors/strong-orders-healthy-execution-to-cushion-revenue-blow-for-road-epc-companies.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2021/february-silver/other-sectors/price-lift-for-steelmakers.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2021/february-silver/other-sectors/education-companies-stare-at-flat-revenue-growth.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2021/february-silver/other-sectors/fertiliser-sales-volume-to-spurt-10percent-to-a-record-this-fiscal.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2021/february-silver/other-sectors/operating-profits-of-tyre-manufacturers-to-surpass-pre-covid-levels.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2021/february-silver/rating-actions.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2021/february-silver/interest-rates/rateview-feb-2021.html
+Disallow: */content/dam/crisil/crisil-tv/economy-watch/riding-on-growth-dk-video.mp4
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2021/february-silver/register-now1.html
+
+Disallow: */content/dam/crisil/events-tiles/bond-market/2021/bonds-that-build-a-nation/crisil-yearbook-on-the-indian-dept-market-2021.pdf
+
+Disallow: */content/dam/crisil/events-tiles/bond-market/2021/bonds-that-build-a-nation/CRISIL-Yearbook-on-the-Indian-Debt-Market-2021.pdf
+
+
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2021/march/economy/crisil-indiaInsights.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2021/march/article-of-the-month/esg-can-bridge-the-growth-capital-gap.html
+Disallow: */content/dam/crisil/crisil-tv/credit-conversations/bank-credit-set-to-grow-400-500-bps-higher-at-9-10-percent-next-fiscal-krishnan-video.mp4
+Disallow: */content/dam/crisil/crisil-tv/economy-watch/macroeconomic-outlook-india-dipti-video.mp4
+Disallow: */content/dam/crisil/crisil-tv/economy-watch/macroeconomic-outlook-global-and-asia-pacific-shaun-video.mp4
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2021/march/register-now.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2021/march/other-sectors.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2021/march/other-sectors/nbfc-stressed-assets-may-hit-rs-1point5-1point8-lakh-crore-by-fiscal-end.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2021/march/other-sectors/office-space-absorption-to-grow-12-18percent-next-fiscal.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2021/march/rating-actions.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2021/march/completed-webinars.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2021/march/interest-rates/rateview-march-2021.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2021/march-silver/economy/crisil-indiaInsights.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2021/march-silver/article-of-the-month/esg-can-bridge-the-growth-capital-gap.html
+Disallow: */content/dam/crisil/crisil-tv/economy-watch/macroeconomic-outlook-india-dipti-video.mp4
+Disallow: */content/dam/crisil/crisil-tv/economy-watch/macroeconomic-outlook-global-and-asia-pacific-shaun-video.mp4
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2021/march-silver/register-now.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2021/march-silver/other-sectors.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2021/march-silver/other-sectors/nbfc-stressed-assets-may-hit-rs-1point5-1point8-lakh-crore-by-fiscal-end.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2021/march-silver/other-sectors/office-space-absorption-to-grow-12-18percent-next-fiscal.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2021/march-silver/rating-actions.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2021/march-silver/interest-rates/rateview-march-2021.html
+Disallow: */content/dam/crisil/crisil-tv/economy-watch/macroeconomic-outlook-india-dipti-video.mp4
+Disallow: */content/dam/crisil/crisil-tv/economy-watch/macroeconomic-outlook-global-and-asia-pacific-shaun-video.mp4
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2021/march-silver/register-now1.html
+Disallow: */content/crisil/en/home/our-businesses/grna/risk-and-analytics/actuarial-services.html
+
+Disallow: */content/crisil/en/home/newsroom/press-releases/2021/04/lower-oxygen-levels-will-also-leave-some-sectors-gasping.html
+
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2021/may/economy/crisil-indiaInsights.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2021/may/article-of-the-month/stitching-a-revival.html
+Disallow: */content/dam/crisil/crisil-tv/economy-watch/wall-of-worry-dk-video.mp4
+Disallow: */content/dam/crisil/crisil-tv/credit-conversations/gold-price-fall-not-so-much-a-worry-for-nbfcs-but-banks-need-to-be-watchful-krishnan-video.mp4
+Disallow: */content/dam/crisil/crisil-tv/credit-conversations/perspective-and-trends-in-renewables-sector-manish-video.mp4
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2021/may/podcast.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2021/may/viewcube/primed-for-a-smooth-drive.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2021/may/register-now.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2021/may/other-sectors/securitisations-surge-in-q4-fy21-but-still-below-pre-covid-levels.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2021/may/other-sectors/steel-exports-riding-on-rich-realisations.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2021/may/rating-actions.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2021/may/completed-webinars.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2021/may/interest-rates/rateview-may-2021.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2021/may-silver/article-of-the-month/stitching-a-revival.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2021/may-silver/podcast.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2021/may-silver/viewcube/primed-for-a-smooth-drive.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2021/may-silver/register-now.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2021/may-silver/other-sectors/securitisations-surge-in-q4-fy21-but-still-below-pre-covid-levels.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2021/may-silver/other-sectors/steel-exports-riding-on-rich-realisations.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2021/may-silver/rating-actions.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2021/may-silver/interest-rates/rateview-may-2021.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2021/may-silver/register-now1.html
+Disallow: */content/dam/crisil/our-analysis/reports/Research/documents/2021/05/ecoview-fierce-lashing-may-2021.pdf
+Disallow: */content/dam/crisil/our-analysis/reports/Research/documents/2021/06/crisil-esg-compendium.pdf
+
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2021/june/economy/pinpricked-growth.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2021/june/article-of-the-month/recharging-renewables.html
+Disallow: */content/dam/crisil/crisil-tv/economy-watch/downside-materialises-dk-video.mp4
+Disallow: */content/dam/crisil/crisil-tv/credit-conversations/bicycle-demand-growth-pedalling-to-a-decadal-high-of-20-percent-manish-video.mp4
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2021/june/podcast.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2021/june/podcast.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2021/june/viewcube/run-of-the-mills.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2021/june/viewcube/realty-and-the-covid-19-second-wave.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2021/june/register-now.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2021/june/other-sectors/second-wave-and-rural-vulnerability-high-base-effect-to-slow-domestic-tractor-volume-growth-to-3-5percent.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2021/june/other-sectors/7-gw-of-unsigned-psas-pose-risk-to-re-targets.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2021/june/rating-actions.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2021/june/completed-webinars.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2021/june/interest-rates/rateview-june-2021.html
+Disallow: */content/dam/crisil/mailers/rating-newsletter/2021/june/on-a-sweet-run.pdf
+Disallow: */content/dam/crisil/mailers/rating-newsletter/2021/june/realty-and-the-second-wave.pdf
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2021/june-silver/economy/pinpricked-growth.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2021/june-silver/article-of-the-month/recharging-renewables.html
+Disallow: */content/crisil/content/dam/crisil/crisil-tv/economy-watch/downside-materialises-dk-video.mp4
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2021/june-silver/podcast.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2021/june-silver/podcast.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2021/june-silver/register-now.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2021/june-silver/other-sectors/second-wave-and-rural-vulnerability-high-base-effect-to-slow-domestic-tractor-volume-growth-to-3-5percent.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2021/june-silver/other-sectors/7-gw-of-unsigned-psas-pose-risk-to-re-targets.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2021/june-silver/rating-actions.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2021/june-silver/interest-rates/rateview-june-2021.html
+Disallow: */content/dam/crisil/crisil-tv/economy-watch/downside-materialises-dk-video.mp4
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2021/june-silver/register-now1.html
+
+
+Disallow: */content/dam/crisil/crisil-tv/economy-watch/a-complex-recovery-beckons-dk.mp4
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2021/july/article/solid-mettle.html
+Disallow: */content/dam/crisil/crisil-tv/credit-conversations/how-banks-and-nbfcs-are-navigating-challenges-emerging-from-the-pandemic-krishnan.mp4
+Disallow: */content/dam/crisil/crisil-tv/credit-conversations/state-revenues-set-to-top-pre-pandemic-heights-manish.mp4
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2021/july/podcast.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2021/july/podcast.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2021/july/view-cube/coming-out-of-darkness.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2021/july/register-now.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2021/july/other-sector/private-genco-dues-head-to-a-4-year-low-of-less-than-100-days.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2021/july/other-sector/operating-margin-of-primary-steelmakers-to-swell-500-bps.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2021/july/rating-actions.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2021/july/completed-webinars.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2021/july/interest-rates/rateview-july-2021.html
+Disallow: */content/dam/crisil/mailers/rating-newsletter/2021/july/adding-value-to-milk.pdf
+Disallow: */content/dam/crisil/mailers/rating-newsletter/2021/july/coming-out-of-darkness-presentation.pdf
+Disallow: */content/dam/crisil/mailers/rating-newsletter/2021/july/solid-mettle-presentation.pdf
+Disallow: */content/dam/crisil/crisil-tv/economy-watch/a-complex-recovery-beckons-dk.mp4
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2021/july-silver/article/solid-mettle.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2021/july-silver/podcast.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2021/july-silver/podcast.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2021/july-silver/register-now.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2021/july-silver/other-sector/private-genco-dues-head-to-a-4-year-low-of-less-than-100-days.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2021/july-silver/other-sector/operating-margin-of-primary-steelmakers-to-swell-500-bps.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2021/july-silver/rating-actions.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2021/july-silver/interest-rates/rateview-july-2021.html
+Disallow: */content/dam/crisil/crisil-tv/economy-watch/a-complex-recovery-beckons-dk.mp4
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2021/july-silver/register-now1.html
+
+Disallow: */content/dam/crisil/crisil-tv/economy-watch/varied-signals-dk-video.mp4
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2021/august/economy/varied-signals.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2021/august/article-of-the-month/flying-out-of-turbulence.html
+Disallow: */content/dam/crisil/crisil-tv/credit-conversations/better-liquidity-buffer-at-nbfcs-cushions-fall-in-q1-collections-krishnan-video.mp4
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2021/august/podcast.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2021/august/viewcube/adding-value-to-milk.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2021/august/register-now.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2021/august/other-sectors/power-demand-to-grow-over-5percent-this-fiscal-a-three-year-high.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2021/august/other-sectors/fmcg-revenue-growth-seen-doubling-to-10-12percent-this-fiscal.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2021/august/rating-actions.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2021/august/completed-webinars.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2021/august/interest-rates/rateview-august-2021.html
+Disallow: */content/dam/crisil/mailers/rating-newsletter/2021/august/revival-code.pdf
+Disallow: */content/dam/crisil/mailers/rating-newsletter/2021/august/revival-code.pdf
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2021/august-silver/economy/varied-signals.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2021/august-silver/article-of-the-month/flying-out-of-turbulence.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2021/august-silver/podcast.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2021/august-silver/register-now.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2021/august-silver/other-sectors/power-demand-to-grow-over-5percent-this-fiscal-a-three-year-high.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2021/august-silver/other-sectors/fmcg-revenue-growth-seen-doubling-to-10-12percent-this-fiscal.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2021/august-silver/rating-actions.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2021/august-silver/interest-rates/rateview-august-2021.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2021/august-silver/register-now1.html
+
+
+
+Disallow: */content/crisil/en/home/life-at-crisil/career-opportunities/entry-level-jobs.html
+Disallow: */content/crisil/en/home/life-at-crisil/career-opportunities/international-jobs/argentina.html
+Disallow: */content/crisil/en/home/life-at-crisil/career-opportunities/joining-forms.html
+Disallow: */content/crisil/en/home/life-at-crisil/career-opportunities/international-jobs.html
+Disallow: */content/crisil/en/home/life-at-crisil/career-opportunities/international-jobs/us/associate-director.html
+Disallow: */content/crisil/en/home/life-at-crisil/career-opportunities/international-jobs/argentina/macroeconomics-research-analyst.html
+Disallow: */content/crisil/en/home/life-at-crisil/career-opportunities/international-jobs/argentina.html
+Disallow: */content/crisil/en/home/life-at-crisil/career-opportunities/international-jobs.html
+Disallow: */content/crisil/en/home/life-at-crisil/career-opportunities/international-jobs/us/lead-analyst-it6.html
+Disallow: */content/crisil/en/home/life-at-crisil/career-opportunities/international-jobs/argentina/senior-quant-analyst.html
+Disallow: */content/crisil/en/home/life-at-crisil/career-opportunities/international-jobs/china.html
+Disallow: */content/crisil/en/home/life-at-crisil/career-opportunities/international-jobs/argentina/technical-writer.html
+Disallow: */content/crisil/en/home/life-at-crisil/career-opportunities/international-jobs/china/japanese-equity-research-analyst.html
+Disallow: */content/crisil/en/home/life-at-crisil/career-opportunities/international-jobs/us/lead-analyst-manager.html
+Disallow: */content/crisil/en/home/life-at-crisil/career-opportunities/international-jobs/us/associate-director.html
+Disallow: */content/crisil/en/home/life-at-crisil/career-opportunities/international-jobs/china/japanese-equity-research-analyst.html
+Disallow: */content/crisil/en/home/life-at-crisil/career-opportunities/international-jobs/argentina/operational-risk.html
+Disallow: */content/crisil/en/home/life-at-crisil/career-opportunities/international-jobs/us/lead-analyst-financial-risk.html
+Disallow: */content/crisil/en/home/life-at-crisil/career-opportunities/international-jobs/argentina/sas-analytics-consultant.html
+Disallow: */content/crisil/en/home/life-at-crisil/career-opportunities/international-jobs/china/korean-equity-research-analyst.html
+Disallow: */content/crisil/en/home/life-at-crisil/career-opportunities/international-jobs/argentina/macroeconomics-research-analyst.html
+Disallow: */content/crisil/en/home/life-at-crisil/career-opportunities/crisil-first-ever-job-fair.html
+
+Disallow: */content/dam/crisil/crisil-tv/economy-watch/beyond-the-growth-bounce-dk-video.mp4
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2021/september/article-of-the-month/altering-fuel-dynamics-can-oil-companies-adapt.html
+Disallow: */content/dam/crisil/crisil-tv/credit-conversations/amidst-gradual-recovery-private-airports-to-double-capex-to-rs-42000cr-manish-video.mp4
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2021/september/podcast.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2021/september/viewcube/revival-code.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2021/september/viewcube/fmcg-strong-signs-of-rebound.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2021/september/register-now.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2021/september/other-sectors/reinforcing-the-code.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2021/september/other-sectors/economic-recovery-to-drive-road-traffic-up-12-14percent-this-fiscal.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2021/september/rating-actions.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2021/september/completed-webinars.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2021/september/interest-rates/rateview-september-2021.html
+Disallow: */content/dam/crisil/mailers/rating-newsletter/2021/september/reading-the-signals.PDF
+Disallow: */content/dam/crisil/mailers/rating-newsletter/2021/september/fmcg-strong-signs-of-rebound.PDF
+Disallow: */content/dam/crisil/mailers/rating-newsletter/2021/september/altering-fuel-dynamics-can-oil-companies-adapt.pdf
+Disallow: */content/dam/crisil/crisil-tv/economy-watch/beyond-the-growth-bounce-dk-video.mp4
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2021/september-silver/article-of-the-month/altering-fuel-dynamics-can-oil-companies-adapt.html
+Disallow: */content/dam/crisil/crisil-tv/credit-conversations/amidst-gradual-recovery-private-airports-to-double-capex-to-rs-42000cr-manish-video.mp4
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2021/september-silver/podcast.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2021/september-silver/viewcube/revival-code.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2021/september-silver/viewcube/fmcg-strong-signs-of-rebound.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2021/september-silver/register-now.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2021/september-silver/other-sectors/reinforcing-the-code.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2021/september-silver/other-sectors/economic-recovery-to-drive-road-traffic-up-12-14percent-this-fiscal.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2021/september-silver/rating-actions.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2021/september-silver/interest-rates/rateview-august-2021.html
+Disallow: */content/dam/crisil/crisil-tv/economy-watch/beyond-the-growth-bounce-dk-video.mp4
+Disallow: */content/dam/crisil/crisil-tv/credit-conversations/amidst-gradual-recovery-private-airports-to-double-capex-to-rs-42000cr-manish-video.mp4
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2021/september-silver/register-now1.html
+
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2021/october/article-of-the-month/a-positive-turn.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2021/october/podcast.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2021/october/viewcube/reading-the-signals.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2021/october/viewcube/the-arc-of-stressed-asset-resolution.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2021/october/register-now.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2021/october/other-sectors/paint-companies-regaining-colour-to-log-10-12-percent-growth.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2021/october/other-sectors/states-indebtedness-remains-elevated-at-near-decadal-high-this-fiscal.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2021/october/rating-actions.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2021/october/completed-webinars.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2021/october/interest-rates/rateview-october-2021.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2021/october-silver/article-of-the-month/a-positive-turn.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2021/october-silver/podcast.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2021/october-silver/viewcube/reading-the-signals.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2021/october-silver/viewcube/the-arc-of-stressed-asset-resolution.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2021/october-silver/register-now.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2021/october-silver/other-sectors/paint-companies-regaining-colour-to-log-10-12-percent-growth.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2021/october-silver/other-sectors/states-indebtedness-remains-elevated-at-near-decadal-high-this-fiscal.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2021/october-silver/rating-actions.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2021/october-silver/interest-rates/rateview-october-2021.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2021/october-silver/register-now1.html
+Disallow: */content/dam/crisil/crisil-tv/economy-watch/contours-of-recovery-dk-video.mp4
+Disallow: */content/dam/crisil/crisil-tv/credit-conversations/arcs-may-hunt-msme-retail-assets-as-ground-shifts-krishnan-video.mp4
+Disallow: */content/dam/crisil/crisil-tv/credit-conversations/a-positive-turn-somasekhar-video.mp4
+
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2021/october/other-sectors.html 
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2021/october/viewcube.html
+
+Disallow: */content/dam/crisil/documents/coporate/womenintec-infographic.pdf
+Disallow: */content/dam/crisil/documents/coporate/womenintec-infographic-2.pdf
+
+Disallow: */content/crisil/en/home/diwali-greetings.html
+Disallow: */content/dam/crisil/uploaded-files/diwali/crisil-diwali-greetings-option1.jpg
+Disallow: */content/dam/crisil/uploaded-files/diwali/crisil-diwali-greetings-option2.jpg
+Disallow: */content/dam/crisil/uploaded-files/diwali/sandp-diwali-greetings-option1.jpg
+Disallow: */content/dam/crisil/uploaded-files/diwali/sandp-diwali-greetings-option2.jpg
+
+Disallow: */content/dam/crisil/crisil-tv/panel-discussion-on-esg.mp4
+Disallow: */content/dam/crisil/crisil-tv/amish-mehta-townhall-speech.mp4
+Disallow: */content/dam/crisil/crisil-tv/amish-mehta-risk-awarness-speech.mp4
+Disallow: */content/dam/crisil/crisil-tv/year-end-message-2020.mp4
+
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2021/november/article-of-the-month/build-lease-repeat.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2021/november/viewcube/states-of-recovery.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2021/november/viewcube/execution-execution-execution.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2021/november/register-now.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2021/november/other-sectors/ibc-needs-a-stronger-push-after-Rs-2-point-5-lakh-crore-recovery.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2021/november/other-sectors/as-restructuring-2-point-0-window-closes-less-than-1-percent-of-eligible-companies-opt-for-it.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2021/november/rating-actions.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2021/november/completed-webinars.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2021/november/interest-rates/rateview-november-2021.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2021/november-silver/podcast.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2021/november-silver/viewcube/states-of-recovery.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2021/november-silver/viewcube/execution-execution-execution.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2021/november-silver/register-now.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2021/november-silver/other-sectors/ibc-needs-a-stronger-push-after-Rs-2-point-5-lakh-crore-recovery.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2021/november-silver/other-sectors/as-restructuring-2-point-0-window-closes-less-than-1-percent-of-eligible-companies-opt-for-it.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2021/november-silver/rating-actions.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2021/november-silver/interest-rates/rateview-november-2021.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2021/november-silver/register-now1.html
+Disallow: */content/dam/crisil/crisil-tv/credit-conversations/duty-taxes-to-lift-solar-tariffs-to-rs-2-point-6-per-unit-next-fiscal-manish-video.mp4
+Disallow: */content/dam/crisil/crisil-tv/a-tenth-of-thermal-capacity-still-vulnerable-to-outage-despite-temporary-easing-of-power-demand-ankit-podcast.mp4
+Disallow: */content/dam/crisil/crisil-tv/bank-gross-npas-to-rise-to-8-9percent-stressed-assets-to-touch-10-11percent-subhasri-podcast.mp4
+Disallow: */content/dam/crisil/mailers/rating-newsletter/2021/november/a-positive-prognosis.pdf
+Disallow: */content/dam/crisil/mailers/rating-newsletter/2021/november/pillars-of-infrastructure-roads-and-renewables.pdf
+Disallow: */content/dam/crisil/crisil-tv/economy-watch/foot-on-the-brake-dk-video.mp4
+Disallow: */content/dam/crisil/crisil-tv/credit-conversations/gold-loan-nbfcs-set-to-clock-18-20-percent-growth-in-current-fiscal-krishnan-video.mp4
+
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2021/december/theme-of-the-month/nbfcs-revival-in-a-post-pandemic-era.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2021/december/viewcube/a-positive-prognosis.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2021/december/viewcube/pillars-of-infrastructure-growth.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2021/december/viewcube/pillars-of-infrastructure-growth1.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2021/december/register-now.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2021/december/other-sectors/input-cost-pressure-to-push-cement-prices-to-all-time-high.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2021/december/other-sectors/revenue-of-road-construction-cos-to-grow-15-percent-this-fiscal-but-margins-to-moderate-on-higher-input-costs.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2021/december/rating-actions.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2021/december/completed-webinars.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2021/december/interest-rates/rateview-december-2021.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2021/december-silver/theme-of-the-month/nbfcs-revival-in-a-post-pandemic-era.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2021/december-silver/viewcube/a-positive-prognosis.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2021/december-silver/viewcube/pillars-of-infrastructure-growth.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2021/december-silver/viewcube/pillars-of-infrastructure-growth1.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2021/december-silver/register-now.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2021/december-silver/other-sectors/input-cost-pressure-to-push-cement-prices-to-all-time-high.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2021/december-silver/other-sectors/revenue-of-road-construction-cos-to-grow-15-percent-this-fiscal-but-margins-to-moderate-on-higher-input-costs.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2021/december-silver/rating-actions.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2021/december-silver/interest-rates/rateview-december-2021.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2021/december-silver/register-now1.html
+
+Disallow: */content/dam/crisil/crisil-tv/economy-watch/recovery-is-here-so-is-omicron-dk-video.mp4
+Disallow: */content/dam/crisil/crisil-tv/credit-conversations/nbfc-aum-to-grow-8-10-percent-in-fiscal-2023-vs-2-percent-last-fiscal-krishnan-video.mp4
+Disallow: */content/dam/crisil/crisil-tv/credit-conversations/chip-shortage-to-clip-400-600-bps-off-passenger-vehicles-recovery-anuj-video.mp4
+Disallow: */content/dam/crisil/crisil-tv/nbfcs-revival-in-a-post-pandemic-era-ppt-recording.mp4
+Disallow: */content/dam/crisil/mailers/rating-newsletter/2021/december/on-the-green-road.pdf
+Disallow: */content/dam/crisil/mailers/rating-newsletter/2021/december/changing-growth-capsule.pdf
+Disallow: */content/dam/crisil/mailers/rating-newsletter/2021/december/the-alchemy-of-green-blooms.PDF
+
+Disallow: */content/crisil/en/home/christmas-greetings.html
+
+Disallow: */content/dam/crisil/our-analysis/reports/Research/documents/2021/12/crisil-ecoview-the-nuances-of-recovery.pdf
+
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2022/january/article-of-the-month/changing-growth-capsule.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2022/january/podcast.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2022/january/podcast.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2022/january/viewcube/the-alchemy-of-green-blooms.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2022/january/register-now.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2022/january/other-sectors/looking-up.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2022/january/rating-actions.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2022/january/completed-webinars.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2022/january/interest-rates/rateview-january-2022.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2022/january-silver/article-of-the-month/changing-growth-capsule.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2022/january-silver/podcast.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2022/january-silver/podcast.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2022/january-silver/viewcube/the-alchemy-of-green-blooms.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2022/january-silver/register-now.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2022/january-silver/other-sectors/looking-up.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2022/january-silver/rating-actions.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2022/january-silver/interest-rates/rateview-january-2022.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2022/january-silver/register-now1.html
+Disallow: */content/dam/crisil/mailers/rating-newsletter/2022/january/glittering-again.pdf
+Disallow: */content/dam/crisil/crisil-tv/credit-conversations/centres-fertiliser-subsidy-set-to-rise-62-percent-this-fiscal-manish-video.mp4
+Disallow: */content/dam/crisil/crisil-tv/economy-watch/gdp-and-budget-priorities-dk-video.mp4
+
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2022/february/article-of-the-month/the-capex-gambit.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2022/february/podcast.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2022/february/viewcube/on-the-green-road.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2022/february/viewcube/glittering-again.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2022/february/register-now.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2022/february/other-sectors/agrochem-players-to-log-double-digit-growth-next-fiscal-too.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2022/february/other-sectors/higher-steel-prices-to-shave-off-tractor-makers-margin-by-300-400bps.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2022/february/rating-actions.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2022/february/completed-webinars.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2022/february/interest-rates/rateview-february-2022.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2022/february-silver/article-of-the-month/the-capex-gambit.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2022/february-silver/podcast.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2022/february-silver/viewcube/on-the-green-road.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2022/february-silver/viewcube/glittering-again.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2022/february-silver/register-now.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2022/february-silver/other-sectors/agrochem-players-to-log-double-digit-growth-next-fiscal-too.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2022/february-silver/other-sectors/higher-steel-prices-to-shave-off-tractor-makers-margin-by-300-400bps.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2022/february-silver/rating-actions.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2022/february-silver/interest-rates/rateview-february-2022.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2022/february-silver/register-now1.html
+Disallow: */content/dam/crisil/crisil-tv/economy-watch/the-capex-gambit-dk-video.mp4
+Disallow: */content/dam/crisil/crisil-tv/credit-conversations/third-wave-could-take-100-200-bps-off-hfc-asset-growth-krishnan-video.mp4
+Disallow: */content/dam/crisil/crisil-tv/credit-conversations/securitisation-volume-growth-slows-to-8-percent-in-third-quarter-krishnan-video.mp4
+
+Disallow: */content/crisil/en/home/learning.html
+Disallow: */content/crisil/en/home/learning/crisil-nmims-pgdbfs.html
+
+
+
+
+
+
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2022/march/article-of-the-month/crisil-reiterates-7-point-8-percent-gdp-growth-next-fiscal-with-risks-tilted-to-the-downside-corporate-revenue-seen-up-10-14-percent.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2022/march/podcast.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2022/march/viewcube.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2022/march/viewcube/the-slipstreams-of-pricey-gas.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2022/march/viewcube/catalysed-for-growth.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2022/march/register-now.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2022/march/other-sectors.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2022/march/other-sectors/russia-ukraine-confrontation-a-strain-on-multiple-sectors.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2022/march/other-sectors/war-threatens-to-take-sheen-off-indian-diamond-industry.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2022/march/rating-actions.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2022/march/completed-webinars.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2022/march/interest-rates/rateview-march-2022.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2022/march-silver/article-of-the-month/crisil-reiterates-7-point-8-percent-gdp-growth-next-fiscal-with-risks-tilted-to-the-downside-corporate-revenue-seen-up-10-14-percent.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2022/march-silver/podcast.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2022/march-silver/viewcube.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2022/march-silver/viewcube/the-slipstreams-of-pricey-gas.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2022/march-silver/viewcube/catalysed-for-growth.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2022/march-silver/register-now.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2022/march-silver/other-sectors.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2022/march-silver/other-sectors/russia-ukraine-confrontation-a-strain-on-multiple-sectors.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2022/march-silver/other-sectors/war-threatens-to-take-sheen-off-indian-diamond-industry.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2022/march-silver/rating-actions.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2022/march-silver/interest-rates/rateview-march-2022.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2022/march-silver/register-now1.html
+Disallow: */content/dam/crisil/crisil-tv/economy-watch/navigating-the-global-geadwinds-dk-video.mp4
+Disallow: */content/dam/crisil/crisil-tv/credit-conversations/nbfc-gnpas-to-fall-after-rising-krishnan-video.mp4
+Disallow: */content/dam/crisil/crisil-tv/credit-conversations/the-recovery-contours-krishnan-video.mp4
+Disallow: */content/dam/crisil/crisil-tv/credit-conversations/nbfc-gnpas-to-fall-after-rising-krishnan-video.mp4
+Disallow: */content/dam/crisil/crisil-tv/credit-conversations/the-recovery-contours-krishnan-video.mp4
+Disallow: */content/dam/crisil/crisil-tv/economy-watch/navigating-the-global-geadwinds-dk-video.mp4
+Disallow: */content/dam/crisil/crisil-tv/credit-conversations/nbfc-gnpas-to-fall-after-rising-krishnan-video.mp4
+Disallow: */content/dam/crisil/crisil-tv/credit-conversations/the-recovery-contours-krishnan-video.mp4
+Disallow: */content/dam/crisil/crisil-tv/economy-watch/navigating-the-global-geadwinds-dk-video.mp4
+
+Disallow: */content/dam/crisil/crisil-tv/flip-side-edition-1-amish-mehta.mp4
+
+Disallow: */content/dam/crisil/our-businesses/sme-solutions/brochures/crisil-social-sector-evaluation-credentials.pdf
+Disallow: */content/dam/crisil/our-businesses/sme-solutions/brochures/crisil-social-sector-brochure.pdf
+
+
+
+Disallow: */content/dam/crisil/crisil-tv/economy-watch/steady-with-tightening-dk-video.mp4 
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2022/august/article-of-the-month/charging-ahead-navigating-tripwires.html
+Disallow: */content/crisil//en/home/our-businesses/ratings/Newsletters/2022/august/podcast.html
+Disallow: */content/crisil//en/home/our-businesses/ratings/Newsletters/2022/august/viewcube.html
+Disallow: */content/crisil//en/home/our-businesses/ratings/Newsletters/2022/august/viewcube/writing-the-next-growth-code.html
+Disallow: */content/crisil//en/home/our-businesses/ratings/Newsletters/2022/august/viewcube/aisle-and-hearty.html
+Disallow: */content/crisil//en/home/our-businesses/ratings/Newsletters/2022/august/register-now.html
+Disallow: */content/crisil//en/home/our-businesses/ratings/Newsletters/2022/august/completed-webinars.html
+
+
+
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2022/august/other-sectors.html
+Disallow: */content/dam/crisil/crisil-tv/credit-conversations/securitisation-volume-darts-up-70-percent-on-year-in-first-quarter-krishnan-video.mp4 https://www.crisil.com/en/home/our-businesses/ratings/Newsletters/2022/august/other-sectors/ev-share-in-auto-components.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2022/august/other-sectors/apparel-retailers.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2022/august/rating-actions.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2022/august/interest-rates/rateview-aug-2022.html
+Disallow: */content/crisil/en/research/articles/220726-energy-transition-and-energy-security-on-the-path-toward-net-zero-12454535
+Disallow: */content/dam/crisil/crisil-tv/economy-watch/steady-with-tightening-dk-video.mp4
+Disallow: */content/dam/crisil/crisil-tv/credit-conversations/securitisation-volume-darts-up-70-percent-on-year-in-first-quarter-krishnan-video.mp4
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2022/august-silver/register-now1.html
+Disallow: */ratings/en/research/articles/220726-energy-transition-and-energy-security-on-the-path-toward-net-zero-12454535
+
+
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2022/august-silver/viewcube/aisle-and-hearty.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2022/august-silver/viewcube/writing-the-next-growth-code.html
+Disallow: */content/dam/crisil/crisil-tv/credit-conversations/securitisation-volume-darts-up-70-percent-on-year-in-first-quarter-krishnan-video.mp4
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2022/august-silver/article-of-the-month/charging-ahead-navigating-tripwires.html
+Disallow: */content/dam/crisil/crisil-tv/economy-watch/steady-with-tightening-dk-video.mp4
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2022/august-silver/register-now.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2022/august-silver/other-sectors.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2022/august-silver/other-sectors/ev-share-in-auto-components.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2022/august-silver/other-sectors/apparel-retailers.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2022/august-silver/rating-actions.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2022/august-silver/interest-rates/rateview-aug-2022.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2022/august-silver/podcast.html
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2022/august-silver/viewcube.html
+
+Disallow: */content/dam/crisil/crisil-tv/economy-watch/steady-with-tightening-dk-video.mp4
+Disallow: */content/dam/crisil/crisil-tv/credit-conversations/securitisation-volume-darts-up-70-percent-on-year-in-first-quarter-krishnan-video.mp4
+Disallow: */content/crisil/en/home/our-businesses/ratings/Newsletters/2022/august-silver/register-now1.html
+Disallow: */content/crisil/en/ratings/en/research/articles/220726-energy-transition-and-energy-security-on-the-path-toward-net-zero-12454535
+
+
+Disallow: */content/dam/crisil/crisil-tv/economy-watch/another-challenging-year-dk-video.mp4
+Disallow: */content/dam/crisil/crisil-tv/credit-conversations/securitisation-volume-darts-up-70-percent-on-year-in-first-quarter-krishnan-video.mp4
+Disallow: */content/crisilratings/en/home/our-business/ratings/newsletters/2023/january/article-of-the-month/prepped-for-next-ride.html
+Disallow: */content/crisil/en/ratings/en/research/articles/220726-energy-transition-and-energy-security-on-the-path-toward-net-zero-12454535
+Disallow: */content/crisilratings/en/home/our-business/ratings/newsletters/2023/january/viewcube.html
+Disallow: */content/crisilratings/en/home/our-business/ratings/newsletters/2023/january/viewcube/the-recovery-script
+Disallow: */content/crisilratings/en/home/our-business/ratings/newsletters/2023/january/viewcube/the-leash-over-lease-01.html
+Disallow: */content/crisilratings/en/home/our-business/ratings/newsletters/2023/january/register-now.html
+Disallow: */content/crisilratings/en/home/our-business/ratings/newsletters/2023/january/other-sectors.html
+Disallow: */content/crisilratings/en/home/our-business/ratings/newsletters/2023/january/other-sectors/revenue-of-organised-gold-jewellery.html
+Disallow: */content/crisilratings/en/home/our-business/ratings/newsletters/2023/january/other-sectors/media-and-entertainment-revenue.html
+Disallow: */content/crisilratings/en/home/our-business/ratings/newsletters/2023/january/rating-actions.html
+Disallow: */content/crisilratings/en/home/our-business/ratings/newsletters/2023/january/completed-webinars.html
+Disallow: */content/crisilratings/en/home/our-business/ratings/newsletters/2023/january/interest-rates/rateview-jan-2023.html
+Disallow: */content/dam/crisil/mutual-fund-ranking/crisil-mutual-fund-ranking-december-2022.pdf
+Disallow: */content/dam/crisil/crisil-tv/economy-watch/another-challenging-year-dk-video.mp4
+Disallow: */content/crisilratings/en/home/our-business/ratings/newsletters/2023/january-silver/article-of-the-month/prepped-for-next-ride.html
+Disallow: */content/dam/crisil/crisil-tv/credit-conversations/securitisation-of-co-lent-loans-piques-interest-after-maiden-deal-rated-by-crisil-ratings-krishnan-video.mp4
+Disallow: */content/crisilratings/en/home/our-business/ratings/newsletters/2023/january-silver/podcast.html
+Disallow: */content/crisilratings/en/home/our-business/ratings/newsletters/2023/january-silver/viewcube.html
+Disallow: */content/crisilratings/en/home/our-business/ratings/newsletters/2023/january-silver/viewcube/the-recovery-script.html
+Disallow: */content/crisilratings/en/home/our-business/ratings/newsletters/2023/january-silver/viewcube/the-leash-over-lease-01.html
+Disallow: */content/crisilratings/en/home/our-business/ratings/newsletters/2023/january-silver/register-now.html
+Disallow: */content/crisilratings/en/home/our-business/ratings/newsletters/2023/january-silver/other-sectors.html
+Disallow: */content/crisilratings/en/home/our-business/ratings/newsletters/2023/january-silver/other-sectors/revenue-of-organised-gold-jewellery.html
+Disallow: */content/crisilratings/en/home/our-business/ratings/newsletters/2023/january-silver/rating-actions.html
+Disallow: */content/crisilratings/en/home/our-business/ratings/newsletters/2023/january-silver/interest-rates/rateview-jan-2023.html
+Disallow: */content/dam/crisil/mutual-fund-ranking/crisil-mutual-fund-ranking-december-2022.pdf
+
+Disallow: */content/dam/crisil/crisil-tv/economy-watch/post-pandemic-pre-election-dk-video.mp4 
+Disallow: */en/home/our-business/ratings/newsletters/2023/february-silver/article-of-the-month/on-the-green-path.html
+Disallow: */content/dam/crisil/crisil-tv/credit-conversations/securitisation-growth-exceeds-40-percent-in-nine-months-this-fiscal-krishnan-video.mp4
+Disallow: */en/home/our-business/ratings/newsletters/2023/february-silver/podcast.html
+Disallow: */en/home/our-business/ratings/newsletters/2023/february-silver/viewcube.html
+Disallow: */en/home/our-business/ratings/newsletters/2023/february-silver/viewcube/same-metal-differing-market-mettle.html
+Disallow: */en/home/our-business/ratings/newsletters/2023/february-silver/viewcube/signs-of-a-golden-run.html
+Disallow: */en/home/our-business/ratings/newsletters/2023/february-silver/register-now.html
+Disallow: */en/home/our-business/ratings/newsletters/2023/february-silver/other-sectors.html
+Disallow: */en/home/our-business/ratings/newsletters/2023/february-silver/other-sectors/leather-apparel.html
+Disallow: */en/home/our-business/ratings/newsletters/2023/february-silver/other-sectors/aluminium-capex.html
+Disallow: */en/home/our-business/ratings/newsletters/2023/february-silver/rating-actions.html
+Disallow: */en/home/our-business/ratings/newsletters/2023/february-silver/interest-rates/rateview-feb-2023.html
+
+Disallow: */content/dam/crisil/crisil-tv/economy-watch/post-pandemic-pre-election-dk-video.mp4
+Disallow: */en/home/our-business/ratings/newsletters/2023/february/article-of-the-month/on-the-green-path.html
+Disallow: */content/dam/crisil/crisil-tv/credit-conversations/securitisation-growth-exceeds-40-percent-in-nine-months-this-fiscal-krishnan-video.mp4
+Disallow: */en/home/our-business/ratings/newsletters/2023/february/podcast.html
+Disallow: */en/home/our-business/ratings/newsletters/2023/february/viewcube.html
+Disallow: */en/home/our-business/ratings/newsletters/2023/february/viewcube/same-metal-differing-market-mettle.html
+Disallow: */en/home/our-business/ratings/newsletters/2023/february/viewcube/signs-of-a-golden-run.html
+Disallow: */en/home/our-business/ratings/newsletters/2023/february/register-now.html
+Disallow: */en/home/our-business/ratings/newsletters/2023/february/other-sectors.html
+Disallow: */en/home/our-business/ratings/newsletters/2023/february/other-sectors/leather-apparel.html
+Disallow: */en/home/our-business/ratings/newsletters/2023/february/other-sectors/aluminium-capex.html
+Disallow: */en/home/our-business/ratings/newsletters/2023/february/rating-actions.html
+Disallow: */en/home/our-business/ratings/newsletters/2023/february/completed-webinars.html
+Disallow: */en/home/our-business/ratings/newsletters/2023/february/interest-rates/rateview-feb-2023.html
+Disallow: */content/dam/crisil/mailers/rating-newsletter/2023/february/sweet-excess-to-balance-out.pdf
+Disallow: */content/dam/crisil/mailers/rating-newsletter/2023/february/renewables-on-the-green-path.pdf
+Disallow: */content/dam/crisil/mailers/rating-newsletter/2023/february/reaping-the-good-times.pdf
+Disallow: */content/dam/crisil/mailers/rating-newsletter/2023/february/same-metal-differing-market-mettle-01.pdf
+
+Disallow: */content/crisilratings/en/home/events/infra-intelligence/2024/indian-infrastructure-surging-on-policy-pivot/crisil-ratings-infrastructure-summit-details.html
+Disallow: */content/dam/crisil/crisil-market-insights-and-analytics/policy/2024/complaint-management-policy-for-financial-benchmarks-administered-by-crisil.pdf
+Disallow:  */content/crisilcom/en/home/what-we-do/risk-intelligence-and-solutions-ecosystem.html
+Disallow:  */content/dam/crisil/our-businesses/rise/risk-intelligence-and-solutions-ecosystem-brochure.pdf
+
+
+Sitemap: https://www.crisilratings.com/sitemap.xml

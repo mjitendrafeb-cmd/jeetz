@@ -1,0 +1,629 @@
+[
+  {
+    "source": "CRISIL",
+    "name": "robots",
+    "url": "https://www.crisilratings.com/robots.txt",
+    "status": 200,
+    "error": null,
+    "content_type": "text/plain; charset=UTF-8",
+    "bytes": 117459,
+    "capture_file": "captures/CRISIL/robots.txt",
+    "frameworks": [],
+    "entities_found": [],
+    "api_hints": [],
+    "sitemaps": [
+      "https://www.crisilratings.com/sitemap.xml"
+    ],
+    "truncated": false,
+    "final_url": "https://www.crisilratings.com/robots.txt"
+  },
+  {
+    "source": "CRISIL",
+    "name": "listing_news_views",
+    "url": "https://www.crisilratings.com/en/home/our-businesses/ratings/credit-ratings-news-and-views.html",
+    "status": 200,
+    "error": null,
+    "content_type": "text/html; charset=UTF-8",
+    "bytes": 57520,
+    "capture_file": "captures/CRISIL/listing_news_views.html",
+    "frameworks": [],
+    "entities_found": [],
+    "api_hints": [],
+    "sitemaps": [],
+    "truncated": false,
+    "final_url": "https://www.crisilratings.com/en/errors/404-error.html"
+  },
+  {
+    "source": "CRISIL",
+    "name": "rationale_bajaj_finance",
+    "url": "https://www.crisilratings.com/mnt/winshare/Ratings/RatingList/RatingDocs/BajajFinanceLimited_April%2028_%202026_RR_394504.html",
+    "status": 200,
+    "error": null,
+    "content_type": "text/html; charset=UTF-8",
+    "bytes": 831635,
+    "capture_file": "captures/CRISIL/rationale_bajaj_finance.html",
+    "frameworks": [],
+    "entities_found": [
+      "Bajaj Finance"
+    ],
+    "api_hints": [],
+    "sitemaps": [],
+    "truncated": false,
+    "final_url": "https://www.crisilratings.com/mnt/winshare/Ratings/RatingList/RatingDocs/BajajFinanceLimited_April%2028_%202026_RR_394504.html"
+  },
+  {
+    "source": "CRISIL",
+    "name": "rationale_bajaj_finance_mar",
+    "url": "https://www.crisil.com/mnt/winshare/Ratings/RatingList/RatingDocs/BajajFinanceLimited_March%2024_%202026_RR_388205.html",
+    "status": 200,
+    "error": null,
+    "content_type": "text/html; charset=UTF-8",
+    "bytes": 869190,
+    "capture_file": "captures/CRISIL/rationale_bajaj_finance_mar.html",
+    "frameworks": [],
+    "entities_found": [
+      "Bajaj Finance"
+    ],
+    "api_hints": [],
+    "sitemaps": [],
+    "truncated": false,
+    "final_url": "https://www.crisil.com/mnt/winshare/Ratings/RatingList/RatingDocs/BajajFinanceLimited_March%2024_%202026_RR_388205.html"
+  },
+  {
+    "source": "CRISIL",
+    "name": "ratings_search_page",
+    "url": "https://www.crisilratings.com/en/home/our-business/ratings/company-factsheet.html",
+    "status": 200,
+    "error": null,
+    "content_type": "text/html; charset=UTF-8",
+    "bytes": 66579,
+    "capture_file": "captures/CRISIL/ratings_search_page.html",
+    "frameworks": [],
+    "entities_found": [],
+    "api_hints": [],
+    "sitemaps": [],
+    "truncated": false,
+    "final_url": "https://www.crisilratings.com/en/home/our-business/ratings/company-factsheet.html"
+  },
+  {
+    "source": "ICRA",
+    "name": "robots",
+    "url": "https://www.icra.in/robots.txt",
+    "status": 200,
+    "error": null,
+    "content_type": "text/html; charset=utf-8",
+    "bytes": 4671,
+    "capture_file": "captures/ICRA/robots.html",
+    "frameworks": [],
+    "entities_found": [],
+    "api_hints": [],
+    "sitemaps": [],
+    "truncated": false,
+    "final_url": "https://www.icra.in/Home/SessionTimeOut"
+  },
+  {
+    "source": "ICRA",
+    "name": "rating_action_index",
+    "url": "https://www.icra.in/RatingAction/Index",
+    "status": 200,
+    "error": null,
+    "content_type": "text/html; charset=utf-8",
+    "bytes": 164381,
+    "capture_file": "captures/ICRA/rating_action_index.html",
+    "frameworks": [
+      "DataTables"
+    ],
+    "entities_found": [
+      "Cholamandalam"
+    ],
+    "api_hints": [],
+    "sitemaps": [],
+    "truncated": false,
+    "final_url": "https://www.icra.in/Home/CustomError404?aspxerrorpath=/RatingAction/Index"
+  },
+  {
+    "source": "ICRA",
+    "name": "rationale_chola_pdf",
+    "url": "https://www.icra.in/Rating/GetRationalReportFilePdf?id=141344",
+    "status": 200,
+    "error": null,
+    "content_type": "application/pdf",
+    "bytes": 2495048,
+    "capture_file": "captures/ICRA/rationale_chola_pdf.pdf",
+    "frameworks": [],
+    "entities_found": [],
+    "api_hints": [],
+    "sitemaps": [],
+    "truncated": false,
+    "final_url": "https://www.icra.in/Rating/GetRationalReportFilePdf?id=141344"
+  },
+  {
+    "source": "ICRA",
+    "name": "rationale_chola_pdf_2",
+    "url": "https://www.icra.in/Rating/GetRationalReportFilePdf?id=133118",
+    "status": 200,
+    "error": null,
+    "content_type": "application/pdf",
+    "bytes": 1119524,
+    "capture_file": "captures/ICRA/rationale_chola_pdf_2.pdf",
+    "frameworks": [],
+    "entities_found": [],
+    "api_hints": [],
+    "sitemaps": [],
+    "truncated": false,
+    "final_url": "https://www.icra.in/Rating/GetRationalReportFilePdf?id=133118"
+  },
+  {
+    "source": "ICRA",
+    "name": "home",
+    "url": "https://www.icra.in/",
+    "status": 200,
+    "error": null,
+    "content_type": "text/html; charset=utf-8",
+    "bytes": 247419,
+    "capture_file": "captures/ICRA/home.html",
+    "frameworks": [],
+    "entities_found": [
+      "Cholamandalam"
+    ],
+    "api_hints": [],
+    "sitemaps": [],
+    "truncated": false,
+    "final_url": "https://www.icra.in/"
+  },
+  {
+    "source": "India Ratings",
+    "name": "robots",
+    "url": "https://www.indiaratings.co.in/robots.txt",
+    "status": 200,
+    "error": null,
+    "content_type": "text/plain",
+    "bytes": 267,
+    "capture_file": "captures/India_Ratings/robots.txt",
+    "frameworks": [
+      "WordPress"
+    ],
+    "entities_found": [],
+    "api_hints": [],
+    "sitemaps": [],
+    "truncated": false,
+    "final_url": "https://www.indiaratings.co.in/robots.txt"
+  },
+  {
+    "source": "India Ratings",
+    "name": "rating_actions",
+    "url": "https://www.indiaratings.co.in/rating-actions",
+    "status": 200,
+    "error": null,
+    "content_type": "text/html",
+    "bytes": 7020,
+    "capture_file": "captures/India_Ratings/rating_actions.html",
+    "frameworks": [],
+    "entities_found": [],
+    "api_hints": [],
+    "sitemaps": [],
+    "truncated": false,
+    "final_url": "https://www.indiaratings.co.in/rating-actions"
+  },
+  {
+    "source": "India Ratings",
+    "name": "bundle_main",
+    "url": "https://www.indiaratings.co.in/main.b0be7d594b374f3a.js",
+    "status": 200,
+    "error": null,
+    "content_type": "text/javascript",
+    "bytes": 2504416,
+    "capture_file": "captures/India_Ratings/bundle_main.js",
+    "frameworks": [
+      "Angular",
+      "DataTables"
+    ],
+    "entities_found": [],
+    "api_hints": [
+      "/api/upload"
+    ],
+    "sitemaps": [],
+    "truncated": false,
+    "final_url": "https://www.indiaratings.co.in/main.b0be7d594b374f3a.js"
+  },
+  {
+    "source": "India Ratings",
+    "name": "bundle_scripts",
+    "url": "https://www.indiaratings.co.in/scripts.dc77230fe30c274f.js",
+    "status": 200,
+    "error": null,
+    "content_type": "text/javascript",
+    "bytes": 410142,
+    "capture_file": "captures/India_Ratings/bundle_scripts.js",
+    "frameworks": [],
+    "entities_found": [],
+    "api_hints": [],
+    "sitemaps": [],
+    "truncated": false,
+    "final_url": "https://www.indiaratings.co.in/scripts.dc77230fe30c274f.js"
+  },
+  {
+    "source": "CRISIL",
+    "name": "search_results_page",
+    "url": "https://www.crisilratings.com/content/crisilratings/en/home/our-business/ratings/ratings-search-results.html?searchKey=Bajaj+Finance",
+    "status": 503,
+    "error": null,
+    "content_type": "",
+    "bytes": 0,
+    "capture_file": "captures/CRISIL/search_results_page.html",
+    "frameworks": [],
+    "entities_found": [],
+    "api_hints": [],
+    "sitemaps": [],
+    "truncated": false,
+    "final_url": "https://www.crisilratings.com/en/home/our-business/ratings/ratings-search-results.html?searchKey=Bajaj+Finance"
+  },
+  {
+    "source": "CRISIL",
+    "name": "industry_wise_list",
+    "url": "https://www.crisilratings.com/content/crisilratings/en/home/our-business/ratings/company-factsheet/industry-wise-rating-list.html",
+    "status": 200,
+    "error": null,
+    "content_type": "text/html; charset=UTF-8",
+    "bytes": 96592,
+    "capture_file": "captures/CRISIL/industry_wise_list.html",
+    "frameworks": [],
+    "entities_found": [],
+    "api_hints": [],
+    "sitemaps": [],
+    "truncated": false,
+    "final_url": "https://www.crisilratings.com/en/home/our-business/ratings/company-factsheet/industry-wise-rating-list.html"
+  },
+  {
+    "source": "India Ratings",
+    "name": "api_search_bajaj",
+    "url": "https://www.indiaratings.co.in/home/GetSearch?searchKey=Bajaj%20Finance",
+    "status": 200,
+    "error": null,
+    "content_type": "application/json; charset=utf-8",
+    "bytes": 2942,
+    "capture_file": "captures/India_Ratings/api_search_bajaj.json",
+    "frameworks": [],
+    "entities_found": [
+      "Bajaj Finance"
+    ],
+    "api_hints": [],
+    "sitemaps": [],
+    "truncated": false,
+    "final_url": "https://www.indiaratings.co.in/home/GetSearch?searchKey=Bajaj%20Finance"
+  },
+  {
+    "source": "India Ratings",
+    "name": "api_search_chola",
+    "url": "https://www.indiaratings.co.in/home/GetSearch?searchKey=Cholamandalam",
+    "status": 200,
+    "error": null,
+    "content_type": "application/json; charset=utf-8",
+    "bytes": 4338,
+    "capture_file": "captures/India_Ratings/api_search_chola.json",
+    "frameworks": [],
+    "entities_found": [
+      "Cholamandalam"
+    ],
+    "api_hints": [],
+    "sitemaps": [],
+    "truncated": false,
+    "final_url": "https://www.indiaratings.co.in/home/GetSearch?searchKey=Cholamandalam"
+  },
+  {
+    "source": "India Ratings",
+    "name": "api_search_pfc",
+    "url": "https://www.indiaratings.co.in/home/GetSearch?searchKey=Power%20Finance%20Corporation",
+    "status": 200,
+    "error": null,
+    "content_type": "application/json; charset=utf-8",
+    "bytes": 1664,
+    "capture_file": "captures/India_Ratings/api_search_pfc.json",
+    "frameworks": [],
+    "entities_found": [
+      "Power Finance Corporation"
+    ],
+    "api_hints": [],
+    "sitemaps": [],
+    "truncated": false,
+    "final_url": "https://www.indiaratings.co.in/home/GetSearch?searchKey=Power%20Finance%20Corporation"
+  },
+  {
+    "source": "India Ratings",
+    "name": "api_pressrelease_known",
+    "url": "https://www.indiaratings.co.in/pressReleases/GetPressreleaseData_BeforeLogin?pressReleaseId=81837",
+    "status": 200,
+    "error": null,
+    "content_type": "application/json; charset=utf-8",
+    "bytes": 554,
+    "capture_file": "captures/India_Ratings/api_pressrelease_known.json",
+    "frameworks": [],
+    "entities_found": [
+      "Bajaj Finance"
+    ],
+    "api_hints": [],
+    "sitemaps": [],
+    "truncated": false,
+    "final_url": "https://www.indiaratings.co.in/pressReleases/GetPressreleaseData_BeforeLogin?pressReleaseId=81837"
+  },
+  {
+    "source": "India Ratings",
+    "name": "api_bank_facility_data",
+    "url": "https://www.indiaratings.co.in/pressReleases/GetBankFacilityDataRatingLetter?pressReleaseId=81837",
+    "status": 200,
+    "error": null,
+    "content_type": "application/json; charset=utf-8",
+    "bytes": 147134,
+    "capture_file": "captures/India_Ratings/api_bank_facility_data.json",
+    "frameworks": [],
+    "entities_found": [
+      "Bajaj Finance"
+    ],
+    "api_hints": [],
+    "sitemaps": [],
+    "truncated": false,
+    "final_url": "https://www.indiaratings.co.in/pressReleases/GetBankFacilityDataRatingLetter?pressReleaseId=81837"
+  },
+  {
+    "source": "India Ratings",
+    "name": "api_rac_popular",
+    "url": "https://www.indiaratings.co.in/pressReleases/GetRACPopularData?pressReleaseId=81837",
+    "status": 200,
+    "error": null,
+    "content_type": "application/json; charset=utf-8",
+    "bytes": 15290,
+    "capture_file": "captures/India_Ratings/api_rac_popular.json",
+    "frameworks": [],
+    "entities_found": [
+      "Bajaj Finance"
+    ],
+    "api_hints": [],
+    "sitemaps": [],
+    "truncated": false,
+    "final_url": "https://www.indiaratings.co.in/pressReleases/GetRACPopularData?pressReleaseId=81837"
+  },
+  {
+    "source": "India Ratings",
+    "name": "api_nrac_popular",
+    "url": "https://www.indiaratings.co.in/pressReleases/GetNRACPopularData?pressReleaseId=81837",
+    "status": 200,
+    "error": null,
+    "content_type": "application/json; charset=utf-8",
+    "bytes": 125,
+    "capture_file": "captures/India_Ratings/api_nrac_popular.json",
+    "frameworks": [],
+    "entities_found": [],
+    "api_hints": [],
+    "sitemaps": [],
+    "truncated": false,
+    "final_url": "https://www.indiaratings.co.in/pressReleases/GetNRACPopularData?pressReleaseId=81837"
+  },
+  {
+    "source": "India Ratings",
+    "name": "api_issuer_pressreleases",
+    "url": "https://www.indiaratings.co.in/home/GetIssuerPressReleases?issuerId=2549",
+    "status": 200,
+    "error": null,
+    "content_type": "application/json; charset=utf-8",
+    "bytes": 2,
+    "capture_file": "captures/India_Ratings/api_issuer_pressreleases.json",
+    "frameworks": [],
+    "entities_found": [],
+    "api_hints": [],
+    "sitemaps": [],
+    "truncated": false,
+    "final_url": "https://www.indiaratings.co.in/home/GetIssuerPressReleases?issuerId=2549"
+  },
+  {
+    "source": "India Ratings",
+    "name": "api_issuer_details",
+    "url": "https://www.indiaratings.co.in/home/GetIssuerDetails?issuerId=2549",
+    "status": 200,
+    "error": null,
+    "content_type": "application/json; charset=utf-8",
+    "bytes": 1202,
+    "capture_file": "captures/India_Ratings/api_issuer_details.json",
+    "frameworks": [],
+    "entities_found": [
+      "Bajaj Finance"
+    ],
+    "api_hints": [],
+    "sitemaps": [],
+    "truncated": false,
+    "final_url": "https://www.indiaratings.co.in/home/GetIssuerDetails?issuerId=2549"
+  },
+  {
+    "source": "India Ratings",
+    "name": "api_unaccepted_ratings",
+    "url": "https://www.indiaratings.co.in/pressReleases/GetUnAcceptedIssuersRatings?issuerId=2549",
+    "status": 400,
+    "error": null,
+    "content_type": "application/problem+json; charset=utf-8",
+    "bytes": 301,
+    "capture_file": "captures/India_Ratings/api_unaccepted_ratings.json",
+    "frameworks": [],
+    "entities_found": [],
+    "api_hints": [],
+    "sitemaps": [],
+    "truncated": false,
+    "final_url": "https://www.indiaratings.co.in/pressReleases/GetUnAcceptedIssuersRatings?issuerId=2549"
+  },
+  {
+    "source": "India Ratings",
+    "name": "api_probe_0",
+    "url": "https://www.indiaratings.co.in/api/upload",
+    "status": 200,
+    "error": null,
+    "content_type": "text/html",
+    "bytes": 7020,
+    "capture_file": "captures/India_Ratings/api_probe_0.html",
+    "frameworks": [],
+    "entities_found": [],
+    "api_hints": [],
+    "sitemaps": [],
+    "truncated": false,
+    "final_url": "https://www.indiaratings.co.in/api/upload"
+  },
+  {
+    "source": "India Ratings",
+    "name": "api_search_bajaj_pr_0",
+    "url": "https://www.indiaratings.co.in/pressReleases/GetPressreleaseData_BeforeLogin?pressReleaseId=61233",
+    "status": 200,
+    "error": null,
+    "content_type": "application/json; charset=utf-8",
+    "bytes": 1248,
+    "capture_file": "captures/India_Ratings/api_search_bajaj_pr_0.json",
+    "frameworks": [],
+    "entities_found": [
+      "Bajaj Finance"
+    ],
+    "api_hints": [],
+    "sitemaps": [],
+    "truncated": false,
+    "final_url": "https://www.indiaratings.co.in/pressReleases/GetPressreleaseData_BeforeLogin?pressReleaseId=61233"
+  },
+  {
+    "source": "India Ratings",
+    "name": "api_search_bajaj_pr_1",
+    "url": "https://www.indiaratings.co.in/pressReleases/GetPressreleaseData_BeforeLogin?pressReleaseId=61732",
+    "status": 200,
+    "error": null,
+    "content_type": "application/json; charset=utf-8",
+    "bytes": 1469,
+    "capture_file": "captures/India_Ratings/api_search_bajaj_pr_1.json",
+    "frameworks": [],
+    "entities_found": [
+      "Bajaj Finance"
+    ],
+    "api_hints": [],
+    "sitemaps": [],
+    "truncated": false,
+    "final_url": "https://www.indiaratings.co.in/pressReleases/GetPressreleaseData_BeforeLogin?pressReleaseId=61732"
+  },
+  {
+    "source": "India Ratings",
+    "name": "api_search_bajaj_pr_2",
+    "url": "https://www.indiaratings.co.in/pressReleases/GetPressreleaseData_BeforeLogin?pressReleaseId=66528",
+    "status": 200,
+    "error": null,
+    "content_type": "application/json; charset=utf-8",
+    "bytes": 705,
+    "capture_file": "captures/India_Ratings/api_search_bajaj_pr_2.json",
+    "frameworks": [],
+    "entities_found": [
+      "Bajaj Finance"
+    ],
+    "api_hints": [],
+    "sitemaps": [],
+    "truncated": false,
+    "final_url": "https://www.indiaratings.co.in/pressReleases/GetPressreleaseData_BeforeLogin?pressReleaseId=66528"
+  },
+  {
+    "source": "India Ratings",
+    "name": "api_search_chola_pr_0",
+    "url": "https://www.indiaratings.co.in/pressReleases/GetPressreleaseData_BeforeLogin?pressReleaseId=81861",
+    "status": 200,
+    "error": null,
+    "content_type": "application/json; charset=utf-8",
+    "bytes": 808,
+    "capture_file": "captures/India_Ratings/api_search_chola_pr_0.json",
+    "frameworks": [],
+    "entities_found": [
+      "Cholamandalam"
+    ],
+    "api_hints": [],
+    "sitemaps": [],
+    "truncated": false,
+    "final_url": "https://www.indiaratings.co.in/pressReleases/GetPressreleaseData_BeforeLogin?pressReleaseId=81861"
+  },
+  {
+    "source": "India Ratings",
+    "name": "api_search_chola_pr_1",
+    "url": "https://www.indiaratings.co.in/pressReleases/GetPressreleaseData_BeforeLogin?pressReleaseId=81884",
+    "status": 200,
+    "error": null,
+    "content_type": "application/json; charset=utf-8",
+    "bytes": 615,
+    "capture_file": "captures/India_Ratings/api_search_chola_pr_1.json",
+    "frameworks": [],
+    "entities_found": [
+      "Cholamandalam"
+    ],
+    "api_hints": [],
+    "sitemaps": [],
+    "truncated": false,
+    "final_url": "https://www.indiaratings.co.in/pressReleases/GetPressreleaseData_BeforeLogin?pressReleaseId=81884"
+  },
+  {
+    "source": "India Ratings",
+    "name": "api_search_chola_pr_2",
+    "url": "https://www.indiaratings.co.in/pressReleases/GetPressreleaseData_BeforeLogin?pressReleaseId=81943",
+    "status": 200,
+    "error": null,
+    "content_type": "application/json; charset=utf-8",
+    "bytes": 1228,
+    "capture_file": "captures/India_Ratings/api_search_chola_pr_2.json",
+    "frameworks": [],
+    "entities_found": [
+      "Cholamandalam"
+    ],
+    "api_hints": [],
+    "sitemaps": [],
+    "truncated": false,
+    "final_url": "https://www.indiaratings.co.in/pressReleases/GetPressreleaseData_BeforeLogin?pressReleaseId=81943"
+  },
+  {
+    "source": "India Ratings",
+    "name": "api_search_pfc_pr_0",
+    "url": "https://www.indiaratings.co.in/pressReleases/GetPressreleaseData_BeforeLogin?pressReleaseId=35181",
+    "status": 200,
+    "error": null,
+    "content_type": "application/json; charset=utf-8",
+    "bytes": 626,
+    "capture_file": "captures/India_Ratings/api_search_pfc_pr_0.json",
+    "frameworks": [],
+    "entities_found": [
+      "Power Finance Corporation"
+    ],
+    "api_hints": [],
+    "sitemaps": [],
+    "truncated": false,
+    "final_url": "https://www.indiaratings.co.in/pressReleases/GetPressreleaseData_BeforeLogin?pressReleaseId=35181"
+  },
+  {
+    "source": "India Ratings",
+    "name": "api_search_pfc_pr_1",
+    "url": "https://www.indiaratings.co.in/pressReleases/GetPressreleaseData_BeforeLogin?pressReleaseId=68188",
+    "status": 200,
+    "error": null,
+    "content_type": "application/json; charset=utf-8",
+    "bytes": 677,
+    "capture_file": "captures/India_Ratings/api_search_pfc_pr_1.json",
+    "frameworks": [],
+    "entities_found": [
+      "Power Finance Corporation"
+    ],
+    "api_hints": [],
+    "sitemaps": [],
+    "truncated": false,
+    "final_url": "https://www.indiaratings.co.in/pressReleases/GetPressreleaseData_BeforeLogin?pressReleaseId=68188"
+  },
+  {
+    "source": "India Ratings",
+    "name": "api_search_pfc_pr_2",
+    "url": "https://www.indiaratings.co.in/pressReleases/GetPressreleaseData_BeforeLogin?pressReleaseId=76305",
+    "status": 200,
+    "error": null,
+    "content_type": "application/json; charset=utf-8",
+    "bytes": 1093,
+    "capture_file": "captures/India_Ratings/api_search_pfc_pr_2.json",
+    "frameworks": [],
+    "entities_found": [
+      "Power Finance Corporation"
+    ],
+    "api_hints": [],
+    "sitemaps": [],
+    "truncated": false,
+    "final_url": "https://www.indiaratings.co.in/pressReleases/GetPressreleaseData_BeforeLogin?pressReleaseId=76305"
+  }
+]
