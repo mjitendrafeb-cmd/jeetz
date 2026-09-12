@@ -1,6 +1,205 @@
 {
  "records": [
   {
+   "isin": "INE04UP07253",
+   "issuer": "BEST CAPITAL SERVICES LIMITED",
+   "allotment_date": "2026-09-11",
+   "amount_cr": 40.0,
+   "coupon": 12.0,
+   "tenure_years": 1.2,
+   "band": "BBB band",
+   "segment": "NBFC/HFC",
+   "spread_bps": 640,
+   "ratings": [
+    "Infomerics BBB",
+    "Infomerics C"
+   ]
+  },
+  {
+   "isin": "INE04UP07246",
+   "issuer": "BEST CAPITAL SERVICES LIMITED",
+   "allotment_date": "2026-09-11",
+   "amount_cr": 40.0,
+   "coupon": 12.25,
+   "tenure_years": 3.0,
+   "band": "BBB band",
+   "segment": "NBFC/HFC",
+   "spread_bps": 580,
+   "ratings": [
+    "Infomerics BBB",
+    "Infomerics C"
+   ]
+  },
+  {
+   "isin": "INE0MMC07427",
+   "issuer": "INCRED WEALTH AND INVESTMENT SERVICES PRIVATE LIMITED",
+   "allotment_date": "2026-09-11",
+   "amount_cr": 40.0,
+   "coupon": null,
+   "tenure_years": 3.3,
+   "band": "Not rated / available",
+   "segment": "Corporate",
+   "spread_bps": null,
+   "ratings": []
+  },
+  {
+   "isin": "INE0D4Z07029",
+   "issuer": "BEST FINANCE CORPORATION LIMITED",
+   "allotment_date": "2026-09-11",
+   "amount_cr": 50.0,
+   "coupon": 10.7,
+   "tenure_years": 1.8,
+   "band": "BBB band",
+   "segment": "NBFC/HFC",
+   "spread_bps": 440,
+   "ratings": [
+    "CareEdge BBB+"
+   ]
+  },
+  {
+   "isin": "INE0MMC07419",
+   "issuer": "INCRED WEALTH AND INVESTMENT SERVICES PRIVATE LIMITED",
+   "allotment_date": "2026-09-11",
+   "amount_cr": 50.0,
+   "coupon": null,
+   "tenure_years": 3.5,
+   "band": "Not rated / available",
+   "segment": "Corporate",
+   "spread_bps": null,
+   "ratings": []
+  },
+  {
+   "isin": "INE0P1407059",
+   "issuer": "VIVRITI CAPITAL LIMITED",
+   "allotment_date": "2026-09-11",
+   "amount_cr": 50.0,
+   "coupon": 9.35,
+   "tenure_years": 1.5,
+   "band": "AA band (AA+/AA/AA-)",
+   "segment": "NBFC/HFC",
+   "spread_bps": 375,
+   "ratings": [
+    "CRISIL A+",
+    "CRISIL AA+(CE)"
+   ]
+  },
+  {
+   "isin": "INE964R07150",
+   "issuer": "REGENCY FINCORP LIMITED",
+   "allotment_date": "2026-09-11",
+   "amount_cr": 75.0,
+   "coupon": 13.0,
+   "tenure_years": 2.5,
+   "band": "BBB band",
+   "segment": "NBFC/HFC",
+   "spread_bps": 670,
+   "ratings": [
+    "Infomerics Valuation and Rating Pvt. Ltd BBB"
+   ]
+  },
+  {
+   "isin": "INE216P07316",
+   "issuer": "AAVAS FINANCIERS LIMITED",
+   "allotment_date": "2026-09-11",
+   "amount_cr": 100.0,
+   "coupon": null,
+   "tenure_years": 5.0,
+   "band": "AA band (AA+/AA/AA-)",
+   "segment": "NBFC/HFC",
+   "spread_bps": null,
+   "ratings": [
+    "CARE RATINGS LIMITED AA"
+   ]
+  },
+  {
+   "isin": "INE321N07749",
+   "issuer": "INCRED FINANCIAL SERVICES LIMITED",
+   "allotment_date": "2026-09-11",
+   "amount_cr": 100.0,
+   "coupon": null,
+   "tenure_years": 3.5,
+   "band": "AA band (AA+/AA/AA-)",
+   "segment": "Corporate",
+   "spread_bps": null,
+   "ratings": [
+    "ICRA LIMITED AA-"
+   ]
+  },
+  {
+   "isin": "INE0P1407067",
+   "issuer": "VIVRITI CAPITAL LIMITED",
+   "allotment_date": "2026-09-11",
+   "amount_cr": 100.0,
+   "coupon": 9.5,
+   "tenure_years": 2.0,
+   "band": "A band (A+/A/A-)",
+   "segment": "NBFC/HFC",
+   "spread_bps": 320,
+   "ratings": [
+    "CRISIL A+"
+   ]
+  },
+  {
+   "isin": "INE148I07YM4",
+   "issuer": "SAMMAAN CAPITAL LIMITED",
+   "allotment_date": "2026-09-11",
+   "amount_cr": 500.0,
+   "coupon": 9.05,
+   "tenure_years": 3.0,
+   "band": "AA band (AA+/AA/AA-)",
+   "segment": "NBFC/HFC",
+   "spread_bps": 260,
+   "ratings": [
+    "ICRA AA+",
+    "CRISIL AA+"
+   ]
+  },
+  {
+   "isin": "INE148I07YL6",
+   "issuer": "SAMMAAN CAPITAL LIMITED",
+   "allotment_date": "2026-09-11",
+   "amount_cr": 500.0,
+   "coupon": 9.1,
+   "tenure_years": 5.0,
+   "band": "AAA",
+   "segment": "NBFC/HFC",
+   "spread_bps": 250,
+   "ratings": [
+    "ICRA AA+",
+    "CRISIL AA+",
+    "Brickwork AAA"
+   ]
+  },
+  {
+   "isin": "INE667F07JI8",
+   "issuer": "SUNDARAM HOME FINANCE LIMITED",
+   "allotment_date": "2026-09-11",
+   "amount_cr": 510.0,
+   "coupon": 8.09,
+   "tenure_years": 5.0,
+   "band": "AAA",
+   "segment": "NBFC/HFC",
+   "spread_bps": 149,
+   "ratings": [
+    "ICRA AAA"
+   ]
+  },
+  {
+   "isin": "INE0NR607108",
+   "issuer": "CUBE HIGHWAYS TRUST",
+   "allotment_date": "2026-09-11",
+   "amount_cr": 1000.0,
+   "coupon": 7.5765,
+   "tenure_years": 9.0,
+   "band": "AAA",
+   "segment": "Corporate",
+   "spread_bps": 57,
+   "ratings": [
+    "ICRA AAA",
+    "CRISIL AAA"
+   ]
+  },
+  {
    "isin": "INE0INN08014",
    "issuer": "SHANGRILA INFRACON INDIA PRIVATE LIMITED",
    "allotment_date": "2026-09-10",

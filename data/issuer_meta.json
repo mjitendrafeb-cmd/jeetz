@@ -7,6 +7,10 @@
   "segment": "Corporate",
   "updated": "2026-09-02"
  },
+ "aavas financiers": {
+  "segment": "NBFC/HFC",
+  "updated": "2026-09-12"
+ },
  "abans jewels": {
   "segment": "Corporate",
   "updated": "2026-09-08"
@@ -43,6 +47,14 @@
   "segment": "Corporate",
   "updated": "2026-09-01"
  },
+ "best capital services": {
+  "segment": "NBFC/HFC",
+  "updated": "2026-09-12"
+ },
+ "best finance": {
+  "segment": "NBFC/HFC",
+  "updated": "2026-09-12"
+ },
  "century silicon city": {
   "segment": "Corporate",
   "updated": "2026-09-01"
@@ -58,6 +70,10 @@
  "creditaccess grameen": {
   "segment": "NBFC/HFC",
   "updated": "2026-09-03"
+ },
+ "cube highways trust": {
+  "segment": "Corporate",
+  "updated": "2026-09-12"
  },
  "dar credit & capital": {
   "segment": "NBFC/HFC",
@@ -129,11 +145,11 @@
  },
  "incred financial services": {
   "segment": "Corporate",
-  "updated": "2026-08-28"
+  "updated": "2026-09-12"
  },
  "incred wealth and investment services": {
   "segment": "Corporate",
-  "updated": "2026-09-03"
+  "updated": "2026-09-12"
  },
  "indian railway finance": {
   "segment": "PSU",
@@ -281,7 +297,7 @@
  },
  "regency fincorp": {
   "segment": "NBFC/HFC",
-  "updated": "2026-08-28"
+  "updated": "2026-09-12"
  },
  "rpe energy reserve": {
   "segment": "Corporate",
@@ -290,6 +306,10 @@
  "rupeek capital": {
   "segment": "NBFC/HFC",
   "updated": "2026-08-26"
+ },
+ "sammaan capital": {
+  "segment": "NBFC/HFC",
+  "updated": "2026-09-12"
  },
  "satin finserv": {
   "segment": "NBFC/HFC",
@@ -302,6 +322,10 @@
  "small industries development bank of": {
   "segment": "PSU",
   "updated": "2026-09-04"
+ },
+ "sundaram home finance": {
+  "segment": "NBFC/HFC",
+  "updated": "2026-09-12"
  },
  "tablespace technologies": {
   "segment": "Corporate",
@@ -334,6 +358,10 @@
  "vision infra equipment solutions": {
   "segment": "Corporate",
   "updated": "2026-08-28"
+ },
+ "vivriti capital": {
+  "segment": "NBFC/HFC",
+  "updated": "2026-09-12"
  },
  "weber drivetrain": {
   "segment": "Corporate",
