@@ -1,77 +1,5 @@
 [
  {
-  "date": "2026-08-22",
-  "fetched": 3573,
-  "delivered_pool": 312,
-  "junk": 931,
-  "geo": 102,
-  "stale": 983,
-  "dup": 949,
-  "sections": {
-   "S1": 281,
-   "S2": 26,
-   "S3": 5
-  },
-  "mails": 2,
-  "failed": [],
-  "source_summary": {
-   "RBI RSS": 19,
-   "RBI Enforcement": 0,
-   "SEBI RSS": 20,
-   "Google News": 28,
-   "Watchlist (Google)": 869,
-   "BSE Financials": 0,
-   "Telegram": 52,
-   "Web Scraper": 306
-  },
-  "dropped_samples": {
-   "relevance": [
-    "Result of the second Overnight Variable Rate Reverse Repo (VRRR) auction held on August 18, 2026",
-    "Certificate No. RC9282 of 2026 Notice of Demand in respect of Atit Commercial Company Private Limited (Transfe",
-    "General Remittance Advice against: Sunil Singh (Proprietor of Alfa Finsec) [Defaulter] (PAN: BDGPS0774K) in th",
-    "Order in Enquiry Proceedings respect of Corporate Capital Ventures Private Limited",
-    "Relaxations in Know Your Client (KYC) norms for individual Persons Resident Outside India (i.e",
-    "Why Gaja Alternative IPO stands out among three ongoing public offers",
-    "MNCL sees 28% UPSIDE in Goldiam International- Strong B2B Execution; ORIGEM Expansion Turns Calibrated",
-    "PL Capital sees 4% UPSIDE in Elgi Equipments- Healthy Q1, Demand Match gains traction",
-    "PL Capital sees 6% UPSIDE in JSW Cement- Nagaur ramp up to aid H2; execution on track",
-    "PL Capital sees 4% DOWNSIDE in KNR Constructions- Order book build up continues",
-    "PL Capital Update on Voltas- UCP margins on a steady recovery path",
-    "PL Capital sees 27% UPSIDE in Amber Enterprises India- Margin Pressures Temporary; Growth Remains Intact",
-    "PL Capital sees 16% UPSIDE in Praj Industries- Mixed Q1; GenX orders to support margin recovery",
-    "PL Capital sees 20% UPSIDE in Engineers India- Strong Q1; Higher Consultancy share to drive profit",
-    "US-Iran War LIVE: Iran says \u2018\u2026will correct delusions\u2019 as Trump backs down on Hormuz as US territory",
-    "Tata Sons AGM adjourned for first time Why was the Tata Sons AGM adjourned",
-    "AAP leader Satyendar Jain arrested in connection with alleged corruption in Delhi Jal Board during previous go",
-    "Does an NRI get taxed for gifting savings to his father's HUF",
-    "The PM CARES Fund corpus rose to a record \u20b98,452 crore in 2024-25 from \u20b97,173 crore in 2023-24, according to i",
-    "\"Will AI take my job? is one of the most searched career questions globally"
-   ],
-   "junk": [
-    "General Remittance Order dated August 18, 2026 issued under RC No",
-    "Final Order in the matter of Alliance Research - Proprietor Mr. Mudassir Hasan",
-    "General Remittance Order dated 14.08.2026 in Recovery Certificate No",
-    "General Remittance Order dated 14.08.2026 in Recovery Certificate No",
-    "General Remittance Order dated 14.08.2026 in Recovery Certificate No",
-    "General Remittance Order dated 14.08.2026 in Recovery Certificate No",
-    "Completion of Recovery Certificate No",
-    "Appeal No. 6992 of 2026 filed by Rakesh Mohan Rai",
-    "Appeal No. 6991 of 2026 filed by Parivesh Shukla",
-    "Appeal No. 6990 of 2026 filed by Vikas Jain",
-    "Appeal No. 6989 of 2026 filed by Valji Narayan Bhadra",
-    "Appeal No. 6988 of 2026 filed by Neeraj Sisodia",
-    "Appeal No. 6987 of 2026 filed by Sunil Rohilla",
-    "Appeal No. 6980 of 2026 filed by Ebenezer R",
-    "Buy Max Healthcare; target of Rs 1220: Anand Rathi",
-    "Shankesh Jewellers IPO Opens Today: 10 Key Things To Know Before You Subscribe",
-    "Buy Hindustan Copper; target of Rs 715: Anand Rathi",
-    "Buy Sudarshan Chemical Industries; target of Rs 1450: Anand Rathi",
-    "Max Healthcare Rated 'Buy' by Anand Rathi With Rs 1,220 Target",
-    "Hindustan Copper Gets 'Buy' Rating From Anand Rathi With Rs 715 Target"
-   ]
-  }
- },
- {
   "date": "2026-08-24",
   "fetched": 2337,
   "delivered_pool": 398,
@@ -2156,6 +2084,78 @@
     "Bandhan Dynamic Term Fund Direct-IDCW Quarterly",
     "Bandhan Medium Term Fund Regular-IDCW Quarterly",
     "Bandhan Contra Fund - Direct Plan Returns"
+   ]
+  }
+ },
+ {
+  "date": "2026-09-14",
+  "fetched": 1623,
+  "delivered_pool": 220,
+  "junk": 431,
+  "geo": 30,
+  "stale": 113,
+  "dup": 542,
+  "sections": {
+   "S1": 176,
+   "S2": 31,
+   "S3": 13
+  },
+  "mails": 41,
+  "failed": [],
+  "source_summary": {
+   "RBI RSS": 20,
+   "RBI Enforcement": 0,
+   "SEBI RSS": 20,
+   "Google News": 25,
+   "Watchlist (Google)": 1496,
+   "BSE Financials": 20,
+   "Telegram": 104,
+   "Web Scraper": 179
+  },
+  "dropped_samples": {
+   "relevance": [
+    "Review of Position Limits for Clients and Penalty Provisions for Violation / Breach of Position Limits for Com",
+    "Navi Mumbai: Panvel Municipal Corporation starts pothole repairs ahead of Ganeshotsav",
+    "Ambit Initiating Coverage on Meesho, with 27% UPSIDE- Winning scale, now even economics",
+    "Motilal Oswal\u2019s Morning India- Today\u2019s top research idea",
+    "#MintMarkets | Indian equity markets opened mixed on Thursday",
+    "#MintMarkets | Stock market today: Vaishali Parekh recommends three stocks to buy today",
+    "From smartphone to luxury tech: Why Apple may be pushing the iPhone further upmarket",
+    "Tamil Nadu's ruling alliance, led by chief minister Vijay's TVK, has been named \u2018Secular Social Justice Victor",
+    "SEBI Registration No. INH100009327 FC WEALTH COMPOUNDERS STRATEGY AUG\u201926 REVIEW WWW.FINTREKKCAPITAL.COM All da",
+    "HEG Graphite will be listed in 45-60 days",
+    "Kolte Patil sells 600 apartments in 60 hours for its 'Vyana at The Reserve' project",
+    "Hero Motors' \u20b91000-crore IPO to open on Sept 16; price band at \u20b979-\u20b984",
+    "JPMorgan unit, Mansi Share gets nod to trade, but can\u2019t participate in CAS",
+    "BSE chief says most players still avoid new closing auction",
+    "ESDS Software surges 235% in 4 sessions as AI infra fever grips markets",
+    "Rule of 70 for retirement: How this simple formula helps estimate when savings may double",
+    "How to invest your retirement corpus? 3-bucket strategy explained for retirees seeking regular income",
+    "8th Pay Commission: 5 key demands raised by Chennai GPO Pensioners Forum",
+    "Michael Dell overtakes Jeff Bezos to become the world's third-richest person",
+    "BirlaNu bets on construction chemicals, pipes with a \u20b9500 crore capex plan"
+   ],
+   "junk": [
+    "Appeal No. 7046 of 2026 filed by Vaibhav Bansal",
+    "Appeal No. 7045 of 2026 filed by Rajendra Kumar Saraogi",
+    "Appeal No. 7044 of 2026 filed by Devender Pawar",
+    "Appeal No. 7043 of 2026 filed by Aniket Singh",
+    "Remittance Order dated September 09, 2026 issued under RC No",
+    "Adjudication Order in respect of Sanjay S. Achharya HUF in the matter of dealings in Illiquid Stock Options at",
+    "Appeal No. 7042 of 2026 filed by Vikrant Tyagi",
+    "Appeal No. 7040 of 2026 filed by B.Mohan",
+    "Appeal No. 7039 of 2026 filed by Dadhaniya Uttam R",
+    "Appeal No. 7038 of 2026 filed by Ritesh Kumar",
+    "Appeal No. 7035 of 2026 filed by Surajit Rout",
+    "Remittance Order dated 08.09.2026 issued in RC No. 9189 of 2026",
+    "Remittance Order dated 08.09.2026 issued in RC No. 9188 of 2026",
+    "LATEST: AML Intelligence launches new \u2018AMLi\u2019 app for financial crime leaders; download it today",
+    "Bandhan Dynamic Term Fund Direct-IDCW Quarterly",
+    "Bandhan Dynamic Term Fund Direct-IDCW Periodic",
+    "Bandhan Floating Interest Rates Fund Regular-IDCW Monthly",
+    "Bandhan Medium Term Fund Regular-IDCW Monthly",
+    "Bandhan Floating Interest Rates Fund - Regular Plan Returns",
+    "Bank of India Felicitates Haritha Karma Sena Green Warriors"
    ]
   }
  }
