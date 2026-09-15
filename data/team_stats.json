@@ -1,77 +1,5 @@
 [
  {
-  "date": "2026-08-24",
-  "fetched": 2337,
-  "delivered_pool": 398,
-  "junk": 553,
-  "geo": 30,
-  "stale": 170,
-  "dup": 912,
-  "sections": {
-   "S1": 356,
-   "S2": 29,
-   "S3": 13
-  },
-  "mails": 40,
-  "failed": [],
-  "source_summary": {
-   "RBI RSS": 19,
-   "RBI Enforcement": 0,
-   "SEBI RSS": 20,
-   "Google News": 27,
-   "Watchlist (Google)": 1102,
-   "BSE Financials": 20,
-   "Telegram": 111,
-   "Web Scraper": 182
-  },
-  "dropped_samples": {
-   "relevance": [
-    "Result of the Second Overnight Variable Rate Reverse Repo (VRRR) auction held on August 20, 2026",
-    "Ease of onboarding for FPIs \u2013 Acceptance of digitally signed Power of Attorney",
-    "Adjudication Proceedings in the matter of front running activities by Mr. Bhavik Indravadan Shah and others",
-    "Indosolar Ltd Nine Monthly Results, Nine Monthly Earnings for Indosolar Ltd",
-    "Zerodha CEO Kamath Sees AI Making Broker Apps Obsolete",
-    "Avenue Supermarts opens new store in Navsari, Amravati",
-    "Dancing partners from Ards and Lisbane win gold for Northern Ireland",
-    "Strong pre-season opener for Ards Rugby",
-    "Ards FC make it three games unbeaten to the top table",
-    "Bajaj Chetak Crosses 50,000 Customers in Kerala; EV Network Expands to 103 Touchpoints",
-    "Tata Steel, Adani Ports among top 10 stocks downgraded by Motilal Oswal after Q1 results",
-    "Paisalo Digital Raises \u20b9294.92 Crore via Secured NCDs - DebtCircle",
-    "27,709 Shares in Bright Horizons Family Solutions Inc. $BFAM Acquired by Aurora Investment Counsel",
-    "$300 Million Investor Fraud: Fashion Tech Founder Christine Hunsicker Sentenced To Five Years In Prison",
-    "How to find the best mortgage: Compare home loan rates of leading Indian banks",
-    "India sees $80 billion in flows via subsidised swap windows, cenbank governor tells FE",
-    "Breaking News, Latest News and Videos: Swiss tourist sentenced to a year in jail for insulting Bali's sacred D",
-    "Congress divided Vande Mataram, now dividing national sentiment: Bali Bhagat",
-    "Bali Risks Drought In Top Tourism Destinations: Here\u2019s What Tourists Need To Know",
-    "Bali\u00ae Flawless Fit Collection Delivers Engineered Comfort with LYCRA\u00ae ADAPTIV Fiber"
-   ],
-   "junk": [
-    "Remittance order in Recovery Certificate No",
-    "Remittance order in Recovery Certificate No",
-    "Adjudication Order in respect of National Steel and Agro Industries Limited in the matter of trading in Illiqu",
-    "Notice of Demand dated 19.08.2026 in RC No. 9287 of 2026",
-    "Notice of Demand dated 19.08.2026 in RC No. 9286 of 2026",
-    "Notice of Attachment of Demat account dated 19.08.2026 in RC No. 9249 of 2026",
-    "Notice of Attachment of Demat account dated 19.08.2026 in RC No. 9248 of 2026",
-    "Notice of Attachment of Demat account dated 19.08.2026 in RC No. 9241 of 2026",
-    "Notice of Attachment of Bank account dated 19.08.2026 in RC No. 9249 of 2026",
-    "Notice of Attachment of Bank account dated 19.08.2026 in RC No. 9248 of 2026",
-    "Notice of Attachment of Bank account dated 19.08.2026 in RC No. 9241 of 2026",
-    "Notice of Demand under Recovery Certificate number 9285 of 2026 dated August 19, 2026, issued to VIKRAM ANAND ",
-    "Ex-Parte Interim Order in the matter of manipulative trades during CAS on SENSEX expiry at BSE- August 13, 202",
-    "Interim order in the matter of Dhenu Buildcon Infra Limited",
-    "Completion of Recovery Certificate No",
-    "RBI clears bigger LIC stake in HDFC Bank shares (NYSE: HDB)",
-    "Why Jefferies sees limited upside in Bajaj Housing Finance despite its fast-growing loan book",
-    "360 One Wam Ltd. Share Price Today: Finance Stock Focus",
-    "360 ONE WAM Ltd Sees Significant Open Interest Surge Signalling Bullish Market Positioning",
-    "5Paisa Capital Ltd. Share Price Today: Within 2% of 52-Week High"
-   ]
-  }
- },
- {
   "date": "2026-08-25",
   "fetched": 2591,
   "delivered_pool": 313,
@@ -2156,6 +2084,78 @@
     "Bandhan Medium Term Fund Regular-IDCW Monthly",
     "Bandhan Floating Interest Rates Fund - Regular Plan Returns",
     "Bank of India Felicitates Haritha Karma Sena Green Warriors"
+   ]
+  }
+ },
+ {
+  "date": "2026-09-15",
+  "fetched": 1247,
+  "delivered_pool": 76,
+  "junk": 380,
+  "geo": 31,
+  "stale": 492,
+  "dup": 100,
+  "sections": {
+   "S1": 60,
+   "S2": 8,
+   "S3": 8
+  },
+  "mails": 41,
+  "failed": [],
+  "source_summary": {
+   "RBI RSS": 20,
+   "RBI Enforcement": 0,
+   "SEBI RSS": 20,
+   "Google News": 20,
+   "Watchlist (Google)": 627,
+   "BSE Financials": 0,
+   "Telegram": 30,
+   "Web Scraper": 306
+  },
+  "dropped_samples": {
+   "relevance": [
+    "Review of Position Limits for Clients and Penalty Provisions for Violation / Breach of Position Limits for Com",
+    "Nuvama Update on FINOLEX CABLES- Fine and flexible",
+    "Jefferies Initiating Coverage on Vodafone Idea, with 30% UPSIDE- Answering the turnaround call",
+    "KPMG on India data centre opportunity- From emerging demand hub to integrated data centre powerhouse",
+    "Motilal Oswal\u2019s Morning India- Today\u2019s top research idea",
+    "#WATCH | Uttar Pradesh | Three Russian transport aircraft have landed at Noida International Airport for the f",
+    "Before the foldable iPhone Duo, there was another moment when an Apple CEO stood on stage and introduced a dev",
+    "On 10 September, an IndiGo flight from Lucknow to Dammam (Saudi Arabia) made an emergency landing in Ahmedabad",
+    "Who Will Buy Foldable iPhone Worth Up To \u20b95,00,000",
+    "An Indian-origin couple, Anuradha and Vikas Sinha, has donated $20 million to the University of North Texas to",
+    "The Supreme Court on Thursday questioned the FSSAI proposed two-phase approach for introducing front-of-pack w",
+    "China will push for a 'Greater BRICS': Ex-foreign secretary decodes Delhi summit, says test will come in 2027",
+    "Dell Technologies founder Michael Dell has officially unseated Amazon's Jeff Bezos to become the world's third",
+    "Note : Equity markets are closed on 14th Sept (Mon) on account of Ganesh Chaturthi",
+    "SEBI Registration No. INH100009327 FC WEALTH COMPOUNDERS STRATEGY AUG\u201926 REVIEW WWW.FINTREKKCAPITAL.COM All da",
+    "HEG Graphite will be listed in 45-60 days",
+    "Listing of further issues of securities",
+    "India's Manufacturing Majors: The Companies Building at Scale",
+    "Review of Circulars issued under Foreign Exchange Management Act, 1999 (FEMA)",
+    "Relief Measures in Areas Affected by Natural Calamities - Reporting through Centralised Information Management"
+   ],
+   "junk": [
+    "General Remittance Order dated 10.09.2026 in Recovery Certificate No",
+    "General Remittance Order dated 10.09.2026 in Recovery Certificate No",
+    "General Remittance Advice against: Mr",
+    "Final Order in the matter of Prerna Sharma Research Analyst",
+    "Final Order in respect of Priyanka Yadav - Proprietor of Trade Money Research",
+    "Settlement Order in the matter of PMC Projects (India) Private Limited",
+    "Appeal No. 7046 of 2026 filed by Vaibhav Bansal",
+    "Appeal No. 7045 of 2026 filed by Rajendra Kumar Saraogi",
+    "Appeal No. 7044 of 2026 filed by Devender Pawar",
+    "Appeal No. 7043 of 2026 filed by Aniket Singh",
+    "Karamtara Engineering IPO Enters Day 2: 10 Key Things To Know Before You Subscribe",
+    "AU Small Finance Bank Wins BFSI Guild Award for Voice AI Excellence",
+    "LATEST: AML Intelligence launches new \u2018AMLi\u2019 app for financial crime leaders; download it today",
+    "Bandhan Dynamic Term Fund Direct-IDCW Quarterly",
+    "Bandhan Medium Term Fund Direct-IDCW Quarterly",
+    "Bandhan Medium Term Fund Regular-IDCW Periodic",
+    "Bandhan Floating Interest Rates Fund Regular-IDCW Daily (\u20b9 10.13) - NAV, Reviews & asset allocation",
+    "Bandhan Contra Fund - Regular Plan Returns",
+    "Bandhan Floating Interest Rates Fund - Regular Plan Returns",
+    "Bank of India Conservative Hybrid Fund Direct Growth Review 2026: NAV, Returns, Portfolio & Should You Invest?"
    ]
   }
  }
