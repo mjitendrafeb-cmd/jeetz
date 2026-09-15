@@ -9,7 +9,7 @@
    "tenure_years": 1.2,
    "band": "BBB band",
    "segment": "NBFC/HFC",
-   "spread_bps": 643,
+   "spread_bps": 640,
    "ratings": [
     "Infomerics BBB",
     "Infomerics C"
@@ -24,7 +24,7 @@
    "tenure_years": 3.0,
    "band": "BBB band",
    "segment": "NBFC/HFC",
-   "spread_bps": 587,
+   "spread_bps": 565,
    "ratings": [
     "Infomerics BBB",
     "Infomerics C"
@@ -51,7 +51,7 @@
    "tenure_years": 1.8,
    "band": "BBB band",
    "segment": "NBFC/HFC",
-   "spread_bps": 440,
+   "spread_bps": 431,
    "ratings": [
     "CareEdge BBB+"
    ]
@@ -77,7 +77,7 @@
    "tenure_years": 1.5,
    "band": "AA band (AA+/AA/AA-)",
    "segment": "NBFC/HFC",
-   "spread_bps": 378,
+   "spread_bps": 375,
    "ratings": [
     "CRISIL A+",
     "CRISIL AA+(CE)"
@@ -92,7 +92,7 @@
    "tenure_years": 2.5,
    "band": "BBB band",
    "segment": "NBFC/HFC",
-   "spread_bps": 670,
+   "spread_bps": 661,
    "ratings": [
     "Infomerics Valuation and Rating Pvt. Ltd BBB"
    ]
@@ -134,7 +134,7 @@
    "tenure_years": 2.0,
    "band": "A band (A+/A/A-)",
    "segment": "NBFC/HFC",
-   "spread_bps": 320,
+   "spread_bps": 311,
    "ratings": [
     "CRISIL A+"
    ]
@@ -148,7 +148,7 @@
    "tenure_years": 3.0,
    "band": "AA band (AA+/AA/AA-)",
    "segment": "NBFC/HFC",
-   "spread_bps": 267,
+   "spread_bps": 245,
    "ratings": [
     "ICRA AA+",
     "CRISIL AA+"
@@ -163,7 +163,7 @@
    "tenure_years": 5.0,
    "band": "AAA",
    "segment": "NBFC/HFC",
-   "spread_bps": 247,
+   "spread_bps": 233,
    "ratings": [
     "ICRA AA+",
     "CRISIL AA+",
@@ -179,7 +179,7 @@
    "tenure_years": 5.0,
    "band": "AAA",
    "segment": "NBFC/HFC",
-   "spread_bps": 146,
+   "spread_bps": 132,
    "ratings": [
     "ICRA AAA"
    ]
@@ -193,7 +193,7 @@
    "tenure_years": 9.0,
    "band": "AAA",
    "segment": "Corporate",
-   "spread_bps": 57,
+   "spread_bps": 48,
    "ratings": [
     "ICRA AAA",
     "CRISIL AAA"
