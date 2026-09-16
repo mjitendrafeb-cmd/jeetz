@@ -1,6 +1,136 @@
 {
  "records": [
   {
+   "isin": "INE702V08055",
+   "issuer": "SQUARE YARDS TECHNOLOGY PRIVATE LIMITED",
+   "allotment_date": "2026-09-15",
+   "amount_cr": 11.0,
+   "coupon": null,
+   "tenure_years": 10.0,
+   "band": "Not rated / available",
+   "segment": "Corporate",
+   "spread_bps": null,
+   "ratings": []
+  },
+  {
+   "isin": "INE08E808082",
+   "issuer": "SHRI RAM FINANCE CORPORATION PRIVATE LIMITED",
+   "allotment_date": "2026-09-15",
+   "amount_cr": 45.0,
+   "coupon": 12.35,
+   "tenure_years": 5.1,
+   "band": "A band (A+/A/A-)",
+   "segment": "NBFC/HFC",
+   "spread_bps": 556,
+   "ratings": [
+    "Acuite Ratings And Research Limited A"
+   ]
+  },
+  {
+   "isin": "INE0O7407106",
+   "issuer": "IBL FINANCE LIMITED",
+   "allotment_date": "2026-09-15",
+   "amount_cr": 50.0,
+   "coupon": 10.0,
+   "tenure_years": 1.1,
+   "band": "Not rated / available",
+   "segment": "NBFC/HFC",
+   "spread_bps": 417,
+   "ratings": []
+  },
+  {
+   "isin": "INE2ZBM07013",
+   "issuer": "CASAGRAND SKYLINESAGE PRIVATE LIMITED",
+   "allotment_date": "2026-09-15",
+   "amount_cr": 65.0,
+   "coupon": 10.0,
+   "tenure_years": 4.3,
+   "band": "Not rated / available",
+   "segment": "Corporate",
+   "spread_bps": 321,
+   "ratings": []
+  },
+  {
+   "isin": "INE357L07523",
+   "issuer": "NOMURA CAPITAL (INDIA) PVT. LTD.",
+   "allotment_date": "2026-09-15",
+   "amount_cr": 100.0,
+   "coupon": 8.02,
+   "tenure_years": 1.1,
+   "band": "AAA",
+   "segment": "NBFC/HFC",
+   "spread_bps": 219,
+   "ratings": [
+    "INDIA RATING AND RESEARCH PVT. LTD AAA"
+   ]
+  },
+  {
+   "isin": "INE04VS07552",
+   "issuer": "OXYZO FINANCIAL SERVICES LIMITED",
+   "allotment_date": "2026-09-15",
+   "amount_cr": 100.0,
+   "coupon": 9.9,
+   "tenure_years": 3.1,
+   "band": "A band (A+/A/A-)",
+   "segment": "Corporate",
+   "spread_bps": 335,
+   "ratings": [
+    "ICRA A+"
+   ]
+  },
+  {
+   "isin": "INE04VS07545",
+   "issuer": "OXYZO FINANCIAL SERVICES LIMITED",
+   "allotment_date": "2026-09-15",
+   "amount_cr": 100.0,
+   "coupon": 9.7,
+   "tenure_years": 2.1,
+   "band": "A band (A+/A/A-)",
+   "segment": "Corporate",
+   "spread_bps": 331,
+   "ratings": [
+    "ICRA A+"
+   ]
+  },
+  {
+   "isin": "INE2VO207017",
+   "issuer": "YADASAMPATI HOSPITALITY PRIVATE LIMITED",
+   "allotment_date": "2026-09-15",
+   "amount_cr": 270.0,
+   "coupon": 17.73,
+   "tenure_years": 5.0,
+   "band": "Not rated / available",
+   "segment": "Corporate",
+   "spread_bps": 1094,
+   "ratings": []
+  },
+  {
+   "isin": "INE0M2007012",
+   "issuer": "ONWARD SOLAR POWER PRIVATE LIMITED",
+   "allotment_date": "2026-09-15",
+   "amount_cr": 300.0,
+   "coupon": 7.99,
+   "tenure_years": 5.0,
+   "band": "Not rated / available",
+   "segment": "Corporate",
+   "spread_bps": 120,
+   "ratings": []
+  },
+  {
+   "isin": "INE957N07906",
+   "issuer": "HERO FINCORP LIMITED",
+   "allotment_date": "2026-09-15",
+   "amount_cr": 500.0,
+   "coupon": null,
+   "tenure_years": 2.0,
+   "band": "AA band (AA+/AA/AA-)",
+   "segment": "NBFC/HFC",
+   "spread_bps": null,
+   "ratings": [
+    "ICRA AA+"
+   ]
+  },
+  {
    "isin": "INE04UP07253",
    "issuer": "BEST CAPITAL SERVICES LIMITED",
    "allotment_date": "2026-09-11",

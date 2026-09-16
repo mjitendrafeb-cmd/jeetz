@@ -55,6 +55,10 @@
   "segment": "NBFC/HFC",
   "updated": "2026-09-15"
  },
+ "casagrand skylinesage": {
+  "segment": "Corporate",
+  "updated": "2026-09-16"
+ },
  "century silicon city": {
   "segment": "Corporate",
   "updated": "2026-09-01"
@@ -123,6 +127,10 @@
   "segment": "Corporate",
   "updated": "2026-09-04"
  },
+ "hero fincorp": {
+  "segment": "NBFC/HFC",
+  "updated": "2026-09-16"
+ },
  "home first finance": {
   "segment": "NBFC/HFC",
   "updated": "2026-08-29"
@@ -130,6 +138,10 @@
  "housing and urban development": {
   "segment": "PSU",
   "updated": "2026-09-01"
+ },
+ "ibl finance": {
+  "segment": "NBFC/HFC",
+  "updated": "2026-09-16"
  },
  "icici home finance": {
   "segment": "NBFC/HFC",
@@ -259,6 +271,10 @@
   "segment": "Corporate",
   "updated": "2026-08-29"
  },
+ "nomura capital ()": {
+  "segment": "NBFC/HFC",
+  "updated": "2026-09-16"
+ },
  "nuvama wealth and investment": {
   "segment": "Corporate",
   "updated": "2026-08-26"
@@ -267,9 +283,17 @@
   "segment": "NBFC/HFC",
   "updated": "2026-09-01"
  },
+ "onward solar power": {
+  "segment": "Corporate",
+  "updated": "2026-09-16"
+ },
  "orange retail finance": {
   "segment": "NBFC/HFC",
   "updated": "2026-08-26"
+ },
+ "oxyzo financial services": {
+  "segment": "Corporate",
+  "updated": "2026-09-16"
  },
  "parthos properties": {
   "segment": "Corporate",
@@ -319,9 +343,17 @@
   "segment": "Corporate",
   "updated": "2026-09-11"
  },
+ "shri ram finance": {
+  "segment": "NBFC/HFC",
+  "updated": "2026-09-16"
+ },
  "small industries development bank of": {
   "segment": "PSU",
   "updated": "2026-09-04"
+ },
+ "square yards technology": {
+  "segment": "Corporate",
+  "updated": "2026-09-16"
  },
  "sundaram home finance": {
   "segment": "NBFC/HFC",
@@ -366,5 +398,9 @@
  "weber drivetrain": {
   "segment": "Corporate",
   "updated": "2026-09-04"
+ },
+ "yadasampati hospitality": {
+  "segment": "Corporate",
+  "updated": "2026-09-16"
  }
 }
