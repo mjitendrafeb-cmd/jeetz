@@ -6088,7 +6088,14 @@ def main() -> None:
             # well under the 50% suspicious-rejection threshold below, so
             # nothing caught it -- only the titles themselves can.
             if gpt_s1_mismatch:
-                sample = [it for it in gpt_s1_sent if _key(it) in gpt_s1_mismatch][:10]
+                # Was capped at 10 -- a real drop (Fibe/Earlysalary's SEBI
+                # IPO-nod story, reported live as missing from S1 for two
+                # days running) could sit anywhere past the first 10 and
+                # never print at all: both days this cap already saw 15-22
+                # total drops, more than the sample showed. Every dropped
+                # title is one line each, cheap, and this list is exactly
+                # what an audit like that needs to actually find the culprit.
+                sample = [it for it in gpt_s1_sent if _key(it) in gpt_s1_mismatch]
                 for it in sample:
                     print(f"[gpt] keyword_mismatch dropped: {it['title'][:80]} "
                           f"(tagged {', '.join(it.get('companies') or [])})")
