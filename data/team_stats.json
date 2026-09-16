@@ -1,77 +1,5 @@
 [
  {
-  "date": "2026-08-26",
-  "fetched": 2682,
-  "delivered_pool": 124,
-  "junk": 1133,
-  "geo": 17,
-  "stale": 433,
-  "dup": 770,
-  "sections": {
-   "S1": 102,
-   "S2": 17,
-   "S3": 5
-  },
-  "mails": 40,
-  "failed": [],
-  "source_summary": {
-   "RBI RSS": 20,
-   "RBI Enforcement": 0,
-   "SEBI RSS": 20,
-   "Google News": 0,
-   "Watchlist (Google)": 0,
-   "BSE Financials": 0,
-   "Telegram": 57,
-   "Web Scraper": 959
-  },
-  "dropped_samples": {
-   "relevance": [
-    "General Remittance Advice against: Madhu Gupta (PAN: ABUPG9329D) [Defaulter] in the matter of dealing in Illiq",
-    "Appeal No. 6994 & 6995 of 2026 filed by Kotha Mahendar Reddy",
-    "Ease of onboarding for FPIs \u2013 Acceptance of digitally signed Power of Attorney",
-    "IIFCL Raises $200 Million Through Two ECB Transactions - DebtCircle",
-    "Shriram bullish on CV growth despite recent price hikes",
-    "Anantam Highways Trust releases Q1FY27 earnings call transcript",
-    "Indian Energy Exchange hosts analyst and investor meetings on August 18",
-    "Bharti Airtel Q1 preview: Analysts see 15% revenue growth; ARPU may rise 2%",
-    "Balrampur Chini Mills profit falls 10% in Q1FY27; appoints Vartika Shukla",
-    "Maxgrow India consolidated net profit rises 190.19% in the June 2026 quarter",
-    "VRL Logistics Q1 Results: Earnings Call Scheduled for Aug 5",
-    "Jharkhand Road Projects Implementation Co standalone net profit declines 43.41% in the June 2026 quarter",
-    "Stellantis Reports Q2 2026 Financial Results",
-    "Sun Pharma update on Lipitor antitrust litigation in US court",
-    "SBI Securities sees 36% UPSIDE in KPI Green Energy Ltd.- Growth impacted by project billing delays; underlying",
-    "PL Capital sees 6% UPSIDE in Navin Fluorine International- Advance material to be 10%-15% of topline by FY30",
-    "Emkay Initiating Coverage on Pearl Global Industries, with 15% UPSIDE- Stars are aligned; initiate with BUY",
-    "Midas Research sees 33% UPSIDE in Kilburn Engineering Ltd",
-    "Systematix Update on Kalpataru Projects International Ltd- Resilience in rough weather",
-    "Iran war news LIVE Updates: Bessent to announce new US sanctions against Iran on Monday"
-   ],
-   "junk": [
-    "Final Order in the matter of Modex International Securities Ltd.",
-    "Appeal No. 7001 of 2026 filed by Prakash Singh",
-    "Appeal No. 7000 of 2026 filed by R N Rajan",
-    "Appeal No. 6999 of 2026 filed by T Velsankar",
-    "Appeal No. 6998 of 2026 filed by Keshaw Prajapati",
-    "Appeal No. 6997 of 2026 filed by Rajeev Bakshi",
-    "Appeal No. 6996 of 2026 filed by Savita",
-    "Appeal No. 6993 of 2026 filed by Virendra Kumar",
-    "Order in the matter of certain Investment Advisers",
-    "Release Order for RC 7522 of 2024 against Kapil Kumar Wadhawan (PAN \u2013 AAOPW6145L) in the matter of Transaction",
-    "Final Order in respect of Trade Nexa Research Investment Advisor Prop-Minakshi Asavani",
-    "Remittance order in Recovery Certificate No",
-    "Remittance order in Recovery Certificate No",
-    "Federal Bank Ltd Share Price Today,, FEDERALBNK Share Price NSE, BSE",
-    "SEBI F&O Curbs Cut Active Trader Participation by 20% in FY26, Yet Aggregate Losses Reach \u20b991,685 Crore - Non-",
-    "360 One Wam Ltd. Share Price Today: Finance Stock Focus",
-    "Subscribe for Augmont Enterprises Ltd IPO; Anand Rathi",
-    "Augmont Enterprises IPO Opens Today: 10 Key Things To Know Before You Subscribe",
-    "Tempsens Instruments IPO Opens Today: 10 Key Things To Know Before You Subscribe",
-    "Max Healthcare Share Price Target at Rs 1,220: Anand Rathi"
-   ]
-  }
- },
- {
   "date": "2026-08-27",
   "fetched": 3648,
   "delivered_pool": 388,
@@ -2156,6 +2084,78 @@
     "Bandhan Contra Fund - Direct Plan Returns",
     "Bandhan Medium Term Fund Direct-IDCW Fortnightly",
     "Bandhan Contra Fund Regular-IDCW Yearly"
+   ]
+  }
+ },
+ {
+  "date": "2026-09-16",
+  "fetched": 1195,
+  "delivered_pool": 105,
+  "junk": 319,
+  "geo": 25,
+  "stale": 279,
+  "dup": 270,
+  "sections": {
+   "S1": 84,
+   "S2": 13,
+   "S3": 8
+  },
+  "mails": 1,
+  "failed": [],
+  "source_summary": {
+   "RBI RSS": 20,
+   "RBI Enforcement": 0,
+   "SEBI RSS": 20,
+   "Google News": 23,
+   "Watchlist (Google)": 753,
+   "BSE Financials": 0,
+   "Telegram": 64,
+   "Web Scraper": 1026
+  },
+  "dropped_samples": {
+   "relevance": [
+    "PL Capital sees 39% UPSIDE in Apeejay Surrendra Park Hotels- Execution timelines remain a key monitorable",
+    "Jefferies on Equity Strategy- India\u2019s New Industrial Revolution",
+    "Ambit Initiating Coverage on Redington, with 24% UPSIDE- Moving up the value chain",
+    "OpenAI CEO Sam Altman and billionaire Elon Musk backed Anthropic CEO Dario Amodei\u2019s call to slow AI developmen",
+    "Chinese President Xi Jinping\u2019s secretive Hongqi N701 presidential limousine has arrived in New Delhi for the B",
+    "PM Narendra Modi hosts gala dinner for Brics leaders and other delegates at Bharat Mandapam",
+    "Six years after the death of his daughter Disha Salian, Satish Salian recorded his statement at the CBI office",
+    "#MintMarkets | Stocks to buy under \u20b9200: Mehul Kothari recommends three stocks to buy for the short term.",
+    "A minor's \u20b91.17 crore interest income led to a \u20b912.83 lakh penalty for his father",
+    "Introduce the BRICS Fiat Currency: A Challenge to Dollar Dominance",
+    "India's Manufacturing Majors: The Companies Building at Scale",
+    "ET Wealth Edition 20 September 2026",
+    "Queensland woman falls to her death at Bali cliff popular with tourists",
+    "Fanny Purna Irianti joins Raffles Bali as DOSM",
+    "Australian tourist dies after cliff fall in Bali\u2019s Nusa Penida",
+    "Aussie family found dead in Bali villa",
+    "Bali police find Australian father and two children dead in suspected murder-suicide",
+    "Karnataka travel operators want stay on taxi fare meter mandate, seek clarity",
+    "Kolte Patil appoints Hrishikesh Parandekar as CEO to drive growth",
+    "Sun Pharma update on Lipitor antitrust litigation in US court"
+   ],
+   "junk": [
+    "EPL Issuer Rating Put on Watch; CP Rating Reaffirmed",
+    "Bandhan Medium Term Fund Direct-IDCW Fortnightly",
+    "Bank of India Business Cycle Fund Direct Growth Review 2026: NAV, Returns, Portfolio & Should You Invest?",
+    "Bank of India Credit Risk Fund Direct Growth Review 2026: NAV, Returns, Portfolio & Should You Invest?",
+    "Groww Share Price",
+    "Canara Bank Option Chain",
+    "Stock of the day - Cholamandalam Investment and Fin Co Ltd Target Rs. 1980 - Religare Broking Ltd",
+    "What is more gorgeous than a cheetah cub? Six of them! [video]",
+    "F&O ban list 11 September 2026: Stocks in ban and MWPL watchlist, IREDA at 91.44%",
+    "Andrabi inaugurates T20 cricket tournament at Chrar",
+    "JioBlackRock Liquid Fund Regular-IDCW Weekly",
+    "LIC MF Manufacturing Fund Direct Growth Review 2026: NAV, Returns, Portfolio & Should You Invest?",
+    "LIC MF Children\u2019s Fund Direct Growth Review 2026: NAV, Returns, Portfolio & Should You Invest?",
+    "LIC MF Aggressive Hybrid Fund(G)-Direct Plan",
+    "iShares MSCI China ETF (NASDAQ: MCHI) Share Price, MCHI Stock News, MCHI Share Price & Updates",
+    "UGRO Stock Rockets Over 400%",
+    "SBI FUNDS MANAGEMENT LTD Share Price",
+    "SBI Money Market Fund(G)-Direct Plan",
+    "SBI Comma Fund(G)-Direct Plan",
+    "Union Bank of India Wins \u2018Best Retail Bank of India\u2019 Award"
    ]
   }
  }
