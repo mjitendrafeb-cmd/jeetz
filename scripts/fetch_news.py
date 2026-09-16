@@ -926,7 +926,18 @@ def fetch_company_news(per_company_cap: int = 3, companies=None, days_back: int 
                 if not _story_mentions_entity(company, aliases,
                                               raw_title + " " + summary):
                     _stats["drop_name"] += 1
-                    if _stats["drop_name"] <= 12:
+                    # A flat "first 12 rejections in the whole run" cap was
+                    # exhausted by companies starting with '3' and 'A' alone
+                    # (alphabetical iteration order) -- every rejection past
+                    # that was invisible, so a real "why did my entity's news
+                    # never show up" question (reported live for Earlysalary
+                    # / Fibe) could not be answered from the log at all.
+                    # One line per DISTINCT company instead spreads the
+                    # budget across the whole list; still bounded overall so
+                    # a universally bad day cannot flood the log.
+                    seen_cos = _stats.setdefault("_name_reject_seen", set())
+                    if company not in seen_cos and len(seen_cos) < 150:
+                        seen_cos.add(company)
                         print(f"[watchlist] name-check rejected for '{company[:34]}': "
                               f"{raw_title[:76]}")
                     continue
