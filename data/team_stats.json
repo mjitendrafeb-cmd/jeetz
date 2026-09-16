@@ -1,77 +1,5 @@
 [
  {
-  "date": "2026-08-25",
-  "fetched": 2591,
-  "delivered_pool": 313,
-  "junk": 801,
-  "geo": 24,
-  "stale": 624,
-  "dup": 636,
-  "sections": {
-   "S1": 272,
-   "S2": 31,
-   "S3": 10
-  },
-  "mails": 40,
-  "failed": [],
-  "source_summary": {
-   "RBI RSS": 19,
-   "RBI Enforcement": 0,
-   "SEBI RSS": 20,
-   "Google News": 19,
-   "Watchlist (Google)": 639,
-   "BSE Financials": 0,
-   "Telegram": 57,
-   "Web Scraper": 756
-  },
-  "dropped_samples": {
-   "relevance": [
-    "Result of the 3-day Variable Rate Reverse Repo (VRRR) auction held on August 21, 2026",
-    "Appeal No. 6994 & 6995 of 2026 filed by Kotha Mahendar Reddy",
-    "Completion of RC 7522 of 2024 against Kapil Kumar Wadhawan (PAN \u2013 AAOPW6145L) in the matter of Transaction of ",
-    "Ease of onboarding for FPIs \u2013 Acceptance of digitally signed Power of Attorney",
-    "SBI Securities sees 36% UPSIDE in KPI Green Energy Ltd.- Growth impacted by project billing delays; underlying",
-    "PL Capital sees 6% UPSIDE in Navin Fluorine International- Advance material to be 10%-15% of topline by FY30",
-    "Emkay Initiating Coverage on Pearl Global Industries, with 15% UPSIDE- Stars are aligned; initiate with BUY",
-    "Prime Minister Narendra Modi\u2019s Independence Day address put agriculture alongside manufacturing, technology, i",
-    "Who is Min Zin? US citizen \u2018wrongfully detained\u2019 in China on espionage charges",
-    "#MintMarkets | Indian stock markets opened higher on Friday, with the Sensex rising 163.35 points to 77,701.07",
-    "#MintMarkets | As the market turned positive, some stocks are likely to remain in focus on Friday due to their",
-    "#MintMarkets | Sumeet Bagadia recommends five shares to buy today.",
-    "In 2026, planning for a child's education fund is complex due to shifting career paths",
-    "Gen Z rules new investor category; 18-24 age group grows 7 times: Check preferred investment method, SIPs or l",
-    "The real artificial intelligence (AI) job crisis may be about how quickly companies adopt the technology rathe",
-    "I-T dept nudges non-audit taxpayers to file ITR before Aug 31 deadline",
-    "#AKGweekendreadings",
-    "Nifty\u2019s 8+ Lower-High Streak: Time to Turn Bullish !",
-    "The Power of Now \u2013 A Guide to Spiritual Enlightenment",
-    "Declaration as Defaulter- Maxgrowth Capital Private Limited"
-   ],
-   "junk": [
-    "Final Order in the matter of Modex International Securities Ltd.",
-    "Appeal No. 7001 of 2026 filed by Prakash Singh",
-    "Appeal No. 7000 of 2026 filed by R N Rajan",
-    "Appeal No. 6999 of 2026 filed by T Velsankar",
-    "Appeal No. 6998 of 2026 filed by Keshaw Prajapati",
-    "Appeal No. 6997 of 2026 filed by Rajeev Bakshi",
-    "Appeal No. 6996 of 2026 filed by Savita",
-    "Appeal No. 6993 of 2026 filed by Virendra Kumar",
-    "Order in the matter of certain Investment Advisers",
-    "Release Order for RC 7522 of 2024 against Kapil Kumar Wadhawan (PAN \u2013 AAOPW6145L) in the matter of Transaction",
-    "Final Order in respect of Trade Nexa Research Investment Advisor Prop-Minakshi Asavani",
-    "Remittance order in Recovery Certificate No",
-    "Remittance order in Recovery Certificate No",
-    "Sensex, Nifty extend losing streak amid weak global cues; what's ahead for Dalal Street? - BusinessToday",
-    "Why Jefferies sees limited upside in Bajaj Housing Finance despite its fast-growing loan book",
-    "360 One Wam Ltd. Share Price Today: Finance Stock Focus",
-    "Aadhar Housing Finance Ltd is Rated Hold",
-    "Subscribe for Augmont Enterprises Ltd IPO; Anand Rathi",
-    "Subscribe for Hy Tech Engineers Ltd IPO; Anand Rathi",
-    "Augmont Enterprises IPO Opens Today: 10 Key Things To Know Before You Subscribe"
-   ]
-  }
- },
- {
   "date": "2026-08-26",
   "fetched": 2682,
   "delivered_pool": 124,
@@ -2156,6 +2084,78 @@
     "Bandhan Contra Fund - Regular Plan Returns",
     "Bandhan Floating Interest Rates Fund - Regular Plan Returns",
     "Bank of India Conservative Hybrid Fund Direct Growth Review 2026: NAV, Returns, Portfolio & Should You Invest?"
+   ]
+  }
+ },
+ {
+  "date": "2026-09-16",
+  "fetched": 1145,
+  "delivered_pool": 101,
+  "junk": 341,
+  "geo": 24,
+  "stale": 404,
+  "dup": 85,
+  "sections": {
+   "S1": 80,
+   "S2": 13,
+   "S3": 8
+  },
+  "mails": 41,
+  "failed": [],
+  "source_summary": {
+   "RBI RSS": 20,
+   "RBI Enforcement": 0,
+   "SEBI RSS": 20,
+   "Google News": 22,
+   "Watchlist (Google)": 745,
+   "BSE Financials": 0,
+   "Telegram": 64,
+   "Web Scraper": 1025
+  },
+  "dropped_samples": {
+   "relevance": [
+    "Review of Circulars issued under Foreign Exchange Management Act, 1999 (FEMA)",
+    "Relief Measures in Areas Affected by Natural Calamities - Reporting through Centralised Information Management",
+    "PL Capital sees 39% UPSIDE in Apeejay Surrendra Park Hotels- Execution timelines remain a key monitorable",
+    "Jefferies on Equity Strategy- India\u2019s New Industrial Revolution",
+    "Ambit Initiating Coverage on Redington, with 24% UPSIDE- Moving up the value chain",
+    "Just two days after the resignation of Coforge Ltd chairman O.P",
+    "BRICS 2026: Who Is Targeting Cyber Attacks On The Summit",
+    "On the 25th anniversary of the 9/11 attacks, Former President Barack Obama issued a statement on behalf of him",
+    "Russian President Vladimir Putin has pitched a new investment platform to fund projects in trade, infrastructu",
+    "Chinese President Xi Jinping will visit India on 12 September to attend the 18th BRICS Summit in New Delhi",
+    "How have India\u2019s trade relationships with BRICS member countries been",
+    "#MintMarkets | Indian equity markets opened lower on Friday, with the Sensex falling 593.61 points to 74,308.9",
+    "#MintMarkets: Stock market today: Gift Nifty hints gap-down start",
+    "Note : Equity markets are closed on 14th Sept (Mon) on account of Ganesh Chaturthi",
+    "Introduce the BRICS Fiat Currency: A Challenge to Dollar Dominance",
+    "Listing of further issues of securities",
+    "India's Manufacturing Majors: The Companies Building at Scale",
+    "OpenAI CEO Sam Altman and billionaire Elon Musk backed Anthropic CEO Dario Amodei\u2019s call to slow AI developmen",
+    "PM Narendra Modi hosts gala dinner for Brics leaders and other delegates at Bharat Mandapam",
+    "Six years after the death of his daughter Disha Salian, Satish Salian recorded his statement at the CBI office"
+   ],
+   "junk": [
+    "Final Enquiry Order in respect of Modex International Securities Ltd",
+    "Appeal No. 7054 of 2026 filed by Richa Kohli",
+    "Appeal No. 7052 of 2026 filed by Kamal Kumar",
+    "Appeal No. 7051 of 2026 filed by Anonymous",
+    "Appeal No. 7050 of 2026 filed by Mahima Chandra",
+    "Appeal No. 7049 of 2026 filed by Jeba Mathew J",
+    "Appeal No. 7048 of 2026 filed by Shashidhar",
+    "Appeal No. 7047 of 2026 filed by Sachin Yadav",
+    "Adjudication Order in the matter of Investowryght Research Analytics Private Limited",
+    "Order in the matter of certain Investment Advisers",
+    "Adjudication Order in the matter of Emami Realty Limited",
+    "completion of Recovery Certificate No. RC799 of 2016 against Softrak Venture Investment Ltd.in the matter of S",
+    "General Remittance Order dated 10.09.2026 in Recovery Certificate No",
+    "General Remittance Order dated 10.09.2026 in Recovery Certificate No",
+    "General Remittance Advice against: Mr",
+    "Karamtara Engineering IPO Enters Day 2: 10 Key Things To Know Before You Subscribe",
+    "AU Small Finance Bank Wins BFSI Guild Award for Voice AI Excellence",
+    "Bandhan Contra Fund - Direct Plan Returns",
+    "Bandhan Medium Term Fund Direct-IDCW Fortnightly",
+    "Bandhan Contra Fund Regular-IDCW Yearly"
    ]
   }
  }
