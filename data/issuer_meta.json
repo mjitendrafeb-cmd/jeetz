@@ -13,11 +13,11 @@
  },
  "abans jewels": {
   "segment": "Corporate",
-  "updated": "2026-09-08"
+  "updated": "2026-09-17"
  },
  "akara capital advisors": {
   "segment": "NBFC/HFC",
-  "updated": "2026-09-04"
+  "updated": "2026-09-17"
  },
  "akme fintrade ()": {
   "segment": "Corporate",
@@ -74,6 +74,10 @@
  "creditaccess grameen": {
   "segment": "NBFC/HFC",
   "updated": "2026-09-03"
+ },
+ "csa investments": {
+  "segment": "Corporate",
+  "updated": "2026-09-17"
  },
  "cube highways trust": {
   "segment": "Corporate",
@@ -183,6 +187,10 @@
   "segment": "Corporate",
   "updated": "2026-08-28"
  },
+ "keertana finserv": {
+  "segment": "NBFC/HFC",
+  "updated": "2026-09-17"
+ },
  "kilitch healthcare": {
   "segment": "Corporate",
   "updated": "2026-08-31"
@@ -219,6 +227,14 @@
   "segment": "NBFC/HFC",
   "updated": "2026-09-03"
  },
+ "lic housing finance": {
+  "segment": "NBFC/HFC",
+  "updated": "2026-09-17"
+ },
+ "lokhandwala kataria construction": {
+  "segment": "Corporate",
+  "updated": "2026-09-17"
+ },
  "mag finserv": {
   "segment": "NBFC/HFC",
   "updated": "2026-09-08"
@@ -239,6 +255,10 @@
   "segment": "Corporate",
   "updated": "2026-08-28"
  },
+ "motilal oswal financial services": {
+  "segment": "Corporate",
+  "updated": "2026-09-17"
+ },
  "muthoot fincorp": {
   "segment": "NBFC/HFC",
   "updated": "2026-09-01"
@@ -257,7 +277,7 @@
  },
  "navi finserv": {
   "segment": "NBFC/HFC",
-  "updated": "2026-09-02"
+  "updated": "2026-09-17"
  },
  "ncc urban homes": {
   "segment": "Corporate",
@@ -266,6 +286,10 @@
  "neogrowth credit": {
   "segment": "NBFC/HFC",
   "updated": "2026-09-02"
+ },
+ "niif infrastructure finance": {
+  "segment": "NBFC/HFC",
+  "updated": "2026-09-17"
  },
  "niyogin fintech": {
   "segment": "Corporate",
@@ -303,9 +327,17 @@
   "segment": "Corporate",
   "updated": "2026-09-11"
  },
+ "poonawalla fincorp": {
+  "segment": "NBFC/HFC",
+  "updated": "2026-09-17"
+ },
  "power finance": {
   "segment": "PSU",
   "updated": "2026-09-08"
+ },
+ "praveen capital": {
+  "segment": "NBFC/HFC",
+  "updated": "2026-09-17"
  },
  "progfin": {
   "segment": "Corporate",
@@ -317,11 +349,15 @@
  },
  "rec": {
   "segment": "PSU",
-  "updated": "2026-09-08"
+  "updated": "2026-09-17"
  },
  "regency fincorp": {
   "segment": "NBFC/HFC",
   "updated": "2026-09-15"
+ },
+ "reliance industries": {
+  "segment": "Corporate",
+  "updated": "2026-09-17"
  },
  "rpe energy reserve": {
   "segment": "Corporate",
@@ -374,6 +410,10 @@
  "ugro capital": {
   "segment": "NBFC/HFC",
   "updated": "2026-08-29"
+ },
+ "unifinz capital": {
+  "segment": "NBFC/HFC",
+  "updated": "2026-09-17"
  },
  "unigold finance": {
   "segment": "NBFC/HFC",

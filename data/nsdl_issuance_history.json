@@ -1,6 +1,233 @@
 {
  "records": [
   {
+   "isin": "INE0LWH07146",
+   "issuer": "CSA INVESTMENTS PRIVATE LIMITED",
+   "allotment_date": "2026-09-16",
+   "amount_cr": 4.0,
+   "coupon": 14.0,
+   "tenure_years": 1.3,
+   "band": "Below investment grade",
+   "segment": "Corporate",
+   "spread_bps": 795,
+   "ratings": [
+    "CareEdge B-"
+   ]
+  },
+  {
+   "isin": "INE087107996",
+   "issuer": "ABANS JEWELS LIMITED",
+   "allotment_date": "2026-09-16",
+   "amount_cr": 6.0,
+   "coupon": null,
+   "tenure_years": 2.0,
+   "band": "Not rated / available",
+   "segment": "Corporate",
+   "spread_bps": null,
+   "ratings": []
+  },
+  {
+   "isin": "INE2C2R07011",
+   "issuer": "PRAVEEN CAPITAL PRIVATE LIMITED",
+   "allotment_date": "2026-09-16",
+   "amount_cr": 25.0,
+   "coupon": 12.0,
+   "tenure_years": 2.0,
+   "band": "BBB band",
+   "segment": "NBFC/HFC",
+   "spread_bps": 559,
+   "ratings": [
+    "Infomerics Valuation and Rating Pvt. Ltd BBB-"
+   ]
+  },
+  {
+   "isin": "INE08XP07530",
+   "issuer": "AKARA CAPITAL ADVISORS PRIVATE LIMITED",
+   "allotment_date": "2026-09-16",
+   "amount_cr": 50.0,
+   "coupon": 12.05,
+   "tenure_years": 3.0,
+   "band": "BBB band",
+   "segment": "NBFC/HFC",
+   "spread_bps": 540,
+   "ratings": [
+    "Acuit\u00e9 BBB+"
+   ]
+  },
+  {
+   "isin": "INE999H07108",
+   "issuer": "LOKHANDWALA KATARIA CONSTRUCTION PRIVATE LTD",
+   "allotment_date": "2026-09-16",
+   "amount_cr": 50.0,
+   "coupon": 7.0,
+   "tenure_years": 2.0,
+   "band": "Below investment grade",
+   "segment": "Corporate",
+   "spread_bps": 59,
+   "ratings": [
+    "Acuite Ratings And Research Limited C"
+   ]
+  },
+  {
+   "isin": "INE926R07068",
+   "issuer": "UNIFINZ CAPITAL INDIA LIMITED",
+   "allotment_date": "2026-09-16",
+   "amount_cr": 50.0,
+   "coupon": 11.0,
+   "tenure_years": 1.2,
+   "band": "BBB band",
+   "segment": "NBFC/HFC",
+   "spread_bps": 495,
+   "ratings": [
+    "CRISIL BBB-"
+   ]
+  },
+  {
+   "isin": "INE342T07742",
+   "issuer": "NAVI FINSERV LIMITED",
+   "allotment_date": "2026-09-16",
+   "amount_cr": 75.0,
+   "coupon": 10.3,
+   "tenure_years": 2.1,
+   "band": "A band (A+/A/A-)",
+   "segment": "NBFC/HFC",
+   "spread_bps": 389,
+   "ratings": [
+    "CareEdge A+"
+   ]
+  },
+  {
+   "isin": "INE342T07759",
+   "issuer": "NAVI FINSERV LIMITED",
+   "allotment_date": "2026-09-16",
+   "amount_cr": 100.0,
+   "coupon": 10.4,
+   "tenure_years": 3.3,
+   "band": "A band (A+/A/A-)",
+   "segment": "NBFC/HFC",
+   "spread_bps": 375,
+   "ratings": [
+    "CareEdge A+",
+    "CRISIL A"
+   ]
+  },
+  {
+   "isin": "INE338I07206",
+   "issuer": "MOTILAL OSWAL FINANCIAL SERVICES LIMITED",
+   "allotment_date": "2026-09-16",
+   "amount_cr": 200.0,
+   "coupon": 8.7,
+   "tenure_years": 5.0,
+   "band": "AA band (AA+/AA/AA-)",
+   "segment": "Corporate",
+   "spread_bps": 191,
+   "ratings": [
+    "ICRA AA+",
+    "CRISIL AA+"
+   ]
+  },
+  {
+   "isin": "INE0NES07352",
+   "issuer": "KEERTANA FINSERV LIMITED",
+   "allotment_date": "2026-09-16",
+   "amount_cr": 500.0,
+   "coupon": 11.7,
+   "tenure_years": 2.3,
+   "band": "A band (A+/A/A-)",
+   "segment": "NBFC/HFC",
+   "spread_bps": 529,
+   "ratings": [
+    "Acuite Ratings And Research Limited A-"
+   ]
+  },
+  {
+   "isin": "INE115A07RK8",
+   "issuer": "LIC HOUSING FINANCE LTD",
+   "allotment_date": "2026-09-16",
+   "amount_cr": 1000.0,
+   "coupon": 7.87,
+   "tenure_years": 3.0,
+   "band": "AAA",
+   "segment": "NBFC/HFC",
+   "spread_bps": 122,
+   "ratings": [
+    "CRISIL AAA"
+   ]
+  },
+  {
+   "isin": "INE246R07939",
+   "issuer": "NIIF INFRASTRUCTURE FINANCE LIMITED",
+   "allotment_date": "2026-09-16",
+   "amount_cr": 1500.0,
+   "coupon": 8.1,
+   "tenure_years": 5.2,
+   "band": "AAA",
+   "segment": "NBFC/HFC",
+   "spread_bps": 131,
+   "ratings": [
+    "ICRA AAA"
+   ]
+  },
+  {
+   "isin": "INE511C07AE3",
+   "issuer": "POONAWALLA FINCORP LIMITED",
+   "allotment_date": "2026-09-16",
+   "amount_cr": 1500.0,
+   "coupon": 8.3082,
+   "tenure_years": 3.0,
+   "band": "AAA",
+   "segment": "NBFC/HFC",
+   "spread_bps": 166,
+   "ratings": [
+    "CareEdge AAA",
+    "CRISIL AAA"
+   ]
+  },
+  {
+   "isin": "INE020B08GL7",
+   "issuer": "REC LIMITED",
+   "allotment_date": "2026-09-16",
+   "amount_cr": 3000.0,
+   "coupon": 7.67,
+   "tenure_years": 5.0,
+   "band": "AAA",
+   "segment": "PSU",
+   "spread_bps": 88,
+   "ratings": [
+    "CareEdge AAA",
+    "ICRA AAA"
+   ]
+  },
+  {
+   "isin": "INE020B08GM5",
+   "issuer": "REC LIMITED",
+   "allotment_date": "2026-09-16",
+   "amount_cr": 4000.0,
+   "coupon": 7.73,
+   "tenure_years": 10.0,
+   "band": "AAA",
+   "segment": "PSU",
+   "spread_bps": 66,
+   "ratings": [
+    "CRISIL AAA"
+   ]
+  },
+  {
+   "isin": "INE002A08708",
+   "issuer": "RELIANCE INDUSTRIES LIMITED",
+   "allotment_date": "2026-09-16",
+   "amount_cr": 12500.0,
+   "coupon": 7.47,
+   "tenure_years": 5.0,
+   "band": "AAA",
+   "segment": "Corporate",
+   "spread_bps": 68,
+   "ratings": [
+    "CareEdge AAA",
+    "CRISIL AAA"
+   ]
+  },
+  {
    "isin": "INE702V08055",
    "issuer": "SQUARE YARDS TECHNOLOGY PRIVATE LIMITED",
    "allotment_date": "2026-09-15",
