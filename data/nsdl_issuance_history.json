@@ -1,6 +1,91 @@
 {
  "records": [
   {
+   "isin": "INE723X07349",
+   "issuer": "TRUST INVESTMENT ADVISORS PRIVATE LIMITED",
+   "allotment_date": "2026-09-17",
+   "amount_cr": 70.0,
+   "coupon": 8.5,
+   "tenure_years": 2.0,
+   "band": "AA band (AA+/AA/AA-)",
+   "segment": "Corporate",
+   "spread_bps": 209,
+   "ratings": [
+    "Infomerics Valuation and Rating Pvt. Ltd AA"
+   ]
+  },
+  {
+   "isin": "INE723X07331",
+   "issuer": "TRUST INVESTMENT ADVISORS PRIVATE LIMITED",
+   "allotment_date": "2026-09-17",
+   "amount_cr": 100.0,
+   "coupon": 8.9,
+   "tenure_years": 5.0,
+   "band": "AA band (AA+/AA/AA-)",
+   "segment": "Corporate",
+   "spread_bps": 213,
+   "ratings": [
+    "Acuite Ratings And Research Limited AA+"
+   ]
+  },
+  {
+   "isin": "INE0TQI07032",
+   "issuer": "360 ONE ALTERNATES ASSET MANAGEMENT LIMITED",
+   "allotment_date": "2026-09-17",
+   "amount_cr": 125.0,
+   "coupon": 9.0,
+   "tenure_years": 3.0,
+   "band": "AA band (AA+/AA/AA-)",
+   "segment": "Corporate",
+   "spread_bps": 243,
+   "ratings": [
+    "ICRA AA"
+   ]
+  },
+  {
+   "isin": "INE0P6G07194",
+   "issuer": "HELLA INFRA MARKET RETAIL PRIVATE LIMITED",
+   "allotment_date": "2026-09-17",
+   "amount_cr": 125.0,
+   "coupon": 11.0,
+   "tenure_years": 2.5,
+   "band": "A band (A+/A/A-)",
+   "segment": "Corporate",
+   "spread_bps": 459,
+   "ratings": [
+    "Acuite Ratings And Research Limited A-"
+   ]
+  },
+  {
+   "isin": "INE02JD07074",
+   "issuer": "GODREJ HOUSING FINANCE LIMITED",
+   "allotment_date": "2026-09-17",
+   "amount_cr": 500.0,
+   "coupon": 8.4,
+   "tenure_years": 5.0,
+   "band": "AA band (AA+/AA/AA-)",
+   "segment": "NBFC/HFC",
+   "spread_bps": 163,
+   "ratings": [
+    "CRISIL RATINGS LIMITED AA+"
+   ]
+  },
+  {
+   "isin": "INE572E07316",
+   "issuer": "PNB HOUSING FINANCE LIMITED",
+   "allotment_date": "2026-09-17",
+   "amount_cr": 600.0,
+   "coupon": 8.135,
+   "tenure_years": 5.0,
+   "band": "AAA",
+   "segment": "PSU",
+   "spread_bps": 137,
+   "ratings": [
+    "ICRA AAA",
+    "IND-Ra AAA"
+   ]
+  },
+  {
    "isin": "INE0LWH07146",
    "issuer": "CSA INVESTMENTS PRIVATE LIMITED",
    "allotment_date": "2026-09-16",
