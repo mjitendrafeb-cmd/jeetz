@@ -1,77 +1,5 @@
 [
  {
-  "date": "2026-08-28",
-  "fetched": 4437,
-  "delivered_pool": 359,
-  "junk": 1956,
-  "geo": 38,
-  "stale": 378,
-  "dup": 1437,
-  "sections": {
-   "S1": 311,
-   "S2": 33,
-   "S3": 15
-  },
-  "mails": 40,
-  "failed": [],
-  "source_summary": {
-   "RBI RSS": 20,
-   "RBI Enforcement": 0,
-   "SEBI RSS": 20,
-   "Google News": 27,
-   "Watchlist (Google)": 904,
-   "BSE Financials": 0,
-   "Telegram": 37,
-   "Web Scraper": 1218
-  },
-  "dropped_samples": {
-   "relevance": [
-    "Auction of Government of India Dated Security",
-    "Result of the Overnight Variable Rate Reverse Repo (VRRR) auction held on August 24, 2026",
-    "Launch of Cyber Suraksha Portal",
-    "General Remittance Advice against: Amit Kumar Singhl [Defaulter] (PAN: GJOPS0881L) in the matter of Blue Coast",
-    "IT Resilience Index for Market Infrastructure Institutions (MIIs)",
-    "Appeal No. 6994 & 6995 of 2026 filed by Kotha Mahendar Reddy",
-    "PL Capital sees 24% UPSIDE in BSE (BSE IN)- Regulatory pressure to weigh on growth",
-    "Emkay Initiating Coverage on Urban Company, with 19% UPSIDE- Online home services leader \u2013 Density compounding",
-    "Systematix sees 3% UPSIDE in Welspun Corp Ltd- Largest Ever US Order Extends Earnings Visibility Through FY29",
-    "#MintMarkets | Nifty trapped between key moving averages; will August expiry bring a directional move?",
-    "Born in 2007, Kaziah Liz Mejo's worldview was significantly shaped by a highly cosmopolitan upbringing",
-    "The Cockroach Janta Party has announced a peaceful protest march in Delhi on September 5, accusing the Centre ",
-    "#MintLongStory | The pharmaceutical company rode one copycat drug to record profits",
-    "Chief Minister Vijay-led Tamil Nadu government has issued work orders for nearly 1.28 lakh gold rings, costing",
-    "Swine flu alert in Delhi: Scientists at the Indian Council of Medical Research (ICMR) said that the influenza ",
-    "#WATCH | Varanasi, Uttar Pradesh: Baba Vishwanath\u2019s Mangala Aarti performed during early morning hours at Kash",
-    "Iran war news LIVE Updates: Bessent to announce new US sanctions against Iran on Monday",
-    "Posters depicting Rahul Gandhi as 'real-life Batman' have appeared near Congress headquarters and central Delh",
-    "#WATCH | Prime Minister Narendra Modi said India should build an ecosystem that attracts space talent from acr",
-    "PPF vs NSC: Compare the returns on \u20b95 lakh over five years, along with 2026 interest rates, tax treatment, mat"
-   ],
-   "junk": [
-    "Order in the matter of Max Financial Services Limited",
-    "Release Order in Recovery Certificate No 6467 of 2023 issued against Ramesh Chhallani HUF (PAN \u2013 AALHR9880C) i",
-    "Completion of Recovery Certificate No 6467 of 2023 issued against Ramesh Chhallani HUF (PAN \u2013 AALHR9880C) in t",
-    "Notice(s) of Attachment dated August 24, 2026 issued under RC No. 8927 of 2025 in the matter of Royal Twinkle ",
-    "Notices of Attachment of Bank and Post Office accounts and Demat Accounts and mutual Fund Folios with AP Nos",
-    "Final Order in the matter of Modex International Securities Ltd.",
-    "Appeal No. 7001 of 2026 filed by Prakash Singh",
-    "Appeal No. 7000 of 2026 filed by R N Rajan",
-    "Appeal No. 6999 of 2026 filed by T Velsankar",
-    "Appeal No. 6998 of 2026 filed by Keshaw Prajapati",
-    "Appeal No. 6997 of 2026 filed by Rajeev Bakshi",
-    "Appeal No. 6996 of 2026 filed by Savita",
-    "Persistent, Mphasis stocks top Anand Rathi's IT bets; brokerage sees turnaround potential in Mastek",
-    "AU Small Finance Bank - Lenskart Solutions among 4 stocks to hit 52-week highs & surge up to 20% in a month",
-    "Axis Bank Wins CX Excellence Award for AI-Driven Journey Analytics Powered by NUMR Inc.",
-    "Buy Silver Above 248000 SL BELOW 244000 TGT 253000/257000 - Axis Securities Ltd",
-    "2026 Bajaj Pulsar 125 & Pulsar 150 Launched \u2013 New Platform, Monoshock and TFT Display",
-    "Zee Business. . STOCK OF THE DAY \ud83d\udccd Buy Apollo Tyre (Cash): SL 428 Tgt 444, 448, 455 - UBS Double upgrade to bu",
-    "Sensex ends 420 pts off day\u2019s high, Nifty settles at 24,219; Adani Ports, Bajaj Finance, Bajaj Finserv lead fa",
-    "Bajaj Finserv Multi Cap Fund(G)-Direct Plan"
-   ]
-  }
- },
- {
   "date": "2026-08-31",
   "fetched": 3556,
   "delivered_pool": 468,
@@ -2156,6 +2084,78 @@
     "SBI Money Market Fund(G)-Direct Plan",
     "SBI Comma Fund(G)-Direct Plan",
     "Union Bank of India Wins \u2018Best Retail Bank of India\u2019 Award"
+   ]
+  }
+ },
+ {
+  "date": "2026-09-18",
+  "fetched": 1147,
+  "delivered_pool": 108,
+  "junk": 368,
+  "geo": 28,
+  "stale": 336,
+  "dup": 117,
+  "sections": {
+   "S1": 78,
+   "S2": 16,
+   "S3": 14
+  },
+  "mails": 41,
+  "failed": [],
+  "source_summary": {
+   "RBI RSS": 20,
+   "RBI Enforcement": 0,
+   "SEBI RSS": 20,
+   "Google News": 30,
+   "Watchlist (Google)": 1130,
+   "BSE Financials": 0,
+   "Telegram": 55,
+   "Web Scraper": 448
+  },
+  "dropped_samples": {
+   "relevance": [
+    "Kolte Patil appoints Hrishikesh Parandekar as CEO to drive growth",
+    "Sun Pharma update on Lipitor antitrust litigation in US court",
+    "Has Modi govt been a positive influence for Indian economy?",
+    "PL Capital sees 39% UPSIDE in Apeejay Surrendra Park Hotels- Execution timelines remain a key monitorable",
+    "Jefferies on Equity Strategy- India\u2019s New Industrial Revolution",
+    "Ambit Initiating Coverage on Redington, with 24% UPSIDE- Moving up the value chain",
+    "Nuvama Update on FINOLEX CABLES- Fine and flexible",
+    "KPMG on India data centre opportunity- From emerging demand hub to integrated data centre powerhouse",
+    "Motilal Oswal\u2019s Morning India- Today\u2019s top research idea",
+    "Indian premium grocery retail is having a moment",
+    "#WATCH | Delhi: On Day 2 of the BRICS Summit 2026, PM Modi says the world now expects concrete results from BR",
+    "Lets take a look at the richest billioniares in the BRICS countries and their net worth",
+    "Loan interest rates, EMIs to rise",
+    "The man born Jagtar Singh Chaudhry is known as Jay Chaudhry, founder and CEO of Zscaler",
+    "Elena Rybakina has established herself as one of the leading players in women\u2019s tennis, with her Grand Slam tr",
+    "Discovery Loop, founded by former Google chief scientist Jeff Dean, is seeking funding at a $50 billion valuat",
+    "OpenAI CEO Sam Altman and billionaire Elon Musk backed Anthropic CEO Dario Amodei\u2019s call to slow AI developmen",
+    "PM Narendra Modi hosts gala dinner for Brics leaders and other delegates at Bharat Mandapam",
+    "PM Modi thanked Chinese President Xi Jinping for China\u2019s support and cooperation during India\u2019s BRICS chairman",
+    "Six years after the death of his daughter Disha Salian, Satish Salian recorded his statement at the CBI office"
+   ],
+   "junk": [
+    "Karamtara Engineering IPO Enters Day 2: 10 Key Things To Know Before You Subscribe",
+    "\"If Bhansali Makes A Film With Amitabh Bachchan And Rekha, I'll Watch First Day First Show\": Prithviraj Sukuma",
+    "Amitabh Bachchan-Rekha film by Bhansali? Prithviraj Sukumaran wants first-show seat",
+    "Bali International Oval set to become Indonesia\u2019s flagship cricket venue",
+    "Indonesia developing Bali International Oval as flagship cricket venue",
+    "Groww Share Price",
+    "Canara Bank Option Chain",
+    "Stock of the day - Cholamandalam Investment and Fin Co Ltd Target Rs. 1980 - Religare Broking Ltd",
+    "Federal Bank, Paisabazaar launch Paisaback Credit Card with 7.5% cashback on grocery spends",
+    "Federal Bank, Paisabazaar launch a new credit card: Key features",
+    "Federal Bank, Paisabazaar launch Paisaback card with 7.5% grocery cashback",
+    "HDB FINANCIAL SERVICES L Share Price",
+    "DSP Financial Services Sectoral Debt Fund - Regular Plan Returns",
+    "HDFC Bank Share Price Today (HDFCBANK)",
+    "ICICI BANK LTD. Option Chain - Live ICICI BANK LTD. Option Chain Data, OI & Price",
+    "IDBI Bank Share Price",
+    "IFCI Share Price",
+    "Indian Bank Option Chain",
+    "IREDA Share Price Today: Fundamentals and Sector Context",
+    "F&O ban list 11 September 2026: Stocks in ban and MWPL watchlist, IREDA at 91.44%"
    ]
   }
  }
