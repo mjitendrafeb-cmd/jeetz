@@ -21,7 +21,7 @@
  },
  "akara capital advisors": {
   "segment": "NBFC/HFC",
-  "updated": "2026-09-17"
+  "updated": "2026-09-19"
  },
  "akme fintrade ()": {
   "segment": "Corporate",
@@ -34,6 +34,10 @@
  "amrit malwa capital": {
   "segment": "NBFC/HFC",
   "updated": "2026-09-01"
+ },
+ "avaada ventures": {
+  "segment": "Corporate",
+  "updated": "2026-09-19"
  },
  "avp infracon": {
   "segment": "Corporate",
@@ -58,6 +62,14 @@
  "best finance": {
   "segment": "NBFC/HFC",
   "updated": "2026-09-15"
+ },
+ "canara bank": {
+  "segment": "PSU",
+  "updated": "2026-09-19"
+ },
+ "care health insurance": {
+  "segment": "Corporate",
+  "updated": "2026-09-19"
  },
  "casagrand skylinesage": {
   "segment": "Corporate",
@@ -95,6 +107,10 @@
   "segment": "Corporate",
   "updated": "2026-09-11"
  },
+ "dmi finance": {
+  "segment": "NBFC/HFC",
+  "updated": "2026-09-19"
+ },
  "ecap equities": {
   "segment": "Corporate",
   "updated": "2026-09-03"
@@ -122,6 +138,10 @@
  "godrej housing finance": {
   "segment": "NBFC/HFC",
   "updated": "2026-09-18"
+ },
+ "godrej industries": {
+  "segment": "Corporate",
+  "updated": "2026-09-19"
  },
  "greaves finance": {
   "segment": "NBFC/HFC",
@@ -221,7 +241,7 @@
  },
  "kotak mahindra prime": {
   "segment": "NBFC/HFC",
-  "updated": "2026-09-09"
+  "updated": "2026-09-19"
  },
  "krazybee services": {
   "segment": "NBFC/HFC",
@@ -285,7 +305,7 @@
  },
  "namdev finvest": {
   "segment": "NBFC/HFC",
-  "updated": "2026-09-11"
+  "updated": "2026-09-19"
  },
  "navi finserv": {
   "segment": "NBFC/HFC",
@@ -317,7 +337,7 @@
  },
  "nuvama wealth finance": {
   "segment": "NBFC/HFC",
-  "updated": "2026-09-01"
+  "updated": "2026-09-19"
  },
  "onward solar power": {
   "segment": "Corporate",
@@ -330,6 +350,10 @@
  "oxyzo financial services": {
   "segment": "Corporate",
   "updated": "2026-09-16"
+ },
+ "paisalo digital": {
+  "segment": "Corporate",
+  "updated": "2026-09-19"
  },
  "parthos properties": {
   "segment": "Corporate",
@@ -390,6 +414,10 @@
  "satin finserv": {
   "segment": "NBFC/HFC",
   "updated": "2026-08-28"
+ },
+ "sbfc finance": {
+  "segment": "NBFC/HFC",
+  "updated": "2026-09-19"
  },
  "shangrila infracon": {
   "segment": "Corporate",
@@ -453,7 +481,7 @@
  },
  "vivriti capital": {
   "segment": "NBFC/HFC",
-  "updated": "2026-09-15"
+  "updated": "2026-09-19"
  },
  "weber drivetrain": {
   "segment": "Corporate",
