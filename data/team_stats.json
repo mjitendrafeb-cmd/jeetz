@@ -1,77 +1,5 @@
 [
  {
-  "date": "2026-09-02",
-  "fetched": 3881,
-  "delivered_pool": 361,
-  "junk": 1713,
-  "geo": 45,
-  "stale": 428,
-  "dup": 1093,
-  "sections": {
-   "S1": 320,
-   "S2": 25,
-   "S3": 16
-  },
-  "mails": 40,
-  "failed": [],
-  "source_summary": {
-   "RBI RSS": 20,
-   "RBI Enforcement": 0,
-   "SEBI RSS": 20,
-   "Google News": 22,
-   "Watchlist (Google)": 1126,
-   "BSE Financials": 0,
-   "Telegram": 57,
-   "Web Scraper": 974
-  },
-  "dropped_samples": {
-   "relevance": [
-    "Buyback of Government of India Dated Securities",
-    "Reserve Money and Money Supply for the fortnight ended on August 15, 2026",
-    "Result of the 3-day Variable Rate Reverse Repo (VRRR) auction held on August 28, 2026",
-    "Weekly Recap: Regulatory closure with no action and AXISBANK double bottom",
-    "Subhash Chandra insolvency case: NCLT says no consensus on repayment plan - India Today",
-    "NMMC approves INR 24.43 crore for water supply and sewage infrastructure in Navi Mumbai",
-    "Anantam Highways Trust releases Q1FY27 earnings call transcript",
-    "Top Stock and Investment Research Tools for 2026",
-    "Petronet LNG Q1 Results: Earnings call scheduled for Aug 13, 2026",
-    "RMC Switchgears schedules 32nd AGM for September 19, 2026",
-    "Informed Technologies Q1 Results: Net profit jumps 1,665% YoY to \u20b9116.74 lakh",
-    "Balrampur Chini Mills reports consolidated profit of Rs 44.15 crore in June quarter, appoints new independent ",
-    "Gujarat Ambuja Exports consolidated net profit rises 171.87% in the June 2026 quarter",
-    "Bhanu Infrabuild Pvt reports standalone net loss of Rs 21.19 crore in the June 2026 quarter",
-    "D S Kulkarni Developers Q1 Results: Net loss widens to \u20b9122.9 lakh",
-    "Sun Pharma update on Lipitor antitrust litigation in US court",
-    "Systematix Conference Takeaways on Recycled Materials & Steel Infrastructure- Sustainability and infrastructur",
-    "Systematix Update on Sambhv Steel Tubes Ltd- Capacity expansion and value-added portfolio to drive business tr",
-    "Nuvama Management Meet Note on Divine Power Energy- Integration-led growth",
-    "Motilal Oswal Initiating Coverage on Adani Enterprises, with 25% UPSIDE- Multiple growth engines, one integrat"
-   ],
-   "junk": [
-    "Final Order in the matter of Debock Industries Limited",
-    "Final Order in the matter of IPO of Trafiksol ITS Technologies Limited",
-    "Completion of Recovery Proceedings in Recovery Certificate No. 9246 of 2026 issued against 8 entities in the m",
-    "Order in respect of Bonanza Portfolio Limited and others",
-    "Adjudication Order in respect of Dilip Kumar Gupta HUF in the matter of trading in Illiquid Stock Options at B",
-    "Remittance Order dated August 28, 2026 issued under RC No",
-    "Remittance Order dated August 28, 2026 issued under RC No",
-    "Remittance Order dated August 28, 2026 issued under RC No",
-    "Remittance Order dated August 28, 2026 issued under RC No",
-    "Remittance Order dated August 28, 2026 issued under RC No",
-    "Remittance Order dated August 28, 2026 issued under RC No",
-    "Remittance Order dated August 28, 2026 issued under RC No",
-    "Cancellation of Recovery Certificate No",
-    "SEBI extends ETF norms implementation timeline to September 7",
-    "ICICI Bank Share Price Today, ICICI Bank Stock Price Live NSE/BSE Updates",
-    "Canara Bank Share Price - Live NSE: CANBK Stock Price & Chart",
-    "AADHAR HOUSING FINANCE L Share Price - Live NSE: AADHARHFC Stock Price & Chart",
-    "5Paisa Capital Share Price",
-    "Aditya Birla Sun Life Medium to Long Term Fund Regular-IDCW Quarterly (\u20b9 13.09) - NAV, Reviews & asset allocat",
-    "Aditya Birla Sun Life Ultra Short Term Fund - Regular Plan Portfolio"
-   ]
-  }
- },
- {
   "date": "2026-09-03",
   "fetched": 5122,
   "delivered_pool": 455,
@@ -2156,6 +2084,78 @@
     "TransNusa Melbourne to Bali Flights 2026: Insider Travel Guide",
     "Paisabazaar and Federal Bank Launch Paisaback RUPAY Credit Card with 7.5% Cashback on Grocery Spends",
     "PAISABAZAAR, FEDERAL BANK LAUNCH 7.5% GROCERY CASHBACK CARD"
+   ]
+  }
+ },
+ {
+  "date": "2026-09-21",
+  "fetched": 1142,
+  "delivered_pool": 159,
+  "junk": 278,
+  "geo": 33,
+  "stale": 26,
+  "dup": 362,
+  "sections": {
+   "S1": 126,
+   "S2": 17,
+   "S3": 16
+  },
+  "mails": 41,
+  "failed": [],
+  "source_summary": {
+   "RBI RSS": 20,
+   "RBI Enforcement": 0,
+   "SEBI RSS": 20,
+   "Google News": 31,
+   "Watchlist (Google)": 1361,
+   "BSE Financials": 21,
+   "Telegram": 98,
+   "Web Scraper": 187
+  },
+  "dropped_samples": {
+   "relevance": [
+    "Rs 11 Lakh Cr Liquidity May Cut FD, Loan Rates",
+    "How India\u2019s Insolvency Framework Has Evolved in 10 Years Under the IBC - DD News",
+    "Saptarishi Agro Nine Monthly Results, Nine Monthly Earnings for Saptarishi Agro",
+    "Q&T Foods Yearly Results, Financial summary, Q&T Foods Yearly Earnings",
+    "News by CNBC TV18 on TradingView, 2026-09-17",
+    "Ards FC back on track against struggling Rangers",
+    "Ards rider Andy Kildea at the double in Enkalon races",
+    "Ards councillor Richard Smart selected by UUP to stand for Strangford MLA seat",
+    "Bajaj Pulsar NS200 and N250 spied with new TFT, WP USD fork",
+    "Bali Tourism Reaches Iconic Heights As Smooth Aviation Infra",
+    "Bali\u2019s Friendly Welcome Provides As Safe Haven For All Tourists But Foreigners Must Respect These Rules",
+    "Goa needn't aspire to become the next Bali\u2014but it should do more to live up to its potential",
+    "Jakarta and Bali Airports Win Prestigious Airport Council International Awards",
+    "Scuba diver dies as current splits group in Bali",
+    "Art & Bali 2026 explores the intersection between fashion, craft and art",
+    "Bamboo Marvels in Bali: Pablo Luna Studio\u2019s Seamless Designs in Nature",
+    "Kazakh man faces trial in Bali over 2.5-kg cocaine shipment",
+    "Portugal Aligns With Bali And More As Madeira Surges As A To",
+    "Bali\u2019s Badung Regency Clumsily Cancels High-Cost Tourism Promotion Mission to Japan",
+    "This is Only a Test! Bali\u2019s Ngurah Rai Airport to Hold Airport Emergency Exercise"
+   ],
+   "junk": [
+    "Interim Order in the matter of Kore Digital Limited",
+    "General Remittance Order dated 17.09.2026 in Recovery Certificate No",
+    "Appeal No. 7062 of 2026 filed by Santosh",
+    "Appeal No. 7061 of 2026 filed by Bindu Mahesh Agrawal",
+    "Appeal No. 7060 of 2026 filed by HAWA SINGH",
+    "Appeal No. 7059 of 2026 filed by Keshav Goyal",
+    "Appeal No. 7058 of 2026 filed by Rajat Bindlish",
+    "Appeal No. 7057 of 2026 filed by Brijesh Sharma",
+    "Appeal No. 7056 of 2026 filed by RABINDRA NATH SAHAY",
+    "Appeal No. 7055 of 2026 filed by Sanamdeep Singh Bakshi",
+    "Completion of Recovery Certificate No",
+    "Ex-Parte Interim Order in the matter of cross segment price manipulation by Prrsaar Sampada Private Limited an",
+    "Shriram Money Market Fund(G)-Direct Plan",
+    "Football rivalry set aside as Ards and Bangor help raise over \u00a36,000 for Ulster Hospital emergency paediatric ",
+    "Bank of Baroda - Voltas among 7 stocks hitting 52-week low; slipped up to 10% in a month",
+    "Sayan, Reframed: Four Seasons Resort Bali at Sayan unveils reimagined suites",
+    "Indonesia builds a flagship cricket venue in Bali",
+    "The 9 best places to visit in Indonesia in 2026, beyond Bali",
+    "V-Mart among 3 stock ideas for today by Geojit's Anand James",
+    "HDB Financial Services L Share Price today: Rs 678.15 gain"
    ]
   }
  }
