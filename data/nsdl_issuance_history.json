@@ -9,7 +9,7 @@
    "tenure_years": 3.0,
    "band": "BBB band",
    "segment": "NBFC/HFC",
-   "spread_bps": 550,
+   "spread_bps": 542,
    "ratings": [
     "Acuit\u00e9 BBB+"
    ]
@@ -23,7 +23,7 @@
    "tenure_years": 1.2,
    "band": "A band (A+/A/A-)",
    "segment": "NBFC/HFC",
-   "spread_bps": 363,
+   "spread_bps": 341,
    "ratings": [
     "CRISIL A+"
    ]
@@ -37,7 +37,7 @@
    "tenure_years": 1.9,
    "band": "AA band (AA+/AA/AA-)",
    "segment": "NBFC/HFC",
-   "spread_bps": 339,
+   "spread_bps": 340,
    "ratings": [
     "CRISIL A+",
     "CRISIL AA+(CE)"
@@ -52,7 +52,7 @@
    "tenure_years": 3.1,
    "band": "A band (A+/A/A-)",
    "segment": "NBFC/HFC",
-   "spread_bps": 425,
+   "spread_bps": 417,
    "ratings": [
     "CareEdge A-",
     "ICRA A-"
@@ -125,7 +125,7 @@
    "tenure_years": 2.1,
    "band": "AA band (AA+/AA/AA-)",
    "segment": "NBFC/HFC",
-   "spread_bps": 309,
+   "spread_bps": 310,
    "ratings": [
     "ICRA AA"
    ]
@@ -135,11 +135,11 @@
    "issuer": "DMI FINANCE PRIVATE LIMITED",
    "allotment_date": "2026-09-18",
    "amount_cr": 300.0,
-   "coupon": 9.25,
+   "coupon": 9.22,
    "tenure_years": 2.2,
    "band": "AA band (AA+/AA/AA-)",
    "segment": "NBFC/HFC",
-   "spread_bps": 284,
+   "spread_bps": 282,
    "ratings": [
     "ICRA AA"
    ]
@@ -153,7 +153,7 @@
    "tenure_years": 3.0,
    "band": "AA band (AA+/AA/AA-)",
    "segment": "NBFC/HFC",
-   "spread_bps": 295,
+   "spread_bps": 287,
    "ratings": [
     "ICRA AA"
    ]
@@ -167,7 +167,7 @@
    "tenure_years": 2.5,
    "band": "AA band (AA+/AA/AA-)",
    "segment": "NBFC/HFC",
-   "spread_bps": 309,
+   "spread_bps": 310,
    "ratings": [
     "ICRA AA"
    ]
@@ -181,7 +181,7 @@
    "tenure_years": 2.8,
    "band": "AAA",
    "segment": "NBFC/HFC",
-   "spread_bps": 139,
+   "spread_bps": 131,
    "ratings": [
     "CRISIL AAA"
    ]
@@ -195,7 +195,7 @@
    "tenure_years": 5.5,
    "band": "AA band (AA+/AA/AA-)",
    "segment": "Corporate",
-   "spread_bps": 173,
+   "spread_bps": 174,
    "ratings": [
     "ICRA AA+",
     "CRISIL AA+"
@@ -210,7 +210,7 @@
    "tenure_years": 3.0,
    "band": "BBB band",
    "segment": "Corporate",
-   "spread_bps": 520,
+   "spread_bps": 512,
    "ratings": [
     "INDIA RATING AND RESEARCH PVT. LTD BBB+"
    ]
@@ -224,7 +224,7 @@
    "tenure_years": 3.0,
    "band": "BBB band",
    "segment": "Corporate",
-   "spread_bps": 520,
+   "spread_bps": 512,
    "ratings": [
     "INDIA RATING AND RESEARCH PVT. LTD BBB+"
    ]
