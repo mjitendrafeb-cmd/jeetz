@@ -51,6 +51,10 @@
   "segment": "Corporate",
   "updated": "2026-09-04"
  },
+ "ballarpur industries": {
+  "segment": "Corporate",
+  "updated": "2026-09-22"
+ },
  "bansal credits": {
   "segment": "Corporate",
   "updated": "2026-09-01"
@@ -77,7 +81,7 @@
  },
  "century silicon city": {
   "segment": "Corporate",
-  "updated": "2026-09-01"
+  "updated": "2026-09-22"
  },
  "cholamandalam investment and finance": {
   "segment": "NBFC/HFC",
@@ -109,7 +113,7 @@
  },
  "dmi finance": {
   "segment": "NBFC/HFC",
-  "updated": "2026-09-21"
+  "updated": "2026-09-22"
  },
  "ecap equities": {
   "segment": "Corporate",
@@ -122,6 +126,10 @@
  "edifice residential": {
   "segment": "Corporate",
   "updated": "2026-09-08"
+ },
+ "embassy developments": {
+  "segment": "Corporate",
+  "updated": "2026-09-22"
  },
  "emkay global financial services": {
   "segment": "Corporate",
@@ -227,6 +235,10 @@
   "segment": "Corporate",
   "updated": "2026-08-31"
  },
+ "kisetsu saison finance ()": {
+  "segment": "NBFC/HFC",
+  "updated": "2026-09-22"
+ },
  "klm axiva finvest": {
   "segment": "NBFC/HFC",
   "updated": "2026-09-04"
@@ -303,6 +315,10 @@
   "segment": "NBFC/HFC",
   "updated": "2026-09-09"
  },
+ "nagar nigam moradabad": {
+  "segment": "Corporate",
+  "updated": "2026-09-22"
+ },
  "namdev finvest": {
   "segment": "NBFC/HFC",
   "updated": "2026-09-21"
@@ -322,6 +338,10 @@
  "niif infrastructure finance": {
   "segment": "NBFC/HFC",
   "updated": "2026-09-17"
+ },
+ "nirmal bang financial services": {
+  "segment": "Corporate",
+  "updated": "2026-09-22"
  },
  "niyogin fintech": {
   "segment": "Corporate",
@@ -359,9 +379,17 @@
   "segment": "Corporate",
   "updated": "2026-09-11"
  },
+ "patna municipal": {
+  "segment": "Corporate",
+  "updated": "2026-09-22"
+ },
  "pinkpeony properties": {
   "segment": "Corporate",
   "updated": "2026-09-11"
+ },
+ "piramal finance": {
+  "segment": "NBFC/HFC",
+  "updated": "2026-09-22"
  },
  "pnb housing finance": {
   "segment": "PSU",
@@ -453,7 +481,7 @@
  },
  "tvs credit services": {
   "segment": "NBFC/HFC",
-  "updated": "2026-08-26"
+  "updated": "2026-09-22"
  },
  "ugro capital": {
   "segment": "NBFC/HFC",

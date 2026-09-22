@@ -1,6 +1,368 @@
 {
  "records": [
   {
+   "isin": "INE604O07225",
+   "issuer": "DMI FINANCE PRIVATE LIMITED",
+   "allotment_date": "2026-09-21",
+   "amount_cr": 265.0,
+   "coupon": 9.5,
+   "tenure_years": 2.1,
+   "band": "AA band (AA+/AA/AA-)",
+   "segment": "NBFC/HFC",
+   "spread_bps": 310,
+   "ratings": [
+    "ICRA AA"
+   ]
+  },
+  {
+   "isin": "INE604O07233",
+   "issuer": "DMI FINANCE PRIVATE LIMITED",
+   "allotment_date": "2026-09-21",
+   "amount_cr": 300.0,
+   "coupon": 9.22,
+   "tenure_years": 2.2,
+   "band": "AA band (AA+/AA/AA-)",
+   "segment": "NBFC/HFC",
+   "spread_bps": 282,
+   "ratings": [
+    "ICRA AA"
+   ]
+  },
+  {
+   "isin": "INE604O07209",
+   "issuer": "DMI FINANCE PRIVATE LIMITED",
+   "allotment_date": "2026-09-21",
+   "amount_cr": 165.0,
+   "coupon": 9.5,
+   "tenure_years": 3.0,
+   "band": "AA band (AA+/AA/AA-)",
+   "segment": "NBFC/HFC",
+   "spread_bps": 294,
+   "ratings": [
+    "ICRA AA"
+   ]
+  },
+  {
+   "isin": "INE604O07217",
+   "issuer": "DMI FINANCE PRIVATE LIMITED",
+   "allotment_date": "2026-09-21",
+   "amount_cr": 325.0,
+   "coupon": 9.5,
+   "tenure_years": 2.5,
+   "band": "AA band (AA+/AA/AA-)",
+   "segment": "NBFC/HFC",
+   "spread_bps": 310,
+   "ratings": [
+    "ICRA AA"
+   ]
+  },
+  {
+   "isin": "INE0QD007013",
+   "issuer": "CENTURY SILICON CITY PRIVATE LIMITED",
+   "allotment_date": "2026-09-21",
+   "amount_cr": 550.0,
+   "coupon": 10.0,
+   "tenure_years": 3.0,
+   "band": "Below investment grade",
+   "segment": "Corporate",
+   "spread_bps": 344,
+   "ratings": [
+    "CareEdge BB"
+   ]
+  },
+  {
+   "isin": "INE2ZBF24061",
+   "issuer": "NAGAR NIGAM MORADABAD",
+   "allotment_date": "2026-09-21",
+   "amount_cr": 7.0,
+   "coupon": null,
+   "tenure_years": 8.0,
+   "band": "Not rated / available",
+   "segment": "Corporate",
+   "spread_bps": null,
+   "ratings": []
+  },
+  {
+   "isin": "INE2ZBF24053",
+   "issuer": "NAGAR NIGAM MORADABAD",
+   "allotment_date": "2026-09-21",
+   "amount_cr": 7.0,
+   "coupon": null,
+   "tenure_years": 7.0,
+   "band": "Not rated / available",
+   "segment": "Corporate",
+   "spread_bps": null,
+   "ratings": []
+  },
+  {
+   "isin": "INE2ZBF24012",
+   "issuer": "NAGAR NIGAM MORADABAD",
+   "allotment_date": "2026-09-21",
+   "amount_cr": 7.0,
+   "coupon": null,
+   "tenure_years": 4.0,
+   "band": "Not rated / available",
+   "segment": "Corporate",
+   "spread_bps": null,
+   "ratings": []
+  },
+  {
+   "isin": "INE2ZBF24038",
+   "issuer": "NAGAR NIGAM MORADABAD",
+   "allotment_date": "2026-09-21",
+   "amount_cr": 7.0,
+   "coupon": null,
+   "tenure_years": 5.0,
+   "band": "Not rated / available",
+   "segment": "Corporate",
+   "spread_bps": null,
+   "ratings": []
+  },
+  {
+   "isin": "INE2ZBF24079",
+   "issuer": "NAGAR NIGAM MORADABAD",
+   "allotment_date": "2026-09-21",
+   "amount_cr": 7.0,
+   "coupon": null,
+   "tenure_years": 9.0,
+   "band": "Not rated / available",
+   "segment": "Corporate",
+   "spread_bps": null,
+   "ratings": []
+  },
+  {
+   "isin": "INE2ZBF24020",
+   "issuer": "NAGAR NIGAM MORADABAD",
+   "allotment_date": "2026-09-21",
+   "amount_cr": 7.0,
+   "coupon": null,
+   "tenure_years": 10.0,
+   "band": "Not rated / available",
+   "segment": "Corporate",
+   "spread_bps": null,
+   "ratings": []
+  },
+  {
+   "isin": "INE2ZBF24046",
+   "issuer": "NAGAR NIGAM MORADABAD",
+   "allotment_date": "2026-09-21",
+   "amount_cr": 7.0,
+   "coupon": null,
+   "tenure_years": 6.0,
+   "band": "Not rated / available",
+   "segment": "Corporate",
+   "spread_bps": null,
+   "ratings": []
+  },
+  {
+   "isin": "INE2YB724062",
+   "issuer": "PATNA MUNICIPAL CORPORATION",
+   "allotment_date": "2026-09-21",
+   "amount_cr": 28.0,
+   "coupon": null,
+   "tenure_years": 7.0,
+   "band": "AA band (AA+/AA/AA-)",
+   "segment": "Corporate",
+   "spread_bps": null,
+   "ratings": [
+    "INDIA RATING AND RESEARCH PVT. LTD AA"
+   ]
+  },
+  {
+   "isin": "INE2YB724039",
+   "issuer": "PATNA MUNICIPAL CORPORATION",
+   "allotment_date": "2026-09-21",
+   "amount_cr": 28.0,
+   "coupon": null,
+   "tenure_years": 5.0,
+   "band": "AA band (AA+/AA/AA-)",
+   "segment": "Corporate",
+   "spread_bps": null,
+   "ratings": [
+    "INDIA RATING AND RESEARCH PVT. LTD AA"
+   ]
+  },
+  {
+   "isin": "INE2YB724054",
+   "issuer": "PATNA MUNICIPAL CORPORATION",
+   "allotment_date": "2026-09-21",
+   "amount_cr": 28.0,
+   "coupon": null,
+   "tenure_years": 6.0,
+   "band": "AA band (AA+/AA/AA-)",
+   "segment": "Corporate",
+   "spread_bps": null,
+   "ratings": [
+    "INDIA RATING AND RESEARCH PVT. LTD AA"
+   ]
+  },
+  {
+   "isin": "INE2YB724047",
+   "issuer": "PATNA MUNICIPAL CORPORATION",
+   "allotment_date": "2026-09-21",
+   "amount_cr": 28.0,
+   "coupon": null,
+   "tenure_years": 8.0,
+   "band": "AA band (AA+/AA/AA-)",
+   "segment": "Corporate",
+   "spread_bps": null,
+   "ratings": [
+    "INDIA RATING AND RESEARCH PVT. LTD AA"
+   ]
+  },
+  {
+   "isin": "INE2YB724070",
+   "issuer": "PATNA MUNICIPAL CORPORATION",
+   "allotment_date": "2026-09-21",
+   "amount_cr": 28.0,
+   "coupon": null,
+   "tenure_years": 10.0,
+   "band": "AA band (AA+/AA/AA-)",
+   "segment": "Corporate",
+   "spread_bps": null,
+   "ratings": [
+    "INDIA RATING AND RESEARCH PVT. LTD AA"
+   ]
+  },
+  {
+   "isin": "INE2YB724013",
+   "issuer": "PATNA MUNICIPAL CORPORATION",
+   "allotment_date": "2026-09-21",
+   "amount_cr": 28.0,
+   "coupon": null,
+   "tenure_years": 4.0,
+   "band": "AA band (AA+/AA/AA-)",
+   "segment": "Corporate",
+   "spread_bps": null,
+   "ratings": [
+    "INDIA RATING AND RESEARCH PVT. LTD AA"
+   ]
+  },
+  {
+   "isin": "INE2YB724021",
+   "issuer": "PATNA MUNICIPAL CORPORATION",
+   "allotment_date": "2026-09-21",
+   "amount_cr": 28.0,
+   "coupon": null,
+   "tenure_years": 9.0,
+   "band": "AA band (AA+/AA/AA-)",
+   "segment": "Corporate",
+   "spread_bps": null,
+   "ratings": [
+    "INDIA RATING AND RESEARCH PVT. LTD AA"
+   ]
+  },
+  {
+   "isin": "INE0H8L07018",
+   "issuer": "NIRMAL BANG FINANCIAL SERVICES PRIVATE LIMITED",
+   "allotment_date": "2026-09-21",
+   "amount_cr": 50.0,
+   "coupon": 11.25,
+   "tenure_years": 1.5,
+   "band": "A band (A+/A/A-)",
+   "segment": "Corporate",
+   "spread_bps": 503,
+   "ratings": [
+    "CRISIL A-"
+   ]
+  },
+  {
+   "isin": "INE294A08800",
+   "issuer": "BALLARPUR INDUSTRIES LIMITED",
+   "allotment_date": "2026-09-21",
+   "amount_cr": 100.0,
+   "coupon": null,
+   "tenure_years": 3.0,
+   "band": "Not rated / available",
+   "segment": "Corporate",
+   "spread_bps": null,
+   "ratings": [
+    "Acuite Ratings And Research Limited B"
+   ]
+  },
+  {
+   "isin": "INE604O07258",
+   "issuer": "DMI FINANCE PRIVATE LIMITED",
+   "allotment_date": "2026-09-21",
+   "amount_cr": 100.0,
+   "coupon": 9.5,
+   "tenure_years": 1.9,
+   "band": "AA band (AA+/AA/AA-)",
+   "segment": "NBFC/HFC",
+   "spread_bps": 310,
+   "ratings": [
+    "ICRA AA"
+   ]
+  },
+  {
+   "isin": "INE069I07488",
+   "issuer": "EMBASSY DEVELOPMENTS LIMITED",
+   "allotment_date": "2026-09-21",
+   "amount_cr": 160.0,
+   "coupon": 12.5,
+   "tenure_years": 2.0,
+   "band": "Not rated / available",
+   "segment": "Corporate",
+   "spread_bps": 610,
+   "ratings": []
+  },
+  {
+   "isin": "INE0DZE07077",
+   "issuer": "KISETSU SAISON FINANCE (INDIA) PRIVATE LIMITED",
+   "allotment_date": "2026-09-21",
+   "amount_cr": 200.0,
+   "coupon": 7.7,
+   "tenure_years": 2.0,
+   "band": "AAA",
+   "segment": "NBFC/HFC",
+   "spread_bps": 130,
+   "ratings": [
+    "CRISIL RATINGS LIMITED AAA"
+   ]
+  },
+  {
+   "isin": "INE604O07241",
+   "issuer": "DMI FINANCE PRIVATE LIMITED",
+   "allotment_date": "2026-09-21",
+   "amount_cr": 300.0,
+   "coupon": 9.5,
+   "tenure_years": 2.0,
+   "band": "AA band (AA+/AA/AA-)",
+   "segment": "NBFC/HFC",
+   "spread_bps": 310,
+   "ratings": [
+    "ICRA AA"
+   ]
+  },
+  {
+   "isin": "INE729N07115",
+   "issuer": "TVS CREDIT SERVICES LIMITED",
+   "allotment_date": "2026-09-21",
+   "amount_cr": 1000.0,
+   "coupon": 7.92,
+   "tenure_years": 3.0,
+   "band": "AA band (AA+/AA/AA-)",
+   "segment": "NBFC/HFC",
+   "spread_bps": 136,
+   "ratings": [
+    "CareEdge AA+"
+   ]
+  },
+  {
+   "isin": "INE202B07JZ7",
+   "issuer": "PIRAMAL FINANCE LIMITED",
+   "allotment_date": "2026-09-21",
+   "amount_cr": 2000.0,
+   "coupon": 8.57,
+   "tenure_years": 3.1,
+   "band": "AA band (AA+/AA/AA-)",
+   "segment": "NBFC/HFC",
+   "spread_bps": 201,
+   "ratings": [
+    "CRISIL AA+"
+   ]
+  },
+  {
    "isin": "INE08XP07530",
    "issuer": "AKARA CAPITAL ADVISORS PRIVATE LIMITED",
    "allotment_date": "2026-09-18",
@@ -114,62 +476,6 @@
    "ratings": [
     "Infomerics AA",
     "Brickwork AA"
-   ]
-  },
-  {
-   "isin": "INE604O07225",
-   "issuer": "DMI FINANCE PRIVATE LIMITED",
-   "allotment_date": "2026-09-18",
-   "amount_cr": 265.0,
-   "coupon": 9.5,
-   "tenure_years": 2.1,
-   "band": "AA band (AA+/AA/AA-)",
-   "segment": "NBFC/HFC",
-   "spread_bps": 310,
-   "ratings": [
-    "ICRA AA"
-   ]
-  },
-  {
-   "isin": "INE604O07233",
-   "issuer": "DMI FINANCE PRIVATE LIMITED",
-   "allotment_date": "2026-09-18",
-   "amount_cr": 300.0,
-   "coupon": 9.22,
-   "tenure_years": 2.2,
-   "band": "AA band (AA+/AA/AA-)",
-   "segment": "NBFC/HFC",
-   "spread_bps": 282,
-   "ratings": [
-    "ICRA AA"
-   ]
-  },
-  {
-   "isin": "INE604O07209",
-   "issuer": "DMI FINANCE PRIVATE LIMITED",
-   "allotment_date": "2026-09-18",
-   "amount_cr": 300.0,
-   "coupon": 9.5,
-   "tenure_years": 3.0,
-   "band": "AA band (AA+/AA/AA-)",
-   "segment": "NBFC/HFC",
-   "spread_bps": 287,
-   "ratings": [
-    "ICRA AA"
-   ]
-  },
-  {
-   "isin": "INE604O07217",
-   "issuer": "DMI FINANCE PRIVATE LIMITED",
-   "allotment_date": "2026-09-18",
-   "amount_cr": 350.0,
-   "coupon": 9.5,
-   "tenure_years": 2.5,
-   "band": "AA band (AA+/AA/AA-)",
-   "segment": "NBFC/HFC",
-   "spread_bps": 310,
-   "ratings": [
-    "ICRA AA"
    ]
   },
   {
@@ -2054,18 +2360,6 @@
    "ratings": [
     "ICRA AAA"
    ]
-  },
-  {
-   "isin": "INE0QD007013",
-   "issuer": "CENTURY SILICON CITY PRIVATE LIMITED",
-   "allotment_date": "2026-08-31",
-   "amount_cr": 550.0,
-   "coupon": 17.25,
-   "tenure_years": 3.0,
-   "band": "Not rated / available",
-   "segment": "Corporate",
-   "spread_bps": 1096,
-   "ratings": []
   },
   {
    "isin": "INE020B07OV2",
