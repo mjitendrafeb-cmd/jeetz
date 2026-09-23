@@ -1,6 +1,88 @@
 {
  "records": [
   {
+   "isin": "INE964R07168",
+   "issuer": "REGENCY FINCORP LIMITED",
+   "allotment_date": "2026-09-22",
+   "amount_cr": 50.0,
+   "coupon": 12.0,
+   "tenure_years": 1.2,
+   "band": "BBB band",
+   "segment": "NBFC/HFC",
+   "spread_bps": 628,
+   "ratings": [
+    "Infomerics BBB"
+   ]
+  },
+  {
+   "isin": "INE0FWI07153",
+   "issuer": "SINDHUJA MICROCREDIT PRIVATE LIMITED",
+   "allotment_date": "2026-09-22",
+   "amount_cr": 100.0,
+   "coupon": 11.75,
+   "tenure_years": 1.8,
+   "band": "BBB band",
+   "segment": "Corporate",
+   "spread_bps": 538,
+   "ratings": [
+    "IND-Ra BBB"
+   ]
+  },
+  {
+   "isin": "INE918K07RC1",
+   "issuer": "NUVAMA WEALTH FINANCE LIMITED",
+   "allotment_date": "2026-09-22",
+   "amount_cr": 150.0,
+   "coupon": null,
+   "tenure_years": 9.9,
+   "band": "AA band (AA+/AA/AA-)",
+   "segment": "NBFC/HFC",
+   "spread_bps": null,
+   "ratings": [
+    "ICRA AA"
+   ]
+  },
+  {
+   "isin": "INE381Y08037",
+   "issuer": "INDIAFIRST LIFE INSURANCE COMPANY LIMITED",
+   "allotment_date": "2026-09-22",
+   "amount_cr": 200.0,
+   "coupon": 9.03,
+   "tenure_years": 10.0,
+   "band": "AA band (AA+/AA/AA-)",
+   "segment": "NBFC/HFC",
+   "spread_bps": 201,
+   "ratings": [
+    "ICRA AA"
+   ]
+  },
+  {
+   "isin": "INE18UV08036",
+   "issuer": "BAJAJ AUTO CREDIT LIMITED",
+   "allotment_date": "2026-09-22",
+   "amount_cr": 250.0,
+   "coupon": 8.25,
+   "tenure_years": 6.0,
+   "band": "AAA",
+   "segment": "NBFC/HFC",
+   "spread_bps": 153,
+   "ratings": [
+    "ICRA AAA"
+   ]
+  },
+  {
+   "isin": "INE0M2007020",
+   "issuer": "ONWARD SOLAR POWER PRIVATE LIMITED",
+   "allotment_date": "2026-09-22",
+   "amount_cr": 325.0,
+   "coupon": 7.99,
+   "tenure_years": 5.0,
+   "band": "Not rated / available",
+   "segment": "Corporate",
+   "spread_bps": 127,
+   "ratings": []
+  },
+  {
    "isin": "INE604O07225",
    "issuer": "DMI FINANCE PRIVATE LIMITED",
    "allotment_date": "2026-09-21",
