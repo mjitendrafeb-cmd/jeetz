@@ -1,78 +1,6 @@
 [
  {
   "date": "2026-09-03",
-  "fetched": 6773,
-  "delivered_pool": 443,
-  "junk": 3006,
-  "geo": 70,
-  "stale": 752,
-  "dup": 2154,
-  "sections": {
-   "S1": 392,
-   "S2": 23,
-   "S3": 28
-  },
-  "mails": 2,
-  "failed": [],
-  "source_summary": {
-   "RBI RSS": 20,
-   "RBI Enforcement": 0,
-   "SEBI RSS": 20,
-   "Google News": 22,
-   "Watchlist (Google)": 921,
-   "BSE Financials": 0,
-   "Telegram": 57,
-   "Web Scraper": 821
-  },
-  "dropped_samples": {
-   "relevance": [
-    "Buyback of Government of India Dated Securities",
-    "Reserve Money and Money Supply for the fortnight ended on August 15, 2026",
-    "Result of the 3-day Variable Rate Reverse Repo (VRRR) auction held on August 28, 2026",
-    "Release Order in RC 9246 of 2026 \u2013 8 entities in the matter of Shubhlaxmi Jewel Art Limited",
-    "Anantam Highways Trust releases Q1FY27 earnings call transcript",
-    "Top Stock and Investment Research Tools for 2026",
-    "Petronet LNG Q1 Results: Earnings call scheduled for Aug 13, 2026",
-    "RMC Switchgears schedules 32nd AGM for September 19, 2026",
-    "Informed Technologies Q1 Results: Net profit jumps 1,665% YoY to \u20b9116.74 lakh",
-    "Gujarat Ambuja Exports consolidated net profit rises 171.87% in the June 2026 quarter",
-    "Mapping India\u2019s fintech key players",
-    "Bhanu Infrabuild Pvt reports standalone net loss of Rs 21.19 crore in the June 2026 quarter",
-    "D S Kulkarni Developers Q1 Results: Net loss widens to \u20b9122.9 lakh",
-    "Sun Pharma update on Lipitor antitrust litigation in US court",
-    "Nuvama Management Meet Note on Divine Power Energy- Integration-led growth",
-    "Motilal Oswal Initiating Coverage on Adani Enterprises, with 25% UPSIDE- Multiple growth engines, one integrat",
-    "DRChoksey Update on Pharma- AI-Driven Drug Discovery: Reshaping Pharma R&D Economics and Pipeline Productivity",
-    "Ventura IPO Note on Lumino Industries Ltd- Integrated Electrical Infrastructure & Power Equipment Company with",
-    "Ambit Capital sees 19% UPSIDE in Divi's Laboratories- Prepared will evolve",
-    "Motilal Oswal\u2019s Morning India- Today\u2019s top research idea (24-Aug-26)"
-   ],
-   "junk": [
-    "Final Order in the matter of Debock Industries Limited",
-    "Final Order in the matter of IPO of Trafiksol ITS Technologies Limited",
-    "Completion of Recovery Proceedings in Recovery Certificate No. 9246 of 2026 issued against 8 entities in the m",
-    "Order in respect of Bonanza Portfolio Limited and others",
-    "Adjudication Order in respect of Dilip Kumar Gupta HUF in the matter of trading in Illiquid Stock Options at B",
-    "Remittance Order dated August 28, 2026 issued under RC No",
-    "Remittance Order dated August 28, 2026 issued under RC No",
-    "Remittance Order dated August 28, 2026 issued under RC No",
-    "Remittance Order dated August 28, 2026 issued under RC No",
-    "Remittance Order dated August 28, 2026 issued under RC No",
-    "Remittance Order dated August 28, 2026 issued under RC No",
-    "Remittance Order dated August 28, 2026 issued under RC No",
-    "Cancellation of Recovery Certificate No",
-    "SEBI extends ETF norms implementation timeline to September 7",
-    "ICICI Bank Share Price Today, ICICI Bank Stock Price Live NSE/BSE Updates",
-    "Canara Bank Share Price - Live NSE: CANBK Stock Price & Chart",
-    "AADHAR HOUSING FINANCE L Share Price - Live NSE: AADHARHFC Stock Price & Chart",
-    "5Paisa Capital Share Price",
-    "Aditya Birla Sun Life Medium to Long Term Fund Regular-IDCW Quarterly (\u20b9 13.09) - NAV, Reviews & asset allocat",
-    "Aditya Birla Sun Life Ultra Short Term Fund - Regular Plan Portfolio"
-   ]
-  }
- },
- {
-  "date": "2026-09-03",
   "fetched": 7086,
   "delivered_pool": 455,
   "junk": 3241,
@@ -2156,6 +2084,78 @@
     "The 9 best places to visit in Indonesia in 2026, beyond Bali",
     "V-Mart among 3 stock ideas for today by Geojit's Anand James",
     "HDB Financial Services L Share Price today: Rs 678.15 gain"
+   ]
+  }
+ },
+ {
+  "date": "2026-09-23",
+  "fetched": 1123,
+  "delivered_pool": 81,
+  "junk": 347,
+  "geo": 26,
+  "stale": 367,
+  "dup": 114,
+  "sections": {
+   "S1": 68,
+   "S2": 12,
+   "S3": 1
+  },
+  "mails": 41,
+  "failed": [],
+  "source_summary": {
+   "RBI RSS": 20,
+   "RBI Enforcement": 0,
+   "SEBI RSS": 20,
+   "Google News": 27,
+   "Watchlist (Google)": 1000,
+   "BSE Financials": 0,
+   "Telegram": 58,
+   "Web Scraper": 952
+  },
+  "dropped_samples": {
+   "relevance": [
+    "Review of Circulars issued under Foreign Exchange Management Act, 1999 (FEMA)",
+    "Motilal Oswal\u2019s Morning India- Today\u2019s top research idea (16-Sep-26)",
+    "Australia Changes Student Visa Rules: How Are Indian Students And Families Affected",
+    "The Delhi Metro witnessed its busiest-ever day on 17 September (Thursday), registering 82,44,903 passenger boa",
+    "Howard G Buffett, 71, will take over as the new chairman of Berkshire Hathaway, succeeding his father Warren B",
+    "At least 16 people, including five police personnel, were killed and several others injured after a suicide at",
+    "#MintMarkets | Stock market prediction: Bulls may fancy Nifty 50 hitting 27,000 in CY2026",
+    "King Charles has warned about AI\u2019s potential dangers, saying it could develop \u201cdarker capacities\u201d and potentia",
+    "Noel Tata challenges legality of N. Chandrasekaran\u2019s reappointment as Tata Sons Chairman",
+    "Anthropic says Claude now leads 26% of its R&D work, up from 1% in March, as AI increasingly helps develop the",
+    "#MintMarkets | Indian equity markets opened higher on Friday, with the Sensex rising 260.65 points to 74,575.2",
+    "#MintMarkets | The Indian stock market is expected to open quietly on September 18, following mixed global cue",
+    "OpenAI has disclosed six cases of unexpected AI model behaviour, including unauthorised actions, attempts to e",
+    "Listing of further issues of securities",
+    "Friday reports will be uploaded on Sunday evening",
+    "Marking a significant boost to India\u2019s domestic aerospace manufacturing, state-run Hindustan Aeronautics Limit",
+    "India is considering mandatory warning labels on cough syrup bottles to discourage their use in children below",
+    "Stock Market Today: All You Need To Know Going Into Trade On Sept 22",
+    "Melting Pot Food Products targets \u20b9500+ Crore growth milestone",
+    "Blood Protein Signature and Immune Target Show Promise for Earlier ARDS Diagnosis and Treatment"
+   ],
+   "junk": [
+    "Shriram Money Market Fund(G)-Direct Plan",
+    "Bank of India Banking & Financial Services Fund(G)-Direct Plan",
+    "Bank Of Maharashtra Share Price Today: Price and Valuation",
+    "Watch Soccer action as Inter Bom-Bom takes on Caix\u00e3o Grande",
+    "Indian entrepreneur says one month of massages, yoga in Bali didn't 'feel like a vacation'. He explains...",
+    "10 Best Things To Do In Bali: Sacred Temples, Rice Terraces, Hidden Gems And More",
+    "Borneo FC - Bali United FC Live - BRI Super League: Football Scores & Highlights - 20/09/2026",
+    "Groww Liquid Fund(G)-Direct Plan",
+    "Ceejay Finance Ltd is Rated Strong Sell",
+    "HDFC Bank Share Price Today: Rs 728.90 After 2.23% Rise",
+    "SENSEX rises over 250 points, NIFTY50 above 23,300 led by ICICI Bank, Larsen & Toubro",
+    "IFCI Share Price",
+    "novio, IOB launch co-branded RuPay credit card to widen access to formal credit",
+    "Novio by Credilio and Indian Overseas Bank launch RuPay card",
+    "IRFC Share Price Today near yearly low on weak momentum",
+    "JioBlackRock Balanced Advantage Fund - Regular Plan Portfolio",
+    "L&T Finance Share Price today: price action and valuation",
+    "LIC HFL Launches Akshat\u2019s Special Wish Festive Film",
+    "LIC MF Large & Midcap Fund-(G)-Direct Plan",
+    "Mantra Capital Limited is Rated Sell"
    ]
   }
  }
