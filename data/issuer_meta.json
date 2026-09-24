@@ -19,6 +19,10 @@
   "segment": "Corporate",
   "updated": "2026-09-17"
  },
+ "achintya securities": {
+  "segment": "Corporate",
+  "updated": "2026-09-24"
+ },
  "akara capital advisors": {
   "segment": "NBFC/HFC",
   "updated": "2026-09-21"
@@ -90,6 +94,10 @@
  "cholamandalam investment and finance": {
   "segment": "NBFC/HFC",
   "updated": "2026-09-02"
+ },
+ "clean max enviro energy solutions": {
+  "segment": "Corporate",
+  "updated": "2026-09-24"
  },
  "credit wise capital": {
   "segment": "NBFC/HFC",
@@ -166,6 +174,10 @@
  "haware properties": {
   "segment": "Corporate",
   "updated": "2026-08-31"
+ },
+ "hedge finance": {
+  "segment": "NBFC/HFC",
+  "updated": "2026-09-24"
  },
  "hella infra market": {
   "segment": "Corporate",
@@ -305,11 +317,15 @@
  },
  "monedo financial services": {
   "segment": "Corporate",
-  "updated": "2026-08-28"
+  "updated": "2026-09-24"
  },
  "motilal oswal financial services": {
   "segment": "Corporate",
   "updated": "2026-09-17"
+ },
+ "muthoot capital services": {
+  "segment": "NBFC/HFC",
+  "updated": "2026-09-24"
  },
  "muthoot fincorp": {
   "segment": "NBFC/HFC",
@@ -407,6 +423,10 @@
   "segment": "NBFC/HFC",
   "updated": "2026-09-17"
  },
+ "powai lake residential": {
+  "segment": "Corporate",
+  "updated": "2026-09-24"
+ },
  "power finance": {
   "segment": "PSU",
   "updated": "2026-09-08"
@@ -486,6 +506,10 @@
  "tata capital": {
   "segment": "NBFC/HFC",
   "updated": "2026-09-09"
+ },
+ "top haven developers": {
+  "segment": "Corporate",
+  "updated": "2026-09-24"
  },
  "trust investment advisors": {
   "segment": "Corporate",
