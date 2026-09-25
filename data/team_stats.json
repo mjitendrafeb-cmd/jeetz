@@ -1,77 +1,5 @@
 [
  {
-  "date": "2026-09-03",
-  "fetched": 7613,
-  "delivered_pool": 533,
-  "junk": 3547,
-  "geo": 67,
-  "stale": 752,
-  "dup": 2363,
-  "sections": {
-   "S1": 473,
-   "S2": 26,
-   "S3": 34
-  },
-  "mails": 2,
-  "failed": [],
-  "source_summary": {
-   "RBI RSS": 20,
-   "RBI Enforcement": 0,
-   "SEBI RSS": 20,
-   "Google News": 23,
-   "Watchlist (Google)": 857,
-   "BSE Financials": 0,
-   "Telegram": 51,
-   "Web Scraper": 1793
-  },
-  "dropped_samples": {
-   "relevance": [
-    "Buyback of Government of India Dated Securities",
-    "Reserve Money and Money Supply for the fortnight ended on August 15, 2026",
-    "Result of the 3-day Variable Rate Reverse Repo (VRRR) auction held on August 28, 2026",
-    "Release Order in RC 9246 of 2026 \u2013 8 entities in the matter of Shubhlaxmi Jewel Art Limited",
-    "Anantam Highways Trust releases Q1FY27 earnings call transcript",
-    "Top Stock and Investment Research Tools for 2026",
-    "Petronet LNG Q1 Results: Earnings call scheduled for Aug 13, 2026",
-    "RMC Switchgears schedules 32nd AGM for September 19, 2026",
-    "Informed Technologies Q1 Results: Net profit jumps 1,665% YoY to \u20b9116.74 lakh",
-    "Gujarat Ambuja Exports consolidated net profit rises 171.87% in the June 2026 quarter",
-    "Mapping India\u2019s fintech key players",
-    "Bhanu Infrabuild Pvt reports standalone net loss of Rs 21.19 crore in the June 2026 quarter",
-    "D S Kulkarni Developers Q1 Results: Net loss widens to \u20b9122.9 lakh",
-    "Sun Pharma update on Lipitor antitrust litigation in US court",
-    "Nuvama Management Meet Note on Divine Power Energy- Integration-led growth",
-    "Motilal Oswal Initiating Coverage on Adani Enterprises, with 25% UPSIDE- Multiple growth engines, one integrat",
-    "DRChoksey Update on Pharma- AI-Driven Drug Discovery: Reshaping Pharma R&D Economics and Pipeline Productivity",
-    "Ventura IPO Note on Lumino Industries Ltd- Integrated Electrical Infrastructure & Power Equipment Company with",
-    "Ambit Capital sees 19% UPSIDE in Divi's Laboratories- Prepared will evolve",
-    "Motilal Oswal\u2019s Morning India- Today\u2019s top research idea (24-Aug-26)"
-   ],
-   "junk": [
-    "Final Order in the matter of Debock Industries Limited",
-    "Final Order in the matter of IPO of Trafiksol ITS Technologies Limited",
-    "Completion of Recovery Proceedings in Recovery Certificate No. 9246 of 2026 issued against 8 entities in the m",
-    "Order in respect of Bonanza Portfolio Limited and others",
-    "Adjudication Order in respect of Dilip Kumar Gupta HUF in the matter of trading in Illiquid Stock Options at B",
-    "Remittance Order dated August 28, 2026 issued under RC No",
-    "Remittance Order dated August 28, 2026 issued under RC No",
-    "Remittance Order dated August 28, 2026 issued under RC No",
-    "Remittance Order dated August 28, 2026 issued under RC No",
-    "Remittance Order dated August 28, 2026 issued under RC No",
-    "Remittance Order dated August 28, 2026 issued under RC No",
-    "Remittance Order dated August 28, 2026 issued under RC No",
-    "Cancellation of Recovery Certificate No",
-    "SEBI extends ETF norms implementation timeline to September 7",
-    "ICICI Bank Share Price Today, ICICI Bank Stock Price Live NSE/BSE Updates",
-    "Canara Bank Share Price - Live NSE: CANBK Stock Price & Chart",
-    "AADHAR HOUSING FINANCE L Share Price - Live NSE: AADHARHFC Stock Price & Chart",
-    "5Paisa Capital Share Price",
-    "Aditya Birla Sun Life Medium to Long Term Fund Regular-IDCW Quarterly (\u20b9 13.09) - NAV, Reviews & asset allocat",
-    "Aditya Birla Sun Life Ultra Short Term Fund - Regular Plan Portfolio"
-   ]
-  }
- },
- {
   "date": "2026-09-04",
   "fetched": 5947,
   "delivered_pool": 481,
@@ -2156,6 +2084,78 @@
     "\ud83d\udd34\u0b2d\u0b3e\u0b38\u0b3f\u0b17\u0b32\u0b3e \u0b15\u0b3e\u0b30\u0b4d \u0b6e \u0b2e\u0b43\u0b24",
     "Manappuram Finance Ltd is Rated Buy",
     "Trade Idea of The Day - Shriram Finance Ltd Target Rs. 38 - Religare Broking Ltd"
+   ]
+  }
+ },
+ {
+  "date": "2026-09-25",
+  "fetched": 1183,
+  "delivered_pool": 112,
+  "junk": 403,
+  "geo": 28,
+  "stale": 351,
+  "dup": 91,
+  "sections": {
+   "S1": 90,
+   "S2": 17,
+   "S3": 5
+  },
+  "mails": 41,
+  "failed": [],
+  "source_summary": {
+   "RBI RSS": 20,
+   "RBI Enforcement": 0,
+   "SEBI RSS": 20,
+   "Google News": 29,
+   "Watchlist (Google)": 1113,
+   "BSE Financials": 0,
+   "Telegram": 63,
+   "Web Scraper": 992
+  },
+  "dropped_samples": {
+   "relevance": [
+    "Maruti India sells 250,683 units in Q1 2011-12",
+    "Kolte Patil appoints Hrishikesh Parandekar as CEO to drive growth",
+    "Akums Drugs Q1FY27 net profit surges 56%; concall flags API turnaround",
+    "Havells enters battery energy storage segment with Pixii AS",
+    "Indian Startup IPO Tracker 2026",
+    "Forgot To Report Foreign Income? Updated ITR Or FAST-DS",
+    "Ingram Micro Holding (INGM) Q1 2026 Earnings Call Transcript",
+    "PL Capital sees 24% UPSIDE in Kirloskar Pneumatic Company- Growth outlook intact, watchful on execution",
+    "Front Wave sees 34% UPSIDE in Yatharth Hospital & Trauma Care- Executing on the Plan, One Quarter at a Time",
+    "Motilal Oswal\u2019s Morning India- Today\u2019s top research idea (17-Sep-26)",
+    "PL Capital sees 2% DOWNSIDE in Cyient DLM- Focus on B2S & new-age electronics to drive growth",
+    "Friday reports will be uploaded on Sunday evening",
+    "Google has confirmed that its Gemini AI breached three real companies during a cybersecurity test in May, afte",
+    "Tata Trusts has appointed one of India's top lawyers, Abhishek Manu Singhvi to represent it in the escalating ",
+    "The Indian Air Force's Surya Kiran Aerobatic Team performs aerial manoeuvres over Meerut",
+    "India began their Asian Games 2026 medal haul with a silver in Aichi-Nagoya, Japan in the women's 10m air rifl",
+    "A shocking audit has revealed massive markups on hospital consumables, with some items allegedly sold at up to",
+    "Marking a significant boost to India\u2019s domestic aerospace manufacturing, state-run Hindustan Aeronautics Limit",
+    "India is considering mandatory warning labels on cough syrup bottles to discourage their use in children below",
+    "Gold, silver prices today, 19th Sept, 2026 Track all mkt updates here"
+   ],
+   "junk": [
+    "HDFC Corp Bond Fund(G)-Direct Plan",
+    "Pre-match Ards FC vs Bangor, County Antrim Shield Quarter-finals",
+    "BAJAJ FINANCE LIMITED Option Chain - Live BAJAJ FINANCE LIMITED Option Chain Data, OI & Price",
+    "Bank of India Business Cycle Fund(G)-Direct Plan",
+    "Bank Of Maharashtra Share Price Today: Price and Valuation",
+    "Watch Soccer action as Inter Bom-Bom takes on Caix\u00e3o Grande",
+    "Bali\u2019s Eco-Tourism Projects Give Tourists Authentic Cultural Immersions On Vacation",
+    "Indian entrepreneur says one month of massages, yoga in Bali didn't 'feel like a vacation'. He explains...",
+    "Groww Share Price",
+    "DCB Bank Ltd. is Rated Buy by MarketsMOJO",
+    "DAR CREDIT & CAPITAL LTD Share Price",
+    "HDFC Bank Ltd Share Price Today,, HDFCBANK Share Price NSE, BSE",
+    "ICICI Bank Ltd Share Price Today,, ICICIBANK Share Price NSE, BSE",
+    "SENSEX rises over 250 points, NIFTY50 above 23,300 led by ICICI Bank, Larsen & Toubro",
+    "IFCI Share Price",
+    "ICCL Season 2 Set to Unite UAE\u2019s Corporate Community Through Cricket",
+    "novio, IOB launch RuPay credit card to expand credit access",
+    "novio Partners with Indian Overseas Bank to Launch Co-branded RuPay Credit Card",
+    "Novio by Credilio and Indian Overseas Bank launch RuPay card",
+    "IRFC Share Price Today near yearly low on weak momentum"
    ]
   }
  }
