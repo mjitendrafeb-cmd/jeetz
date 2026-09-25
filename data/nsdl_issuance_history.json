@@ -1,6 +1,462 @@
 {
  "records": [
   {
+   "isin": "INE549K07JG2",
+   "issuer": "MUTHOOT FINCORP LIMITED",
+   "allotment_date": "2026-09-24",
+   "amount_cr": 9.0,
+   "coupon": null,
+   "tenure_years": 5.0,
+   "band": "AA band (AA+/AA/AA-)",
+   "segment": "NBFC/HFC",
+   "spread_bps": null,
+   "ratings": [
+    "CRISIL AA",
+    "Brickwork AA+"
+   ]
+  },
+  {
+   "isin": "INE549K07JI8",
+   "issuer": "MUTHOOT FINCORP LIMITED",
+   "allotment_date": "2026-09-24",
+   "amount_cr": 22.0,
+   "coupon": 9.2,
+   "tenure_years": 5.0,
+   "band": "AA band (AA+/AA/AA-)",
+   "segment": "NBFC/HFC",
+   "spread_bps": 235,
+   "ratings": [
+    "CRISIL AA",
+    "Brickwork AA+"
+   ]
+  },
+  {
+   "isin": "INE882Z08098",
+   "issuer": "MUTHOOT HOUSING FINANCE COMPANY LIMITED",
+   "allotment_date": "2026-09-24",
+   "amount_cr": 25.0,
+   "coupon": 10.1,
+   "tenure_years": 2.0,
+   "band": "AA band (AA+/AA/AA-)",
+   "segment": "NBFC/HFC",
+   "spread_bps": 377,
+   "ratings": [
+    "CRISIL AA-"
+   ]
+  },
+  {
+   "isin": "INE549K07JL2",
+   "issuer": "MUTHOOT FINCORP LIMITED",
+   "allotment_date": "2026-09-24",
+   "amount_cr": 26.0,
+   "coupon": null,
+   "tenure_years": 6.0,
+   "band": "AA band (AA+/AA/AA-)",
+   "segment": "NBFC/HFC",
+   "spread_bps": null,
+   "ratings": [
+    "CRISIL AA",
+    "Brickwork AA+"
+   ]
+  },
+  {
+   "isin": "INE549K07JJ6",
+   "issuer": "MUTHOOT FINCORP LIMITED",
+   "allotment_date": "2026-09-24",
+   "amount_cr": 26.0,
+   "coupon": 9.25,
+   "tenure_years": 6.0,
+   "band": "AA band (AA+/AA/AA-)",
+   "segment": "NBFC/HFC",
+   "spread_bps": 240,
+   "ratings": [
+    "CRISIL AA",
+    "Brickwork AA+"
+   ]
+  },
+  {
+   "isin": "INE549K07JF4",
+   "issuer": "MUTHOOT FINCORP LIMITED",
+   "allotment_date": "2026-09-24",
+   "amount_cr": 35.0,
+   "coupon": 8.9,
+   "tenure_years": 2.0,
+   "band": "AA band (AA+/AA/AA-)",
+   "segment": "NBFC/HFC",
+   "spread_bps": 257,
+   "ratings": [
+    "CRISIL AA"
+   ]
+  },
+  {
+   "isin": "INE814O07642",
+   "issuer": "NEOGROWTH CREDIT PRIVATE LIMITED",
+   "allotment_date": "2026-09-24",
+   "amount_cr": 40.0,
+   "coupon": 12.0,
+   "tenure_years": 1.7,
+   "band": "BBB band",
+   "segment": "NBFC/HFC",
+   "spread_bps": 567,
+   "ratings": [
+    "ICRA BBB"
+   ]
+  },
+  {
+   "isin": "INE549K07JD9",
+   "issuer": "MUTHOOT FINCORP LIMITED",
+   "allotment_date": "2026-09-24",
+   "amount_cr": 42.0,
+   "coupon": 8.84,
+   "tenure_years": 5.0,
+   "band": "AA band (AA+/AA/AA-)",
+   "segment": "NBFC/HFC",
+   "spread_bps": 199,
+   "ratings": [
+    "CRISIL AA",
+    "Brickwork AA+"
+   ]
+  },
+  {
+   "isin": "INE939X07275",
+   "issuer": "MANBA FINANCE LIMITED",
+   "allotment_date": "2026-09-24",
+   "amount_cr": 50.0,
+   "coupon": 10.65,
+   "tenure_years": 2.2,
+   "band": "BBB band",
+   "segment": "NBFC/HFC",
+   "spread_bps": 432,
+   "ratings": [
+    "CareEdge BBB+"
+   ]
+  },
+  {
+   "isin": "INE549K07JE7",
+   "issuer": "MUTHOOT FINCORP LIMITED",
+   "allotment_date": "2026-09-24",
+   "amount_cr": 50.0,
+   "coupon": 8.88,
+   "tenure_years": 6.0,
+   "band": "AA band (AA+/AA/AA-)",
+   "segment": "NBFC/HFC",
+   "spread_bps": 203,
+   "ratings": [
+    "CRISIL AA",
+    "Brickwork AA+"
+   ]
+  },
+  {
+   "isin": "INE2LQA07024",
+   "issuer": "SAARATHI FINANCE AND CREDIT PRIVATE LIMITED",
+   "allotment_date": "2026-09-24",
+   "amount_cr": 50.0,
+   "coupon": 10.0,
+   "tenure_years": 2.5,
+   "band": "A band (A+/A/A-)",
+   "segment": "NBFC/HFC",
+   "spread_bps": 367,
+   "ratings": [
+    "ICRA A-"
+   ]
+  },
+  {
+   "isin": "INE0E3P08144",
+   "issuer": "SHIVALIK SMALL FINANCE BANK LIMITED",
+   "allotment_date": "2026-09-24",
+   "amount_cr": 50.0,
+   "coupon": 10.85,
+   "tenure_years": 5.6,
+   "band": "A band (A+/A/A-)",
+   "segment": "Bank/FI",
+   "spread_bps": 400,
+   "ratings": [
+    "INDIA RATING AND RESEARCH PVT. LTD A-"
+   ]
+  },
+  {
+   "isin": "INE549K07JM0",
+   "issuer": "MUTHOOT FINCORP LIMITED",
+   "allotment_date": "2026-09-24",
+   "amount_cr": 53.0,
+   "coupon": null,
+   "tenure_years": 3.0,
+   "band": "AA band (AA+/AA/AA-)",
+   "segment": "NBFC/HFC",
+   "spread_bps": null,
+   "ratings": [
+    "CRISIL AA",
+    "Brickwork AA+"
+   ]
+  },
+  {
+   "isin": "INE549K07JK4",
+   "issuer": "MUTHOOT FINCORP LIMITED",
+   "allotment_date": "2026-09-24",
+   "amount_cr": 55.0,
+   "coupon": null,
+   "tenure_years": 2.0,
+   "band": "AA band (AA+/AA/AA-)",
+   "segment": "NBFC/HFC",
+   "spread_bps": null,
+   "ratings": [
+    "CRISIL AA",
+    "Brickwork AA+"
+   ]
+  },
+  {
+   "isin": "INE549K07JB3",
+   "issuer": "MUTHOOT FINCORP LIMITED",
+   "allotment_date": "2026-09-24",
+   "amount_cr": 57.0,
+   "coupon": 8.56,
+   "tenure_years": 2.0,
+   "band": "AA band (AA+/AA/AA-)",
+   "segment": "NBFC/HFC",
+   "spread_bps": 223,
+   "ratings": [
+    "CRISIL AA"
+   ]
+  },
+  {
+   "isin": "INE02QA07067",
+   "issuer": "ASK FINANCIAL HOLDINGS PRIVATE LIMITED",
+   "allotment_date": "2026-09-24",
+   "amount_cr": 75.0,
+   "coupon": 9.25,
+   "tenure_years": 2.0,
+   "band": "AA band (AA+/AA/AA-)",
+   "segment": "Corporate",
+   "spread_bps": 292,
+   "ratings": [
+    "CRISIL AA-"
+   ]
+  },
+  {
+   "isin": "INE612U07159",
+   "issuer": "ELECTRONICA FINANCE LIMITED",
+   "allotment_date": "2026-09-24",
+   "amount_cr": 75.0,
+   "coupon": 9.35,
+   "tenure_years": 2.0,
+   "band": "A band (A+/A/A-)",
+   "segment": "NBFC/HFC",
+   "spread_bps": 302,
+   "ratings": [
+    "IND-Ra A"
+   ]
+  },
+  {
+   "isin": "INE0MYJ07211",
+   "issuer": "PROGFIN PRIVATE LIMITED",
+   "allotment_date": "2026-09-24",
+   "amount_cr": 85.0,
+   "coupon": 10.7,
+   "tenure_years": 1.5,
+   "band": "BBB band",
+   "segment": "Corporate",
+   "spread_bps": 452,
+   "ratings": [
+    "ICRA BBB+"
+   ]
+  },
+  {
+   "isin": "INE2V4F07043",
+   "issuer": "GSQUARE GROUND PRIVATE LIMITED",
+   "allotment_date": "2026-09-24",
+   "amount_cr": 95.0,
+   "coupon": 15.0,
+   "tenure_years": 1.5,
+   "band": "BBB band",
+   "segment": "Corporate",
+   "spread_bps": 882,
+   "ratings": [
+    "Acuit\u00e9 BBB"
+   ]
+  },
+  {
+   "isin": "INE516Q07507",
+   "issuer": "ASIRVAD MICRO FINANCE LIMITED",
+   "allotment_date": "2026-09-24",
+   "amount_cr": 98.0,
+   "coupon": 9.1,
+   "tenure_years": 2.0,
+   "band": "AA band (AA+/AA/AA-)",
+   "segment": "NBFC/HFC",
+   "spread_bps": 277,
+   "ratings": [
+    "CRISIL AA-"
+   ]
+  },
+  {
+   "isin": "INE02QA07059",
+   "issuer": "ASK FINANCIAL HOLDINGS PRIVATE LIMITED",
+   "allotment_date": "2026-09-24",
+   "amount_cr": 125.0,
+   "coupon": 9.6,
+   "tenure_years": 3.0,
+   "band": "AA band (AA+/AA/AA-)",
+   "segment": "Corporate",
+   "spread_bps": 296,
+   "ratings": [
+    "CRISIL AA-"
+   ]
+  },
+  {
+   "isin": "INE0LR707041",
+   "issuer": "MAA KUDARGARHI MINERALS AND REFRACTORIES PRIVATE LIMITED",
+   "allotment_date": "2026-09-24",
+   "amount_cr": 125.0,
+   "coupon": 12.0,
+   "tenure_years": 5.6,
+   "band": "Not rated / available",
+   "segment": "Corporate",
+   "spread_bps": 515,
+   "ratings": []
+  },
+  {
+   "isin": "INE02JD08023",
+   "issuer": "GODREJ HOUSING FINANCE LIMITED",
+   "allotment_date": "2026-09-24",
+   "amount_cr": 150.0,
+   "coupon": 8.5,
+   "tenure_years": 10.0,
+   "band": "AA band (AA+/AA/AA-)",
+   "segment": "NBFC/HFC",
+   "spread_bps": 136,
+   "ratings": [
+    "CRISIL AA+"
+   ]
+  },
+  {
+   "isin": "INE549K07JH0",
+   "issuer": "MUTHOOT FINCORP LIMITED",
+   "allotment_date": "2026-09-24",
+   "amount_cr": 150.0,
+   "coupon": 9.1,
+   "tenure_years": 3.0,
+   "band": "AA band (AA+/AA/AA-)",
+   "segment": "NBFC/HFC",
+   "spread_bps": 246,
+   "ratings": [
+    "CRISIL AA",
+    "Brickwork AA+"
+   ]
+  },
+  {
+   "isin": "INE549K07JC1",
+   "issuer": "MUTHOOT FINCORP LIMITED",
+   "allotment_date": "2026-09-24",
+   "amount_cr": 169.0,
+   "coupon": 8.75,
+   "tenure_years": 3.0,
+   "band": "AA band (AA+/AA/AA-)",
+   "segment": "NBFC/HFC",
+   "spread_bps": 211,
+   "ratings": [
+    "CRISIL AA",
+    "Brickwork AA+"
+   ]
+  },
+  {
+   "isin": "INE348L07423",
+   "issuer": "MAS FINANCIAL SERVICES LIMITED",
+   "allotment_date": "2026-09-24",
+   "amount_cr": 175.0,
+   "coupon": 8.55,
+   "tenure_years": 2.0,
+   "band": "AA band (AA+/AA/AA-)",
+   "segment": "Corporate",
+   "spread_bps": 222,
+   "ratings": [
+    "CARE RATINGS LIMITED AA-"
+   ]
+  },
+  {
+   "isin": "INE486A07374",
+   "issuer": "CESC LIMITED",
+   "allotment_date": "2026-09-24",
+   "amount_cr": 190.0,
+   "coupon": null,
+   "tenure_years": 5.0,
+   "band": "AA band (AA+/AA/AA-)",
+   "segment": "Corporate",
+   "spread_bps": null,
+   "ratings": [
+    "INDIA RATING AND RESEARCH PVT. LTD AA"
+   ]
+  },
+  {
+   "isin": "INE321N07756",
+   "issuer": "INCRED FINANCIAL SERVICES LIMITED",
+   "allotment_date": "2026-09-24",
+   "amount_cr": 200.0,
+   "coupon": 8.8,
+   "tenure_years": 2.0,
+   "band": "AA band (AA+/AA/AA-)",
+   "segment": "Corporate",
+   "spread_bps": 247,
+   "ratings": [
+    "CRISIL AA-"
+   ]
+  },
+  {
+   "isin": "INE460K08061",
+   "issuer": "RJ CORP LIMITED",
+   "allotment_date": "2026-09-24",
+   "amount_cr": 375.0,
+   "coupon": 8.1,
+   "tenure_years": 3.0,
+   "band": "AAA",
+   "segment": "Corporate",
+   "spread_bps": 146,
+   "ratings": [
+    "CRISIL AAA"
+   ]
+  },
+  {
+   "isin": "INE891K07AP8",
+   "issuer": "AXIS FINANCE LIMITED",
+   "allotment_date": "2026-09-24",
+   "amount_cr": 500.0,
+   "coupon": 8.21,
+   "tenure_years": 4.9,
+   "band": "AAA",
+   "segment": "NBFC/HFC",
+   "spread_bps": 136,
+   "ratings": [
+    "CRISIL AAA"
+   ]
+  },
+  {
+   "isin": "INE460K08079",
+   "issuer": "RJ CORP LIMITED",
+   "allotment_date": "2026-09-24",
+   "amount_cr": 635.0,
+   "coupon": 8.2,
+   "tenure_years": 3.0,
+   "band": "AAA",
+   "segment": "Corporate",
+   "spread_bps": 156,
+   "ratings": [
+    "CRISIL AAA"
+   ]
+  },
+  {
+   "isin": "INE041007225",
+   "issuer": "EMBASSY OFFICE PARKS REIT",
+   "allotment_date": "2026-09-24",
+   "amount_cr": 1000.0,
+   "coupon": null,
+   "tenure_years": 3.0,
+   "band": "AAA",
+   "segment": "Corporate",
+   "spread_bps": null,
+   "ratings": [
+    "CareEdge AAA"
+   ]
+  },
+  {
    "isin": "INE17UL08062",
    "issuer": "POWAI LAKE RESIDENTIAL PRIVATE LIMITED",
    "allotment_date": "2026-09-23",

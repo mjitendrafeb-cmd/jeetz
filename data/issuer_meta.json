@@ -39,6 +39,14 @@
   "segment": "NBFC/HFC",
   "updated": "2026-09-01"
  },
+ "asirvad micro finance": {
+  "segment": "NBFC/HFC",
+  "updated": "2026-09-25"
+ },
+ "ask financial holdings": {
+  "segment": "Corporate",
+  "updated": "2026-09-25"
+ },
  "avaada ventures": {
   "segment": "Corporate",
   "updated": "2026-09-21"
@@ -46,6 +54,10 @@
  "avp infracon": {
   "segment": "Corporate",
   "updated": "2026-08-29"
+ },
+ "axis finance": {
+  "segment": "NBFC/HFC",
+  "updated": "2026-09-25"
  },
  "bajaj auto credit": {
   "segment": "NBFC/HFC",
@@ -90,6 +102,10 @@
  "century silicon city": {
   "segment": "Corporate",
   "updated": "2026-09-22"
+ },
+ "cesc": {
+  "segment": "Corporate",
+  "updated": "2026-09-25"
  },
  "cholamandalam investment and finance": {
   "segment": "NBFC/HFC",
@@ -139,9 +155,17 @@
   "segment": "Corporate",
   "updated": "2026-09-08"
  },
+ "electronica finance": {
+  "segment": "NBFC/HFC",
+  "updated": "2026-09-25"
+ },
  "embassy developments": {
   "segment": "Corporate",
   "updated": "2026-09-22"
+ },
+ "embassy office parks reit": {
+  "segment": "Corporate",
+  "updated": "2026-09-25"
  },
  "emkay global financial services": {
   "segment": "Corporate",
@@ -157,7 +181,7 @@
  },
  "godrej housing finance": {
   "segment": "NBFC/HFC",
-  "updated": "2026-09-18"
+  "updated": "2026-09-25"
  },
  "godrej industries": {
   "segment": "Corporate",
@@ -170,6 +194,10 @@
  "growxcd finance": {
   "segment": "NBFC/HFC",
   "updated": "2026-08-29"
+ },
+ "gsquare ground": {
+  "segment": "Corporate",
+  "updated": "2026-09-25"
  },
  "haware properties": {
   "segment": "Corporate",
@@ -217,7 +245,7 @@
  },
  "incred financial services": {
   "segment": "Corporate",
-  "updated": "2026-09-15"
+  "updated": "2026-09-25"
  },
  "incred wealth and investment services": {
   "segment": "Corporate",
@@ -299,9 +327,17 @@
   "segment": "Corporate",
   "updated": "2026-09-17"
  },
+ "maa kudargarhi minerals and refractories": {
+  "segment": "Corporate",
+  "updated": "2026-09-25"
+ },
  "mag finserv": {
   "segment": "NBFC/HFC",
   "updated": "2026-09-08"
+ },
+ "manba finance": {
+  "segment": "NBFC/HFC",
+  "updated": "2026-09-25"
  },
  "mangal credit and fincorp": {
   "segment": "NBFC/HFC",
@@ -314,6 +350,10 @@
  "maple infrastructure trust": {
   "segment": "Corporate",
   "updated": "2026-08-29"
+ },
+ "mas financial services": {
+  "segment": "Corporate",
+  "updated": "2026-09-25"
  },
  "monedo financial services": {
   "segment": "Corporate",
@@ -329,11 +369,11 @@
  },
  "muthoot fincorp": {
   "segment": "NBFC/HFC",
-  "updated": "2026-09-01"
+  "updated": "2026-09-25"
  },
  "muthoot housing finance": {
   "segment": "NBFC/HFC",
-  "updated": "2026-09-10"
+  "updated": "2026-09-25"
  },
  "muthoot microfin": {
   "segment": "NBFC/HFC",
@@ -357,7 +397,7 @@
  },
  "neogrowth credit": {
   "segment": "NBFC/HFC",
-  "updated": "2026-09-02"
+  "updated": "2026-09-25"
  },
  "niif infrastructure finance": {
   "segment": "NBFC/HFC",
@@ -437,7 +477,7 @@
  },
  "progfin": {
   "segment": "Corporate",
-  "updated": "2026-09-03"
+  "updated": "2026-09-25"
  },
  "rare asset reconstruction": {
   "segment": "Corporate",
@@ -455,6 +495,10 @@
   "segment": "Corporate",
   "updated": "2026-09-17"
  },
+ "rj": {
+  "segment": "Corporate",
+  "updated": "2026-09-25"
+ },
  "rpe energy reserve": {
   "segment": "Corporate",
   "updated": "2026-09-11"
@@ -462,6 +506,10 @@
  "rupeek capital": {
   "segment": "NBFC/HFC",
   "updated": "2026-08-26"
+ },
+ "saarathi finance and credit": {
+  "segment": "NBFC/HFC",
+  "updated": "2026-09-25"
  },
  "sammaan capital": {
   "segment": "NBFC/HFC",
@@ -478,6 +526,10 @@
  "shangrila infracon": {
   "segment": "Corporate",
   "updated": "2026-09-11"
+ },
+ "shivalik small finance bank": {
+  "segment": "Bank/FI",
+  "updated": "2026-09-25"
  },
  "shri ram finance": {
   "segment": "NBFC/HFC",
