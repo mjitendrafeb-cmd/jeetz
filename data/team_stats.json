@@ -1,77 +1,5 @@
 [
  {
-  "date": "2026-09-04",
-  "fetched": 5947,
-  "delivered_pool": 481,
-  "junk": 2776,
-  "geo": 70,
-  "stale": 1087,
-  "dup": 1250,
-  "sections": {
-   "S1": 425,
-   "S2": 19,
-   "S3": 37
-  },
-  "mails": 40,
-  "failed": [],
-  "source_summary": {
-   "RBI RSS": 20,
-   "RBI Enforcement": 0,
-   "SEBI RSS": 20,
-   "Google News": 24,
-   "Watchlist (Google)": 1230,
-   "BSE Financials": 0,
-   "Telegram": 64,
-   "Web Scraper": 276
-  },
-  "dropped_samples": {
-   "relevance": [
-    "Buyback of Government of India Dated Securities",
-    "Reserve Money and Money Supply for the fortnight ended on August 15, 2026",
-    "Result of the 3-day Variable Rate Reverse Repo (VRRR) auction held on August 28, 2026",
-    "Release Order in RC 9246 of 2026 \u2013 8 entities in the matter of Shubhlaxmi Jewel Art Limited",
-    "Anantam Highways Trust releases Q1FY27 earnings call transcript",
-    "Top Stock and Investment Research Tools for 2026",
-    "Petronet LNG Q1 Results: Earnings call scheduled for Aug 13, 2026",
-    "RMC Switchgears schedules 32nd AGM for September 19, 2026",
-    "Informed Technologies Q1 Results: Net profit jumps 1,665% YoY to \u20b9116.74 lakh",
-    "Gujarat Ambuja Exports consolidated net profit rises 171.87% in the June 2026 quarter",
-    "Mapping India\u2019s fintech key players",
-    "Bhanu Infrabuild Pvt reports standalone net loss of Rs 21.19 crore in the June 2026 quarter",
-    "D S Kulkarni Developers Q1 Results: Net loss widens to \u20b9122.9 lakh",
-    "Sun Pharma update on Lipitor antitrust litigation in US court",
-    "Nuvama Management Meet Note on Divine Power Energy- Integration-led growth",
-    "Motilal Oswal Initiating Coverage on Adani Enterprises, with 25% UPSIDE- Multiple growth engines, one integrat",
-    "DRChoksey Update on Pharma- AI-Driven Drug Discovery: Reshaping Pharma R&D Economics and Pipeline Productivity",
-    "Ventura IPO Note on Lumino Industries Ltd- Integrated Electrical Infrastructure & Power Equipment Company with",
-    "Ambit Capital sees 19% UPSIDE in Divi's Laboratories- Prepared will evolve",
-    "Motilal Oswal\u2019s Morning India- Today\u2019s top research idea (24-Aug-26)"
-   ],
-   "junk": [
-    "Final Order in the matter of Debock Industries Limited",
-    "Final Order in the matter of IPO of Trafiksol ITS Technologies Limited",
-    "Completion of Recovery Proceedings in Recovery Certificate No. 9246 of 2026 issued against 8 entities in the m",
-    "Order in respect of Bonanza Portfolio Limited and others",
-    "Adjudication Order in respect of Dilip Kumar Gupta HUF in the matter of trading in Illiquid Stock Options at B",
-    "Remittance Order dated August 28, 2026 issued under RC No",
-    "Remittance Order dated August 28, 2026 issued under RC No",
-    "Remittance Order dated August 28, 2026 issued under RC No",
-    "Remittance Order dated August 28, 2026 issued under RC No",
-    "Remittance Order dated August 28, 2026 issued under RC No",
-    "Remittance Order dated August 28, 2026 issued under RC No",
-    "Remittance Order dated August 28, 2026 issued under RC No",
-    "Cancellation of Recovery Certificate No",
-    "SEBI extends ETF norms implementation timeline to September 7",
-    "ICICI Bank Share Price Today, ICICI Bank Stock Price Live NSE/BSE Updates",
-    "Canara Bank Share Price - Live NSE: CANBK Stock Price & Chart",
-    "AADHAR HOUSING FINANCE L Share Price - Live NSE: AADHARHFC Stock Price & Chart",
-    "5Paisa Capital Share Price",
-    "Aditya Birla Sun Life Medium to Long Term Fund Regular-IDCW Quarterly (\u20b9 13.09) - NAV, Reviews & asset allocat",
-    "Aditya Birla Sun Life Ultra Short Term Fund - Regular Plan Portfolio"
-   ]
-  }
- },
- {
   "date": "2026-09-05",
   "fetched": 1098,
   "delivered_pool": 107,
@@ -2156,6 +2084,78 @@
     "novio Partners with Indian Overseas Bank to Launch Co-branded RuPay Credit Card",
     "Novio by Credilio and Indian Overseas Bank launch RuPay card",
     "IRFC Share Price Today near yearly low on weak momentum"
+   ]
+  }
+ },
+ {
+  "date": "2026-09-26",
+  "fetched": 968,
+  "delivered_pool": 95,
+  "junk": 317,
+  "geo": 25,
+  "stale": 224,
+  "dup": 125,
+  "sections": {
+   "S1": 66,
+   "S2": 21,
+   "S3": 8
+  },
+  "mails": 0,
+  "failed": [],
+  "source_summary": {
+   "RBI RSS": 20,
+   "RBI Enforcement": 0,
+   "SEBI RSS": 20,
+   "Google News": 27,
+   "Watchlist (Google)": 1100,
+   "BSE Financials": 0,
+   "Telegram": 54,
+   "Web Scraper": 825
+  },
+  "dropped_samples": {
+   "relevance": [
+    "Auction of Government of India Dated Security",
+    "Novation of OTC Derivative Contracts",
+    "Adjudication Order in respect to Shri Shreedhar Yellaiah Kodam in the matter of Well Pack Papers and Container",
+    "Centrum on MSCI India: November 2026 Review- Expected additions and deletions - MSCI India (Global) Standard i",
+    "Nuvama Visit Note on SIGMA ADVANCED SYSTEMS- Building global A&D platform",
+    "Motilal Oswal\u2019s Morning India- Today\u2019s top research idea",
+    "Read today's Mint e-paper here",
+    "Jamie Dimon flags India's 'inconsistent application of taxes': What the JPMorgan CEO said about Indian economy",
+    "The world\u2019s second-largest economy spent $158.8 bn on gold in the first eight months of the year",
+    "Trump\u2019s UNGA speech: Trump also said he believed the US and Iran could reach a deal after the November midterm",
+    "BTTV Exclusive: Ashishkumar Chauhan explains why NSE went public now",
+    "US President Donald Trump is moving from his earlier ambition of acquiring Greenland to a security arrangement",
+    "#MintMarkets | Indian equity markets ended lower on Tuesday, with the Sensex falling 329.91 points to 74,529.0",
+    "Stock Market No Longer Free and Fair",
+    "Listing of further issues of securities",
+    "Spectrum Electrical Partners Maharashtra Government on ITI",
+    "PL Capital sees 14% UPSIDE in Voltas- Accelerating RAC growth, expanding product portfolio",
+    "Xi Touts Two More Meetings With Trump in 2026 At White House Tea",
+    "An auto driver's monthly income is going viral on the internet",
+    "Nearly 451,000 additional deaths could occur worldwide over the next six months because of the ongoing \u201cSuper "
+   ],
+   "junk": [
+    "Appeal No. 7064 of 2026 filed by Amit Gangrade",
+    "Appeal No. 7066 of 2026 filed by Saksham Puri",
+    "Appeal No. 7063 of 2026 filed by Sanjay Shah",
+    "Settlement Order in the matter of Adani Group Companies",
+    "Notice of Demand under Recovery Certificate number 9298 of 2026 dated September 21, 2026, issued to Allied Fin",
+    "Appeal No. 7068 of 2026 filed by Swarnali Basu",
+    "Appeal No. 7067 of 2026 filed by Kailash Kumar",
+    "Appeal No. 7065 of 2026 filed by Harish",
+    "Notices of Attachment of Bank and Post Office accounts and Demat Accounts and mutual Fund Folios with AP Nos",
+    "Notice of Attachment of Demat Accounts and Mutual Fund Folios dated September 17, 2026 against Bhavin Natwarla",
+    "Interim Order in the matter of Kore Digital Limited",
+    "General Remittance Order dated 17.09.2026 in Recovery Certificate No",
+    "Which NBFCs will gain the most from rate hike cycle? JM Financial lists top picks",
+    "Bandhan Medium Term Fund Regular-IDCW Quarterly",
+    "Bandhan Dynamic Term Fund Direct-IDCW Yearly",
+    "Bob Nousiainen receives the Oreste \u201cChip\u201d Chiantello Service Award",
+    "Gopi Desai, Rabindra Narayan Behera, Rahul Bali welcome holding of 72nd National Film Awards in Gujarat",
+    "Courtyard by Marriott Bali Nusa Dua Resort Elevates Meetings, Weddings, and Social Events with Versatile Indoo",
+    "72nd National Film Awards held in Gujarat hailed by Gopi Desai, Rabindra Behera and Rahul Bali",
+    "Stay here: Four Seasons Resort Bali at Sayan review"
    ]
   }
  }
