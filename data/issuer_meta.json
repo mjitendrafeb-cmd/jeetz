@@ -23,6 +23,10 @@
   "segment": "Corporate",
   "updated": "2026-09-24"
  },
+ "adani electricity mumbai": {
+  "segment": "Corporate",
+  "updated": "2026-09-26"
+ },
  "akara capital advisors": {
   "segment": "NBFC/HFC",
   "updated": "2026-09-21"
@@ -87,6 +91,10 @@
   "segment": "NBFC/HFC",
   "updated": "2026-09-15"
  },
+ "boxacres developers": {
+  "segment": "Corporate",
+  "updated": "2026-09-26"
+ },
  "canara bank": {
   "segment": "PSU",
   "updated": "2026-09-21"
@@ -110,6 +118,10 @@
  "cholamandalam investment and finance": {
   "segment": "NBFC/HFC",
   "updated": "2026-09-02"
+ },
+ "claymont ventures": {
+  "segment": "Corporate",
+  "updated": "2026-09-26"
  },
  "clean max enviro energy solutions": {
   "segment": "Corporate",
@@ -151,6 +163,10 @@
   "segment": "Corporate",
   "updated": "2026-09-08"
  },
+ "edenic buildcon": {
+  "segment": "Corporate",
+  "updated": "2026-09-26"
+ },
  "edifice residential": {
   "segment": "Corporate",
   "updated": "2026-09-08"
@@ -170,6 +186,10 @@
  "emkay global financial services": {
   "segment": "Corporate",
   "updated": "2026-09-08"
+ },
+ "equitas small finance bank": {
+  "segment": "Bank/FI",
+  "updated": "2026-09-26"
  },
  "gabriel": {
   "segment": "Corporate",
@@ -331,6 +351,10 @@
   "segment": "Corporate",
   "updated": "2026-09-25"
  },
+ "madhurawada holdings": {
+  "segment": "Corporate",
+  "updated": "2026-09-26"
+ },
  "mag finserv": {
   "segment": "NBFC/HFC",
   "updated": "2026-09-08"
@@ -359,6 +383,10 @@
   "segment": "Corporate",
   "updated": "2026-09-24"
  },
+ "moneyboxx finance": {
+  "segment": "NBFC/HFC",
+  "updated": "2026-09-26"
+ },
  "motilal oswal financial services": {
   "segment": "Corporate",
   "updated": "2026-09-17"
@@ -369,11 +397,15 @@
  },
  "muthoot fincorp": {
   "segment": "NBFC/HFC",
-  "updated": "2026-09-25"
+  "updated": "2026-09-26"
  },
  "muthoot housing finance": {
   "segment": "NBFC/HFC",
   "updated": "2026-09-25"
+ },
+ "muthoot mercantile": {
+  "segment": "Corporate",
+  "updated": "2026-09-26"
  },
  "muthoot microfin": {
   "segment": "NBFC/HFC",
@@ -438,6 +470,10 @@
  "paisalo digital": {
   "segment": "Corporate",
   "updated": "2026-09-21"
+ },
+ "parthos one": {
+  "segment": "Corporate",
+  "updated": "2026-09-26"
  },
  "parthos properties": {
   "segment": "Corporate",
@@ -559,6 +595,10 @@
   "segment": "NBFC/HFC",
   "updated": "2026-09-09"
  },
+ "tata capital housing finance": {
+  "segment": "NBFC/HFC",
+  "updated": "2026-09-26"
+ },
  "top haven developers": {
   "segment": "Corporate",
   "updated": "2026-09-24"
@@ -583,6 +623,10 @@
   "segment": "NBFC/HFC",
   "updated": "2026-08-28"
  },
+ "utkarsh small finance bank": {
+  "segment": "Bank/FI",
+  "updated": "2026-09-26"
+ },
  "vastu housing finance": {
   "segment": "NBFC/HFC",
   "updated": "2026-09-01"
@@ -590,6 +634,10 @@
  "vertis infrastructure trust": {
   "segment": "Corporate",
   "updated": "2026-09-11"
+ },
+ "vijayalakshmi investments & holdings": {
+  "segment": "Corporate",
+  "updated": "2026-09-26"
  },
  "vision infra equipment solutions": {
   "segment": "Corporate",

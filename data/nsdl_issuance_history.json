@@ -1,6 +1,196 @@
 {
  "records": [
   {
+   "isin": "INE2YT008011",
+   "issuer": "PARTHOS ONE PRIVATE LIMITED",
+   "allotment_date": "2026-09-25",
+   "amount_cr": 505.0,
+   "coupon": 12.5,
+   "tenure_years": 10.0,
+   "band": "Not rated / available",
+   "segment": "Corporate",
+   "spread_bps": 539,
+   "ratings": []
+  },
+  {
+   "isin": "INE2OHS07037",
+   "issuer": "CLAYMONT VENTURES PRIVATE LIMITED",
+   "allotment_date": "2026-09-25",
+   "amount_cr": 50.0,
+   "coupon": 13.25,
+   "tenure_years": 4.0,
+   "band": "Not rated / available",
+   "segment": "Corporate",
+   "spread_bps": 656,
+   "ratings": []
+  },
+  {
+   "isin": "INE2UV207019",
+   "issuer": "EDENIC BUILDCON PRIVATE LIMITED",
+   "allotment_date": "2026-09-25",
+   "amount_cr": 56.0,
+   "coupon": 18.0,
+   "tenure_years": 3.0,
+   "band": "Not rated / available",
+   "segment": "Corporate",
+   "spread_bps": 1131,
+   "ratings": []
+  },
+  {
+   "isin": "INE296Q07183",
+   "issuer": "MONEYBOXX FINANCE LIMITED",
+   "allotment_date": "2026-09-25",
+   "amount_cr": 60.0,
+   "coupon": 10.75,
+   "tenure_years": 2.0,
+   "band": "BBB band",
+   "segment": "NBFC/HFC",
+   "spread_bps": 424,
+   "ratings": [
+    "CRISIL BBB"
+   ]
+  },
+  {
+   "isin": "INE05F407EC8",
+   "issuer": "MUTHOOT MERCANTILE LIMITED",
+   "allotment_date": "2026-09-25",
+   "amount_cr": 100.0,
+   "coupon": 10.25,
+   "tenure_years": 2.5,
+   "band": "BBB band",
+   "segment": "Corporate",
+   "spread_bps": 374,
+   "ratings": [
+    "CRISIL RATINGS LIMITED BBB+"
+   ]
+  },
+  {
+   "isin": "INE2C1G07016",
+   "issuer": "BOXACRES DEVELOPERS PRIVATE LIMITED",
+   "allotment_date": "2026-09-25",
+   "amount_cr": 175.0,
+   "coupon": 22.5,
+   "tenure_years": 5.0,
+   "band": "Not rated / available",
+   "segment": "Corporate",
+   "spread_bps": 1568,
+   "ratings": []
+  },
+  {
+   "isin": "INE549K07JO6",
+   "issuer": "MUTHOOT FINCORP LIMITED",
+   "allotment_date": "2026-09-25",
+   "amount_cr": 220.0,
+   "coupon": 9.6,
+   "tenure_years": 5.1,
+   "band": "AA band (AA+/AA/AA-)",
+   "segment": "NBFC/HFC",
+   "spread_bps": 278,
+   "ratings": [
+    "Brickwork AA+",
+    "CRISIL AA"
+   ]
+  },
+  {
+   "isin": "INE549K07JN8",
+   "issuer": "MUTHOOT FINCORP LIMITED",
+   "allotment_date": "2026-09-25",
+   "amount_cr": 220.0,
+   "coupon": 9.6,
+   "tenure_years": 5.2,
+   "band": "AA band (AA+/AA/AA-)",
+   "segment": "NBFC/HFC",
+   "spread_bps": 278,
+   "ratings": [
+    "CRISIL AA"
+   ]
+  },
+  {
+   "isin": "INE735W08079",
+   "issuer": "UTKARSH SMALL FINANCE BANK LIMITED",
+   "allotment_date": "2026-09-25",
+   "amount_cr": 300.0,
+   "coupon": 11.75,
+   "tenure_years": 7.0,
+   "band": "A band (A+/A/A-)",
+   "segment": "Bank/FI",
+   "spread_bps": 464,
+   "ratings": [
+    "CareEdge A-"
+   ]
+  },
+  {
+   "isin": "INE0IG407038",
+   "issuer": "VIJAYALAKSHMI INVESTMENTS & HOLDINGS PRIVATE LIMITED",
+   "allotment_date": "2026-09-25",
+   "amount_cr": 300.0,
+   "coupon": 18.0,
+   "tenure_years": 5.0,
+   "band": "Below investment grade",
+   "segment": "Corporate",
+   "spread_bps": 1118,
+   "ratings": [
+    "ICRA D"
+   ]
+  },
+  {
+   "isin": "INE0MVB07016",
+   "issuer": "MADHURAWADA HOLDINGS PRIVATE LIMITED",
+   "allotment_date": "2026-09-25",
+   "amount_cr": 415.0,
+   "coupon": null,
+   "tenure_years": 2.3,
+   "band": "Not rated / available",
+   "segment": "Corporate",
+   "spread_bps": null,
+   "ratings": []
+  },
+  {
+   "isin": "INE063P08138",
+   "issuer": "EQUITAS SMALL FINANCE BANK LIMITED",
+   "allotment_date": "2026-09-25",
+   "amount_cr": 500.0,
+   "coupon": 9.95,
+   "tenure_years": 10.0,
+   "band": "AA band (AA+/AA/AA-)",
+   "segment": "Bank/FI",
+   "spread_bps": 284,
+   "ratings": [
+    "IND-Ra AA-",
+    "CareEdge AA-"
+   ]
+  },
+  {
+   "isin": "INE033L07IW4",
+   "issuer": "TATA CAPITAL HOUSING FINANCE LIMITED",
+   "allotment_date": "2026-09-25",
+   "amount_cr": 1725.0,
+   "coupon": 8.2,
+   "tenure_years": 3.0,
+   "band": "AAA",
+   "segment": "NBFC/HFC",
+   "spread_bps": 151,
+   "ratings": [
+    "CRISIL AAA",
+    "ICRA AAA"
+   ]
+  },
+  {
+   "isin": "INE732Y07017",
+   "issuer": "ADANI ELECTRICITY MUMBAI LIMITED",
+   "allotment_date": "2026-09-25",
+   "amount_cr": 2000.0,
+   "coupon": 7.55,
+   "tenure_years": 5.0,
+   "band": "AAA",
+   "segment": "Corporate",
+   "spread_bps": 73,
+   "ratings": [
+    "IND-Ra AAA",
+    "CRISIL AAA"
+   ]
+  },
+  {
    "isin": "INE549K07JG2",
    "issuer": "MUTHOOT FINCORP LIMITED",
    "allotment_date": "2026-09-24",
@@ -1988,18 +2178,6 @@
    "band": "Not rated / available",
    "segment": "Corporate",
    "spread_bps": 448,
-   "ratings": []
-  },
-  {
-   "isin": "INE2YT008011",
-   "issuer": "PINKPEONY PROPERTIES PRIVATE LIMITED",
-   "allotment_date": "2026-09-10",
-   "amount_cr": 505.0,
-   "coupon": 12.5,
-   "tenure_years": 10.0,
-   "band": "Not rated / available",
-   "segment": "Corporate",
-   "spread_bps": 548,
    "ratings": []
   },
   {
