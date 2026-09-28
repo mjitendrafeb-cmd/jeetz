@@ -9,7 +9,7 @@
    "tenure_years": 10.0,
    "band": "Not rated / available",
    "segment": "Corporate",
-   "spread_bps": 539,
+   "spread_bps": 534,
    "ratings": []
   },
   {
@@ -21,7 +21,7 @@
    "tenure_years": 4.0,
    "band": "Not rated / available",
    "segment": "Corporate",
-   "spread_bps": 656,
+   "spread_bps": 659,
    "ratings": []
   },
   {
@@ -33,7 +33,7 @@
    "tenure_years": 3.0,
    "band": "Not rated / available",
    "segment": "Corporate",
-   "spread_bps": 1131,
+   "spread_bps": 1134,
    "ratings": []
   },
   {
@@ -45,7 +45,7 @@
    "tenure_years": 2.0,
    "band": "BBB band",
    "segment": "NBFC/HFC",
-   "spread_bps": 424,
+   "spread_bps": 413,
    "ratings": [
     "CRISIL BBB"
    ]
@@ -59,7 +59,7 @@
    "tenure_years": 2.5,
    "band": "BBB band",
    "segment": "Corporate",
-   "spread_bps": 374,
+   "spread_bps": 363,
    "ratings": [
     "CRISIL RATINGS LIMITED BBB+"
    ]
@@ -73,7 +73,7 @@
    "tenure_years": 5.0,
    "band": "Not rated / available",
    "segment": "Corporate",
-   "spread_bps": 1568,
+   "spread_bps": 1562,
    "ratings": []
   },
   {
@@ -85,7 +85,7 @@
    "tenure_years": 5.1,
    "band": "AA band (AA+/AA/AA-)",
    "segment": "NBFC/HFC",
-   "spread_bps": 278,
+   "spread_bps": 272,
    "ratings": [
     "Brickwork AA+",
     "CRISIL AA"
@@ -100,7 +100,7 @@
    "tenure_years": 5.2,
    "band": "AA band (AA+/AA/AA-)",
    "segment": "NBFC/HFC",
-   "spread_bps": 278,
+   "spread_bps": 272,
    "ratings": [
     "CRISIL AA"
    ]
@@ -114,7 +114,7 @@
    "tenure_years": 7.0,
    "band": "A band (A+/A/A-)",
    "segment": "Bank/FI",
-   "spread_bps": 464,
+   "spread_bps": 461,
    "ratings": [
     "CareEdge A-"
    ]
@@ -128,7 +128,7 @@
    "tenure_years": 5.0,
    "band": "Below investment grade",
    "segment": "Corporate",
-   "spread_bps": 1118,
+   "spread_bps": 1112,
    "ratings": [
     "ICRA D"
    ]
@@ -154,7 +154,7 @@
    "tenure_years": 10.0,
    "band": "AA band (AA+/AA/AA-)",
    "segment": "Bank/FI",
-   "spread_bps": 284,
+   "spread_bps": 279,
    "ratings": [
     "IND-Ra AA-",
     "CareEdge AA-"
@@ -169,7 +169,7 @@
    "tenure_years": 3.0,
    "band": "AAA",
    "segment": "NBFC/HFC",
-   "spread_bps": 151,
+   "spread_bps": 154,
    "ratings": [
     "CRISIL AAA",
     "ICRA AAA"
@@ -184,7 +184,7 @@
    "tenure_years": 5.0,
    "band": "AAA",
    "segment": "Corporate",
-   "spread_bps": 73,
+   "spread_bps": 67,
    "ratings": [
     "IND-Ra AAA",
     "CRISIL AAA"
