@@ -1,77 +1,5 @@
 [
  {
-  "date": "2026-09-06",
-  "fetched": 1517,
-  "delivered_pool": 150,
-  "junk": 515,
-  "geo": 53,
-  "stale": 331,
-  "dup": 226,
-  "sections": {
-   "S1": 131,
-   "S2": 9,
-   "S3": 10
-  },
-  "mails": 0,
-  "failed": [],
-  "source_summary": {
-   "RBI RSS": 20,
-   "RBI Enforcement": 0,
-   "SEBI RSS": 20,
-   "Google News": 24,
-   "Watchlist (Google)": 1060,
-   "BSE Financials": 0,
-   "Telegram": 54,
-   "Web Scraper": 174
-  },
-  "dropped_samples": {
-   "relevance": [
-    "BREAKING: President Trump says the US is striking Iranian targets near the Strait of Hormuz and warns Iran not",
-    "PL Capital sees 19% UPSIDE in Fractal Analytics- Assets reusability complements margins improvement",
-    "PL Capital sees 23% UPSIDE in Jindal Stainless- Building the next leg of growth; Compelling value ahead",
-    "#MintMarkets: #StocksToWatch",
-    "Government officials told Mint earlier that about \u20b92,574 crore of the claims were related to loans for which C",
-    "Speaking at the SCO Summit, Modi also stressed that connectivity projects must respect the sovereignty and ter",
-    "Zomato has introduced a zero-tolerance policy for analogue dairy products, asking restaurants to switch to nat",
-    "After pushing for a BRICS current, Russian President Vladimir Putin seems to have made a big de-dollarisation ",
-    "The Trump administration is considering ending work authorization for certain spouses of H-1B visa holders, a ",
-    "Delhi Metro employee Prafull Singh is the fastest person to travel across all metro stations on the city netwo",
-    "India is closely watching the first meeting of the new Mecca Defence Alliance in Istanbul, bringing together P",
-    "AI Infrastructure Boom: Could China Trigger Massive Capital Destruction in US Markets?",
-    "Listing of further issues of securities",
-    "India's Manufacturing Majors: The Companies Building at Scale",
-    "Relief Measures in Areas Affected by Natural Calamities - Reporting through Centralised Information Management",
-    "Jefferies on Pharmaceuticals- India CRDMO Performance Review, the Jun-26 Results Season",
-    "Nuvama Initiating Coverage on Shilpa Medicare, with 26% UPSIDE- Capex payoff from specialty switch",
-    "Motilal Oswal Thematic Report on Financials",
-    "\u2018Rise up and fight\u2019: Trump challenges Iranians as he claims US has \u2018almost total control\u2019 of Hormuz",
-    "Air Vice Marshal Shakti Sharma is the first woman to become non-medical Air Vice Marshal in Indian Air Force, "
-   ],
-   "junk": [
-    "Completion of Recovery Certificate No",
-    "Completion of Recovery Certificate No",
-    "General Remittance Order dated 01.09.2026 in Recovery Certificate No",
-    "General Remittance Order dated 01.09.2026 in Recovery Certificate No",
-    "Completion of Recovery Certificate No",
-    "Order in the matter of Tarapur Transformers Limited.",
-    "Adjudication Order in the matter of Veerkrupa Jewellers Limited",
-    "Completion of Recovery Certificate No",
-    "Franklin India Corporate Bond Fund Direct-IDCW Monthly (\u20b9 16.91) - NAV, Reviews & asset allocation",
-    "Subscribe for Deepa Jewellers Ltd IPO; Anand Rathi",
-    "Deepa Jewellers IPO Opens; Anand Rathi Issues 'Subscribe' Rating",
-    "Bandhan Medium Term Fund Regular-IDCW Quarterly",
-    "Bandhan Floating Interest Rates Fund Regular-IDCW Periodic",
-    "Bandhan Dynamic Term Fund Direct-IDCW Half Yearly",
-    "Bandhan Floating Interest Rates Fund - Regular Plan Returns",
-    "Bandhan Medium Term Fund Direct-IDCW Fortnightly",
-    "Bandhan Floating Interest Rates Fund - Direct Plan Portfolio",
-    "Bandhan Dynamic Term Fund Direct-IDCW Quarterly",
-    "Bandhan Medium Term Fund Direct-IDCW Quarterly",
-    "Bank of Maharashtra Sees Sharp Open Interest Surge Signalling Renewed Market Interest"
-   ]
-  }
- },
- {
   "date": "2026-09-07",
   "fetched": 1667,
   "delivered_pool": 246,
@@ -2156,6 +2084,78 @@
     "Courtyard by Marriott Bali Nusa Dua Resort Elevates Meetings, Weddings, and Social Events with Versatile Indoo",
     "72nd National Film Awards held in Gujarat hailed by Gopi Desai, Rabindra Behera and Rahul Bali",
     "Stay here: Four Seasons Resort Bali at Sayan review"
+   ]
+  }
+ },
+ {
+  "date": "2026-09-28",
+  "fetched": 1288,
+  "delivered_pool": 194,
+  "junk": 326,
+  "geo": 27,
+  "stale": 26,
+  "dup": 434,
+  "sections": {
+   "S1": 141,
+   "S2": 35,
+   "S3": 18
+  },
+  "mails": 41,
+  "failed": [],
+  "source_summary": {
+   "RBI RSS": 20,
+   "RBI Enforcement": 0,
+   "SEBI RSS": 20,
+   "Google News": 30,
+   "Watchlist (Google)": 1339,
+   "BSE Financials": 21,
+   "Telegram": 93,
+   "Web Scraper": 183
+  },
+  "dropped_samples": {
+   "relevance": [
+    "Novation of OTC Derivative Contracts",
+    "MIPI Partnership Could Be A Game Changer For Rambus Stock (RMBS)",
+    "Spectrum Electrical Partners Maharashtra Government on ITI",
+    "Community rallies in support of Ards Boxing Club",
+    "Business News",
+    "From Bali to Big Indian, a Journey Told Through iPhone Videos",
+    "Rob Marshall explains McLaren\u2019s temporary fix for Thursday practice in Bali",
+    "Bali Immigration And Bali Police Increase Focus On Top Tourism Destinations",
+    "Significant Drop in Indian Arrivals to Bali \u2013 Down 8.14% in First Seven Months of 2026",
+    "Bali Harinama: Tirta Gangga",
+    "Mysterious triangles with colorful lights in the sky of Bali, experts investigate unusual sightings",
+    "'After Losing 9 kg,' HYOYEON Shows Off Her Bikini Body in Bali\u2014Her Extremely Slim Limbs and Defined Abs Steal ",
+    "Aussie's cheap Bali supermarket haul praised for plastic solution: 'No brainer'",
+    "Koster Discounts Reports of Real Estate Boom Underway for Bali Villas and Hotels",
+    "Alluring Land Prices Put Bali\u2019s Remaining Rice Fields at Risk. What Can Be Done Before Time Runs Out?",
+    "Three years of bringing Bali to Duluth",
+    "Bali-bound? A new airline is giving Melbourne travellers more choice",
+    "Hospitality design firm HBA marks 10 years of shaping Jakarta & Bali\u2019s luxury travel design scene",
+    "HELLO! Magazine: Maren Morris flaunts fit physique in black bikini while 'healing' in Bali retreat",
+    "Equal weight ETFs: reducing market concentration"
+   ],
+   "junk": [
+    "Cancellation of Recovery Certificate No",
+    "Cancellation of Recovery Certificate No",
+    "Remittance Order dated September 24, 2026 issued under RC No",
+    "Remittance Order dated September 24, 2026 issued under RC No",
+    "Remittance Order dated September 24, 2026 issued under RC No",
+    "Remittance Order dated September 24, 2026 issued under RC No",
+    "Remittance Order dated September 24, 2026 issued under RC No",
+    "Remittance Order dated September 24, 2026 issued under RC No",
+    "Settlement Order in the matter of Kaizen Domestic Scheme I",
+    "PGIM India Corp Bond Fund(G)-Direct Plan",
+    "Pre-match Ballinamallard United vs Ards FC, NIFL Championship Round 10",
+    "Avendus Spark Upgrades Radico Khaitan to Buy from Add; Price Target is INR5,198",
+    "Bandhan Dynamic Term Fund Direct-IDCW Yearly",
+    "Bank of India Value Fund - Regular Plan Fund info",
+    "Bank of India Money Market Fund(G)-Direct Plan",
+    "Saad Boi USD (SAAD-USD) latest stock news and headlines \u2013 Yahoo Finance",
+    "Lunch by the Poernomo brothers, tracking fireflies and more, here\u2019s experiencing Bali with Airbnb Experiences",
+    "Waterbom & Friends Return For Last Edition Of 2026 In Heart Of Bali\u2019s Iconic Tourist Resort",
+    "Groww Overnight Fund - Direct Plan",
+    "BCCI Corporate Trophy, 2013/14 - Canara Bank Cricket Team Records & Stats"
    ]
   }
  }
