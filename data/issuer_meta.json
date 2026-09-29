@@ -23,13 +23,17 @@
   "segment": "Corporate",
   "updated": "2026-09-24"
  },
+ "adani airport holdings": {
+  "segment": "Corporate",
+  "updated": "2026-09-29"
+ },
  "adani electricity mumbai": {
   "segment": "Corporate",
   "updated": "2026-09-28"
  },
  "akara capital advisors": {
   "segment": "NBFC/HFC",
-  "updated": "2026-09-21"
+  "updated": "2026-09-29"
  },
  "akme fintrade ()": {
   "segment": "Corporate",
@@ -62,6 +66,10 @@
  "axis finance": {
   "segment": "NBFC/HFC",
   "updated": "2026-09-25"
+ },
+ "axis max life insurance": {
+  "segment": "Corporate",
+  "updated": "2026-09-29"
  },
  "bajaj auto credit": {
   "segment": "NBFC/HFC",
@@ -125,7 +133,7 @@
  },
  "clean max enviro energy solutions": {
   "segment": "Corporate",
-  "updated": "2026-09-24"
+  "updated": "2026-09-29"
  },
  "credit wise capital": {
   "segment": "NBFC/HFC",
@@ -146,6 +154,10 @@
  "dar credit & capital": {
   "segment": "NBFC/HFC",
   "updated": "2026-09-11"
+ },
+ "dishman carbogen amcis": {
+  "segment": "Corporate",
+  "updated": "2026-09-29"
  },
  "divyasree realty constructions (bangalore)": {
   "segment": "Corporate",
@@ -194,6 +206,10 @@
  "gabriel": {
   "segment": "Corporate",
   "updated": "2026-09-11"
+ },
+ "gic housing finance": {
+  "segment": "NBFC/HFC",
+  "updated": "2026-09-29"
  },
  "gmr airports": {
   "segment": "Corporate",
@@ -279,17 +295,29 @@
   "segment": "PSU",
   "updated": "2026-09-01"
  },
+ "infradebt": {
+  "segment": "Corporate",
+  "updated": "2026-09-29"
+ },
+ "inox clean energy": {
+  "segment": "Corporate",
+  "updated": "2026-09-29"
+ },
  "iti gold loans": {
   "segment": "NBFC/HFC",
   "updated": "2026-08-28"
  },
  "jhs estate": {
   "segment": "Corporate",
-  "updated": "2026-09-02"
+  "updated": "2026-09-29"
  },
  "jio credit": {
   "segment": "NBFC/HFC",
   "updated": "2026-09-01"
+ },
+ "jsw energy": {
+  "segment": "Corporate",
+  "updated": "2026-09-29"
  },
  "juniper green stellar": {
   "segment": "Corporate",
@@ -515,6 +543,10 @@
   "segment": "Corporate",
   "updated": "2026-09-25"
  },
+ "purple finance": {
+  "segment": "NBFC/HFC",
+  "updated": "2026-09-29"
+ },
  "rare asset reconstruction": {
   "segment": "Corporate",
   "updated": "2026-09-08"
@@ -587,6 +619,10 @@
   "segment": "NBFC/HFC",
   "updated": "2026-09-15"
  },
+ "svl": {
+  "segment": "Corporate",
+  "updated": "2026-09-29"
+ },
  "tablespace technologies": {
   "segment": "Corporate",
   "updated": "2026-09-07"
@@ -602,6 +638,10 @@
  "top haven developers": {
   "segment": "Corporate",
   "updated": "2026-09-24"
+ },
+ "truhome finance": {
+  "segment": "NBFC/HFC",
+  "updated": "2026-09-29"
  },
  "trust investment advisors": {
   "segment": "Corporate",
@@ -630,6 +670,10 @@
  "vastu housing finance": {
   "segment": "NBFC/HFC",
   "updated": "2026-09-01"
+ },
+ "veritas finance": {
+  "segment": "NBFC/HFC",
+  "updated": "2026-09-29"
  },
  "vertis infrastructure trust": {
   "segment": "Corporate",

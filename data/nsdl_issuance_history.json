@@ -1,6 +1,286 @@
 {
  "records": [
   {
+   "isin": "INE385W07083",
+   "issuer": "DISHMAN CARBOGEN AMCIS LIMITED",
+   "allotment_date": "2026-09-28",
+   "amount_cr": 15.0,
+   "coupon": 10.0,
+   "tenure_years": 1.5,
+   "band": "A band (A+/A/A-)",
+   "segment": "Corporate",
+   "spread_bps": 418,
+   "ratings": [
+    "INDIA RATING AND RESEARCH PVT. LTD A"
+   ]
+  },
+  {
+   "isin": "INE0CYK07046",
+   "issuer": "PURPLE FINANCE LIMITED",
+   "allotment_date": "2026-09-28",
+   "amount_cr": 15.0,
+   "coupon": 11.9,
+   "tenure_years": 2.5,
+   "band": "BBB band",
+   "segment": "NBFC/HFC",
+   "spread_bps": 533,
+   "ratings": [
+    "INDIA RATING AND RESEARCH PVT. LTD BBB-"
+   ]
+  },
+  {
+   "isin": "INE0S8E07051",
+   "issuer": "JHS ESTATE PRIVATE LIMITED",
+   "allotment_date": "2026-09-28",
+   "amount_cr": 20.0,
+   "coupon": 13.5,
+   "tenure_years": 3.4,
+   "band": "Not rated / available",
+   "segment": "Corporate",
+   "spread_bps": 682,
+   "ratings": []
+  },
+  {
+   "isin": "INE08XP07548",
+   "issuer": "AKARA CAPITAL ADVISORS PRIVATE LIMITED",
+   "allotment_date": "2026-09-28",
+   "amount_cr": 100.0,
+   "coupon": 12.5,
+   "tenure_years": 1.7,
+   "band": "BBB band",
+   "segment": "NBFC/HFC",
+   "spread_bps": 593,
+   "ratings": [
+    "Acuit\u00e9 BBB+"
+   ]
+  },
+  {
+   "isin": "INE432R07513",
+   "issuer": "TRUHOME FINANCE LIMITED",
+   "allotment_date": "2026-09-28",
+   "amount_cr": 190.0,
+   "coupon": null,
+   "tenure_years": 5.0,
+   "band": "AA band (AA+/AA/AA-)",
+   "segment": "NBFC/HFC",
+   "spread_bps": null,
+   "ratings": [
+    "IND-Ra AA"
+   ]
+  },
+  {
+   "isin": "INE647U07106",
+   "issuer": "CLEAN MAX ENVIRO ENERGY SOLUTIONS LIMITED",
+   "allotment_date": "2026-09-28",
+   "amount_cr": 200.0,
+   "coupon": 8.25,
+   "tenure_years": 2.0,
+   "band": "AA band (AA+/AA/AA-)",
+   "segment": "Corporate",
+   "spread_bps": 168,
+   "ratings": [
+    "CRISIL AA",
+    "CareEdge AA-"
+   ]
+  },
+  {
+   "isin": "INE289B07156",
+   "issuer": "GIC HOUSING FINANCE LIMITED",
+   "allotment_date": "2026-09-28",
+   "amount_cr": 200.0,
+   "coupon": 8.15,
+   "tenure_years": 3.2,
+   "band": "AA band (AA+/AA/AA-)",
+   "segment": "NBFC/HFC",
+   "spread_bps": 147,
+   "ratings": [
+    "ICRA AA+",
+    "CRISIL AA+"
+   ]
+  },
+  {
+   "isin": "INE227R07046",
+   "issuer": "SVL LIMITED",
+   "allotment_date": "2026-09-28",
+   "amount_cr": 200.0,
+   "coupon": 11.5,
+   "tenure_years": 1.5,
+   "band": "Not rated / available",
+   "segment": "Corporate",
+   "spread_bps": 568,
+   "ratings": []
+  },
+  {
+   "isin": "INE448U07364",
+   "issuer": "VERITAS FINANCE LIMITED",
+   "allotment_date": "2026-09-28",
+   "amount_cr": 240.0,
+   "coupon": 8.95,
+   "tenure_years": 2.7,
+   "band": "AA band (AA+/AA/AA-)",
+   "segment": "NBFC/HFC",
+   "spread_bps": 227,
+   "ratings": [
+    "CARE RATINGS LIMITED AA-"
+   ]
+  },
+  {
+   "isin": "INE647U07114",
+   "issuer": "CLEAN MAX ENVIRO ENERGY SOLUTIONS LIMITED",
+   "allotment_date": "2026-09-28",
+   "amount_cr": 400.0,
+   "coupon": 8.485,
+   "tenure_years": 3.0,
+   "band": "AA band (AA+/AA/AA-)",
+   "segment": "Corporate",
+   "spread_bps": 180,
+   "ratings": [
+    "CRISIL AA",
+    "CareEdge AA-"
+   ]
+  },
+  {
+   "isin": "INE537P07927",
+   "issuer": "INDIA INFRADEBT LIMITED",
+   "allotment_date": "2026-09-28",
+   "amount_cr": 400.0,
+   "coupon": null,
+   "tenure_years": 2.3,
+   "band": "AAA",
+   "segment": "Corporate",
+   "spread_bps": null,
+   "ratings": [
+    "CRISIL AAA"
+   ]
+  },
+  {
+   "isin": "INE647U07148",
+   "issuer": "CLEAN MAX ENVIRO ENERGY SOLUTIONS LIMITED",
+   "allotment_date": "2026-09-28",
+   "amount_cr": 478.0,
+   "coupon": null,
+   "tenure_years": 10.0,
+   "band": "AA band (AA+/AA/AA-)",
+   "segment": "Corporate",
+   "spread_bps": null,
+   "ratings": [
+    "CRISIL AA",
+    "CareEdge AA-"
+   ]
+  },
+  {
+   "isin": "INE0H7K08044",
+   "issuer": "INOX CLEAN ENERGY LIMITED",
+   "allotment_date": "2026-09-28",
+   "amount_cr": 500.0,
+   "coupon": null,
+   "tenure_years": 4.0,
+   "band": "Not rated / available",
+   "segment": "Corporate",
+   "spread_bps": null,
+   "ratings": []
+  },
+  {
+   "isin": "INE121E08088",
+   "issuer": "JSW ENERGY LIMITED",
+   "allotment_date": "2026-09-28",
+   "amount_cr": 500.0,
+   "coupon": null,
+   "tenure_years": 7.0,
+   "band": "AA band (AA+/AA/AA-)",
+   "segment": "Corporate",
+   "spread_bps": null,
+   "ratings": [
+    "ICRA AA"
+   ]
+  },
+  {
+   "isin": "INE647U07130",
+   "issuer": "CLEAN MAX ENVIRO ENERGY SOLUTIONS LIMITED",
+   "allotment_date": "2026-09-28",
+   "amount_cr": 615.0,
+   "coupon": null,
+   "tenure_years": 10.0,
+   "band": "AA band (AA+/AA/AA-)",
+   "segment": "Corporate",
+   "spread_bps": null,
+   "ratings": [
+    "CRISIL AA",
+    "CareEdge AA-"
+   ]
+  },
+  {
+   "isin": "INE511N08040",
+   "issuer": "AXIS MAX LIFE INSURANCE LIMITED",
+   "allotment_date": "2026-09-28",
+   "amount_cr": 686.0,
+   "coupon": 8.58,
+   "tenure_years": 10.0,
+   "band": "AA band (AA+/AA/AA-)",
+   "segment": "Corporate",
+   "spread_bps": 141,
+   "ratings": [
+    "ICRA AA+"
+   ]
+  },
+  {
+   "isin": "INE537P07919",
+   "issuer": "INDIA INFRADEBT LIMITED",
+   "allotment_date": "2026-09-28",
+   "amount_cr": 800.0,
+   "coupon": 7.8825,
+   "tenure_years": 2.3,
+   "band": "AAA",
+   "segment": "Corporate",
+   "spread_bps": 131,
+   "ratings": [
+    "ICRA AAA",
+    "CRISIL AAA"
+   ]
+  },
+  {
+   "isin": "INE647U07122",
+   "issuer": "CLEAN MAX ENVIRO ENERGY SOLUTIONS LIMITED",
+   "allotment_date": "2026-09-28",
+   "amount_cr": 807.0,
+   "coupon": 8.765,
+   "tenure_years": 5.0,
+   "band": "AA band (AA+/AA/AA-)",
+   "segment": "Corporate",
+   "spread_bps": 190,
+   "ratings": [
+    "CRISIL AA"
+   ]
+  },
+  {
+   "isin": "INE0GCN07062",
+   "issuer": "ADANI AIRPORT HOLDINGS LIMITED",
+   "allotment_date": "2026-09-28",
+   "amount_cr": 1000.0,
+   "coupon": 8.96,
+   "tenure_years": 3.0,
+   "band": "AA band (AA+/AA/AA-)",
+   "segment": "Corporate",
+   "spread_bps": 228,
+   "ratings": [
+    "IND-Ra AA-"
+   ]
+  },
+  {
+   "isin": "INE537P07935",
+   "issuer": "INDIA INFRADEBT LIMITED",
+   "allotment_date": "2026-09-28",
+   "amount_cr": 2000.0,
+   "coupon": 8.1905,
+   "tenure_years": 5.2,
+   "band": "AAA",
+   "segment": "Corporate",
+   "spread_bps": 132,
+   "ratings": [
+    "CRISIL AAA"
+   ]
+  },
+  {
    "isin": "INE2YT008011",
    "issuer": "PARTHOS ONE PRIVATE LIMITED",
    "allotment_date": "2026-09-25",
