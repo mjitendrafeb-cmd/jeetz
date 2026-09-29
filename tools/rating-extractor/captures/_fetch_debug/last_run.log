@@ -1,0 +1,50 @@
+Fetching 3 entities from India Ratings, ICRA, CRISIL
+
+== Bajaj Finance Limited
+    [IR] PR 81837 (10 Mar 2026): 334 records
+    [IR] PR 76931 (16 Jun 2025): 315 records
+    [India Ratings] stored 0 new record(s)
+    [ICRA] search hit with PageType=ALL key='Bajaj Finance'
+    [ICRA] report 144045: 5 records
+    [ICRA] report 143703: 1 records
+    [ICRA] stored 0 new record(s)
+    [CRISIL] searched via "input[placeholder*='Search']"
+    [CRISIL] selecting suggestion 'Bajaj Finance Limited'
+    [CRISIL] 3 document anchors, 1 rating rationales, 1 matched entity
+[crisil] Document is a Credit Bulletin, which states no rating action; only annexure data will be extracted.
+    [CRISIL] no header action rows in BajajFinanceLimited_July_2029__202026_RR_401403. -> captures/_fetch_debug/crisil_no_header_BajajFinanceLimited_July_2029__202026_RR_401403.html
+    [CRISIL] BajajFinanceLimited_July%2029_%202026_RR_401403.html: 14 records
+    [CRISIL] stored 0 new record(s)
+
+== Cholamandalam Investment And Finance Company Limited
+    [IR] PR 81585 has no bank facilities (likely NCD/CP only) -> captures/_fetch_debug/ir_no_facilities_81585.json
+    [IR] PR 81585 (24 Feb 2026): 0 records
+    [IR] PR 75207 has no bank facilities (likely NCD/CP only) -> captures/_fetch_debug/ir_no_facilities_75207.json
+    [IR] PR 75207 (25 Feb 2025): 0 records
+    [ICRA] search hit with PageType=ALL key='Cholamandalam Investment And Finance Company Limited'
+    [ICRA] report 145472: 0 records
+    [ICRA] report 145427: 12 records
+    [ICRA] stored 0 new record(s)
+    [CRISIL] searched via "input[placeholder*='Search']"
+    [CRISIL] selecting suggestion 'Cholamandalam Investment and Finance Company Limited'
+    [CRISIL] 72 document anchors, 1 rating rationales, 1 matched entity
+    [CRISIL] CholamandalamInvestmentandFinanceCompanyLimited_February%202: 5 records
+    [CRISIL] stored 5 new record(s)
+
+== Power Finance Corporation Limited
+    [IR] PR 84119 (09 Jul 2026): 7 records
+    [IR] PR 76305 (23 Apr 2025): 16 records
+    [India Ratings] stored 0 new record(s)
+    [ICRA] search hit with PageType=ALL key='Power Finance Corporation Limited'
+    [ICRA] report 140489: 0 records
+    [ICRA] report 132789: 0 records
+    [CRISIL] searched via "input[placeholder*='Search']"
+    [CRISIL] selecting suggestion 'Power Finance Corporation Limited'
+    [CRISIL] 1 document anchors, 1 rating rationales, 1 matched entity
+    [CRISIL] PowerFinanceCorporationLimited_August%2005_%202026_RR_401595: 99 records
+    [CRISIL] stored 11 new record(s)
+
+=== summary ===
+  India Ratings: 0 new record(s)
+  ICRA: 0 new record(s)
+  CRISIL: 16 new record(s)

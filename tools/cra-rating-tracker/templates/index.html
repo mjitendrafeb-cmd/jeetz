@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+{% block content %}
+
+<section class="toolbar">
+  <form method="post" action="{{ url_for('refresh_all') }}">
+    <button type="submit">Refresh all agencies</button>
+  </form>
+
+  <form method="post" action="{{ url_for('add_company') }}" class="add-company">
+    <input type="text" name="name" placeholder="Company name" required>
+    <input type="text" name="aliases" placeholder="Aliases (comma separated, optional)">
+    <button type="submit">Add to watchlist</button>
+  </form>
+</section>
+
+{% if not summary %}
+  <p class="empty">No companies on the watchlist yet. Add one above.</p>
+{% endif %}
+
+<table class="summary">
+  <thead>
+    <tr>
+      <th>Company</th>
+      <th>CRISIL</th>
+      <th>ICRA</th>
+      <th>CARE</th>
+      <th>India Ratings</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for row in summary %}
+    <tr>
+      <td><a href="{{ url_for('company_detail', company_id=row.company.id) }}">{{ row.company.name }}</a></td>
+      {% for agency in ["CRISIL", "ICRA", "CARE", "India Ratings"] %}
+        <td>
+          {% if agency in row.latest %}
+            {% set a = row.latest[agency] %}
+            <span class="rating">{{ a.rating or "—" }}</span>
+            {% if a.outlook %}<span class="outlook">({{ a.outlook }})</span>{% endif %}
+            <div class="meta">
+              {{ a.action_type or "" }}
+              {% if a.amount_text %} &middot; {{ a.amount_text }}{% endif %}
+              {% if a.action_date %} &middot; {{ a.action_date }}{% endif %}
+            </div>
+          {% else %}
+            <span class="none">no data</span>
+          {% endif %}
+        </td>
+      {% endfor %}
+      <td>
+        <form method="post" action="{{ url_for('delete_company', company_id=row.company.id) }}"
+              onsubmit="return confirm('Remove {{ row.company.name }} from the watchlist?');">
+          <button type="submit" class="link-button">remove</button>
+        </form>
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+{% endblock %}

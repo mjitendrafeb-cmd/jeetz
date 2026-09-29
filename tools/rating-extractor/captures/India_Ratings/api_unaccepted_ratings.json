@@ -1,0 +1,1 @@
+{"type":"https://tools.ietf.org/html/rfc9110#section-15.5.1","title":"One or more validation errors occurred.","status":400,"errors":{"rcnId":["The rcnId field is required."],"effectivedate":["The effectivedate field is required."]},"traceId":"00-03208db657a62efc9ce5fe993fd761c0-71f4aca1a1624909-00"}

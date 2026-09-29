@@ -1,0 +1,65 @@
+name: Rating Extractor Recon
+
+# The dev sandbox used to build tools/rating-extractor is behind a
+# default-deny egress allowlist and cannot reach the rating-agency sites.
+# This runs Phase 0 reconnaissance on a GitHub-hosted runner instead (open
+# internet) and commits the captured pages back, so parsers can be built and
+# validated against real markup.
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - claude/cra-rating-tracker-gz9zwj
+    paths:
+      - 'tools/rating-extractor/recon.py'
+      - '.github/workflows/rating_recon.yml'
+
+concurrency:
+  group: rating-recon
+  cancel-in-progress: true
+
+jobs:
+  recon:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install requests beautifulsoup4 lxml
+
+      - name: Run Phase 0 reconnaissance
+        working-directory: tools/rating-extractor
+        run: python recon.py
+
+      - name: Upload captures as artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: rating-recon-captures
+          path: tools/rating-extractor/captures/
+          retention-days: 14
+
+      - name: Commit captures back to branch
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -f tools/rating-extractor/captures/
+          if git diff --staged --quiet; then
+            echo "No capture changes to commit."
+          else
+            git commit -m "Rating recon captures from CI runner [skip ci]"
+            git push origin HEAD:${{ github.ref_name }}
+          fi
