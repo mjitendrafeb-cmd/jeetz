@@ -1,6 +1,351 @@
 {
  "records": [
   {
+   "isin": "INE814O07642",
+   "issuer": "NEOGROWTH CREDIT PRIVATE LIMITED",
+   "allotment_date": "2026-09-29",
+   "amount_cr": 40.0,
+   "coupon": 12.0,
+   "tenure_years": 1.7,
+   "band": "BBB band",
+   "segment": "NBFC/HFC",
+   "spread_bps": 540,
+   "ratings": [
+    "ICRA BBB"
+   ]
+  },
+  {
+   "isin": "INE0L2508094",
+   "issuer": "PARTHOS PROPERTIES PRIVATE LIMITED",
+   "allotment_date": "2026-09-29",
+   "amount_cr": 125.0,
+   "coupon": 11.5,
+   "tenure_years": 10.0,
+   "band": "Not rated / available",
+   "segment": "Corporate",
+   "spread_bps": 435,
+   "ratings": []
+  },
+  {
+   "isin": "INE0EU707011",
+   "issuer": "VENTURA SECURITIES LIMITED",
+   "allotment_date": "2026-09-29",
+   "amount_cr": 19.0,
+   "coupon": 10.95,
+   "tenure_years": 1.0,
+   "band": "BBB band",
+   "segment": "Corporate",
+   "spread_bps": 474,
+   "ratings": [
+    "CareEdge BBB+"
+   ]
+  },
+  {
+   "isin": "INE861D07026",
+   "issuer": "SHALIBHADRA FINANCE LIMITED",
+   "allotment_date": "2026-09-29",
+   "amount_cr": 20.0,
+   "coupon": 11.5,
+   "tenure_years": 2.0,
+   "band": "BBB band",
+   "segment": "NBFC/HFC",
+   "spread_bps": 490,
+   "ratings": [
+    "ICRA BBB-"
+   ]
+  },
+  {
+   "isin": "INE0MMC07450",
+   "issuer": "INCRED WEALTH AND INVESTMENT SERVICES PRIVATE LIMITED",
+   "allotment_date": "2026-09-29",
+   "amount_cr": 40.0,
+   "coupon": null,
+   "tenure_years": 3.2,
+   "band": "Not rated / available",
+   "segment": "Corporate",
+   "spread_bps": null,
+   "ratings": []
+  },
+  {
+   "isin": "INE1QWF07105",
+   "issuer": "GREAVES FINANCE LIMITED",
+   "allotment_date": "2026-09-29",
+   "amount_cr": 50.0,
+   "coupon": 10.5,
+   "tenure_years": 2.3,
+   "band": "A band (A+/A/A-)",
+   "segment": "NBFC/HFC",
+   "spread_bps": 390,
+   "ratings": [
+    "IND-Ra A-"
+   ]
+  },
+  {
+   "isin": "INE0MMC07468",
+   "issuer": "INCRED WEALTH AND INVESTMENT SERVICES PRIVATE LIMITED",
+   "allotment_date": "2026-09-29",
+   "amount_cr": 50.0,
+   "coupon": null,
+   "tenure_years": 3.5,
+   "band": "Not rated / available",
+   "segment": "Corporate",
+   "spread_bps": null,
+   "ratings": []
+  },
+  {
+   "isin": "INE786X07BN6",
+   "issuer": "ORANGE RETAIL FINANCE INDIA PRIVATE LIMITED",
+   "allotment_date": "2026-09-29",
+   "amount_cr": 50.0,
+   "coupon": 12.0,
+   "tenure_years": 2.5,
+   "band": "BBB band",
+   "segment": "NBFC/HFC",
+   "spread_bps": 540,
+   "ratings": [
+    "ICRA BBB-"
+   ]
+  },
+  {
+   "isin": "INE2LQA07032",
+   "issuer": "SAARATHI FINANCE AND CREDIT PRIVATE LIMITED",
+   "allotment_date": "2026-09-29",
+   "amount_cr": 50.0,
+   "coupon": 10.2,
+   "tenure_years": 3.0,
+   "band": "A band (A+/A/A-)",
+   "segment": "NBFC/HFC",
+   "spread_bps": 349,
+   "ratings": [
+    "ICRA A-"
+   ]
+  },
+  {
+   "isin": "INE345H07062",
+   "issuer": "CAPITAL INDIA FINANCE LIMITED",
+   "allotment_date": "2026-09-29",
+   "amount_cr": 100.0,
+   "coupon": 10.0,
+   "tenure_years": 2.3,
+   "band": "A band (A+/A/A-)",
+   "segment": "NBFC/HFC",
+   "spread_bps": 340,
+   "ratings": [
+    "Infomerics A"
+   ]
+  },
+  {
+   "isin": "INE321N07764",
+   "issuer": "INCRED FINANCIAL SERVICES LIMITED",
+   "allotment_date": "2026-09-29",
+   "amount_cr": 100.0,
+   "coupon": null,
+   "tenure_years": 6.6,
+   "band": "AA band (AA+/AA/AA-)",
+   "segment": "Corporate",
+   "spread_bps": null,
+   "ratings": [
+    "CRISIL AA-"
+   ]
+  },
+  {
+   "isin": "INE06E507579",
+   "issuer": "HELLA INFRA MARKET LIMITED",
+   "allotment_date": "2026-09-29",
+   "amount_cr": 125.0,
+   "coupon": 11.0,
+   "tenure_years": 2.5,
+   "band": "A band (A+/A/A-)",
+   "segment": "Corporate",
+   "spread_bps": 440,
+   "ratings": [
+    "Acuit\u00e9 A-"
+   ]
+  },
+  {
+   "isin": "INE246R07947",
+   "issuer": "NIIF INFRASTRUCTURE FINANCE LIMITED",
+   "allotment_date": "2026-09-29",
+   "amount_cr": 150.0,
+   "coupon": 8.18,
+   "tenure_years": 3.1,
+   "band": "AAA",
+   "segment": "NBFC/HFC",
+   "spread_bps": 147,
+   "ratings": [
+    "ICRA AAA"
+   ]
+  },
+  {
+   "isin": "INE165U08024",
+   "issuer": "NABKISAN FINANCE LIMITED",
+   "allotment_date": "2026-09-29",
+   "amount_cr": 180.0,
+   "coupon": 8.1,
+   "tenure_years": 5.0,
+   "band": "AAA",
+   "segment": "NBFC/HFC",
+   "spread_bps": 124,
+   "ratings": [
+    "CareEdge AAA"
+   ]
+  },
+  {
+   "isin": "INE0P1407091",
+   "issuer": "VIVRITI CAPITAL LIMITED",
+   "allotment_date": "2026-09-29",
+   "amount_cr": 200.0,
+   "coupon": 9.8,
+   "tenure_years": 3.0,
+   "band": "A band (A+/A/A-)",
+   "segment": "NBFC/HFC",
+   "spread_bps": 309,
+   "ratings": [
+    "CRISIL A+"
+   ]
+  },
+  {
+   "isin": "INE18UV08044",
+   "issuer": "BAJAJ AUTO CREDIT LIMITED",
+   "allotment_date": "2026-09-29",
+   "amount_cr": 250.0,
+   "coupon": 8.25,
+   "tenure_years": 6.0,
+   "band": "AAA",
+   "segment": "NBFC/HFC",
+   "spread_bps": 139,
+   "ratings": [
+    "ICRA AAA"
+   ]
+  },
+  {
+   "isin": "INE2Z5L07010",
+   "issuer": "DOMMASANDRA URBAN PROJECTS PRIVATE LIMITED",
+   "allotment_date": "2026-09-29",
+   "amount_cr": 305.0,
+   "coupon": 18.5,
+   "tenure_years": 5.0,
+   "band": "Below investment grade",
+   "segment": "Corporate",
+   "spread_bps": 1164,
+   "ratings": [
+    "Acuite Ratings And Research Limited BB"
+   ]
+  },
+  {
+   "isin": "INE1FPT07046",
+   "issuer": "SHREE NAMAN HOSPITALITY PRIVATE LIMITED",
+   "allotment_date": "2026-09-29",
+   "amount_cr": 325.0,
+   "coupon": null,
+   "tenure_years": 2.3,
+   "band": "Not rated / available",
+   "segment": "Corporate",
+   "spread_bps": null,
+   "ratings": []
+  },
+  {
+   "isin": "INE246R07954",
+   "issuer": "NIIF INFRASTRUCTURE FINANCE LIMITED",
+   "allotment_date": "2026-09-29",
+   "amount_cr": 400.0,
+   "coupon": 8.19,
+   "tenure_years": 5.4,
+   "band": "AAA",
+   "segment": "NBFC/HFC",
+   "spread_bps": 133,
+   "ratings": [
+    "ICRA AAA",
+    "CareEdge AAA"
+   ]
+  },
+  {
+   "isin": "INE790Z07103",
+   "issuer": "INTERISE TRUST",
+   "allotment_date": "2026-09-29",
+   "amount_cr": 500.0,
+   "coupon": null,
+   "tenure_years": 3.0,
+   "band": "AAA",
+   "segment": "Corporate",
+   "spread_bps": null,
+   "ratings": [
+    "ICRA AAA"
+   ]
+  },
+  {
+   "isin": "INE790Z07095",
+   "issuer": "INTERISE TRUST",
+   "allotment_date": "2026-09-29",
+   "amount_cr": 500.0,
+   "coupon": null,
+   "tenure_years": 18.5,
+   "band": "AAA",
+   "segment": "Corporate",
+   "spread_bps": null,
+   "ratings": [
+    "ICRA AAA"
+   ]
+  },
+  {
+   "isin": "INE09U308017",
+   "issuer": "SAGARMALA FINANCE CORPORATION LIMITED",
+   "allotment_date": "2026-09-29",
+   "amount_cr": 600.0,
+   "coupon": 7.7,
+   "tenure_years": 10.0,
+   "band": "AA band (AA+/AA/AA-)",
+   "segment": "PSU",
+   "spread_bps": 55,
+   "ratings": [
+    "ICRA AA+"
+   ]
+  },
+  {
+   "isin": "INE790Z07087",
+   "issuer": "INTERISE TRUST",
+   "allotment_date": "2026-09-29",
+   "amount_cr": 737.0,
+   "coupon": null,
+   "tenure_years": 18.5,
+   "band": "AAA",
+   "segment": "Corporate",
+   "spread_bps": null,
+   "ratings": [
+    "ICRA AAA",
+    "IND-Ra AAA"
+   ]
+  },
+  {
+   "isin": "INE774D07VR3",
+   "issuer": "MAHINDRA AND MAHINDRA FINANCIAL SERVICES LIMITED",
+   "allotment_date": "2026-09-29",
+   "amount_cr": 2000.0,
+   "coupon": 7.95,
+   "tenure_years": 3.0,
+   "band": "AAA",
+   "segment": "NBFC/HFC",
+   "spread_bps": 124,
+   "ratings": [
+    "CARE RATINGS LIMITED AAA"
+   ]
+  },
+  {
+   "isin": "INE752E08817",
+   "issuer": "POWER GRID CORPORATION OF INDIA LIMITED",
+   "allotment_date": "2026-09-29",
+   "amount_cr": 2000.0,
+   "coupon": 7.74,
+   "tenure_years": 10.0,
+   "band": "AAA",
+   "segment": "PSU",
+   "spread_bps": 59,
+   "ratings": [
+    "ICRA AAA",
+    "CRISIL AAA"
+   ]
+  },
+  {
    "isin": "INE385W07083",
    "issuer": "DISHMAN CARBOGEN AMCIS LIMITED",
    "allotment_date": "2026-09-28",
@@ -556,20 +901,6 @@
    "spread_bps": 257,
    "ratings": [
     "CRISIL AA"
-   ]
-  },
-  {
-   "isin": "INE814O07642",
-   "issuer": "NEOGROWTH CREDIT PRIVATE LIMITED",
-   "allotment_date": "2026-09-24",
-   "amount_cr": 40.0,
-   "coupon": 12.0,
-   "tenure_years": 1.7,
-   "band": "BBB band",
-   "segment": "NBFC/HFC",
-   "spread_bps": 567,
-   "ratings": [
-    "ICRA BBB"
    ]
   },
   {
@@ -2446,18 +2777,6 @@
    "band": "Not rated / available",
    "segment": "Corporate",
    "spread_bps": null,
-   "ratings": []
-  },
-  {
-   "isin": "INE0L2508094",
-   "issuer": "PARTHOS PROPERTIES PRIVATE LIMITED",
-   "allotment_date": "2026-09-10",
-   "amount_cr": 125.0,
-   "coupon": 11.5,
-   "tenure_years": 10.0,
-   "band": "Not rated / available",
-   "segment": "Corporate",
-   "spread_bps": 448,
    "ratings": []
   },
   {

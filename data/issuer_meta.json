@@ -73,7 +73,7 @@
  },
  "bajaj auto credit": {
   "segment": "NBFC/HFC",
-  "updated": "2026-09-23"
+  "updated": "2026-09-30"
  },
  "bajaj finance": {
   "segment": "NBFC/HFC",
@@ -106,6 +106,10 @@
  "canara bank": {
   "segment": "PSU",
   "updated": "2026-09-21"
+ },
+ "capital finance": {
+  "segment": "NBFC/HFC",
+  "updated": "2026-09-30"
  },
  "care health insurance": {
   "segment": "Corporate",
@@ -167,6 +171,10 @@
   "segment": "NBFC/HFC",
   "updated": "2026-09-22"
  },
+ "dommasandra urban projects": {
+  "segment": "Corporate",
+  "updated": "2026-09-30"
+ },
  "ecap equities": {
   "segment": "Corporate",
   "updated": "2026-09-03"
@@ -225,7 +233,7 @@
  },
  "greaves finance": {
   "segment": "NBFC/HFC",
-  "updated": "2026-09-08"
+  "updated": "2026-09-30"
  },
  "growxcd finance": {
   "segment": "NBFC/HFC",
@@ -245,7 +253,7 @@
  },
  "hella infra market": {
   "segment": "Corporate",
-  "updated": "2026-09-04"
+  "updated": "2026-09-30"
  },
  "hella infra market retail": {
   "segment": "Corporate",
@@ -281,11 +289,11 @@
  },
  "incred financial services": {
   "segment": "Corporate",
-  "updated": "2026-09-25"
+  "updated": "2026-09-30"
  },
  "incred wealth and investment services": {
   "segment": "Corporate",
-  "updated": "2026-09-15"
+  "updated": "2026-09-30"
  },
  "indiafirst life insurance": {
   "segment": "NBFC/HFC",
@@ -302,6 +310,10 @@
  "inox clean energy": {
   "segment": "Corporate",
   "updated": "2026-09-29"
+ },
+ "interise trust": {
+  "segment": "Corporate",
+  "updated": "2026-09-30"
  },
  "iti gold loans": {
   "segment": "NBFC/HFC",
@@ -387,6 +399,10 @@
   "segment": "NBFC/HFC",
   "updated": "2026-09-08"
  },
+ "mahindra and mahindra financial services": {
+  "segment": "NBFC/HFC",
+  "updated": "2026-09-30"
+ },
  "manba finance": {
   "segment": "NBFC/HFC",
   "updated": "2026-09-25"
@@ -439,6 +455,10 @@
   "segment": "NBFC/HFC",
   "updated": "2026-09-09"
  },
+ "nabkisan finance": {
+  "segment": "NBFC/HFC",
+  "updated": "2026-09-30"
+ },
  "nagar nigam moradabad": {
   "segment": "Corporate",
   "updated": "2026-09-22"
@@ -457,11 +477,11 @@
  },
  "neogrowth credit": {
   "segment": "NBFC/HFC",
-  "updated": "2026-09-25"
+  "updated": "2026-09-30"
  },
  "niif infrastructure finance": {
   "segment": "NBFC/HFC",
-  "updated": "2026-09-17"
+  "updated": "2026-09-30"
  },
  "nirmal bang financial services": {
   "segment": "Corporate",
@@ -489,7 +509,7 @@
  },
  "orange retail finance": {
   "segment": "NBFC/HFC",
-  "updated": "2026-08-26"
+  "updated": "2026-09-30"
  },
  "oxyzo financial services": {
   "segment": "Corporate",
@@ -505,7 +525,7 @@
  },
  "parthos properties": {
   "segment": "Corporate",
-  "updated": "2026-09-11"
+  "updated": "2026-09-30"
  },
  "patna municipal": {
   "segment": "Corporate",
@@ -534,6 +554,10 @@
  "power finance": {
   "segment": "PSU",
   "updated": "2026-09-08"
+ },
+ "power grid of": {
+  "segment": "PSU",
+  "updated": "2026-09-30"
  },
  "praveen capital": {
   "segment": "NBFC/HFC",
@@ -577,7 +601,11 @@
  },
  "saarathi finance and credit": {
   "segment": "NBFC/HFC",
-  "updated": "2026-09-25"
+  "updated": "2026-09-30"
+ },
+ "sagarmala finance": {
+  "segment": "PSU",
+  "updated": "2026-09-30"
  },
  "sammaan capital": {
   "segment": "NBFC/HFC",
@@ -591,6 +619,10 @@
   "segment": "NBFC/HFC",
   "updated": "2026-09-21"
  },
+ "shalibhadra finance": {
+  "segment": "NBFC/HFC",
+  "updated": "2026-09-30"
+ },
  "shangrila infracon": {
   "segment": "Corporate",
   "updated": "2026-09-11"
@@ -598,6 +630,10 @@
  "shivalik small finance bank": {
   "segment": "Bank/FI",
   "updated": "2026-09-25"
+ },
+ "shree naman hospitality": {
+  "segment": "Corporate",
+  "updated": "2026-09-30"
  },
  "shri ram finance": {
   "segment": "NBFC/HFC",
@@ -671,6 +707,10 @@
   "segment": "NBFC/HFC",
   "updated": "2026-09-01"
  },
+ "ventura securities": {
+  "segment": "Corporate",
+  "updated": "2026-09-30"
+ },
  "veritas finance": {
   "segment": "NBFC/HFC",
   "updated": "2026-09-29"
@@ -689,7 +729,7 @@
  },
  "vivriti capital": {
   "segment": "NBFC/HFC",
-  "updated": "2026-09-21"
+  "updated": "2026-09-30"
  },
  "weber drivetrain": {
   "segment": "Corporate",
