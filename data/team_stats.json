@@ -1,77 +1,5 @@
 [
  {
-  "date": "2026-09-07",
-  "fetched": 2229,
-  "delivered_pool": 271,
-  "junk": 619,
-  "geo": 53,
-  "stale": 21,
-  "dup": 812,
-  "sections": {
-   "S1": 228,
-   "S2": 20,
-   "S3": 23
-  },
-  "mails": 2,
-  "failed": [],
-  "source_summary": {
-   "RBI RSS": 20,
-   "RBI Enforcement": 0,
-   "SEBI RSS": 20,
-   "Google News": 27,
-   "Watchlist (Google)": 1450,
-   "BSE Financials": 21,
-   "Telegram": 108,
-   "Web Scraper": 387
-  },
-  "dropped_samples": {
-   "relevance": [
-    "SC clears NSE settlement, paving way for mega IPO",
-    "The Changing Approach to Retirement Planning",
-    "Nationwide trends in incidence and in-hospital mortality of ARDS in Germany, 2008\u20132022",
-    "ards-asst-768\u00d7448",
-    "Fredrick Ards Sports Illustrated",
-    "Eccles urges Ards Rugby players to remain level-headed",
-    "Well known Ards family to celebrate 100th anniversary with charity fundraiser",
-    "Ards man was in Nashville on day Dolly Parton died",
-    "Newsroom",
-    "Preferred Hotels expands in Bali",
-    "Pitch Fest Bali 2026 Wraps: ObsessionDB Wins, 13 Startups Pitch to a Room of Leading VCs",
-    "The World's Best Return To Paradise: Bali Welcomes Back The Pro Billiard Series For Three Major Events",
-    "Confusion Prevails as Continuation of Uluwatu Seawall Construction Delayed",
-    "ICANN to Host 87th Conference in Bali 17-22 October 2026",
-    "Got A Tricky Customer Situation? BALI Introduces \u201cAsk The Experts\u201d At GroundsFest 2026",
-    "NCLT Bengaluru orders status quo over Byju\u2019s assets amid \u20b9150-crore ownership dispute - indialegallive.com",
-    "Neom\u2019s First Striped Hyena Cub Signals a Return to the Wild",
-    "Bear cub deaths prompt warning for drivers in Tahoe region",
-    "Cub Scout event encourages fun at Carson",
-    "Bear cub Polaris"
-   ],
-   "junk": [
-    "Appeal No. 7028 of 2026 filed by Samar Imran",
-    "Appeal No. 7027 of 2026 filed by Samar Imran",
-    "Appeal No. 7026 of 2026 filed by Samar Imran",
-    "Appeal No. 7023 of 2026 filed by Vivek Tripathi",
-    "Completion of Recovery Certificate No",
-    "Appeal No. 7022 of 2026 filed by Sandeep Kumar",
-    "Appeal No. 7021 of 2026 filed by Dhieraj Pal",
-    "Appeal No. 7020 of 2026 filed by Shamshad Ahmed",
-    "Appeal No. 7019 of 2026 filed by Nitin Goel",
-    "Appeal No. 7018 of 2026 filed by R K Singhal",
-    "5Paisa Capital Ltd is Rated Hold",
-    "Deepa Jewellers IPO Enters Day 2: 10 Key Things To Know Before You Subscribe",
-    "Angel One Ltd is Rated Hold by MarketsMOJO",
-    "Pre-match Ards FC vs Harland & Wolff Welders, NIFL Championship Round 29",
-    "Scapia Ties up with Axis Bank to launch their credit card on the MasterCard platform",
-    "Scapia partners Axis Bank to launch co-branded credit card for young travellers",
-    "Bandhan Medium Term Fund Direct-IDCW Quarterly",
-    "Bandhan Contra Fund - Direct Plan Returns",
-    "Bandhan Medium Term Fund Regular-IDCW Quarterly",
-    "Bandhan Mutual Fund: Increases EPL Limited Stake to 5.31%"
-   ]
-  }
- },
- {
   "date": "2026-09-08",
   "fetched": 1494,
   "delivered_pool": 107,
@@ -2156,6 +2084,78 @@
     "Lunch by the Poernomo brothers, tracking fireflies and more, here\u2019s experiencing Bali with Airbnb Experiences",
     "Waterbom & Friends Return For Last Edition Of 2026 In Heart Of Bali\u2019s Iconic Tourist Resort",
     "Groww Overnight Fund - Direct Plan"
+   ]
+  }
+ },
+ {
+  "date": "2026-09-30",
+  "fetched": 925,
+  "delivered_pool": 78,
+  "junk": 341,
+  "geo": 20,
+  "stale": 231,
+  "dup": 81,
+  "sections": {
+   "S1": 61,
+   "S2": 5,
+   "S3": 12
+  },
+  "mails": 41,
+  "failed": [],
+  "source_summary": {
+   "RBI RSS": 20,
+   "RBI Enforcement": 0,
+   "SEBI RSS": 20,
+   "Google News": 27,
+   "Watchlist (Google)": 1029,
+   "BSE Financials": 0,
+   "Telegram": 63,
+   "Web Scraper": 980
+  },
+  "dropped_samples": {
+   "relevance": [
+    "DAM Capital sees 47% UPSIDE in UPL- Implied Holdco discount is steep",
+    "Tajinderpal Singh Toor, who won gold medal in the last two editions of the Asian Games, bagged the silver in A",
+    "Josh Daniels, a cinematic director at Halo Studios, lost his job just days after receiving a promotion",
+    "A sharp face-off unfolded at the UN General Assembly as India hit back at Pakistan PM Shehbaz Sharif\u2019s remarks",
+    "Gold, silver prices today, 26 Sept, 2026 Track all mkt updates here",
+    "Rimbi, Sikkim: Incessant heavy rainfall triggers a major landslide in Rimbi village under the Yuksom-Tashiding",
+    "India\u2019s expanding network of bridges, tunnels, expressways and high-speed trains is significantly changing how",
+    "Scuttlebutt is one of the most powerful tools available to an equity investor",
+    "The Language of Joy: Why Happiness Grows When We Share It",
+    "How Tech Mahindra's Mohit Joshi turned around the company's performance while simultaneously driving growth",
+    "Weekly Recap: NSE:AXISBANK cap risk and 18\u201325 bps FY26 RoA gain",
+    "Akums Drugs Q1FY27 net profit surges 56%; concall flags API turnaround",
+    "Balrampur Chini gets exchange nod for \u20b9450 Cr preferential issue",
+    "List of 4,756 NBFC Lenders Startups in India & Market Trends (Aug 2026)",
+    "Ingram Micro Holding (INGM) Q1 2026 Earnings Call Transcript",
+    "Euphoria Infotech Wins Rs 4.03 Crore Order for Online Admission Portal",
+    "Oil prices rose more than 1% on Monday after Trump rejected Iran's peace deal to resolve conflict, reopen Stra",
+    "#MintMarkets | Nifty outlook for today: Bears to keep volatility elevated in monthly expiry week; Check resist",
+    "Ancy Sojan led the women\u2019s long jump with 6.53m until China\u2019s Yingying Huang produced 6.55m on her final attem",
+    "There was a party in Bengaluru where the main attraction was supposed to be peptides"
+   ],
+   "junk": [
+    "Top 5 FD rates: Suryoday, Jana, Ujjivan, Equitas and AU SFB compared for key tenures",
+    "Regrets? Even three decades on from Rats in the Ranks, legendary film-maker Bob Connolly has a few",
+    "Love & War vs Sangam: Why Fans See Similarities in Bhansali\u2019s Film",
+    "Understanding the Setup: (BALI) and Scalable Risk",
+    "F&O: Analyst suggests bear, bull spreads on Bank Nifty, Canara Bank",
+    "F&O: Analyst suggests bear, bull spreads on Bank Nifty, Canara Bank",
+    "Senior Citizen Special FD Rates: SBI vs Bank of Baroda vs Canara Bank vs PNB - What will be maturity amount on",
+    "SENSEX, NIFTY50 edge higher; ICICI Bank, L&T gain, Infosys, TCS fall",
+    "Sensex, Nifty edge higher as ICICI Bank, L&T gain",
+    "IndusInd Bank Share Price - Live NSE: INDUSINDBK Stock Price & Chart",
+    "IndusInd Bank Ltd. is Rated Buy by MarketsMOJO",
+    "Invesco India - Invesco Pan European Equity Fund of Fund - Regular Plan IDCW Payout",
+    "JioBlackRock Overnight Fund - Regular Plan Portfolio",
+    "JioBlackRock Nifty 50 Index Fund - Regular Plan Portfolio",
+    "JioBlackRock Overnight Fund - Regular Plan Returns",
+    "LIC MF Dividend Yield Fund(G)-Direct Plan",
+    "Sumeet Bagadia's stock picks for Monday",
+    "UGRO Stock Rockets Over 400%",
+    "Jackson Rec. Department Youth Soccer, 9-26-26",
+    "Stock of the day - Reliance Industries Ltd Target Rs. 19 - Religare Broking Ltd"
    ]
   }
  }
