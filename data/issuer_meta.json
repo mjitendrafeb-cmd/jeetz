@@ -5,7 +5,7 @@
  },
  "a k capital finance": {
   "segment": "NBFC/HFC",
-  "updated": "2026-09-02"
+  "updated": "2026-10-01"
  },
  "aadhyan residences": {
   "segment": "Corporate",
@@ -18,6 +18,10 @@
  "abans jewels": {
   "segment": "Corporate",
   "updated": "2026-09-17"
+ },
+ "abt industries": {
+  "segment": "Corporate",
+  "updated": "2026-10-01"
  },
  "achintya securities": {
   "segment": "Corporate",
@@ -39,6 +43,10 @@
   "segment": "Corporate",
   "updated": "2026-09-11"
  },
+ "akshar skyline": {
+  "segment": "Corporate",
+  "updated": "2026-10-01"
+ },
  "alphagrep securities": {
   "segment": "Corporate",
   "updated": "2026-09-09"
@@ -46,6 +54,10 @@
  "amrit malwa capital": {
   "segment": "NBFC/HFC",
   "updated": "2026-09-01"
+ },
+ "apollo tyres": {
+  "segment": "Corporate",
+  "updated": "2026-10-01"
  },
  "asirvad micro finance": {
   "segment": "NBFC/HFC",
@@ -91,6 +103,10 @@
   "segment": "Corporate",
   "updated": "2026-09-01"
  },
+ "berar finance": {
+  "segment": "NBFC/HFC",
+  "updated": "2026-10-01"
+ },
  "best capital services": {
   "segment": "NBFC/HFC",
   "updated": "2026-09-15"
@@ -98,6 +114,10 @@
  "best finance": {
   "segment": "NBFC/HFC",
   "updated": "2026-09-15"
+ },
+ "bobcard": {
+  "segment": "PSU",
+  "updated": "2026-10-01"
  },
  "boxacres developers": {
   "segment": "Corporate",
@@ -153,11 +173,15 @@
  },
  "cube highways trust": {
   "segment": "Corporate",
-  "updated": "2026-09-15"
+  "updated": "2026-10-01"
  },
  "dar credit & capital": {
   "segment": "NBFC/HFC",
   "updated": "2026-09-11"
+ },
+ "delhi international airport": {
+  "segment": "Corporate",
+  "updated": "2026-10-01"
  },
  "dishman carbogen amcis": {
   "segment": "Corporate",
@@ -174,6 +198,10 @@
  "dommasandra urban projects": {
   "segment": "Corporate",
   "updated": "2026-09-30"
+ },
+ "dvara kshetriya gramin financial services": {
+  "segment": "Corporate",
+  "updated": "2026-10-01"
  },
  "ecap equities": {
   "segment": "Corporate",
@@ -263,13 +291,17 @@
   "segment": "NBFC/HFC",
   "updated": "2026-09-16"
  },
+ "himatsingka seide": {
+  "segment": "Corporate",
+  "updated": "2026-10-01"
+ },
  "home first finance": {
   "segment": "NBFC/HFC",
   "updated": "2026-08-29"
  },
  "housing and urban development": {
   "segment": "PSU",
-  "updated": "2026-09-01"
+  "updated": "2026-10-01"
  },
  "ibl finance": {
   "segment": "NBFC/HFC",
@@ -285,7 +317,7 @@
  },
  "iifl finance": {
   "segment": "NBFC/HFC",
-  "updated": "2026-09-10"
+  "updated": "2026-10-01"
  },
  "incred financial services": {
   "segment": "Corporate",
@@ -301,7 +333,7 @@
  },
  "indian railway finance": {
   "segment": "PSU",
-  "updated": "2026-09-01"
+  "updated": "2026-10-01"
  },
  "infradebt": {
   "segment": "Corporate",
@@ -334,6 +366,10 @@
  "juniper green stellar": {
   "segment": "Corporate",
   "updated": "2026-08-28"
+ },
+ "kaleidofin capital": {
+  "segment": "NBFC/HFC",
+  "updated": "2026-10-01"
  },
  "keertana finserv": {
   "segment": "NBFC/HFC",
@@ -387,6 +423,10 @@
   "segment": "Corporate",
   "updated": "2026-09-17"
  },
+ "loon land development": {
+  "segment": "Corporate",
+  "updated": "2026-10-01"
+ },
  "maa kudargarhi minerals and refractories": {
   "segment": "Corporate",
   "updated": "2026-09-25"
@@ -433,7 +473,7 @@
  },
  "motilal oswal financial services": {
   "segment": "Corporate",
-  "updated": "2026-09-17"
+  "updated": "2026-10-01"
  },
  "muthoot capital services": {
   "segment": "NBFC/HFC",
@@ -441,7 +481,7 @@
  },
  "muthoot fincorp": {
   "segment": "NBFC/HFC",
-  "updated": "2026-09-28"
+  "updated": "2026-10-01"
  },
  "muthoot housing finance": {
   "segment": "NBFC/HFC",
@@ -465,11 +505,11 @@
  },
  "namdev finvest": {
   "segment": "NBFC/HFC",
-  "updated": "2026-09-21"
+  "updated": "2026-10-01"
  },
  "navi finserv": {
   "segment": "NBFC/HFC",
-  "updated": "2026-09-17"
+  "updated": "2026-10-01"
  },
  "ncc urban homes": {
   "segment": "Corporate",
@@ -553,11 +593,15 @@
  },
  "power finance": {
   "segment": "PSU",
-  "updated": "2026-09-08"
+  "updated": "2026-10-01"
  },
  "power grid of": {
   "segment": "PSU",
   "updated": "2026-09-30"
+ },
+ "prateek realtors": {
+  "segment": "Corporate",
+  "updated": "2026-10-01"
  },
  "praveen capital": {
   "segment": "NBFC/HFC",
@@ -577,7 +621,7 @@
  },
  "rec": {
   "segment": "PSU",
-  "updated": "2026-09-17"
+  "updated": "2026-10-01"
  },
  "regency fincorp": {
   "segment": "NBFC/HFC",
@@ -615,6 +659,10 @@
   "segment": "NBFC/HFC",
   "updated": "2026-08-28"
  },
+ "satin housing finance": {
+  "segment": "NBFC/HFC",
+  "updated": "2026-10-01"
+ },
  "sbfc finance": {
   "segment": "NBFC/HFC",
   "updated": "2026-09-21"
@@ -647,13 +695,17 @@
   "segment": "PSU",
   "updated": "2026-09-04"
  },
+ "sowparnika green meadows": {
+  "segment": "Corporate",
+  "updated": "2026-10-01"
+ },
  "square yards technology": {
   "segment": "Corporate",
   "updated": "2026-09-16"
  },
  "sundaram home finance": {
   "segment": "NBFC/HFC",
-  "updated": "2026-09-15"
+  "updated": "2026-10-01"
  },
  "svl": {
   "segment": "Corporate",
@@ -689,7 +741,7 @@
  },
  "ugro capital": {
   "segment": "NBFC/HFC",
-  "updated": "2026-08-29"
+  "updated": "2026-10-01"
  },
  "unifinz capital": {
   "segment": "NBFC/HFC",
@@ -707,6 +759,10 @@
   "segment": "NBFC/HFC",
   "updated": "2026-09-01"
  },
+ "vedanta": {
+  "segment": "Corporate",
+  "updated": "2026-10-01"
+ },
  "ventura securities": {
   "segment": "Corporate",
   "updated": "2026-09-30"
@@ -723,6 +779,10 @@
   "segment": "Corporate",
   "updated": "2026-09-28"
  },
+ "vikabh securities": {
+  "segment": "Corporate",
+  "updated": "2026-10-01"
+ },
  "vision infra equipment solutions": {
   "segment": "Corporate",
   "updated": "2026-08-28"
@@ -731,9 +791,17 @@
   "segment": "NBFC/HFC",
   "updated": "2026-09-30"
  },
+ "wadhwa construction & infrastructure": {
+  "segment": "Corporate",
+  "updated": "2026-10-01"
+ },
  "weber drivetrain": {
   "segment": "Corporate",
   "updated": "2026-09-04"
+ },
+ "western capital advisors": {
+  "segment": "NBFC/HFC",
+  "updated": "2026-10-01"
  },
  "yadasampati hospitality": {
   "segment": "Corporate",
