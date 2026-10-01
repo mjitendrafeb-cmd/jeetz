@@ -1,77 +1,5 @@
 [
  {
-  "date": "2026-09-08",
-  "fetched": 1494,
-  "delivered_pool": 107,
-  "junk": 471,
-  "geo": 38,
-  "stale": 518,
-  "dup": 143,
-  "sections": {
-   "S1": 87,
-   "S2": 12,
-   "S3": 8
-  },
-  "mails": 40,
-  "failed": [],
-  "source_summary": {
-   "RBI RSS": 20,
-   "RBI Enforcement": 0,
-   "SEBI RSS": 20,
-   "Google News": 19,
-   "Watchlist (Google)": 911,
-   "BSE Financials": 0,
-   "Telegram": 54,
-   "Web Scraper": 963
-  },
-  "dropped_samples": {
-   "relevance": [
-    "IIFL Capital Initiating Coverage on Welspun Corp, with 31% UPSIDE- Targeting the right geographies at right ti",
-    "Building a corpus of \u20b91 crore can be an important financial milestone for people planning for long-term goals ",
-    "Sam Altman warns AI could be as transformative as electricity, urging countries to embrace the technology as i",
-    "Market pre-open rules change from today: Here's what is different",
-    "A \u2018comfortable lifestyle\u2019 may obscure financial issues",
-    "#MintMarkets | Stock market holiday tomorrow on Janmashtami or not",
-    "India and Belgium aim to double bilateral trade in the next five years, as the two countries seek to deepen tr",
-    "HEG for demerger : ex-date 4th Sept, 2026 (Fri)",
-    "Important Points: Market Orders will be accepted only during the initial 5 minutes, i.e",
-    "Tech Companies caution against crackdown on open-weight AI systems",
-    "NDR InvIT Trust to go public with \u20b9750 crore public issue",
-    "Listing of further issues of securities",
-    "India's Manufacturing Majors: The Companies Building at Scale",
-    "PL Capital sees 22% UPSIDE in Polycab India- Long Growth Runway and Expanding Global Footprint",
-    "Apple is expected to unveil a major lineup of products across September 9, late 2026 and 2027, with the iPhone",
-    "The Delhi Traffic Police has issued a traffic advisory for September 5 in view of the motorcade rehearsal for ",
-    "Silver hallmarking enables buyers to verify purity or fineness of precious metal jewellery",
-    "#WATCH | Delhi: Waterlogging witnessed at Indira Gandhi International Airport after heavy rainfall lashed the ",
-    "#WATCH | UP CM Yogi Adityanath celebrates Janmashtami festival in Mathura",
-    "With deadly floods battering Nepal, India is stepping up efforts to modernize its public-safety and disaster-r"
-   ],
-   "junk": [
-    "Appeal No. 7028 of 2026 filed by Samar Imran",
-    "Appeal No. 7027 of 2026 filed by Samar Imran",
-    "Appeal No. 7026 of 2026 filed by Samar Imran",
-    "Appeal No. 7023 of 2026 filed by Vivek Tripathi",
-    "Completion of Recovery Certificate No",
-    "Appeal No. 7022 of 2026 filed by Sandeep Kumar",
-    "Appeal No. 7021 of 2026 filed by Dhieraj Pal",
-    "Appeal No. 7020 of 2026 filed by Shamshad Ahmed",
-    "Appeal No. 7019 of 2026 filed by Nitin Goel",
-    "Appeal No. 7018 of 2026 filed by R K Singhal",
-    "5Paisa Capital Ltd is Rated Hold",
-    "Deepa Jewellers IPO Enters Day 2: 10 Key Things To Know Before You Subscribe",
-    "Pre-match Ards FC vs Harland & Wolff Welders, NIFL Championship Round 29",
-    "Scapia Ties up with Axis Bank to launch their credit card on the MasterCard platform",
-    "Scapia partners Axis Bank to launch co-branded credit card for young travellers",
-    "Bandhan Medium Term Fund Direct-IDCW Quarterly",
-    "Bandhan Contra Fund - Direct Plan Returns",
-    "Bandhan Medium Term Fund Regular-IDCW Quarterly",
-    "15 Celebrity-Approved Wavy Bob Haircuts to Channel Your Soft Girl Era",
-    "Reaction!! Bom Diggy Diggy (VIDEO)"
-   ]
-  }
- },
- {
   "date": "2026-09-09",
   "fetched": 1179,
   "delivered_pool": 145,
@@ -2156,6 +2084,78 @@
     "UGRO Stock Rockets Over 400%",
     "Jackson Rec. Department Youth Soccer, 9-26-26",
     "Stock of the day - Reliance Industries Ltd Target Rs. 19 - Religare Broking Ltd"
+   ]
+  }
+ },
+ {
+  "date": "2026-10-01",
+  "fetched": 999,
+  "delivered_pool": 110,
+  "junk": 367,
+  "geo": 25,
+  "stale": 197,
+  "dup": 116,
+  "sections": {
+   "S1": 77,
+   "S2": 17,
+   "S3": 16
+  },
+  "mails": 41,
+  "failed": [],
+  "source_summary": {
+   "RBI RSS": 20,
+   "RBI Enforcement": 0,
+   "SEBI RSS": 20,
+   "Google News": 26,
+   "Watchlist (Google)": 1023,
+   "BSE Financials": 0,
+   "Telegram": 59,
+   "Web Scraper": 999
+  },
+  "dropped_samples": {
+   "relevance": [
+    "Akums Drugs Q1FY27 net profit surges 56%; concall flags API turnaround",
+    "Balrampur Chini gets exchange nod for \u20b9450 Cr preferential issue",
+    "List of 4,756 NBFC Lenders Startups in India & Market Trends (Aug 2026)",
+    "Ingram Micro Holding (INGM) Q1 2026 Earnings Call Transcript",
+    "Euphoria Infotech Wins Rs 4.03 Crore Order for Online Admission Portal",
+    "DAM Capital sees 47% UPSIDE in UPL- Implied Holdco discount is steep",
+    "Oil prices rose more than 1% on Monday after Trump rejected Iran's peace deal to resolve conflict, reopen Stra",
+    "#MintMarkets | Nifty outlook for today: Bears to keep volatility elevated in monthly expiry week; Check resist",
+    "Ancy Sojan led the women\u2019s long jump with 6.53m until China\u2019s Yingying Huang produced 6.55m on her final attem",
+    "Anahat Singh expressed mixed emotions after winning the silver medal in women\u2019s singles squash at the Asian Ga",
+    "There was a party in Bengaluru where the main attraction was supposed to be peptides",
+    "Mehli K Mistry, a long-time associate of late industrialist Ratan Tata and former trustee of the Tata Trusts, ",
+    "Josh Daniels, a cinematic director at Halo Studios, lost his job just days after receiving a promotion",
+    "A sharp face-off unfolded at the UN General Assembly as India hit back at Pakistan PM Shehbaz Sharif\u2019s remarks",
+    "Gold, silver prices today, 26 Sept, 2026 Track all mkt updates here",
+    "Rimbi, Sikkim: Incessant heavy rainfall triggers a major landslide in Rimbi village under the Yuksom-Tashiding",
+    "India\u2019s expanding network of bridges, tunnels, expressways and high-speed trains is significantly changing how",
+    "Russia's ruling United Russia party has secured a record 349 seats in the 450-member State Duma.",
+    "India's foreign direct investment rose 6% to $19.81 billion in Q1 of the financial year, as per DPIIT data",
+    "Scuttlebutt is one of the most powerful tools available to an equity investor"
+   ],
+   "junk": [
+    "Top 5 FD rates: Suryoday, Jana, Ujjivan, Equitas and AU SFB compared for key tenures",
+    "Bank of India Option Chain",
+    "Bank of India Aggressive Hybrid Fund - Regular Plan Fund info",
+    "Bank of India Value Fund - Regular Plan Fund info",
+    "Best photos of September 27: Fire war ritual in Bali to flooding in Bangkok",
+    "Groww Share Price",
+    "BCCI Corporate Trophy, 2013/14 - Canara Bank Cricket Team Records & Stats",
+    "F&O: Analyst suggests bear, bull spreads on Bank Nifty, Canara Bank",
+    "F&O: Analyst suggests bear, bull spreads on Bank Nifty, Canara Bank",
+    "Maharashtra Bank Holiday Tomorrow, September 25: Are Banks Closed or Open",
+    "DAR CREDIT & CAPITAL LTD Share Price",
+    "ESAF Small Finance Bank Ltd is Rated Hold",
+    "FEDBANK FINANCIAL SER L Share Price",
+    "Geojit Financial Share Price Today, Geojit Financial Stock Price Live NSE/BSE Updates",
+    "Bank holidays this week: Strike, national holiday",
+    "HDFC BANK LTD Option Chain - Live HDFC BANK LTD Option Chain Data, OI & Price",
+    "HDFC MF announces IDCW record date under FMP 1876D March 2022",
+    "HUDCO Share Price",
+    "ICICI Bank Share Price - Live NSE: ICICIBANK Stock Price & Chart",
+    "SEBI Warns ICICI Bank for FPI Fund Repatriation Before Lock-in Period Ends"
    ]
   }
  }
