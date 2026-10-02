@@ -1,6 +1,269 @@
 {
  "records": [
   {
+   "isin": "INE964R07176",
+   "issuer": "REGENCY FINCORP LIMITED",
+   "allotment_date": "2026-10-01",
+   "amount_cr": 3.0,
+   "coupon": 1.0,
+   "tenure_years": 1.5,
+   "band": "BBB band",
+   "segment": "NBFC/HFC",
+   "spread_bps": -512,
+   "ratings": [
+    "Infomerics BBB"
+   ]
+  },
+  {
+   "isin": "INE532F07JT1",
+   "issuer": "EDELWEISS FINANCIAL SERVICES LIMITED",
+   "allotment_date": "2026-10-01",
+   "amount_cr": 4.0,
+   "coupon": null,
+   "tenure_years": 2.0,
+   "band": "A band (A+/A/A-)",
+   "segment": "Corporate",
+   "spread_bps": null,
+   "ratings": [
+    "CRISIL A+"
+   ]
+  },
+  {
+   "isin": "INE2SRG08014",
+   "issuer": "JAIHIND STEEL TUBES PRIVATE LIMITED",
+   "allotment_date": "2026-10-01",
+   "amount_cr": 6.0,
+   "coupon": 1.0,
+   "tenure_years": 10.0,
+   "band": "Not rated / available",
+   "segment": "Corporate",
+   "spread_bps": -620,
+   "ratings": []
+  },
+  {
+   "isin": "INE532F07JS3",
+   "issuer": "EDELWEISS FINANCIAL SERVICES LIMITED",
+   "allotment_date": "2026-10-01",
+   "amount_cr": 12.0,
+   "coupon": null,
+   "tenure_years": 5.0,
+   "band": "A band (A+/A/A-)",
+   "segment": "Corporate",
+   "spread_bps": null,
+   "ratings": [
+    "CRISIL A+"
+   ]
+  },
+  {
+   "isin": "INE532F07JN4",
+   "issuer": "EDELWEISS FINANCIAL SERVICES LIMITED",
+   "allotment_date": "2026-10-01",
+   "amount_cr": 13.0,
+   "coupon": 8.65,
+   "tenure_years": 2.0,
+   "band": "A band (A+/A/A-)",
+   "segment": "Corporate",
+   "spread_bps": 203,
+   "ratings": [
+    "CRISIL A+"
+   ]
+  },
+  {
+   "isin": "INE532F07JV7",
+   "issuer": "EDELWEISS FINANCIAL SERVICES LIMITED",
+   "allotment_date": "2026-10-01",
+   "amount_cr": 14.0,
+   "coupon": 10.0,
+   "tenure_years": 10.0,
+   "band": "A band (A+/A/A-)",
+   "segment": "Corporate",
+   "spread_bps": 280,
+   "ratings": [
+    "CRISIL A+"
+   ]
+  },
+  {
+   "isin": "INE532F07JQ7",
+   "issuer": "EDELWEISS FINANCIAL SERVICES LIMITED",
+   "allotment_date": "2026-10-01",
+   "amount_cr": 18.0,
+   "coupon": null,
+   "tenure_years": 3.0,
+   "band": "A band (A+/A/A-)",
+   "segment": "Corporate",
+   "spread_bps": null,
+   "ratings": [
+    "CRISIL A+"
+   ]
+  },
+  {
+   "isin": "INE532F07JR5",
+   "issuer": "EDELWEISS FINANCIAL SERVICES LIMITED",
+   "allotment_date": "2026-10-01",
+   "amount_cr": 35.0,
+   "coupon": 9.6,
+   "tenure_years": 5.0,
+   "band": "A band (A+/A/A-)",
+   "segment": "Corporate",
+   "spread_bps": 273,
+   "ratings": [
+    "CRISIL A+"
+   ]
+  },
+  {
+   "isin": "INE532F07JU9",
+   "issuer": "EDELWEISS FINANCIAL SERVICES LIMITED",
+   "allotment_date": "2026-10-01",
+   "amount_cr": 35.0,
+   "coupon": 8.8,
+   "tenure_years": 3.0,
+   "band": "A band (A+/A/A-)",
+   "segment": "Corporate",
+   "spread_bps": 189,
+   "ratings": [
+    "CRISIL A+"
+   ]
+  },
+  {
+   "isin": "INE532F07JW5",
+   "issuer": "EDELWEISS FINANCIAL SERVICES LIMITED",
+   "allotment_date": "2026-10-01",
+   "amount_cr": 41.0,
+   "coupon": 9.58,
+   "tenure_years": 10.0,
+   "band": "A band (A+/A/A-)",
+   "segment": "Corporate",
+   "spread_bps": 238,
+   "ratings": [
+    "CRISIL A+"
+   ]
+  },
+  {
+   "isin": "INE443L08198",
+   "issuer": "BELSTAR MICROFINANCE LIMITED",
+   "allotment_date": "2026-10-01",
+   "amount_cr": 50.0,
+   "coupon": 9.0,
+   "tenure_years": 2.8,
+   "band": "AA band (AA+/AA/AA-)",
+   "segment": "NBFC/HFC",
+   "spread_bps": 209,
+   "ratings": [
+    "CRISIL AA"
+   ]
+  },
+  {
+   "isin": "INE532F07JO2",
+   "issuer": "EDELWEISS FINANCIAL SERVICES LIMITED",
+   "allotment_date": "2026-10-01",
+   "amount_cr": 55.0,
+   "coupon": 9.15,
+   "tenure_years": 3.0,
+   "band": "A band (A+/A/A-)",
+   "segment": "Corporate",
+   "spread_bps": 224,
+   "ratings": [
+    "CRISIL A+"
+   ]
+  },
+  {
+   "isin": "INE532F07JP9",
+   "issuer": "EDELWEISS FINANCIAL SERVICES LIMITED",
+   "allotment_date": "2026-10-01",
+   "amount_cr": 55.0,
+   "coupon": 9.21,
+   "tenure_years": 5.0,
+   "band": "A band (A+/A/A-)",
+   "segment": "Corporate",
+   "spread_bps": 234,
+   "ratings": [
+    "CRISIL A+"
+   ]
+  },
+  {
+   "isin": "INE443L08180",
+   "issuer": "BELSTAR MICROFINANCE LIMITED",
+   "allotment_date": "2026-10-01",
+   "amount_cr": 150.0,
+   "coupon": 9.0,
+   "tenure_years": 3.0,
+   "band": "AA band (AA+/AA/AA-)",
+   "segment": "NBFC/HFC",
+   "spread_bps": 209,
+   "ratings": [
+    "CRISIL AA"
+   ]
+  },
+  {
+   "isin": "INE961U07028",
+   "issuer": "ALPHAGREP SECURITIES PRIVATE LIMITED",
+   "allotment_date": "2026-10-01",
+   "amount_cr": 200.0,
+   "coupon": 10.5,
+   "tenure_years": 2.0,
+   "band": "A band (A+/A/A-)",
+   "segment": "Corporate",
+   "spread_bps": 388,
+   "ratings": [
+    "CRISIL A+"
+   ]
+  },
+  {
+   "isin": "INE741K07645",
+   "issuer": "CREDITACCESS GRAMEEN LIMITED",
+   "allotment_date": "2026-10-01",
+   "amount_cr": 275.0,
+   "coupon": 9.15,
+   "tenure_years": 2.0,
+   "band": "AA band (AA+/AA/AA-)",
+   "segment": "NBFC/HFC",
+   "spread_bps": 253,
+   "ratings": [
+    "ICRA AA-"
+   ]
+  },
+  {
+   "isin": "INE507T07229",
+   "issuer": "SUMMIT DIGITEL INFRASTRUCTURE LIMITED",
+   "allotment_date": "2026-10-01",
+   "amount_cr": 850.0,
+   "coupon": null,
+   "tenure_years": 3.0,
+   "band": "AAA",
+   "segment": "Corporate",
+   "spread_bps": null,
+   "ratings": [
+    "CRISIL AAA"
+   ]
+  },
+  {
+   "isin": "INE2SFF07021",
+   "issuer": "EQYIZEN INVESTMENT PRIVATE LIMITED",
+   "allotment_date": "2026-10-01",
+   "amount_cr": 4450.0,
+   "coupon": null,
+   "tenure_years": 2.8,
+   "band": "Not rated / available",
+   "segment": "Corporate",
+   "spread_bps": null,
+   "ratings": []
+  },
+  {
+   "isin": "INE002A08716",
+   "issuer": "RELIANCE INDUSTRIES LIMITED",
+   "allotment_date": "2026-10-01",
+   "amount_cr": 13000.0,
+   "coupon": 7.9,
+   "tenure_years": 10.0,
+   "band": "AAA",
+   "segment": "Corporate",
+   "spread_bps": 70,
+   "ratings": [
+    "CareEdge AAA",
+    "CRISIL AAA"
+   ]
+  },
+  {
    "isin": "INE0NR607108",
    "issuer": "CUBE HIGHWAYS TRUST",
    "allotment_date": "2026-09-30",
