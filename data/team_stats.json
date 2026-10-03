@@ -1,78 +1,6 @@
 [
  {
   "date": "2026-09-09",
-  "fetched": 1518,
-  "delivered_pool": 134,
-  "junk": 399,
-  "geo": 30,
-  "stale": 317,
-  "dup": 400,
-  "sections": {
-   "S1": 116,
-   "S2": 12,
-   "S3": 6
-  },
-  "mails": 2,
-  "failed": [],
-  "source_summary": {
-   "RBI RSS": 20,
-   "RBI Enforcement": 0,
-   "SEBI RSS": 20,
-   "Google News": 23,
-   "Watchlist (Google)": 1157,
-   "BSE Financials": 0,
-   "Telegram": 59,
-   "Web Scraper": 358
-  },
-  "dropped_samples": {
-   "relevance": [
-    "Choice Equities Initiating Coverage on United Breweries Ltd., with 16% UPSIDE- Mix Improvement To Boost Realis",
-    "PL Capital sees 22% UPSIDE in Polycab India- Long Growth Runway and Expanding Global Footprint",
-    "Jantar Mantar assault: Police registered a fresh FIR under the POCSO Act on a complaint by the minor activist,",
-    "Early retirement in India requires more than high income",
-    "#WATCH | Maharashtra: 'Dahi Handi' celebrations underway in Mumbai today",
-    "Stock Market Today: All You Need To Know Before Going Into Trade On Sept 8",
-    "Apple is expected to unveil a major lineup of products across September 9, late 2026 and 2027, with the iPhone",
-    "The Delhi Traffic Police has issued a traffic advisory for September 5 in view of the motorcade rehearsal for ",
-    "Silver hallmarking enables buyers to verify purity or fineness of precious metal jewellery",
-    "#WATCH | Delhi: Waterlogging witnessed at Indira Gandhi International Airport after heavy rainfall lashed the ",
-    "#WATCH | UP CM Yogi Adityanath celebrates Janmashtami festival in Mathura",
-    "With deadly floods battering Nepal, India is stepping up efforts to modernize its public-safety and disaster-r",
-    "Wealth Compounders Aug 2026 overview To invest, please visit",
-    "Jinkushal Industries Revenue Grows 37.4% YoY",
-    "BigBloc Construction Revenue up 40.5% YoY",
-    "India's Manufacturing Majors: The Companies Building at Scale",
-    "Relief Measures in Areas Affected by Natural Calamities - Reporting through Centralised Information Management",
-    "ET Wealth Edition 13 September 2026",
-    "Japan's budget plans raise viability worries",
-    "Mindax Executes Binding Convertible Note Deed With L&Y To Raise A$3.25 Million"
-   ],
-   "junk": [
-    "Arman Financial Services Ltd is Rated Buy",
-    "Scapia, Axis Bank Launch Co-Branded Card Targeting India\u2019s New-Age Travellers",
-    "Axis Bank and Scapia launch co-branded credit card for India's new generation of travellers",
-    "Axis Bank NRI FD rates: Higher returns, big catch",
-    "BAJAJ FINANCE LIMITED Option Chain - Live BAJAJ FINANCE LIMITED Option Chain Data, OI & Price",
-    "Bajaj Finance Ltd Technical Momentum Shifts Amid Mixed Indicator Signals",
-    "Bandhan Dynamic Term Fund Direct-IDCW Periodic",
-    "Bandhan Medium Term Fund Regular-IDCW Periodic",
-    "Bank of India Liquid Fund Direct Growth Review 2026: NAV, Returns, Portfolio & Should You Invest?",
-    "Bank of India Value Fund - Regular Plan Returns",
-    "Jung So-min Shares Bali Trip Honeymoon Vibes With Close Friend",
-    "Budget Foreign Trip",
-    "Jung So-min celebrates Bali trip with friend, calls it honeymoon - CHOSUNBIZ",
-    "BALI VLOG|| UBUD Part 1||#southafricanyoutuber #bali #vacation #travelvlog Ryan Strome (nNfWnXpMsL)",
-    "Finally We Are In Bali\ud83d\ude0d\ud83e\udd79\u2764\ufe0fEP: 1 \ud83c\udf49\ud83d\ude0d\ud83e\udd79bali Vlog\ud83d\udc59\ud83d\udc97||Yashasvi Rajpoot|| Veleno Habs (TnvsosENoZ)",
-    "Groww Share Price",
-    "Canara Bank Upgraded to Buy by MarketsMOJO on Strong Financial and Valuation Metrics",
-    "Alex Bregman's First Hit As A Chicago Cub Ryan Miller (7ogcZTk0VK)",
-    "Equitas Small Finance Bank Ltd is Rated Buy",
-    "Fedbank Financial Services Ltd is Rated Hold"
-   ]
-  }
- },
- {
-  "date": "2026-09-09",
   "fetched": 1325,
   "delivered_pool": 138,
   "junk": 362,
@@ -2156,6 +2084,78 @@
     "Munduk Cabins, Bali, Indonesia",
     "8 Best 2026 Airbnb Stays in Ubud, Bali for Wellness & Nature Retreats",
     "Top stock picks: Analysts recommend buying Cyient DLM; cautious on PNB, Godrej Properties, Canara Bank"
+   ]
+  }
+ },
+ {
+  "date": "2026-10-03",
+  "fetched": 902,
+  "delivered_pool": 77,
+  "junk": 311,
+  "geo": 22,
+  "stale": 187,
+  "dup": 139,
+  "sections": {
+   "S1": 59,
+   "S2": 11,
+   "S3": 7
+  },
+  "mails": 0,
+  "failed": [],
+  "source_summary": {
+   "RBI RSS": 20,
+   "RBI Enforcement": 0,
+   "SEBI RSS": 20,
+   "Google News": 29,
+   "Watchlist (Google)": 918,
+   "BSE Financials": 0,
+   "Telegram": 56,
+   "Web Scraper": 197
+  },
+  "dropped_samples": {
+   "relevance": [
+    "Novation of OTC Derivative Contracts",
+    "Order for Remittance of Attached amount issued against Narayan Shivram Kotnis under RC No",
+    "PL Capital sees 5% UPSIDE in Petronet LNG- Expanding service offerings to drive Kochi utilization",
+    "Read today's Mint e-paper here",
+    "Dating app Hinge's CEO, Jackie Jantos in an interview with Mint said that India has emerged as online dating a",
+    "Best #stocks to buy or sell ft",
+    "September was challenging for Nifty, marking a 6.3% decline, the worst since 2001",
+    "In this special conversation with Abhinav Trivedi, Deputy Editor, Mint, students not only define & explore the",
+    "Indian long-distance runner Gulveer Singh clinched his third medal at the 2026 Asian Games in Aichi-Nagoya aft",
+    "#WATCH | CDS General Subramani calls for AI-powered, data-centric warfare to prepare for future conflicts",
+    "Neeru Dhanda clinched Gold in the women's trap shooting event, expressing pride after hearing the national ant",
+    "Delhi's Anti-Pollution Plan: 50% WFH, Higher Parking Fees & Construction Ban",
+    "Speaking at the Congress Working Committee (CWC) meeting held in New Delhi today, Kharge accused the Modi gove",
+    "Stock market holiday: BSE, NSE closed today for Gandhi Jayanti",
+    "Morepen strengthens integrated CDMO capabilities with first U.S",
+    "\u201cRegular investments + time = wealth.\u201d",
+    "\u201cWealth is built by consistent habits, not by occasional windfalls.\u201d",
+    "Listing of further issues of securities",
+    "Listing of privately placed securities on capital market segment",
+    "Why there are clear signs of a reset in India's quick-commerce sector"
+   ],
+   "junk": [
+    "Settlement Order in the matter of Lloyd Enterprises Limited",
+    "Adjudication Order in the matter of Shares Bazaar Pvt. Ltd. - Research Analyst",
+    "Remittance Order dated September 29, 2026 issued under RC No",
+    "Notice of Attachment of Demat account of Navnit Gadoya in RC No. 9286 of 2026.",
+    "Notice of Attachment of Bank account of Navnit Gadoya in RC No. 9286 of 2026.",
+    "Remittance Order dated 28.09.2026 issued in RC No. 9249 of 2026.",
+    "Remittance Order dated 28.09.2026 issued in RC No. 9248 of 2026.",
+    "Remittance Order dated 28.09.2026 issued in RC No. 9241 of 2026.",
+    "Settlement order in the matter of Adani group companies",
+    "HSBC Sees Two RBI Rate Hikes In FY27 Amid Strong Growth, Inflation Risks",
+    "Upcoming IPOs: Pioneer Fil-Med, Tonbo Imaging, Functional & Innovative Foods get SEBI approval",
+    "Bank of India Share Price Today Down 4%",
+    "Bank of Maharashtra among 5 stocks showing RSI trending up",
+    "'One of the best' - Finance Expert: Premier League clubs have 'missed a trick' with Nottingham Forest star",
+    "Not Bali, This Is India! Hidden Resort In Northeast Goes Viral For Riverside Dining & Tropical Vibes",
+    "Inside Bali's spectacular war of fire: the Siat Geni ritual",
+    "Experience The Spirit Of Bali At Four Seasons Resort Bali At Sayan",
+    "Munduk Cabins, Bali, Indonesia",
+    "Top stock picks: Analysts recommend buying Cyient DLM; cautious on PNB, Godrej Properties, Canara Bank",
+    "Understanding MSCI Rebalancing and Market Volatility"
    ]
   }
  }
