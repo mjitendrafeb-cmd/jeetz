@@ -23,6 +23,10 @@
   "segment": "Corporate",
   "updated": "2026-10-01"
  },
+ "acb ()": {
+  "segment": "Corporate",
+  "updated": "2026-10-05"
+ },
  "achintya securities": {
   "segment": "Corporate",
   "updated": "2026-09-24"
@@ -758,6 +762,10 @@
  "tvs credit services": {
   "segment": "NBFC/HFC",
   "updated": "2026-09-22"
+ },
+ "ufin financial services": {
+  "segment": "Corporate",
+  "updated": "2026-10-05"
  },
  "ugro capital": {
   "segment": "NBFC/HFC",

@@ -1,6 +1,30 @@
 {
  "records": [
   {
+   "isin": "INE078207011",
+   "issuer": "UFIN FINANCIAL SERVICES LIMITED",
+   "allotment_date": "2026-10-03",
+   "amount_cr": 10.0,
+   "coupon": 12.0,
+   "tenure_years": 5.0,
+   "band": "Not rated / available",
+   "segment": "Corporate",
+   "spread_bps": 505,
+   "ratings": []
+  },
+  {
+   "isin": "INE749H07115",
+   "issuer": "ACB (INDIA) LIMITED",
+   "allotment_date": "2026-10-03",
+   "amount_cr": 800.0,
+   "coupon": 0.01,
+   "tenure_years": 10.0,
+   "band": "Not rated / available",
+   "segment": "Corporate",
+   "spread_bps": -720,
+   "ratings": []
+  },
+  {
    "isin": "INE964R07176",
    "issuer": "REGENCY FINCORP LIMITED",
    "allotment_date": "2026-10-01",
