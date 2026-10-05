@@ -1,77 +1,5 @@
 [
  {
-  "date": "2026-09-10",
-  "fetched": 1029,
-  "delivered_pool": 123,
-  "junk": 310,
-  "geo": 23,
-  "stale": 266,
-  "dup": 98,
-  "sections": {
-   "S1": 100,
-   "S2": 17,
-   "S3": 6
-  },
-  "mails": 40,
-  "failed": [],
-  "source_summary": {
-   "RBI RSS": 20,
-   "RBI Enforcement": 0,
-   "SEBI RSS": 20,
-   "Google News": 25,
-   "Watchlist (Google)": 1253,
-   "BSE Financials": 0,
-   "Telegram": 54,
-   "Web Scraper": 1023
-  },
-  "dropped_samples": {
-   "relevance": [
-    "Relief Measures in Areas Affected by Natural Calamities - Reporting through Centralised Information Management",
-    "Stallion India Fluorochemicals Q1 Results: Net profit surges 79% YoY",
-    "2026 set to be a record year for India PE/VC fundraising with US$23.7 billion raised so far: EY-IVCA Report",
-    "Balrampur Chini Mills profit falls 10% in Q1FY27; appoints Vartika Shukla",
-    "Mapping India\u2019s fintech key players",
-    "D S Kulkarni Developers Q1 FY27 Financial Results Newspaper Ad",
-    "Sun Pharma update on Lipitor antitrust litigation in US court",
-    "Escorts Kubota Q4FY26 Earnings Call: Record Revenue, PAT and Dividend Announced",
-    "Choice Equities Initiating Coverage on United Breweries Ltd., with 16% UPSIDE- Mix Improvement To Boost Realis",
-    "PL Capital sees 22% UPSIDE in Polycab India- Long Growth Runway and Expanding Global Footprint",
-    "#MintPremium | The Bureau of Indian Standards (BIS) has been tasked with developing a national framework to pr",
-    "Satya Niketan building collapse: Students flee from another PG in Delhi after building develops cracks",
-    "Swatantra Bhardwaj\u2019s arrest has brought fresh focus to a Jantar Mantar assault case after remarks made by the ",
-    "Early retirement in India requires more than high income",
-    "#WATCH | Maharashtra: 'Dahi Handi' celebrations underway in Mumbai today",
-    "Stock Market Today: All You Need To Know Before Going Into Trade On Sept 8",
-    "Apple launches iPhone 18 Pro, iPhone 18 Pro Max: Brings upgraded performance, camera, and more",
-    "The Delhi Traffic Police has issued a traffic advisory for September 5 in view of the motorcade rehearsal for ",
-    "Silver hallmarking enables buyers to verify purity or fineness of precious metal jewellery",
-    "#WATCH | Delhi: Waterlogging witnessed at Indira Gandhi International Airport after heavy rainfall lashed the "
-   ],
-   "junk": [
-    "Monomark Engineering, RKB Global receive SEBI approval for IPOs",
-    "5Paisa Capital Gains 1.75% to \u20b9342.45 on NSE; Stock Holds Above Key Support - MFI Divergence",
-    "Aavas Financiers Share Price",
-    "Scapia Ties up with Axis Bank to launch their credit card on the MasterCard platform",
-    "Scapia, Axis Bank Launch Co-Branded Card Targeting India\u2019s New-Age Travellers",
-    "Scapia partners Axis Bank to launch co-branded credit card for young travellers",
-    "Bajaj Auto Share Price",
-    "BAJAJ FINANCE LIMITED Option Chain - Live BAJAJ FINANCE LIMITED Option Chain Data, OI & Price",
-    "Bajaj Finance Ltd is Rated Hold",
-    "Bajaj Finance Ltd Technical Momentum Shifts Amid Mixed Indicator Signals",
-    "Bandhan Floating Interest Rates Fund - Regular Plan Portfolio",
-    "Bob on Business: Fall football arrives with H-E-B, tequila and bobbleheads corporate tie-ins",
-    "Bank of India Liquid Fund Direct Growth Review 2026: NAV, Returns, Portfolio & Should You Invest?",
-    "Bank of India Value Fund - Regular Plan Returns",
-    "Bank of India Consumption Fund - Regular Plan Returns",
-    "Reaction!! Bom Diggy Diggy (VIDEO)",
-    "Sudamala Resort Ubud: Bali\u2019s newest boutique luxury address opens October 2026",
-    "Bali United vs Adhyaksa \u00bb Best Odds and Stats",
-    "Groww Share Price",
-    "September 2026 F&O Monthly Expiry"
-   ]
-  }
- },
- {
   "date": "2026-09-11",
   "fetched": 1265,
   "delivered_pool": 99,
@@ -2156,6 +2084,78 @@
     "Experience The Spirit Of Bali At Four Seasons Resort Bali At Sayan",
     "Inside Bali's spectacular war of fire: the Siat Geni ritual",
     "Groww Banking & Financial Services Fund(G)-Direct Plan"
+   ]
+  }
+ },
+ {
+  "date": "2026-10-05",
+  "fetched": 1097,
+  "delivered_pool": 176,
+  "junk": 259,
+  "geo": 18,
+  "stale": 15,
+  "dup": 371,
+  "sections": {
+   "S1": 134,
+   "S2": 24,
+   "S3": 18
+  },
+  "mails": 41,
+  "failed": [],
+  "source_summary": {
+   "RBI RSS": 20,
+   "RBI Enforcement": 0,
+   "SEBI RSS": 20,
+   "Google News": 37,
+   "Watchlist (Google)": 1250,
+   "BSE Financials": 21,
+   "Telegram": 107,
+   "Web Scraper": 214
+  },
+  "dropped_samples": {
+   "relevance": [
+    "Indicative Calendar of Market borrowings by State Governments/ Union Territories for the Quarter October \u2013 Dec",
+    "Consolidation/ Review of instructions issued on currency management matters \u2013 Withdrawal of Circulars/ Guideli",
+    "Cassette - Swaps in ATMs",
+    "Half Yearly Results, Half yearly Earnings for D P Wires",
+    "#UNTOLD",
+    "Video",
+    "Bright Horizons Family Solution (BFAM) Stock Forecasts",
+    "'Bali in Bengaluru' transnational festival to bridge Indian and Balinese epics across 14 venues",
+    "Gangsters Naveen Bali, Dhillu \u2018assault\u2019 Tihar Jail officials, \u2018attempt to inflict self-injuries\u2019",
+    "Nushrratt Bharuccha suffers injury in Bali and currently recovering in hospital after accident while shoo",
+    "Starlux launches 5 weekly flights between Taiwan and Bali",
+    "Propagate India\u2019s Prachi Bali & Parikshit Bhattaccharya on how creativity is being redefined",
+    "Bali\u2019s The Seed names new CEO",
+    "Participate in Pitru Paksham Dakshina Kashi Gokarna Special Narayana Bali, Tripindi Shradh, and Tila Homa to b",
+    "Business Updates",
+    "Free: Community Scene",
+    "Top 10@10",
+    "El Shams Housing & Urbanization stock reports EGP 59.45 million revenue",
+    "KSLU Results 2026 Out @kslu.karnataka.gov.in, Check 80-20 Pattern Here",
+    "Promoting Lifelong Wellness at East Tennessee State University"
+   ],
+   "junk": [
+    "SEBI Order for Compliance - General Remittance Order dated 01.10.2026 in Recovery Certificate No",
+    "Adjudication Order in the matter of SMC Global Securities Ltd",
+    "Appeal No. 7073 of 2026 filed by Ramesh B",
+    "Appeal No. 7072 of 2026 filed by Ardra K M",
+    "Appeal No. 7075 of 2026 filed by Vipan Kumar",
+    "Appeal No. 7071 of 2026 filed by Dhanashree Deshpande",
+    "Appeal No. 7069 of 2026 filed by Sundaresan Viswanathan",
+    "Appeal No. 7070 of 2026 filed by Swati Saini",
+    "Appeal No. 7074 of 2026 filed by Chandrashekar Palimar Shenoy",
+    "Completion of Recovery Certificate No",
+    "Completion of Recovery Certificate No. 4722 of 2022-Veera Kumar Das Surapanani in the matter of Venus Power Ve",
+    "Final Order in the matter of Eqwires Research Analyst",
+    "Order in the matter of DAR Mentorcap Film Fund",
+    "Order in the matter of Arcus Opportunities Fund",
+    "HSBC Sees Two RBI Rate Hikes In FY27 Amid Strong Growth, Inflation Risks",
+    "Ballinamallard United vs Ards - Watch Online for Free",
+    "Bank of Baroda Share Price Target: Down 15%, Levels and View",
+    "Bank of Baroda stock: Down 15% in 3 months, can bulls return? Check target, stop loss - technical outlook by e",
+    "Bank of India Mid Cap Fund(G)-Direct Plan",
+    "KPESE BOI VS KEENY ICE: WHO IS WINNING THE BEEF ON AUDIOMACK? \ud83d\udcca\ud83e\udd4a"
    ]
   }
  }
