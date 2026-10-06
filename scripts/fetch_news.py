@@ -405,7 +405,7 @@ def _is_recent(entry, hours: int = 48, assume: bool = True) -> bool:
     return (time.time() - pub_ts) <= hours * 3600
 
 
-def _parse_gnews(url: str, label: str, quiet: bool = False):
+def _parse_gnews(url: str, label: str):
     """Fetch a Google News RSS URL with a browser UA and timeout, then parse.
 
     feedparser.parse(url) fetches with its own default user-agent and no
@@ -414,7 +414,7 @@ def _parse_gnews(url: str, label: str, quiet: bool = False):
     """
     resp = requests.get(url, headers={"User-Agent": _UA}, timeout=15)
     feed = feedparser.parse(resp.content)
-    if (resp.status_code != 200 or not feed.entries) and not quiet:
+    if resp.status_code != 200 or not feed.entries:
         print(f"[fetch_news] Google News empty for '{label}' "
               f"(HTTP {resp.status_code}, {len(feed.entries)} entries)")
     return feed
@@ -876,8 +876,7 @@ def fetch_company_news(per_company_cap: int = 3, companies=None, days_back: int 
     # box: a company whose feed had entries logged nothing at all, so an
     # over-strict filter looked identical to Google returning no news.
     _stats = {"entries": 0, "cos_with_entries": 0, "drop_old": 0,
-              "drop_dup": 0, "drop_ticker": 0, "drop_name": 0,
-              "retry_recovered": 0}
+              "drop_dup": 0, "drop_ticker": 0, "drop_name": 0}
 
     # Query EVERY company (no global early-break) so a long watchlist isn't
     # starved — with 340 names the old `len(items) >= 60` cap stopped after
@@ -892,23 +891,7 @@ def fetch_company_news(per_company_cap: int = 3, companies=None, days_back: int 
                 f"https://news.google.com/rss/search"
                 f"?q={requests.utils.quote(query + f' when:{days_back}d')}&hl=en-IN&gl=IN&ceid=IN:en"
             )
-            # broad_queries is the 7:40-only flag; the 7:30 report's fetch
-            # path is deliberately left byte-identical, so it keeps the
-            # single un-retried request (and its own log line) as before.
-            feed = _parse_gnews(url, _core_name(company), quiet=broad_queries)
-            if broad_queries and not feed.entries:
-                # ~45% of per-company queries came back HTTP 200 / 0 entries
-                # in production, including a well-covered entity (Credit
-                # Saison India) on a day an Economic Times story about it
-                # existed and passed every downstream filter when tested by
-                # hand. Google throttles rapid-fire requests by serving an
-                # empty feed rather than an error, so a single empty result
-                # is not evidence there was no news. One retry after a short
-                # pause; still-empty falls through to the normal log line.
-                time.sleep(1.5)
-                feed = _parse_gnews(url, _core_name(company))
-                if feed.entries:
-                    _stats["retry_recovered"] += 1
+            feed = _parse_gnews(url, _core_name(company))
             # Google throttles rapid-fire requests by returning empty feeds.
             # If many queries come back empty in a row, back off harder.
             if not feed.entries:
@@ -984,8 +967,7 @@ def fetch_company_news(per_company_cap: int = 3, companies=None, days_back: int 
           f"{_stats['cos_with_entries']} returned results, "
           f"{_stats['entries']} raw entries -> {len(items)} kept | dropped: "
           f"old={_stats['drop_old']} dup={_stats['drop_dup']} "
-          f"ticker={_stats['drop_ticker']} name-check={_stats['drop_name']} | "
-          f"empty-feed retries that recovered results={_stats['retry_recovered']}")
+          f"ticker={_stats['drop_ticker']} name-check={_stats['drop_name']}")
     return items
 
 
