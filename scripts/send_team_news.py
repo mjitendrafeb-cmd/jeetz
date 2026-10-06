@@ -2341,6 +2341,99 @@ def _gpt_salvage_json(text: str):
     return None
 
 
+def _gpt_repair(data, require_body: bool = True):
+    """Salvage a mostly-good model response instead of discarding it whole.
+
+    _gpt_validate is all-or-nothing, which suits a heavyweight model but not
+    Gemini Flash-Lite: with ~30 S1 rows plus an email body in one reply, a
+    single row with an off-enum credit_view or a blank field failed the
+    entire batch -- and batch 0 is the one carrying the email summary and
+    S2/S3 analysis, so one bad row cost all of those. Normalise enum case,
+    drop only the malformed rows (an S1 item left without a row falls back to
+    the mechanical view, as it already does for any uncovered item) and
+    default a missing email body. Returns (data, notes); notes lists what was
+    changed so the log shows the real cause."""
+    if not isinstance(data, dict):
+        return data, []
+    notes: list[str] = []
+    views = {v.lower(): v for v in _GPT_CREDIT_VIEWS}
+    acts = {a.lower(): a for a in _GPT_ACTIONS}
+
+    def _idx_ok(row):
+        idx = row.get("item_indices")
+        return isinstance(idx, list) and idx and all(
+            isinstance(x, int) and not isinstance(x, bool) for x in idx)
+
+    s1 = data.get("s1_summary")
+    if isinstance(s1, list):
+        keep = []
+        for row in s1:
+            if not isinstance(row, dict):
+                notes.append("s1 non-object row")
+                continue
+            cv = str(row.get("credit_view") or "").strip().lower()
+            ac = str(row.get("analyst_action") or "").strip().lower()
+            if cv in views:
+                row["credit_view"] = views[cv]
+            if ac in acts:
+                row["analyst_action"] = acts[ac]
+            if not str(row.get("entity") or "").strip():
+                notes.append("s1 row missing entity")
+            elif not str(row.get("analysis") or "").strip():
+                notes.append("s1 row missing analysis")
+            elif row.get("credit_view") not in _GPT_CREDIT_VIEWS:
+                notes.append(f"s1 bad credit_view {row.get('credit_view')!r}")
+            elif row.get("analyst_action") not in _GPT_ACTIONS:
+                notes.append(f"s1 bad analyst_action {row.get('analyst_action')!r}")
+            elif not _idx_ok(row):
+                notes.append("s1 bad item_indices")
+            else:
+                keep.append(row)
+        data["s1_summary"] = keep
+
+    for key in ("s2_summary", "s3_summary"):
+        rows = data.get(key)
+        if rows is None:
+            continue
+        if not isinstance(rows, list):
+            notes.append(f"{key} not a list")
+            data[key] = []
+            continue
+        good = [r for r in rows if isinstance(r, dict)
+                and str(r.get("analysis") or "").strip() and _idx_ok(r)]
+        if len(good) != len(rows):
+            notes.append(f"{key} dropped {len(rows) - len(good)} bad row(s)")
+        data[key] = good
+
+    if require_body:
+        eb = data.get("email_body")
+        if not isinstance(eb, dict):
+            notes.append("email_body missing/malformed -> empty")
+            eb = {}
+        kt = eb.get("key_takeaways")
+        if not isinstance(kt, list):
+            notes.append("key_takeaways malformed -> empty")
+            kt = []
+        good_kt = [r for r in kt if isinstance(r, dict)
+                   and str(r.get("title") or "").strip()
+                   and str(r.get("text") or "").strip()]
+        if len(good_kt) != len(kt):
+            notes.append(f"key_takeaways dropped {len(kt) - len(good_kt)} bad row(s)")
+        wa = eb.get("watchlist_attention", [])
+        if not isinstance(wa, list):
+            notes.append("watchlist_attention malformed -> empty")
+            wa = []
+        good_wa = [r for r in wa if isinstance(r, dict)
+                   and str(r.get("entity") or "").strip()
+                   and str(r.get("text") or "").strip()]
+        if len(good_wa) != len(wa):
+            notes.append(f"watchlist_attention dropped {len(wa) - len(good_wa)} bad row(s)")
+        eb["key_takeaways"] = good_kt
+        eb["watchlist_attention"] = good_wa
+        data["email_body"] = eb
+    return data, notes
+
+
 def _gpt_validate(data, require_body: bool = True) -> bool:
     """Structural check before anything from this response touches HTML.
     Deliberately strict -- a malformed or partially-hallucinated response
@@ -2756,8 +2849,19 @@ Respond with ONLY this JSON structure, no markdown fences, no extra commentary:
             print("[gpt] batch response was truncated beyond recovery, skipping this batch")
             return None
         usage = getattr(resp, "usage", None)
+        data, repair_notes = _gpt_repair(data, require_body=with_body)
+        if repair_notes:
+            print(f"[gpt] {provider['name']} response repaired: "
+                  + "; ".join(sorted(set(repair_notes))[:8]))
         if not _gpt_validate(data, require_body=with_body):
-            print("[gpt] batch failed schema validation (non-fatal), skipping this batch")
+            print(f"[gpt] batch failed schema validation even after repair "
+                  f"(non-fatal), skipping this batch. Top-level keys: "
+                  f"{sorted(data.keys()) if isinstance(data, dict) else type(data).__name__}")
+            return None
+        if (payload.get("s1") or []) and not (data.get("s1_summary") or []):
+            print(f"[gpt] {provider['name']} returned no usable S1 rows after "
+                  f"repair -- treating the batch as failed so the next "
+                  f"provider can take it")
             return None
         print(f"[gpt] batch ok: {len(data.get('s1_summary') or [])} S1 entries "
               f"of {len(payload.get('s1') or [])} sent in "
