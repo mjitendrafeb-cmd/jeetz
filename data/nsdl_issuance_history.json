@@ -1,6 +1,156 @@
 {
  "records": [
   {
+   "isin": "INE2RC407039",
+   "issuer": "REALNET VENTURES PRIVATE LIMITED",
+   "allotment_date": "2026-10-05",
+   "amount_cr": 15.0,
+   "coupon": 15.0,
+   "tenure_years": 2.0,
+   "band": "Not rated / available",
+   "segment": "Corporate",
+   "spread_bps": 835,
+   "ratings": []
+  },
+  {
+   "isin": "INE2RC407047",
+   "issuer": "REALNET VENTURES PRIVATE LIMITED",
+   "allotment_date": "2026-10-05",
+   "amount_cr": 35.0,
+   "coupon": 18.0,
+   "tenure_years": 2.0,
+   "band": "Not rated / available",
+   "segment": "Corporate",
+   "spread_bps": 1135,
+   "ratings": []
+  },
+  {
+   "isin": "INE138I07010",
+   "issuer": "MARWADI SHARES AND FINANCE LIMITED",
+   "allotment_date": "2026-10-05",
+   "amount_cr": 56.0,
+   "coupon": null,
+   "tenure_years": 3.0,
+   "band": "A band (A+/A/A-)",
+   "segment": "NBFC/HFC",
+   "spread_bps": null,
+   "ratings": [
+    "CRISIL RATINGS LIMITED A+"
+   ]
+  },
+  {
+   "isin": "INE138I07028",
+   "issuer": "MARWADI SHARES AND FINANCE LIMITED",
+   "allotment_date": "2026-10-05",
+   "amount_cr": 62.0,
+   "coupon": null,
+   "tenure_years": 3.0,
+   "band": "A band (A+/A/A-)",
+   "segment": "NBFC/HFC",
+   "spread_bps": null,
+   "ratings": [
+    "CRISIL RATINGS LIMITED A+"
+   ]
+  },
+  {
+   "isin": "INE530B07690",
+   "issuer": "IIFL FINANCE LIMITED",
+   "allotment_date": "2026-10-05",
+   "amount_cr": 100.0,
+   "coupon": null,
+   "tenure_years": 3.5,
+   "band": "AA band (AA+/AA/AA-)",
+   "segment": "NBFC/HFC",
+   "spread_bps": null,
+   "ratings": [
+    "Brickwork AA",
+    "IND-Ra AA",
+    "CRISIL AA"
+   ]
+  },
+  {
+   "isin": "INE407I07118",
+   "issuer": "REFORM ARC LIMITED",
+   "allotment_date": "2026-10-05",
+   "amount_cr": 100.0,
+   "coupon": 11.0,
+   "tenure_years": 4.0,
+   "band": "Not rated / available",
+   "segment": "Corporate",
+   "spread_bps": 414,
+   "ratings": []
+  },
+  {
+   "isin": "INE01A207229",
+   "issuer": "JM FINANCIAL HOME LOANS LIMITED",
+   "allotment_date": "2026-10-05",
+   "amount_cr": 125.0,
+   "coupon": null,
+   "tenure_years": 3.2,
+   "band": "AA band (AA+/AA/AA-)",
+   "segment": "Corporate",
+   "spread_bps": null,
+   "ratings": [
+    "ICRA AA"
+   ]
+  },
+  {
+   "isin": "INE090W07733",
+   "issuer": "LENDINGKART FINANCE LIMITED",
+   "allotment_date": "2026-10-05",
+   "amount_cr": 200.0,
+   "coupon": 9.25,
+   "tenure_years": 2.0,
+   "band": "AA band (AA+/AA/AA-)",
+   "segment": "NBFC/HFC",
+   "spread_bps": 260,
+   "ratings": [
+    "CRISIL AA-"
+   ]
+  },
+  {
+   "isin": "INE996U07594",
+   "issuer": "SI CREVA CAPITAL SERVICES PRIVATE LIMITED",
+   "allotment_date": "2026-10-05",
+   "amount_cr": 200.0,
+   "coupon": 10.85,
+   "tenure_years": 1.8,
+   "band": "A band (A+/A/A-)",
+   "segment": "NBFC/HFC",
+   "spread_bps": 420,
+   "ratings": [
+    "CRISIL A-"
+   ]
+  },
+  {
+   "isin": "INE282H07117",
+   "issuer": "JIO CREDIT LIMITED",
+   "allotment_date": "2026-10-05",
+   "amount_cr": 850.0,
+   "coupon": null,
+   "tenure_years": 4.0,
+   "band": "AAA",
+   "segment": "NBFC/HFC",
+   "spread_bps": null,
+   "ratings": [
+    "CRISIL AAA"
+   ]
+  },
+  {
+   "isin": "INE282H07125",
+   "issuer": "JIO CREDIT LIMITED",
+   "allotment_date": "2026-10-05",
+   "amount_cr": 1766.0,
+   "coupon": 8.59,
+   "tenure_years": 5.0,
+   "band": "AAA",
+   "segment": "NBFC/HFC",
+   "spread_bps": 162,
+   "ratings": [
+    "CRISIL AAA"
+   ]
+  },
+  {
    "isin": "INE078207011",
    "issuer": "UFIN FINANCIAL SERVICES LIMITED",
    "allotment_date": "2026-10-03",

@@ -333,7 +333,7 @@
  },
  "iifl finance": {
   "segment": "NBFC/HFC",
-  "updated": "2026-10-01"
+  "updated": "2026-10-06"
  },
  "incred financial services": {
   "segment": "Corporate",
@@ -377,7 +377,11 @@
  },
  "jio credit": {
   "segment": "NBFC/HFC",
-  "updated": "2026-09-01"
+  "updated": "2026-10-06"
+ },
+ "jm financial home loans": {
+  "segment": "Corporate",
+  "updated": "2026-10-06"
  },
  "jsw energy": {
   "segment": "Corporate",
@@ -435,6 +439,10 @@
   "segment": "NBFC/HFC",
   "updated": "2026-09-03"
  },
+ "lendingkart finance": {
+  "segment": "NBFC/HFC",
+  "updated": "2026-10-06"
+ },
  "lic housing finance": {
   "segment": "NBFC/HFC",
   "updated": "2026-09-17"
@@ -478,6 +486,10 @@
  "maple infrastructure trust": {
   "segment": "Corporate",
   "updated": "2026-08-29"
+ },
+ "marwadi shares and finance": {
+  "segment": "NBFC/HFC",
+  "updated": "2026-10-06"
  },
  "mas financial services": {
   "segment": "Corporate",
@@ -639,9 +651,17 @@
   "segment": "Corporate",
   "updated": "2026-09-08"
  },
+ "realnet ventures": {
+  "segment": "Corporate",
+  "updated": "2026-10-06"
+ },
  "rec": {
   "segment": "PSU",
   "updated": "2026-10-01"
+ },
+ "reform arc": {
+  "segment": "Corporate",
+  "updated": "2026-10-06"
  },
  "regency fincorp": {
   "segment": "NBFC/HFC",
@@ -706,6 +726,10 @@
  "shri ram finance": {
   "segment": "NBFC/HFC",
   "updated": "2026-09-16"
+ },
+ "si creva capital services": {
+  "segment": "NBFC/HFC",
+  "updated": "2026-10-06"
  },
  "sindhuja microcredit": {
   "segment": "Corporate",
