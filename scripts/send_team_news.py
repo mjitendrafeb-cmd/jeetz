@@ -2467,6 +2467,13 @@ def _gpt_analysis(s1_items: list[dict], s2_items: list[dict],
         clients = [(p, OpenAI(api_key=p["api_key"], base_url=p["base_url"],
                               timeout=240, max_retries=1))
                    for p in providers]
+        for p, c in clients:
+            if p["name"] == "gemini" and not os.environ.get("GEMINI_MODEL", "").strip():
+                alt = _gpt_pick_available_model(c, p)
+                if alt:
+                    print(f"[gpt] gemini model: using {alt} (Flash-Lite preferred; "
+                          f"set GEMINI_MODEL to override)")
+                    p["model"] = alt
         from concurrent.futures import ThreadPoolExecutor
         with ThreadPoolExecutor(max_workers=min(4, len(jobs))) as ex:
             results = list(ex.map(
@@ -2563,11 +2570,16 @@ def _gpt_is_fatal(exc) -> bool:
 # match, rather than failing every batch until someone edits an env var --
 # Groq's default llama-3.3-70b-versatile 404'd on every call today.
 _GPT_MODEL_PREFERENCE = {
+    # Flash-Lite is the Gemini tier the desk reports as actually free; the
+    # regular Flash model ran into a 5 requests/minute free-tier cap. Used
+    # when GEMINI_MODEL is unset (see _gpt_analysis) and on model-not-found.
+    "gemini": [r"gemini-3\.5-flash-lite", r"flash-lite"],
     "groq": [r"llama-3\.3-70b", r"gpt-oss-120b", r"llama-3\.1-70b",
              r"llama-4", r"qwen", r"llama-3\.1-8b"],
 }
 _GPT_MODEL_EXCLUDE = re.compile(
-    r"whisper|guard|tts|orpheus|safeguard|embed|vision|compound", re.I)
+    r"whisper|guard|tts|orpheus|safeguard|embed|vision|compound|image|live|audio",
+    re.I)
 
 
 def _gpt_pick_available_model(client, provider: dict) -> str | None:
@@ -2575,13 +2587,16 @@ def _gpt_pick_available_model(client, provider: dict) -> str | None:
     if not prefs:
         return None
     try:
-        ids = [m.id for m in client.models.list().data]
+        ids = [m.id.split("/", 1)[1] if m.id.startswith("models/") else m.id
+               for m in client.models.list().data]
     except Exception as exc:
         print(f"[gpt] could not list {provider['name']} models: {str(exc)[:120]}")
         return None
     ids = [i for i in ids if not _GPT_MODEL_EXCLUDE.search(i)]
     for pat in prefs:
-        for i in sorted(ids):
+        # Shortest id first: stable names ("x-flash-lite") before dated or
+        # "-preview" variants of the same model.
+        for i in sorted(ids, key=lambda x: (len(x), x)):
             if re.search(pat, i):
                 return i
     return None
