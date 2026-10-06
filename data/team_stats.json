@@ -1,78 +1,6 @@
 [
  {
   "date": "2026-09-11",
-  "fetched": 1265,
-  "delivered_pool": 99,
-  "junk": 406,
-  "geo": 37,
-  "stale": 366,
-  "dup": 132,
-  "sections": {
-   "S1": 77,
-   "S2": 10,
-   "S3": 12
-  },
-  "mails": 40,
-  "failed": [],
-  "source_summary": {
-   "RBI RSS": 20,
-   "RBI Enforcement": 0,
-   "SEBI RSS": 20,
-   "Google News": 20,
-   "Watchlist (Google)": 1348,
-   "BSE Financials": 0,
-   "Telegram": 63,
-   "Web Scraper": 564
-  },
-  "dropped_samples": {
-   "relevance": [
-    "Relief Measures in Areas Affected by Natural Calamities - Reporting through Centralised Information Management",
-    "Alpha Pro Tech, Ltd. Announces Third Quarter 2025 Financial Results",
-    "Stallion India Fluorochemicals Q1 Results: Net profit surges 79% YoY",
-    "2026 set to be a record year for India PE/VC fundraising with US$23.7 billion raised so far: EY-IVCA Report",
-    "Balrampur Chini Mills profit falls 10% in Q1FY27; appoints Vartika Shukla",
-    "Mapping India\u2019s fintech key players",
-    "D S Kulkarni Developers Q1 FY27 Financial Results Newspaper Ad",
-    "Sun Pharma update on Lipitor antitrust litigation in US court",
-    "Escorts Kubota Q4FY26 Earnings Call: Record Revenue, PAT and Dividend Announced",
-    "Choice Equities Initiating Coverage on United Breweries Ltd., with 16% UPSIDE- Mix Improvement To Boost Realis",
-    "PL Capital sees 22% UPSIDE in Polycab India- Long Growth Runway and Expanding Global Footprint",
-    "#MintPremium | The Bureau of Indian Standards (BIS) has been tasked with developing a national framework to pr",
-    "Satya Niketan building collapse: Students flee from another PG in Delhi after building develops cracks",
-    "Swatantra Bhardwaj\u2019s arrest has brought fresh focus to a Jantar Mantar assault case after remarks made by the ",
-    "Early retirement in India requires more than high income",
-    "#WATCH | Maharashtra: 'Dahi Handi' celebrations underway in Mumbai today",
-    "Gold, silver prices today, 5th Sept, 2026 Track all mkt updates here",
-    "Apple launches iPhone 18 Pro, iPhone 18 Pro Max: Brings upgraded performance, camera, and more",
-    "BRICS Summit traffic alert: Delhi lists 22 diversion points, curbs on 35+ roads from Sept 11",
-    "Silver hallmarking enables buyers to verify purity or fineness of precious metal jewellery"
-   ],
-   "junk": [
-    "Monomark Engineering, RKB Global receive SEBI approval for IPOs",
-    "5Paisa Capital Gains 1.75% to \u20b9342.45 on NSE; Stock Holds Above Key Support - MFI Divergence",
-    "Scapia Ties up with Axis Bank to launch their credit card on the MasterCard platform",
-    "Scapia, Axis Bank Launch Co-Branded Card Targeting India\u2019s New-Age Travellers",
-    "Scapia partners Axis Bank to launch co-branded credit card for young travellers",
-    "Bajaj Auto Share Price",
-    "BAJAJ FINANCE LIMITED Option Chain - Live BAJAJ FINANCE LIMITED Option Chain Data, OI & Price",
-    "Bajaj Finance Ltd is Rated Hold",
-    "Bajaj Finance Ltd Technical Momentum Shifts Amid Mixed Indicator Signals",
-    "Bandhan Floating Interest Rates Fund - Regular Plan Portfolio",
-    "Bob on Business: Fall football arrives with H-E-B, tequila and bobbleheads corporate tie-ins",
-    "Bank of India Liquid Fund Direct Growth Review 2026: NAV, Returns, Portfolio & Should You Invest?",
-    "Bank of India Value Fund - Regular Plan Returns",
-    "Bank of India Consumption Fund - Regular Plan Returns",
-    "Reaction!! Bom Diggy Diggy (VIDEO)",
-    "Sudamala Resort Ubud: Bali\u2019s newest boutique luxury address opens October 2026",
-    "Bali United vs Adhyaksa \u00bb Best Odds and Stats",
-    "Groww Share Price",
-    "September 2026 F&O Monthly Expiry",
-    "CANARA BANK Option Chain"
-   ]
-  }
- },
- {
-  "date": "2026-09-11",
   "fetched": 1537,
   "delivered_pool": 277,
   "junk": 386,
@@ -2156,6 +2084,78 @@
     "Bank of Baroda stock: Down 15% in 3 months, can bulls return? Check target, stop loss - technical outlook by e",
     "Bank of India Mid Cap Fund(G)-Direct Plan",
     "KPESE BOI VS KEENY ICE: WHO IS WINNING THE BEEF ON AUDIOMACK? \ud83d\udcca\ud83e\udd4a"
+   ]
+  }
+ },
+ {
+  "date": "2026-10-06",
+  "fetched": 1185,
+  "delivered_pool": 113,
+  "junk": 295,
+  "geo": 10,
+  "stale": 390,
+  "dup": 204,
+  "sections": {
+   "S1": 84,
+   "S2": 16,
+   "S3": 13
+  },
+  "mails": 41,
+  "failed": [],
+  "source_summary": {
+   "RBI RSS": 20,
+   "RBI Enforcement": 0,
+   "SEBI RSS": 20,
+   "Google News": 24,
+   "Watchlist (Google)": 341,
+   "BSE Financials": 0,
+   "Telegram": 51,
+   "Web Scraper": 304
+  },
+  "dropped_samples": {
+   "relevance": [
+    "Indicative Calendar of Market borrowings by State Governments/ Union Territories for the Quarter October \u2013 Dec",
+    "Master Direction on Note Sorting Machines",
+    "Non-Resident Deposits - Comprehensive Single Return (NRD-CSR)(R012): Submission under CIMS Sankalan Portal",
+    "Online submission of Form A2: Removal of limits on amount of remittance",
+    "Consolidation/ Review of instructions issued on currency management matters \u2013 Withdrawal of Circulars/ Guideli",
+    "Cassette - Swaps in ATMs",
+    "GCR on Hospital Sector- The Second-Order Read: Supreme Court Drug Margin Ruling on Hospital Sector",
+    "Motilal Oswal\u2019s Morning India- Today\u2019s top research idea (01-Oct-26)",
+    "Skyroot Aerospace co-founder and CEO Pawan Kumar Chandana has been named to TIME100 Next 2026, bringing fresh ",
+    "Cheap & Fake Cosmetic, Weight Loss Drug Demand Surges In India",
+    "Cockroach Janta Party (CJP) leader Abhijeet Dipke on Friday dared Maharashtra Chief Minister Devendra Fadnavis",
+    "India\u2019s women are Asian Games hockey champions again",
+    "#MintMarkets | TCS, Wipro, Infosys, HCL Tech: Why experts see IT stocks' price jump on Monday",
+    "Did you know? Mahatma Gandhi was nominated for Nobel Peace Prize 5 times",
+    "In a video shot inside the flydubai plane, one person could be heard saying, \u201che tried to crash the plane,\u201d in",
+    "Flydubai Captain Smit Machchhar turns emotional as he recounts his ordeal before PM Modi; he says, \"You are my",
+    "Lovlina Borgohain defeated Bao Ziyi of China by 5-0 margin in an unanimous decision, to win the first-ever gol",
+    "#MintPremium |In 1947, Mahatma Gandhi urged decision-makers to ask whether the poorest and weakest would benef",
+    "Elon Musk Says SpaceXAI Will Be Renamed SpaceXSI After Trump Rebrands AI",
+    "Security has been tightened across New Delhi district, while Delhi Traffic Police has issued an advisory warni"
+   ],
+   "junk": [
+    "Max Healthcare Institute among 3 F&O stocks with a sharp rise in futures open interest",
+    "Not Rated 360 ONE WAM Ltd for the Target Rs.NA By Prabhudas Lilladher Ltd",
+    "Ballinamallard United vs Ards - Watch Online for Free",
+    "Bandhan Banking and PSU Debt Fund Regular-IDCW Fortnightly",
+    "Bank of Baroda Share Price Target: Down 15%, Levels and View",
+    "Bank of Baroda stock: Down 15% in 3 months, can bulls return? Check target, stop loss - technical outlook by e",
+    "Baroda BNP Paribas Income Plus Arbitrage Active FoF(G)-Direct Plan",
+    "Baroda BNP Paribas Dynamic Term Fund Direct-IDCW Weekly",
+    "\u2018Love & War\u2019: Sanjay Leela Bhansali\u2019s Film Secures INR 300 Crore Theatrical Rights Deal Ahead of 2027",
+    "Nushrratt Bharuccha health update: actress suffers spine fracture in Bali accident; team says surgery pla",
+    "Nushrratt Bharuccha\u2019s Bali trip takes painful turn: Actor suffers spinal fracture in accident, to be flown",
+    "Canara Bank Share Price Hits Fresh 52-Week Low",
+    "Capital Small Finance Bank Ltd is Rated Hold",
+    "Central Bank Of India Share Price Today Near One-Year Low",
+    "HUDCO Share Price Today near yearly low; key levels in focus",
+    "ICICI Prudential AMC Upgraded to Hold on Improved Technicals and Financial Trends",
+    "ICICI Prudential Life Insurance Company Ltd is Rated Sell",
+    "\u201cSanctity Is The Reward Of Legality\u201d: Supreme Court Invalidates IFCI\u2019s SARFAESI Auction Of Ooty Resort...",
+    "Jana Small Finance Bank Ltd is Rated Buy",
+    "JioBlackRock Ultra Short to Short Term Fund - Direct Plan Portfolio"
    ]
   }
  }
