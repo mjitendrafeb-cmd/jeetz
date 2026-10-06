@@ -2518,6 +2518,75 @@ def _gpt_analysis(s1_items: list[dict], s2_items: list[dict],
     return data, s1_sent, s2_sent, s3_sent, s2s3_evaluated
 
 
+# Gemini's free tier is now 5 requests/minute per model ("limit: 5",
+# GenerateRequestsPerMinutePerProjectPerModel-FreeTier, seen live) and S1
+# runs ~9-10 batches through 4 workers, so every batch beyond the first few
+# hit 429 and burned its retries. Space request STARTS across all threads
+# instead of letting them collide. 13s => at most ~4.6 requests/minute.
+# Overridable via GEMINI_MIN_INTERVAL_S (0 disables) for a paid key.
+import threading as _threading
+_GPT_MIN_INTERVAL_S = {
+    "gemini": float(os.environ.get("GEMINI_MIN_INTERVAL_S", "").strip() or 13.0),
+}
+_gpt_pace_lock = _threading.Lock()
+_gpt_pace_next: dict = {}
+
+
+def _gpt_pace(provider_name: str) -> None:
+    gap = _GPT_MIN_INTERVAL_S.get(provider_name, 0.0)
+    if gap <= 0:
+        return
+    import time as _time
+    with _gpt_pace_lock:
+        now = _time.monotonic()
+        start = max(now, _gpt_pace_next.get(provider_name, 0.0))
+        _gpt_pace_next[provider_name] = start + gap
+    if start > now:
+        _time.sleep(start - now)
+
+
+# Errors no amount of waiting fixes. Retrying them (15s then 30s, per batch,
+# per provider) just burned minutes: today's OpenAI key had "no credits
+# remaining" and every batch still sat through two backoffs before giving up.
+_GPT_FATAL_MARKERS = ("insufficient_quota", "credit_balance_exhausted",
+                      "PerDay", "invalid_api_key", "Incorrect API key",
+                      "API key not valid")
+
+
+def _gpt_is_fatal(exc) -> bool:
+    msg = str(exc)
+    return any(m in msg for m in _GPT_FATAL_MARKERS)
+
+
+# Providers whose configured model may have been retired. On a
+# model-not-found error, ask the provider what it serves and take the best
+# match, rather than failing every batch until someone edits an env var --
+# Groq's default llama-3.3-70b-versatile 404'd on every call today.
+_GPT_MODEL_PREFERENCE = {
+    "groq": [r"llama-3\.3-70b", r"gpt-oss-120b", r"llama-3\.1-70b",
+             r"llama-4", r"qwen", r"llama-3\.1-8b"],
+}
+_GPT_MODEL_EXCLUDE = re.compile(
+    r"whisper|guard|tts|orpheus|safeguard|embed|vision|compound", re.I)
+
+
+def _gpt_pick_available_model(client, provider: dict) -> str | None:
+    prefs = _GPT_MODEL_PREFERENCE.get(provider["name"])
+    if not prefs:
+        return None
+    try:
+        ids = [m.id for m in client.models.list().data]
+    except Exception as exc:
+        print(f"[gpt] could not list {provider['name']} models: {str(exc)[:120]}")
+        return None
+    ids = [i for i in ids if not _GPT_MODEL_EXCLUDE.search(i)]
+    for pat in prefs:
+        for i in sorted(ids):
+            if re.search(pat, i):
+                return i
+    return None
+
+
 def _gpt_retry_after(exc) -> float | None:
     """The provider's OWN suggested retry delay, in seconds, if it gave
     one. Gemini's 429 body carries "Please retry in 1.36394978s" -- a
@@ -2540,6 +2609,8 @@ def _gpt_one_call(clients: list, payload: dict, with_body: bool):
     a failed batch costs only its own items' analysis, never the run."""
     import time as _time
     for provider, client in clients:
+        if provider.get("dead"):
+            continue
         out = _gpt_try_provider(client, provider, payload, with_body)
         if out is not None:
             return out
@@ -2616,6 +2687,7 @@ Respond with ONLY this JSON structure, no markdown fences, no extra commentary:
         resp = None
         last_exc = None
         for attempt in range(3):
+            _gpt_pace(provider["name"])
             try:
                 resp = client.chat.completions.create(
                     model=provider["model"],
@@ -2633,6 +2705,21 @@ Respond with ONLY this JSON structure, no markdown fences, no extra commentary:
                 break
             except Exception as exc:
                 last_exc = exc
+                if _gpt_is_fatal(exc):
+                    if not provider.get("dead"):
+                        print(f"[gpt] {provider['name']} unusable for this run "
+                              f"(not retrying): {str(exc)[:160]}")
+                    provider["dead"] = True
+                    break
+                if "model_not_found" in str(exc) or "does not exist" in str(exc):
+                    alt = _gpt_pick_available_model(client, provider)
+                    if alt and alt != provider["model"]:
+                        print(f"[gpt] {provider['name']} model "
+                              f"{provider['model']} unavailable; switching to {alt}")
+                        provider["model"] = alt
+                        continue
+                    provider["dead"] = True
+                    break
                 if attempt < 2:
                     # Prefer the provider's own hint over the fixed
                     # backoff: a rate-limit that clears in ~1.4s should
