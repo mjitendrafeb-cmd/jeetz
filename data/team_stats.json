@@ -1,78 +1,6 @@
 [
  {
   "date": "2026-09-11",
-  "fetched": 1416,
-  "delivered_pool": 365,
-  "junk": 341,
-  "geo": 23,
-  "stale": 241,
-  "dup": 205,
-  "sections": {
-   "S1": 335,
-   "S2": 17,
-   "S3": 13
-  },
-  "mails": 1,
-  "failed": [],
-  "source_summary": {
-   "RBI RSS": 20,
-   "RBI Enforcement": 0,
-   "SEBI RSS": 20,
-   "Google News": 0,
-   "Watchlist (Google)": 0,
-   "BSE Financials": 0,
-   "Telegram": 52,
-   "Web Scraper": 915
-  },
-  "dropped_samples": {
-   "relevance": [
-    "Relief Measures in Areas Affected by Natural Calamities - Reporting through Centralised Information Management",
-    "Relaxation in timeline with respect to Accredited Investor mandate for Angel Funds",
-    "Ease of regulatory compliances for FPIs investing only in Government Securities",
-    "Arihant Capital Markets Ltd- Management Meet Key Takeaways Exato Technologies Ltd Msafe Equipments Ltd Workmat",
-    "Motilal Oswal Initiating Coverage on V2 Retail, with 27% UPSIDE- Fashion for Bharat, Built for Scale",
-    "Nuvama on Strategy: Big alpha now lies in contrarian flip",
-    "The Petroleum Ministry has directed state-run oil marketing companies (OMCs) to introduce a uniform 25-day gap",
-    "Investing without clear goals can lead to poor decisions influenced by emotions or trends",
-    "The crew reportedly detected the technical snag 50 minutes after take-off",
-    "#MintPlainFacts | India's updated gross domestic product methodology addresses past statistical issues, but do",
-    "Israeli PM Benjamin Netanyahu said Iran\u2019s regime is nearing collapse and vowed to complete further objectives",
-    "#MintMarkets | Indian equity markets opened lower on Monday, with the Sensex falling 69.49 points to 76,445.94",
-    "NSE IPO price band set at \u20b91,700-1,785; bidding from September 17",
-    "NHC Foods Reports Strong Q1FY27 Performance",
-    "For such amazing stock suggestions, subscribe to IEM Money Multiplier Weekly Magazine.",
-    "Listing of further issues of securities",
-    "NCMS-OTP based Two Factor Authentication and upgradation of NCMS version",
-    "India's Manufacturing Majors: The Companies Building at Scale",
-    "Review of Circulars issued under Foreign Exchange Management Act, 1999 (FEMA)",
-    "The Arcil IPO explained"
-   ],
-   "junk": [
-    "Appeal No. 7041 of 2026 filed by Moh Furkan",
-    "Appeal No. 7037 of 2026 filed by Pankaj Mehra",
-    "Appeal No. 7036 of 2026 filed by Minakshi Walmik Phad",
-    "Appeal No. 7034 of 2026 filed by Arvind Soni",
-    "Appeal No. 7033 of 2026 filed by Pradip Malve",
-    "Appeal No. 7032 of 2026 filed by Surajit Rout",
-    "Appeal No. 7031 of 2026 filed by Sanjay Singh",
-    "Appeal No. 7030 of 2026 filed by Surajit Rout",
-    "Appeal No. 7029 of 2026 filed by Surajit Rout",
-    "Appeal No. 7025 of 2026 filed by Yukteshwar Baranwal",
-    "Appeal No. 7024 of 2026 filed by Sagar Khalate",
-    "Adjudication Order in respect of Puja Rungta in the matter of Illiquid Stock Options at BSE",
-    "Appeal No. 7028 of 2026 filed by Samar Imran",
-    "Appeal No. 7027 of 2026 filed by Samar Imran",
-    "\ud83d\ude80 Satellite-maker start-up Pixxel has raised $100 million in a Series C funding round co-led by Temasek and Se",
-    "ABSLMF Launches The Comeback Morcha Campaign",
-    "Bharat Mobility Global Expo 2024",
-    "Bandhan Medium Term Fund Direct-IDCW Fortnightly",
-    "Bandhan Mid Cap Fund Regular-IDCW (\u20b9 18.20) - NAV, Reviews & asset allocation",
-    "Bandhan Floating Interest Rates Fund Regular-IDCW Monthly (\u20b9 10.15) - NAV, Reviews & asset allocation"
-   ]
-  }
- },
- {
-  "date": "2026-09-11",
   "fetched": 1679,
   "delivered_pool": 428,
   "junk": 399,
@@ -2111,6 +2039,78 @@
    "BSE Financials": 0,
    "Telegram": 45,
    "Web Scraper": 342
+  },
+  "dropped_samples": {
+   "relevance": [
+    "Indicative Calendar of Market borrowings by State Governments/ Union Territories for the Quarter October \u2013 Dec",
+    "Master Direction on Note Sorting Machines",
+    "Non-Resident Deposits - Comprehensive Single Return (NRD-CSR)(R012): Submission under CIMS Sankalan Portal",
+    "Online submission of Form A2: Removal of limits on amount of remittance",
+    "Consolidation/ Review of instructions issued on currency management matters \u2013 Withdrawal of Circulars/ Guideli",
+    "Cassette - Swaps in ATMs",
+    "GCR on Hospital Sector- The Second-Order Read: Supreme Court Drug Margin Ruling on Hospital Sector",
+    "Motilal Oswal\u2019s Morning India- Today\u2019s top research idea (01-Oct-26)",
+    "Skyroot Aerospace co-founder and CEO Pawan Kumar Chandana has been named to TIME100 Next 2026, bringing fresh ",
+    "Cheap & Fake Cosmetic, Weight Loss Drug Demand Surges In India",
+    "Cockroach Janta Party (CJP) leader Abhijeet Dipke on Friday dared Maharashtra Chief Minister Devendra Fadnavis",
+    "India\u2019s women are Asian Games hockey champions again",
+    "#MintMarkets | TCS, Wipro, Infosys, HCL Tech: Why experts see IT stocks' price jump on Monday",
+    "Did you know? Mahatma Gandhi was nominated for Nobel Peace Prize 5 times",
+    "In a video shot inside the flydubai plane, one person could be heard saying, \u201che tried to crash the plane,\u201d in",
+    "Flydubai Captain Smit Machchhar turns emotional as he recounts his ordeal before PM Modi; he says, \"You are my",
+    "Lovlina Borgohain defeated Bao Ziyi of China by 5-0 margin in an unanimous decision, to win the first-ever gol",
+    "#MintPremium |In 1947, Mahatma Gandhi urged decision-makers to ask whether the poorest and weakest would benef",
+    "Elon Musk Says SpaceXAI Will Be Renamed SpaceXSI After Trump Rebrands AI",
+    "Security has been tightened across New Delhi district, while Delhi Traffic Police has issued an advisory warni"
+   ],
+   "junk": [
+    "Max Healthcare Institute among 3 F&O stocks with a sharp rise in futures open interest",
+    "Not Rated 360 ONE WAM Ltd for the Target Rs.NA By Prabhudas Lilladher Ltd",
+    "Ballinamallard United vs Ards - Watch Online for Free",
+    "Bandhan Banking and PSU Debt Fund Regular-IDCW Fortnightly",
+    "Bank of Baroda Share Price Target: Down 15%, Levels and View",
+    "Bank of Baroda stock: Down 15% in 3 months, can bulls return? Check target, stop loss - technical outlook by e",
+    "Baroda BNP Paribas Income Plus Arbitrage Active FoF(G)-Direct Plan",
+    "Baroda BNP Paribas Dynamic Term Fund Direct-IDCW Weekly",
+    "\u2018Love & War\u2019: Sanjay Leela Bhansali\u2019s Film Secures INR 300 Crore Theatrical Rights Deal Ahead of 2027",
+    "Nushrratt Bharuccha health update: actress suffers spine fracture in Bali accident; team says surgery pla",
+    "Nushrratt Bharuccha\u2019s Bali trip takes painful turn: Actor suffers spinal fracture in accident, to be flown",
+    "Canara Bank Share Price Hits Fresh 52-Week Low",
+    "Capital Small Finance Bank Ltd is Rated Hold",
+    "Central Bank Of India Share Price Today Near One-Year Low",
+    "HUDCO Share Price Today near yearly low; key levels in focus",
+    "ICICI Prudential AMC Upgraded to Hold on Improved Technicals and Financial Trends",
+    "ICICI Prudential Life Insurance Company Ltd is Rated Sell",
+    "\u201cSanctity Is The Reward Of Legality\u201d: Supreme Court Invalidates IFCI\u2019s SARFAESI Auction Of Ooty Resort...",
+    "Jana Small Finance Bank Ltd is Rated Buy",
+    "JioBlackRock Ultra Short to Short Term Fund - Direct Plan Portfolio"
+   ]
+  }
+ },
+ {
+  "date": "2026-10-06",
+  "fetched": 1731,
+  "delivered_pool": 218,
+  "junk": 370,
+  "geo": 14,
+  "stale": 390,
+  "dup": 506,
+  "sections": {
+   "S1": 173,
+   "S2": 25,
+   "S3": 20
+  },
+  "mails": 1,
+  "failed": [],
+  "source_summary": {
+   "RBI RSS": 20,
+   "RBI Enforcement": 0,
+   "SEBI RSS": 20,
+   "Google News": 26,
+   "Watchlist (Google)": 890,
+   "BSE Financials": 0,
+   "Telegram": 44,
+   "Web Scraper": 427
   },
   "dropped_samples": {
    "relevance": [
