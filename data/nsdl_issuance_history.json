@@ -1,6 +1,130 @@
 {
  "records": [
   {
+   "isin": "INE138I07010",
+   "issuer": "MARWADI SHARES AND FINANCE LIMITED",
+   "allotment_date": "2026-10-06",
+   "amount_cr": 56.0,
+   "coupon": null,
+   "tenure_years": 3.0,
+   "band": "A band (A+/A/A-)",
+   "segment": "NBFC/HFC",
+   "spread_bps": null,
+   "ratings": [
+    "CRISIL RATINGS LIMITED A+"
+   ]
+  },
+  {
+   "isin": "INE138I07028",
+   "issuer": "MARWADI SHARES AND FINANCE LIMITED",
+   "allotment_date": "2026-10-06",
+   "amount_cr": 62.0,
+   "coupon": null,
+   "tenure_years": 3.0,
+   "band": "A band (A+/A/A-)",
+   "segment": "NBFC/HFC",
+   "spread_bps": null,
+   "ratings": [
+    "CRISIL RATINGS LIMITED A+"
+   ]
+  },
+  {
+   "isin": "INE443L08198",
+   "issuer": "BELSTAR MICROFINANCE LIMITED",
+   "allotment_date": "2026-10-06",
+   "amount_cr": 50.0,
+   "coupon": 9.0,
+   "tenure_years": 2.8,
+   "band": "AA band (AA+/AA/AA-)",
+   "segment": "NBFC/HFC",
+   "spread_bps": 209,
+   "ratings": [
+    "CRISIL AA"
+   ]
+  },
+  {
+   "isin": "INE443L08180",
+   "issuer": "BELSTAR MICROFINANCE LIMITED",
+   "allotment_date": "2026-10-06",
+   "amount_cr": 150.0,
+   "coupon": 9.0,
+   "tenure_years": 3.0,
+   "band": "AA band (AA+/AA/AA-)",
+   "segment": "NBFC/HFC",
+   "spread_bps": 209,
+   "ratings": [
+    "CRISIL AA"
+   ]
+  },
+  {
+   "isin": "INE2YCI07012",
+   "issuer": "AADHYAN RESIDENCES PRIVATE LIMITED",
+   "allotment_date": "2026-10-06",
+   "amount_cr": 190.0,
+   "coupon": null,
+   "tenure_years": 4.0,
+   "band": "Not rated / available",
+   "segment": "Corporate",
+   "spread_bps": null,
+   "ratings": [
+    "Acuite Ratings And Research Limited B"
+   ]
+  },
+  {
+   "isin": "INE0XK707481",
+   "issuer": "FDPL FINANCE PRIVATE LIMITED",
+   "allotment_date": "2026-10-06",
+   "amount_cr": 25.0,
+   "coupon": 15.25,
+   "tenure_years": 1.5,
+   "band": "BBB band",
+   "segment": "NBFC/HFC",
+   "spread_bps": 902,
+   "ratings": [
+    "INDIA RATING AND RESEARCH PVT. LTD BBB"
+   ]
+  },
+  {
+   "isin": "INE10R407068",
+   "issuer": "SHREEJI INFINITY PRIVATE LIMITED",
+   "allotment_date": "2026-10-06",
+   "amount_cr": 35.0,
+   "coupon": 16.5,
+   "tenure_years": 4.0,
+   "band": "Not rated / available",
+   "segment": "Corporate",
+   "spread_bps": 959,
+   "ratings": []
+  },
+  {
+   "isin": "INE138I07036",
+   "issuer": "MARWADI SHARES AND FINANCE LIMITED",
+   "allotment_date": "2026-10-06",
+   "amount_cr": 87.0,
+   "coupon": null,
+   "tenure_years": 3.0,
+   "band": "A band (A+/A/A-)",
+   "segment": "NBFC/HFC",
+   "spread_bps": null,
+   "ratings": [
+    "CRISIL RATINGS LIMITED A+"
+   ]
+  },
+  {
+   "isin": "INE539K07361",
+   "issuer": "CREDILA FINANCIAL SERVICES LIMITED",
+   "allotment_date": "2026-10-06",
+   "amount_cr": 260.0,
+   "coupon": 9.25,
+   "tenure_years": 3.0,
+   "band": "AA band (AA+/AA/AA-)",
+   "segment": "NBFC/HFC",
+   "spread_bps": 234,
+   "ratings": [
+    "CRISIL AA+"
+   ]
+  },
+  {
    "isin": "INE2RC407039",
    "issuer": "REALNET VENTURES PRIVATE LIMITED",
    "allotment_date": "2026-10-05",
@@ -23,34 +147,6 @@
    "segment": "Corporate",
    "spread_bps": 1135,
    "ratings": []
-  },
-  {
-   "isin": "INE138I07010",
-   "issuer": "MARWADI SHARES AND FINANCE LIMITED",
-   "allotment_date": "2026-10-05",
-   "amount_cr": 56.0,
-   "coupon": null,
-   "tenure_years": 3.0,
-   "band": "A band (A+/A/A-)",
-   "segment": "NBFC/HFC",
-   "spread_bps": null,
-   "ratings": [
-    "CRISIL RATINGS LIMITED A+"
-   ]
-  },
-  {
-   "isin": "INE138I07028",
-   "issuer": "MARWADI SHARES AND FINANCE LIMITED",
-   "allotment_date": "2026-10-05",
-   "amount_cr": 62.0,
-   "coupon": null,
-   "tenure_years": 3.0,
-   "band": "A band (A+/A/A-)",
-   "segment": "NBFC/HFC",
-   "spread_bps": null,
-   "ratings": [
-    "CRISIL RATINGS LIMITED A+"
-   ]
   },
   {
    "isin": "INE530B07690",
@@ -313,20 +409,6 @@
    ]
   },
   {
-   "isin": "INE443L08198",
-   "issuer": "BELSTAR MICROFINANCE LIMITED",
-   "allotment_date": "2026-10-01",
-   "amount_cr": 50.0,
-   "coupon": 9.0,
-   "tenure_years": 2.8,
-   "band": "AA band (AA+/AA/AA-)",
-   "segment": "NBFC/HFC",
-   "spread_bps": 209,
-   "ratings": [
-    "CRISIL AA"
-   ]
-  },
-  {
    "isin": "INE532F07JO2",
    "issuer": "EDELWEISS FINANCIAL SERVICES LIMITED",
    "allotment_date": "2026-10-01",
@@ -352,20 +434,6 @@
    "spread_bps": 228,
    "ratings": [
     "CRISIL A+"
-   ]
-  },
-  {
-   "isin": "INE443L08180",
-   "issuer": "BELSTAR MICROFINANCE LIMITED",
-   "allotment_date": "2026-10-01",
-   "amount_cr": 150.0,
-   "coupon": 9.0,
-   "tenure_years": 3.0,
-   "band": "AA band (AA+/AA/AA-)",
-   "segment": "NBFC/HFC",
-   "spread_bps": 209,
-   "ratings": [
-    "CRISIL AA"
    ]
   },
   {
@@ -4539,20 +4607,6 @@
    "segment": "Corporate",
    "spread_bps": 320,
    "ratings": []
-  },
-  {
-   "isin": "INE2YCI07012",
-   "issuer": "AADHYAN RESIDENCES PRIVATE LIMITED",
-   "allotment_date": "2026-09-01",
-   "amount_cr": 200.0,
-   "coupon": null,
-   "tenure_years": 4.0,
-   "band": "Not rated / available",
-   "segment": "Corporate",
-   "spread_bps": null,
-   "ratings": [
-    "Acuite Ratings And Research Limited B"
-   ]
   },
   {
    "isin": "INE071G07884",

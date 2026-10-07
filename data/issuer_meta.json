@@ -9,7 +9,7 @@
  },
  "aadhyan residences": {
   "segment": "Corporate",
-  "updated": "2026-09-02"
+  "updated": "2026-10-07"
  },
  "aavas financiers": {
   "segment": "NBFC/HFC",
@@ -109,7 +109,7 @@
  },
  "belstar microfinance": {
   "segment": "NBFC/HFC",
-  "updated": "2026-10-03"
+  "updated": "2026-10-07"
  },
  "berar finance": {
   "segment": "NBFC/HFC",
@@ -166,6 +166,10 @@
  "clean max enviro energy solutions": {
   "segment": "Corporate",
   "updated": "2026-09-29"
+ },
+ "credila financial services": {
+  "segment": "NBFC/HFC",
+  "updated": "2026-10-07"
  },
  "credit wise capital": {
   "segment": "NBFC/HFC",
@@ -254,6 +258,10 @@
  "eqyizen investment": {
   "segment": "Corporate",
   "updated": "2026-10-03"
+ },
+ "fdpl finance": {
+  "segment": "NBFC/HFC",
+  "updated": "2026-10-07"
  },
  "gabriel": {
   "segment": "Corporate",
@@ -489,7 +497,7 @@
  },
  "marwadi shares and finance": {
   "segment": "NBFC/HFC",
-  "updated": "2026-10-06"
+  "updated": "2026-10-07"
  },
  "mas financial services": {
   "segment": "Corporate",
@@ -722,6 +730,10 @@
  "shree naman hospitality": {
   "segment": "Corporate",
   "updated": "2026-09-30"
+ },
+ "shreeji infinity": {
+  "segment": "Corporate",
+  "updated": "2026-10-07"
  },
  "shri ram finance": {
   "segment": "NBFC/HFC",
