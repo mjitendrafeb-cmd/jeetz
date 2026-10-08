@@ -1,77 +1,5 @@
 [
  {
-  "date": "2026-09-12",
-  "fetched": 1230,
-  "delivered_pool": 116,
-  "junk": 393,
-  "geo": 25,
-  "stale": 341,
-  "dup": 160,
-  "sections": {
-   "S1": 93,
-   "S2": 16,
-   "S3": 7
-  },
-  "mails": 0,
-  "failed": [],
-  "source_summary": {
-   "RBI RSS": 20,
-   "RBI Enforcement": 0,
-   "SEBI RSS": 20,
-   "Google News": 24,
-   "Watchlist (Google)": 1338,
-   "BSE Financials": 0,
-   "Telegram": 53,
-   "Web Scraper": 871
-  },
-  "dropped_samples": {
-   "relevance": [
-    "Relief Measures in Areas Affected by Natural Calamities - Reporting through Centralised Information Management",
-    "Relaxation in timeline with respect to Accredited Investor mandate for Angel Funds",
-    "Ease of regulatory compliances for FPIs investing only in Government Securities",
-    "Arihant Capital Markets Ltd- Management Meet Key Takeaways Exato Technologies Ltd Msafe Equipments Ltd Workmat",
-    "Motilal Oswal Initiating Coverage on V2 Retail, with 27% UPSIDE- Fashion for Bharat, Built for Scale",
-    "Nuvama on Strategy: Big alpha now lies in contrarian flip",
-    "The Petroleum Ministry has directed state-run oil marketing companies (OMCs) to introduce a uniform 25-day gap",
-    "Investing without clear goals can lead to poor decisions influenced by emotions or trends",
-    "The crew reportedly detected the technical snag 50 minutes after take-off",
-    "#MintPlainFacts | India's updated gross domestic product methodology addresses past statistical issues, but do",
-    "Israeli PM Benjamin Netanyahu said Iran\u2019s regime is nearing collapse and vowed to complete further objectives",
-    "#MintMarkets | Indian equity markets opened lower on Monday, with the Sensex falling 69.49 points to 76,445.94",
-    "NSE IPO price band set at \u20b91,700-1,785; bidding from September 17",
-    "NHC Foods Reports Strong Q1FY27 Performance",
-    "For such amazing stock suggestions, subscribe to IEM Money Multiplier Weekly Magazine.",
-    "Listing of further issues of securities",
-    "NCMS-OTP based Two Factor Authentication and upgradation of NCMS version",
-    "India's Manufacturing Majors: The Companies Building at Scale",
-    "Review of Circulars issued under Foreign Exchange Management Act, 1999 (FEMA)",
-    "Ventura IPO Note on PRASOL CHEMICALS LIMITED- Powering Industries Through Chemistry & Innovation"
-   ],
-   "junk": [
-    "Appeal No. 7041 of 2026 filed by Moh Furkan",
-    "Appeal No. 7037 of 2026 filed by Pankaj Mehra",
-    "Appeal No. 7036 of 2026 filed by Minakshi Walmik Phad",
-    "Appeal No. 7034 of 2026 filed by Arvind Soni",
-    "Appeal No. 7033 of 2026 filed by Pradip Malve",
-    "Appeal No. 7032 of 2026 filed by Surajit Rout",
-    "Appeal No. 7031 of 2026 filed by Sanjay Singh",
-    "Appeal No. 7030 of 2026 filed by Surajit Rout",
-    "Appeal No. 7029 of 2026 filed by Surajit Rout",
-    "Appeal No. 7025 of 2026 filed by Yukteshwar Baranwal",
-    "Appeal No. 7024 of 2026 filed by Sagar Khalate",
-    "Adjudication Order in respect of Puja Rungta in the matter of Illiquid Stock Options at BSE",
-    "Appeal No. 7028 of 2026 filed by Samar Imran",
-    "Appeal No. 7027 of 2026 filed by Samar Imran",
-    "\ud83d\ude80 Satellite-maker start-up Pixxel has raised $100 million in a Series C funding round co-led by Temasek and Se",
-    "ABSLMF Launches The Comeback Morcha Campaign",
-    "Bharat Mobility Global Expo 2024",
-    "Bandhan Medium Term Fund Direct-IDCW Fortnightly",
-    "Bandhan Mid Cap Fund Regular-IDCW (\u20b9 18.20) - NAV, Reviews & asset allocation",
-    "Bandhan Floating Interest Rates Fund Regular-IDCW Monthly (\u20b9 10.15) - NAV, Reviews & asset allocation"
-   ]
-  }
- },
- {
   "date": "2026-09-13",
   "fetched": 1357,
   "delivered_pool": 158,
@@ -2156,6 +2084,78 @@
     "JioBlackRock Ultra Short to Short Term Fund - Direct Plan Portfolio",
     "JioBlackRock Nifty Next 50 Index Fund - Regular Plan Portfolio",
     "Karnataka Cricket Teams In New Jersey For 2026-27 Season"
+   ]
+  }
+ },
+ {
+  "date": "2026-10-08",
+  "fetched": 1227,
+  "delivered_pool": 125,
+  "junk": 367,
+  "geo": 19,
+  "stale": 334,
+  "dup": 151,
+  "sections": {
+   "S1": 88,
+   "S2": 17,
+   "S3": 20
+  },
+  "mails": 41,
+  "failed": [],
+  "source_summary": {
+   "RBI RSS": 20,
+   "RBI Enforcement": 0,
+   "SEBI RSS": 20,
+   "Google News": 31,
+   "Watchlist (Google)": 942,
+   "BSE Financials": 0,
+   "Telegram": 52,
+   "Web Scraper": 328
+  },
+  "dropped_samples": {
+   "relevance": [
+    "Minerva Capital Report on VIMTA LABS LTD",
+    "A Chennai entrepreneur has revived debate around India\u2019s work culture after claiming he worked up to 14 hours ",
+    "Indian Men's Hockey team won the Gold medal by defeating Malaysia 5-1, a first back-to-back title after 2022 a",
+    "The Annual Pass for FASTag, costing \u20b93,075, allows unlimited toll crossings for non-commercial vehicles for on",
+    "The heightened FSSAI scrutiny is drawing senior management into food-safety and compliance issues",
+    "OpenAI has disclosed that it informed more than a hundred organisations about incidents involving unauthorised",
+    "Pranavi Urs has created history as she becomes the first Indian woman to clinch a gold in golf at the 2026 Asi",
+    "Kumkum Mohod wins gold medal in the women's individual recurve archery competition",
+    "Skyroot Aerospace co-founder and CEO Pawan Kumar Chandana has been named to TIME100 Next 2026, bringing fresh ",
+    "Cheap & Fake Cosmetic, Weight Loss Drug Demand Surges In India",
+    "Cockroach Janta Party (CJP) leader Abhijeet Dipke on Friday dared Maharashtra Chief Minister Devendra Fadnavis",
+    "India\u2019s women are Asian Games hockey champions again",
+    "Financial freedom begins with mindful decisions today.",
+    "\u201cSmall steps consistently taken can lead to big results over time.\u201d",
+    "Why there are clear signs of a reset in India's quick-commerce sector",
+    "Here\u2019s How Much Micron Stock Is Expected to Move After Earnings",
+    "Raminfo shareholders approve all AGM resolutions with high majority",
+    "Escorts Kubota Q4FY26 Earnings Call: Record Revenue, PAT and Dividend Announced",
+    "GCR on Hospital Sector- The Second-Order Read: Supreme Court Drug Margin Ruling on Hospital Sector",
+    "Motilal Oswal\u2019s Morning India- Today\u2019s top research idea (01-Oct-26)"
+   ],
+   "junk": [
+    "Ballinamallard United vs Ards - Odds, Live Scores and Detailed Stats",
+    "ASFA Yennenga - ASFB Live - Fasofoot Ligue 1: Football Scores & Highlights - 03/10/2026",
+    "ASFA Yennenga - ASFB Stats: Football Scores & Results",
+    "Bajaj Finance Ltd Downgraded to Hold Amid Technical Weakness Despite Strong Fundamentals",
+    "Bali accident: Actress Nushrratt Bharuccha airlifted to Mumbai after spinal fracture",
+    "Nushrratt Bharuccha health update: actress suffers spine fracture in Bali accident; team says surgery pla",
+    "Actor Nushrratt Bharuccha Suffers Spinal Fracture In Bali Accident, To Undergo Surgery",
+    "Groww Banking & Financial Services Fund(G)-Direct Plan",
+    "F&O Strategy: Long strangle on Federal Bank",
+    "Emkay sees 8% UPSIDE in Firstsource Solutions- Voice of the Head \u2013 Confident of delivering double-digit growth",
+    "Emkay sees 31% UPSIDE in Sanathan Textiles- Punjab plant \u2013 scaling up for stronger growth",
+    "The India men's cricket team clinches gold medal at Asian Games 2026 with a 19-run win over Pakistan in the fi",
+    "\" Patience is a key element of success.\"",
+    "Nuvama upgrades Coal India to 'Buy' ratings with a target price of Rs 501.",
+    "Nuvama maintains 'Buy' ratings on APL Apollo Tubes with a target price of Rs 2,350.",
+    "Citi maintains 'Buy' ratings on Kotak Mahindra Bank with a target price of Rs 465.",
+    "Morgan Stanley maintains 'Underweight' ratings on Wipro with a target price of Rs 147.",
+    "Citi maintains 'Buy' ratings on HDFC Bank with a target price of Rs 970.",
+    "Jefferies maintains 'Buy' ratings on Welspun Living with a target price of Rs 260.",
+    "Jefferies maintains 'Buy' ratings on HDFC Bank with a target price of Rs 880."
    ]
   }
  }
