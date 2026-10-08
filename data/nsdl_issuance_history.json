@@ -1,6 +1,98 @@
 {
  "records": [
   {
+   "isin": "INE087107AA2",
+   "issuer": "ABANS JEWELS LIMITED",
+   "allotment_date": "2026-10-07",
+   "amount_cr": 6.0,
+   "coupon": null,
+   "tenure_years": 2.6,
+   "band": "Not rated / available",
+   "segment": "Corporate",
+   "spread_bps": null,
+   "ratings": []
+  },
+  {
+   "isin": "INE01DI07052",
+   "issuer": "GOOD EARTH ECO COMMUNITIES PRIVATE LIMITED",
+   "allotment_date": "2026-10-07",
+   "amount_cr": 10.0,
+   "coupon": 14.0,
+   "tenure_years": 2.4,
+   "band": "Not rated / available",
+   "segment": "Corporate",
+   "spread_bps": 737,
+   "ratings": []
+  },
+  {
+   "isin": "INE503P07JD5",
+   "issuer": "EDELCAP SECURITIES LIMITED",
+   "allotment_date": "2026-10-07",
+   "amount_cr": 30.0,
+   "coupon": null,
+   "tenure_years": 5.0,
+   "band": "A band (A+/A/A-)",
+   "segment": "Corporate",
+   "spread_bps": null,
+   "ratings": [
+    "CRISIL RATINGS LIMITED A+"
+   ]
+  },
+  {
+   "isin": "INE503P07JE3",
+   "issuer": "EDELCAP SECURITIES LIMITED",
+   "allotment_date": "2026-10-07",
+   "amount_cr": 30.0,
+   "coupon": null,
+   "tenure_years": 3.5,
+   "band": "A band (A+/A/A-)",
+   "segment": "Corporate",
+   "spread_bps": null,
+   "ratings": [
+    "CRISIL RATINGS LIMITED A+"
+   ]
+  },
+  {
+   "isin": "INE918K07RD9",
+   "issuer": "NUVAMA WEALTH FINANCE LIMITED",
+   "allotment_date": "2026-10-07",
+   "amount_cr": 50.0,
+   "coupon": null,
+   "tenure_years": 3.5,
+   "band": "AA band (AA+/AA/AA-)",
+   "segment": "NBFC/HFC",
+   "spread_bps": null,
+   "ratings": [
+    "ICRA LIMITED AA"
+   ]
+  },
+  {
+   "isin": "INE595X07036",
+   "issuer": "IREO PRIVATE LIMITED",
+   "allotment_date": "2026-10-07",
+   "amount_cr": 70.0,
+   "coupon": null,
+   "tenure_years": 2.0,
+   "band": "Not rated / available",
+   "segment": "Corporate",
+   "spread_bps": null,
+   "ratings": []
+  },
+  {
+   "isin": "INE0D8F07055",
+   "issuer": "OPG POWER GENERATION PRIVATE LIMITED",
+   "allotment_date": "2026-10-07",
+   "amount_cr": 95.0,
+   "coupon": 9.25,
+   "tenure_years": 3.0,
+   "band": "AA band (AA+/AA/AA-)",
+   "segment": "Corporate",
+   "spread_bps": 235,
+   "ratings": [
+    "CRISIL AA-"
+   ]
+  },
+  {
    "isin": "INE138I07010",
    "issuer": "MARWADI SHARES AND FINANCE LIMITED",
    "allotment_date": "2026-10-06",
