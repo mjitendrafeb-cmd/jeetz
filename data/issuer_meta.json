@@ -225,7 +225,7 @@
  },
  "edelweiss asset reconstruction": {
   "segment": "Corporate",
-  "updated": "2026-09-08"
+  "updated": "2026-10-09"
  },
  "edelweiss financial services": {
   "segment": "Corporate",
@@ -391,6 +391,10 @@
   "segment": "Corporate",
   "updated": "2026-10-03"
  },
+ "je and vee infracon": {
+  "segment": "Corporate",
+  "updated": "2026-10-09"
+ },
  "jhs estate": {
   "segment": "Corporate",
   "updated": "2026-09-29"
@@ -401,7 +405,7 @@
  },
  "jm financial home loans": {
   "segment": "Corporate",
-  "updated": "2026-10-06"
+  "updated": "2026-10-09"
  },
  "jsw energy": {
   "segment": "Corporate",
@@ -633,7 +637,7 @@
  },
  "piramal finance": {
   "segment": "NBFC/HFC",
-  "updated": "2026-09-22"
+  "updated": "2026-10-09"
  },
  "pnb housing finance": {
   "segment": "PSU",
@@ -666,6 +670,10 @@
  "progfin": {
   "segment": "Corporate",
   "updated": "2026-09-25"
+ },
+ "propglobal assets": {
+  "segment": "Corporate",
+  "updated": "2026-10-09"
  },
  "purple finance": {
   "segment": "NBFC/HFC",
@@ -825,7 +833,7 @@
  },
  "unifinz capital": {
   "segment": "NBFC/HFC",
-  "updated": "2026-09-17"
+  "updated": "2026-10-09"
  },
  "unigold finance": {
   "segment": "NBFC/HFC",

@@ -1,6 +1,86 @@
 {
  "records": [
   {
+   "isin": "INE926R07076",
+   "issuer": "UNIFINZ CAPITAL INDIA LIMITED",
+   "allotment_date": "2026-10-08",
+   "amount_cr": 50.0,
+   "coupon": 11.0,
+   "tenure_years": 1.3,
+   "band": "BBB band",
+   "segment": "NBFC/HFC",
+   "spread_bps": 477,
+   "ratings": [
+    "CRISIL BBB-"
+   ]
+  },
+  {
+   "isin": "INE2ZRM07019",
+   "issuer": "JE AND VEE INFRACON PRIVATE LIMITED",
+   "allotment_date": "2026-10-08",
+   "amount_cr": 75.0,
+   "coupon": 17.0,
+   "tenure_years": 3.0,
+   "band": "Not rated / available",
+   "segment": "Corporate",
+   "spread_bps": 1011,
+   "ratings": []
+  },
+  {
+   "isin": "INE015L07832",
+   "issuer": "EDELWEISS ASSET RECONSTRUCTION CO. LTD",
+   "allotment_date": "2026-10-08",
+   "amount_cr": 100.0,
+   "coupon": null,
+   "tenure_years": 3.6,
+   "band": "A band (A+/A/A-)",
+   "segment": "Corporate",
+   "spread_bps": null,
+   "ratings": [
+    "CRISIL A+"
+   ]
+  },
+  {
+   "isin": "INE11QP07025",
+   "issuer": "PROPGLOBAL ASSETS PRIVATE LIMITED",
+   "allotment_date": "2026-10-08",
+   "amount_cr": 100.0,
+   "coupon": 12.0,
+   "tenure_years": 1.1,
+   "band": "Not rated / available",
+   "segment": "Corporate",
+   "spread_bps": 577,
+   "ratings": []
+  },
+  {
+   "isin": "INE01A207237",
+   "issuer": "JM FINANCIAL HOME LOANS LIMITED",
+   "allotment_date": "2026-10-08",
+   "amount_cr": 125.0,
+   "coupon": null,
+   "tenure_years": 3.4,
+   "band": "AA band (AA+/AA/AA-)",
+   "segment": "Corporate",
+   "spread_bps": null,
+   "ratings": [
+    "ICRA AA"
+   ]
+  },
+  {
+   "isin": "INE202B07KA8",
+   "issuer": "PIRAMAL FINANCE LIMITED",
+   "allotment_date": "2026-10-08",
+   "amount_cr": 2000.0,
+   "coupon": 8.62,
+   "tenure_years": 3.1,
+   "band": "AA band (AA+/AA/AA-)",
+   "segment": "NBFC/HFC",
+   "spread_bps": 173,
+   "ratings": [
+    "CRISIL AA+"
+   ]
+  },
+  {
    "isin": "INE087107AA2",
    "issuer": "ABANS JEWELS LIMITED",
    "allotment_date": "2026-10-07",
