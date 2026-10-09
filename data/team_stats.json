@@ -1,77 +1,5 @@
 [
  {
-  "date": "2026-09-13",
-  "fetched": 1357,
-  "delivered_pool": 158,
-  "junk": 385,
-  "geo": 23,
-  "stale": 409,
-  "dup": 222,
-  "sections": {
-   "S1": 127,
-   "S2": 22,
-   "S3": 9
-  },
-  "mails": 0,
-  "failed": [],
-  "source_summary": {
-   "RBI RSS": 20,
-   "RBI Enforcement": 0,
-   "SEBI RSS": 20,
-   "Google News": 21,
-   "Watchlist (Google)": 938,
-   "BSE Financials": 0,
-   "Telegram": 48,
-   "Web Scraper": 216
-  },
-  "dropped_samples": {
-   "relevance": [
-    "Review of Circulars issued under Foreign Exchange Management Act, 1999 (FEMA)",
-    "Relief Measures in Areas Affected by Natural Calamities - Reporting through Centralised Information Management",
-    "Relaxation in timeline with respect to Accredited Investor mandate for Angel Funds",
-    "Ease of regulatory compliances for FPIs investing only in Government Securities",
-    "Ventura IPO Note on PRASOL CHEMICALS LIMITED- Powering Industries Through Chemistry & Innovation",
-    "Phillip Capital Initiating Coverage on Venus Pipes & Tubes Ltd, with 22% UPSIDE- Engineered for better growth",
-    "Apollo Update on The Impact of AI on the U.S",
-    "Jefferies on Equity Strategy- India's Hidden Stimulus: The Gold Wealth Effect",
-    "Delhi University students staged protests across South Campus following the Satya Niketan building collapse th",
-    "Five companies have shown interest in the government\u2019s \u20b937,500 crore coal gasification scheme, with Adani Ente",
-    "India Tops Forbes\u2019 US Immigrant Billionaire List With 19 Names, Ahead Of Israel And Taiwan Forbes\u2019 2026 list o",
-    "India joined the US and 24 other nations in a global initiative aimed to shape next-generation 6G networks",
-    "NHC Foods Reports Strong Q1FY27 Performance",
-    "Listing of further issues of securities",
-    "India's Manufacturing Majors: The Companies Building at Scale",
-    "Review of Position Limits for Clients and Penalty Provisions for Violation / Breach of Position Limits for Com",
-    "Motilal Oswal\u2019s Morning India- Today\u2019s top research idea",
-    "#MintMarkets | Indian equity markets opened mixed on Thursday",
-    "#MintMarkets | Stock market today: Vaishali Parekh recommends three stocks to buy today",
-    "From smartphone to luxury tech: Why Apple may be pushing the iPhone further upmarket"
-   ],
-   "junk": [
-    "Remittance Order dated September 08, 2026 issued under RC No",
-    "Notice of Attachment of Bank Accounts with AP No",
-    "Appeal No. 7041 of 2026 filed by Moh Furkan",
-    "Appeal No. 7037 of 2026 filed by Pankaj Mehra",
-    "Appeal No. 7036 of 2026 filed by Minakshi Walmik Phad",
-    "Appeal No. 7034 of 2026 filed by Arvind Soni",
-    "Appeal No. 7033 of 2026 filed by Pradip Malve",
-    "Appeal No. 7032 of 2026 filed by Surajit Rout",
-    "Appeal No. 7031 of 2026 filed by Sanjay Singh",
-    "Appeal No. 7030 of 2026 filed by Surajit Rout",
-    "Appeal No. 7029 of 2026 filed by Surajit Rout",
-    "Appeal No. 7025 of 2026 filed by Yukteshwar Baranwal",
-    "Appeal No. 7024 of 2026 filed by Sagar Khalate",
-    "\ud83d\ude80 Satellite-maker start-up Pixxel has raised $100 million in a Series C funding round co-led by Temasek and Se",
-    "ABSLMF Launches The Comeback Morcha Campaign",
-    "LATEST: AML Intelligence launches new \u2018AMLi\u2019 app for financial crime leaders; download it today",
-    "Bharat Mobility Global Expo 2024",
-    "Bandhan Dynamic Term Fund Direct-IDCW Quarterly",
-    "Bandhan Medium Term Fund Regular-IDCW Quarterly",
-    "Bandhan Contra Fund - Direct Plan Returns"
-   ]
-  }
- },
- {
   "date": "2026-09-14",
   "fetched": 1623,
   "delivered_pool": 220,
@@ -2156,6 +2084,78 @@
     "Citi maintains 'Buy' ratings on HDFC Bank with a target price of Rs 970.",
     "Jefferies maintains 'Buy' ratings on Welspun Living with a target price of Rs 260.",
     "Jefferies maintains 'Buy' ratings on HDFC Bank with a target price of Rs 880."
+   ]
+  }
+ },
+ {
+  "date": "2026-10-09",
+  "fetched": 1596,
+  "delivered_pool": 149,
+  "junk": 465,
+  "geo": 19,
+  "stale": 558,
+  "dup": 168,
+  "sections": {
+   "S1": 126,
+   "S2": 10,
+   "S3": 13
+  },
+  "mails": 41,
+  "failed": [],
+  "source_summary": {
+   "RBI RSS": 20,
+   "RBI Enforcement": 0,
+   "SEBI RSS": 20,
+   "Google News": 27,
+   "Watchlist (Google)": 915,
+   "BSE Financials": 0,
+   "Telegram": 57,
+   "Web Scraper": 1026
+  },
+  "dropped_samples": {
+   "relevance": [
+    "Here\u2019s How Much Micron Stock Is Expected to Move After Earnings",
+    "Raminfo shareholders approve all AGM resolutions with high majority",
+    "Escorts Kubota Q4FY26 Earnings Call: Record Revenue, PAT and Dividend Announced",
+    "Minerva Capital Report on VIMTA LABS LTD",
+    "GCR on Hospital Sector- The Second-Order Read: Supreme Court Drug Margin Ruling on Hospital Sector",
+    "Motilal Oswal\u2019s Morning India- Today\u2019s top research idea (01-Oct-26)",
+    "#WATCH | Cockroach Janta Party founder Abhijeet Dipke alleged that election outcomes are being predetermined a",
+    "External Affairs Minister S",
+    "#AsianGames2026 | India finished in fourth place in the 2026 Asian Games in Aichi-Nagoya, with a total of 85 m",
+    "MNS chief Raj Thackeray and Shiv Sena (UBT) chief Uddhav Thackeray leads joint protest march toward the BMC he",
+    "New GRAP Rules in Delhi; restrictions in NCR October 2026: Is your car allowed",
+    "In an exclusive Interaction With MINT's Abhinav Trivedi, Ashwani Sharma, CEO Of the liquid Division Of UFLEX s",
+    "Israeli Prime Minister Benjamin Netanyahu invited Indian pilot Smit Machchhar and PM Narendra Modi to light a ",
+    "A Chennai entrepreneur has revived debate around India\u2019s work culture after claiming he worked up to 14 hours ",
+    "Indian Men's Hockey team won the Gold medal by defeating Malaysia 5-1, a first back-to-back title after 2022 a",
+    "The Annual Pass for FASTag, costing \u20b93,075, allows unlimited toll crossings for non-commercial vehicles for on",
+    "The heightened FSSAI scrutiny is drawing senior management into food-safety and compliance issues",
+    "OpenAI has disclosed that it informed more than a hundred organisations about incidents involving unauthorised",
+    "Kumkum Mohod wins gold medal in the women's individual recurve archery competition",
+    "Skyroot Aerospace co-founder and CEO Pawan Kumar Chandana has been named to TIME100 Next 2026, bringing fresh "
+   ],
+   "junk": [
+    "ANAND RATHI SH N STK BR L Share Price",
+    "Anand Rathi Share & Stock Brokers Ltd Upgraded to Sell on Technical Improvements and Financial Strength",
+    "Anand Rathi Wealth Ltd. Change in Open Interest",
+    "Ballinamallard United vs Ards - Odds, Live Scores and Detailed Stats",
+    "Ballinamallard United vs Ards - Watch Online for Free",
+    "Ballinamallard United vs Ards predictions and preview",
+    "ASFA Yennenga - ASFB Live - Fasofoot Ligue 1: Football Scores & Highlights - 03/10/2026",
+    "ASFA Yennenga - ASFB Stats: Football Scores & Results",
+    "Sell Gold Below 149300 SL ABOVE 150500 TGT 147800/147000 - Axis Securities Ltd",
+    "Ethos Limited Share Price Target at Rs 3,360: Axis Securities",
+    "Coforge Share Price Target at Rs 1,980: Axis Securities",
+    "Century Plyboards India Share Price Target at Rs 820: Axis Securities",
+    "BAJAJ FINANCE LIMITED Option Chain - Live BAJAJ FINANCE LIMITED Option Chain Data, OI & Price",
+    "Bandhan Banking and PSU Debt Fund Regular-IDCW",
+    "Bali accident: Actress Nushrratt Bharuccha airlifted to Mumbai after spinal fracture",
+    "Nushrratt Bharuccha health update: actress suffers spine fracture in Bali accident; team says surgery pla",
+    "Canara Bank Share Price Hits Fresh 52-Week Low",
+    "Capital Small Finance Bank Ltd is Rated Hold",
+    "Central Bank Of India Share Price Today Near One-Year Low",
+    "Edelweiss Ultra Short Term Fund - Regular Plan Portfolio"
    ]
   }
  }
