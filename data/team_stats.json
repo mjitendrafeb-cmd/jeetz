@@ -1,77 +1,5 @@
 [
  {
-  "date": "2026-09-14",
-  "fetched": 1623,
-  "delivered_pool": 220,
-  "junk": 431,
-  "geo": 30,
-  "stale": 113,
-  "dup": 542,
-  "sections": {
-   "S1": 176,
-   "S2": 31,
-   "S3": 13
-  },
-  "mails": 41,
-  "failed": [],
-  "source_summary": {
-   "RBI RSS": 20,
-   "RBI Enforcement": 0,
-   "SEBI RSS": 20,
-   "Google News": 25,
-   "Watchlist (Google)": 1496,
-   "BSE Financials": 20,
-   "Telegram": 104,
-   "Web Scraper": 179
-  },
-  "dropped_samples": {
-   "relevance": [
-    "Review of Position Limits for Clients and Penalty Provisions for Violation / Breach of Position Limits for Com",
-    "Navi Mumbai: Panvel Municipal Corporation starts pothole repairs ahead of Ganeshotsav",
-    "Ambit Initiating Coverage on Meesho, with 27% UPSIDE- Winning scale, now even economics",
-    "Motilal Oswal\u2019s Morning India- Today\u2019s top research idea",
-    "#MintMarkets | Indian equity markets opened mixed on Thursday",
-    "#MintMarkets | Stock market today: Vaishali Parekh recommends three stocks to buy today",
-    "From smartphone to luxury tech: Why Apple may be pushing the iPhone further upmarket",
-    "Tamil Nadu's ruling alliance, led by chief minister Vijay's TVK, has been named \u2018Secular Social Justice Victor",
-    "SEBI Registration No. INH100009327 FC WEALTH COMPOUNDERS STRATEGY AUG\u201926 REVIEW WWW.FINTREKKCAPITAL.COM All da",
-    "HEG Graphite will be listed in 45-60 days",
-    "Kolte Patil sells 600 apartments in 60 hours for its 'Vyana at The Reserve' project",
-    "Hero Motors' \u20b91000-crore IPO to open on Sept 16; price band at \u20b979-\u20b984",
-    "JPMorgan unit, Mansi Share gets nod to trade, but can\u2019t participate in CAS",
-    "BSE chief says most players still avoid new closing auction",
-    "ESDS Software surges 235% in 4 sessions as AI infra fever grips markets",
-    "Rule of 70 for retirement: How this simple formula helps estimate when savings may double",
-    "How to invest your retirement corpus? 3-bucket strategy explained for retirees seeking regular income",
-    "8th Pay Commission: 5 key demands raised by Chennai GPO Pensioners Forum",
-    "Michael Dell overtakes Jeff Bezos to become the world's third-richest person",
-    "BirlaNu bets on construction chemicals, pipes with a \u20b9500 crore capex plan"
-   ],
-   "junk": [
-    "Appeal No. 7046 of 2026 filed by Vaibhav Bansal",
-    "Appeal No. 7045 of 2026 filed by Rajendra Kumar Saraogi",
-    "Appeal No. 7044 of 2026 filed by Devender Pawar",
-    "Appeal No. 7043 of 2026 filed by Aniket Singh",
-    "Remittance Order dated September 09, 2026 issued under RC No",
-    "Adjudication Order in respect of Sanjay S. Achharya HUF in the matter of dealings in Illiquid Stock Options at",
-    "Appeal No. 7042 of 2026 filed by Vikrant Tyagi",
-    "Appeal No. 7040 of 2026 filed by B.Mohan",
-    "Appeal No. 7039 of 2026 filed by Dadhaniya Uttam R",
-    "Appeal No. 7038 of 2026 filed by Ritesh Kumar",
-    "Appeal No. 7035 of 2026 filed by Surajit Rout",
-    "Remittance Order dated 08.09.2026 issued in RC No. 9189 of 2026",
-    "Remittance Order dated 08.09.2026 issued in RC No. 9188 of 2026",
-    "LATEST: AML Intelligence launches new \u2018AMLi\u2019 app for financial crime leaders; download it today",
-    "Bandhan Dynamic Term Fund Direct-IDCW Quarterly",
-    "Bandhan Dynamic Term Fund Direct-IDCW Periodic",
-    "Bandhan Floating Interest Rates Fund Regular-IDCW Monthly",
-    "Bandhan Medium Term Fund Regular-IDCW Monthly",
-    "Bandhan Floating Interest Rates Fund - Regular Plan Returns",
-    "Bank of India Felicitates Haritha Karma Sena Green Warriors"
-   ]
-  }
- },
- {
   "date": "2026-09-15",
   "fetched": 1247,
   "delivered_pool": 76,
@@ -2156,6 +2084,78 @@
     "Capital Small Finance Bank Ltd is Rated Hold",
     "Central Bank Of India Share Price Today Near One-Year Low",
     "Edelweiss Ultra Short Term Fund - Regular Plan Portfolio"
+   ]
+  }
+ },
+ {
+  "date": "2026-10-10",
+  "fetched": 1276,
+  "delivered_pool": 112,
+  "junk": 422,
+  "geo": 21,
+  "stale": 362,
+  "dup": 141,
+  "sections": {
+   "S1": 81,
+   "S2": 15,
+   "S3": 16
+  },
+  "mails": 0,
+  "failed": [],
+  "source_summary": {
+   "RBI RSS": 19,
+   "RBI Enforcement": 0,
+   "SEBI RSS": 20,
+   "Google News": 29,
+   "Watchlist (Google)": 982,
+   "BSE Financials": 0,
+   "Telegram": 45,
+   "Web Scraper": 349
+  },
+  "dropped_samples": {
+   "relevance": [
+    "Release of attachment on immovable property under RC No",
+    "Read today's Mint e-paper here",
+    "#MintPremium | The letter, which bares the deep rift at the heart of Tata Trusts, also signals the balance of ",
+    "BA295 was not the first time British Airways encountered a crisis",
+    "#MintMarkets | Regarding stocks to buy today, Vaishali Parekh recommended these three shares.",
+    "The FDA has intensified food safety inspections in Maharashtra during the festive season, leading to the suspe",
+    "IndiGo Airlines on Monday announced a revision to fuel charges across its domestic and international routes, w",
+    "Protests against Chief Election Commissioner Gyanesh Kumar are intensifying, with thousands gathering in Delhi",
+    "#MintMarkets | Jio Platforms Ltd plans to launch its IPO on October 21, aiming to raise $3.8 billion, making i",
+    "Russia probes the mysterious death of a 28-year-old lab researcher in Siberia after severe pneumonia, as nearl",
+    "A nine-year-old pay dispute between employees of state-owned Bharat Sanchar Nigam Ltd (BSNL) and the Departmen",
+    "SEBI Registration No. INH100009327 FC WEALTH COMPOUNDERS STRATEGY SEPT\u201926 REVIEW WWW.FINTREKKCAPITAL.COM All d",
+    "Better decisions today create more options tomorrow.",
+    "Diversification doesn\u2019t prevent every loss",
+    "Listing of further issues of securities",
+    "Listing of further issue of AvenuesAI Limited",
+    "How that battle at The Tata Sons is testing how far a board can go",
+    "Artha Vichaar Capital Initiating Coverage on GMM Pfaudler Ltd- A record order book still looking for its profi",
+    "PL Capital sees 23% UPSIDE in HealthCare Global Enterprises- Structural levers to drive growth",
+    "Anthropic CEO Dario Amodei earned $18 million in 2025, with stock and other compensation making up most of his"
+   ],
+   "junk": [
+    "General Remittance Advice against: Surbhi Aggarwal [Defaulter] (PAN: BNIPA1542D) in the matter of Front runnin",
+    "Release Order for RC No. 4722 of 2022-Veera Kumar Das Surapanani in the matter of Venus Power Ventures (India)",
+    "Release Order dated September 30,2026 for RC No. 4723 of 2022-Veera Kumar Das Surapanani in the matter of Venu",
+    "Adjudication Order in the matter of SMC Global Securities Ltd",
+    "Appeal No. 7073 of 2026 filed by Ramesh B",
+    "Appeal No. 7072 of 2026 filed by Ardra K M",
+    "Appeal No. 7075 of 2026 filed by Vipan Kumar",
+    "Appeal No. 7071 of 2026 filed by Dhanashree Deshpande",
+    "Appeal No. 7069 of 2026 filed by Sundaresan Viswanathan",
+    "Appeal No. 7070 of 2026 filed by Swati Saini",
+    "Appeal No. 7074 of 2026 filed by Chandrashekar Palimar Shenoy",
+    "Completion of Recovery Certificate No",
+    "YES Bank Share Price - Live NSE: YESBANK Stock Price & Chart",
+    "What Drives NYSE Composite Interest in Bright Horizons (NYSE:BFAM)?",
+    "BMO Capital Markets Issues Pessimistic Forecast for Bright Horizons Family Solutions (NYSE:BFAM) Stock Price",
+    "Canara Bank, Bank of India, Bank of Baroda: State-run lenders surge on reporting strong credit growth in Q2",
+    "Could Candidasa Be Bali\u2019s Best Kept Secret Beach Vacation Destination?",
+    "Buy Mahindra Lifespace Developers; target of Rs 500: Emkay Global Financial",
+    "Buy Mahindra Lifespace Developers; target of Rs 500: Emkay Global Financial",
+    "Buy HDFC Bank; target of Rs 1225: Emkay Global Financial"
    ]
   }
  }
