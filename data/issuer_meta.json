@@ -51,9 +51,17 @@
   "segment": "Corporate",
   "updated": "2026-10-01"
  },
+ "alpha alternatives financial services": {
+  "segment": "Corporate",
+  "updated": "2026-10-10"
+ },
  "alphagrep securities": {
   "segment": "Corporate",
   "updated": "2026-10-03"
+ },
+ "ambium finserve": {
+  "segment": "Corporate",
+  "updated": "2026-10-10"
  },
  "amrit malwa capital": {
   "segment": "NBFC/HFC",
@@ -251,6 +259,10 @@
   "segment": "Corporate",
   "updated": "2026-09-25"
  },
+ "emerald haven life spaces 3": {
+  "segment": "Corporate",
+  "updated": "2026-10-10"
+ },
  "emkay global financial services": {
   "segment": "Corporate",
   "updated": "2026-09-08"
@@ -270,6 +282,30 @@
  "gabriel": {
   "segment": "Corporate",
   "updated": "2026-09-11"
+ },
+ "genus banas smart metering spv": {
+  "segment": "Corporate",
+  "updated": "2026-10-10"
+ },
+ "genus bikana smart metering spv": {
+  "segment": "Corporate",
+  "updated": "2026-10-10"
+ },
+ "genus braj smart metering spv": {
+  "segment": "Corporate",
+  "updated": "2026-10-10"
+ },
+ "genus marudhara smart metering spv": {
+  "segment": "Corporate",
+  "updated": "2026-10-10"
+ },
+ "genus mewar smart metering spv": {
+  "segment": "Corporate",
+  "updated": "2026-10-10"
+ },
+ "genus shekhawati smart metering solutions spv": {
+  "segment": "Corporate",
+  "updated": "2026-10-10"
  },
  "gic housing finance": {
   "segment": "NBFC/HFC",
@@ -449,7 +485,7 @@
  },
  "krazybee services": {
   "segment": "NBFC/HFC",
-  "updated": "2026-08-26"
+  "updated": "2026-10-10"
  },
  "kuantum papers": {
   "segment": "Corporate",
@@ -697,7 +733,7 @@
  },
  "regency fincorp": {
   "segment": "NBFC/HFC",
-  "updated": "2026-10-03"
+  "updated": "2026-10-10"
  },
  "reliance industries": {
   "segment": "Corporate",
@@ -790,6 +826,10 @@
  "sundaram home finance": {
   "segment": "NBFC/HFC",
   "updated": "2026-10-01"
+ },
+ "suryoday small finance bank": {
+  "segment": "Bank/FI",
+  "updated": "2026-10-10"
  },
  "svl": {
   "segment": "Corporate",

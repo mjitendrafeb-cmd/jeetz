@@ -1,6 +1,162 @@
 {
  "records": [
   {
+   "isin": "INE0TV208145",
+   "issuer": "EMERALD HAVEN LIFE SPACES 3 PRIVATE LIMITED",
+   "allotment_date": "2026-10-09",
+   "amount_cr": 28.0,
+   "coupon": 7.0,
+   "tenure_years": 20.0,
+   "band": "A band (A+/A/A-)",
+   "segment": "Corporate",
+   "spread_bps": -29,
+   "ratings": [
+    "CRISIL A-"
+   ]
+  },
+  {
+   "isin": "INE0RU307288",
+   "issuer": "AMBIUM FINSERVE LIMITED",
+   "allotment_date": "2026-10-09",
+   "amount_cr": 35.0,
+   "coupon": 11.3,
+   "tenure_years": 2.0,
+   "band": "BBB band",
+   "segment": "Corporate",
+   "spread_bps": 459,
+   "ratings": [
+    "CARE RATINGS LIMITED BBB-"
+   ]
+  },
+  {
+   "isin": "INE964R07184",
+   "issuer": "REGENCY FINCORP LIMITED",
+   "allotment_date": "2026-10-09",
+   "amount_cr": 65.0,
+   "coupon": 12.0,
+   "tenure_years": 1.5,
+   "band": "BBB band",
+   "segment": "NBFC/HFC",
+   "spread_bps": 577,
+   "ratings": [
+    "Infomerics BBB"
+   ]
+  },
+  {
+   "isin": "INE07HK07890",
+   "issuer": "KRAZYBEE SERVICES LIMITED",
+   "allotment_date": "2026-10-09",
+   "amount_cr": 140.0,
+   "coupon": 10.2,
+   "tenure_years": 1.5,
+   "band": "A band (A+/A/A-)",
+   "segment": "NBFC/HFC",
+   "spread_bps": 397,
+   "ratings": [
+    "CRISIL A+"
+   ]
+  },
+  {
+   "isin": "INE0L6807377",
+   "issuer": "ALPHA ALTERNATIVES FINANCIAL SERVICES PRIVATE LIMITED",
+   "allotment_date": "2026-10-09",
+   "amount_cr": 150.0,
+   "coupon": null,
+   "tenure_years": 5.9,
+   "band": "A band (A+/A/A-)",
+   "segment": "Corporate",
+   "spread_bps": null,
+   "ratings": [
+    "CARE RATINGS LIMITED A-"
+   ]
+  },
+  {
+   "isin": "INE25YL07010",
+   "issuer": "GENUS MARUDHARA SMART METERING SPV PRIVATE LIMITED",
+   "allotment_date": "2026-10-09",
+   "amount_cr": 164.0,
+   "coupon": null,
+   "tenure_years": 6.6,
+   "band": "Not rated / available",
+   "segment": "Corporate",
+   "spread_bps": null,
+   "ratings": []
+  },
+  {
+   "isin": "INE20ZU07019",
+   "issuer": "GENUS BANAS SMART METERING SPV PRIVATE LIMITED",
+   "allotment_date": "2026-10-09",
+   "amount_cr": 176.0,
+   "coupon": null,
+   "tenure_years": 6.5,
+   "band": "Not rated / available",
+   "segment": "Corporate",
+   "spread_bps": null,
+   "ratings": []
+  },
+  {
+   "isin": "INE20ZW07015",
+   "issuer": "GENUS BRAJ SMART METERING SPV PRIVATE LIMITED",
+   "allotment_date": "2026-10-09",
+   "amount_cr": 191.0,
+   "coupon": null,
+   "tenure_years": 6.5,
+   "band": "Not rated / available",
+   "segment": "Corporate",
+   "spread_bps": null,
+   "ratings": []
+  },
+  {
+   "isin": "INE428Q08081",
+   "issuer": "SURYODAY SMALL FINANCE BANK LIMITED",
+   "allotment_date": "2026-10-09",
+   "amount_cr": 200.0,
+   "coupon": 10.05,
+   "tenure_years": 10.0,
+   "band": "A band (A+/A/A-)",
+   "segment": "Bank/FI",
+   "spread_bps": 276,
+   "ratings": [
+    "ICRA A"
+   ]
+  },
+  {
+   "isin": "INE25TB07011",
+   "issuer": "GENUS SHEKHAWATI SMART METERING SOLUTIONS SPV PRIVATE LIMITED",
+   "allotment_date": "2026-10-09",
+   "amount_cr": 207.0,
+   "coupon": null,
+   "tenure_years": 6.6,
+   "band": "Not rated / available",
+   "segment": "Corporate",
+   "spread_bps": null,
+   "ratings": []
+  },
+  {
+   "isin": "INE26UI07012",
+   "issuer": "GENUS BIKANA SMART METERING SPV PRIVATE LIMITED",
+   "allotment_date": "2026-10-09",
+   "amount_cr": 262.0,
+   "coupon": null,
+   "tenure_years": 6.6,
+   "band": "Not rated / available",
+   "segment": "Corporate",
+   "spread_bps": null,
+   "ratings": []
+  },
+  {
+   "isin": "INE25TA07013",
+   "issuer": "GENUS MEWAR SMART METERING SPV PRIVATE LIMITED",
+   "allotment_date": "2026-10-09",
+   "amount_cr": 352.0,
+   "coupon": null,
+   "tenure_years": 6.6,
+   "band": "Not rated / available",
+   "segment": "Corporate",
+   "spread_bps": null,
+   "ratings": []
+  },
+  {
    "isin": "INE926R07076",
    "issuer": "UNIFINZ CAPITAL INDIA LIMITED",
    "allotment_date": "2026-10-08",
