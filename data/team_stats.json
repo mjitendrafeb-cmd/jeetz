@@ -1,77 +1,5 @@
 [
  {
-  "date": "2026-09-15",
-  "fetched": 1247,
-  "delivered_pool": 76,
-  "junk": 380,
-  "geo": 31,
-  "stale": 492,
-  "dup": 100,
-  "sections": {
-   "S1": 60,
-   "S2": 8,
-   "S3": 8
-  },
-  "mails": 41,
-  "failed": [],
-  "source_summary": {
-   "RBI RSS": 20,
-   "RBI Enforcement": 0,
-   "SEBI RSS": 20,
-   "Google News": 20,
-   "Watchlist (Google)": 627,
-   "BSE Financials": 0,
-   "Telegram": 30,
-   "Web Scraper": 306
-  },
-  "dropped_samples": {
-   "relevance": [
-    "Review of Position Limits for Clients and Penalty Provisions for Violation / Breach of Position Limits for Com",
-    "Nuvama Update on FINOLEX CABLES- Fine and flexible",
-    "Jefferies Initiating Coverage on Vodafone Idea, with 30% UPSIDE- Answering the turnaround call",
-    "KPMG on India data centre opportunity- From emerging demand hub to integrated data centre powerhouse",
-    "Motilal Oswal\u2019s Morning India- Today\u2019s top research idea",
-    "#WATCH | Uttar Pradesh | Three Russian transport aircraft have landed at Noida International Airport for the f",
-    "Before the foldable iPhone Duo, there was another moment when an Apple CEO stood on stage and introduced a dev",
-    "On 10 September, an IndiGo flight from Lucknow to Dammam (Saudi Arabia) made an emergency landing in Ahmedabad",
-    "Who Will Buy Foldable iPhone Worth Up To \u20b95,00,000",
-    "An Indian-origin couple, Anuradha and Vikas Sinha, has donated $20 million to the University of North Texas to",
-    "The Supreme Court on Thursday questioned the FSSAI proposed two-phase approach for introducing front-of-pack w",
-    "China will push for a 'Greater BRICS': Ex-foreign secretary decodes Delhi summit, says test will come in 2027",
-    "Dell Technologies founder Michael Dell has officially unseated Amazon's Jeff Bezos to become the world's third",
-    "Note : Equity markets are closed on 14th Sept (Mon) on account of Ganesh Chaturthi",
-    "SEBI Registration No. INH100009327 FC WEALTH COMPOUNDERS STRATEGY AUG\u201926 REVIEW WWW.FINTREKKCAPITAL.COM All da",
-    "HEG Graphite will be listed in 45-60 days",
-    "Listing of further issues of securities",
-    "India's Manufacturing Majors: The Companies Building at Scale",
-    "Review of Circulars issued under Foreign Exchange Management Act, 1999 (FEMA)",
-    "Relief Measures in Areas Affected by Natural Calamities - Reporting through Centralised Information Management"
-   ],
-   "junk": [
-    "General Remittance Order dated 10.09.2026 in Recovery Certificate No",
-    "General Remittance Order dated 10.09.2026 in Recovery Certificate No",
-    "General Remittance Advice against: Mr",
-    "Final Order in the matter of Prerna Sharma Research Analyst",
-    "Final Order in respect of Priyanka Yadav - Proprietor of Trade Money Research",
-    "Settlement Order in the matter of PMC Projects (India) Private Limited",
-    "Appeal No. 7046 of 2026 filed by Vaibhav Bansal",
-    "Appeal No. 7045 of 2026 filed by Rajendra Kumar Saraogi",
-    "Appeal No. 7044 of 2026 filed by Devender Pawar",
-    "Appeal No. 7043 of 2026 filed by Aniket Singh",
-    "Karamtara Engineering IPO Enters Day 2: 10 Key Things To Know Before You Subscribe",
-    "AU Small Finance Bank Wins BFSI Guild Award for Voice AI Excellence",
-    "LATEST: AML Intelligence launches new \u2018AMLi\u2019 app for financial crime leaders; download it today",
-    "Bandhan Dynamic Term Fund Direct-IDCW Quarterly",
-    "Bandhan Medium Term Fund Direct-IDCW Quarterly",
-    "Bandhan Medium Term Fund Regular-IDCW Periodic",
-    "Bandhan Floating Interest Rates Fund Regular-IDCW Daily (\u20b9 10.13) - NAV, Reviews & asset allocation",
-    "Bandhan Contra Fund - Regular Plan Returns",
-    "Bandhan Floating Interest Rates Fund - Regular Plan Returns",
-    "Bank of India Conservative Hybrid Fund Direct Growth Review 2026: NAV, Returns, Portfolio & Should You Invest?"
-   ]
-  }
- },
- {
   "date": "2026-09-16",
   "fetched": 1145,
   "delivered_pool": 101,
@@ -2156,6 +2084,78 @@
     "Buy Mahindra Lifespace Developers; target of Rs 500: Emkay Global Financial",
     "Buy Mahindra Lifespace Developers; target of Rs 500: Emkay Global Financial",
     "Buy HDFC Bank; target of Rs 1225: Emkay Global Financial"
+   ]
+  }
+ },
+ {
+  "date": "2026-10-11",
+  "fetched": 1437,
+  "delivered_pool": 138,
+  "junk": 422,
+  "geo": 25,
+  "stale": 405,
+  "dup": 238,
+  "sections": {
+   "S1": 98,
+   "S2": 25,
+   "S3": 15
+  },
+  "mails": 0,
+  "failed": [],
+  "source_summary": {
+   "RBI RSS": 19,
+   "RBI Enforcement": 0,
+   "SEBI RSS": 20,
+   "Google News": 27,
+   "Watchlist (Google)": 762,
+   "BSE Financials": 0,
+   "Telegram": 45,
+   "Web Scraper": 180
+  },
+  "dropped_samples": {
+   "relevance": [
+    "Release of attachment on immovable property under RC No",
+    "Artha Vichaar Capital Initiating Coverage on GMM Pfaudler Ltd- A record order book still looking for its profi",
+    "PL Capital sees 23% UPSIDE in HealthCare Global Enterprises- Structural levers to drive growth",
+    "Anthropic CEO Dario Amodei earned $18 million in 2025, with stock and other compensation making up most of his",
+    "Festive season is around the corner, and for almost everyone, it means increased spending",
+    "The Andhra Pradesh High Court (HC) has allowed the construction of the Google-Adani data centre to proceed at ",
+    "Air Marshal Ashutosh Dixit, a fighter pilot with more than 3,500 hours of flying experience, will take charge ",
+    "Elon Musk has confirmed that Taiwan Semiconductor Manufacturing Co",
+    "Novak Djokovic claimed a seventh China Open title in Beijing after Alex de Minaur retired with a groin injury ",
+    "Adani Green Energy H1 Update: Operational capacity rises 24% YoY to 20,763 MW, energy sales jump 32%",
+    "Francis Halzen receives the 2026 Nobel Prize in Physics for his pivotal contributions to the IceCube Neutrino ",
+    "Saurav Das, a leader of CJP, has called for a major youth mobilisation in Delhi from October 10, urging Gen-Z ",
+    "WATCH | INDIA bloc MPs raise slogans of \"Vote Chor, Gaddi Chhod\" during their protest march to the Election Co",
+    "Reliance Industries has sued FSSAI over restrictions preventing the company from marketing its Campa-brand pro",
+    "SEBI Registration No. INH100009327 FC WEALTH COMPOUNDERS STRATEGY SEPT\u201926 REVIEW WWW.FINTREKKCAPITAL.COM All d",
+    "Discipline today builds freedom tomorrow.",
+    "Fieldmarshal Launches Single Cylinder Diesel Engines",
+    "Better decisions today create more options tomorrow.",
+    "Listing of further issues of securities",
+    "Settlement calendar for November 2026 - Debt Segment"
+   ],
+   "junk": [
+    "General Remittance Order dated 05.10.2026 in Recovery Certificate No",
+    "General Remittance Order dated 05.10.2026 in Recovery Certificate No",
+    "General Remittance Advice against: Surbhi Aggarwal [Defaulter] (PAN: BNIPA1542D) in the matter of Front runnin",
+    "Release Order for RC No. 4722 of 2022-Veera Kumar Das Surapanani in the matter of Venus Power Ventures (India)",
+    "Release Order dated September 30,2026 for RC No. 4723 of 2022-Veera Kumar Das Surapanani in the matter of Venu",
+    "Adjudication Order in the matter of SMC Global Securities Ltd",
+    "Appeal No. 7073 of 2026 filed by Ramesh B",
+    "Appeal No. 7072 of 2026 filed by Ardra K M",
+    "Appeal No. 7075 of 2026 filed by Vipan Kumar",
+    "Appeal No. 7071 of 2026 filed by Dhanashree Deshpande",
+    "Appeal No. 7069 of 2026 filed by Sundaresan Viswanathan",
+    "Appeal No. 7070 of 2026 filed by Swati Saini",
+    "YES Bank Share Price - Live NSE: YESBANK Stock Price & Chart",
+    "VanEck Australian RMBS ETF (ASX:RMBS): Mortgage-Backed Securities Exposure and Income Profile",
+    "What Drives NYSE Composite Interest in Bright Horizons (NYSE:BFAM)?",
+    "BMO Capital Markets Issues Pessimistic Forecast for Bright Horizons Family Solutions (NYSE:BFAM) Stock Price",
+    "Canara Bank, Bank of India, Bank of Baroda: State-run lenders surge on reporting strong credit growth in Q2",
+    "Which Multi-Stop Bali Vacation Route Is Calling Your Name In 2026?",
+    "Stay here: Four Seasons Resort Bali at Sayan review",
+    "When Ancestral Burdens Linger, Turn to Sacred Narayan Bali Rituals for Pitru Shanti"
    ]
   }
  }
