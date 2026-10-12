@@ -1,78 +1,6 @@
 [
  {
   "date": "2026-09-16",
-  "fetched": 1145,
-  "delivered_pool": 101,
-  "junk": 341,
-  "geo": 24,
-  "stale": 404,
-  "dup": 85,
-  "sections": {
-   "S1": 80,
-   "S2": 13,
-   "S3": 8
-  },
-  "mails": 41,
-  "failed": [],
-  "source_summary": {
-   "RBI RSS": 20,
-   "RBI Enforcement": 0,
-   "SEBI RSS": 20,
-   "Google News": 22,
-   "Watchlist (Google)": 745,
-   "BSE Financials": 0,
-   "Telegram": 64,
-   "Web Scraper": 1025
-  },
-  "dropped_samples": {
-   "relevance": [
-    "Review of Circulars issued under Foreign Exchange Management Act, 1999 (FEMA)",
-    "Relief Measures in Areas Affected by Natural Calamities - Reporting through Centralised Information Management",
-    "PL Capital sees 39% UPSIDE in Apeejay Surrendra Park Hotels- Execution timelines remain a key monitorable",
-    "Jefferies on Equity Strategy- India\u2019s New Industrial Revolution",
-    "Ambit Initiating Coverage on Redington, with 24% UPSIDE- Moving up the value chain",
-    "Just two days after the resignation of Coforge Ltd chairman O.P",
-    "BRICS 2026: Who Is Targeting Cyber Attacks On The Summit",
-    "On the 25th anniversary of the 9/11 attacks, Former President Barack Obama issued a statement on behalf of him",
-    "Russian President Vladimir Putin has pitched a new investment platform to fund projects in trade, infrastructu",
-    "Chinese President Xi Jinping will visit India on 12 September to attend the 18th BRICS Summit in New Delhi",
-    "How have India\u2019s trade relationships with BRICS member countries been",
-    "#MintMarkets | Indian equity markets opened lower on Friday, with the Sensex falling 593.61 points to 74,308.9",
-    "#MintMarkets: Stock market today: Gift Nifty hints gap-down start",
-    "Note : Equity markets are closed on 14th Sept (Mon) on account of Ganesh Chaturthi",
-    "Introduce the BRICS Fiat Currency: A Challenge to Dollar Dominance",
-    "Listing of further issues of securities",
-    "India's Manufacturing Majors: The Companies Building at Scale",
-    "OpenAI CEO Sam Altman and billionaire Elon Musk backed Anthropic CEO Dario Amodei\u2019s call to slow AI developmen",
-    "PM Narendra Modi hosts gala dinner for Brics leaders and other delegates at Bharat Mandapam",
-    "Six years after the death of his daughter Disha Salian, Satish Salian recorded his statement at the CBI office"
-   ],
-   "junk": [
-    "Final Enquiry Order in respect of Modex International Securities Ltd",
-    "Appeal No. 7054 of 2026 filed by Richa Kohli",
-    "Appeal No. 7052 of 2026 filed by Kamal Kumar",
-    "Appeal No. 7051 of 2026 filed by Anonymous",
-    "Appeal No. 7050 of 2026 filed by Mahima Chandra",
-    "Appeal No. 7049 of 2026 filed by Jeba Mathew J",
-    "Appeal No. 7048 of 2026 filed by Shashidhar",
-    "Appeal No. 7047 of 2026 filed by Sachin Yadav",
-    "Adjudication Order in the matter of Investowryght Research Analytics Private Limited",
-    "Order in the matter of certain Investment Advisers",
-    "Adjudication Order in the matter of Emami Realty Limited",
-    "completion of Recovery Certificate No. RC799 of 2016 against Softrak Venture Investment Ltd.in the matter of S",
-    "General Remittance Order dated 10.09.2026 in Recovery Certificate No",
-    "General Remittance Order dated 10.09.2026 in Recovery Certificate No",
-    "General Remittance Advice against: Mr",
-    "Karamtara Engineering IPO Enters Day 2: 10 Key Things To Know Before You Subscribe",
-    "AU Small Finance Bank Wins BFSI Guild Award for Voice AI Excellence",
-    "Bandhan Contra Fund - Direct Plan Returns",
-    "Bandhan Medium Term Fund Direct-IDCW Fortnightly",
-    "Bandhan Contra Fund Regular-IDCW Yearly"
-   ]
-  }
- },
- {
-  "date": "2026-09-16",
   "fetched": 1195,
   "delivered_pool": 105,
   "junk": 319,
@@ -2156,6 +2084,78 @@
     "Which Multi-Stop Bali Vacation Route Is Calling Your Name In 2026?",
     "Stay here: Four Seasons Resort Bali at Sayan review",
     "When Ancestral Burdens Linger, Turn to Sacred Narayan Bali Rituals for Pitru Shanti"
+   ]
+  }
+ },
+ {
+  "date": "2026-10-12",
+  "fetched": 1664,
+  "delivered_pool": 222,
+  "junk": 462,
+  "geo": 27,
+  "stale": 146,
+  "dup": 491,
+  "sections": {
+   "S1": 147,
+   "S2": 38,
+   "S3": 37
+  },
+  "mails": 41,
+  "failed": [],
+  "source_summary": {
+   "RBI RSS": 19,
+   "RBI Enforcement": 0,
+   "SEBI RSS": 20,
+   "Google News": 30,
+   "Watchlist (Google)": 1252,
+   "BSE Financials": 21,
+   "Telegram": 103,
+   "Web Scraper": 201
+  },
+  "dropped_samples": {
+   "relevance": [
+    "Reserve Money for the fortnight ended on September 30, 2026",
+    "Governor\u2019s Statement, October 7, 2026",
+    "Liquidity Adjustment Facility - Change in rates",
+    "Standing Liquidity Facility for Primary Dealers",
+    "Introduction of Credit Risk-o-Meter as an additional disclosure mechanism for debt securities",
+    "Release of attachment on immovable property under RC No",
+    "Phu Quoc surpasses Bali, Boracay to be voted Asia's most beautiful island this year",
+    "Statehood Is Necessary, But Not Enough",
+    "LS Securities Channels KRW 434.4 Billion into MMFs for LS Group Affiliates",
+    "Minerva Capital Update on SAFE ENTERPRISES RETAIL FIXTURES LTD",
+    "Motilal Oswal\u2019s Morning India- Today\u2019s top research idea",
+    "#MintMarkets | Vaishali Parekh recommends three stocks to buy.",
+    "What happened on day 1 of the India Mobile Congress event in Delhi",
+    "Marking one year of TEPA, Rajesh Agrawal urged exporters to draft market-specific plans to tap the $500-billio",
+    "Rahul Gandhi on FIRs said he want 100 FIRs against him as every FIR is like a medal for him",
+    "A residential building collapsed near Idgah Machhli Mandi in New Seemapuri this afternoon",
+    "HubSpot is cutting around 660 jobs, or roughly 7% of its global workforce, as the software company reorganises",
+    "Something is brewing this Diwali",
+    "Small, consistent actions compound into exceptional results.",
+    "Indians continue to underestimate their retirement corpus needs"
+   ],
+   "junk": [
+    "General Remittance Advice against: Saurabh Gupta (PAN: BFEPG0692E) [Defaulter] in the matter of trading based ",
+    "General Remittance Advice against: Sulabh Dikshit (PAN: ANEPD9669B) [Defaulter] in the matter of trading based",
+    "General Remittance Advice against: Virtual Business Solution Pvt",
+    "General Remittance Advice against: Sadhna Bio Oils Pvt",
+    "General Remittance Advice against: Shreya Gupta (PAN: AIMPJ4419J) [Defaulter] in the matter of trading based s",
+    "Adjudication Order in the matter of Rashi Equisearch Private Limited",
+    "General Remittance Advice against: High Spirits Sales Agencies Pvt",
+    "General Remittance Order dated 05.10.2026 in Recovery Certificate No",
+    "General Remittance Order dated 05.10.2026 in Recovery Certificate No",
+    "General Remittance Advice against: Surbhi Aggarwal [Defaulter] (PAN: BNIPA1542D) in the matter of Front runnin",
+    "Release Order for RC No. 4722 of 2022-Veera Kumar Das Surapanani in the matter of Venus Power Ventures (India)",
+    "VanEck Australian RMBS ETF (ASX:RMBS): Mortgage-Backed Securities Exposure and Income Profile",
+    "Bajaj Finance raises FD rates by up to 40 bps; senior citizens can earn up to 8.15% on investments",
+    "Bajaj Finance raises FD rates by up to 40 bps; senior citizens can earn up to 8.15%",
+    "\u2708\ufe0f BOI to Nashville + Cassia-Garden Pathway Connection + Art contest",
+    "Bollywood Actress Nusrat Bharucha Injured in Bali Accident",
+    "Which Multi-Stop Bali Vacation Route Is Calling Your Name In 2026?",
+    "Stay here: Four Seasons Resort Bali at Sayan review",
+    "Groww Short Term Fund(G)-Direct Plan",
+    "Canara Bank (CANBK) 52 Week Low Streak: 4th Straight Weak Session"
    ]
   }
  }
