@@ -1,78 +1,6 @@
 [
  {
   "date": "2026-09-16",
-  "fetched": 1195,
-  "delivered_pool": 105,
-  "junk": 319,
-  "geo": 25,
-  "stale": 279,
-  "dup": 270,
-  "sections": {
-   "S1": 84,
-   "S2": 13,
-   "S3": 8
-  },
-  "mails": 1,
-  "failed": [],
-  "source_summary": {
-   "RBI RSS": 20,
-   "RBI Enforcement": 0,
-   "SEBI RSS": 20,
-   "Google News": 23,
-   "Watchlist (Google)": 753,
-   "BSE Financials": 0,
-   "Telegram": 64,
-   "Web Scraper": 1026
-  },
-  "dropped_samples": {
-   "relevance": [
-    "PL Capital sees 39% UPSIDE in Apeejay Surrendra Park Hotels- Execution timelines remain a key monitorable",
-    "Jefferies on Equity Strategy- India\u2019s New Industrial Revolution",
-    "Ambit Initiating Coverage on Redington, with 24% UPSIDE- Moving up the value chain",
-    "OpenAI CEO Sam Altman and billionaire Elon Musk backed Anthropic CEO Dario Amodei\u2019s call to slow AI developmen",
-    "Chinese President Xi Jinping\u2019s secretive Hongqi N701 presidential limousine has arrived in New Delhi for the B",
-    "PM Narendra Modi hosts gala dinner for Brics leaders and other delegates at Bharat Mandapam",
-    "Six years after the death of his daughter Disha Salian, Satish Salian recorded his statement at the CBI office",
-    "#MintMarkets | Stocks to buy under \u20b9200: Mehul Kothari recommends three stocks to buy for the short term.",
-    "A minor's \u20b91.17 crore interest income led to a \u20b912.83 lakh penalty for his father",
-    "Introduce the BRICS Fiat Currency: A Challenge to Dollar Dominance",
-    "India's Manufacturing Majors: The Companies Building at Scale",
-    "ET Wealth Edition 20 September 2026",
-    "Queensland woman falls to her death at Bali cliff popular with tourists",
-    "Fanny Purna Irianti joins Raffles Bali as DOSM",
-    "Australian tourist dies after cliff fall in Bali\u2019s Nusa Penida",
-    "Aussie family found dead in Bali villa",
-    "Bali police find Australian father and two children dead in suspected murder-suicide",
-    "Karnataka travel operators want stay on taxi fare meter mandate, seek clarity",
-    "Kolte Patil appoints Hrishikesh Parandekar as CEO to drive growth",
-    "Sun Pharma update on Lipitor antitrust litigation in US court"
-   ],
-   "junk": [
-    "EPL Issuer Rating Put on Watch; CP Rating Reaffirmed",
-    "Bandhan Medium Term Fund Direct-IDCW Fortnightly",
-    "Bank of India Business Cycle Fund Direct Growth Review 2026: NAV, Returns, Portfolio & Should You Invest?",
-    "Bank of India Credit Risk Fund Direct Growth Review 2026: NAV, Returns, Portfolio & Should You Invest?",
-    "Groww Share Price",
-    "Canara Bank Option Chain",
-    "Stock of the day - Cholamandalam Investment and Fin Co Ltd Target Rs. 1980 - Religare Broking Ltd",
-    "What is more gorgeous than a cheetah cub? Six of them! [video]",
-    "F&O ban list 11 September 2026: Stocks in ban and MWPL watchlist, IREDA at 91.44%",
-    "Andrabi inaugurates T20 cricket tournament at Chrar",
-    "JioBlackRock Liquid Fund Regular-IDCW Weekly",
-    "LIC MF Manufacturing Fund Direct Growth Review 2026: NAV, Returns, Portfolio & Should You Invest?",
-    "LIC MF Children\u2019s Fund Direct Growth Review 2026: NAV, Returns, Portfolio & Should You Invest?",
-    "LIC MF Aggressive Hybrid Fund(G)-Direct Plan",
-    "iShares MSCI China ETF (NASDAQ: MCHI) Share Price, MCHI Stock News, MCHI Share Price & Updates",
-    "UGRO Stock Rockets Over 400%",
-    "SBI FUNDS MANAGEMENT LTD Share Price",
-    "SBI Money Market Fund(G)-Direct Plan",
-    "SBI Comma Fund(G)-Direct Plan",
-    "Union Bank of India Wins \u2018Best Retail Bank of India\u2019 Award"
-   ]
-  }
- },
- {
-  "date": "2026-09-16",
   "fetched": 1311,
   "delivered_pool": 151,
   "junk": 395,
@@ -2156,6 +2084,78 @@
     "Stay here: Four Seasons Resort Bali at Sayan review",
     "Groww Short Term Fund(G)-Direct Plan",
     "Canara Bank (CANBK) 52 Week Low Streak: 4th Straight Weak Session"
+   ]
+  }
+ },
+ {
+  "date": "2026-10-13",
+  "fetched": 1157,
+  "delivered_pool": 114,
+  "junk": 347,
+  "geo": 21,
+  "stale": 365,
+  "dup": 161,
+  "sections": {
+   "S1": 87,
+   "S2": 10,
+   "S3": 17
+  },
+  "mails": 40,
+  "failed": [],
+  "source_summary": {
+   "RBI RSS": 18,
+   "RBI Enforcement": 0,
+   "SEBI RSS": 20,
+   "Google News": 23,
+   "Watchlist (Google)": 720,
+   "BSE Financials": 0,
+   "Telegram": 53,
+   "Web Scraper": 968
+  },
+  "dropped_samples": {
+   "relevance": [
+    "Securities and Exchange Board of India (Settlement of Administrative and Civil Proceedings) Regulations, 2026",
+    "PL Capital sees 15% UPSIDE in Tata Consultancy Services- Balancing growth at the cost of margins",
+    "Motilal Oswal\u2019s Morning India- Today\u2019s top research idea",
+    "Why police registered unnatural death case under Section 194 after Nana Patekar's demise in Goa",
+    "The Trump administration has suspended the PERM green card process for several major tech companies, including",
+    "As public confusion mounted over potential fees on general consumer shopping and peer-to-peer transfers, the g",
+    "#MintMarkets | Jio Platforms\u2019 much-awaited IPO is expected to open for subscription in October and close two d",
+    "#MintMarkets | The Indian stock market closed on a positive note today, with both benchmark indices recording ",
+    "India\u2019s Ministry of External Affairs said the US suspension of PERM applications does not by itself affect exi",
+    "Read today's Mint e-paper here",
+    "#WATCH | Big blow for Indian it workers as US suspends Infosys, TCS, Wipro, HCL from PERM Programme",
+    "1,692% at its recorded high",
+    "Patience in investing often outweighs impulse.",
+    "7 Small and Mid-Cap Stocks with Stronger Earnings Growth",
+    "Listing of further issues of securities",
+    "Listing of further issue of AvenuesAI Limited",
+    "Aadhaar deactivation after death: How to report a family member's death to UIDAI, documents needed and steps t",
+    "Expecting to receive festive bonus 2026? Where to invest for better returns",
+    "How that battle at The Tata Sons is testing how far a board can go",
+    "Nifty Outlook: Can bulls sustain recovery after 8-week losing streak?"
+   ],
+   "junk": [
+    "Exemption Order in the matter of NGL Fine-Chem Limited",
+    "Adjudication Order in the matter of inspection of Vineet Ashwinikumar Chawla - Research Analyst",
+    "Appeal No. 7083 of 2026 filed by Sunil Kumar",
+    "Revocation Order in the matter of LS Industries Limited",
+    "General Remittance dated 09.10.2026 against Kapil Wadhawan (PAN: AAOPW6145L) [Defaulter] in the matter of Dewa",
+    "Notice of Demand dated October 08, 2026 against Manish Mishra (PAN: AMPPM6823L) and Aahuti Rasik Mistry (PAN: ",
+    "Adjudication Order in the matter of VCK Share and Stock Broking Services Limited",
+    "Appeal No. 7082 of 2026 filed by Subhash Chander",
+    ".Appeal No. 7081 of 2026 filed by Smita Shreenath Bhivandkar",
+    "Appeal No. 7080 of 2026 filed by Saurabh Kumar",
+    "Appeal No. 7079 of 2026 filed by Sandesh Ranjit Sakhalkar",
+    "Appeal No. 7078 of 2026 filed by Mukesh Arora and Sonia Narang",
+    "Appeal No. 7077 of 2026 filed by Mukesh Arora and Sonia Narang",
+    "Appeal No. 7076 of 2026 filed by Akshit Soni",
+    "General Remittance Advice against: Saurabh Gupta (PAN: BFEPG0692E) [Defaulter] in the matter of trading based ",
+    "General Remittance Advice against: Sulabh Dikshit (PAN: ANEPD9669B) [Defaulter] in the matter of trading based",
+    "General Remittance Advice against: Virtual Business Solution Pvt",
+    "General Remittance Advice against: Sadhna Bio Oils Pvt",
+    "General Remittance Advice against: Shreya Gupta (PAN: AIMPJ4419J) [Defaulter] in the matter of trading based s",
+    "Nomura becomes latest brokerage to cut PB Fintech share price target by 31%, lists 2 scenarios for fair pr"
    ]
   }
  }
