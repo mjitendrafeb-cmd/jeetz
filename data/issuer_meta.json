@@ -41,7 +41,7 @@
  },
  "akara capital advisors": {
   "segment": "NBFC/HFC",
-  "updated": "2026-09-29"
+  "updated": "2026-10-13"
  },
  "akme fintrade ()": {
   "segment": "Corporate",
@@ -223,6 +223,10 @@
   "segment": "Corporate",
   "updated": "2026-10-01"
  },
+ "earlysalary services": {
+  "segment": "Corporate",
+  "updated": "2026-10-13"
+ },
  "ecap equities": {
   "segment": "Corporate",
   "updated": "2026-09-03"
@@ -327,6 +331,10 @@
   "segment": "Corporate",
   "updated": "2026-10-08"
  },
+ "great white holdings": {
+  "segment": "Corporate",
+  "updated": "2026-10-13"
+ },
  "greaves finance": {
   "segment": "NBFC/HFC",
   "updated": "2026-09-30"
@@ -349,7 +357,7 @@
  },
  "hella infra market": {
   "segment": "Corporate",
-  "updated": "2026-09-30"
+  "updated": "2026-10-13"
  },
  "hella infra market retail": {
   "segment": "Corporate",
@@ -491,6 +499,10 @@
   "segment": "Corporate",
   "updated": "2026-09-04"
  },
+ "l&t finance": {
+  "segment": "NBFC/HFC",
+  "updated": "2026-10-13"
+ },
  "larsen and toubro": {
   "segment": "Corporate",
   "updated": "2026-09-10"
@@ -533,7 +545,7 @@
  },
  "manba finance": {
   "segment": "NBFC/HFC",
-  "updated": "2026-09-25"
+  "updated": "2026-10-13"
  },
  "mangal credit and fincorp": {
   "segment": "NBFC/HFC",
@@ -667,6 +679,10 @@
   "segment": "Corporate",
   "updated": "2026-09-22"
  },
+ "phillip finance & investment services": {
+  "segment": "NBFC/HFC",
+  "updated": "2026-10-13"
+ },
  "pinkpeony properties": {
   "segment": "Corporate",
   "updated": "2026-09-11"
@@ -765,11 +781,11 @@
  },
  "satin finserv": {
   "segment": "NBFC/HFC",
-  "updated": "2026-08-28"
+  "updated": "2026-10-13"
  },
  "satin housing finance": {
   "segment": "NBFC/HFC",
-  "updated": "2026-10-01"
+  "updated": "2026-10-13"
  },
  "sbfc finance": {
   "segment": "NBFC/HFC",

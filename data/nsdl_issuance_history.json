@@ -1,6 +1,131 @@
 {
  "records": [
   {
+   "isin": "INE02YC07042",
+   "issuer": "SATIN HOUSING FINANCE LIMITED",
+   "allotment_date": "2026-10-12",
+   "amount_cr": 50.0,
+   "coupon": 10.2,
+   "tenure_years": 2.5,
+   "band": "A band (A+/A/A-)",
+   "segment": "NBFC/HFC",
+   "spread_bps": 357,
+   "ratings": [
+    "ICRA A-"
+   ]
+  },
+  {
+   "isin": "INE06E507579",
+   "issuer": "HELLA INFRA MARKET LIMITED",
+   "allotment_date": "2026-10-12",
+   "amount_cr": 125.0,
+   "coupon": 11.0,
+   "tenure_years": 2.5,
+   "band": "A band (A+/A/A-)",
+   "segment": "Corporate",
+   "spread_bps": 437,
+   "ratings": [
+    "Acuit\u00e9 A-"
+   ]
+  },
+  {
+   "isin": "INE992M07012",
+   "issuer": "PHILLIP FINANCE & INVESTMENT SERVICES INDIA PRIVATE LIMITED",
+   "allotment_date": "2026-10-12",
+   "amount_cr": 50.0,
+   "coupon": 11.0,
+   "tenure_years": 2.2,
+   "band": "A band (A+/A/A-)",
+   "segment": "NBFC/HFC",
+   "spread_bps": 437,
+   "ratings": [
+    "ICRA A"
+   ]
+  },
+  {
+   "isin": "INE08XP07555",
+   "issuer": "AKARA CAPITAL ADVISORS PRIVATE LIMITED",
+   "allotment_date": "2026-10-12",
+   "amount_cr": 60.0,
+   "coupon": 12.0,
+   "tenure_years": 2.0,
+   "band": "BBB band",
+   "segment": "NBFC/HFC",
+   "spread_bps": 537,
+   "ratings": [
+    "Acuite Ratings And Research Limited BBB+"
+   ]
+  },
+  {
+   "isin": "INE939X07283",
+   "issuer": "MANBA FINANCE LIMITED",
+   "allotment_date": "2026-10-12",
+   "amount_cr": 60.0,
+   "coupon": 10.5,
+   "tenure_years": 2.3,
+   "band": "A band (A+/A/A-)",
+   "segment": "NBFC/HFC",
+   "spread_bps": 387,
+   "ratings": [
+    "CARE RATINGS LIMITED A-"
+   ]
+  },
+  {
+   "isin": "INE03K307223",
+   "issuer": "SATIN FINSERV LIMITED",
+   "allotment_date": "2026-10-12",
+   "amount_cr": 100.0,
+   "coupon": 10.5,
+   "tenure_years": 2.3,
+   "band": "A band (A+/A/A-)",
+   "segment": "NBFC/HFC",
+   "spread_bps": 387,
+   "ratings": [
+    "ICRA A-"
+   ]
+  },
+  {
+   "isin": "INE01YL07482",
+   "issuer": "EARLYSALARY SERVICES PRIVATE LIMITED",
+   "allotment_date": "2026-10-12",
+   "amount_cr": 150.0,
+   "coupon": 10.5,
+   "tenure_years": 2.2,
+   "band": "A band (A+/A/A-)",
+   "segment": "Corporate",
+   "spread_bps": 387,
+   "ratings": [
+    "CRISIL A"
+   ]
+  },
+  {
+   "isin": "INE2Z4O07017",
+   "issuer": "GREAT WHITE HOLDINGS PRIVATE LIMITED",
+   "allotment_date": "2026-10-12",
+   "amount_cr": 700.0,
+   "coupon": 6.5,
+   "tenure_years": 4.0,
+   "band": "Not rated / available",
+   "segment": "Corporate",
+   "spread_bps": -57,
+   "ratings": []
+  },
+  {
+   "isin": "INE498L08077",
+   "issuer": "L&T FINANCE LIMITED",
+   "allotment_date": "2026-10-12",
+   "amount_cr": 1500.0,
+   "coupon": 8.57,
+   "tenure_years": 10.0,
+   "band": "AAA",
+   "segment": "NBFC/HFC",
+   "spread_bps": 119,
+   "ratings": [
+    "ICRA AAA",
+    "CRISIL AAA"
+   ]
+  },
+  {
    "isin": "INE547Q07049",
    "issuer": "TOTAL ENVIRONMENT BUILDING SYSTEMS PVT LTD",
    "allotment_date": "2026-10-10",
@@ -1000,20 +1125,6 @@
    ]
   },
   {
-   "isin": "INE02YC07042",
-   "issuer": "SATIN HOUSING FINANCE LIMITED",
-   "allotment_date": "2026-09-30",
-   "amount_cr": 50.0,
-   "coupon": 10.0,
-   "tenure_years": 2.5,
-   "band": "A band (A+/A/A-)",
-   "segment": "NBFC/HFC",
-   "spread_bps": 338,
-   "ratings": [
-    "ICRA A-"
-   ]
-  },
-  {
    "isin": "INE049A08022",
    "issuer": "HIMATSINGKA SEIDE LIMITED",
    "allotment_date": "2026-09-30",
@@ -1442,20 +1553,6 @@
    "spread_bps": null,
    "ratings": [
     "CRISIL AA-"
-   ]
-  },
-  {
-   "isin": "INE06E507579",
-   "issuer": "HELLA INFRA MARKET LIMITED",
-   "allotment_date": "2026-09-29",
-   "amount_cr": 125.0,
-   "coupon": 11.0,
-   "tenure_years": 2.5,
-   "band": "A band (A+/A/A-)",
-   "segment": "Corporate",
-   "spread_bps": 440,
-   "ratings": [
-    "Acuit\u00e9 A-"
    ]
   },
   {
