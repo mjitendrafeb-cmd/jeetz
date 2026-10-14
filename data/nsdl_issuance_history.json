@@ -1,6 +1,154 @@
 {
  "records": [
   {
+   "isin": "INS08SO12012",
+   "issuer": "NATIONAL SKILL DEVELOPMENT CORPORATION",
+   "allotment_date": "2026-10-13",
+   "amount_cr": 4.0,
+   "coupon": null,
+   "tenure_years": 3.0,
+   "band": "Not rated / available",
+   "segment": "Corporate",
+   "spread_bps": null,
+   "ratings": []
+  },
+  {
+   "isin": "INE103C07199",
+   "issuer": "SMC GLOBAL SECURITIES LIMITED",
+   "allotment_date": "2026-10-13",
+   "amount_cr": 7.0,
+   "coupon": null,
+   "tenure_years": 2.0,
+   "band": "A band (A+/A/A-)",
+   "segment": "Corporate",
+   "spread_bps": null,
+   "ratings": [
+    "ICRA A"
+   ]
+  },
+  {
+   "isin": "INE103C07207",
+   "issuer": "SMC GLOBAL SECURITIES LIMITED",
+   "allotment_date": "2026-10-13",
+   "amount_cr": 8.0,
+   "coupon": null,
+   "tenure_years": 3.0,
+   "band": "A band (A+/A/A-)",
+   "segment": "Corporate",
+   "spread_bps": null,
+   "ratings": [
+    "ICRA A"
+   ]
+  },
+  {
+   "isin": "INE103C07223",
+   "issuer": "SMC GLOBAL SECURITIES LIMITED",
+   "allotment_date": "2026-10-13",
+   "amount_cr": 23.0,
+   "coupon": 9.75,
+   "tenure_years": 3.0,
+   "band": "A band (A+/A/A-)",
+   "segment": "Corporate",
+   "spread_bps": 264,
+   "ratings": [
+    "ICRA A"
+   ]
+  },
+  {
+   "isin": "INE103C07215",
+   "issuer": "SMC GLOBAL SECURITIES LIMITED",
+   "allotment_date": "2026-10-13",
+   "amount_cr": 26.0,
+   "coupon": 10.0,
+   "tenure_years": 5.0,
+   "band": "A band (A+/A/A-)",
+   "segment": "Corporate",
+   "spread_bps": 284,
+   "ratings": [
+    "ICRA A"
+   ]
+  },
+  {
+   "isin": "INE103C07231",
+   "issuer": "SMC GLOBAL SECURITIES LIMITED",
+   "allotment_date": "2026-10-13",
+   "amount_cr": 41.0,
+   "coupon": 9.57,
+   "tenure_years": 5.0,
+   "band": "A band (A+/A/A-)",
+   "segment": "Corporate",
+   "spread_bps": 241,
+   "ratings": [
+    "ICRA A"
+   ]
+  },
+  {
+   "isin": "INE103C07249",
+   "issuer": "SMC GLOBAL SECURITIES LIMITED",
+   "allotment_date": "2026-10-13",
+   "amount_cr": 42.0,
+   "coupon": 9.5,
+   "tenure_years": 2.0,
+   "band": "A band (A+/A/A-)",
+   "segment": "Corporate",
+   "spread_bps": 258,
+   "ratings": [
+    "ICRA A"
+   ]
+  },
+  {
+   "isin": "INE006S07067",
+   "issuer": "CYBERCITY BUILDERS AND DEVELOPERS PVT LIMITED",
+   "allotment_date": "2026-10-13",
+   "amount_cr": 50.0,
+   "coupon": 17.25,
+   "tenure_years": 4.0,
+   "band": "Not rated / available",
+   "segment": "Corporate",
+   "spread_bps": 1014,
+   "ratings": []
+  },
+  {
+   "isin": "INE0MYJ07229",
+   "issuer": "PROGFIN PRIVATE LIMITED",
+   "allotment_date": "2026-10-13",
+   "amount_cr": 125.0,
+   "coupon": 9.8,
+   "tenure_years": 1.5,
+   "band": "BBB band",
+   "segment": "Corporate",
+   "spread_bps": 331,
+   "ratings": [
+    "ICRA BBB+"
+   ]
+  },
+  {
+   "isin": "INE006S07075",
+   "issuer": "CYBERCITY BUILDERS AND DEVELOPERS PVT LIMITED",
+   "allotment_date": "2026-10-13",
+   "amount_cr": 145.0,
+   "coupon": 13.85,
+   "tenure_years": 4.0,
+   "band": "Not rated / available",
+   "segment": "Corporate",
+   "spread_bps": 674,
+   "ratings": []
+  },
+  {
+   "isin": "INE180C08013",
+   "issuer": "CAPRI GLOBAL CAPITAL LIMITED",
+   "allotment_date": "2026-10-13",
+   "amount_cr": 300.0,
+   "coupon": 9.75,
+   "tenure_years": 10.0,
+   "band": "AA band (AA+/AA/AA-)",
+   "segment": "NBFC/HFC",
+   "spread_bps": 234,
+   "ratings": [
+    "Acuit\u00e9 AA+"
+   ]
+  },
+  {
    "isin": "INE02YC07042",
    "issuer": "SATIN HOUSING FINANCE LIMITED",
    "allotment_date": "2026-10-12",

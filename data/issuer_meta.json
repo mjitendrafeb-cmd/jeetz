@@ -147,6 +147,10 @@
   "segment": "NBFC/HFC",
   "updated": "2026-09-30"
  },
+ "capri global capital": {
+  "segment": "NBFC/HFC",
+  "updated": "2026-10-14"
+ },
  "care health insurance": {
   "segment": "Corporate",
   "updated": "2026-09-21"
@@ -194,6 +198,10 @@
  "cube highways trust": {
   "segment": "Corporate",
   "updated": "2026-10-01"
+ },
+ "cybercity builders and developers": {
+  "segment": "Corporate",
+  "updated": "2026-10-14"
  },
  "dar credit & capital": {
   "segment": "NBFC/HFC",
@@ -611,6 +619,10 @@
   "segment": "NBFC/HFC",
   "updated": "2026-10-01"
  },
+ "national skill development": {
+  "segment": "Corporate",
+  "updated": "2026-10-14"
+ },
  "navi finserv": {
   "segment": "NBFC/HFC",
   "updated": "2026-10-01"
@@ -721,7 +733,7 @@
  },
  "progfin": {
   "segment": "Corporate",
-  "updated": "2026-09-25"
+  "updated": "2026-10-14"
  },
  "propglobal assets": {
   "segment": "Corporate",
@@ -826,6 +838,10 @@
  "small industries development bank of": {
   "segment": "PSU",
   "updated": "2026-09-04"
+ },
+ "smc global securities": {
+  "segment": "Corporate",
+  "updated": "2026-10-14"
  },
  "sowparnika green meadows": {
   "segment": "Corporate",
