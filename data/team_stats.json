@@ -1,77 +1,5 @@
 [
  {
-  "date": "2026-09-16",
-  "fetched": 1311,
-  "delivered_pool": 151,
-  "junk": 395,
-  "geo": 24,
-  "stale": 279,
-  "dup": 251,
-  "sections": {
-   "S1": 125,
-   "S2": 16,
-   "S3": 10
-  },
-  "mails": 1,
-  "failed": [],
-  "source_summary": {
-   "RBI RSS": 20,
-   "RBI Enforcement": 0,
-   "SEBI RSS": 20,
-   "Google News": 23,
-   "Watchlist (Google)": 792,
-   "BSE Financials": 0,
-   "Telegram": 66,
-   "Web Scraper": 2008
-  },
-  "dropped_samples": {
-   "relevance": [
-    "PL Capital sees 39% UPSIDE in Apeejay Surrendra Park Hotels- Execution timelines remain a key monitorable",
-    "Jefferies on Equity Strategy- India\u2019s New Industrial Revolution",
-    "Ambit Initiating Coverage on Redington, with 24% UPSIDE- Moving up the value chain",
-    "OpenAI CEO Sam Altman and billionaire Elon Musk backed Anthropic CEO Dario Amodei\u2019s call to slow AI developmen",
-    "Chinese President Xi Jinping\u2019s secretive Hongqi N701 presidential limousine has arrived in New Delhi for the B",
-    "PM Narendra Modi hosts gala dinner for Brics leaders and other delegates at Bharat Mandapam",
-    "Six years after the death of his daughter Disha Salian, Satish Salian recorded his statement at the CBI office",
-    "#MintMarkets | Stocks to buy under \u20b9200: Mehul Kothari recommends three stocks to buy for the short term.",
-    "A minor's \u20b91.17 crore interest income led to a \u20b912.83 lakh penalty for his father",
-    "Introduce the BRICS Fiat Currency: A Challenge to Dollar Dominance",
-    "India's Manufacturing Majors: The Companies Building at Scale",
-    "ET Wealth Edition 20 September 2026",
-    "Queensland woman falls to her death at Bali cliff popular with tourists",
-    "Fanny Purna Irianti joins Raffles Bali as DOSM",
-    "Australian tourist dies after cliff fall in Bali\u2019s Nusa Penida",
-    "Aussie family found dead in Bali villa",
-    "Bali police find Australian father and two children dead in suspected murder-suicide",
-    "Karnataka travel operators want stay on taxi fare meter mandate, seek clarity",
-    "Kolte Patil appoints Hrishikesh Parandekar as CEO to drive growth",
-    "Sun Pharma update on Lipitor antitrust litigation in US court"
-   ],
-   "junk": [
-    "EPL Issuer Rating Put on Watch; CP Rating Reaffirmed",
-    "Bandhan Medium Term Fund Direct-IDCW Fortnightly",
-    "Bank of India Business Cycle Fund Direct Growth Review 2026: NAV, Returns, Portfolio & Should You Invest?",
-    "Bank of India Credit Risk Fund Direct Growth Review 2026: NAV, Returns, Portfolio & Should You Invest?",
-    "Groww Share Price",
-    "Canara Bank Option Chain",
-    "Stock of the day - Cholamandalam Investment and Fin Co Ltd Target Rs. 1980 - Religare Broking Ltd",
-    "What is more gorgeous than a cheetah cub? Six of them! [video]",
-    "F&O ban list 11 September 2026: Stocks in ban and MWPL watchlist, IREDA at 91.44%",
-    "Andrabi inaugurates T20 cricket tournament at Chrar",
-    "JioBlackRock Liquid Fund Regular-IDCW Weekly",
-    "LIC MF Manufacturing Fund Direct Growth Review 2026: NAV, Returns, Portfolio & Should You Invest?",
-    "LIC MF Children\u2019s Fund Direct Growth Review 2026: NAV, Returns, Portfolio & Should You Invest?",
-    "LIC MF Aggressive Hybrid Fund(G)-Direct Plan",
-    "iShares MSCI China ETF (NASDAQ: MCHI) Share Price, MCHI Stock News, MCHI Share Price & Updates",
-    "UGRO Stock Rockets Over 400%",
-    "SBI FUNDS MANAGEMENT LTD Share Price",
-    "SBI Money Market Fund(G)-Direct Plan",
-    "SBI Comma Fund(G)-Direct Plan",
-    "Union Bank of India Wins \u2018Best Retail Bank of India\u2019 Award"
-   ]
-  }
- },
- {
   "date": "2026-09-17",
   "fetched": 1144,
   "delivered_pool": 117,
@@ -2156,6 +2084,78 @@
     "General Remittance Advice against: Sadhna Bio Oils Pvt",
     "General Remittance Advice against: Shreya Gupta (PAN: AIMPJ4419J) [Defaulter] in the matter of trading based s",
     "Nomura becomes latest brokerage to cut PB Fintech share price target by 31%, lists 2 scenarios for fair pr"
+   ]
+  }
+ },
+ {
+  "date": "2026-10-14",
+  "fetched": 1009,
+  "delivered_pool": 106,
+  "junk": 293,
+  "geo": 25,
+  "stale": 245,
+  "dup": 151,
+  "sections": {
+   "S1": 77,
+   "S2": 17,
+   "S3": 12
+  },
+  "mails": 40,
+  "failed": [],
+  "source_summary": {
+   "RBI RSS": 18,
+   "RBI Enforcement": 0,
+   "SEBI RSS": 20,
+   "Google News": 31,
+   "Watchlist (Google)": 1028,
+   "BSE Financials": 0,
+   "Telegram": 51,
+   "Web Scraper": 338
+  },
+  "dropped_samples": {
+   "relevance": [
+    "PL Capital sees 15% UPSIDE in Tata Consultancy Services- Balancing growth at the cost of margins",
+    "Motilal Oswal\u2019s Morning India- Today\u2019s top research idea",
+    "The National Investigation Agency (NIA) has registered a case in connection with the alleged hijacking of a Fl",
+    "After months of lecturing and tariffing India over Russian oil purchases, Donald Trump has made an astonishing",
+    "Smallcaps have outperformed largecaps over the past year despite recent declines, but experts caution that pro",
+    "WATCH | Cockroach Janta Party (CJP) Founder Abhijeet Dipke detained by the Police at Delhi Airport ahead of pr",
+    "Its Musk Vs Ambani in the Indian market",
+    "Why police registered unnatural death case under Section 194 after Nana Patekar's demise in Goa",
+    "The Trump administration has suspended the PERM green card process for several major tech companies, including",
+    "As public confusion mounted over potential fees on general consumer shopping and peer-to-peer transfers, the g",
+    "#MintMarkets | Jio Platforms\u2019 much-awaited IPO is expected to open for subscription in October and close two d",
+    "1,692% at its recorded high",
+    "How that battle at The Tata Sons is testing how far a board can go",
+    "ET Startup Awards 2026",
+    "Weekly Recap: HDFCBANK CEO appointment/pay and Q2 deposit & loan growth",
+    "ET Startup Awards 2026",
+    "Balrampur Chini Mills profit falls 10% in Q1FY27; appoints Vartika Shukla",
+    "Mapping India\u2019s fintech key players",
+    "Escorts Kubota Q4FY26 Earnings Call: Record Revenue, PAT and Dividend Announced",
+    "GMR Power closes trading window for Q2FY27 results from Sept 30"
+   ],
+   "junk": [
+    "Rathfriland Rangers Ards 20 October 2026 Live Score and Match Summary",
+    "Ards FC vs PSNI FC",
+    "ASFB - Majestic Live - Fasofoot Ligue 1: Football Scores & Highlights - 09/10/2026",
+    "ASFB - Majestic Stats: Football Scores & Results",
+    "Bank of India Multi Asset Allocation Fund(G)-Direct Plan",
+    "Canara Bank Share Price today: Rs 119.80 and sector context",
+    "BRENHAM CUB FOOTBALL",
+    "ICICI Bank stock sits 15.53 percent below its 52-week high",
+    "Khyber Cement Red Premier League Season 3 set to begin today",
+    "KFTA meets PC President Sajjad Lone, flags exclusion from govt-sponsored film festival",
+    "JioBlackRock Arbitrage Fund - Regular Plan Portfolio",
+    "JioBlackRock Nifty 50 Index Fund - Regular Plan Portfolio",
+    "JioBlackRock Ultra Short to Short Term Fund - Direct Plan Portfolio",
+    "JioBlackRock Flexi Cap Fund - Regular Plan Portfolio",
+    "LIC MF Ultra Short to Short Term Fund - Direct Plan Portfolio",
+    "Mahindra & Mahindra Share Price - Live NSE: M&M Stock Price & Chart",
+    "Muthoot Finance Ltd Rallies 3.6% and Approaches Key Resistance Amid Mixed Technicals",
+    "Punjab & Sind Bank 52 Week Low Streak: What The Numbers Show",
+    "Bexley rec soccer player survives cardiac arrest after teammates use AED",
+    "Shriram Finance ups FD rates by up to 40 basis points"
    ]
   }
  }
