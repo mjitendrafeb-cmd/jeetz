@@ -1,6 +1,89 @@
 {
  "records": [
   {
+   "isin": "INE0NDS07164",
+   "issuer": "SPEEL FINANCE COMPANY PRIVATE LIMITED",
+   "allotment_date": "2026-10-14",
+   "amount_cr": 10.0,
+   "coupon": 15.0,
+   "tenure_years": 1.3,
+   "band": "Not rated / available",
+   "segment": "NBFC/HFC",
+   "spread_bps": 860,
+   "ratings": []
+  },
+  {
+   "isin": "INE05JR08018",
+   "issuer": "VARASHAKTI HOUSING FINANCE PRIVATE LIMITED",
+   "allotment_date": "2026-10-14",
+   "amount_cr": 20.0,
+   "coupon": 13.5,
+   "tenure_years": 3.3,
+   "band": "BBB band",
+   "segment": "NBFC/HFC",
+   "spread_bps": 634,
+   "ratings": [
+    "CRISIL BBB-"
+   ]
+  },
+  {
+   "isin": "INE1JJ007346",
+   "issuer": "REFYNE FINANCE PRIVATE LIMITED",
+   "allotment_date": "2026-10-14",
+   "amount_cr": 50.0,
+   "coupon": 11.5,
+   "tenure_years": 2.0,
+   "band": "A band (A+/A/A-)",
+   "segment": "NBFC/HFC",
+   "spread_bps": 462,
+   "ratings": [
+    "Acuite Ratings And Research Limited A-"
+   ]
+  },
+  {
+   "isin": "INE957N08227",
+   "issuer": "HERO FINCORP LIMITED",
+   "allotment_date": "2026-10-14",
+   "amount_cr": 200.0,
+   "coupon": 9.25,
+   "tenure_years": 10.7,
+   "band": "AA band (AA+/AA/AA-)",
+   "segment": "NBFC/HFC",
+   "spread_bps": 186,
+   "ratings": [
+    "ICRA AA+",
+    "CRISIL AA+"
+   ]
+  },
+  {
+   "isin": "INE296G07358",
+   "issuer": "MUTHOOT CAPITAL SERVICES LIMITED",
+   "allotment_date": "2026-10-14",
+   "amount_cr": 200.0,
+   "coupon": 9.25,
+   "tenure_years": 3.0,
+   "band": "AA band (AA+/AA/AA-)",
+   "segment": "NBFC/HFC",
+   "spread_bps": 209,
+   "ratings": [
+    "CRISIL AA-"
+   ]
+  },
+  {
+   "isin": "INE321N07772",
+   "issuer": "INCRED FINANCIAL SERVICES LIMITED",
+   "allotment_date": "2026-10-14",
+   "amount_cr": 300.0,
+   "coupon": 8.8,
+   "tenure_years": 2.0,
+   "band": "AA band (AA+/AA/AA-)",
+   "segment": "Corporate",
+   "spread_bps": 192,
+   "ratings": [
+    "CRISIL AA-"
+   ]
+  },
+  {
    "isin": "INS08SO12012",
    "issuer": "NATIONAL SKILL DEVELOPMENT CORPORATION",
    "allotment_date": "2026-10-13",

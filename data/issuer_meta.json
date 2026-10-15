@@ -373,7 +373,7 @@
  },
  "hero fincorp": {
   "segment": "NBFC/HFC",
-  "updated": "2026-09-16"
+  "updated": "2026-10-15"
  },
  "himatsingka seide": {
   "segment": "Corporate",
@@ -405,7 +405,7 @@
  },
  "incred financial services": {
   "segment": "Corporate",
-  "updated": "2026-09-30"
+  "updated": "2026-10-15"
  },
  "incred wealth and investment services": {
   "segment": "Corporate",
@@ -589,7 +589,7 @@
  },
  "muthoot capital services": {
   "segment": "NBFC/HFC",
-  "updated": "2026-09-24"
+  "updated": "2026-10-15"
  },
  "muthoot fincorp": {
   "segment": "NBFC/HFC",
@@ -759,6 +759,10 @@
   "segment": "Corporate",
   "updated": "2026-10-06"
  },
+ "refyne finance": {
+  "segment": "NBFC/HFC",
+  "updated": "2026-10-15"
+ },
  "regency fincorp": {
   "segment": "NBFC/HFC",
   "updated": "2026-10-10"
@@ -847,6 +851,10 @@
   "segment": "Corporate",
   "updated": "2026-10-01"
  },
+ "speel finance": {
+  "segment": "NBFC/HFC",
+  "updated": "2026-10-15"
+ },
  "square yards technology": {
   "segment": "Corporate",
   "updated": "2026-09-16"
@@ -918,6 +926,10 @@
  "utkarsh small finance bank": {
   "segment": "Bank/FI",
   "updated": "2026-09-28"
+ },
+ "varashakti housing finance": {
+  "segment": "NBFC/HFC",
+  "updated": "2026-10-15"
  },
  "vastu housing finance": {
   "segment": "NBFC/HFC",
