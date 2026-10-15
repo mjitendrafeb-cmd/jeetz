@@ -1,77 +1,5 @@
 [
  {
-  "date": "2026-09-17",
-  "fetched": 1144,
-  "delivered_pool": 117,
-  "junk": 348,
-  "geo": 22,
-  "stale": 366,
-  "dup": 106,
-  "sections": {
-   "S1": 96,
-   "S2": 19,
-   "S3": 2
-  },
-  "mails": 41,
-  "failed": [],
-  "source_summary": {
-   "RBI RSS": 20,
-   "RBI Enforcement": 0,
-   "SEBI RSS": 20,
-   "Google News": 25,
-   "Watchlist (Google)": 1136,
-   "BSE Financials": 0,
-   "Telegram": 59,
-   "Web Scraper": 343
-  },
-  "dropped_samples": {
-   "relevance": [
-    "PL Capital sees 39% UPSIDE in Apeejay Surrendra Park Hotels- Execution timelines remain a key monitorable",
-    "Jefferies on Equity Strategy- India\u2019s New Industrial Revolution",
-    "Ambit Initiating Coverage on Redington, with 24% UPSIDE- Moving up the value chain",
-    "OpenAI CEO Sam Altman and billionaire Elon Musk backed Anthropic CEO Dario Amodei\u2019s call to slow AI developmen",
-    "Chinese President Xi Jinping\u2019s secretive Hongqi N701 presidential limousine has arrived in New Delhi for the B",
-    "PM Narendra Modi hosts gala dinner for Brics leaders and other delegates at Bharat Mandapam",
-    "Six years after the death of his daughter Disha Salian, Satish Salian recorded his statement at the CBI office",
-    "#MintMarkets | Stocks to buy under \u20b9200: Mehul Kothari recommends three stocks to buy for the short term.",
-    "A minor's \u20b91.17 crore interest income led to a \u20b912.83 lakh penalty for his father",
-    "Introduce the BRICS Fiat Currency: A Challenge to Dollar Dominance",
-    "India's Manufacturing Majors: The Companies Building at Scale",
-    "Kolte Patil appoints Hrishikesh Parandekar as CEO to drive growth",
-    "Sun Pharma update on Lipitor antitrust litigation in US court",
-    "Has Modi govt been a positive influence for Indian economy?",
-    "Nuvama Update on FINOLEX CABLES- Fine and flexible",
-    "KPMG on India data centre opportunity- From emerging demand hub to integrated data centre powerhouse",
-    "Motilal Oswal\u2019s Morning India- Today\u2019s top research idea",
-    "Indian premium grocery retail is having a moment",
-    "Lets take a look at the richest billioniares in the BRICS countries and their net worth",
-    "Loan interest rates, EMIs to rise"
-   ],
-   "junk": [
-    "EPL Issuer Rating Put on Watch; CP Rating Reaffirmed",
-    "Bandhan Medium Term Fund Direct-IDCW Fortnightly",
-    "Bank of India Business Cycle Fund Direct Growth Review 2026: NAV, Returns, Portfolio & Should You Invest?",
-    "Bank of India Credit Risk Fund Direct Growth Review 2026: NAV, Returns, Portfolio & Should You Invest?",
-    "Groww Share Price",
-    "Canara Bank Option Chain",
-    "Stock of the day - Cholamandalam Investment and Fin Co Ltd Target Rs. 1980 - Religare Broking Ltd",
-    "What is more gorgeous than a cheetah cub? Six of them! [video]",
-    "F&O ban list 11 September 2026: Stocks in ban and MWPL watchlist, IREDA at 91.44%",
-    "Andrabi inaugurates T20 cricket tournament at Chrar",
-    "JioBlackRock Liquid Fund Regular-IDCW Weekly",
-    "LIC MF Manufacturing Fund Direct Growth Review 2026: NAV, Returns, Portfolio & Should You Invest?",
-    "LIC MF Children\u2019s Fund Direct Growth Review 2026: NAV, Returns, Portfolio & Should You Invest?",
-    "LIC MF Aggressive Hybrid Fund(G)-Direct Plan",
-    "iShares MSCI China ETF (NASDAQ: MCHI) Share Price, MCHI Stock News, MCHI Share Price & Updates",
-    "UGRO Stock Rockets Over 400%",
-    "SBI FUNDS MANAGEMENT LTD Share Price",
-    "SBI Money Market Fund(G)-Direct Plan",
-    "SBI Comma Fund(G)-Direct Plan",
-    "Union Bank of India Wins \u2018Best Retail Bank of India\u2019 Award"
-   ]
-  }
- },
- {
   "date": "2026-09-18",
   "fetched": 1147,
   "delivered_pool": 108,
@@ -2156,6 +2084,78 @@
     "Punjab & Sind Bank 52 Week Low Streak: What The Numbers Show",
     "Bexley rec soccer player survives cardiac arrest after teammates use AED",
     "Shriram Finance ups FD rates by up to 40 basis points"
+   ]
+  }
+ },
+ {
+  "date": "2026-10-15",
+  "fetched": 1014,
+  "delivered_pool": 113,
+  "junk": 285,
+  "geo": 38,
+  "stale": 217,
+  "dup": 143,
+  "sections": {
+   "S1": 85,
+   "S2": 14,
+   "S3": 14
+  },
+  "mails": 40,
+  "failed": [],
+  "source_summary": {
+   "RBI RSS": 18,
+   "RBI Enforcement": 0,
+   "SEBI RSS": 20,
+   "Google News": 28,
+   "Watchlist (Google)": 1110,
+   "BSE Financials": 0,
+   "Telegram": 53,
+   "Web Scraper": 959
+  },
+  "dropped_samples": {
+   "relevance": [
+    "Balrampur Chini Mills profit falls 10% in Q1FY27; appoints Vartika Shukla",
+    "Mapping India\u2019s fintech key players",
+    "Escorts Kubota Q4FY26 Earnings Call: Record Revenue, PAT and Dividend Announced",
+    "GMR Power closes trading window for Q2FY27 results from Sept 30",
+    "PL Capital sees 15% UPSIDE in Tata Consultancy Services- Balancing growth at the cost of margins",
+    "Motilal Oswal\u2019s Morning India- Today\u2019s top research idea",
+    "GPT Healthcare Ltd, GPT Infraprojects Ltd, Grand Continent Hotels Ltd, Greaves Cotton Ltd, GSP Crop Sciences L",
+    "BLS E-Services Ltd, BLS International Services Ltd, BlueSpring Enterprises Ltd, Blue Water Logistics Ltd, BMW ",
+    "Motilal Oswal on India Strategy- The HEAVY Lift!",
+    "Antique on India Strategy \u2014 2QFY27 Earnings Preview- Another strong quarter!",
+    "The Supreme Court on Sunday directed that there shall be no detention of any individual except in accordance w",
+    "In his effort to double down on launching Starlink's satellite internet services in India, Musk asserted that ",
+    "The US has suspended Microsoft, Infosys, Tata, Wipro and other companies from the PERM labour-certification pr",
+    "WATCH | Workers of SFI, AISF and AIYF are being detained by Delhi Police while holding a protest against CEC G",
+    "After Abhijit Dipke & other CJP members were detained at the Delhi airport, Central Delhi was the next stage",
+    "WATCH | Devotees offer prayers at Delhi\u2019s Chhatarpur Temple on first day of Shardiya Navratri",
+    "Immediate support for the Nifty 50 index is placed at 22,250\u201322,400, while 22,650\u201322,700 remains the key resis",
+    "The National Investigation Agency (NIA) has registered a case in connection with the alleged hijacking of a Fl",
+    "After months of lecturing and tariffing India over Russian oil purchases, Donald Trump has made an astonishing",
+    "Smallcaps have outperformed largecaps over the past year despite recent declines, but experts caution that pro"
+   ],
+   "junk": [
+    "Nomura becomes latest brokerage to cut PB Fintech share price target by 31%, lists 2 scenarios for fair pr",
+    "5Paisa Capital (5PAISA.NS) Climbs 2.68% to \u20b9347.25 as Stock Approaches Key Resistance - Hot Stock Picks",
+    "AADHAR HOUSING FINANCE L Share Price - Live NSE: AADHARHFC Stock Price & Chart",
+    "Rathfriland Rangers Ards 20 October 2026 Live Score and Match Summary",
+    "Ards FC vs PSNI FC",
+    "ASFB - Majestic Live - Fasofoot Ligue 1: Football Scores & Highlights - 09/10/2026",
+    "ASFB - Majestic Stats: Football Scores & Results",
+    "BAJAJ FINANCE LIMITED Option Chain - Live BAJAJ FINANCE LIMITED Option Chain Data, OI & Price",
+    "Bajaj Finance Hikes FD Rates by Up to 40 bps",
+    "BANKINDIA Share Price Today - Bank of India on NSE/BSE",
+    "Bank of India Multi Asset Allocation Fund(G)-Direct Plan",
+    "Bank of India Share Price Today,, BANKINDIA Share Price NSE, BSE",
+    "C.D.E. Natacion Chi Boi vs FC Aurum Madrid live score, H2H and lineups",
+    "Bank of Maharashtra - Chennai Petroleum Corporation among 3 stocks showing RSI Trending Up",
+    "Bhansali Polymers Share Price - Live NSE: BEPL Stock Price & Chart",
+    "Hotel Review \u2014 Soori Bali \u2014 Hotel Review Cond\u00e9 Nast Traveler",
+    "Groww Value Fund(G)-Direct Plan",
+    "Groww Share Price",
+    "Canara Bank Share Price today: Rs 119.80 and sector context",
+    "DAR CREDIT & CAPITAL LTD Share Price"
    ]
   }
  }
