@@ -1,6 +1,34 @@
 {
  "records": [
   {
+   "isin": "INE385W07091",
+   "issuer": "DISHMAN CARBOGEN AMCIS LIMITED",
+   "allotment_date": "2026-10-15",
+   "amount_cr": 38.0,
+   "coupon": 10.0,
+   "tenure_years": 1.5,
+   "band": "A band (A+/A/A-)",
+   "segment": "Corporate",
+   "spread_bps": 356,
+   "ratings": [
+    "IND-Ra A"
+   ]
+  },
+  {
+   "isin": "INE0L6807385",
+   "issuer": "ALPHA ALTERNATIVES FINANCIAL SERVICES PRIVATE LIMITED",
+   "allotment_date": "2026-10-15",
+   "amount_cr": 200.0,
+   "coupon": null,
+   "tenure_years": 6.0,
+   "band": "A band (A+/A/A-)",
+   "segment": "Corporate",
+   "spread_bps": null,
+   "ratings": [
+    "CARE RATINGS LIMITED A-"
+   ]
+  },
+  {
    "isin": "INE0NDS07164",
    "issuer": "SPEEL FINANCE COMPANY PRIVATE LIMITED",
    "allotment_date": "2026-10-14",
