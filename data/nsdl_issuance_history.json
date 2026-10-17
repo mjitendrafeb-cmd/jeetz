@@ -1,6 +1,88 @@
 {
  "records": [
   {
+   "isin": "INE0TV208145",
+   "issuer": "EMERALD HAVEN LIFE SPACES 3 PRIVATE LIMITED",
+   "allotment_date": "2026-10-16",
+   "amount_cr": 28.0,
+   "coupon": 7.0,
+   "tenure_years": 20.0,
+   "band": "A band (A+/A/A-)",
+   "segment": "Corporate",
+   "spread_bps": -36,
+   "ratings": [
+    "CRISIL A-"
+   ]
+  },
+  {
+   "isin": "INE999H07108",
+   "issuer": "LOKHANDWALA KATARIA CONSTRUCTION PRIVATE LTD",
+   "allotment_date": "2026-10-16",
+   "amount_cr": 160.0,
+   "coupon": 7.0,
+   "tenure_years": 3.0,
+   "band": "Below investment grade",
+   "segment": "Corporate",
+   "spread_bps": -15,
+   "ratings": [
+    "Acuit\u00e9 D"
+   ]
+  },
+  {
+   "isin": "INE814O07659",
+   "issuer": "NEOGROWTH CREDIT PRIVATE LIMITED",
+   "allotment_date": "2026-10-16",
+   "amount_cr": 60.0,
+   "coupon": 12.5,
+   "tenure_years": 2.0,
+   "band": "BBB band",
+   "segment": "NBFC/HFC",
+   "spread_bps": 578,
+   "ratings": [
+    "ICRA BBB"
+   ]
+  },
+  {
+   "isin": "INE2Z0907013",
+   "issuer": "CHAIN-N-CHAINS JEWELS LIMITED",
+   "allotment_date": "2026-10-16",
+   "amount_cr": 200.0,
+   "coupon": 12.0,
+   "tenure_years": 2.0,
+   "band": "BBB band",
+   "segment": "Corporate",
+   "spread_bps": 528,
+   "ratings": [
+    "INDIA RATING AND RESEARCH PVT. LTD BBB"
+   ]
+  },
+  {
+   "isin": "INE2TAC08025",
+   "issuer": "TRUST FINVISORS PRIVATE LIMITED",
+   "allotment_date": "2026-10-16",
+   "amount_cr": 200.0,
+   "coupon": 9.25,
+   "tenure_years": 3.0,
+   "band": "Not rated / available",
+   "segment": "Corporate",
+   "spread_bps": 210,
+   "ratings": []
+  },
+  {
+   "isin": "INE556F08LI7",
+   "issuer": "SMALL INDUSTRIES DEVELOPMENT BANK OF INDIA",
+   "allotment_date": "2026-10-16",
+   "amount_cr": 5176.0,
+   "coupon": 8.05,
+   "tenure_years": 3.2,
+   "band": "AAA",
+   "segment": "PSU",
+   "spread_bps": 90,
+   "ratings": [
+    "CRISIL AAA"
+   ]
+  },
+  {
    "isin": "INE385W07091",
    "issuer": "DISHMAN CARBOGEN AMCIS LIMITED",
    "allotment_date": "2026-10-15",
@@ -395,20 +477,6 @@
    "segment": "Corporate",
    "spread_bps": 272,
    "ratings": []
-  },
-  {
-   "isin": "INE0TV208145",
-   "issuer": "EMERALD HAVEN LIFE SPACES 3 PRIVATE LIMITED",
-   "allotment_date": "2026-10-09",
-   "amount_cr": 28.0,
-   "coupon": 7.0,
-   "tenure_years": 20.0,
-   "band": "A band (A+/A/A-)",
-   "segment": "Corporate",
-   "spread_bps": -29,
-   "ratings": [
-    "CRISIL A-"
-   ]
   },
   {
    "isin": "INE0RU307288",
@@ -3833,20 +3901,6 @@
    "spread_bps": 559,
    "ratings": [
     "Infomerics Valuation and Rating Pvt. Ltd BBB-"
-   ]
-  },
-  {
-   "isin": "INE999H07108",
-   "issuer": "LOKHANDWALA KATARIA CONSTRUCTION PRIVATE LTD",
-   "allotment_date": "2026-09-16",
-   "amount_cr": 50.0,
-   "coupon": 7.0,
-   "tenure_years": 2.0,
-   "band": "Below investment grade",
-   "segment": "Corporate",
-   "spread_bps": 59,
-   "ratings": [
-    "Acuite Ratings And Research Limited C"
    ]
   },
   {

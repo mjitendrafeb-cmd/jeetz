@@ -167,6 +167,10 @@
   "segment": "Corporate",
   "updated": "2026-09-25"
  },
+ "chain-n-chains jewels": {
+  "segment": "Corporate",
+  "updated": "2026-10-17"
+ },
  "cholamandalam investment and finance": {
   "segment": "NBFC/HFC",
   "updated": "2026-09-02"
@@ -273,7 +277,7 @@
  },
  "emerald haven life spaces 3": {
   "segment": "Corporate",
-  "updated": "2026-10-10"
+  "updated": "2026-10-17"
  },
  "emkay global financial services": {
   "segment": "Corporate",
@@ -529,7 +533,7 @@
  },
  "lokhandwala kataria construction": {
   "segment": "Corporate",
-  "updated": "2026-09-17"
+  "updated": "2026-10-17"
  },
  "loon land development": {
   "segment": "Corporate",
@@ -633,7 +637,7 @@
  },
  "neogrowth credit": {
   "segment": "NBFC/HFC",
-  "updated": "2026-09-30"
+  "updated": "2026-10-17"
  },
  "niif infrastructure finance": {
   "segment": "NBFC/HFC",
@@ -841,7 +845,7 @@
  },
  "small industries development bank of": {
   "segment": "PSU",
-  "updated": "2026-09-04"
+  "updated": "2026-10-17"
  },
  "smc global securities": {
   "segment": "Corporate",
@@ -898,6 +902,10 @@
  "truhome finance": {
   "segment": "NBFC/HFC",
   "updated": "2026-09-29"
+ },
+ "trust finvisors": {
+  "segment": "Corporate",
+  "updated": "2026-10-17"
  },
  "trust investment advisors": {
   "segment": "Corporate",
