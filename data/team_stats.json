@@ -1,77 +1,5 @@
 [
  {
-  "date": "2026-09-19",
-  "fetched": 823,
-  "delivered_pool": 75,
-  "junk": 273,
-  "geo": 24,
-  "stale": 194,
-  "dup": 75,
-  "sections": {
-   "S1": 64,
-   "S2": 4,
-   "S3": 7
-  },
-  "mails": 0,
-  "failed": [],
-  "source_summary": {
-   "RBI RSS": 20,
-   "RBI Enforcement": 0,
-   "SEBI RSS": 20,
-   "Google News": 26,
-   "Watchlist (Google)": 1102,
-   "BSE Financials": 0,
-   "Telegram": 48,
-   "Web Scraper": 960
-  },
-  "dropped_samples": {
-   "relevance": [
-    "Developments in India\u2019s Balance of Payments for the Month of July 2026",
-    "Motilal Oswal Initiating Coverage on Tenneco Clean Air, with 33% UPSIDE- Technology at the core, growth at sca",
-    "Trinetra Asset Managers Initiating Coverage on Solara Active Pharma Sciences Ltd",
-    "A Bengaluru CEO\u2019s post quickly struck a nerve on social media, sparking a fierce debate among taxpayers over t",
-    "Zimbabwe's Brendan Taylor did what no one in the last 14 years could achieve, as the 40-year-old surpassed leg",
-    "Two Oracle employees have taken to Reddit to describe how they discovered their access had been cut during the",
-    "Apple\u2019s first foldable iPhone, the iPhone Duo, has put Samsung in an unusual position as the two tech giants p",
-    "Please note : We post article links from the internet which may discuss stocks at times",
-    "#FCRoTD Ethiopian Airlines out-earns Air India because it is not merely an airline\u2014it is an integrated aviatio",
-    "Listing of further issues of securities",
-    "Why there are clear signs of a reset in India's quick-commerce sector",
-    "Conversion/Switch of Government of India Securities",
-    "Review of Circulars issued under Foreign Exchange Management Act, 1999 (FEMA)",
-    "Relief Measures in Areas Affected by Natural Calamities - Reporting through Centralised Information Management",
-    "Release Order \u2013 Sanbun Investments and Proprietor Mr",
-    "News by CNBC TV18 on TradingView, 2026-09-17",
-    "Bamboo Marvels in Bali: Pablo Luna Studio\u2019s Seamless Designs in Nature",
-    "TransNusa Melbourne to Bali Flights: Travel & Route Guide 2026",
-    "JKSA seeks measures to ensure safety of Kashmiri students, Shawl sellers in Dehradun",
-    "NSE IPO looks cheap at Rs 1,785.."
-   ],
-   "junk": [
-    "Completion of Recovery Certificate No. RC 722 of 2015 against Softrak Venture Investment Ltd in the matter of ",
-    "SEBI\u2019s proposals to revamp CAS positive for exchanges and brokerages: Jefferies",
-    "Bank of India Business Cycle Fund(G)-Direct Plan",
-    "Bank Of Maharashtra - LIC Housing Finance among 5 F&O stocks with sharp rise in futures open interest",
-    "An Indonesian Homecoming: Goeun Lee Named Resort Manager At Four Seasons Resort Bali At Jimbaran Bay",
-    "Airbnb Private Villas Being Scrutinized by Bali Provincial Tax Authorities",
-    "Understanding Momentum Shifts in (BALI)",
-    "Paisabazaar and Federal Bank Launch Paisaback RUPAY Credit Card with 7.5% Cashback on Grocery Spends",
-    "PAISABAZAAR, FEDERAL BANK LAUNCH 7.5% GROCERY CASHBACK CARD",
-    "Today\u2019s Stock Recommendation: September 16, 2026",
-    "Titagarh Rail Systems rides on Vande Bharat, metro for growth push; what else ICICI Securities says",
-    "JioBlackRock Liquid Fund Regular-IDCW Weekly",
-    "Cricket match squads",
-    "Trade Idea of The Day - State Bank of India Ltd Target Rs. 38 - Religare Broking Ltd",
-    "SBI Floating Interest Rates Fund(G)-Direct Plan",
-    "Yes Bank among 4 stocks showing RSI trending up",
-    "Motilal Oswal sees 7% UPSIDE in MCX- Structural growth levers broaden the earnings opportunity",
-    "Motilal Oswal sees 19% UPSIDE in Coforge- Our takeaways from the Board of Directors call",
-    "Motilal Oswal sees 22% UPSIDE in Oberoi Realty- The premium scale play",
-    "Motilal Oswal sees 16% UPSIDE in Grasim Industries- Diversification underpins long-term growth"
-   ]
-  }
- },
- {
   "date": "2026-09-20",
   "fetched": 953,
   "delivered_pool": 111,
@@ -2156,6 +2084,78 @@
     "Canara Bank Share Price today: Rs 119.80 and sector context",
     "Canara Robeco Short Term Fund Regular-IDCW Quarterly",
     "Canara Robeco Ultra Short to Short Term Fund Regular-IDCW Monthly"
+   ]
+  }
+ },
+ {
+  "date": "2026-10-17",
+  "fetched": 1302,
+  "delivered_pool": 112,
+  "junk": 331,
+  "geo": 48,
+  "stale": 376,
+  "dup": 228,
+  "sections": {
+   "S1": 92,
+   "S2": 8,
+   "S3": 12
+  },
+  "mails": 0,
+  "failed": [],
+  "source_summary": {
+   "RBI RSS": 18,
+   "RBI Enforcement": 0,
+   "SEBI RSS": 20,
+   "Google News": 32,
+   "Watchlist (Google)": 1285,
+   "BSE Financials": 0,
+   "Telegram": 54,
+   "Web Scraper": 1002
+  },
+  "dropped_samples": {
+   "relevance": [
+    "Auction of Government of India Dated Security",
+    "Money Supply for the fortnight ended on September 30, 2026",
+    "Securities and Exchange Board of India (Portfolio Managers) Regulations, 2026 (With effect from April 1, 2027)",
+    "Nuvama Update on Battery Energy Storage System- Stored value; charged for growth #sector",
+    "WATCH | Throng of devotees attend the morning aarti at Delhi's Chatarpur Temple on the third day of Sharadiya ",
+    "Maharashtra Food and Drug Administration (FDA) chief Tukaram Mundhe said on social media that he has not been ",
+    "Japanese convenience store chain 7-Eleven may have failed in its second attempt to enter India's retail market",
+    "CAQM has revised Delhi-NCR\u2019s GRAP, extending restrictions on older vehicles to Sonipat under Stage 3 and movin",
+    "Alcoholic beverage maker Mohan Rocky Springwater Pvt",
+    "Caption: From Surat\u2019s soaring viaducts to an undersea tunnel near Mumbai, India\u2019s \u20b92-trillion bullet train is ",
+    "The Supreme Court has said that there was no \u201cadjudication\u201d on the new Form 6 while hearing the Bihar SIR matt",
+    "Summary of last week's financial markets here....",
+    "Wealth Creation Report 2026 - Coming Soon",
+    "Time in the market builds more than timing the market",
+    "Listing of further issues of securities",
+    "How that battle at The Tata Sons is testing how far a board can go",
+    "Centrum sees 24% UPSIDE in HCL Technologies - Steady Performance; AI Revenue around 5.9% of Total Revenue",
+    "Invest India - INDIA\u2019S DATA CENTRE GROWTH STORY",
+    "India has urged its nationals in Saudi Arabia to remain calm and vigilant after an attack on Riyadh\u2019s King Kha",
+    "Adani Airport has pushed back by at least five months its plan to shift a third of international flights from "
+   ],
+   "junk": [
+    "General Remittance Order dated 12.10.2026 in Recovery Certificate No",
+    "Exemption order in the matter of S Chand and Company Limited",
+    "General remittance Order dated October 12, 2026 against Muse Traders (Proprietor - Baljit Singh) (PAN: BERPR19",
+    "Settlement Order in the matter of Singularity Growth Opportunities Fund",
+    "Settlement Order in the matter of Singularity Equity Fund",
+    "Exemption Order in the matter of NGL Fine-Chem Limited",
+    "Adjudication Order in the matter of inspection of Vineet Ashwinikumar Chawla - Research Analyst",
+    "Appeal No. 7083 of 2026 filed by Sunil Kumar",
+    "Revocation Order in the matter of LS Industries Limited",
+    "General Remittance dated 09.10.2026 against Kapil Wadhawan (PAN: AAOPW6145L) [Defaulter] in the matter of Dewa",
+    "Notice of Demand dated October 08, 2026 against Manish Mishra (PAN: AMPPM6823L) and Aahuti Rasik Mistry (PAN: ",
+    "Adjudication Order in the matter of VCK Share and Stock Broking Services Limited",
+    "Appeal No. 7082 of 2026 filed by Subhash Chander",
+    "News",
+    "Bank of India Multi Asset Allocation Fund(G)-Direct Plan",
+    "Vincent Soberano's AI-forward film \u2018Secret Apartment\u2019 wins Bali film fest",
+    "Groww Value Fund(G)-Direct Plan",
+    "Federal Bank Ltd is Rated Hold by MarketsMOJO",
+    "Happiest Minds among 3 stocks with bullish trend on tech charts: Geojit",
+    "Buy, Sell Or Hold: HDFC Bank, Vodafone Idea, Poonwalla Fincorp, Emcure Pharma"
    ]
   }
  }
