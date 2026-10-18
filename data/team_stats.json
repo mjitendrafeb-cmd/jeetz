@@ -1,77 +1,5 @@
 [
  {
-  "date": "2026-09-20",
-  "fetched": 953,
-  "delivered_pool": 111,
-  "junk": 270,
-  "geo": 26,
-  "stale": 239,
-  "dup": 147,
-  "sections": {
-   "S1": 92,
-   "S2": 8,
-   "S3": 11
-  },
-  "mails": 0,
-  "failed": [],
-  "source_summary": {
-   "RBI RSS": 20,
-   "RBI Enforcement": 0,
-   "SEBI RSS": 20,
-   "Google News": 25,
-   "Watchlist (Google)": 904,
-   "BSE Financials": 0,
-   "Telegram": 37,
-   "Web Scraper": 209
-  },
-  "dropped_samples": {
-   "relevance": [
-    "Conversion/Switch of Government of India Securities",
-    "Review of Circulars issued under Foreign Exchange Management Act, 1999 (FEMA)",
-    "Relief Measures in Areas Affected by Natural Calamities - Reporting through Centralised Information Management",
-    "Release Order \u2013 Sanbun Investments and Proprietor Mr",
-    "NSE IPO looks cheap at Rs 1,785..",
-    "US plans to deliver powerful weapons to Israel in $2.8 billion sale",
-    "The parliamentary approval marks another step towards implementation of the India-New Zealand FTA, with both s",
-    "#MintMarkets | Indian equity markets closed higher on Wednesday, with the Sensex rising 332.63 points to 74,33",
-    "India's cabinet has approved increasing the wage ceiling for Employees' Provident Fund coverage from 15,000 to",
-    "Please note : We post article links from the internet which may discuss stocks at times",
-    "Listing of further issues of securities",
-    "Motilal Oswal\u2019s Morning India- Today\u2019s top research idea (16-Sep-26)",
-    "Taylor Swift's husband, Travis Kelce, is one of the victims of a Ponzi scheme, run by an Indian-origin man, Re",
-    "IndiGo has increased prices for several add-on services, including infant travel, unaccompanied minor assistan",
-    "Tata Sons Pvt. is said to have approved going public and asked Chairman Natarajan Chandrasekaran to stay on fo",
-    "Tata Group stocks increased by up to 13.5% on September 17 after the Tata Sons board renewed N",
-    "#MintMarkets | IPOs listing: Rentomojo, Karamtara Engineering to LCC Projects \u2014 six IPOs list today, delivers ",
-    "Stocks in news: Tata Group, Wipro, BEL, HAL, Petronet LNG and Bharat Forge",
-    "US FCC approves foreign investment in Paramount Warner merger",
-    "Half Yearly Results, Half yearly Earnings for Reliance Comm"
-   ],
-   "junk": [
-    "Ex-Parte Interim Order in the matter of cross segment price manipulation by Prrsaar Sampada Private Limited an",
-    "Appeal No. 7053 of 2026 filed by Prince Pravin Naiya",
-    "Cancellation Of Recovery Certificate No",
-    "Final Enquiry Order in respect of Modex International Securities Ltd",
-    "Appeal No. 7054 of 2026 filed by Richa Kohli",
-    "Appeal No. 7052 of 2026 filed by Kamal Kumar",
-    "Appeal No. 7051 of 2026 filed by Anonymous",
-    "Appeal No. 7050 of 2026 filed by Mahima Chandra",
-    "Appeal No. 7049 of 2026 filed by Jeba Mathew J",
-    "Bank of India Credit Risk Fund(G)-Direct Plan",
-    "Bank Of Maharashtra - LIC Housing Finance among 5 F&O stocks with sharp rise in futures open interest",
-    "The 9 best places to visit in Indonesia in 2026, beyond Bali",
-    "Indonesia builds a flagship cricket venue in Bali",
-    "Anantara Ubud Bali Resort Launches Bali Starling Conservation Programme",
-    "58% of Foreign Visitors Come to Explore Indonesian Cuisine",
-    "Goeun Lee Named Resort Manager at Four Seasons Resort Bali at Jimbaran Bay",
-    "Goeun Lee has been appointed as Resort Manager at Four Seasons Resort Bali At Jimbaran Bay",
-    "TransNusa Melbourne to Bali Flights 2026: Insider Travel Guide",
-    "Paisabazaar and Federal Bank Launch Paisaback RUPAY Credit Card with 7.5% Cashback on Grocery Spends",
-    "PAISABAZAAR, FEDERAL BANK LAUNCH 7.5% GROCERY CASHBACK CARD"
-   ]
-  }
- },
- {
   "date": "2026-09-21",
   "fetched": 1142,
   "delivered_pool": 159,
@@ -2156,6 +2084,78 @@
     "Federal Bank Ltd is Rated Hold by MarketsMOJO",
     "Happiest Minds among 3 stocks with bullish trend on tech charts: Geojit",
     "Buy, Sell Or Hold: HDFC Bank, Vodafone Idea, Poonwalla Fincorp, Emcure Pharma"
+   ]
+  }
+ },
+ {
+  "date": "2026-10-18",
+  "fetched": 1340,
+  "delivered_pool": 156,
+  "junk": 279,
+  "geo": 36,
+  "stale": 370,
+  "dup": 323,
+  "sections": {
+   "S1": 137,
+   "S2": 9,
+   "S3": 10
+  },
+  "mails": 0,
+  "failed": [],
+  "source_summary": {
+   "RBI RSS": 18,
+   "RBI Enforcement": 0,
+   "SEBI RSS": 20,
+   "Google News": 24,
+   "Watchlist (Google)": 1080,
+   "BSE Financials": 0,
+   "Telegram": 54,
+   "Web Scraper": 192
+  },
+  "dropped_samples": {
+   "relevance": [
+    "Premature redemption under Sovereign Gold Bond (SGB) Scheme - Redemption Price for premature redemption of SGB",
+    "Conversion/Switch of Government of India Securities",
+    "Ventura IPO note on Sahajanand medical technologies",
+    "Deven Choksey IPO Note on HD Fire Protect - The Hidden Firepower of Infrastructure | HD Fire Protect Ltd",
+    "Popular US photography company Getty Images is set to go private after filing for bankruptcy by the end of 202",
+    "Reliance Consumer Products has now launched Joyland flavoured milk in Tamil Nadu, priced at just \u20b920",
+    "McKinsey has removed senior partner Chris Bradley from his leadership roles after comments he made on LinkedIn",
+    "#MintPrimer | Since September 2025, the auto industry has posted double-digit growth in several months, driven",
+    "The Union Cabinet has approved a 78-day Productivity Linked Bonus worth \u20b92,009 crore for around 11.4 lakh rail",
+    "A CVoter Snap Poll finds that 53.6% of Indian households feel their financial condition has worsened over the ",
+    "Sunil Bharti Mittal says Bharti is ahead of Starlink in India's satellite approval queue",
+    "The food index, comprising food articles under primary articles and manufactured food products, rose to 8.66% ",
+    "Small, consistent actions compound into exceptional results.",
+    "India\u2019s Steel Demand to Grow 7.9% in 2026: worldsteel",
+    "Listing of further issues of securities",
+    "Can India find its own Starlink moment?",
+    "Developments in India\u2019s Balance of Payments for the Month of August 2026",
+    "Review of certain aspects of the Closing Auction Session, market timings and settlement methodology for deriva",
+    "Release Order dated October 15, 2026 for RC 8924 of 2025 issued against Yuvika Tradewing LLP (PAN - AABFY4620R",
+    "JKEJAC, JKTF Ganderbal delegation meets CM Omar Abdullah"
+   ],
+   "junk": [
+    "Release Order for RC No.3965 of 2021-Ram Kishore Taparia (PAN \u2013 ABJPT1453C) in the matter of Cosboard Industri",
+    "Confirmatory order in the matter of Rajesh Exports Limited",
+    "Completion of Recovery Certificate No. 3965 of 2021-Ram Kishore Taparia (PAN \u2013 ABJPT1453C) in the matter of Co",
+    "Notice of Demand dated October 14, 2026 issued against Jalaj Agrawal (PAN:AUDPA0226H) in the matter of market ",
+    "Exemption Order in the matter of Allcargo Logistics Limited",
+    "Prohibitory Order no. 1555 of 2026 in the matter of HBN Dairies & Allied Limited under Recovery Certificate No",
+    "Actor Sahiba Bali faces online abuse over post on 'worship Durga, punish women'",
+    "Fuel shortage triggers queues on resort island Bali",
+    "Canara Bank Q2 earnings: Net profit rises 8.4%; Net NPA ratio declines for 23rd quarter in a row",
+    "DCB Bank Ltd. Downgraded to Buy Amid Valuation Concerns Despite Strong Fundamentals",
+    "Happiest Minds among 3 stocks with bullish trend on tech charts: Geojit",
+    "Stock Market Remains Volatile; Sensex and Nifty Trade Nearly Flat Amid Selling in IT Stocks and HDFC Bank",
+    "Invesco India Multi Cap Fund - Direct Plan Portfolio",
+    "JioBlackRock Arbitrage Fund - Regular Plan Portfolio",
+    "JioBlackRock Nifty 50 Index Fund - Regular Plan Portfolio",
+    "Mahindra Finance Launches Shubh Utsav 2026 Festive Campaign",
+    "Piramal Finance Ltd. Share Price Today: Fundamental View",
+    "Asian Football Confederation (AFC): Group A: PFC Nasaf (UZB) 1-2 Al Wahda FC (UAE)",
+    "Asian Football Confederation (AFC): Group A: PFC Nasaf (UZB) v Al Wahda FC (UAE)",
+    "Al Nassr Club (KSA) vs PFC Neftchi (UZB) - Highlights"
    ]
   }
  }
