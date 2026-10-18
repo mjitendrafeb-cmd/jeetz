@@ -5,9 +5,12 @@ name: NSDL New Issuance Report
 # NSDL's "Recent Issues" feed carries the latest allotment date (usually
 # the previous business day), so a morning run typically reports on
 # yesterday's allotments.
+#
+# PAUSED 2026-10-18 at user's request -- daily schedule disabled below.
+# Re-enable by uncommenting the `schedule:` block when asked to restart.
 on:
-  schedule:
-    - cron: '30 3 * * 1-6'   # 09:00 IST, Mon-Sat
+  # schedule:
+  #   - cron: '30 3 * * 1-6'   # 09:00 IST, Mon-Sat
   workflow_dispatch:
 
 concurrency:
