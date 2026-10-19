@@ -1,77 +1,5 @@
 [
  {
-  "date": "2026-09-21",
-  "fetched": 1142,
-  "delivered_pool": 159,
-  "junk": 278,
-  "geo": 33,
-  "stale": 26,
-  "dup": 362,
-  "sections": {
-   "S1": 126,
-   "S2": 17,
-   "S3": 16
-  },
-  "mails": 41,
-  "failed": [],
-  "source_summary": {
-   "RBI RSS": 20,
-   "RBI Enforcement": 0,
-   "SEBI RSS": 20,
-   "Google News": 31,
-   "Watchlist (Google)": 1361,
-   "BSE Financials": 21,
-   "Telegram": 98,
-   "Web Scraper": 187
-  },
-  "dropped_samples": {
-   "relevance": [
-    "Rs 11 Lakh Cr Liquidity May Cut FD, Loan Rates",
-    "How India\u2019s Insolvency Framework Has Evolved in 10 Years Under the IBC - DD News",
-    "Saptarishi Agro Nine Monthly Results, Nine Monthly Earnings for Saptarishi Agro",
-    "Q&T Foods Yearly Results, Financial summary, Q&T Foods Yearly Earnings",
-    "News by CNBC TV18 on TradingView, 2026-09-17",
-    "Ards FC back on track against struggling Rangers",
-    "Ards rider Andy Kildea at the double in Enkalon races",
-    "Ards councillor Richard Smart selected by UUP to stand for Strangford MLA seat",
-    "Bajaj Pulsar NS200 and N250 spied with new TFT, WP USD fork",
-    "Bali Tourism Reaches Iconic Heights As Smooth Aviation Infra",
-    "Bali\u2019s Friendly Welcome Provides As Safe Haven For All Tourists But Foreigners Must Respect These Rules",
-    "Goa needn't aspire to become the next Bali\u2014but it should do more to live up to its potential",
-    "Jakarta and Bali Airports Win Prestigious Airport Council International Awards",
-    "Scuba diver dies as current splits group in Bali",
-    "Art & Bali 2026 explores the intersection between fashion, craft and art",
-    "Bamboo Marvels in Bali: Pablo Luna Studio\u2019s Seamless Designs in Nature",
-    "Kazakh man faces trial in Bali over 2.5-kg cocaine shipment",
-    "Portugal Aligns With Bali And More As Madeira Surges As A To",
-    "Bali\u2019s Badung Regency Clumsily Cancels High-Cost Tourism Promotion Mission to Japan",
-    "This is Only a Test! Bali\u2019s Ngurah Rai Airport to Hold Airport Emergency Exercise"
-   ],
-   "junk": [
-    "Interim Order in the matter of Kore Digital Limited",
-    "General Remittance Order dated 17.09.2026 in Recovery Certificate No",
-    "Appeal No. 7062 of 2026 filed by Santosh",
-    "Appeal No. 7061 of 2026 filed by Bindu Mahesh Agrawal",
-    "Appeal No. 7060 of 2026 filed by HAWA SINGH",
-    "Appeal No. 7059 of 2026 filed by Keshav Goyal",
-    "Appeal No. 7058 of 2026 filed by Rajat Bindlish",
-    "Appeal No. 7057 of 2026 filed by Brijesh Sharma",
-    "Appeal No. 7056 of 2026 filed by RABINDRA NATH SAHAY",
-    "Appeal No. 7055 of 2026 filed by Sanamdeep Singh Bakshi",
-    "Completion of Recovery Certificate No",
-    "Ex-Parte Interim Order in the matter of cross segment price manipulation by Prrsaar Sampada Private Limited an",
-    "Shriram Money Market Fund(G)-Direct Plan",
-    "Football rivalry set aside as Ards and Bangor help raise over \u00a36,000 for Ulster Hospital emergency paediatric ",
-    "Bank of Baroda - Voltas among 7 stocks hitting 52-week low; slipped up to 10% in a month",
-    "Sayan, Reframed: Four Seasons Resort Bali at Sayan unveils reimagined suites",
-    "Indonesia builds a flagship cricket venue in Bali",
-    "The 9 best places to visit in Indonesia in 2026, beyond Bali",
-    "V-Mart among 3 stock ideas for today by Geojit's Anand James",
-    "HDB Financial Services L Share Price today: Rs 678.15 gain"
-   ]
-  }
- },
- {
   "date": "2026-09-22",
   "fetched": 1196,
   "delivered_pool": 108,
@@ -2156,6 +2084,78 @@
     "Asian Football Confederation (AFC): Group A: PFC Nasaf (UZB) 1-2 Al Wahda FC (UAE)",
     "Asian Football Confederation (AFC): Group A: PFC Nasaf (UZB) v Al Wahda FC (UAE)",
     "Al Nassr Club (KSA) vs PFC Neftchi (UZB) - Highlights"
+   ]
+  }
+ },
+ {
+  "date": "2026-10-19",
+  "fetched": 1625,
+  "delivered_pool": 199,
+  "junk": 313,
+  "geo": 26,
+  "stale": 35,
+  "dup": 769,
+  "sections": {
+   "S1": 166,
+   "S2": 16,
+   "S3": 17
+  },
+  "mails": 40,
+  "failed": [],
+  "source_summary": {
+   "RBI RSS": 18,
+   "RBI Enforcement": 0,
+   "SEBI RSS": 20,
+   "Google News": 30,
+   "Watchlist (Google)": 1541,
+   "BSE Financials": 20,
+   "Telegram": 109,
+   "Web Scraper": 214
+  },
+  "dropped_samples": {
+   "relevance": [
+    "Developments in India\u2019s Balance of Payments for the Month of August 2026",
+    "Premature redemption under Sovereign Gold Bond (SGB) Scheme - Redemption Price for premature redemption of SGB",
+    "Conversion/Switch of Government of India Securities",
+    "Review of certain aspects of the Closing Auction Session, market timings and settlement methodology for deriva",
+    "Release Order dated October 15, 2026 for RC 8924 of 2025 issued against Yuvika Tradewing LLP (PAN - AABFY4620R",
+    "Half Yearly Results, Half yearly Earnings for Kewal Kiran Clothing",
+    "LIC reveals details of its 3 new plans: Check benefits of New Jeevan Dhara-II, Health Shield and New Cance",
+    "DB International Stock Brokers sets Oct 21 meeting for Q2 results, retail transfer",
+    "Rambus (RMBS) Puts AI Memory Narrative In Focus Following LPDDR6 PMIC Launch",
+    "Virtual Reality Rehabilitation Improves Early ARDS Recovery",
+    "Esophageal Balloon Catheters Move Closer to Personalized ARDS Ventilation",
+    "Ards pay penalty in Shield exit at hands of rivals",
+    "Hundreds hold protest over Bali fuel shortage",
+    "Nushrratt Bharuccha undergoes spine surgery after Bali accident, begins recovery at home",
+    "'They won, I lost': Sahiba Bali breaks down over relentless online hate, threats & trolling",
+    "AAP replaces Jalandhar Cantt constituency in-charge, names Deepak Bali ahead of Punjab polls",
+    "Video",
+    "ECI defers voter revision exercise for J&K",
+    "JKEJAC, JKTF Ganderbal delegation meets CM Omar Abdullah",
+    "KSLU Results 2026 Out @kslu.karnataka.gov.in, Check 80-20 Pattern Here"
+   ],
+   "junk": [
+    "Completion of RC No. 8924 of 2025 issued against Yuvika Tradewing LLP (PAN - AABFY4620R) in the matter of Cres",
+    "Prohibitory Order no. 1575/2026 issued against Venkatachari Suresh in the matter of Securekloud Technologies L",
+    "Prohibitory Order no. 1576/2026 issued against R S Ramani in the matter of Securekloud Technologies Ltd under ",
+    "Order in the matter of Capital Stroke Investment Services Pvt. Ltd.",
+    "Release of attachment on immovable property under RC No. 3965 of 2021-Ram Kishore Taparia (PAN \u2013 ABJPT1453C) i",
+    "Release Order for RC No.3965 of 2021-Ram Kishore Taparia (PAN \u2013 ABJPT1453C) in the matter of Cosboard Industri",
+    "Confirmatory order in the matter of Rajesh Exports Limited",
+    "Completion of Recovery Certificate No. 3965 of 2021-Ram Kishore Taparia (PAN \u2013 ABJPT1453C) in the matter of Co",
+    "Notice of Demand dated October 14, 2026 issued against Jalaj Agrawal (PAN:AUDPA0226H) in the matter of market ",
+    "Exemption Order in the matter of Allcargo Logistics Limited",
+    "Prohibitory Order no. 1555 of 2026 in the matter of HBN Dairies & Allied Limited under Recovery Certificate No",
+    "Why is market rising today? Sensex rallies over 900 pts, Nifty above 22,850. 4 major factors behind the su",
+    "Actor Sahiba Bali flags fake post claiming Tamannaah trolled her over Durga remarks",
+    "\ud83c\udf33 Beyond planting: Nuanu and Bali Tourism Board fund 12-month Batukaru reforestation project",
+    "Actor Sahiba Bali faces online abuse over post on 'worship Durga, punish women'",
+    "DCB Bank Ltd. Downgraded to Buy Amid Valuation Concerns Despite Strong Fundamentals",
+    "Buy Tata Consultancy Services; target of Rs 2530: Geojit Financial Services",
+    "Geojit recommends buy for Tata Consultancy Services \u20b92,530 target",
+    "L&T Finance - LIC Housing Finance among 4 F&O stocks with a sharp rise in futures open interest",
+    "Mahindra Finance Launches Shubh Utsav 2026 Festive Campaign"
    ]
   }
  }
