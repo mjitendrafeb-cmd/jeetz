@@ -1,77 +1,5 @@
 [
  {
-  "date": "2026-09-22",
-  "fetched": 1196,
-  "delivered_pool": 108,
-  "junk": 344,
-  "geo": 33,
-  "stale": 425,
-  "dup": 122,
-  "sections": {
-   "S1": 83,
-   "S2": 14,
-   "S3": 11
-  },
-  "mails": 41,
-  "failed": [],
-  "source_summary": {
-   "RBI RSS": 20,
-   "RBI Enforcement": 0,
-   "SEBI RSS": 20,
-   "Google News": 24,
-   "Watchlist (Google)": 801,
-   "BSE Financials": 0,
-   "Telegram": 53,
-   "Web Scraper": 699
-  },
-  "dropped_samples": {
-   "relevance": [
-    "Motilal Oswal\u2019s Morning India- Today\u2019s top research idea (16-Sep-26)",
-    "Taylor Swift's husband, Travis Kelce, is one of the victims of a Ponzi scheme, run by an Indian-origin man, Re",
-    "IndiGo has increased prices for several add-on services, including infant travel, unaccompanied minor assistan",
-    "Sudipto Sarkar: the lawyer at the centre of the Tata Sons chairman dispute",
-    "Tata Group stocks increased by up to 13.5% on September 17 after the Tata Sons board renewed N",
-    "#MintMarkets | IPOs listing: Rentomojo, Karamtara Engineering to LCC Projects \u2014 six IPOs list today, delivers ",
-    "Listing of further issues of securities",
-    "Review of Circulars issued under Foreign Exchange Management Act, 1999 (FEMA)",
-    "Australia Changes Student Visa Rules: How Are Indian Students And Families Affected",
-    "The Delhi Metro witnessed its busiest-ever day on 17 September (Thursday), registering 82,44,903 passenger boa",
-    "Howard G Buffett, 71, will take over as the new chairman of Berkshire Hathaway, succeeding his father Warren B",
-    "At least 16 people, including five police personnel, were killed and several others injured after a suicide at",
-    "#MintMarkets | Stock market prediction: Bulls may fancy Nifty 50 hitting 27,000 in CY2026",
-    "King Charles has warned about AI\u2019s potential dangers, saying it could develop \u201cdarker capacities\u201d and potentia",
-    "Anthropic says Claude now leads 26% of its R&D work, up from 1% in March, as AI increasingly helps develop the",
-    "#MintMarkets | Indian equity markets opened higher on Friday, with the Sensex rising 260.65 points to 74,575.2",
-    "#MintMarkets | The Indian stock market is expected to open quietly on September 18, following mixed global cue",
-    "OpenAI has disclosed six cases of unexpected AI model behaviour, including unauthorised actions, attempts to e",
-    "Friday reports will be uploaded on Sunday evening",
-    "Marking a significant boost to India\u2019s domestic aerospace manufacturing, state-run Hindustan Aeronautics Limit"
-   ],
-   "junk": [
-    "Interim Order in the matter of Kore Digital Limited",
-    "General Remittance Order dated 17.09.2026 in Recovery Certificate No",
-    "Appeal No. 7062 of 2026 filed by Santosh",
-    "Appeal No. 7061 of 2026 filed by Bindu Mahesh Agrawal",
-    "Appeal No. 7060 of 2026 filed by HAWA SINGH",
-    "Appeal No. 7059 of 2026 filed by Keshav Goyal",
-    "Appeal No. 7058 of 2026 filed by Rajat Bindlish",
-    "Appeal No. 7057 of 2026 filed by Brijesh Sharma",
-    "Appeal No. 7056 of 2026 filed by RABINDRA NATH SAHAY",
-    "Appeal No. 7055 of 2026 filed by Sanamdeep Singh Bakshi",
-    "Completion of Recovery Certificate No",
-    "Ex-Parte Interim Order in the matter of cross segment price manipulation by Prrsaar Sampada Private Limited an",
-    "Shriram Money Market Fund(G)-Direct Plan",
-    "Football rivalry set aside as Ards and Bangor help raise over \u00a36,000 for Ulster Hospital emergency paediatric ",
-    "Bank of Baroda - Voltas among 7 stocks hitting 52-week low; slipped up to 10% in a month",
-    "Sayan, Reframed: Four Seasons Resort Bali at Sayan unveils reimagined suites",
-    "Indonesia builds a flagship cricket venue in Bali",
-    "The 9 best places to visit in Indonesia in 2026, beyond Bali",
-    "V-Mart among 3 stock ideas for today by Geojit's Anand James",
-    "HDB Financial Services L Share Price today: Rs 678.15 gain"
-   ]
-  }
- },
- {
   "date": "2026-09-23",
   "fetched": 1123,
   "delivered_pool": 81,
@@ -2156,6 +2084,78 @@
     "Geojit recommends buy for Tata Consultancy Services \u20b92,530 target",
     "L&T Finance - LIC Housing Finance among 4 F&O stocks with a sharp rise in futures open interest",
     "Mahindra Finance Launches Shubh Utsav 2026 Festive Campaign"
+   ]
+  }
+ },
+ {
+  "date": "2026-10-20",
+  "fetched": 1636,
+  "delivered_pool": 126,
+  "junk": 393,
+  "geo": 35,
+  "stale": 709,
+  "dup": 201,
+  "sections": {
+   "S1": 107,
+   "S2": 7,
+   "S3": 12
+  },
+  "mails": 40,
+  "failed": [],
+  "source_summary": {
+   "RBI RSS": 19,
+   "RBI Enforcement": 0,
+   "SEBI RSS": 20,
+   "Google News": 25,
+   "Watchlist (Google)": 945,
+   "BSE Financials": 0,
+   "Telegram": 66,
+   "Web Scraper": 925
+  },
+  "dropped_samples": {
+   "relevance": [
+    "Developments in India\u2019s Balance of Payments for the Month of August 2026",
+    "Premature redemption under Sovereign Gold Bond (SGB) Scheme - Redemption Price for premature redemption of SGB",
+    "Conversion/Switch of Government of India Securities",
+    "Review of certain aspects of the Closing Auction Session, market timings and settlement methodology for deriva",
+    "Release Order dated October 15, 2026 for RC 8924 of 2025 issued against Yuvika Tradewing LLP (PAN - AABFY4620R",
+    "PL Capital sees 2% DOWNSIDE in Mangalore Refinery & Petrochemicals- Strong refining performance drive EBITDA b",
+    "PL Capital sees 10% DOWNSIDE in Tata Technologies- Growing deal velocity, but all positives are priced in",
+    "PL Capital sees 8% DOWNSIDE in BHEL- Strong Q2; execution pick up across segments",
+    "PL Capital sees 23% UPSIDE in Waaree Energies- Building an Integrated BESS & Inverter Platform",
+    "From November 1, 2026, telecom operators must introduce Calling Name Presentation (CNAP) across 4G and 5G netw",
+    "US President Donald Trump is weighing the use of the massive GBU-43/B Massive Ordnance Air Blast bomb, popular",
+    "Reliance Jio Infocomm Chairman Akash Ambani on Thursday said the telecom operator carries more than 60% of Ind",
+    "IAS Saurabh Katiyar will now also serve as the Secretary of the Maharashtra Public Service Commission (MPSC) a",
+    "Will The Jio Platforms IPO Live Up To Its Billing?",
+    "Small, consistent actions compound into exceptional results.",
+    "India\u2019s Steel Demand to Grow 7.9% in 2026: worldsteel",
+    "Listing of further issues of securities",
+    "Can India find its own Starlink moment?",
+    "Bharatiya Janata Party (BJP) veteran leader Lal Krishna Advani was admitted to Apollo Hospital late Friday eve",
+    "The iPhone 17 and 17 Pro share many features, but the Pro adds a dedicated telephoto camera with up to 8x opti"
+   ],
+   "junk": [
+    "Completion of RC No. 8924 of 2025 issued against Yuvika Tradewing LLP (PAN - AABFY4620R) in the matter of Cres",
+    "Prohibitory Order no. 1575/2026 issued against Venkatachari Suresh in the matter of Securekloud Technologies L",
+    "Prohibitory Order no. 1576/2026 issued against R S Ramani in the matter of Securekloud Technologies Ltd under ",
+    "Order in the matter of Capital Stroke Investment Services Pvt. Ltd.",
+    "Release of attachment on immovable property under RC No. 3965 of 2021-Ram Kishore Taparia (PAN \u2013 ABJPT1453C) i",
+    "Release Order for RC No.3965 of 2021-Ram Kishore Taparia (PAN \u2013 ABJPT1453C) in the matter of Cosboard Industri",
+    "Confirmatory order in the matter of Rajesh Exports Limited",
+    "Completion of Recovery Certificate No. 3965 of 2021-Ram Kishore Taparia (PAN \u2013 ABJPT1453C) in the matter of Co",
+    "Notice of Demand dated October 14, 2026 issued against Jalaj Agrawal (PAN:AUDPA0226H) in the matter of market ",
+    "Exemption Order in the matter of Allcargo Logistics Limited",
+    "Prohibitory Order no. 1555 of 2026 in the matter of HBN Dairies & Allied Limited under Recovery Certificate No",
+    "Why is market rising today? Sensex rallies over 900 pts, Nifty above 22,850. 4 major factors behind the su",
+    "Actor Sahiba Bali flags fake post claiming Tamannaah trolled her over Durga remarks",
+    "\ud83c\udf33 Beyond planting: Nuanu and Bali Tourism Board fund 12-month Batukaru reforestation project",
+    "Actor Sahiba Bali faces online abuse over post on 'worship Durga, punish women'",
+    "DCB Bank Ltd. Downgraded to Buy Amid Valuation Concerns Despite Strong Fundamentals",
+    "Fedbank Financial Services Share Price Today: Rs 159.70",
+    "Buy Tata Consultancy Services; target of Rs 2530: Geojit Financial Services",
+    "Geojit recommends buy for Tata Consultancy Services \u20b92,530 target",
+    "India Shelter Finance Corporation Ltd is Rated Sell"
    ]
   }
  }
