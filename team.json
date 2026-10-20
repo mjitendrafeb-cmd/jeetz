@@ -11487,7 +11487,7 @@
       "rh_sections": []
     }
   ],
-  "scheduled_enabled": true,
+  "scheduled_enabled": false,
   "skip_sundays": true,
   "holidays": [],
   "macro_keywords": [
