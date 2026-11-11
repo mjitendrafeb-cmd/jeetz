@@ -1,77 +1,5 @@
 [
  {
-  "date": "2026-09-23",
-  "fetched": 1123,
-  "delivered_pool": 81,
-  "junk": 347,
-  "geo": 26,
-  "stale": 367,
-  "dup": 114,
-  "sections": {
-   "S1": 68,
-   "S2": 12,
-   "S3": 1
-  },
-  "mails": 41,
-  "failed": [],
-  "source_summary": {
-   "RBI RSS": 20,
-   "RBI Enforcement": 0,
-   "SEBI RSS": 20,
-   "Google News": 27,
-   "Watchlist (Google)": 1000,
-   "BSE Financials": 0,
-   "Telegram": 58,
-   "Web Scraper": 952
-  },
-  "dropped_samples": {
-   "relevance": [
-    "Review of Circulars issued under Foreign Exchange Management Act, 1999 (FEMA)",
-    "Motilal Oswal\u2019s Morning India- Today\u2019s top research idea (16-Sep-26)",
-    "Australia Changes Student Visa Rules: How Are Indian Students And Families Affected",
-    "The Delhi Metro witnessed its busiest-ever day on 17 September (Thursday), registering 82,44,903 passenger boa",
-    "Howard G Buffett, 71, will take over as the new chairman of Berkshire Hathaway, succeeding his father Warren B",
-    "At least 16 people, including five police personnel, were killed and several others injured after a suicide at",
-    "#MintMarkets | Stock market prediction: Bulls may fancy Nifty 50 hitting 27,000 in CY2026",
-    "King Charles has warned about AI\u2019s potential dangers, saying it could develop \u201cdarker capacities\u201d and potentia",
-    "Noel Tata challenges legality of N. Chandrasekaran\u2019s reappointment as Tata Sons Chairman",
-    "Anthropic says Claude now leads 26% of its R&D work, up from 1% in March, as AI increasingly helps develop the",
-    "#MintMarkets | Indian equity markets opened higher on Friday, with the Sensex rising 260.65 points to 74,575.2",
-    "#MintMarkets | The Indian stock market is expected to open quietly on September 18, following mixed global cue",
-    "OpenAI has disclosed six cases of unexpected AI model behaviour, including unauthorised actions, attempts to e",
-    "Listing of further issues of securities",
-    "Friday reports will be uploaded on Sunday evening",
-    "Marking a significant boost to India\u2019s domestic aerospace manufacturing, state-run Hindustan Aeronautics Limit",
-    "India is considering mandatory warning labels on cough syrup bottles to discourage their use in children below",
-    "Stock Market Today: All You Need To Know Going Into Trade On Sept 22",
-    "Melting Pot Food Products targets \u20b9500+ Crore growth milestone",
-    "Blood Protein Signature and Immune Target Show Promise for Earlier ARDS Diagnosis and Treatment"
-   ],
-   "junk": [
-    "Shriram Money Market Fund(G)-Direct Plan",
-    "Bank of India Banking & Financial Services Fund(G)-Direct Plan",
-    "Bank Of Maharashtra Share Price Today: Price and Valuation",
-    "Watch Soccer action as Inter Bom-Bom takes on Caix\u00e3o Grande",
-    "Indian entrepreneur says one month of massages, yoga in Bali didn't 'feel like a vacation'. He explains...",
-    "10 Best Things To Do In Bali: Sacred Temples, Rice Terraces, Hidden Gems And More",
-    "Borneo FC - Bali United FC Live - BRI Super League: Football Scores & Highlights - 20/09/2026",
-    "Groww Liquid Fund(G)-Direct Plan",
-    "Ceejay Finance Ltd is Rated Strong Sell",
-    "HDFC Bank Share Price Today: Rs 728.90 After 2.23% Rise",
-    "SENSEX rises over 250 points, NIFTY50 above 23,300 led by ICICI Bank, Larsen & Toubro",
-    "IFCI Share Price",
-    "novio, IOB launch co-branded RuPay credit card to widen access to formal credit",
-    "Novio by Credilio and Indian Overseas Bank launch RuPay card",
-    "IRFC Share Price Today near yearly low on weak momentum",
-    "JioBlackRock Balanced Advantage Fund - Regular Plan Portfolio",
-    "L&T Finance Share Price today: price action and valuation",
-    "LIC HFL Launches Akshat\u2019s Special Wish Festive Film",
-    "LIC MF Large & Midcap Fund-(G)-Direct Plan",
-    "Mantra Capital Limited is Rated Sell"
-   ]
-  }
- },
- {
   "date": "2026-09-24",
   "fetched": 1122,
   "delivered_pool": 90,
@@ -2156,6 +2084,78 @@
     "Buy Tata Consultancy Services; target of Rs 2530: Geojit Financial Services",
     "Geojit recommends buy for Tata Consultancy Services \u20b92,530 target",
     "India Shelter Finance Corporation Ltd is Rated Sell"
+   ]
+  }
+ },
+ {
+  "date": "2026-11-11",
+  "fetched": 724,
+  "delivered_pool": 196,
+  "junk": 252,
+  "geo": 8,
+  "stale": 0,
+  "dup": 177,
+  "sections": {
+   "S1": 158,
+   "S2": 25,
+   "S3": 13
+  },
+  "mails": 1,
+  "failed": [],
+  "source_summary": {
+   "RBI RSS": 18,
+   "RBI Enforcement": 0,
+   "SEBI RSS": 20,
+   "Google News": 24,
+   "Watchlist (Google)": 787,
+   "BSE Financials": 0,
+   "Telegram": 25,
+   "Web Scraper": 1084
+  },
+  "dropped_samples": {
+   "relevance": [
+    "Auction of Government of India Dated Security",
+    "Prohibitory Order No. 1583 of 2026 issued against CAT Technologies Limited associated with RC 4398 of 2021 in ",
+    "BSE Honours Espero As Top Performer\u2013FI Segment",
+    "IMPRI Impact and Policy Research Institute: Credit Guarantee Scheme for Subordinate Debt (2020): Supporting St",
+    "B&A Ltd Yearly Results, Financial summary, B&A Ltd Yearly Earnings",
+    "KBRA sees U.S. RMBS issuance rising in 2027 as credit performance stays resilient",
+    "Neuromuscular Blocker Withdrawal Fails In 38 Percent Of ARDS Transition Patients",
+    "Edesa Biotech licenses ARDS drug to Kyorin for Japan market By Investing.com",
+    "Grants to revitalise vacant commercial premises in Ards and North Down",
+    "Late-Onset Neonatal ARDS Linked to Lower In-Hospital Mortality in Multicenter Study",
+    "Tidal Volume Predicts Mortality in Prolonged ARDS Extracorporeal Membrane Oxygenation Support",
+    "Our Estimate for Factoring RSA-2048 with Cat Qubits: Pushing the Frontier Between Size and Speed",
+    "ICC Board and Committee meetings commence in Bali",
+    "World Test Championship match-ups for 2027-2031 set to be proposed during ICC meet in Bali",
+    "From Greece To Bali: 7 Things To Keep In Mind Before Planning A Destination Wedding",
+    "A plan to save Bali\u2019s vanishing fireflies takes root in organic farming - news",
+    "Bali Pratipada and Gujarati New Year: The Story of King Bali\u2019s Return to Earth",
+    "Swiss tourist jailed in Bali for insulting Hindu holiday",
+    "Nivati Rocks: Maharashtra's hidden paradise with Bali-like views",
+    "Asia-Pacific women artists challenge generational boundaries in Bali exhibit"
+   ],
+   "junk": [
+    "Notice of attachment dated November 10, 2026 issued against Secunderabad Healthcare Limited under RC No.7734 o",
+    "Notice of attachment dated November 10, 2026 issued against Chennai Commodities under RC No.7470 of 2023 in th",
+    "Notice of attachment dated November 10, 2026 issued against First Futures and Stocks Private Limited under RC ",
+    "Cancellation of Recovery Certificate No",
+    "Cancellation of Recovery Certificate No",
+    "SEBI order for compliance - Release Order dated November 06, 2026 issued under RC No",
+    "SEBI order for compliance - Release Order dated November 06, 2026 issued under RC No",
+    "SEBI order for compliance - Release Order dated November 06, 2026 issued under RC No",
+    "Cancellation of Recovery Certificate No",
+    "Cancellation of Recovery Certificate No",
+    "Cancellation of Recovery Certificate No",
+    "Adjudication Order in the matter of trading activities of certain client of Inventure growth and Securities Li",
+    "Appeal No. 7145 of 2026 filed by Vikram Aggarwal",
+    "Appeal No. 7144 of 2026 filed by Dhanni Devi Panwar",
+    "Appeal No. 7143 of 2026 filed by Ashok kumar Saini",
+    "MakeMyTrip India Gets SEBI Approval For IPO, Could Raise Over $1 Bn",
+    "Upcoming IPO: Veritas Finance gets SEBI approval to launch public offer",
+    "AU Small Finance Bank offers up to 7.4% on FDs; senior citizens get 7.9%",
+    "The Technical Signals Behind (BFAM) That Institutions Follow",
+    "Bank of Baroda Share Price - Live NSE: BANKBARODA Stock Price & Chart"
    ]
   }
  }
