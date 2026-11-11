@@ -995,6 +995,31 @@
       "expect": null,
       "expect_team": null,
       "why": "user-reported: Upstox's own blog/market-commentary content is broker-published noise -- blocked as a junk source, same treatment as @brokerage_report/Mshale/etc."
+    },
+    {
+      "title": "Mirae Asset BSE Information Technology Index Fund - Direct Plan Portfolio",
+      "tags": "WATCHLIST — Mirae Asset Investment Managers (India) Private Limited (BLR)",
+      "source": "The Economic Times",
+      "expect": null,
+      "expect_team": null,
+      "why": "mutual-fund scheme data page tagged to an AMC row -- no credit signal"
+    },
+    {
+      "title": "Invesco Mutual Fund - Invesco India Nifty Bank ETF",
+      "summary": "IVZBANKNF : Invesco Asset Management (India) Private Limited has informed the Exchange that the Net Asset Value (per unit) of Invesco Mutual Fund - Invesco India Nifty Bank ETF as on October 15, 2026 is Rs. 55.1",
+      "tags": "WATCHLIST-NSE",
+      "source": "NSE Announcement",
+      "expect": null,
+      "expect_team": null,
+      "why": "exchange NAV notice for an ETF -- routine, no credit signal"
+    },
+    {
+      "title": "Axis Mutual Fund launches India’s first EV Index fund, NFO opens October 16",
+      "tags": "WATCHLIST — Axis Mutual Fund",
+      "source": "BusinessLine",
+      "expect": "S1",
+      "expect_team": "S1",
+      "why": "a real fund-launch story about the AMC must NOT be caught by the scheme-listing junk rule"
     }
   ]
 }

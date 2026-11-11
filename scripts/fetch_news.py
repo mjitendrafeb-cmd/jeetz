@@ -420,6 +420,49 @@ def _parse_gnews(url: str, label: str):
     return feed
 
 
+def _bing_news_feed(query: str, label: str):
+    """Fallback for a per-company query Google answered with an empty feed
+    (HTTP 200 / 0 entries -- about half the watchlist on a typical run,
+    including entities with same-day coverage). Bing News RSS is a separate
+    index with its own throttling, so it can fill gaps Google leaves.
+    Returns an object shaped like a Google feed (.entries of dicts with
+    title "headline - Source", summary, link, published_parsed) so the
+    caller's loop needs no second code path. Never raises."""
+    import urllib.parse as _up
+    from types import SimpleNamespace
+    empty = SimpleNamespace(entries=[])
+    try:
+        url = ("https://www.bing.com/news/search?q=" + _up.quote(query)
+               + "&format=rss&setmkt=en-IN&cc=IN")
+        resp = requests.get(url, headers={"User-Agent": _UA}, timeout=15)
+        if resp.status_code != 200:
+            return empty
+        feed = feedparser.parse(resp.content)
+        out = []
+        for e in feed.entries:
+            title = _clean(e.get("title", "")).strip()
+            if not title:
+                continue
+            link = e.get("link", "") or ""
+            # Bing wraps the publisher URL: .../apiclick.aspx?...&url=<real>
+            q = _up.parse_qs(_up.urlparse(link).query)
+            if q.get("url"):
+                link = q["url"][0]
+            source = (e.get("news_source") or "").strip()
+            if not source and link:
+                source = _up.urlparse(link).netloc.replace("www.", "")
+            out.append({
+                "title": f"{title} - {source}" if source else title,
+                "summary": e.get("summary", e.get("description", "")),
+                "link": link,
+                "published_parsed": e.get("published_parsed"),
+            })
+        return SimpleNamespace(entries=out)
+    except Exception as exc:
+        print(f"[fetch_news] Bing fallback error for '{label}': {str(exc)[:100]}")
+        return empty
+
+
 def fetch_google_news(days_back: int = 2) -> list[str]:
     items = []
     seen_titles: set[str] = set()
@@ -703,6 +746,9 @@ def _short_name(core: str) -> str:
     return " ".join(words)
 
 
+_MIN_DERIVED_ACRONYM_LEN = 5
+
+
 def _company_query(company: str, aliases: list[str], broad: bool = False) -> str:
     """Quoted phrase OR acronym OR aliases — precision over recall.
 
@@ -716,7 +762,13 @@ def _company_query(company: str, aliases: list[str], broad: bool = False) -> str
     core = _core_name(company)
     parts = [f'"{core}"']
     ac = _name_acronym(core)
-    if ac:
+    # 7:40 only (broad=True): a derived 4-letter initialism is noise, not a
+    # name the press uses -- "Star Health and Allied Insurance" -> SHAI
+    # pulled NBA and malware stories, "Bharti Axa Life Insurance" -> BALI
+    # pulled Bali travel pieces. Five letters and up (SIDBI, MUDRA, IREDA)
+    # are still real; a 4-letter one the desk wants (IL&FS, KSFC) is typed
+    # as a console alias and reaches the query through the alias loop.
+    if ac and (not broad or len(ac) >= _MIN_DERIVED_ACRONYM_LEN):
         parts.append(ac)
     if broad:
         short = _short_name(core)
@@ -781,7 +833,8 @@ def _text_contains_name(text: str, phrase: str) -> bool:
     return False
 
 
-def _story_mentions_entity(company: str, aliases: list[str], text: str) -> bool:
+def _story_mentions_entity(company: str, aliases: list[str], text: str,
+                           min_derived_acronym: int = 0) -> bool:
     """Verify the story actually concerns this entity. Replaces the old
     first-word test, which passed anything starting with 'Small', 'Bank',
     'National'..."""
@@ -797,7 +850,8 @@ def _story_mentions_entity(company: str, aliases: list[str], text: str) -> bool:
     # back to X" context required. _AMBIGUOUS_ACRONYM_CONTEXT is no
     # longer consulted for either path.
     ac = _name_acronym(core)
-    if ac and re.search(rf"\b{re.escape(ac)}\b", text or "", re.IGNORECASE):
+    if (ac and len(ac) >= min_derived_acronym
+            and re.search(rf"\b{re.escape(ac)}\b", text or "", re.IGNORECASE)):
         return True
     for a in aliases:
         a = a.strip()
@@ -876,7 +930,8 @@ def fetch_company_news(per_company_cap: int = 3, companies=None, days_back: int 
     # box: a company whose feed had entries logged nothing at all, so an
     # over-strict filter looked identical to Google returning no news.
     _stats = {"entries": 0, "cos_with_entries": 0, "drop_old": 0,
-              "drop_dup": 0, "drop_ticker": 0, "drop_name": 0}
+              "drop_dup": 0, "drop_ticker": 0, "drop_name": 0,
+              "bing_tried": 0, "bing_recovered": 0}
 
     # Query EVERY company (no global early-break) so a long watchlist isn't
     # starved — with 340 names the old `len(items) >= 60` cap stopped after
@@ -892,6 +947,11 @@ def fetch_company_news(per_company_cap: int = 3, companies=None, days_back: int 
                 f"?q={requests.utils.quote(query + f' when:{days_back}d')}&hl=en-IN&gl=IN&ceid=IN:en"
             )
             feed = _parse_gnews(url, _core_name(company))
+            if broad_queries and not feed.entries:
+                _stats["bing_tried"] += 1
+                feed = _bing_news_feed(query, _core_name(company))
+                if feed.entries:
+                    _stats["bing_recovered"] += 1
             # Google throttles rapid-fire requests by returning empty feeds.
             # If many queries come back empty in a row, back off harder.
             if not feed.entries:
@@ -923,8 +983,10 @@ def fetch_company_news(per_company_cap: int = 3, companies=None, days_back: int 
                 if _is_market_ticker(raw_title, summary):
                     _stats["drop_ticker"] += 1
                     continue
-                if not _story_mentions_entity(company, aliases,
-                                              raw_title + " " + summary):
+                if not _story_mentions_entity(
+                        company, aliases, raw_title + " " + summary,
+                        min_derived_acronym=(_MIN_DERIVED_ACRONYM_LEN
+                                             if broad_queries else 0)):
                     _stats["drop_name"] += 1
                     # A flat "first 12 rejections in the whole run" cap was
                     # exhausted by companies starting with '3' and 'A' alone
@@ -967,7 +1029,10 @@ def fetch_company_news(per_company_cap: int = 3, companies=None, days_back: int 
           f"{_stats['cos_with_entries']} returned results, "
           f"{_stats['entries']} raw entries -> {len(items)} kept | dropped: "
           f"old={_stats['drop_old']} dup={_stats['drop_dup']} "
-          f"ticker={_stats['drop_ticker']} name-check={_stats['drop_name']}")
+          f"ticker={_stats['drop_ticker']} name-check={_stats['drop_name']}"
+          + (f" | Bing fallback recovered {_stats['bing_recovered']}"
+             f"/{_stats['bing_tried']} empty-Google entities"
+             if _stats["bing_tried"] else ""))
     return items
 
 

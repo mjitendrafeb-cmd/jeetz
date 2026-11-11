@@ -434,6 +434,29 @@ def _load_suppressions() -> list[str]:
 _SUPPRESSIONS = _load_suppressions()
 
 
+# Scheme-data pages and exchange NAV notices tagged to AMC rows. They name
+# the AMC but carry no credit signal: "Mirae Asset BSE Information Technology
+# Index Fund - Direct Plan Portfolio", "UTI Nifty Bank ETF", NSE's "Net Asset
+# Value (per unit) of ... ETF", "LIC MF Large & Mid Cap Dir IDCW-P
+# (0P00015FX5.BO)". Deliberately NOT a bare ETF/fund match: a headline like
+# "Axis Mutual Fund launches India's first EV Index fund, NFO opens" is news.
+_MF_SCHEME_LISTING_RE = re.compile(
+    r"\bfund info\b"
+    r"|\b(direct|regular)\s+plan\b(?:\s*[-\u2013(]\s*\w+\)?)?\s*(portfolio|returns|growth|fund info|"
+    r"payout|reinvest\w*|idcw\b.*)?\s*(?:&nbsp;|$|\||\u2014)"
+    r"|\(g\)\s*-\s*(direct|regular)\s+plan"
+    r"|\bidcw\s*[-\u2013]?\s*(p|po|ro|payout|reinvest\w*)\b"
+    r"|record date for idcw"
+    r"|net asset value \(per unit\)"
+    r"|\(0p[0-9a-z]{6,}\.bo\)"
+    r"|\bweekly idcw\b"
+    r"|\bidcw\b[^|]{0,40}\(\d{6,}\)"
+    r"|\bnav as on\b"
+    r"|^\s*listing of units\b",
+    re.IGNORECASE,
+)
+
+
 def _is_team_junk(it: dict) -> bool:
     t = (it.get("title") or "").lower()
     if any(pat in t for pat in _SUPPRESSIONS):
@@ -460,6 +483,8 @@ def _is_team_junk(it: dict) -> bool:
     if _NEVER_RELEVANT_RE.search(body) or _DATA_PAGE_RE.search(body):
         return True
     if _EDUCATIONAL_FILLER_RE.search(it.get("title", "")):
+        return True
+    if _MF_SCHEME_LISTING_RE.search(body):
         return True
     # A malformed/fragment headline is never presentable, whatever section
     # it would otherwise land in. Only checked for non-watchlist items — a
@@ -891,7 +916,11 @@ def _mentions_company(body: str, name: str) -> bool:
     if _group_prefix_only(body, name):
         return False
     acro = _acronym(name)
-    if acro and re.search(r"\b" + re.escape(acro) + r"\b", body):
+    # Must agree with fetch_news._MIN_DERIVED_ACRONYM_LEN: a derived 4-letter
+    # initialism (SHAI, BALI, HFFI) is noise, not a name the press uses. The
+    # desk types the ones it wants (IL&FS, KSFC) as console aliases, which
+    # _match_companies honours separately.
+    if acro and len(acro) >= 5 and re.search(r"\b" + re.escape(acro) + r"\b", body):
         # Per explicit instruction: a short name/alias/acronym is trusted
         # the moment it's found in the text -- no additional "connects
         # back to X" context required. _AMBIGUOUS_ALIAS_CONTEXT's guards
@@ -3414,6 +3443,99 @@ def _nsdl_s1_items(rows: list[dict], today_d, lookback_days: int) -> list[dict]:
     return items
 
 
+# Round-up / comparison headlines that name an entity only in passing. Such a
+# story is attached to a watchlist row purely because the body mentions it:
+# "Cholamandalam Share Price: 15.8% CAGR vs PNB Housing" reached S1 under
+# Punjab National Bank, "Upcoming IPOs: SEBI clears 8 issues ..." under a
+# single named issuer. When the entity is NOT in the headline AND the
+# headline has this shape, the attachment is dropped.
+_ROUNDUP_TITLE_RE = re.compile(
+    r"\bvs\.?\s|\bversus\b|\bcompare[sd]?\b|\bwhich is better\b|\bpeers?\b"
+    r"|\btop \d+\b|\b\d+ (stocks|shares) to (buy|watch)\b|\bstocks? to (buy|watch)\b"
+    r"|\bupcoming ipos?\b|\bipo calendar\b|\bipos? (this|next) week\b"
+    r"|\bbuzzing stocks\b|\bmarket (wrap|live|today)\b|\bstocks? in news\b",
+    re.IGNORECASE,
+)
+
+
+_VS_TITLE_RE = re.compile(r"\bvs\.?\s|\bversus\b|\bcompare[sd]?\b", re.IGNORECASE)
+
+
+def _title_position(title: str, name: str, aliases: list):
+    """Index of the earliest place the entity is named in the HEADLINE
+    (registered name, two-word lead phrase, console alias, or a distinctive
+    leading word like 'cholamandalam'), or None if it is not named there."""
+    t = title.lower().replace(" & ", " and ")
+    cands = [name.strip().lower().replace(" & ", " and "), _phrase(name)]
+    cands += [str(a).strip().lower() for a in aliases if "+" not in str(a)]
+    words = _sig_words(name)
+    if words and len(words[0]) >= 7:
+        cands.append(words[0])
+    best = None
+    for c in cands:
+        if not c or not _contains_name(t, c):
+            continue
+        i = t.find(c)
+        if i >= 0 and (best is None or i < best):
+            best = i
+    return best
+
+
+def _apply_passing_mention_rules(items: list[dict], rows: list[dict]) -> int:
+    """Sets it["title_cos"] (companies named in the headline, used to rank
+    headline-subject stories first) and removes a company from it["companies"]
+    when it is only mentioned in passing: a round-up/comparison headline that
+    does not name it, or the second-named side of an "X vs Y" headline.
+    Returns how many attachments were removed."""
+    al = _row_aliases(rows)
+    removed = 0
+    for it in items:
+        cos = it.get("companies") or []
+        if not cos:
+            continue
+        title = it.get("title") or ""
+        pos = {c: _title_position(title, c, al.get(c, [])) for c in cos}
+        in_title = [c for c in cos if pos[c] is not None]
+        roundup = bool(_ROUNDUP_TITLE_RE.search(title))
+        if not in_title and roundup:
+            removed += len(cos)
+            print(f"[passing-mention] dropped round-up from "
+                  f"{', '.join(c[:30] for c in cos[:3])}: {title[:80]}")
+            it["title_cos"] = []
+            it["companies"] = []
+            continue
+        keep = in_title
+        if len(in_title) >= 2 and _VS_TITLE_RE.search(title):
+            first = min(pos[c] for c in in_title)
+            keep = [c for c in in_title if pos[c] == first]
+        if roundup and keep and len(keep) < len(cos):
+            for c in cos:
+                if c not in keep:
+                    removed += 1
+                    print(f"[passing-mention] dropped peer mention from "
+                          f"{c[:30]}: {title[:80]}")
+            it["companies"] = keep
+        it["title_cos"] = keep
+    return removed
+
+
+def _drop_skipped_channels(lines: list[str], channels: list) -> list[str]:
+    """Drop raw lines from Telegram channels the 7:40 desk does not want
+    (channel list is shared with the 7:30 report in config.json, which must
+    stay untouched, so the mailer filters on its own copy)."""
+    skip = [str(c).strip().lower() for c in channels if str(c).strip()]
+    if not skip:
+        return lines
+    out = []
+    for ln in lines:
+        head = re.match(r"^(?:\d+\.\s*)?((?:\[[^\]]+\]\s*)+)", ln)
+        tags = head.group(1).lower() if head else ""
+        if "telegram" in tags and any(ch in tags for ch in skip):
+            continue
+        out.append(ln)
+    return out
+
+
 def _row_aliases(rows: list[dict]) -> dict:
     """{company: [alias, ...]} from the console's per-row Aliases column.
     Blank entries are dropped so an untouched column costs nothing."""
@@ -5117,7 +5239,10 @@ def _np_partb(p: dict, items: list[dict], by_section: dict,
             # explicit instruction in favour of one flat ranking. An
             # undated item still never leads on a tie.
             flat = [(comp, it) for comp, its in by_company.items() for it in its]
-            flat.sort(key=lambda ci: (-_materiality(ci[1]), _is_undated(ci[1])))
+            flat.sort(key=lambda ci: (
+                -_materiality(ci[1]),
+                0 if ("title_cos" not in ci[1] or ci[0] in ci[1]["title_cos"]) else 1,
+                _is_undated(ci[1])))
             # Team-requested layout: Company / Source Link / Summary as a
             # table, one row per story, instead of per-entity header +
             # stacked cards. The table wrapper carries column-span:all so
@@ -5935,7 +6060,30 @@ def main() -> None:
     # Merge into the persistent pool so a run that Google under-serves does
     # not lose the day's coverage — see _merge_pool.
     fresh_lines = [ln for ln in news_text.splitlines() if ln.strip()]
+    # Rating-agency actions (CRISIL / ICRA / India Ratings / CARE /
+    # CareEdge). Off in config.json for the 7:30 report, which this run
+    # must not edit, so the 7:40 fetches them itself; switch off with
+    # team.json "rating_agencies": false. Failures never block the mail.
+    if team.get("rating_agencies", True):
+        try:
+            from fetch_ratings import fetch_all_ratings
+            _rating_lines = [ln for ln in fetch_all_ratings() if ln.strip()]
+            fresh_lines.extend(_rating_lines)
+            _summary = dict(_summary or {})
+            _summary["Rating Agencies"] = len(_rating_lines)
+            print(f"[ratings] {len(_rating_lines)} rating-agency item(s) added"
+                  + ("" if _rating_lines else " -- every scraper returned nothing "
+                     "(page layout change or blocked?)"))
+        except Exception as exc:
+            print(f"[ratings] rating-agency fetch failed (non-fatal): {str(exc)[:120]}")
+    _skip_ch = team.get("skip_telegram_channels", ["@researchreportss"])
+    _before = len(fresh_lines)
+    fresh_lines = _drop_skipped_channels(fresh_lines, _skip_ch)
+    if len(fresh_lines) != _before:
+        print(f"[telegram] dropped {_before - len(fresh_lines)} item(s) from skipped "
+              f"channel(s) {', '.join(map(str, _skip_ch))}")
     pooled_lines, pool_to_save, _new = _merge_pool(fresh_lines)
+    pooled_lines = _drop_skipped_channels(pooled_lines, _skip_ch)
     items = [_parse_item(ln) for ln in pooled_lines]
     print(f"[sources] {len(items)} parsed items, "
           f"{sum(1 for it in items if it.get('wl_company'))} carry a WATCHLIST tag")
@@ -5981,6 +6129,9 @@ def main() -> None:
     # headlines are all about one company's quarterly results.
     for it in items:
         it["companies"] = _match_companies(it, rows)
+    _n_pm = _apply_passing_mention_rules(items, rows)
+    if _n_pm:
+        print(f"[passing-mention] removed {_n_pm} passing-mention attachment(s)")
 
     nsdl_items = _nsdl_s1_items(rows, today_d, lookback_days)
     if nsdl_items:
