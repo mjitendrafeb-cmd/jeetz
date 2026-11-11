@@ -1,77 +1,5 @@
 [
  {
-  "date": "2026-09-24",
-  "fetched": 1122,
-  "delivered_pool": 90,
-  "junk": 369,
-  "geo": 28,
-  "stale": 354,
-  "dup": 95,
-  "sections": {
-   "S1": 69,
-   "S2": 11,
-   "S3": 10
-  },
-  "mails": 41,
-  "failed": [],
-  "source_summary": {
-   "RBI RSS": 20,
-   "RBI Enforcement": 0,
-   "SEBI RSS": 20,
-   "Google News": 25,
-   "Watchlist (Google)": 995,
-   "BSE Financials": 0,
-   "Telegram": 54,
-   "Web Scraper": 395
-  },
-  "dropped_samples": {
-   "relevance": [
-    "Friday reports will be uploaded on Sunday evening",
-    "Marking a significant boost to India\u2019s domestic aerospace manufacturing, state-run Hindustan Aeronautics Limit",
-    "India is considering mandatory warning labels on cough syrup bottles to discourage their use in children below",
-    "Stock Market Today: All You Need To Know Going Into Trade On Sept 22",
-    "Australia Changes Student Visa Rules: How Are Indian Students And Families Affected",
-    "The Delhi Metro witnessed its busiest-ever day on 17 September (Thursday), registering 82,44,903 passenger boa",
-    "Howard G Buffett, 71, will take over as the new chairman of Berkshire Hathaway, succeeding his father Warren B",
-    "At least 16 people, including five police personnel, were killed and several others injured after a suicide at",
-    "#MintMarkets | Stock market prediction: Bulls may fancy Nifty 50 hitting 27,000 in CY2026",
-    "King Charles has warned about AI\u2019s potential dangers, saying it could develop \u201cdarker capacities\u201d and potentia",
-    "N. Chandrasekaran\u2019s future at Tata Sons took a fresh turn after a crucial board meeting on September 17, bring",
-    "Melting Pot Food Products targets \u20b9500+ Crore growth milestone",
-    "Maruti India sells 250,683 units in Q1 2011-12",
-    "Kolte Patil appoints Hrishikesh Parandekar as CEO to drive growth",
-    "Akums Drugs Q1FY27 net profit surges 56%; concall flags API turnaround",
-    "Havells enters battery energy storage segment with Pixii AS",
-    "Indian Startup IPO Tracker 2026",
-    "Forgot To Report Foreign Income? Updated ITR Or FAST-DS",
-    "Ingram Micro Holding (INGM) Q1 2026 Earnings Call Transcript",
-    "PL Capital sees 24% UPSIDE in Kirloskar Pneumatic Company- Growth outlook intact, watchful on execution"
-   ],
-   "junk": [
-    "Canara Rob Corp Bond Fund(G)-Direct Plan",
-    "Axis Bank Ltd. is Rated Hold",
-    "Bank of India Overnight Fund(G)-Direct Plan",
-    "Bank Of Maharashtra Share Price Today: Price and Valuation",
-    "Bank of Maharashtra is Rated Buy by MarketsMOJO",
-    "Indian entrepreneur says one month of massages, yoga in Bali didn't 'feel like a vacation'. He explains...",
-    "Ceejay Finance Ltd is Rated Strong Sell",
-    "Central Bank of India is Rated Hold by MarketsMOJO",
-    "DCB Bank Ltd. is Rated Buy by MarketsMOJO",
-    "Federal Bank Ltd is Rated Hold by MarketsMOJO",
-    "HDFC Bank Share Price Today: Rs 728.90 After 2.23% Rise",
-    "UBS retains Buy on HDFC Bank, target Rs 1,000",
-    "SENSEX rises over 250 points, NIFTY50 above 23,300 led by ICICI Bank, Larsen & Toubro",
-    "IFCI Share Price",
-    "Sheikh Zaid hits unbeaten 110 in wheelchair cricket match at Baramulla",
-    "Karnataka Bank Ltd is Rated Strong Buy",
-    "LIC HFL Launches Akshat\u2019s Special Wish Festive Film",
-    "\ud83d\udd34\u0b2d\u0b3e\u0b38\u0b3f\u0b17\u0b32\u0b3e \u0b15\u0b3e\u0b30\u0b4d \u0b6e \u0b2e\u0b43\u0b24",
-    "Manappuram Finance Ltd is Rated Buy",
-    "Trade Idea of The Day - Shriram Finance Ltd Target Rs. 38 - Religare Broking Ltd"
-   ]
-  }
- },
- {
   "date": "2026-09-25",
   "fetched": 1183,
   "delivered_pool": 112,
@@ -2156,6 +2084,79 @@
     "AU Small Finance Bank offers up to 7.4% on FDs; senior citizens get 7.9%",
     "The Technical Signals Behind (BFAM) That Institutions Follow",
     "Bank of Baroda Share Price - Live NSE: BANKBARODA Stock Price & Chart"
+   ]
+  }
+ },
+ {
+  "date": "2026-11-11",
+  "fetched": 668,
+  "delivered_pool": 150,
+  "junk": 338,
+  "geo": 5,
+  "stale": 0,
+  "dup": 99,
+  "sections": {
+   "S1": 116,
+   "S2": 23,
+   "S3": 11
+  },
+  "mails": 40,
+  "failed": [],
+  "source_summary": {
+   "RBI RSS": 18,
+   "RBI Enforcement": 0,
+   "SEBI RSS": 20,
+   "Google News": 24,
+   "Watchlist (Google)": 725,
+   "BSE Financials": 0,
+   "Telegram": 25,
+   "Web Scraper": 1035,
+   "Rating Agencies": 2
+  },
+  "dropped_samples": {
+   "relevance": [
+    "Auction of Government of India Dated Security",
+    "Prohibitory Order No. 1583 of 2026 issued against CAT Technologies Limited associated with RC 4398 of 2021 in ",
+    "BSE Honours Espero As Top Performer\u2013FI Segment",
+    "IMPRI Impact and Policy Research Institute: Credit Guarantee Scheme for Subordinate Debt (2020): Supporting St",
+    "B&A Ltd Yearly Results, Financial summary, B&A Ltd Yearly Earnings",
+    "KBRA sees U.S. RMBS issuance rising in 2027 as credit performance stays resilient",
+    "Our Estimate for Factoring RSA-2048 with Cat Qubits: Pushing the Frontier Between Size and Speed",
+    "Railway stocks RVNL, RailTel gain up to 7%; experts see valuation comfort",
+    "European upper middle market lending",
+    "Karnataka: KSRTC Hikes Luggage Charges, Adding To Passengers' Travel Costs",
+    "Karnataka clears Rs 6,826-crore industrial investment proposals, 131 outside Bengaluru",
+    "Karnataka school committee forum opposes private adoption of govt schools",
+    "Krupa Alva appears before CCB cybercrime police for questioning",
+    "ETMarkets Management Talk",
+    "Panasonic 49\" Android TV No Picture",
+    "Petrol and diesel prices today, November 10: Petrol and diesel prices remained largely steady across major cit",
+    "WCR 2026 Part 1 is published",
+    "Vellora Impact Net Profit Increases Nearly 3X",
+    "BigBloc Construction Ltd Revenue rise 31% Y-o-Y",
+    "Supreme Infrastructure (NSE:SUPREMEINF) Refinances NCDs at 12% Coupon"
+   ],
+   "junk": [
+    "Notice of attachment dated November 10, 2026 issued against Secunderabad Healthcare Limited under RC No.7734 o",
+    "Notice of attachment dated November 10, 2026 issued against Chennai Commodities under RC No.7470 of 2023 in th",
+    "Notice of attachment dated November 10, 2026 issued against First Futures and Stocks Private Limited under RC ",
+    "Cancellation of Recovery Certificate No",
+    "Cancellation of Recovery Certificate No",
+    "SEBI order for compliance - Release Order dated November 06, 2026 issued under RC No",
+    "SEBI order for compliance - Release Order dated November 06, 2026 issued under RC No",
+    "SEBI order for compliance - Release Order dated November 06, 2026 issued under RC No",
+    "Cancellation of Recovery Certificate No",
+    "Cancellation of Recovery Certificate No",
+    "Cancellation of Recovery Certificate No",
+    "Adjudication Order in the matter of trading activities of certain client of Inventure growth and Securities Li",
+    "Appeal No. 7145 of 2026 filed by Vikram Aggarwal",
+    "Appeal No. 7144 of 2026 filed by Dhanni Devi Panwar",
+    "Appeal No. 7143 of 2026 filed by Ashok kumar Saini",
+    "MakeMyTrip India Gets SEBI Approval For IPO, Could Raise Over $1 Bn",
+    "Upcoming IPO: Veritas Finance gets SEBI approval to launch public offer",
+    "Bank Stocks Rally! Nifty Bank hits 9-month high, nears 52-week high \u2013 Why are HDFC, BoB, ICICI, PNB & others r",
+    "Bank of Baroda Share Price - Live NSE: BANKBARODA Stock Price & Chart",
+    "Nifty PSU Bank Index Performance: Bank of India, UCO Bank among 7 stocks rebound 15\u201356% from 1-yr lows - here\u2019"
    ]
   }
  }
