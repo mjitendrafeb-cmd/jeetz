@@ -713,9 +713,123 @@ ROLES = (("gh_name", "gh_email", "send_gh", "gh_sections"),
          ("rh_name", "rh_email", "send_rh", "rh_sections"))
 
 
+# The team list (one row per watchlist entity, with its GH/Analyst/RH people)
+# is maintained in a Google Sheet when team.json carries "roster_sheet_id".
+# Every run downloads the sheet's CSV export, so an edit there is live from
+# the next run. team.json keeps everything else (schedule toggles, holidays,
+# sectors, keywords) and a copy of the rows, refreshed after each real run,
+# which is what the run falls back to if the sheet cannot be read.
+_ROSTER_COLS = {
+    "company": "company", "aliases": "aliases", "sector": "sector",
+    "ghname": "gh_name", "ghemail": "gh_email", "sendgh": "send_gh",
+    "ghsections": "gh_sections",
+    "analystname": "analyst_name", "analystemail": "analyst_email",
+    "sendanalyst": "send_analyst", "analystsections": "analyst_sections",
+    "rhname": "rh_name", "rhemail": "rh_email", "sendrh": "send_rh",
+    "rhsections": "rh_sections",
+}
+_ROSTER_TRUE = {"true", "yes", "y", "1", "x", "\u2713", "\u2714"}
+
+
+def _roster_header_key(h: str) -> str:
+    k = re.sub(r"[^a-z]", "", (h or "").lower())
+    if k.startswith("aliases"):        # "Aliases (separate with ;)"
+        return "aliases"
+    return _ROSTER_COLS.get(k, "")
+
+
+def _parse_roster_csv(text: str) -> list[dict] | None:
+    """Rows in team.json's shape from the sheet's CSV, or None when the
+    text is not the expected table (e.g. Google served a sign-in page
+    because the sheet's link sharing was turned off)."""
+    import csv
+    import io
+    reader = csv.reader(io.StringIO(text))
+    try:
+        header = next(reader)
+    except StopIteration:
+        return None
+    keys = [_roster_header_key(h) for h in header]
+    if "company" not in keys or not any(k.endswith("_email") for k in keys):
+        return None
+    rows = []
+    for cells in reader:
+        rec = {k: (cells[i].strip() if i < len(cells) else "")
+               for i, k in enumerate(keys) if k}
+        if not rec.get("company"):
+            continue
+        row = {"company": rec["company"],
+               "aliases": [a.strip() for a in re.split(r"[;,\n]", rec.get("aliases", ""))
+                           if a.strip()]}
+        for name_f, email_f, send_f, sec_f in ROLES:
+            row[name_f] = rec.get(name_f, "")
+            row[email_f] = rec.get(email_f, "")
+            row[send_f] = rec.get(send_f, "").lower() in _ROSTER_TRUE
+            row[sec_f] = sorted(set(re.findall(r"S[123]", rec.get(sec_f, "").upper())))
+        row["sector"] = rec.get("sector") or "BFSI"
+        rows.append(row)
+    return rows
+
+
+def _fetch_roster_sheet(sheet_id: str, gid: str = "0") -> list[dict] | None:
+    import requests
+    url = (f"https://docs.google.com/spreadsheets/d/{sheet_id}"
+           f"/export?format=csv&gid={gid}")
+    try:
+        resp = requests.get(url, timeout=30)
+    except Exception as exc:
+        print(f"[roster] could not reach the Google Sheet: {str(exc)[:120]}")
+        return None
+    if resp.status_code != 200:
+        print(f"[roster] Google Sheet download failed: HTTP {resp.status_code}")
+        return None
+    rows = _parse_roster_csv(resp.content.decode("utf-8-sig", errors="replace"))
+    if rows is None:
+        print("[roster] Google Sheet did not return the team table -- is it still "
+              "shared as 'anyone with the link can view', with the header row intact?")
+    return rows
+
+
 def _load_team() -> dict:
     with open(_TEAM_PATH, encoding="utf-8") as f:
-        return json.load(f)
+        team = json.load(f)
+    sheet_id = str(team.get("roster_sheet_id") or "").strip()
+    if not sheet_id:
+        return team
+    saved = [r for r in team.get("rows", []) if str(r.get("company", "")).strip()]
+    rows = _fetch_roster_sheet(sheet_id, str(team.get("roster_sheet_gid") or "0"))
+    if rows is None:
+        print(f"[roster] using the copy in team.json ({len(saved)} rows)")
+        return team
+    # Guard against a half-deleted or truncated sheet silently cutting most
+    # of the team off the mail. A genuine large removal: set team.json
+    # "roster_allow_shrink": true for that run.
+    if not rows or (len(rows) < 0.5 * len(saved) and not team.get("roster_allow_shrink")):
+        print(f"[roster] WARNING: the Google Sheet has {len(rows)} rows against "
+              f"{len(saved)} last time -- keeping the copy in team.json. If the "
+              f"removal is intended, set \"roster_allow_shrink\": true in team.json.")
+        return team
+    print(f"[roster] team list read from the Google Sheet: {len(rows)} rows "
+          f"(was {len(saved)} in team.json)")
+    team["rows"] = rows
+    team["_roster_from_sheet"] = True
+    return team
+
+
+def _publish_roster_snapshot(rows: list[dict]) -> None:
+    """Copy the sheet's rows into team.json on main (other settings in the
+    file are left as they are on main at that moment), so the console, the
+    7:30 report's watchlist sync and the fallback all see the current list."""
+    def _rewrite(old_text: str) -> str | None:
+        try:
+            cur = json.loads(old_text)
+        except Exception:
+            return None
+        if cur.get("rows") == rows:
+            return None
+        cur["rows"] = rows
+        return json.dumps(cur, indent=2, ensure_ascii=False)
+    _git_push(_TEAM_PATH, transform=_rewrite)
 
 
 _FILLER = {"of", "and", "the", "&", "for"}
@@ -3765,7 +3879,7 @@ def _save_pool(pool: dict) -> None:
     _git_push(_POOL_PATH)
 
 
-def _git_push(path: str, content: str | None = None) -> None:
+def _git_push(path: str, content: str | None = None, transform=None) -> None:
     """Publish a state file to main.
 
     Same convergent strategy as the 7:30 report's writer, and for the same
@@ -3822,6 +3936,17 @@ def _git_push(path: str, content: str | None = None) -> None:
                 os.makedirs(os.path.dirname(path), exist_ok=True)
                 with open(path, "w", encoding="utf-8") as f:
                     f.write(content)
+            elif transform is not None:
+                # Re-derived from main's CURRENT version on every attempt, so
+                # a concurrent console save to other keys is never clobbered.
+                subprocess.run(["git", "checkout", "origin/main", "--", path],
+                               cwd=_REPO_ROOT, capture_output=True)
+                with open(path, encoding="utf-8") as f:
+                    new_text = transform(f.read())
+                if new_text is None:
+                    return
+                with open(path, "w", encoding="utf-8") as f:
+                    f.write(new_text)
             subprocess.run(["git", "add", path], cwd=_REPO_ROOT, capture_output=True)
             committed = subprocess.run(["git", "commit", "-m", "chore: update team news memory"],
                                        cwd=_REPO_ROOT, capture_output=True)
@@ -6678,6 +6803,11 @@ def main() -> None:
         # staggered cron ticks from re-fetching the same day 4 times over,
         # regardless of whether mail actually went out.
         _mark_sent_today()
+        if team.get("_roster_from_sheet"):
+            try:
+                _publish_roster_snapshot(team["rows"])
+            except Exception as exc:
+                print(f"[roster] team.json copy not refreshed (non-fatal): {exc}")
     print("Done.")
 
 

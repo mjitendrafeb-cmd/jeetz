@@ -11488,6 +11488,8 @@
     }
   ],
   "scheduled_enabled": true,
+  "roster_sheet_id": "1DsMIVmwwhiRBJ67SekseOajXgjO4mI58M7mIkrQwkIk",
+  "roster_sheet_url": "https://docs.google.com/spreadsheets/d/1DsMIVmwwhiRBJ67SekseOajXgjO4mI58M7mIkrQwkIk/edit",
   "skip_sundays": true,
   "holidays": [],
   "macro_keywords": [

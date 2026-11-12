@@ -89,6 +89,7 @@ input[type=checkbox]{width:15px;height:15px;accent-color:#15803d;cursor:pointer}
   </nav>
 
   <div class="tab active" id="tab-ent">
+    <div id="sheetBanner" style="display:none;margin:0 0 10px;padding:10px 12px;background:#ecfdf5;border:1px solid #15803d;border-radius:4px;font-size:12px;line-height:1.5"></div>
     <div style="display:flex;gap:24px;flex-wrap:wrap;background:#1a1a1a;padding:12px 16px;margin-bottom:16px;border-radius:4px;border-left:4px solid #cc0000">
       <label style="display:flex;align-items:center;gap:8px;color:#fff;font-size:12px;font-weight:700;cursor:pointer">
         <input type="checkbox" id="tglReport" onchange="cfgDailyEnabled=this.checked" style="width:17px;height:17px;accent-color:#cc0000">
@@ -170,9 +171,9 @@ input[type=checkbox]{width:15px;height:15px;accent-color:#15803d;cursor:pointer}
     </table>
     </div>
     <div class="savebar">
-      <button class="btn btn-grey" onclick="addRow()">+ Add Company</button>
+      <button class="btn btn-grey" id="btnAddRow" onclick="addRow()">+ Add Company</button>
       <button class="btn btn-green" onclick="downloadExcel()">&#8681; Download Excel</button>
-      <button class="btn btn-green" onclick="document.getElementById('xlUp').click()">&#8679; Upload Excel</button>
+      <button class="btn btn-green" id="btnUploadXl" onclick="document.getElementById('xlUp').click()">&#8679; Upload Excel</button>
       <input type="file" id="xlUp" accept=".xlsx,.xls,.csv" style="display:none" onchange="uploadExcel(this)">
       <button class="btn btn-red" onclick="saveAll()">Save All Changes</button>
       <span id="status"></span>
@@ -298,6 +299,11 @@ function render(){
     ${SECS.map(s=>secChk(i,'gh',s)).join('')}${SECS.map(s=>secChk(i,'analyst',s)).join('')}${SECS.map(s=>secChk(i,'rh',s)).join('')}
     <td><button class="del" title="Remove company" onclick="team.rows.splice(this.closest('tr').dataset.i,1);render()">&#10006;</button></td>
   </tr>`;}).join('');
+  // The team list is edited in the Google Sheet (team.json roster_sheet_id);
+  // the rows shown here are the copy the last run took from it.
+  if(team.roster_sheet_id){
+    document.querySelectorAll('#entBody input,#entBody button').forEach(function(el){el.disabled=true;});
+  }
 }
 function renderSectors(){
   var names=Object.keys(team.sectors);
@@ -389,6 +395,16 @@ async function load(){
     document.getElementById('txtHolidays').value=(team.holidays||[]).join(', ');
     document.getElementById('tglReport').checked=cfgDailyEnabled;
     document.getElementById('tglTeam').checked=team.scheduled_enabled!==false;
+    if(team.roster_sheet_id){
+      var url=team.roster_sheet_url||('https://docs.google.com/spreadsheets/d/'+team.roster_sheet_id+'/edit');
+      var b=document.getElementById('sheetBanner');
+      b.innerHTML='<strong>The team list is now edited in Google Sheets.</strong> '
+        +'<a href="'+esc(url)+'" target="_blank" rel="noopener">Open the team list sheet</a> to add or remove companies and people. '
+        +'Each 7:40 run reads the sheet, so changes there take effect from the next run. '
+        +'The list below is a read-only copy from the last run; schedule toggles, holidays, sectors and keywords are still saved here.';
+      b.style.display='';
+      ['btnAddRow','btnUploadXl'].forEach(function(id){var e=document.getElementById(id);if(e)e.style.display='none';});
+    }
     render();
   }catch(e){document.getElementById('status').innerHTML='<span class="err">Load failed: '+e.message+'</span>';}
 }
