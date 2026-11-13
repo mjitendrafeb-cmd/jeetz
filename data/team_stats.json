@@ -1,77 +1,5 @@
 [
  {
-  "date": "2026-09-26",
-  "fetched": 968,
-  "delivered_pool": 95,
-  "junk": 317,
-  "geo": 25,
-  "stale": 224,
-  "dup": 125,
-  "sections": {
-   "S1": 66,
-   "S2": 21,
-   "S3": 8
-  },
-  "mails": 0,
-  "failed": [],
-  "source_summary": {
-   "RBI RSS": 20,
-   "RBI Enforcement": 0,
-   "SEBI RSS": 20,
-   "Google News": 27,
-   "Watchlist (Google)": 1100,
-   "BSE Financials": 0,
-   "Telegram": 54,
-   "Web Scraper": 825
-  },
-  "dropped_samples": {
-   "relevance": [
-    "Auction of Government of India Dated Security",
-    "Novation of OTC Derivative Contracts",
-    "Adjudication Order in respect to Shri Shreedhar Yellaiah Kodam in the matter of Well Pack Papers and Container",
-    "Centrum on MSCI India: November 2026 Review- Expected additions and deletions - MSCI India (Global) Standard i",
-    "Nuvama Visit Note on SIGMA ADVANCED SYSTEMS- Building global A&D platform",
-    "Motilal Oswal\u2019s Morning India- Today\u2019s top research idea",
-    "Read today's Mint e-paper here",
-    "Jamie Dimon flags India's 'inconsistent application of taxes': What the JPMorgan CEO said about Indian economy",
-    "The world\u2019s second-largest economy spent $158.8 bn on gold in the first eight months of the year",
-    "Trump\u2019s UNGA speech: Trump also said he believed the US and Iran could reach a deal after the November midterm",
-    "BTTV Exclusive: Ashishkumar Chauhan explains why NSE went public now",
-    "US President Donald Trump is moving from his earlier ambition of acquiring Greenland to a security arrangement",
-    "#MintMarkets | Indian equity markets ended lower on Tuesday, with the Sensex falling 329.91 points to 74,529.0",
-    "Stock Market No Longer Free and Fair",
-    "Listing of further issues of securities",
-    "Spectrum Electrical Partners Maharashtra Government on ITI",
-    "PL Capital sees 14% UPSIDE in Voltas- Accelerating RAC growth, expanding product portfolio",
-    "Xi Touts Two More Meetings With Trump in 2026 At White House Tea",
-    "An auto driver's monthly income is going viral on the internet",
-    "Nearly 451,000 additional deaths could occur worldwide over the next six months because of the ongoing \u201cSuper "
-   ],
-   "junk": [
-    "Appeal No. 7064 of 2026 filed by Amit Gangrade",
-    "Appeal No. 7066 of 2026 filed by Saksham Puri",
-    "Appeal No. 7063 of 2026 filed by Sanjay Shah",
-    "Settlement Order in the matter of Adani Group Companies",
-    "Notice of Demand under Recovery Certificate number 9298 of 2026 dated September 21, 2026, issued to Allied Fin",
-    "Appeal No. 7068 of 2026 filed by Swarnali Basu",
-    "Appeal No. 7067 of 2026 filed by Kailash Kumar",
-    "Appeal No. 7065 of 2026 filed by Harish",
-    "Notices of Attachment of Bank and Post Office accounts and Demat Accounts and mutual Fund Folios with AP Nos",
-    "Notice of Attachment of Demat Accounts and Mutual Fund Folios dated September 17, 2026 against Bhavin Natwarla",
-    "Interim Order in the matter of Kore Digital Limited",
-    "General Remittance Order dated 17.09.2026 in Recovery Certificate No",
-    "Which NBFCs will gain the most from rate hike cycle? JM Financial lists top picks",
-    "Bandhan Medium Term Fund Regular-IDCW Quarterly",
-    "Bandhan Dynamic Term Fund Direct-IDCW Yearly",
-    "Bob Nousiainen receives the Oreste \u201cChip\u201d Chiantello Service Award",
-    "Gopi Desai, Rabindra Narayan Behera, Rahul Bali welcome holding of 72nd National Film Awards in Gujarat",
-    "Courtyard by Marriott Bali Nusa Dua Resort Elevates Meetings, Weddings, and Social Events with Versatile Indoo",
-    "72nd National Film Awards held in Gujarat hailed by Gopi Desai, Rabindra Behera and Rahul Bali",
-    "Stay here: Four Seasons Resort Bali at Sayan review"
-   ]
-  }
- },
- {
   "date": "2026-09-27",
   "fetched": 1300,
   "delivered_pool": 139,
@@ -2158,6 +2086,79 @@
     "Technical Analysis of Aditya Birla Sun Life BSE Total Market ETF Exchange Traded Fund Units (BSE:BIRLATOTAL)",
     "Bank of Baroda Share Price - Live NSE: BANKBARODA Stock Price & Chart",
     "Alkem Laboratories, Bank of India, and 2 Other Nifty 500 Stocks Break Above 200-Day Exponential Moving Average"
+   ]
+  }
+ },
+ {
+  "date": "2026-11-13",
+  "fetched": 2891,
+  "delivered_pool": 173,
+  "junk": 2144,
+  "geo": 24,
+  "stale": 153,
+  "dup": 238,
+  "sections": {
+   "S1": 151,
+   "S2": 12,
+   "S3": 10
+  },
+  "mails": 40,
+  "failed": [],
+  "source_summary": {
+   "RBI RSS": 19,
+   "RBI Enforcement": 0,
+   "SEBI RSS": 20,
+   "Google News": 28,
+   "Watchlist (Google)": 1019,
+   "BSE Financials": 0,
+   "Telegram": 49,
+   "Web Scraper": 989,
+   "Rating Agencies": 2
+  },
+  "dropped_samples": {
+   "relevance": [
+    "Auction of Government of India Dated Security",
+    "Prohibitory Order No. 1583 of 2026 issued against CAT Technologies Limited associated with RC 4398 of 2021 in ",
+    "B&A Ltd Yearly Results, Financial summary, B&A Ltd Yearly Earnings",
+    "Railway stocks RVNL, RailTel gain up to 7%; experts see valuation comfort",
+    "PepsiCo Layoffs: Why Is Beverage Manufacturer Cutting 1,000 Jobs? Here's All You Need To Know",
+    "No flights to be moved from Mumbai airport to Navi Mumbai, says Devendra Fadnavis",
+    "Fires break out at godowns in Bhiwandi and Navi Mumbai; no casualties reported in either incident",
+    "Petrol and diesel prices today, November 10: Petrol and diesel prices remained largely steady across major cit",
+    "WCR 2026 Part 1 is published",
+    "Vellora Impact Net Profit Increases Nearly 3X",
+    "BigBloc Construction Ltd Revenue rise 31% Y-o-Y",
+    "Advent Wins CCI Nod For Rs 3,150-Crore Investment In India's Hospital Business - Siliconindia",
+    "Land deals fall 56% in 2026; 1 in 4 now a joint development agreement",
+    "Holiday planning: Amazon Pay sale offers 65% off on hotels, 30% on flights",
+    "Avanti Feeds shares stumble 6% as Q2 profit more than halves to \u20b969 crore",
+    "Earnings recovery, FII revival: 5 factors that will shape Dalal Street's next move after Q2",
+    "FIIs are back with a bang but why are stocks from only 2 sectors their favourites?",
+    "Amex makes U-turn on reward points deductions after complaints from cardholders",
+    "EPS-95 pensioners: EPFO says submit Digital Life Certificate from home using Umang app; here's step-by-step pr",
+    "From shagun to savings: how wedding registries are changing gifting"
+   ],
+   "junk": [
+    "Notice of attachment dated November 10, 2026 issued against Secunderabad Healthcare Limited under RC No.7734 o",
+    "Notice of attachment dated November 10, 2026 issued against Chennai Commodities under RC No.7470 of 2023 in th",
+    "Notice of attachment dated November 10, 2026 issued against First Futures and Stocks Private Limited under RC ",
+    "Cancellation of Recovery Certificate No",
+    "Cancellation of Recovery Certificate No",
+    "SEBI order for compliance - Release Order dated November 06, 2026 issued under RC No",
+    "SEBI order for compliance - Release Order dated November 06, 2026 issued under RC No",
+    "SEBI order for compliance - Release Order dated November 06, 2026 issued under RC No",
+    "Cancellation of Recovery Certificate No",
+    "Cancellation of Recovery Certificate No",
+    "Cancellation of Recovery Certificate No",
+    "SEBI Order for Compliance - Release Order for Recovery Certificate No",
+    "Adjudication Order in the matter of trading activities of certain client of Inventure growth and Securities Li",
+    "Appeal No. 7145 of 2026 filed by Vikram Aggarwal",
+    "Appeal No. 7144 of 2026 filed by Dhanni Devi Panwar",
+    "Appeal No. 7143 of 2026 filed by Ashok kumar Saini",
+    "MakeMyTrip India Gets SEBI Approval For IPO, Could Raise Over $1 Bn",
+    "Hindustan Copper Q2 earnings: Another strong quarter for Miniratna firm? What Anand Rathi expects",
+    "Broad-Based Technical Strength Lifts Anand Rathi Wealth Ltd to 52-Week High of Rs 2391.15",
+    "Bank of Baroda Share Price - Live NSE: BANKBARODA Stock Price & Chart"
    ]
   }
  }
