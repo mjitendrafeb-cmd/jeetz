@@ -1,77 +1,5 @@
 [
  {
-  "date": "2026-09-27",
-  "fetched": 1300,
-  "delivered_pool": 139,
-  "junk": 373,
-  "geo": 29,
-  "stale": 352,
-  "dup": 206,
-  "sections": {
-   "S1": 104,
-   "S2": 23,
-   "S3": 12
-  },
-  "mails": 0,
-  "failed": [],
-  "source_summary": {
-   "RBI RSS": 20,
-   "RBI Enforcement": 0,
-   "SEBI RSS": 20,
-   "Google News": 24,
-   "Watchlist (Google)": 794,
-   "BSE Financials": 0,
-   "Telegram": 53,
-   "Web Scraper": 318
-  },
-  "dropped_samples": {
-   "relevance": [
-    "Auction of Government of India Dated Security",
-    "Novation of OTC Derivative Contracts",
-    "Adjudication Order in respect to Shri Shreedhar Yellaiah Kodam in the matter of Well Pack Papers and Container",
-    "Centrum on MSCI India: November 2026 Review- Expected additions and deletions - MSCI India (Global) Standard i",
-    "Nuvama Visit Note on SIGMA ADVANCED SYSTEMS- Building global A&D platform",
-    "Motilal Oswal\u2019s Morning India- Today\u2019s top research idea",
-    "Read today's Mint e-paper here",
-    "Jamie Dimon flags India's 'inconsistent application of taxes': What the JPMorgan CEO said about Indian economy",
-    "The world\u2019s second-largest economy spent $158.8 bn on gold in the first eight months of the year",
-    "Trump\u2019s UNGA speech: Trump also said he believed the US and Iran could reach a deal after the November midterm",
-    "#MintMarkets | Why NSE IPO became India's 2nd-largest, not biggest: MD-CEO Ashishkumar Chauhan explains",
-    "US President Donald Trump is moving from his earlier ambition of acquiring Greenland to a security arrangement",
-    "#MintMarkets | Indian equity markets ended lower on Tuesday, with the Sensex falling 329.91 points to 74,529.0",
-    "Stock Market No Longer Free and Fair",
-    "Listing of further issues of securities",
-    "PL Capital sees 14% UPSIDE in Voltas- Accelerating RAC growth, expanding product portfolio",
-    "Xi Touts Two More Meetings With Trump in 2026 At White House Tea",
-    "An auto driver's monthly income is going viral on the internet",
-    "Nearly 451,000 additional deaths could occur worldwide over the next six months because of the ongoing \u201cSuper ",
-    "A political controversy arose after a report indicated two Election Commissioners raised objections 14 times o"
-   ],
-   "junk": [
-    "Appeal No. 7064 of 2026 filed by Amit Gangrade",
-    "Appeal No. 7066 of 2026 filed by Saksham Puri",
-    "Appeal No. 7063 of 2026 filed by Sanjay Shah",
-    "Settlement Order in the matter of Adani Group Companies",
-    "Notice of Demand under Recovery Certificate number 9298 of 2026 dated September 21, 2026, issued to Allied Fin",
-    "Appeal No. 7068 of 2026 filed by Swarnali Basu",
-    "Appeal No. 7067 of 2026 filed by Kailash Kumar",
-    "Appeal No. 7065 of 2026 filed by Harish",
-    "Notices of Attachment of Bank and Post Office accounts and Demat Accounts and mutual Fund Folios with AP Nos",
-    "Notice of Attachment of Demat Accounts and Mutual Fund Folios dated September 17, 2026 against Bhavin Natwarla",
-    "Interim Order in the matter of Kore Digital Limited",
-    "General Remittance Order dated 17.09.2026 in Recovery Certificate No",
-    "Which NBFCs will gain the most from rate hike cycle? JM Financial lists top picks",
-    "Bandhan Medium Term Fund Regular-IDCW Quarterly",
-    "Bandhan Dynamic Term Fund Direct-IDCW Yearly",
-    "Bob Nousiainen receives the Oreste \u201cChip\u201d Chiantello Service Award",
-    "Gopi Desai, Rabindra Narayan Behera, Rahul Bali welcome holding of 72nd National Film Awards in Gujarat",
-    "Courtyard by Marriott Bali Nusa Dua Resort Elevates Meetings, Weddings, and Social Events with Versatile Indoo",
-    "72nd National Film Awards held in Gujarat hailed by Gopi Desai, Rabindra Behera and Rahul Bali",
-    "Stay here: Four Seasons Resort Bali at Sayan review"
-   ]
-  }
- },
- {
   "date": "2026-09-28",
   "fetched": 1288,
   "delivered_pool": 194,
@@ -2159,6 +2087,79 @@
     "Hindustan Copper Q2 earnings: Another strong quarter for Miniratna firm? What Anand Rathi expects",
     "Broad-Based Technical Strength Lifts Anand Rathi Wealth Ltd to 52-Week High of Rs 2391.15",
     "Bank of Baroda Share Price - Live NSE: BANKBARODA Stock Price & Chart"
+   ]
+  }
+ },
+ {
+  "date": "2026-11-14",
+  "fetched": 3237,
+  "delivered_pool": 174,
+  "junk": 2261,
+  "geo": 28,
+  "stale": 371,
+  "dup": 237,
+  "sections": {
+   "S1": 146,
+   "S2": 13,
+   "S3": 15
+  },
+  "mails": 0,
+  "failed": [],
+  "source_summary": {
+   "RBI RSS": 19,
+   "RBI Enforcement": 0,
+   "SEBI RSS": 20,
+   "Google News": 21,
+   "Watchlist (Google)": 1003,
+   "BSE Financials": 0,
+   "Telegram": 49,
+   "Web Scraper": 285,
+   "Rating Agencies": 2
+  },
+  "dropped_samples": {
+   "relevance": [
+    "Auction of Government of India Dated Security",
+    "Prohibitory Order No. 1583 of 2026 issued against CAT Technologies Limited associated with RC 4398 of 2021 in ",
+    "Petrol and diesel prices today, November 10: Petrol and diesel prices remained largely steady across major cit",
+    "WCR 2026 Part 1 is published",
+    "Vellora Impact Net Profit Increases Nearly 3X",
+    "BigBloc Construction Ltd Revenue rise 31% Y-o-Y",
+    "From Antarctica trips to $1,000 wellness stays, luxury is changing in India",
+    "Crisil ESG Ratings & Analytics",
+    "Conversion/Switch of Government of India Securities",
+    "Reserve Money and Money Supply for the fortnight ended on October 31, 2026",
+    "Reporting requirement under Foreign Account Tax Compliance Act (FATCA) and Common Reporting Standard (CRS) rev",
+    "Illegitimate, even if legal",
+    "RAHAT, but not for all",
+    "Listing of further issues of securities",
+    "Competition Commission Clears KKR Entity\u2019s Investment in Gentari Renewables - Mercomindia.com",
+    "Stocks in news: Tata Power, Cupid, Garden Reach, ITC, Aurobindo Pharma and Vodafone Idea",
+    "DA hike: Bihar govt increases dearness allowance, relief for employees and pensioners ahead of Chhath\u2014Here's a",
+    "SpiceJet is running late on three fronts: flights, supplier payments, salaries",
+    "Who is Kimberly Powell? What we know about the Nvidia executive with whom CEO Jensen Huang had an extramarital",
+    "Top law firms expand partner ranks as demand for expertise grows"
+   ],
+   "junk": [
+    "Cancellation of Recovery Certificate No",
+    "Cancellation of Recovery Certificate No",
+    "Cancellation of Recovery Certificate No",
+    "Cancellation of Recovery Certificate No",
+    "Cancellation of Recovery Certificate No",
+    "SEBI Order for Compliance - Release Order for Recovery Certificate No",
+    "Adjudication Order in the matter of trading activities of certain client of Inventure growth and Securities Li",
+    "Appeal No. 7145 of 2026 filed by Vikram Aggarwal",
+    "Appeal No. 7144 of 2026 filed by Dhanni Devi Panwar",
+    "Appeal No. 7143 of 2026 filed by Ashok kumar Saini",
+    "MakeMyTrip India Gets SEBI Approval For IPO, Could Raise Over $1 Bn",
+    "Hindustan Copper Q2 earnings: Another strong quarter for Miniratna firm? What Anand Rathi expects",
+    "Broad-Based Technical Strength Lifts Anand Rathi Wealth Ltd to 52-Week High of Rs 2391.15",
+    "Bank of Baroda Share Price - Live NSE: BANKBARODA Stock Price & Chart",
+    "Box Office: Nitesh Tiwari Overtakes Sanjay Leela Bhansali & 2 Others In Director Ranking As Ramayana Enters 20",
+    "Box Office: Nitesh Tiwari Overtakes Sanjay Leela Bhansali & 2 Others In Director Ranking As Ramayana Enters 20",
+    "Canara Bank - Punjab National Bank among 7 stocks showing White Marubozu pattern",
+    "Canara Bank Technical Momentum Shifts Amid Mixed Market Signals",
+    "Central Bank Of India Share Price, Stock Price - NSE/BSE Live",
+    "Buy Equitas Small Finance Bank; target of Rs 75: Motilal Oswal"
    ]
   }
  }
