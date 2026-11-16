@@ -1,77 +1,5 @@
 [
  {
-  "date": "2026-09-29",
-  "fetched": 1371,
-  "delivered_pool": 98,
-  "junk": 434,
-  "geo": 24,
-  "stale": 484,
-  "dup": 157,
-  "sections": {
-   "S1": 74,
-   "S2": 11,
-   "S3": 13
-  },
-  "mails": 41,
-  "failed": [],
-  "source_summary": {
-   "RBI RSS": 20,
-   "RBI Enforcement": 0,
-   "SEBI RSS": 20,
-   "Google News": 26,
-   "Watchlist (Google)": 821,
-   "BSE Financials": 0,
-   "Telegram": 50,
-   "Web Scraper": 945
-  },
-  "dropped_samples": {
-   "relevance": [
-    "Novation of OTC Derivative Contracts",
-    "Sri Lanka vs Nepal Match Abandoned; SL To Face India In Asian Games 2026 Semi Finals",
-    "Mushtaq Khan passed away on Thursday after days of hospitalisation in Mumbai at 56",
-    "Legal opinions obtained by Tata Sons have backed the validity of N Chandrasekaran\u2019s reappointment as chairman ",
-    "Starbucks to shut 250 underperforming stores across North America What did COO say in his message to employees",
-    "Why Saurabh Mukherjea thinks middle class India will see 'severe pain' going forward",
-    "Gautam Adani announced over \u20b94,000 crore investment for the Adani Arogya Mandir in West Bengal, promising over",
-    "India is considering regulations to restrict the sale of high-fat, high-salt, and high-sugar foods near school",
-    "#MintMarkets | Market crash today: Indian equity markets closed sharply lower in Thursday\u2019s session, with the ",
-    "A Set of Inspirational Parables \u2013 The Richest Man in Babylon",
-    "Listing of further issues of securities",
-    "Demat 2.0: From Electronic Ownership Records To Programmable Securities Infrastructure",
-    "How Tech Mahindra's Mohit Joshi turned around the company's performance while simultaneously driving growth",
-    "DAM Capital sees 47% UPSIDE in UPL- Implied Holdco discount is steep",
-    "India\u2019s expanding network of bridges, tunnels, expressways and high-speed trains is significantly changing how",
-    "Russia's ruling United Russia party has secured a record 349 seats in the 450-member State Duma.",
-    "India's foreign direct investment rose 6% to $19.81 billion in Q1 of the financial year, as per DPIIT data",
-    "AI agents are increasingly contacting researchers directly to seek data, collaborations and paid work",
-    "Businesses which sought quarterly food safety checks now ask for monthly audits",
-    "Goldman Sachs has acquired a significant stake in Brainbees Solutions, FirstCry's parent company, purchasing 6"
-   ],
-   "junk": [
-    "Cancellation of Recovery Certificate No",
-    "Cancellation of Recovery Certificate No",
-    "Remittance Order dated September 24, 2026 issued under RC No",
-    "Remittance Order dated September 24, 2026 issued under RC No",
-    "Remittance Order dated September 24, 2026 issued under RC No",
-    "Remittance Order dated September 24, 2026 issued under RC No",
-    "Remittance Order dated September 24, 2026 issued under RC No",
-    "Remittance Order dated September 24, 2026 issued under RC No",
-    "Settlement Order in the matter of Kaizen Domestic Scheme I",
-    "PGIM India Corp Bond Fund(G)-Direct Plan",
-    "5PAISA Share Price Today - 5Paisa Capital Ltd. Stock Price Live NSE/BSE",
-    "Pre-match Ballinamallard United vs Ards FC, NIFL Championship Round 10",
-    "Avendus Spark Upgrades Radico Khaitan to Buy from Add; Price Target is INR5,198",
-    "Bandhan Dynamic Term Fund Direct-IDCW Yearly",
-    "Bank of India Value Fund - Regular Plan Fund info",
-    "Bank of India Money Market Fund(G)-Direct Plan",
-    "Saad Boi USD (SAAD-USD) latest stock news and headlines \u2013 Yahoo Finance",
-    "Lunch by the Poernomo brothers, tracking fireflies and more, here\u2019s experiencing Bali with Airbnb Experiences",
-    "Waterbom & Friends Return For Last Edition Of 2026 In Heart Of Bali\u2019s Iconic Tourist Resort",
-    "Groww Overnight Fund - Direct Plan"
-   ]
-  }
- },
- {
   "date": "2026-09-30",
   "fetched": 925,
   "delivered_pool": 78,
@@ -2161,6 +2089,79 @@
     "Canara Bank Technical Momentum Shifts Amid Mixed Market Signals",
     "Central Bank Of India Share Price, Stock Price - NSE/BSE Live",
     "Buy Equitas Small Finance Bank; target of Rs 75: Motilal Oswal"
+   ]
+  }
+ },
+ {
+  "date": "2026-11-16",
+  "fetched": 3241,
+  "delivered_pool": 356,
+  "junk": 1658,
+  "geo": 25,
+  "stale": 188,
+  "dup": 760,
+  "sections": {
+   "S1": 295,
+   "S2": 36,
+   "S3": 25
+  },
+  "mails": 40,
+  "failed": [],
+  "source_summary": {
+   "RBI RSS": 19,
+   "RBI Enforcement": 0,
+   "SEBI RSS": 0,
+   "Google News": 25,
+   "Watchlist (Google)": 1263,
+   "BSE Financials": 20,
+   "Telegram": 0,
+   "Web Scraper": 309,
+   "Rating Agencies": 2
+  },
+  "dropped_samples": {
+   "relevance": [
+    "Conversion/Switch of Government of India Securities",
+    "Reserve Money and Money Supply for the fortnight ended on October 31, 2026",
+    "Auction of Government of India Dated Security",
+    "Reporting requirement under Foreign Account Tax Compliance Act (FATCA) and Common Reporting Standard (CRS) rev",
+    "Prohibitory Order No. 1583 of 2026 issued against CAT Technologies Limited associated with RC 4398 of 2021 in ",
+    "Illegitimate, even if legal",
+    "RAHAT, but not for all",
+    "Petrol and diesel prices today, November 10: Petrol and diesel prices remained largely steady across major cit",
+    "WCR 2026 Part 1 is published",
+    "Vellora Impact Net Profit Increases Nearly 3X",
+    "BigBloc Construction Ltd Revenue rise 31% Y-o-Y",
+    "Listing of further issues of securities",
+    "Competition Commission Clears KKR Entity\u2019s Investment in Gentari Renewables - Mercomindia.com",
+    "Stocks in news: Tata Power, Cupid, Garden Reach, ITC, Aurobindo Pharma and Vodafone Idea",
+    "DA hike: Bihar govt increases dearness allowance, relief for employees and pensioners ahead of Chhath\u2014Here's a",
+    "SpiceJet is running late on three fronts: flights, supplier payments, salaries",
+    "Who is Kimberly Powell? What we know about the Nvidia executive with whom CEO Jensen Huang had an extramarital",
+    "Top law firms expand partner ranks as demand for expertise grows",
+    "Indian companies ramp up overseas dealmaking amid growth push: JPMorgan",
+    "Exide, Amara Raja rush to monetize $1 billion Li-ion cell lines as investor questions mount"
+   ],
+   "junk": [
+    "Cancellation of Recovery Certificate No",
+    "Cancellation of Recovery Certificate No",
+    "Summary Settlement Order in the matte of Eight Innovate Fund II, scheme of Eight Innovate Investment Trust I",
+    "Cancellation of Recovery Certificate No",
+    "Cancellation of Recovery Certificate No",
+    "Cancellation of Recovery Certificate No",
+    "Hindustan Copper Q2 earnings: Another strong quarter for Miniratna firm? What Anand Rathi expects",
+    "Canara Bank Technical Momentum Shifts Amid Mixed Market Signals",
+    "Canara Bank - Punjab National Bank among 7 stocks showing White Marubozu pattern",
+    "Buy Equitas Small Finance Bank; target of Rs 75: Motilal Oswal",
+    "HDFC Bank Ltd. is Rated Hold by MarketsMOJO",
+    "Technical Analysis of ICICI Prudential Nifty Pharma ETF Exchange Traded Fund Units (BSE:PHARMAIETF)",
+    "Broad-Based Technical Strength Lifts South Indian Bank Ltd to 52-Week High of Rs 60.63",
+    "Broad-Based Technical Strength Lifts South Indian Bank Ltd to 52-Week High of Rs 59.1",
+    "Indian Bank - Punjab National Bank among 7 stocks showing White Marubozu pattern",
+    "Indian Overseas Bank revises fixed deposit rates: What depositors will earn now - CNBC TV18",
+    "Indian Overseas Bank revises fixed deposit rates: What depositors will earn now",
+    "IOB.NS (IOB) Share Price Today (NSE), Market News",
+    "Indian Overseas Bank Share Price, Stock Price - NSE/BSE Live",
+    "Indian Overseas Bank is Rated Hold by MarketsMOJO"
    ]
   }
  }
