@@ -1,77 +1,5 @@
 [
  {
-  "date": "2026-10-01",
-  "fetched": 999,
-  "delivered_pool": 110,
-  "junk": 367,
-  "geo": 25,
-  "stale": 197,
-  "dup": 116,
-  "sections": {
-   "S1": 77,
-   "S2": 17,
-   "S3": 16
-  },
-  "mails": 41,
-  "failed": [],
-  "source_summary": {
-   "RBI RSS": 20,
-   "RBI Enforcement": 0,
-   "SEBI RSS": 20,
-   "Google News": 26,
-   "Watchlist (Google)": 1023,
-   "BSE Financials": 0,
-   "Telegram": 59,
-   "Web Scraper": 999
-  },
-  "dropped_samples": {
-   "relevance": [
-    "Akums Drugs Q1FY27 net profit surges 56%; concall flags API turnaround",
-    "Balrampur Chini gets exchange nod for \u20b9450 Cr preferential issue",
-    "List of 4,756 NBFC Lenders Startups in India & Market Trends (Aug 2026)",
-    "Ingram Micro Holding (INGM) Q1 2026 Earnings Call Transcript",
-    "Euphoria Infotech Wins Rs 4.03 Crore Order for Online Admission Portal",
-    "DAM Capital sees 47% UPSIDE in UPL- Implied Holdco discount is steep",
-    "Oil prices rose more than 1% on Monday after Trump rejected Iran's peace deal to resolve conflict, reopen Stra",
-    "#MintMarkets | Nifty outlook for today: Bears to keep volatility elevated in monthly expiry week; Check resist",
-    "Ancy Sojan led the women\u2019s long jump with 6.53m until China\u2019s Yingying Huang produced 6.55m on her final attem",
-    "Anahat Singh expressed mixed emotions after winning the silver medal in women\u2019s singles squash at the Asian Ga",
-    "There was a party in Bengaluru where the main attraction was supposed to be peptides",
-    "Mehli K Mistry, a long-time associate of late industrialist Ratan Tata and former trustee of the Tata Trusts, ",
-    "Josh Daniels, a cinematic director at Halo Studios, lost his job just days after receiving a promotion",
-    "A sharp face-off unfolded at the UN General Assembly as India hit back at Pakistan PM Shehbaz Sharif\u2019s remarks",
-    "Gold, silver prices today, 26 Sept, 2026 Track all mkt updates here",
-    "Rimbi, Sikkim: Incessant heavy rainfall triggers a major landslide in Rimbi village under the Yuksom-Tashiding",
-    "India\u2019s expanding network of bridges, tunnels, expressways and high-speed trains is significantly changing how",
-    "Russia's ruling United Russia party has secured a record 349 seats in the 450-member State Duma.",
-    "India's foreign direct investment rose 6% to $19.81 billion in Q1 of the financial year, as per DPIIT data",
-    "Scuttlebutt is one of the most powerful tools available to an equity investor"
-   ],
-   "junk": [
-    "Top 5 FD rates: Suryoday, Jana, Ujjivan, Equitas and AU SFB compared for key tenures",
-    "Bank of India Option Chain",
-    "Bank of India Aggressive Hybrid Fund - Regular Plan Fund info",
-    "Bank of India Value Fund - Regular Plan Fund info",
-    "Best photos of September 27: Fire war ritual in Bali to flooding in Bangkok",
-    "Groww Share Price",
-    "BCCI Corporate Trophy, 2013/14 - Canara Bank Cricket Team Records & Stats",
-    "F&O: Analyst suggests bear, bull spreads on Bank Nifty, Canara Bank",
-    "F&O: Analyst suggests bear, bull spreads on Bank Nifty, Canara Bank",
-    "Maharashtra Bank Holiday Tomorrow, September 25: Are Banks Closed or Open",
-    "DAR CREDIT & CAPITAL LTD Share Price",
-    "ESAF Small Finance Bank Ltd is Rated Hold",
-    "FEDBANK FINANCIAL SER L Share Price",
-    "Geojit Financial Share Price Today, Geojit Financial Stock Price Live NSE/BSE Updates",
-    "Bank holidays this week: Strike, national holiday",
-    "HDFC BANK LTD Option Chain - Live HDFC BANK LTD Option Chain Data, OI & Price",
-    "HDFC MF announces IDCW record date under FMP 1876D March 2022",
-    "HUDCO Share Price",
-    "ICICI Bank Share Price - Live NSE: ICICIBANK Stock Price & Chart",
-    "SEBI Warns ICICI Bank for FPI Fund Repatriation Before Lock-in Period Ends"
-   ]
-  }
- },
- {
   "date": "2026-10-02",
   "fetched": 975,
   "delivered_pool": 138,
@@ -2163,6 +2091,79 @@
     "Federal Bank - Punjab National Bank among 4 stocks hitting 52-week highs; rally up to 22% in a month",
     "The Federal Bank - Mahindra & Mahindra among 5 stocks showing White Marubozu Pattern",
     "Bank Holiday Tomorrow: Are Banks Open or Closed Across India on November 14"
+   ]
+  }
+ },
+ {
+  "date": "2026-11-18",
+  "fetched": 1849,
+  "delivered_pool": 152,
+  "junk": 1238,
+  "geo": 7,
+  "stale": 198,
+  "dup": 94,
+  "sections": {
+   "S1": 131,
+   "S2": 17,
+   "S3": 4
+  },
+  "mails": 40,
+  "failed": [],
+  "source_summary": {
+   "RBI RSS": 19,
+   "RBI Enforcement": 0,
+   "SEBI RSS": 0,
+   "Google News": 26,
+   "Watchlist (Google)": 977,
+   "BSE Financials": 0,
+   "Telegram": 57,
+   "Web Scraper": 329,
+   "Rating Agencies": 2
+  },
+  "dropped_samples": {
+   "relevance": [
+    "Microsoft has restored access to its flagship software services after a major outage disrupted businesses, gov",
+    "The FAA lifted a nationwide ground stop on Friday after a communications failure at air traffic control center",
+    "The role is not limited to gaming",
+    "The turbulence the world is going through could last a few years, maybe till the end of the decade, External A",
+    "WATCH | Nearly one in six employees at India\u2019s biggest companies is now a non-permanent worker",
+    "Outlook can wait. Your edge on business and markets shouldn\u2019t. Stay informed with Mint. Download the Mint app ",
+    "Embattled Jensen Huang is discussing comeback as Nvidia CEO amid mounting pressure on board to reinstate him: ",
+    "Mahanadi Coalfields seeks \u20b990,000 crore valuation in \u20b98,981 crore IPO",
+    "Anthropic IPO: The company behind the Claude AI chatbot has launched its IPO roadshow, targeting a fundraising",
+    "Another set of 5 standout performers from past WCR editions.",
+    "Martin Niem\u00f6ller\u2019s \u201cFirst They Came\u201d: A Timeless Message About Guilt and Accountability",
+    "A stock we featured at \u20b9122.84 touched \u20b9138.50 in just 3 days, delivering a 13% move",
+    "Indian Real Estate Q2 FY27 Results: Profit Growth, Revenue Trends and REIT Performance",
+    "From Antarctica trips to $1,000 wellness stays, luxury is changing in India",
+    "Dilip Buildcon Reports 17% Revenue Growth As Renewable Energy And Transmission Drive INR 33,081 Crore Order Bo",
+    "Ambit prefers largecaps over midcaps for the next two quarters",
+    "Physicswallah Q2 Results: Net profit doubles to Rs 146 crore; revenue rises 18%",
+    "Samsung Electronics Announces Third Quarter 2026 Results",
+    "Indo-MIM Q2FY27 Results: Net profit up 97% YoY to \u20b92,152 crore",
+    "Earnings call transcript: Eicher Motors posts record q2 2027 results By Investing.com"
+   ],
+   "junk": [
+    "FD rate hike: Why are banks hiking fixed deposit interest rates?",
+    "5PAISA Share Price Today - 5Paisa Capital on NSE/BSE",
+    "AU Small Financ Share Price, AU Small Financ Stock Price, AU Small Finance Bank Ltd",
+    "Bajaj Finance Share Price - Live NSE: BAJFINANCE Stock Price & Chart",
+    "Canara Bank is Rated Hold by MarketsMOJO",
+    "Capital Small Finance Bank Ltd is Rated Hold by MarketsMOJO",
+    "Why Is HG Capital Trust plc (LSE:HGT) Moving Within [FTSE 350]?",
+    "ESAF Small Finance Bank Ltd Technical Momentum Shifts Signal Bullish Outlook",
+    "Broad-Based Technical Strength Lifts ESAF Small Finance Bank Ltd to 52-Week High of Rs 46.52",
+    "Bank Holiday Today, November 14: Are Banks Open Or Closed Across India On Saturday",
+    "Bank Holiday Today, November 14: Is Banks Open or Closed Across India",
+    "IL&FS Investment Managers Ltd Upgraded to Sell on Technical Improvements Despite Weak Fundamentals",
+    "Cricket match squads",
+    "Neutral Manappuram Finance; target of Rs 360: Motilal Oswal",
+    "The Technical Signals Behind (SMFG) That Institutions Follow",
+    "SBI to Run Two Proofs of Concept with National Bank of Cambodia: Tokenized Government Bonds and Yen Stablecoin",
+    "NSIC football: USF rallies to beat Concordia-St. Paul",
+    "#HTLS2026 \u2728| Don\u2019t miss live power-packed top speakers at Hindustan Times Leadership Submit #HTLS #HTLeadershi",
+    "\ud83d\udcc8 Market Closing | Indian stock markets closed in the red, with both benchmark indices extending losses",
+    "will be published on 16 November"
    ]
   }
  }
