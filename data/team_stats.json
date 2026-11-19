@@ -1,77 +1,5 @@
 [
  {
-  "date": "2026-10-02",
-  "fetched": 975,
-  "delivered_pool": 138,
-  "junk": 317,
-  "geo": 25,
-  "stale": 210,
-  "dup": 130,
-  "sections": {
-   "S1": 114,
-   "S2": 16,
-   "S3": 8
-  },
-  "mails": 41,
-  "failed": [],
-  "source_summary": {
-   "RBI RSS": 20,
-   "RBI Enforcement": 0,
-   "SEBI RSS": 20,
-   "Google News": 32,
-   "Watchlist (Google)": 1105,
-   "BSE Financials": 0,
-   "Telegram": 58,
-   "Web Scraper": 904
-  },
-  "dropped_samples": {
-   "relevance": [
-    "PL Capital sees 5% UPSIDE in Petronet LNG- Expanding service offerings to drive Kochi utilization",
-    "Nomura Initiating Coverage on Meesho, with 28% DOWNSIDE- Trading at significant premium to other ecommerce pla",
-    "Motilal Oswal\u2019s Morning India- Today\u2019s top research idea",
-    "Liquor prices in Delhi may rise ahead of the festive season as the Delhi government prepares a new excise poli",
-    "Parul Chaudhary expressed her happiness after winning two medals, saying she was pleased with her performance ",
-    "Gulveer Singh win silver medal with a Personal Best timing of 3:36.72s in Men's 1500m Final",
-    "India's industrial output increased by 8% in August 2026 compared to 7.4% in the previous month, mainly due to",
-    "Shannon Burns, a senior technology executive who was fired after sleeping in a sauna during a work trip, has r",
-    "#WATCH | Xi\u2019s gift to Trump: Giant pandas from China arrive in US by FedEx Panda Express, head to Zoo Atlanta",
-    "Morepen strengthens integrated CDMO capabilities with first U.S",
-    "\u201cWealth is built by consistent habits, not by occasional windfalls.\u201d",
-    "Listing of further issues of securities",
-    "Why there are clear signs of a reset in India's quick-commerce sector",
-    "Novation of OTC Derivative Contracts",
-    "Order for Remittance of Attached amount issued against Narayan Shivram Kotnis under RC No",
-    "DT Next Campus",
-    "DT Next Campus",
-    "Read today's Mint e-paper here",
-    "Dating app Hinge's CEO, Jackie Jantos in an interview with Mint said that India has emerged as online dating a",
-    "Best #stocks to buy or sell ft"
-   ],
-   "junk": [
-    "Settlement order in the matter of Adani group companies",
-    "Adjudication Order in the matter of Alankit Assignments Limited",
-    "Adjudication Order in respect of Madhukar Dubey and its proprietorship firm viz",
-    "Summary Settlement Order in the matter of Harbourfront India trust AIF",
-    "Final Order in the matter of Growpital Platform",
-    "Settlement order in the matter of Growpital Platform",
-    "Settlement order in the matter of Investcorp Private Equity Fund I",
-    "Are banks open today? Check the latest update on September 28-30 bank strike and bank holiday status on Mo",
-    "Bank of India Share Price Today Down 4%",
-    "Bank of India Uganda launches debit card with access to 650+ ATMs",
-    "Bank of Maharashtra among 5 stocks showing RSI trending up",
-    "Love & War vs Sangam: Why Fans See Similarities in Bhansali\u2019s Film",
-    "Bollywood Rewind",
-    "Inside Bali's spectacular war of fire: the Siat Geni ritual",
-    "Anantara Ubud Bali Resort Launches Bali Starling Conservation Programme",
-    "Gate.io premieres new Gate Travel Club film featuring Bali and top community members",
-    "Best photos of September 27: Fire war ritual in Bali to flooding in Bangkok",
-    "Munduk Cabins, Bali, Indonesia",
-    "8 Best 2026 Airbnb Stays in Ubud, Bali for Wellness & Nature Retreats",
-    "Top stock picks: Analysts recommend buying Cyient DLM; cautious on PNB, Godrej Properties, Canara Bank"
-   ]
-  }
- },
- {
   "date": "2026-10-03",
   "fetched": 902,
   "delivered_pool": 77,
@@ -2164,6 +2092,79 @@
     "#HTLS2026 \u2728| Don\u2019t miss live power-packed top speakers at Hindustan Times Leadership Submit #HTLS #HTLeadershi",
     "\ud83d\udcc8 Market Closing | Indian stock markets closed in the red, with both benchmark indices extending losses",
     "will be published on 16 November"
+   ]
+  }
+ },
+ {
+  "date": "2026-11-19",
+  "fetched": 2449,
+  "delivered_pool": 112,
+  "junk": 1908,
+  "geo": 5,
+  "stale": 159,
+  "dup": 97,
+  "sections": {
+   "S1": 89,
+   "S2": 14,
+   "S3": 9
+  },
+  "mails": 40,
+  "failed": [],
+  "source_summary": {
+   "RBI RSS": 19,
+   "RBI Enforcement": 0,
+   "SEBI RSS": 0,
+   "Google News": 30,
+   "Watchlist (Google)": 1041,
+   "BSE Financials": 0,
+   "Telegram": 56,
+   "Web Scraper": 940,
+   "Rating Agencies": 2
+  },
+  "dropped_samples": {
+   "relevance": [
+    "Dilip Buildcon Reports 17% Revenue Growth As Renewable Energy And Transmission Drive INR 33,081 Crore Order Bo",
+    "Ambit prefers largecaps over midcaps for the next two quarters",
+    "Physicswallah Q2 Results: Net profit doubles to Rs 146 crore; revenue rises 18%",
+    "Samsung Electronics Announces Third Quarter 2026 Results",
+    "Indo-MIM Q2FY27 Results: Net profit up 97% YoY to \u20b92,152 crore",
+    "Earnings call transcript: Eicher Motors posts record q2 2027 results By Investing.com",
+    "Satin Creditcare Network (NSEI:SATIN) - Stock Analysis",
+    "Q2 results 2026 today: Eternal, Adani Green, Indian Hotels among 38 firms to announce quarterly earnings",
+    "Paytm profit jumps to Rs 225 crore as revenue rises 28 per cent",
+    "From Antarctica trips to $1,000 wellness stays, luxury is changing in India",
+    "Crisil ESG Ratings & Analytics",
+    "Karnataka HC: Prevent removal of sacred thread for CET",
+    "Australia plans stricter AI regulations after an OpenAI AI agent reportedly accessed its Medicare medical stat",
+    "#MintMarkets | Indian stock markets opened on a mixed note today",
+    "US intelligence has reportedly identified detailed Iranian plans for potential attacks on US soil, including t",
+    "Here is a look at petrol and diesel prices in major cities as of November 17",
+    "Cyclone Akvan Live Tracker: IMD Warns Of Heavy Rains And Strong Winds As Akvan Approaches Andhra Pradesh And T",
+    "Microsoft has explained the technical failures behind the global Microsoft 365 outage on November 12, saying a",
+    "Delhi's Bhikaji Cama Place has added a multi-level parking facility with the capacity to accommodate 432 cars ",
+    "India is set to send drug inspectors to the World Health Organization headquarters in Geneva starting next yea"
+   ],
+   "junk": [
+    "Large banks raise FD rates by up to 50 bps; highest return at 7.55%",
+    "5PAISA Share Price Today - 5Paisa Capital on NSE/BSE",
+    "5Paisa Capital Share Price",
+    "AU SFB Raises FCNR Deposit Rates To 7.40% And NRE FD Rates To 7.60%",
+    "BoB, IOB, Central Bank Of India, Axis Bank And Three Others Revise FD Rates",
+    "AXIS BANK LIMITED Option Chain - Live AXIS BANK LIMITED Option Chain Data, OI & Price",
+    "Axis Bank - FIIs are back! Jefferies lists 11 stocks that can be the biggest beneficiaries",
+    "BAJAJ FINANCE LIMITED Option Chain - Live BAJAJ FINANCE LIMITED Option Chain Data, OI & Price",
+    "Bank of Baroda Share Price - Live NSE: BANKBARODA Stock Price & Chart",
+    "Bank of India Share Price - Live NSE: BANKINDIA Stock Price & Chart",
+    "Bank of India Option Chain",
+    "Senior Citizen FD Rates: BoB vs BOI vs IOB - Which bank offers highest interest on special FDs?",
+    "Canara Bank Option Chain",
+    "Canara Bank is Rated Hold by MarketsMOJO",
+    "444-Day FD Rates For Senior Citizens: SBI, IOB, Canara Bank And Central Bank Compared",
+    "Capital Small Finance Bank Ltd is Rated Hold",
+    "Capital Small Finance Bank Ltd is Rated Hold by MarketsMOJO",
+    "Why Is HG Capital Trust plc (LSE:HGT) Moving Within [FTSE 350]?",
+    "Ceejay Finance Ltd Upgraded to Sell by MarketsMOJO Amid Mixed Technical and Fundamental Signals",
+    "Comfort Fincap Share Price"
    ]
   }
  }
