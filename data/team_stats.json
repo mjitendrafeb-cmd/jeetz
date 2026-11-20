@@ -1,77 +1,5 @@
 [
  {
-  "date": "2026-10-03",
-  "fetched": 902,
-  "delivered_pool": 77,
-  "junk": 311,
-  "geo": 22,
-  "stale": 187,
-  "dup": 139,
-  "sections": {
-   "S1": 59,
-   "S2": 11,
-   "S3": 7
-  },
-  "mails": 0,
-  "failed": [],
-  "source_summary": {
-   "RBI RSS": 20,
-   "RBI Enforcement": 0,
-   "SEBI RSS": 20,
-   "Google News": 29,
-   "Watchlist (Google)": 918,
-   "BSE Financials": 0,
-   "Telegram": 56,
-   "Web Scraper": 197
-  },
-  "dropped_samples": {
-   "relevance": [
-    "Novation of OTC Derivative Contracts",
-    "Order for Remittance of Attached amount issued against Narayan Shivram Kotnis under RC No",
-    "PL Capital sees 5% UPSIDE in Petronet LNG- Expanding service offerings to drive Kochi utilization",
-    "Read today's Mint e-paper here",
-    "Dating app Hinge's CEO, Jackie Jantos in an interview with Mint said that India has emerged as online dating a",
-    "Best #stocks to buy or sell ft",
-    "September was challenging for Nifty, marking a 6.3% decline, the worst since 2001",
-    "In this special conversation with Abhinav Trivedi, Deputy Editor, Mint, students not only define & explore the",
-    "Indian long-distance runner Gulveer Singh clinched his third medal at the 2026 Asian Games in Aichi-Nagoya aft",
-    "#WATCH | CDS General Subramani calls for AI-powered, data-centric warfare to prepare for future conflicts",
-    "Neeru Dhanda clinched Gold in the women's trap shooting event, expressing pride after hearing the national ant",
-    "Delhi's Anti-Pollution Plan: 50% WFH, Higher Parking Fees & Construction Ban",
-    "Speaking at the Congress Working Committee (CWC) meeting held in New Delhi today, Kharge accused the Modi gove",
-    "Stock market holiday: BSE, NSE closed today for Gandhi Jayanti",
-    "Morepen strengthens integrated CDMO capabilities with first U.S",
-    "\u201cRegular investments + time = wealth.\u201d",
-    "\u201cWealth is built by consistent habits, not by occasional windfalls.\u201d",
-    "Listing of further issues of securities",
-    "Listing of privately placed securities on capital market segment",
-    "Why there are clear signs of a reset in India's quick-commerce sector"
-   ],
-   "junk": [
-    "Settlement Order in the matter of Lloyd Enterprises Limited",
-    "Adjudication Order in the matter of Shares Bazaar Pvt. Ltd. - Research Analyst",
-    "Remittance Order dated September 29, 2026 issued under RC No",
-    "Notice of Attachment of Demat account of Navnit Gadoya in RC No. 9286 of 2026.",
-    "Notice of Attachment of Bank account of Navnit Gadoya in RC No. 9286 of 2026.",
-    "Remittance Order dated 28.09.2026 issued in RC No. 9249 of 2026.",
-    "Remittance Order dated 28.09.2026 issued in RC No. 9248 of 2026.",
-    "Remittance Order dated 28.09.2026 issued in RC No. 9241 of 2026.",
-    "Settlement order in the matter of Adani group companies",
-    "HSBC Sees Two RBI Rate Hikes In FY27 Amid Strong Growth, Inflation Risks",
-    "Upcoming IPOs: Pioneer Fil-Med, Tonbo Imaging, Functional & Innovative Foods get SEBI approval",
-    "Bank of India Share Price Today Down 4%",
-    "Bank of Maharashtra among 5 stocks showing RSI trending up",
-    "'One of the best' - Finance Expert: Premier League clubs have 'missed a trick' with Nottingham Forest star",
-    "Not Bali, This Is India! Hidden Resort In Northeast Goes Viral For Riverside Dining & Tropical Vibes",
-    "Inside Bali's spectacular war of fire: the Siat Geni ritual",
-    "Experience The Spirit Of Bali At Four Seasons Resort Bali At Sayan",
-    "Munduk Cabins, Bali, Indonesia",
-    "Top stock picks: Analysts recommend buying Cyient DLM; cautious on PNB, Godrej Properties, Canara Bank",
-    "Understanding MSCI Rebalancing and Market Volatility"
-   ]
-  }
- },
- {
   "date": "2026-10-04",
   "fetched": 885,
   "delivered_pool": 95,
@@ -2165,6 +2093,79 @@
     "Why Is HG Capital Trust plc (LSE:HGT) Moving Within [FTSE 350]?",
     "Ceejay Finance Ltd Upgraded to Sell by MarketsMOJO Amid Mixed Technical and Fundamental Signals",
     "Comfort Fincap Share Price"
+   ]
+  }
+ },
+ {
+  "date": "2026-11-20",
+  "fetched": 2640,
+  "delivered_pool": 160,
+  "junk": 2004,
+  "geo": 6,
+  "stale": 195,
+  "dup": 105,
+  "sections": {
+   "S1": 131,
+   "S2": 17,
+   "S3": 12
+  },
+  "mails": 40,
+  "failed": [],
+  "source_summary": {
+   "RBI RSS": 19,
+   "RBI Enforcement": 0,
+   "SEBI RSS": 0,
+   "Google News": 25,
+   "Watchlist (Google)": 1100,
+   "BSE Financials": 0,
+   "Telegram": 51,
+   "Web Scraper": 376,
+   "Rating Agencies": 0
+  },
+  "dropped_samples": {
+   "relevance": [
+    "Australia plans stricter AI regulations after an OpenAI AI agent reportedly accessed its Medicare medical stat",
+    "#MintMarkets | Indian stock markets opened on a mixed note today",
+    "US intelligence has reportedly identified detailed Iranian plans for potential attacks on US soil, including t",
+    "Here is a look at petrol and diesel prices in major cities as of November 17",
+    "The India Meteorological Department (IMD) has issued a \u201cyellow alert\u201d for the Andhra Pradesh and adjoining Sou",
+    "Microsoft has explained the technical failures behind the global Microsoft 365 outage on November 12, saying a",
+    "Delhi's Bhikaji Cama Place has added a multi-level parking facility with the capacity to accommodate 432 cars ",
+    "India is set to send drug inspectors to the World Health Organization headquarters in Geneva starting next yea",
+    "AI disruption has wiped out $206 billion in market value across 10 listed companies in travel, creative softwa",
+    "India has joined the US-led San Francisco Declaration on the Secure Foundations of Enduring Prosperity, an agr",
+    "Vedanta Group firm Hindustan Zinc Ltd (HZL) on Monday (November 16) announced an \u20b980,000-crore expansion progr",
+    "S\u200bummary of financial markets from last week: \u200bThe recovery in Indian equities strengthened and broadened last",
+    "LAST CALL - You only have 1 more day to buy WCR 2026 with",
+    "WCR 2026 PART 2 is now Published",
+    "Free Is Toxic \u2013 a Truth Americans Know, but Indians Do Not",
+    "\u201cEvery EMI is a claim on income you haven\u2019t earned yet.\u201d Borrow carefully",
+    "Listing of further issues of securities",
+    "From Antarctica trips to $1,000 wellness stays, luxury is changing in India",
+    "Premature redemption under Sovereign Gold Bond (SGB) Scheme - Redemption Price for premature redemption of SGB",
+    "Senco Gold Festive Sales"
+   ],
+   "junk": [
+    "South Indian Bank Ltd is Rated Buy by MarketsMOJO",
+    "iShares MSCI EMU Climate Transition Aware UCITS ETF EUR Inc (MCTD.DE) interactive stock chart",
+    "Deka MSCI Ger.Cl.Ch.ESG CTB UEI (D6RT.HA) latest stock news and headlines",
+    "BoB, IOB, Central Bank Of India, Axis Bank And Three Others Revise FD Rates",
+    "Capital Small Finance Bank Ltd is Rated Hold",
+    "Brenham Cub soccer program to host alumni 7-on-7 event",
+    "Comfort Fincap Share Price",
+    "Dar Credit & Capital Ltd is Rated Sell",
+    "Equitas Small Finance Bank Share Price Target at Rs 75: Motilal Oswal Financial Services",
+    "No Exam \u2666\ufe0f Federal Bank Officer Recruitment 2026 Tamil",
+    "HDFC MF announces IDCW record date under Arbitrage Fund",
+    "Indian Bank is Rated Hold by MarketsMOJO",
+    "IndusInd Bank Share Price Highlights: IndusInd Bank Stock Price History",
+    "Laxmi India Finance Ltd is Rated Sell",
+    "Navi Nifty REITs & Realty Index Reg Gr NAV, Mutual Fund Returns & Scheme History",
+    "SG Finserve Share Price Today: 52-Week High at Rs 755.90",
+    "SMBC targets March for yen stablecoin as Japan\u2019s megabanks bet on code",
+    "Price to sales forward of Share India Securities Ltd Rights 2023-17.03.23 For Shares \u2013 BSE:SHARERE",
+    "Shriram Finance Ltd is Rated Hold",
+    "NSIC champion Bulldogs draw Missouri Western in NCAA tournament"
    ]
   }
  }
