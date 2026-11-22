@@ -1,77 +1,5 @@
 [
  {
-  "date": "2026-10-05",
-  "fetched": 1097,
-  "delivered_pool": 176,
-  "junk": 259,
-  "geo": 18,
-  "stale": 15,
-  "dup": 371,
-  "sections": {
-   "S1": 134,
-   "S2": 24,
-   "S3": 18
-  },
-  "mails": 41,
-  "failed": [],
-  "source_summary": {
-   "RBI RSS": 20,
-   "RBI Enforcement": 0,
-   "SEBI RSS": 20,
-   "Google News": 37,
-   "Watchlist (Google)": 1250,
-   "BSE Financials": 21,
-   "Telegram": 107,
-   "Web Scraper": 214
-  },
-  "dropped_samples": {
-   "relevance": [
-    "Indicative Calendar of Market borrowings by State Governments/ Union Territories for the Quarter October \u2013 Dec",
-    "Consolidation/ Review of instructions issued on currency management matters \u2013 Withdrawal of Circulars/ Guideli",
-    "Cassette - Swaps in ATMs",
-    "Half Yearly Results, Half yearly Earnings for D P Wires",
-    "#UNTOLD",
-    "Video",
-    "Bright Horizons Family Solution (BFAM) Stock Forecasts",
-    "'Bali in Bengaluru' transnational festival to bridge Indian and Balinese epics across 14 venues",
-    "Gangsters Naveen Bali, Dhillu \u2018assault\u2019 Tihar Jail officials, \u2018attempt to inflict self-injuries\u2019",
-    "Nushrratt Bharuccha suffers injury in Bali and currently recovering in hospital after accident while shoo",
-    "Starlux launches 5 weekly flights between Taiwan and Bali",
-    "Propagate India\u2019s Prachi Bali & Parikshit Bhattaccharya on how creativity is being redefined",
-    "Bali\u2019s The Seed names new CEO",
-    "Participate in Pitru Paksham Dakshina Kashi Gokarna Special Narayana Bali, Tripindi Shradh, and Tila Homa to b",
-    "Business Updates",
-    "Free: Community Scene",
-    "Top 10@10",
-    "El Shams Housing & Urbanization stock reports EGP 59.45 million revenue",
-    "KSLU Results 2026 Out @kslu.karnataka.gov.in, Check 80-20 Pattern Here",
-    "Promoting Lifelong Wellness at East Tennessee State University"
-   ],
-   "junk": [
-    "SEBI Order for Compliance - General Remittance Order dated 01.10.2026 in Recovery Certificate No",
-    "Adjudication Order in the matter of SMC Global Securities Ltd",
-    "Appeal No. 7073 of 2026 filed by Ramesh B",
-    "Appeal No. 7072 of 2026 filed by Ardra K M",
-    "Appeal No. 7075 of 2026 filed by Vipan Kumar",
-    "Appeal No. 7071 of 2026 filed by Dhanashree Deshpande",
-    "Appeal No. 7069 of 2026 filed by Sundaresan Viswanathan",
-    "Appeal No. 7070 of 2026 filed by Swati Saini",
-    "Appeal No. 7074 of 2026 filed by Chandrashekar Palimar Shenoy",
-    "Completion of Recovery Certificate No",
-    "Completion of Recovery Certificate No. 4722 of 2022-Veera Kumar Das Surapanani in the matter of Venus Power Ve",
-    "Final Order in the matter of Eqwires Research Analyst",
-    "Order in the matter of DAR Mentorcap Film Fund",
-    "Order in the matter of Arcus Opportunities Fund",
-    "HSBC Sees Two RBI Rate Hikes In FY27 Amid Strong Growth, Inflation Risks",
-    "Ballinamallard United vs Ards - Watch Online for Free",
-    "Bank of Baroda Share Price Target: Down 15%, Levels and View",
-    "Bank of Baroda stock: Down 15% in 3 months, can bulls return? Check target, stop loss - technical outlook by e",
-    "Bank of India Mid Cap Fund(G)-Direct Plan",
-    "KPESE BOI VS KEENY ICE: WHO IS WINNING THE BEEF ON AUDIOMACK? \ud83d\udcca\ud83e\udd4a"
-   ]
-  }
- },
- {
   "date": "2026-10-06",
   "fetched": 1185,
   "delivered_pool": 113,
@@ -2167,6 +2095,79 @@
     "Price to sales forward of Share India Securities Ltd Rights 2023-17.03.23 For Shares \u2013 BSE:SHARERE",
     "Shriram Finance Ltd is Rated Hold",
     "NSIC champion Bulldogs draw Missouri Western in NCAA tournament"
+   ]
+  }
+ },
+ {
+  "date": "2026-11-22",
+  "fetched": 2533,
+  "delivered_pool": 189,
+  "junk": 1605,
+  "geo": 12,
+  "stale": 295,
+  "dup": 288,
+  "sections": {
+   "S1": 157,
+   "S2": 14,
+   "S3": 18
+  },
+  "mails": 0,
+  "failed": [],
+  "source_summary": {
+   "RBI RSS": 19,
+   "RBI Enforcement": 0,
+   "SEBI RSS": 0,
+   "Google News": 19,
+   "Watchlist (Google)": 889,
+   "BSE Financials": 0,
+   "Telegram": 45,
+   "Web Scraper": 163,
+   "Rating Agencies": 0
+  },
+  "dropped_samples": {
+   "relevance": [
+    "Premature redemption under Sovereign Gold Bond (SGB) Scheme - Redemption Price for premature redemption of SGB",
+    "IMD issues \u2018orange\u2019 alert for Andhra Pradesh, Odisha, Telangana as Cyclonic Storm Akvan intensifies",
+    "Former U.S. Securities and Exchange Commission (SEC) Chair Gary Gensler has issued a stark warning that the bi",
+    "Reliance Group will invest \u20b91,600 crore to establish a Campa Cola beverage manufacturing plant in Karnataka's ",
+    "Who is Travis Kalanick? What Uber co-founder is planning after Jensen Huang episode at Nvidia; details here",
+    "GRAP-III restrictions lifted in and around Delhi-NCR as air quality improves; Stage I and II curbs to remain i",
+    "WATCH | PM Narendra Modi picks up the Indian flag used as the spot marker as QUAD leaders arrive for the meeti",
+    "Stock Market Recovery: Key Factors That Could Drive a Turnaround in India",
+    "LAST CALL - You only have 1 more day to buy WCR 2026 with",
+    "WCR 2026 PART 2 is now Published",
+    "Free Is Toxic \u2013 a Truth Americans Know, but Indians Do Not",
+    "Listing of further issues of securities",
+    "From Antarctica trips to $1,000 wellness stays, luxury is changing in India",
+    "Anthropic has raised $81.3 billion for its initial public offering (IPO), with each share priced at $83, much ",
+    "All about the Cambay offshore block at the centre of Vedanta chair Anil Agarwal's tiff with the govt",
+    "Intel has begun another round of job cuts, extending a sweeping restructuring effort under chief executive Lip",
+    "The Cambridge Dictionary has named \u2018human\u2019 its word of the year for 2026, reflecting growing global debates ov",
+    "Mukesh Ambani-led Reliance is exploring plans to build a 1,600-satellite broadband network that could emerge a",
+    "WATCH | The United States and South Korea have issued urgent cybersecurity advisories after a cybersecurity fi",
+    "Finances of Panchayati Raj Institutions"
+   ],
+   "junk": [
+    "EPL Ltd fixes Nov 20 record date for maturity of \u20b960 crore commercial papers",
+    "Deka MSCI Ger.Cl.Ch.ESG CTB UEI (D6RT.HA) latest stock news and headlines",
+    "Broad-Based Technical Strength Lifts A.K.Capital Services Ltd to 52-Week High of Rs 2006.1",
+    "Broad-Based Technical Strength Lifts A.K.Capital Services Ltd to 52-Week High of Rs 1980",
+    "Bank of India Share Price Today Up 4%",
+    "Canara Bank Upgraded to Buy by MarketsMOJO on Strong Fundamentals and Valuation",
+    "High Ground movie showing at Harrah\u2019s Tahoe fundraiser for Sierra Cub",
+    "Brenham Cub soccer program to host alumni 7-on-7 event",
+    "Comfort Fincap Share Price",
+    "Equitas Small Finance Bank Share Price Target at Rs 75: Motilal Oswal Financial Services",
+    "HDFC MF announces IDCW record date under Arbitrage Fund",
+    "How Far Will Fairfax Financial (TSX:FFH) Go as It Pursues a Major Indian Bank?",
+    "IL&FS Engineering & Construction Co Ltd is Rated Strong Sell",
+    "IL&FS Investment Managers Ltd Upgraded to Sell on Technical Improvements Despite Weak Fundamentals",
+    "Broad-Based Technical Strength Lifts Karnataka Bank Ltd to 52-Week High of Rs 370.5",
+    "L&T Finance Share Price Target at Rs 325: ICICI Securities",
+    "Cricket match squads",
+    "Navi Nifty REITs & Realty Index Reg Gr NAV, Mutual Fund Returns & Scheme History",
+    "PNB Share Price",
+    "PNB Share Price Today Up 4%"
    ]
   }
  }
