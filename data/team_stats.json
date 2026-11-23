@@ -1,78 +1,6 @@
 [
  {
   "date": "2026-10-06",
-  "fetched": 1185,
-  "delivered_pool": 113,
-  "junk": 295,
-  "geo": 10,
-  "stale": 390,
-  "dup": 204,
-  "sections": {
-   "S1": 84,
-   "S2": 16,
-   "S3": 13
-  },
-  "mails": 41,
-  "failed": [],
-  "source_summary": {
-   "RBI RSS": 20,
-   "RBI Enforcement": 0,
-   "SEBI RSS": 20,
-   "Google News": 24,
-   "Watchlist (Google)": 341,
-   "BSE Financials": 0,
-   "Telegram": 51,
-   "Web Scraper": 304
-  },
-  "dropped_samples": {
-   "relevance": [
-    "Indicative Calendar of Market borrowings by State Governments/ Union Territories for the Quarter October \u2013 Dec",
-    "Master Direction on Note Sorting Machines",
-    "Non-Resident Deposits - Comprehensive Single Return (NRD-CSR)(R012): Submission under CIMS Sankalan Portal",
-    "Online submission of Form A2: Removal of limits on amount of remittance",
-    "Consolidation/ Review of instructions issued on currency management matters \u2013 Withdrawal of Circulars/ Guideli",
-    "Cassette - Swaps in ATMs",
-    "GCR on Hospital Sector- The Second-Order Read: Supreme Court Drug Margin Ruling on Hospital Sector",
-    "Motilal Oswal\u2019s Morning India- Today\u2019s top research idea (01-Oct-26)",
-    "Skyroot Aerospace co-founder and CEO Pawan Kumar Chandana has been named to TIME100 Next 2026, bringing fresh ",
-    "Cheap & Fake Cosmetic, Weight Loss Drug Demand Surges In India",
-    "Cockroach Janta Party (CJP) leader Abhijeet Dipke on Friday dared Maharashtra Chief Minister Devendra Fadnavis",
-    "India\u2019s women are Asian Games hockey champions again",
-    "#MintMarkets | TCS, Wipro, Infosys, HCL Tech: Why experts see IT stocks' price jump on Monday",
-    "Did you know? Mahatma Gandhi was nominated for Nobel Peace Prize 5 times",
-    "In a video shot inside the flydubai plane, one person could be heard saying, \u201che tried to crash the plane,\u201d in",
-    "Flydubai Captain Smit Machchhar turns emotional as he recounts his ordeal before PM Modi; he says, \"You are my",
-    "Lovlina Borgohain defeated Bao Ziyi of China by 5-0 margin in an unanimous decision, to win the first-ever gol",
-    "#MintPremium |In 1947, Mahatma Gandhi urged decision-makers to ask whether the poorest and weakest would benef",
-    "Elon Musk Says SpaceXAI Will Be Renamed SpaceXSI After Trump Rebrands AI",
-    "Security has been tightened across New Delhi district, while Delhi Traffic Police has issued an advisory warni"
-   ],
-   "junk": [
-    "Max Healthcare Institute among 3 F&O stocks with a sharp rise in futures open interest",
-    "Not Rated 360 ONE WAM Ltd for the Target Rs.NA By Prabhudas Lilladher Ltd",
-    "Ballinamallard United vs Ards - Watch Online for Free",
-    "Bandhan Banking and PSU Debt Fund Regular-IDCW Fortnightly",
-    "Bank of Baroda Share Price Target: Down 15%, Levels and View",
-    "Bank of Baroda stock: Down 15% in 3 months, can bulls return? Check target, stop loss - technical outlook by e",
-    "Baroda BNP Paribas Income Plus Arbitrage Active FoF(G)-Direct Plan",
-    "Baroda BNP Paribas Dynamic Term Fund Direct-IDCW Weekly",
-    "\u2018Love & War\u2019: Sanjay Leela Bhansali\u2019s Film Secures INR 300 Crore Theatrical Rights Deal Ahead of 2027",
-    "Nushrratt Bharuccha health update: actress suffers spine fracture in Bali accident; team says surgery pla",
-    "Nushrratt Bharuccha\u2019s Bali trip takes painful turn: Actor suffers spinal fracture in accident, to be flown",
-    "Canara Bank Share Price Hits Fresh 52-Week Low",
-    "Capital Small Finance Bank Ltd is Rated Hold",
-    "Central Bank Of India Share Price Today Near One-Year Low",
-    "HUDCO Share Price Today near yearly low; key levels in focus",
-    "ICICI Prudential AMC Upgraded to Hold on Improved Technicals and Financial Trends",
-    "ICICI Prudential Life Insurance Company Ltd is Rated Sell",
-    "\u201cSanctity Is The Reward Of Legality\u201d: Supreme Court Invalidates IFCI\u2019s SARFAESI Auction Of Ooty Resort...",
-    "Jana Small Finance Bank Ltd is Rated Buy",
-    "JioBlackRock Ultra Short to Short Term Fund - Direct Plan Portfolio"
-   ]
-  }
- },
- {
-  "date": "2026-10-06",
   "fetched": 1640,
   "delivered_pool": 159,
   "junk": 371,
@@ -2168,6 +2096,81 @@
     "Navi Nifty REITs & Realty Index Reg Gr NAV, Mutual Fund Returns & Scheme History",
     "PNB Share Price",
     "PNB Share Price Today Up 4%"
+   ]
+  }
+ },
+ {
+  "date": "2026-11-23",
+  "fetched": 2803,
+  "delivered_pool": 288,
+  "junk": 1588,
+  "geo": 12,
+  "stale": 84,
+  "dup": 579,
+  "sections": {
+   "S1": 237,
+   "S2": 27,
+   "S3": 24
+  },
+  "mails": 39,
+  "failed": [
+   "Anushka.Bothra@careedge.in"
+  ],
+  "source_summary": {
+   "RBI RSS": 19,
+   "RBI Enforcement": 0,
+   "SEBI RSS": 0,
+   "Google News": 27,
+   "Watchlist (Google)": 1338,
+   "BSE Financials": 20,
+   "Telegram": 91,
+   "Web Scraper": 186,
+   "Rating Agencies": 0
+  },
+  "dropped_samples": {
+   "relevance": [
+    "Premature redemption under Sovereign Gold Bond (SGB) Scheme - Redemption Price for premature redemption of SGB",
+    "Microsoft CEO Satya Nadella said a previously undetected bug caused last week\u2019s Outlook outage and acknowledge",
+    "Anthropic raised $81 billion in IPO despite $104 billion loss: Why Wall Street is betting big on Claude",
+    "All about the Cambay offshore block at the centre of Vedanta chair Anil Agarwal's tiff with the govt",
+    "Intel has begun another round of job cuts, extending a sweeping restructuring effort under chief executive Lip",
+    "The Cambridge Dictionary has named \u2018human\u2019 its word of the year for 2026, reflecting growing global debates ov",
+    "Mukesh Ambani-led Reliance is exploring plans to build a 1,600-satellite broadband network that could emerge a",
+    "WATCH | The United States and South Korea have issued urgent cybersecurity advisories after a cybersecurity fi",
+    "Stock Market Recovery: Key Factors That Could Drive a Turnaround in India",
+    "Listing of further issues of securities",
+    "Record FPI buying may leave Dec flows muted; correction likely: Analysts",
+    "DIIs sell \u20b955,570 cr in Nov, FPIs buy \u20b994,230 cr: Tactical or behavioural?",
+    "Gadkari urges all states to allow bike taxis on aggregator platforms",
+    "DA hike: Jharkhand, Mizoram, Odisha govts increase dearness allowance",
+    "Small-ticket loans are rising, but so are defaults: 5 ways borrowers can avoid falling into debt trap",
+    "Meta suspends plan to issue new shares to Mark Zuckerberg amid Delaware lawsuit: Why investors are challenging",
+    "'Let's move forward': Nvidia interim CEO Kress announces pay raises at first all-hands meeting since Huang's e",
+    "Allana bets on meat-sourcing edge to crack India's pet-food market",
+    "Style Union parent Nexon raises \u20b9485 crore from Venturi, Elev8 Venture",
+    "In GCC race, Cognizant bets on reskilling talent, Infosys on rewiring legacy tech"
+   ],
+   "junk": [
+    "AK Capital Services Ltd. Share Price Today Near Yearly High",
+    "Broad-Based Technical Strength Lifts A.K.Capital Services Ltd to 52-Week High of Rs 2006.1",
+    "The comeback club: ICICI Bank, Kotak Mahindra Bank, Bajaj Finance and Adani Port recovered up to 50% from thei",
+    "Bajaj Finance Ltd Sees Sharp Open Interest Surge Amid Mixed Market Signals",
+    "Bank Of India Upgraded to Buy: Comprehensive Analysis of Quality, Valuation, Financial Trend, and Technicals",
+    "Bank of India Share Price Today Up 4%",
+    "Canara Bank Sees Significant Open Interest Surge Amid Mixed Price Action",
+    "Canara Bank Upgraded to Buy by MarketsMOJO on Strong Fundamentals and Valuation",
+    "Canara Bank Sees Significant Open Interest Surge Amid Mixed Market Signals",
+    "Why Could HG Capital Trust (LSE:HGT) Matter as Rate Expectations Shift?",
+    "High Ground movie showing at Harrah\u2019s Tahoe fundraiser for Sierra Cub",
+    "Comfort Fincap Share Price",
+    "ESAF Small Finance Bank (ESAFSFB) Share Price Hits Fresh 52-Week High at Rs 48.25",
+    "Edelweiss Msci India Domestic & World Healthcare 45 Index Fund - Regular Plan - Growth",
+    "Relaxo Footwears Share Price Target at Rs 316: IDBI Capital",
+    "How Far Will Fairfax Financial (TSX:FFH) Go as It Pursues a Major Indian Bank?",
+    "IndusInd Bank Share Price - Live NSE: INDUSINDBK Stock Price & Chart",
+    "IL&FS Engineering & Construction Co Ltd is Rated Strong Sell",
+    "JioBlackRock Balanced Advantage Fund - Regular Plan Portfolio",
+    "Broad-Based Technical Strength Lifts Karnataka Bank Ltd to 52-Week High of Rs 370.5"
    ]
   }
  }
