@@ -771,23 +771,31 @@ def _parse_roster_csv(text: str) -> list[dict] | None:
     return rows
 
 
-def _fetch_roster_sheet(sheet_id: str, gid: str = "0") -> list[dict] | None:
+def _fetch_roster_sheet(sheet_id: str, gid: str = "") -> list[dict] | None:
+    """Download the sheet as CSV. Without a gid, Google exports the FIRST
+    tab. Asking for gid=0 failed in production with HTTP 400: a sheet made
+    by uploading a CSV does not have a tab numbered 0. The gviz endpoint is
+    a second route to the same data if the export URL is refused."""
     import requests
-    url = (f"https://docs.google.com/spreadsheets/d/{sheet_id}"
-           f"/export?format=csv&gid={gid}")
-    try:
-        resp = requests.get(url, timeout=30)
-    except Exception as exc:
-        print(f"[roster] could not reach the Google Sheet: {str(exc)[:120]}")
-        return None
-    if resp.status_code != 200:
-        print(f"[roster] Google Sheet download failed: HTTP {resp.status_code}")
-        return None
-    rows = _parse_roster_csv(resp.content.decode("utf-8-sig", errors="replace"))
-    if rows is None:
+    base = f"https://docs.google.com/spreadsheets/d/{sheet_id}"
+    urls = [f"{base}/export?format=csv" + (f"&gid={gid}" if gid else ""),
+            f"{base}/gviz/tq?tqx=out:csv" + (f"&gid={gid}" if gid else "")]
+    for url in urls:
+        try:
+            resp = requests.get(url, timeout=30)
+        except Exception as exc:
+            print(f"[roster] could not reach the Google Sheet: {str(exc)[:120]}")
+            continue
+        if resp.status_code != 200:
+            print(f"[roster] Google Sheet download failed: HTTP {resp.status_code} "
+                  f"({url.split(sheet_id)[1][:40]})")
+            continue
+        rows = _parse_roster_csv(resp.content.decode("utf-8-sig", errors="replace"))
+        if rows is not None:
+            return rows
         print("[roster] Google Sheet did not return the team table -- is it still "
               "shared as 'anyone with the link can view', with the header row intact?")
-    return rows
+    return None
 
 
 def _load_team() -> dict:
@@ -797,7 +805,7 @@ def _load_team() -> dict:
     if not sheet_id:
         return team
     saved = [r for r in team.get("rows", []) if str(r.get("company", "")).strip()]
-    rows = _fetch_roster_sheet(sheet_id, str(team.get("roster_sheet_gid") or "0"))
+    rows = _fetch_roster_sheet(sheet_id, str(team.get("roster_sheet_gid") or "").strip())
     if rows is None:
         print(f"[roster] using the copy in team.json ({len(saved)} rows)")
         return team
