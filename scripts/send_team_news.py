@@ -6123,8 +6123,18 @@ def main() -> None:
     # existing 96h pool (_merge_pool) exactly as a normal day would, so
     # Monday inherits Friday/Saturday/Sunday's actual results from when
     # they were freshest, and only the final send step is skipped.
+    # Fetch-only mode (team_news_fetch.yml, ~19:40 IST): runs the same fetch
+    # as the morning send and adds the results to the 96h pool, then stops --
+    # no classification, AI calls, mail, seen-memory or sent-today marker.
+    # Google News ranks by "what's current", so a story caught 12 hours
+    # earlier may no longer be returned by the morning query; the pool keeps
+    # it for the next edition. Runs every day, holidays included.
+    fetch_only = os.environ.get("TEAM_FETCH_ONLY", "").strip().lower() in ("1", "true", "yes")
+    if fetch_only:
+        print("[fetch-only] evening fetch: results go into the pool for the next edition, "
+              "nothing is sent")
     skip_send = False
-    if os.environ.get("GITHUB_EVENT_NAME") == "schedule":
+    if os.environ.get("GITHUB_EVENT_NAME") == "schedule" and not fetch_only:
         if team.get("skip_sundays", True) and weekday == "Sunday":
             print("[skip-send] Sunday — fetching & pooling as usual, no mail goes out "
                   "(skip_sundays enabled; manual runs still work)")
@@ -6141,7 +6151,7 @@ def main() -> None:
     # 48h lookback would silently drop Friday's own late news (already
     # stale by Monday) and everything published over the weekend, since no
     # mail (and no fetch) runs Sat/Sun. Reach back to Friday morning instead.
-    is_weekend_edition = weekday == "Monday"
+    is_weekend_edition = weekday == "Monday" and not fetch_only
     lookback_days = 4 if is_weekend_edition else 2
     if is_weekend_edition:
         print("[weekend] Monday run — widening lookback to 4 days (Fri-Mon)")
@@ -6216,6 +6226,16 @@ def main() -> None:
         print(f"[telegram] dropped {_before - len(fresh_lines)} item(s) from skipped "
               f"channel(s) {', '.join(map(str, _skip_ch))}")
     pooled_lines, pool_to_save, _new = _merge_pool(fresh_lines)
+    if fetch_only:
+        try:
+            _save_pool(pool_to_save)
+            print(f"[fetch-only] pool saved: {_new} new item(s), "
+                  f"{len(pool_to_save)} in the pool for the next edition")
+        except Exception as exc:
+            print(f"[fetch-only] pool save FAILED: {exc}")
+            raise
+        print("Done.")
+        return
     pooled_lines = _drop_skipped_channels(pooled_lines, _skip_ch)
     items = [_parse_item(ln) for ln in pooled_lines]
     print(f"[sources] {len(items)} parsed items, "

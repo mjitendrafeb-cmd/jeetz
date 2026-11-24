@@ -1,0 +1,92 @@
+name: Team News Evening Fetch
+
+# Fetch-only run, 12 hours after the 7:40 send. Runs the same news fetch as
+# the morning run and adds the results to the 96h pool (data/news_pool.json),
+# so a story Google stops returning by the next morning is still in the next
+# edition. Sends nothing: no mail, no AI calls, no seen-memory, no sent-today
+# marker (see TEAM_FETCH_ONLY in scripts/send_team_news.py).
+#
+# GitHub's scheduler sometimes delays or drops ticks, so there are two; the
+# second skips itself when the pool was already refreshed in the last 6 hours.
+on:
+  schedule:
+    - cron: '10 14 * * *'  # 19:40 IST
+    - cron: '40 15 * * *'  # 21:10 IST backup tick
+  workflow_dispatch:
+
+# Same group as the 7:40 send: both write data/news_pool.json, so they must
+# never run at the same time.
+concurrency:
+  group: team-news
+  cancel-in-progress: false
+
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          fetch-depth: 0
+
+      - name: Decide whether to fetch
+        id: gate
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+        run: |
+          git fetch origin main --quiet
+          python3 - <<'PY'
+          import os, json, subprocess, time
+
+          event = os.environ.get("EVENT_NAME", "")
+          try:
+              team = json.loads(subprocess.run(
+                  ["git", "show", "origin/main:team.json"],
+                  capture_output=True, text=True, check=True).stdout)
+              enabled = team.get("scheduled_enabled", True)
+          except Exception:
+              enabled = True
+          last = subprocess.run(
+              ["git", "log", "-1", "--format=%ct", "origin/main", "--", "data/news_pool.json"],
+              capture_output=True, text=True).stdout.strip()
+          age_h = (time.time() - int(last)) / 3600 if last else 1e9
+
+          if event == "workflow_dispatch":
+              go, why = True, "manual trigger"
+          elif not enabled:
+              go, why = False, "team mail schedule disabled in console"
+          elif age_h < 6:
+              go, why = False, f"pool already refreshed {age_h:.1f}h ago"
+          else:
+              go, why = True, f"pool last refreshed {age_h:.1f}h ago"
+
+          print(("FETCH" if go else "SKIP") + f" — {why}")
+          with open(os.environ["GITHUB_OUTPUT"], "a") as f:
+              f.write(f"fetch={'true' if go else 'false'}\n")
+          PY
+
+      - name: Set up Python 3.11
+        if: steps.gate.outputs.fetch == 'true'
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        if: steps.gate.outputs.fetch == 'true'
+        run: |
+          python -m pip install --upgrade pip
+          if [ -f scripts/requirements.txt ]; then pip install -r scripts/requirements.txt; fi
+
+      - name: Fetch news into the pool
+        if: steps.gate.outputs.fetch == 'true'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TELEGRAM_API_ID: ${{ secrets.TELEGRAM_API_ID }}
+          TELEGRAM_API_HASH: ${{ secrets.TELEGRAM_API_HASH }}
+          TELEGRAM_SESSION: ${{ secrets.TELEGRAM_SESSION }}
+          TEAM_FETCH_ONLY: 'true'
+        run: python scripts/send_team_news.py
