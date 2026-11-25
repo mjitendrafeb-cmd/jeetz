@@ -1,77 +1,5 @@
 [
  {
-  "date": "2026-10-06",
-  "fetched": 1731,
-  "delivered_pool": 218,
-  "junk": 370,
-  "geo": 14,
-  "stale": 390,
-  "dup": 506,
-  "sections": {
-   "S1": 173,
-   "S2": 25,
-   "S3": 20
-  },
-  "mails": 1,
-  "failed": [],
-  "source_summary": {
-   "RBI RSS": 20,
-   "RBI Enforcement": 0,
-   "SEBI RSS": 20,
-   "Google News": 26,
-   "Watchlist (Google)": 890,
-   "BSE Financials": 0,
-   "Telegram": 44,
-   "Web Scraper": 427
-  },
-  "dropped_samples": {
-   "relevance": [
-    "Indicative Calendar of Market borrowings by State Governments/ Union Territories for the Quarter October \u2013 Dec",
-    "Master Direction on Note Sorting Machines",
-    "Non-Resident Deposits - Comprehensive Single Return (NRD-CSR)(R012): Submission under CIMS Sankalan Portal",
-    "Online submission of Form A2: Removal of limits on amount of remittance",
-    "Consolidation/ Review of instructions issued on currency management matters \u2013 Withdrawal of Circulars/ Guideli",
-    "Cassette - Swaps in ATMs",
-    "GCR on Hospital Sector- The Second-Order Read: Supreme Court Drug Margin Ruling on Hospital Sector",
-    "Motilal Oswal\u2019s Morning India- Today\u2019s top research idea (01-Oct-26)",
-    "Skyroot Aerospace co-founder and CEO Pawan Kumar Chandana has been named to TIME100 Next 2026, bringing fresh ",
-    "Cheap & Fake Cosmetic, Weight Loss Drug Demand Surges In India",
-    "Cockroach Janta Party (CJP) leader Abhijeet Dipke on Friday dared Maharashtra Chief Minister Devendra Fadnavis",
-    "India\u2019s women are Asian Games hockey champions again",
-    "#MintMarkets | TCS, Wipro, Infosys, HCL Tech: Why experts see IT stocks' price jump on Monday",
-    "Did you know? Mahatma Gandhi was nominated for Nobel Peace Prize 5 times",
-    "In a video shot inside the flydubai plane, one person could be heard saying, \u201che tried to crash the plane,\u201d in",
-    "Flydubai Captain Smit Machchhar turns emotional as he recounts his ordeal before PM Modi; he says, \"You are my",
-    "Lovlina Borgohain defeated Bao Ziyi of China by 5-0 margin in an unanimous decision, to win the first-ever gol",
-    "#MintPremium |In 1947, Mahatma Gandhi urged decision-makers to ask whether the poorest and weakest would benef",
-    "Elon Musk Says SpaceXAI Will Be Renamed SpaceXSI After Trump Rebrands AI",
-    "Security has been tightened across New Delhi district, while Delhi Traffic Police has issued an advisory warni"
-   ],
-   "junk": [
-    "Max Healthcare Institute among 3 F&O stocks with a sharp rise in futures open interest",
-    "Not Rated 360 ONE WAM Ltd for the Target Rs.NA By Prabhudas Lilladher Ltd",
-    "Ballinamallard United vs Ards - Watch Online for Free",
-    "Bandhan Banking and PSU Debt Fund Regular-IDCW Fortnightly",
-    "Bank of Baroda Share Price Target: Down 15%, Levels and View",
-    "Bank of Baroda stock: Down 15% in 3 months, can bulls return? Check target, stop loss - technical outlook by e",
-    "Baroda BNP Paribas Income Plus Arbitrage Active FoF(G)-Direct Plan",
-    "Baroda BNP Paribas Dynamic Term Fund Direct-IDCW Weekly",
-    "\u2018Love & War\u2019: Sanjay Leela Bhansali\u2019s Film Secures INR 300 Crore Theatrical Rights Deal Ahead of 2027",
-    "Nushrratt Bharuccha health update: actress suffers spine fracture in Bali accident; team says surgery pla",
-    "Nushrratt Bharuccha\u2019s Bali trip takes painful turn: Actor suffers spinal fracture in accident, to be flown",
-    "Canara Bank Share Price Hits Fresh 52-Week Low",
-    "Capital Small Finance Bank Ltd is Rated Hold",
-    "Central Bank Of India Share Price Today Near One-Year Low",
-    "HUDCO Share Price Today near yearly low; key levels in focus",
-    "ICICI Prudential AMC Upgraded to Hold on Improved Technicals and Financial Trends",
-    "ICICI Prudential Life Insurance Company Ltd is Rated Sell",
-    "\u201cSanctity Is The Reward Of Legality\u201d: Supreme Court Invalidates IFCI\u2019s SARFAESI Auction Of Ooty Resort...",
-    "Jana Small Finance Bank Ltd is Rated Buy",
-    "JioBlackRock Ultra Short to Short Term Fund - Direct Plan Portfolio"
-   ]
-  }
- },
- {
   "date": "2026-10-07",
   "fetched": 1298,
   "delivered_pool": 118,
@@ -2172,6 +2100,79 @@
     "IFCI Ltd. Forms Death Cross, Signalling Potential Bearish Trend",
     "South Indian Bank Ltd is Rated Buy by MarketsMOJO",
     "IndusInd Bank Ltd. is Rated Hold by MarketsMOJO"
+   ]
+  }
+ },
+ {
+  "date": "2026-11-25",
+  "fetched": 1450,
+  "delivered_pool": 101,
+  "junk": 925,
+  "geo": 14,
+  "stale": 145,
+  "dup": 108,
+  "sections": {
+   "S1": 77,
+   "S2": 19,
+   "S3": 5
+  },
+  "mails": 47,
+  "failed": [],
+  "source_summary": {
+   "RBI RSS": 20,
+   "RBI Enforcement": 0,
+   "SEBI RSS": 0,
+   "Google News": 23,
+   "Watchlist (Google)": 913,
+   "BSE Financials": 0,
+   "Telegram": 52,
+   "Web Scraper": 247,
+   "Rating Agencies": 0
+  },
+  "dropped_samples": {
+   "relevance": [
+    "Vincent van Gogh's 1890 painting Ch\u00e2taigniers en fleurs (Chestnut Trees in Blossom) has fetched $190.4 million",
+    "India's wealthiest philanthropists donated \u20b911,554 crore during FY26, marking an 11% increase from last year",
+    "Tamil Nadu's investment agency, Guidance, has been at the centre of a controversy over allegations that former",
+    "Take-Two Interactive Software\u2019s Grand Theft Auto 6 (GTA 6) has officially become the fastest-selling entertain",
+    "#BudgetWithMint | Budget expectations 2027: Trade unions have pushed the Centre to raise gratuity for retirees",
+    "Students at private schools and universities in Dubai are set for a five-day break next month as the UAE marks",
+    "#MintMarkets | Missed 50% rally in Samvardhana Motherson",
+    "Cyclone Akvan: Odisha Revenue and Disaster Management Minister Suresh Pujari announced that the districts of M",
+    "Cyclone Akvan has disrupted travel in eastern India, with over 70 trains cancelled and 29 rescheduled.",
+    "Foreign medical graduates will now receive around \u20b930,000 a month, at par with Indian-trained medical graduate",
+    "\u20b9300 ride costs \u20b9800: How Delhi-NCR taxi strike is pushing up Ola, Uber and Rapido fares",
+    "Chief Economic Adviser Dr V",
+    "A new pricing structure for IE&M Monthly Magazine.",
+    "From Antarctica trips to $1,000 wellness stays, luxury is changing in India",
+    "LHS\u2019 Newest Spanish Teacher: Mrs. Phillips",
+    "Willkie Adds Structured Finance Partner Ispass in New York",
+    "Physicswallah Q2 Results: Net profit doubles to Rs 146 crore; revenue rises 18%",
+    "Samsung Electronics Announces Third Quarter 2026 Results",
+    "Paytm profit jumps to Rs 225 crore as revenue rises 28 per cent",
+    "Ashok Leyland Q2FY27 Results: Revenue up 39% YoY to \u20b913,364 crore"
+   ],
+   "junk": [
+    "SBIN Share Price Today - State Bank of India on NSE/BSE",
+    "A.K.Capital Services Ltd is Rated Hold by MarketsMOJO",
+    "Arohan Financial Services, Pristine Logistics Get Sebi Nod To Advance Rs 600 Cr IPO Plans",
+    "Arohan Financial Services secures Sebi approval to launch IPO",
+    "Axis Bank Ltd. Opens 3.04% Lower in Sharp Gap Down as Technicals Point to Mixed Signals",
+    "Bank Of India is Rated Hold by MarketsMOJO",
+    "Central Bank of India Technical Momentum Shifts Amid Mixed Market Signals",
+    "FEDERALBNK Share Price Today - Federal Bank on NSE/BSE",
+    "Arvind Fashions, Aptus, Wockhardt among Geojit's 3 stock picks",
+    "HDFC Bank Ltd. is Rated Hold by MarketsMOJO",
+    "IFCI Ltd. Downgraded to Strong Sell Amid Mixed Financials and Bearish Technicals",
+    "IFCI Ltd. Technical Momentum Shifts Amid Mixed Indicator Signals",
+    "South Indian Bank Ltd is Rated Buy by MarketsMOJO",
+    "Indian Overseas Bank Share Price Today: 5.04% Two-Day Rise",
+    "IREDA Share Price",
+    "Jana Small Finance Bank Ltd is Rated Hold",
+    "Karnataka Bank Ltd is Rated Strong Buy",
+    "Karnataka Bank Share Price Target 2027: 4.8% Upside to Rs 362, Bull Case Rs 441",
+    "Laxmi India Finance Ltd Forms Death Cross, Signalling Bearish Trend Ahead",
+    "Manba Finance Ltd is Rated Hold by MarketsMOJO"
    ]
   }
  }
