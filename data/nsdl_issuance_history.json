@@ -23,7 +23,7 @@
    "tenure_years": 2.5,
    "band": "BBB band",
    "segment": "Corporate",
-   "spread_bps": 518,
+   "spread_bps": 523,
    "ratings": [
     "IND-Ra BBB-"
    ]
@@ -51,7 +51,7 @@
    "tenure_years": 5.0,
    "band": "AAA",
    "segment": "NBFC/HFC",
-   "spread_bps": 150,
+   "spread_bps": 151,
    "ratings": [
     "CRISIL AAA"
    ]
@@ -79,7 +79,7 @@
    "tenure_years": 3.0,
    "band": "AAA",
    "segment": "NBFC/HFC",
-   "spread_bps": 169,
+   "spread_bps": 170,
    "ratings": [
     "CRISIL AAA",
     "CareEdge AAA"
