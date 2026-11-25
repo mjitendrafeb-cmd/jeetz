@@ -57,7 +57,7 @@
  },
  "alphagrep securities": {
   "segment": "Corporate",
-  "updated": "2026-10-03"
+  "updated": "2026-11-25"
  },
  "ambium finserve": {
   "segment": "Corporate",
@@ -363,6 +363,10 @@
   "segment": "Corporate",
   "updated": "2026-08-31"
  },
+ "hdb financial services": {
+  "segment": "NBFC/HFC",
+  "updated": "2026-11-25"
+ },
  "hedge finance": {
   "segment": "NBFC/HFC",
   "updated": "2026-09-24"
@@ -571,6 +575,10 @@
   "segment": "Corporate",
   "updated": "2026-08-29"
  },
+ "marwadi chandarana intermediaries brokers": {
+  "segment": "Corporate",
+  "updated": "2026-11-25"
+ },
  "marwadi shares and finance": {
   "segment": "NBFC/HFC",
   "updated": "2026-10-07"
@@ -581,7 +589,7 @@
  },
  "monedo financial services": {
   "segment": "Corporate",
-  "updated": "2026-09-24"
+  "updated": "2026-11-25"
  },
  "moneyboxx finance": {
   "segment": "NBFC/HFC",
@@ -661,7 +669,7 @@
  },
  "nuvama wealth finance": {
   "segment": "NBFC/HFC",
-  "updated": "2026-10-08"
+  "updated": "2026-11-25"
  },
  "onward solar power": {
   "segment": "Corporate",
