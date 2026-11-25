@@ -6134,7 +6134,11 @@ def main() -> None:
         print("[fetch-only] evening fetch: results go into the pool for the next edition, "
               "nothing is sent")
     skip_send = False
-    if os.environ.get("GITHUB_EVENT_NAME") == "schedule" and not fetch_only:
+    # The daily backup routine starts the workflow manually (backup=true) but
+    # must behave like a scheduled run: no mail on skip days or holidays.
+    scheduled_run = (os.environ.get("GITHUB_EVENT_NAME") == "schedule"
+                     or os.environ.get("TEAM_BACKUP_RUN", "").strip().lower() == "true")
+    if scheduled_run and not fetch_only:
         if team.get("skip_sundays", True) and weekday == "Sunday":
             print("[skip-send] Sunday — fetching & pooling as usual, no mail goes out "
                   "(skip_sundays enabled; manual runs still work)")

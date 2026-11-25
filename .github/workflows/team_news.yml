@@ -12,10 +12,16 @@ name: Team Portfolio News
 # (console button / Actions tab) always sends immediately.
 on:
   schedule:
-    - cron: '57 21 * * *'  # 03:27 IST nominal
-    - cron: '42 23 * * *'  # 05:12 IST
-    - cron: '27 1 * * *'   # 06:57 IST
-    - cron: '12 3 * * *'   # 08:42 IST
+    # GitHub has been starting these 3-10 hours late (measured Oct-Nov
+    # 2026), so they are set well before the send time. A run that starts
+    # early waits until 07:35 IST (at most 5 hours; earlier than that it
+    # skips and leaves it to a later tick). The daily backup routine
+    # (workflow_dispatch with backup=true, ~07:50 IST) covers days GitHub
+    # starts nothing in time.
+    - cron: '0 18 * * *'   # 23:30 IST (previous evening)
+    - cron: '30 19 * * *'  # 01:00 IST
+    - cron: '0 21 * * *'   # 02:30 IST
+    - cron: '30 22 * * *'  # 04:00 IST
   workflow_dispatch:
     inputs:
       test_email:
@@ -24,6 +30,10 @@ on:
         type: string
       test_sections:
         description: 'One-off test: comma-separated sections to send (e.g. S1) — only used if test_email is set (blank = that person''s normal sections)'
+        required: false
+        type: string
+      backup:
+        description: 'Backup trigger (set by the daily routine): behave like a scheduled run -- send only if today''s mail has not gone out, respect skip days, holidays and the console schedule switch'
         required: false
         type: string
 
@@ -48,6 +58,7 @@ jobs:
         id: gate
         env:
           EVENT_NAME: ${{ github.event_name }}
+          BACKUP: ${{ inputs.backup }}
         run: |
           git fetch origin main --quiet && git checkout origin/main -- data/team_last_sent.json 2>/dev/null || true
           python3 - <<'PY'
@@ -81,26 +92,42 @@ jobs:
           # (team.json skip_saturdays/skip_sundays, respecting the
           # console's toggles rather than a day-of-week hardcoded here) --
           # so the gate just needs to let the job run.
-          if event == "workflow_dispatch":
+          backup = os.environ.get("BACKUP", "").strip().lower() == "true"
+          if event == "workflow_dispatch" and not backup:
               send, why = True, "manual trigger — always send"
           elif not team_enabled:
               send, why = False, "team mail schedule disabled in console"
-          elif last_sent() == today:
-              send, why = False, f"already sent today"
-          elif (now.hour, now.minute) < (7, 35):
-              import time as _t
-              target = now.replace(hour=7, minute=35, second=0, microsecond=0)
-              wait = (target - now).total_seconds()
-              print(f"holding {wait/60:.0f} min until 07:35 IST (now {now:%H:%M} IST)")
-              _t.sleep(max(0, wait))
-              subprocess.run(["git", "fetch", "origin", "main", "--quiet"], check=False)
-              subprocess.run(["git", "checkout", "origin/main", "--", "data/team_last_sent.json"], check=False)
+          elif (7, 35) <= (now.hour, now.minute) < (18, 0):
+              # Send window for today's edition.
               if last_sent() == today:
-                  send, why = False, "another tick sent while holding"
+                  send, why = False, "already sent today"
               else:
-                  send, why = True, "window reached after hold"
+                  send, why = True, f"window open ({now:%H:%M} IST), not yet sent"
           else:
-              send, why = True, f"window open ({now:%H:%M} IST), not yet sent"
+              # Before 07:35, or 18:00 onwards (a run that started early,
+              # possibly the evening before): it belongs to the NEXT 07:35.
+              target = now.replace(hour=7, minute=35, second=0, microsecond=0)
+              if now >= target:
+                  target += datetime.timedelta(days=1)
+              day = target.date().isoformat()
+              wait = (target - now).total_seconds()
+              if last_sent() == day:
+                  send, why = False, f"edition for {day} already sent"
+              elif wait > 5 * 3600:
+                  # GitHub kills a job after 6 hours, so do not wait longer
+                  # than 5; a later tick or the backup routine will send.
+                  send, why = False, (f"too early ({now:%H:%M} IST, {wait/3600:.1f}h before "
+                                      f"07:35) — leaving it to a later run")
+              else:
+                  import time as _t
+                  print(f"holding {wait/60:.0f} min until 07:35 IST (now {now:%H:%M} IST)")
+                  _t.sleep(max(0, wait))
+                  subprocess.run(["git", "fetch", "origin", "main", "--quiet"], check=False)
+                  subprocess.run(["git", "checkout", "origin/main", "--", "data/team_last_sent.json"], check=False)
+                  if last_sent() == day:
+                      send, why = False, "another run sent while holding"
+                  else:
+                      send, why = True, "window reached after hold"
 
           print(("SEND" if send else "SKIP") + f" — {why}")
           with open(os.environ["GITHUB_OUTPUT"], "a") as f:
@@ -177,6 +204,7 @@ jobs:
           TEAM_SCHEDULED: 'true'
           TEST_EMAIL: ${{ inputs.test_email }}
           TEST_SECTIONS: ${{ inputs.test_sections }}
+          TEAM_BACKUP_RUN: ${{ inputs.backup }}
         run: python scripts/send_team_news.py
 
       - name: Alert admin on failure
