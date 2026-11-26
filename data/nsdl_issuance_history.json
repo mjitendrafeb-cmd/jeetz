@@ -1,6 +1,42 @@
 {
  "records": [
   {
+   "isin": "INS303012012",
+   "issuer": "AKSHAYA TRUST",
+   "allotment_date": "2026-11-25",
+   "amount_cr": 8.0,
+   "coupon": null,
+   "tenure_years": 1.5,
+   "band": "Not rated / available",
+   "segment": "Corporate",
+   "spread_bps": null,
+   "ratings": []
+  },
+  {
+   "isin": "INE0NDS07180",
+   "issuer": "SPEEL FINANCE COMPANY PRIVATE LIMITED",
+   "allotment_date": "2026-11-25",
+   "amount_cr": 15.0,
+   "coupon": 15.0,
+   "tenure_years": 1.2,
+   "band": "Not rated / available",
+   "segment": "NBFC/HFC",
+   "spread_bps": 838,
+   "ratings": []
+  },
+  {
+   "isin": "INE0UIM07039",
+   "issuer": "CHANDAK REALTORS PRIVATE LIMITED",
+   "allotment_date": "2026-11-25",
+   "amount_cr": 200.0,
+   "coupon": 6.5,
+   "tenure_years": 3.7,
+   "band": "Not rated / available",
+   "segment": "Corporate",
+   "spread_bps": -39,
+   "ratings": []
+  },
+  {
    "isin": "INE961U07036",
    "issuer": "ALPHAGREP SECURITIES PRIVATE LIMITED",
    "allotment_date": "2026-11-23",
