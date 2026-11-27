@@ -99,6 +99,10 @@
   "segment": "Corporate",
   "updated": "2026-09-29"
  },
+ "aye finance": {
+  "segment": "NBFC/HFC",
+  "updated": "2026-11-27"
+ },
  "bajaj auto credit": {
   "segment": "NBFC/HFC",
   "updated": "2026-09-30"
@@ -178,6 +182,10 @@
  "chandak realtors": {
   "segment": "Corporate",
   "updated": "2026-11-26"
+ },
+ "choice finserv": {
+  "segment": "NBFC/HFC",
+  "updated": "2026-11-27"
  },
  "cholamandalam investment and finance": {
   "segment": "NBFC/HFC",
@@ -277,7 +285,7 @@
  },
  "embassy developments": {
   "segment": "Corporate",
-  "updated": "2026-09-22"
+  "updated": "2026-11-27"
  },
  "embassy office parks reit": {
   "segment": "Corporate",
@@ -358,6 +366,10 @@
  "greaves finance": {
   "segment": "NBFC/HFC",
   "updated": "2026-09-30"
+ },
+ "greenko ap01 irep": {
+  "segment": "Corporate",
+  "updated": "2026-11-27"
  },
  "growxcd finance": {
   "segment": "NBFC/HFC",
@@ -469,7 +481,7 @@
  },
  "jio credit": {
   "segment": "NBFC/HFC",
-  "updated": "2026-10-06"
+  "updated": "2026-11-27"
  },
  "jm financial home loans": {
   "segment": "Corporate",
@@ -817,7 +829,7 @@
  },
  "satin finserv": {
   "segment": "NBFC/HFC",
-  "updated": "2026-10-13"
+  "updated": "2026-11-27"
  },
  "satin housing finance": {
   "segment": "NBFC/HFC",
@@ -910,6 +922,10 @@
  "top haven developers": {
   "segment": "Corporate",
   "updated": "2026-09-24"
+ },
+ "torrent power": {
+  "segment": "Corporate",
+  "updated": "2026-11-27"
  },
  "total environment building systems": {
   "segment": "Corporate",

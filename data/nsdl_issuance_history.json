@@ -1,6 +1,205 @@
 {
  "records": [
   {
+   "isin": "INE04SE07194",
+   "issuer": "CHOICE FINSERV PRIVATE LIMITED",
+   "allotment_date": "2026-11-26",
+   "amount_cr": 35.0,
+   "coupon": 10.0,
+   "tenure_years": 2.0,
+   "band": "A band (A+/A/A-)",
+   "segment": "NBFC/HFC",
+   "spread_bps": 309,
+   "ratings": [
+    "Acuite Ratings And Research Limited A-"
+   ]
+  },
+  {
+   "isin": "INE04SE07186",
+   "issuer": "CHOICE FINSERV PRIVATE LIMITED",
+   "allotment_date": "2026-11-26",
+   "amount_cr": 75.0,
+   "coupon": 10.0,
+   "tenure_years": 2.0,
+   "band": "A band (A+/A/A-)",
+   "segment": "NBFC/HFC",
+   "spread_bps": 309,
+   "ratings": [
+    "Acuite Ratings And Research Limited A-"
+   ]
+  },
+  {
+   "isin": "INE501X07760",
+   "issuer": "AYE FINANCE LIMITED",
+   "allotment_date": "2026-11-26",
+   "amount_cr": 100.0,
+   "coupon": 9.6,
+   "tenure_years": 2.0,
+   "band": "A band (A+/A/A-)",
+   "segment": "NBFC/HFC",
+   "spread_bps": 269,
+   "ratings": [
+    "INDIA RATING AND RESEARCH PVT. LTD A+"
+   ]
+  },
+  {
+   "isin": "INE501X07752",
+   "issuer": "AYE FINANCE LIMITED",
+   "allotment_date": "2026-11-26",
+   "amount_cr": 100.0,
+   "coupon": 9.65,
+   "tenure_years": 2.3,
+   "band": "A band (A+/A/A-)",
+   "segment": "NBFC/HFC",
+   "spread_bps": 274,
+   "ratings": [
+    "INDIA RATING AND RESEARCH PVT. LTD A+"
+   ]
+  },
+  {
+   "isin": "INE0DJW07032",
+   "issuer": "GREENKO AP01 IREP PRIVATE LIMITED",
+   "allotment_date": "2026-11-26",
+   "amount_cr": 100.0,
+   "coupon": 12.5,
+   "tenure_years": 14.0,
+   "band": "Not rated / available",
+   "segment": "Corporate",
+   "spread_bps": 521,
+   "ratings": []
+  },
+  {
+   "isin": "INE03K307249",
+   "issuer": "SATIN FINSERV LIMITED",
+   "allotment_date": "2026-11-26",
+   "amount_cr": 100.0,
+   "coupon": 11.0,
+   "tenure_years": 2.3,
+   "band": "A band (A+/A/A-)",
+   "segment": "NBFC/HFC",
+   "spread_bps": 409,
+   "ratings": [
+    "ICRA A-"
+   ]
+  },
+  {
+   "isin": "INE501X07778",
+   "issuer": "AYE FINANCE LIMITED",
+   "allotment_date": "2026-11-26",
+   "amount_cr": 125.0,
+   "coupon": 9.75,
+   "tenure_years": 2.7,
+   "band": "A band (A+/A/A-)",
+   "segment": "NBFC/HFC",
+   "spread_bps": 277,
+   "ratings": [
+    "INDIA RATING AND RESEARCH PVT. LTD A+"
+   ]
+  },
+  {
+   "isin": "INE069I07496",
+   "issuer": "EMBASSY DEVELOPMENTS LIMITED",
+   "allotment_date": "2026-11-26",
+   "amount_cr": 250.0,
+   "coupon": 12.5,
+   "tenure_years": 2.0,
+   "band": "A band (A+/A/A-)",
+   "segment": "Corporate",
+   "spread_bps": 559,
+   "ratings": [
+    "Infomerics A"
+   ]
+  },
+  {
+   "isin": "INE813H07499",
+   "issuer": "TORRENT POWER LIMITED",
+   "allotment_date": "2026-11-26",
+   "amount_cr": 250.0,
+   "coupon": 8.5,
+   "tenure_years": 5.0,
+   "band": "AA band (AA+/AA/AA-)",
+   "segment": "Corporate",
+   "spread_bps": 133,
+   "ratings": [
+    "IND-Ra AA+",
+    "CRISIL AA+"
+   ]
+  },
+  {
+   "isin": "INE813H07507",
+   "issuer": "TORRENT POWER LIMITED",
+   "allotment_date": "2026-11-26",
+   "amount_cr": 250.0,
+   "coupon": 8.62,
+   "tenure_years": 10.0,
+   "band": "AA band (AA+/AA/AA-)",
+   "segment": "Corporate",
+   "spread_bps": 133,
+   "ratings": [
+    "IND-Ra AA+",
+    "CRISIL AA+"
+   ]
+  },
+  {
+   "isin": "INE813H07473",
+   "issuer": "TORRENT POWER LIMITED",
+   "allotment_date": "2026-11-26",
+   "amount_cr": 500.0,
+   "coupon": 8.64,
+   "tenure_years": 3.0,
+   "band": "AA band (AA+/AA/AA-)",
+   "segment": "Corporate",
+   "spread_bps": 166,
+   "ratings": [
+    "IND-Ra AA+",
+    "CRISIL AA+"
+   ]
+  },
+  {
+   "isin": "INE813H07481",
+   "issuer": "TORRENT POWER LIMITED",
+   "allotment_date": "2026-11-26",
+   "amount_cr": 500.0,
+   "coupon": 8.64,
+   "tenure_years": 5.0,
+   "band": "AA band (AA+/AA/AA-)",
+   "segment": "Corporate",
+   "spread_bps": 147,
+   "ratings": [
+    "IND-Ra AA+",
+    "CRISIL AA+"
+   ]
+  },
+  {
+   "isin": "INE813H07515",
+   "issuer": "TORRENT POWER LIMITED",
+   "allotment_date": "2026-11-26",
+   "amount_cr": 500.0,
+   "coupon": 8.53,
+   "tenure_years": 10.0,
+   "band": "AA band (AA+/AA/AA-)",
+   "segment": "Corporate",
+   "spread_bps": 124,
+   "ratings": [
+    "IND-Ra AA+",
+    "CRISIL AA+"
+   ]
+  },
+  {
+   "isin": "INE282H07133",
+   "issuer": "JIO CREDIT LIMITED",
+   "allotment_date": "2026-11-26",
+   "amount_cr": 1500.0,
+   "coupon": 8.75,
+   "tenure_years": 10.0,
+   "band": "AAA",
+   "segment": "NBFC/HFC",
+   "spread_bps": 146,
+   "ratings": [
+    "CRISIL AAA"
+   ]
+  },
+  {
    "isin": "INS303012012",
    "issuer": "AKSHAYA TRUST",
    "allotment_date": "2026-11-25",
