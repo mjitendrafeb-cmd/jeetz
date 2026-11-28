@@ -1,77 +1,5 @@
 [
  {
-  "date": "2026-10-09",
-  "fetched": 1596,
-  "delivered_pool": 149,
-  "junk": 465,
-  "geo": 19,
-  "stale": 558,
-  "dup": 168,
-  "sections": {
-   "S1": 126,
-   "S2": 10,
-   "S3": 13
-  },
-  "mails": 41,
-  "failed": [],
-  "source_summary": {
-   "RBI RSS": 20,
-   "RBI Enforcement": 0,
-   "SEBI RSS": 20,
-   "Google News": 27,
-   "Watchlist (Google)": 915,
-   "BSE Financials": 0,
-   "Telegram": 57,
-   "Web Scraper": 1026
-  },
-  "dropped_samples": {
-   "relevance": [
-    "Here\u2019s How Much Micron Stock Is Expected to Move After Earnings",
-    "Raminfo shareholders approve all AGM resolutions with high majority",
-    "Escorts Kubota Q4FY26 Earnings Call: Record Revenue, PAT and Dividend Announced",
-    "Minerva Capital Report on VIMTA LABS LTD",
-    "GCR on Hospital Sector- The Second-Order Read: Supreme Court Drug Margin Ruling on Hospital Sector",
-    "Motilal Oswal\u2019s Morning India- Today\u2019s top research idea (01-Oct-26)",
-    "#WATCH | Cockroach Janta Party founder Abhijeet Dipke alleged that election outcomes are being predetermined a",
-    "External Affairs Minister S",
-    "#AsianGames2026 | India finished in fourth place in the 2026 Asian Games in Aichi-Nagoya, with a total of 85 m",
-    "MNS chief Raj Thackeray and Shiv Sena (UBT) chief Uddhav Thackeray leads joint protest march toward the BMC he",
-    "New GRAP Rules in Delhi; restrictions in NCR October 2026: Is your car allowed",
-    "In an exclusive Interaction With MINT's Abhinav Trivedi, Ashwani Sharma, CEO Of the liquid Division Of UFLEX s",
-    "Israeli Prime Minister Benjamin Netanyahu invited Indian pilot Smit Machchhar and PM Narendra Modi to light a ",
-    "A Chennai entrepreneur has revived debate around India\u2019s work culture after claiming he worked up to 14 hours ",
-    "Indian Men's Hockey team won the Gold medal by defeating Malaysia 5-1, a first back-to-back title after 2022 a",
-    "The Annual Pass for FASTag, costing \u20b93,075, allows unlimited toll crossings for non-commercial vehicles for on",
-    "The heightened FSSAI scrutiny is drawing senior management into food-safety and compliance issues",
-    "OpenAI has disclosed that it informed more than a hundred organisations about incidents involving unauthorised",
-    "Kumkum Mohod wins gold medal in the women's individual recurve archery competition",
-    "Skyroot Aerospace co-founder and CEO Pawan Kumar Chandana has been named to TIME100 Next 2026, bringing fresh "
-   ],
-   "junk": [
-    "ANAND RATHI SH N STK BR L Share Price",
-    "Anand Rathi Share & Stock Brokers Ltd Upgraded to Sell on Technical Improvements and Financial Strength",
-    "Anand Rathi Wealth Ltd. Change in Open Interest",
-    "Ballinamallard United vs Ards - Odds, Live Scores and Detailed Stats",
-    "Ballinamallard United vs Ards - Watch Online for Free",
-    "Ballinamallard United vs Ards predictions and preview",
-    "ASFA Yennenga - ASFB Live - Fasofoot Ligue 1: Football Scores & Highlights - 03/10/2026",
-    "ASFA Yennenga - ASFB Stats: Football Scores & Results",
-    "Sell Gold Below 149300 SL ABOVE 150500 TGT 147800/147000 - Axis Securities Ltd",
-    "Ethos Limited Share Price Target at Rs 3,360: Axis Securities",
-    "Coforge Share Price Target at Rs 1,980: Axis Securities",
-    "Century Plyboards India Share Price Target at Rs 820: Axis Securities",
-    "BAJAJ FINANCE LIMITED Option Chain - Live BAJAJ FINANCE LIMITED Option Chain Data, OI & Price",
-    "Bandhan Banking and PSU Debt Fund Regular-IDCW",
-    "Bali accident: Actress Nushrratt Bharuccha airlifted to Mumbai after spinal fracture",
-    "Nushrratt Bharuccha health update: actress suffers spine fracture in Bali accident; team says surgery pla",
-    "Canara Bank Share Price Hits Fresh 52-Week Low",
-    "Capital Small Finance Bank Ltd is Rated Hold",
-    "Central Bank Of India Share Price Today Near One-Year Low",
-    "Edelweiss Ultra Short Term Fund - Regular Plan Portfolio"
-   ]
-  }
- },
- {
   "date": "2026-10-10",
   "fetched": 1276,
   "delivered_pool": 112,
@@ -2175,6 +2103,79 @@
     "Central Bank of India Share Price Target 2027, 2028 and 2030",
     "Central Bank of India Technical Momentum Shifts Amid Mixed Market Signals",
     "DCB Bank Share Price - Live NSE: DCBBANK Stock Price & Chart"
+   ]
+  }
+ },
+ {
+  "date": "2026-11-28",
+  "fetched": 2339,
+  "delivered_pool": 102,
+  "junk": 1295,
+  "geo": 33,
+  "stale": 349,
+  "dup": 367,
+  "sections": {
+   "S1": 71,
+   "S2": 16,
+   "S3": 15
+  },
+  "mails": 0,
+  "failed": [],
+  "source_summary": {
+   "RBI RSS": 20,
+   "RBI Enforcement": 0,
+   "SEBI RSS": 0,
+   "Google News": 29,
+   "Watchlist (Google)": 834,
+   "BSE Financials": 0,
+   "Telegram": 45,
+   "Web Scraper": 192,
+   "Rating Agencies": 0
+  },
+  "dropped_samples": {
+   "relevance": [
+    "Premature redemption under Sovereign Gold Bond (SGB) Scheme - Redemption Price for premature redemption of SGB",
+    "Jensen Huang\u2019s net worth was recorded at $144 billion by Forbes as of market close on Tuesday, up $33.9 billio",
+    "Read today's Mint e-paper here",
+    "FSSAI sanctions prosecution against Bisleri in fresh case; bacteria found in Bengal sample",
+    "S\u200bummary of financial markets from last week here..",
+    "SC Agrotech Explores Rs.60 Crore Strategic Collaboration",
+    "This week's IEM Money Multiplier Digital Magazine is published! Stock highlights have been emailed to all subs",
+    "Listing of further issues of securities",
+    "From Antarctica trips to $1,000 wellness stays, luxury is changing in India",
+    "Petrol and diesel prices today, November 25: Petrol and diesel prices have remained largely steady across majo",
+    "Trump administration is preparing fresh tariffs on China, India and several other economies over industrial su",
+    "JD Vance says Jensen Huang won't need a pardon as scrutiny of Nvidia scandal builds in Washington",
+    "Indian Institute of Technology (IIT) Bombay has begun replacing ceiling fans and fan rods in hostel rooms with",
+    "The Municipal Corporation of Gurugram (MCG) has declared all public places within its jurisdiction as no-smoki",
+    "Indian-origin billionaire venture capitalist Neil Mehta and his wife, Jash, have pledged approximately $6 mill",
+    "No stay for Tata Trusts: HC lets Tata Sons board meet, casting vote intact",
+    "#MintMarkets | 830% jump in five years",
+    "How could the AI boom impact gold prices",
+    "\u201cBeware of little expenses; a small leak will sink a great ship.\u201d - Benjamin Franklin The Way to Wealth, 1758 ",
+    "Mukesh Ambani\u2019s next big bets for Reliance"
+   ],
+   "junk": [
+    "South Indian Bank Ltd is Rated Buy by MarketsMOJO",
+    "Algoquant Fintech Share Price Target 2027: Review",
+    "Bank Of Baroda Upgraded to Buy by MarketsMOJO on Strong Fundamentals and Technicals",
+    "Bank of Baroda Technical Momentum Shifts Signal Mildly Bullish Outlook",
+    "Canara Bank Share Price Target 2026 Forecast",
+    "Central Bank of India Share Price Target 2027, 2028 and 2030",
+    "ESAF Small Finance Bank Share Price Target 2026 Forecast",
+    "Hindalco Industries - HDFC Bank among 5 stocks showing White Marubozu pattern",
+    "IFCI Ltd. Downgraded to Strong Sell Amid Mixed Financials and Bearish Technicals",
+    "IREDA Share Price Target 2026 Forecast",
+    "IndusInd Bank Ltd. is Rated Hold by MarketsMOJO",
+    "IndusInd Bank - HDFC Bank among 5 stocks showing White Marubozu pattern",
+    "DIPR Represents J&K At 57th International Film Festival In Goa",
+    "Jana Small Finance Bank Ltd Forms Death Cross Signalling Bearish Trend",
+    "Kodagu artist Ganesh Rai receives Karnataka award",
+    "Laxmi India Finance Ltd is Rated Strong Sell",
+    "Stocks Under F&O Ban: Manappuram Finance",
+    "Manappuram Finance Downgraded to Hold Amid Valuation Concerns Despite Strong Financials",
+    "Manappuram Finance Ltd Forms Death Cross Signalling Bearish Trend",
+    "Mantra Capital Limited Downgraded to Strong Sell Amid Technical and Fundamental Concerns"
    ]
   }
  }
